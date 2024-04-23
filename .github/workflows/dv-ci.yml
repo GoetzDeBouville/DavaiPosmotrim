@@ -7,6 +7,8 @@ on:
   pull_request:
     branches: [ "main", "develop" ]
 
+  workflow_dispatch:
+
 jobs:
   check_pull_request:
     runs-on: ubuntu-latest
@@ -19,10 +21,13 @@ jobs:
         with: 
           java-version: '1.17'
 
+      - name: Grant execute permission for gradlew
+        run: chmod +x gradlew
+      
       # - name: run detekt
        # run: ./gradlew detekt
 
-      - name: run check out script
+      - name: Run check out script
         run: ./gradlew build
 
       - name: Check status
