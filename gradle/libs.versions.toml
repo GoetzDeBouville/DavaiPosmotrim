@@ -1,4 +1,10 @@
 [versions]
+
+minSdk = "26"
+targetSdk = "34"
+compileSdk = "34"
+java = "VERSION_17"
+
 agp = "8.2.0"
 kotlin = "1.9.22"
 coreKtx = "1.13.0"

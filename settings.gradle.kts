@@ -21,4 +21,4 @@ dependencyResolutionManagement {
 
 rootProject.name = "DavayPosmotrim"
 include(":app")
- 
+include(":uikit-sample")
