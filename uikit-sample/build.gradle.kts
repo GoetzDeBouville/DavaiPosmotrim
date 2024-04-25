@@ -1,15 +1,14 @@
 plugins {
     alias(libs.plugins.androidApplication)
     alias(libs.plugins.jetbrainsKotlinAndroid)
-    alias(libs.plugins.ksp)
 }
 
 android {
-    namespace = "com.davay.android"
+    namespace = "com.hellcorp.uikit_sample"
     compileSdk = libs.versions.compileSdk.get().toInt()
 
     defaultConfig {
-        applicationId = "com.davay.android"
+        applicationId = "com.hellcorp.uikit_sample"
         minSdk = libs.versions.minSdk.get().toInt()
         targetSdk = libs.versions.targetSdk.get().toInt()
         versionCode = libs.versions.versionCode.get().toInt()
@@ -34,7 +33,6 @@ android {
     kotlinOptions {
         jvmTarget = JavaVersion.valueOf(libs.versions.java.get()).toString()
     }
-
     buildFeatures {
         viewBinding = true
     }
@@ -50,11 +48,5 @@ dependencies {
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
-    implementation(libs.retrofit.impl)
-    implementation(libs.retrofit.converter)
-    implementation(libs.dagger.impl)
-    ksp(libs.dagger.compiler)
-    implementation(libs.navigation.fragment)
-    implementation(libs.navigation.ui)
     implementation(project(":uikit"))
 }

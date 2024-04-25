@@ -1,8 +1,11 @@
 [versions]
+
 minSdk = "26"
 targetSdk = "34"
 compileSdk = "34"
 java = "VERSION_17"
+versionCode = "1"
+versionName = "1.0"
 
 agp = "8.2.0"
 kotlin = "1.9.22"
@@ -53,4 +56,4 @@ staticAnalysis-detekt = [
 androidApplication = { id = "com.android.application", version.ref = "agp" }
 jetbrainsKotlinAndroid = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
-detekt = { id = "io.gitlab.arturbosch.detekt", version.ref = "detekt" }
+androidLibrary = { id = "com.android.library", version.ref = "agp" }
