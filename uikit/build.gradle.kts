@@ -4,7 +4,7 @@ plugins {
 }
 
 android {
-    namespace = "com.hellcorp.uikit"
+    namespace = "com.davai.uikit"
     compileSdk = libs.versions.compileSdk.get().toInt()
 
     defaultConfig {
