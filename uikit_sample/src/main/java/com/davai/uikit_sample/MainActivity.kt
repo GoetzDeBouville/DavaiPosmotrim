@@ -1,11 +1,11 @@
-package com.hellcorp.uikit_sample
+package com.davai.uikit_sample
 
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
-import com.hellcorp.uikit_sample.databinding.ActivityMainBinding
+import com.davai.uikit_sample.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
     private val binding: ActivityMainBinding by lazy { ActivityMainBinding.inflate(layoutInflater) }
@@ -39,17 +39,31 @@ class MainActivity : AppCompatActivity() {
                     Toast.LENGTH_SHORT
                 ).show()
 
-                btnToDvBanner -> Toast.makeText(this@MainActivity, "ToDvBanner", Toast.LENGTH_SHORT)
+                btnToDvBanner -> Toast.makeText(
+                    this@MainActivity,
+                    "ToDvBanner",
+                    Toast.LENGTH_SHORT
+                )
                     .show()
 
-                btnToDvButton -> Toast.makeText(this@MainActivity, "ToDvButton", Toast.LENGTH_SHORT)
+                btnToDvButton -> Toast.makeText(
+                    this@MainActivity,
+                    "ToDvButton",
+                    Toast.LENGTH_SHORT
+                )
                     .show()
 
-                btnToDvFilm -> Toast.makeText(this@MainActivity, "ToDvFilm", Toast.LENGTH_SHORT)
+                btnToDvFilm -> Toast.makeText(
+                    this@MainActivity,
+                    "ToDvFilm",
+                    Toast.LENGTH_SHORT
+                )
                     .show()
 
                 btnToDvSession -> Toast.makeText(
-                    this@MainActivity, "ToDvSession", Toast.LENGTH_SHORT
+                    this@MainActivity,
+                    "ToDvSession",
+                    Toast.LENGTH_SHORT
                 ).show()
 
                 btnToDvToolbar -> Toast.makeText(
