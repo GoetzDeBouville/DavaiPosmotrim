@@ -4,11 +4,11 @@ plugins {
 }
 
 android {
-    namespace = "com.hellcorp.uikit_sample"
+    namespace = "com.davai.uikit_sample"
     compileSdk = libs.versions.compileSdk.get().toInt()
 
     defaultConfig {
-        applicationId = "com.hellcorp.uikit_sample"
+        applicationId = "com.davai.uikit_sample"
         minSdk = libs.versions.minSdk.get().toInt()
         targetSdk = libs.versions.targetSdk.get().toInt()
         versionCode = libs.versions.versionCode.get().toInt()
@@ -48,5 +48,4 @@ dependencies {
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
-    implementation(project(":uikit"))
 }
