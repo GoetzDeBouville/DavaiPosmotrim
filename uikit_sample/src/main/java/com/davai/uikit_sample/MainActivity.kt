@@ -1,5 +1,6 @@
 package com.davai.uikit_sample
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
@@ -33,11 +34,7 @@ class MainActivity : AppCompatActivity() {
     private fun onClickListener() = View.OnClickListener {
         with(binding) {
             when (it) {
-                btnToMoviewEvalution -> Toast.makeText(
-                    this@MainActivity,
-                    "To Movie Evaluation",
-                    Toast.LENGTH_SHORT
-                ).show()
+                btnToMoviewEvalution -> startActivity(Intent(this@MainActivity, MovieEvaluationExample::class.java))
 
                 btnToDvBanner -> Toast.makeText(
                     this@MainActivity,
