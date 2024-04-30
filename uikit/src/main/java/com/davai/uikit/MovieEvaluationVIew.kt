@@ -9,7 +9,6 @@ import android.widget.TextView
 import androidx.annotation.AttrRes
 import androidx.annotation.StyleRes
 import androidx.core.content.ContextCompat
-import java.text.NumberFormat
 
 class MovieEvaluationVIew @JvmOverloads constructor(
     context: Context,
@@ -17,10 +16,10 @@ class MovieEvaluationVIew @JvmOverloads constructor(
     @AttrRes defStyleAttr: Int = 0,
     @StyleRes defStyleRes: Int = 0
 ) : LinearLayout(context, attrs, defStyleAttr, defStyleRes) {
-    private lateinit var tvRateNumber: TextView
-    private lateinit var tvNumberRates: TextView
-    private lateinit var tvRateService: TextView
-    private lateinit var body: LinearLayout
+    private var tvRateNumber: TextView? = null
+    private var tvNumberRates: TextView? = null
+    private var tvRateService: TextView? = null
+    private var body: LinearLayout? = null
 
     init {
         initViews()
@@ -53,14 +52,15 @@ class MovieEvaluationVIew @JvmOverloads constructor(
 
                 setEvaluationBackground(rateNum)
                 setNuberRates(numberOfRates)
-                tvRateNumber.text = rateNum.toString()
-                tvRateService.text = getString(R.styleable.MovieEvaluationView_rate_service)
+                tvRateNumber?.text = rateNum.toString()
+                tvRateService?.text = getString(R.styleable.MovieEvaluationView_rate_service)
             } finally {
                 recycle()
             }
         }
     }
 
+    @Suppress("Detekt.MagicNumber")
     private fun setEvaluationBackground(rate: Float) {
         val color = ContextCompat.getColor(
             context,
@@ -70,12 +70,13 @@ class MovieEvaluationVIew @JvmOverloads constructor(
                 else -> R.color.attention
             }
         )
-        body.backgroundTintList = ColorStateList.valueOf(color)
+        body?.backgroundTintList = ColorStateList.valueOf(color)
     }
 
+    @Suppress("Detekt.ImplicitDefaultLocale")
     private fun setNuberRates(numberOfRates: Int) {
         val formattedNumber = String.format("%,d", numberOfRates).replace(",", " ")
-        tvNumberRates.text =
+        tvNumberRates?.text =
             resources.getQuantityString(R.plurals.rate_nums, numberOfRates, formattedNumber)
     }
 }

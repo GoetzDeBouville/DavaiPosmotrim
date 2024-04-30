@@ -34,7 +34,12 @@ class MainActivity : AppCompatActivity() {
     private fun onClickListener() = View.OnClickListener {
         with(binding) {
             when (it) {
-                btnToMoviewEvalution -> startActivity(Intent(this@MainActivity, MovieEvaluationExample::class.java))
+                btnToMoviewEvalution -> startActivity(
+                    Intent(
+                        this@MainActivity,
+                        MovieEvaluationExample::class.java
+                    )
+                )
 
                 btnToDvBanner -> Toast.makeText(
                     this@MainActivity,
