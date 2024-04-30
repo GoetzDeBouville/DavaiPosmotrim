@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <plurals name="rate_nums">
+        <item quantity="one">оценка</item>
+        <item quantity="few">оценки</item>
+        <item quantity="many">оценок</item>
+        <item quantity="other">оценок</item>
+    </plurals>
+</resources>
