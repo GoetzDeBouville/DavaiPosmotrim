@@ -24,6 +24,8 @@ nav_version = "2.7.7"
 
 detekt = "1.23.3"
 
+coil = "2.3.0"
+
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
 junit = { group = "junit", name = "junit", version.ref = "junit" }
@@ -39,6 +41,7 @@ dagger-compiler = { group = "com.google.dagger", name = "dagger-compiler", versi
 dagger-impl = { group = "com.google.dagger", name = "dagger", version.ref = "dagger" }
 navigation-fragment = { group = "androidx.navigation", name = "navigation-fragment-ktx", version.ref = "nav_version" }
 navigation-ui = { group = "androidx.navigation", name = "navigation-ui-ktx", version.ref = "nav_version" }
+coil = { group = "io.coil-kt", name = "coil", version.ref = "coil" }
 
 # Detekt
 staticAnalysis-detektCli = { module = "io.gitlab.arturbosch.detekt:detekt-cli", version.ref = "detekt" }
