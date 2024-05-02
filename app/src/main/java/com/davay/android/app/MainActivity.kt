@@ -1,8 +1,10 @@
-package com.davay.android
+package com.davay.android.app
 
 import android.os.Bundle
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
+import androidx.navigation.fragment.NavHostFragment
+import com.davay.android.R
 import com.davay.android.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
@@ -11,5 +13,8 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContentView(binding.root)
+        val navHostFragment =
+            supportFragmentManager.findFragmentById(R.id.fragment_container_view) as NavHostFragment
+        val navController = navHostFragment.navController
     }
 }
