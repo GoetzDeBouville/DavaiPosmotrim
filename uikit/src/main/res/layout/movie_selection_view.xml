@@ -25,6 +25,7 @@
 
     <TextView
         android:id="@+id/tv_theme_title"
+        style="@style/Text.Base.Medium"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/margin_16"

@@ -13,21 +13,24 @@ import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import coil.load
 import coil.transform.RoundedCornersTransformation
-import java.io.File
 
 class MovieSelectionView @JvmOverloads constructor(
     context: Context,
     attrs: AttributeSet? = null,
     @AttrRes defStyleAttr: Int = 0,
     @StyleRes defStyleRes: Int = 0
-) : ConstraintLayout(context, attrs, defStyleAttr, defStyleRes) {
+) : ConstraintLayout(
+    context,
+    attrs,
+    defStyleAttr,
+    defStyleRes
+) {
     private var tvTitle: TextView? = null
     private var ivSelectorIcon: ImageView? = null
     private var ivThemeCover: ImageView? = null
     private var body: ConstraintLayout? = null
     private var isSelected = false
     private var backgroundColor = -1
-    private var imageId = -1
 
     init {
         initViews()
@@ -44,17 +47,19 @@ class MovieSelectionView @JvmOverloads constructor(
     }
 
     private fun applyAttributes(
-        context: Context, attrs: AttributeSet?, defStyleAttr: Int, defStyleRes: Int
+        context: Context,
+        attrs: AttributeSet?,
+        defStyleAttr: Int,
+        defStyleRes: Int
     ) {
         context.theme.obtainStyledAttributes(
-            attrs, R.styleable.MovieSelectionView, defStyleAttr, defStyleRes
+            attrs,
+            R.styleable.MovieSelectionView,
+            defStyleAttr,
+            defStyleRes
         ).apply {
             tvTitle?.text = getString(R.styleable.MovieSelectionView_theme_title)
             isSelected = getBoolean(R.styleable.MovieSelectionView_is_selected, false)
-            imageId = getResourceId(R.styleable.MovieSelectionView_theme_cover, -1)
-            if (imageId != -1) {
-                ivThemeCover?.setImageResource(imageId)
-            }
             setBackgroundColor()
             setBodyTint()
             setSelectorIconVisibility()
@@ -62,19 +67,7 @@ class MovieSelectionView @JvmOverloads constructor(
     }
 
     fun setThemeCover(url: String) {
-        loadThemeCover(url)
-    }
-
-    fun setThemeCover(resourceId: Int) {
-        loadThemeCover(resourceId)
-    }
-
-    fun setThemeCover(file: File) { // принимает с path File("/path/to/ironman.png")
-        loadThemeCover(file)
-    }
-
-    private fun loadThemeCover(request: Any) {
-        ivThemeCover?.load(request) {
+        ivThemeCover?.load(url) {
             error(R.drawable.error_img)
             placeholder(R.drawable.placeholder_img)
             transformations(

@@ -9,6 +9,5 @@
     <declare-styleable name="MovieSelectionView">
         <attr name="theme_title" format="string" />
         <attr name="is_selected" format="boolean" />
-        <attr name="theme_cover" format="reference" />
     </declare-styleable>
 </resources>
