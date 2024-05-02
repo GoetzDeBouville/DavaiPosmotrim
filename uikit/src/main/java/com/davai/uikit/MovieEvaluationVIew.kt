@@ -1,5 +1,6 @@
 package com.davai.uikit
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.content.res.ColorStateList
 import android.util.AttributeSet
@@ -15,7 +16,12 @@ class MovieEvaluationVIew @JvmOverloads constructor(
     attrs: AttributeSet? = null,
     @AttrRes defStyleAttr: Int = 0,
     @StyleRes defStyleRes: Int = 0
-) : LinearLayout(context, attrs, defStyleAttr, defStyleRes) {
+) : LinearLayout(
+    context,
+    attrs,
+    defStyleAttr,
+    defStyleRes
+) {
     private var tvRateNumber: TextView? = null
     private var tvNumberRates: TextView? = null
     private var tvRateService: TextView? = null
@@ -23,11 +29,20 @@ class MovieEvaluationVIew @JvmOverloads constructor(
 
     init {
         initViews()
-        applyAttributes(context, attrs, defStyleAttr, defStyleRes)
+        applyAttributes(
+            context,
+            attrs,
+            defStyleAttr,
+            defStyleRes
+        )
     }
 
     private fun initViews() {
-        LayoutInflater.from(context).inflate(R.layout.movie_evaluation_view, this, true)
+        LayoutInflater.from(context).inflate(
+            R.layout.movie_evaluation_view,
+            this,
+            true
+        )
         tvRateNumber = findViewById(R.id.tv_rate_number)
         tvNumberRates = findViewById(R.id.tv_number_rates)
         tvRateService = findViewById(R.id.tv_rate_service)
@@ -50,9 +65,8 @@ class MovieEvaluationVIew @JvmOverloads constructor(
                 val rateNum = getFloat(R.styleable.MovieEvaluationView_rate_num, 0.0f)
                 val numberOfRates = getInt(R.styleable.MovieEvaluationView_number_of_rates, 0)
 
-                setEvaluationBackground(rateNum)
-                setNuberRates(numberOfRates)
-                tvRateNumber?.text = rateNum.toString()
+                prepareAndSetNumberOfRatesString(numberOfRates)
+                setRateNum(rateNum)
                 tvRateService?.text = getString(R.styleable.MovieEvaluationView_rate_service)
             } finally {
                 recycle()
@@ -60,23 +74,34 @@ class MovieEvaluationVIew @JvmOverloads constructor(
         }
     }
 
+    fun setRateNum(rateNum: Float) {
+        tvRateNumber?.text = rateNum.toString()
+        setItemBackground(rateNum)
+    }
+
     @Suppress("Detekt.MagicNumber")
-    private fun setEvaluationBackground(rate: Float) {
+    private fun setItemBackground(rate: Float) {
         val color = ContextCompat.getColor(
             context,
             when {
-                rate < 5 -> R.color.error
-                rate >= 7 -> R.color.done
+                rate < BAD_RATE -> R.color.error
+                rate >= GOOD_RATE -> R.color.done
                 else -> R.color.attention
             }
         )
         body?.backgroundTintList = ColorStateList.valueOf(color)
     }
 
+    @SuppressLint("DefaultLocale")
     @Suppress("Detekt.ImplicitDefaultLocale")
-    private fun setNuberRates(numberOfRates: Int) {
+    private fun prepareAndSetNumberOfRatesString(numberOfRates: Int) {
         val formattedNumber = String.format("%,d", numberOfRates).replace(",", " ")
         tvNumberRates?.text =
             resources.getQuantityString(R.plurals.rate_nums, numberOfRates, formattedNumber)
+    }
+
+    private companion object {
+        const val BAD_RATE = 5
+        const val GOOD_RATE = 7
     }
 }
