@@ -14,5 +14,7 @@ class MovieEvaluationExample : AppCompatActivity() {
 
         val evaluationView = findViewById<MovieEvaluationVIew>(R.id.bad_rate)
         evaluationView.setRateNum(2.3f)
+        evaluationView.setServiceNameString("Рейтинг Netflix)))")
+        evaluationView.setNumberOfRatesString(1_000_501)
     }
 }

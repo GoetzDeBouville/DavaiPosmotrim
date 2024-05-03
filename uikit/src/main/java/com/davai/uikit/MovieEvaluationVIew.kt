@@ -64,10 +64,11 @@ class MovieEvaluationVIew @JvmOverloads constructor(
             try {
                 val rateNum = getFloat(R.styleable.MovieEvaluationView_rate_num, 0.0f)
                 val numberOfRates = getInt(R.styleable.MovieEvaluationView_number_of_rates, 0)
+                val rateService = getString(R.styleable.MovieEvaluationView_rate_service).toString()
 
-                prepareAndSetNumberOfRatesString(numberOfRates)
+                setNumberOfRatesString(numberOfRates)
                 setRateNum(rateNum)
-                tvRateService?.text = getString(R.styleable.MovieEvaluationView_rate_service)
+                setServiceNameString(rateService)
             } finally {
                 recycle()
             }
@@ -92,12 +93,23 @@ class MovieEvaluationVIew @JvmOverloads constructor(
         body?.backgroundTintList = ColorStateList.valueOf(color)
     }
 
+    /**
+     * Метод setNumberOfRatesString принимает количество оценок и возвращает строку с разделением
+     * числа по разрядам и плюралом слова "оценка"
+     */
     @SuppressLint("DefaultLocale")
     @Suppress("Detekt.ImplicitDefaultLocale")
-    private fun prepareAndSetNumberOfRatesString(numberOfRates: Int) {
+    fun setNumberOfRatesString(numberOfRates: Int) {
         val formattedNumber = String.format("%,d", numberOfRates).replace(",", " ")
         tvNumberRates?.text =
             resources.getQuantityString(R.plurals.rate_nums, numberOfRates, formattedNumber)
+    }
+
+    /**
+     * Метод setServiceNameString принимает строку с названием сервиса в виде "Рейтинг IMDb"
+     */
+    fun setServiceNameString(rateService: String) {
+        tvRateService?.text = rateService
     }
 
     private companion object {
