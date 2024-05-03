@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="SessionView">
+        <attr name="date" format="string"/>
+        <attr name="coincedences" format="integer"/>
+        <attr name="users_list" format="string"/>
+        <attr name="cover_uri" format="string"/>
+    </declare-styleable>
+</resources>
