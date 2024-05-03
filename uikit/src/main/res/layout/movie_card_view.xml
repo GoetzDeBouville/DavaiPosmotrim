@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="240dp"
+    app:cardCornerRadius="@dimen/card_radius_16"
+    app:cardElevation="4dp"
+    app:rippleColor="@color/text_caption_dark"
+    app:strokeColor="@android:color/transparent">
+
+    <ImageView
+        android:id="@+id/iv_movie_cover"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:contentDescription="@string/movie_cover"
+        android:scaleType="centerCrop"
+        tools:src="@tools:sample/backgrounds/scenic[8]" />
+
+    <TextView
+        android:id="@+id/tv_movie_title"
+        style="@style/Text.Base.Medium.NoLineSpacing"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:layout_marginStart="@dimen/margin_16"
+        android:layout_marginEnd="@dimen/margin_16"
+        android:layout_marginBottom="@dimen/margin_16"
+        android:textColor="@color/background_white"
+        tools:text="[Text Example Text Example Text Example Text Example Text Example Text Example Text Example Text Example]" />
+</com.google.android.material.card.MaterialCardView>
+
+
+
