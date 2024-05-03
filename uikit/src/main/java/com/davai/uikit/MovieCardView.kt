@@ -7,7 +7,6 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.annotation.AttrRes
 import coil.load
-import coil.transform.RoundedCornersTransformation
 import com.google.android.material.card.MaterialCardView
 
 class MovieCardView @JvmOverloads constructor(
@@ -53,11 +52,6 @@ class MovieCardView @JvmOverloads constructor(
         ivMovieCover?.load(url) {
             error(R.drawable.error_img)
             placeholder(R.drawable.placeholder_img)
-            transformations(
-                RoundedCornersTransformation(
-                    radius = resources.getDimensionPixelSize(R.dimen.card_radius_16).toFloat()
-                )
-            )
         }
     }
 
