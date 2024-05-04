@@ -14,7 +14,7 @@ class SessionView @JvmOverloads constructor(
     attrs: AttributeSet? = null,
     defStyleAttr: Int = 0,
     defStyleRes: Int = 0
-): LinearLayout(context, attrs, defStyleAttr, defStyleRes) {
+) : LinearLayout(context, attrs, defStyleAttr, defStyleRes) {
     private var tvDate: TextView? = null
     private var tvCoincidences: TextView? = null
     private var tvNamesList: TextView? = null

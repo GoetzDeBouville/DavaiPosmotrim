@@ -9,7 +9,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:paddingTop="@dimen/padding_12"
-        android:paddingBottom="@dimen/padding_12"
+        android:paddingBottom="@dimen/padding_8"
 
         android:background="@drawable/session_card_background"
         android:orientation="vertical">
@@ -33,6 +33,7 @@
                 android:layout_height="wrap_content"
                 tools:text="Совпадений: 3"
                 style="@style/Text.Base.Medium.Regular"
+                android:textColor="@color/background_white"
                 android:background="@drawable/session_highlighted_text_background"/>
         </LinearLayout>
         <TextView
@@ -50,7 +51,7 @@
             android:id="@+id/iv_session_cover"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:paddingHorizontal="@dimen/padding_12"
+            android:paddingHorizontal="@dimen/padding_8"
             android:layout_weight="1"/>
     </LinearLayout>
 
