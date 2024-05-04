@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/text_caption_light"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <com.davai.uikit.SessionView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="20dp"
+        app:cover_url="https://s5.afisha.ru/mediastorage/ba/60/3a2f91298ada4e1cafb1bf3460ba.jpg"
+        app:date="3 сентября"
+        app:coincidence="4"
+        app:users_list="Артём (вы), Анна, Константин, Руслан, Никита, Игорь"/>
+</LinearLayout>

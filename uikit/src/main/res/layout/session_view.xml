@@ -1,53 +1,57 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="375dp"
-    android:layout_height="240dp"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/ll_session_body"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/session_card_height"
     android:orientation="vertical">
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:paddingTop="12dp"
-        android:paddingBottom="12dp"
+        android:paddingTop="@dimen/padding_12"
+        android:paddingBottom="@dimen/padding_12"
 
         android:background="@drawable/session_card_background"
         android:orientation="vertical">
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingEnd="12dp"
-            android:paddingStart="16dp"
+            android:paddingEnd="@dimen/padding_12"
+            android:paddingStart="@dimen/padding_16"
             android:orientation="horizontal"
             android:gravity="center">
             <TextView
-                android:layout_width="wrap_content"
+                android:id="@+id/tv_session_date"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 style="@style/Text.Headline.SubTitle"
-                android:text="23 сентября"/>
+                tools:text="23 сентября"/>
             <TextView
+                android:id="@+id/tv_session_coincidences"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Совпадений: 3"
-                android:textColor="@color/background_white"
+                tools:text="Совпадений: 3"
+                style="@style/Text.Base.Medium.Regular"
                 android:background="@drawable/session_highlighted_text_background"/>
         </LinearLayout>
         <TextView
+            android:id="@+id/tv_session_names_list"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingEnd="12dp"
-            android:paddingStart="16dp"
-            android:layout_marginVertical="12dp"
+            android:paddingEnd="@dimen/padding_12"
+            android:paddingStart="@dimen/padding_16"
+            android:layout_marginVertical="@dimen/padding_12"
             android:ellipsize="end"
             android:singleLine="true"
-            android:text="Артём (вы), Анна, Константин, Руслан, Никита, Игорь"/>
+            style="@style/Text.Base.Medium.Regular"
+            tools:text="Артём (вы), Анна, Константин, Руслан, Никита, Игорь"/>
         <ImageView
-            android:layout_width="wrap_content"
+            android:id="@+id/iv_session_cover"
+            android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:paddingHorizontal="12dp"
-            android:layout_weight="1"
-            android:src="@drawable/cover"
-            android:scaleType="centerCrop"/>
-
+            android:paddingHorizontal="@dimen/padding_12"
+            android:layout_weight="1"/>
     </LinearLayout>
 
 </LinearLayout>
