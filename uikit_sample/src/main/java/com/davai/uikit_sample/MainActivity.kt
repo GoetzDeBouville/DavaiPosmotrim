@@ -48,12 +48,12 @@ class MainActivity : AppCompatActivity() {
                 )
                     .show()
 
-                btnToDvButton -> Toast.makeText(
-                    this@MainActivity,
-                    "ToDvButton",
-                    Toast.LENGTH_SHORT
+                btnToDvButton -> startActivity(
+                    Intent(
+                        this@MainActivity,
+                        ButtonViewExampleActivity::class.java
+                    )
                 )
-                    .show()
 
                 btnToDvFilm -> Toast.makeText(
                     this@MainActivity,
