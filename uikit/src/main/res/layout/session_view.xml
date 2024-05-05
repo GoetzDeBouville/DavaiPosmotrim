@@ -4,56 +4,55 @@
     android:id="@+id/ll_session_body"
     android:layout_width="match_parent"
     android:layout_height="@dimen/session_card_height"
-    android:orientation="vertical">
+    android:background="@drawable/session_card_background"
+    android:orientation="vertical"
+    android:paddingTop="@dimen/padding_12"
+    android:paddingBottom="@dimen/padding_8">
+
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:paddingTop="@dimen/padding_12"
-        android:paddingBottom="@dimen/padding_8"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:paddingStart="@dimen/padding_16"
+        android:paddingEnd="@dimen/padding_12">
 
-        android:background="@drawable/session_card_background"
-        android:orientation="vertical">
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:paddingEnd="@dimen/padding_12"
-            android:paddingStart="@dimen/padding_16"
-            android:orientation="horizontal"
-            android:gravity="center">
-            <TextView
-                android:id="@+id/tv_session_date"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                style="@style/Text.Headline.SubTitle"
-                tools:text="23 сентября"/>
-            <TextView
-                android:id="@+id/tv_session_coincidences"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                tools:text="Совпадений: 3"
-                style="@style/Text.Base.Medium.Regular"
-                android:textColor="@color/background_white"
-                android:background="@drawable/session_highlighted_text_background"/>
-        </LinearLayout>
         <TextView
-            android:id="@+id/tv_session_names_list"
-            android:layout_width="match_parent"
+            android:id="@+id/tv_session_date"
+            style="@style/Text.Headline.SubTitle"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:paddingEnd="@dimen/padding_12"
-            android:paddingStart="@dimen/padding_16"
-            android:layout_marginVertical="@dimen/padding_12"
-            android:ellipsize="end"
-            android:singleLine="true"
+            android:layout_weight="1"
+            tools:text="[23 сентября]" />
+
+        <TextView
+            android:id="@+id/tv_session_coincidences"
             style="@style/Text.Base.Medium.Regular"
-            tools:text="Артём (вы), Анна, Константин, Руслан, Никита, Игорь"/>
-        <ImageView
-            android:id="@+id/iv_session_cover"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:src="@drawable/placeholder_img"
-            android:paddingHorizontal="@dimen/padding_8"
-            android:layout_weight="1"/>
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/session_highlighted_text_background"
+            android:textColor="@color/background_white"
+            tools:text="[Совпадений: 3]" />
     </LinearLayout>
 
+    <TextView
+        android:id="@+id/tv_session_names_list"
+        style="@style/Text.Base.Medium.Regular"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginVertical="@dimen/padding_12"
+        android:ellipsize="end"
+        android:paddingStart="@dimen/padding_16"
+        android:paddingEnd="@dimen/padding_12"
+        android:singleLine="true"
+        tools:text="[Артём (вы), Анна, Константин, Руслан, Никита, Игорь]" />
+
+    <ImageView
+        android:id="@+id/iv_session_cover"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:paddingHorizontal="@dimen/padding_8"
+        android:src="@drawable/placeholder_img" />
 </LinearLayout>
+

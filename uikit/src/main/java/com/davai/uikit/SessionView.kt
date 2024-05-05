@@ -19,7 +19,6 @@ class SessionView @JvmOverloads constructor(
     private var tvCoincidences: TextView? = null
     private var tvNamesList: TextView? = null
     private var ivCover: ImageView? = null
-    private var body: LinearLayout? = null
 
     init {
         initViews()
@@ -31,7 +30,6 @@ class SessionView @JvmOverloads constructor(
         tvCoincidences = findViewById(R.id.tv_session_coincidences)
         tvNamesList = findViewById(R.id.tv_session_names_list)
         ivCover = findViewById(R.id.iv_session_cover)
-        body = findViewById(R.id.ll_session_body)
     }
 
     fun setDate(date: String) {
@@ -39,7 +37,7 @@ class SessionView @JvmOverloads constructor(
     }
 
     fun setCoincidences(amount: Int) {
-        tvCoincidences?.text = String.format(resources.getString(R.string.session_coincidences), amount)
+        tvCoincidences?.text = String.format(resources.getString(R.string.session_coincidences), amount.toString())
     }
 
     fun setNamesList(names: String) {
