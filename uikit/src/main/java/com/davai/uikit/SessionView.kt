@@ -23,7 +23,6 @@ class SessionView @JvmOverloads constructor(
 
     init {
         initViews()
-        applyAttributes(context, attrs, defStyleAttr, defStyleRes)
     }
 
     private fun initViews() {
@@ -35,40 +34,19 @@ class SessionView @JvmOverloads constructor(
         body = findViewById(R.id.ll_session_body)
     }
 
-    private fun applyAttributes(
-        context: Context,
-        attrs: AttributeSet?,
-        defStyleAttr: Int,
-        defStyleRes: Int
-    ) {
-        context.theme.obtainStyledAttributes(
-            attrs,
-            R.styleable.SessionView,
-            defStyleAttr,
-            defStyleRes
-        ).apply {
-            try {
-                val date = getString(R.styleable.SessionView_date)
-                val coincidences = getInt(R.styleable.SessionView_coincidence, 0)
-                val usersList = getString(R.styleable.SessionView_users_list)
-                val coverUrl = getString(R.styleable.SessionView_cover_url)
-
-                tvDate?.text = date
-                tvCoincidences?.text = String.format(resources.getString(R.string.session_coincidences), coincidences)
-                tvNamesList?.text = usersList
-
-                if (coverUrl != null) {
-                    setCover(coverUrl)
-                } else {
-                    setCover("")
-                }
-            } finally {
-                recycle()
-            }
-        }
+    fun setDate(date: String) {
+        tvDate?.text = date
     }
 
-    private fun setCover(url: String) {
+    fun setCoincidences(amount: Int) {
+        tvCoincidences?.text = String.format(resources.getString(R.string.session_coincidences), amount)
+    }
+
+    fun setNamesList(names: String) {
+        tvNamesList?.text = names
+    }
+
+    fun setCover(url: String) {
         ivCover?.load(url) {
             error(R.drawable.error_img)
             placeholder(R.drawable.placeholder_img)
