@@ -50,7 +50,7 @@ class PrimaryButtonView @JvmOverloads constructor(
 
     fun setButtonText(text: String) {
         buttonText = text
-        if (progressBar.visibility != View.VISIBLE){
+        if (progressBar.visibility != View.VISIBLE) {
             textView.text = text
         }
     }
