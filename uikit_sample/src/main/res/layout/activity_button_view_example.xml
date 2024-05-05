@@ -5,8 +5,8 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     android:gravity="center_horizontal"
+    android:orientation="vertical"
     tools:context=".ButtonViewExampleActivity">
 
     <com.davai.uikit.PrimaryButtonView
@@ -48,5 +48,29 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
         app:button_text="Зарегистрироваться" />
+
+    <com.davai.uikit.SecondaryButtonView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        app:button_text_sec="Текст" />
+
+    <com.davai.uikit.SecondaryButtonView
+        android:id="@+id/button_sec_2"
+        android:layout_width="60dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp" />
+
+    <com.davai.uikit.SecondaryButtonView
+        android:id="@+id/button_sec_3"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp" />
+
+    <com.davai.uikit.SecondaryButtonView
+        android:id="@+id/button_sec_4"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp" />
 
 </LinearLayout>
