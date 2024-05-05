@@ -35,4 +35,18 @@
         app:button_loading="true"
         app:button_text="Зарегистрироваться" />
 
+    <com.davai.uikit.PrimaryButtonView
+        android:id="@+id/button_5"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        app:button_text="Зарегистрироваться" />
+
+    <com.davai.uikit.PrimaryButtonView
+        android:id="@+id/button_6"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        app:button_text="Зарегистрироваться" />
+
 </LinearLayout>
