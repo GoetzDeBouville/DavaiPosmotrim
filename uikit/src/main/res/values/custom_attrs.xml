@@ -16,4 +16,10 @@
         <attr name="button_enabled" format="boolean" />
         <attr name="button_loading" format="boolean" />
     </declare-styleable>
+
+    <declare-styleable name="SecondaryButtonView">
+        <attr name="button_text" format="string" />
+        <attr name="button_enabled" format="boolean" />
+        <attr name="button_loading" format="boolean" />
+    </declare-styleable>
 </resources>
