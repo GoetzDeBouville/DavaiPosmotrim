@@ -27,11 +27,13 @@ class SecondaryButtonView @JvmOverloads constructor(
             defStyleAttr,
             defStyleRes
         )
-        buttonText = typedArray.getString(R.styleable.PrimaryButtonView_button_text) ?: ""
-        buttonEnabled = typedArray.getBoolean(R.styleable.PrimaryButtonView_button_enabled, true)
-        buttonLoading = typedArray.getBoolean(R.styleable.PrimaryButtonView_button_loading, false)
+        buttonText = typedArray.getString(R.styleable.SecondaryButtonView_button_text_sec) ?: ""
+        buttonEnabled =
+            typedArray.getBoolean(R.styleable.SecondaryButtonView_button_enabled_sec, true)
+        buttonLoading =
+            typedArray.getBoolean(R.styleable.SecondaryButtonView_button_loading_sec, false)
         typedArray.recycle()
-        LayoutInflater.from(context).inflate(R.layout.primary_button_view, this)
+        LayoutInflater.from(context).inflate(R.layout.secondary_button_view, this)
         textView = findViewById<TextView>(R.id.text_view)
         progressBar = findViewById<ProgressBar>(R.id.progress_bar)
         setButtonText(buttonText)
@@ -48,14 +50,14 @@ class SecondaryButtonView @JvmOverloads constructor(
 
     fun setButtonText(text: String) {
         buttonText = text
-        if (progressBar.visibility != View.VISIBLE){
+        if (progressBar.visibility != View.VISIBLE && textView.isEnabled) {
             textView.text = text
         }
     }
 
     fun setButtonEnabled(isEnabled: Boolean) {
         textView.isEnabled = isEnabled
-        if (textView.isEnabled){
+        if (textView.isEnabled) {
             textView.text = buttonText
         } else {
             textView.text = ""

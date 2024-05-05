@@ -18,8 +18,8 @@
     </declare-styleable>
 
     <declare-styleable name="SecondaryButtonView">
-        <attr name="button_text" format="string" />
-        <attr name="button_enabled" format="boolean" />
-        <attr name="button_loading" format="boolean" />
+        <attr name="button_text_sec" format="string" />
+        <attr name="button_enabled_sec" format="boolean" />
+        <attr name="button_loading_sec" format="boolean" />
     </declare-styleable>
 </resources>
