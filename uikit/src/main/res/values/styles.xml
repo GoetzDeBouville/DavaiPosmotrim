@@ -61,4 +61,9 @@
     <style name="Text.Base.Button.Bold">
         <item name="fontWeight">600</item>
     </style>
+
+    <style name="RoundedImageView" parent="">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">@dimen/card_radius_16</item>
+    </style>
 </resources>
