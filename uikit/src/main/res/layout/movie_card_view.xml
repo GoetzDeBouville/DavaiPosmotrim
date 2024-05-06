@@ -3,7 +3,6 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:elevation="8dp"
     android:layout_height="240dp">
 
     <com.google.android.material.imageview.ShapeableImageView
@@ -14,6 +13,12 @@
         android:scaleType="centerCrop"
         app:shapeAppearanceOverlay="@style/RoundedImageView"
         tools:src="@tools:sample/backgrounds/scenic[8]" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="76dp"
+        android:layout_gravity="bottom|start"
+        android:background="@drawable/background_gradient_transparent_to_black" />
 
     <TextView
         android:id="@+id/tv_movie_title"

@@ -21,11 +21,16 @@ class MoovieCardViewExampleActivity : AppCompatActivity() {
 
         val mcv1 = findViewById<MovieCardView>(R.id.mcv_1)
 
-        mcv1.setMovieCover("https://avatars.mds.yandex.net/get-kinopoisk-image/10835644/393a5026-4ac2-476e-8e2b-467c71e5d6bf/3840x")
-        mcv1.setMovieTitle("Perfect Days")
+        mcv1.setMovieCover("https://avatars.mds.yandex.net/get-kinopoisk-image/1599028/acc93976-22f6-498b-897d-ad3ed37a23de/3840x")
+        mcv1.setMovieTitle("Зимняя спячка")
 
         val mcv2 = findViewById<MovieCardView>(R.id.mcv_2)
         mcv2.setMovieCover("https://avatars.mds.yandex.net/get-kinopoisk-image/1600647/4d5ee1d6-8bbc-4de8-b94b-7429ac8257da/3840x")
         mcv2.setMovieTitle("Изгнание")
+
+
+        val mcv3 = findViewById<MovieCardView>(R.id.mcv_3)
+        mcv3.setMovieCover("https://avatars.mds.yandex.net/get-kinopoisk-image/1773646/d15642b7-d76b-4f51-ba20-71d8883c82d3/3840x")
+        mcv3.setMovieTitle("Доктор Стрейнджлав, или Как я научился не волноваться и полюбил атомную бомбу")
     }
 }
