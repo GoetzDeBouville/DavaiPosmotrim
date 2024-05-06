@@ -30,7 +30,7 @@ class MoovieCardViewExampleActivity : AppCompatActivity() {
 
 
         val mcv3 = findViewById<MovieCardView>(R.id.mcv_3)
-        mcv3.setMovieCover("https://avatars.mds.yandex.net/get-kinopoisk-image/1773646/d15642b7-d76b-4f51-ba20-71d8883c82d3/3840x")
+        mcv3.setMovieCover("https://avatars.mds.yandex.net/get-kinopoisk-image/1777765/cb430f00-1734-4078-abd2-6688a94749a5/3840x")
         mcv3.setMovieTitle("Доктор Стрейнджлав, или Как я научился не волноваться и полюбил атомную бомбу")
     }
 }
