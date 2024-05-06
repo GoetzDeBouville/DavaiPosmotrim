@@ -3,6 +3,7 @@ package com.davai.uikit
 import android.content.Context
 import android.util.AttributeSet
 import android.view.LayoutInflater
+import android.view.MotionEvent
 import android.view.View
 import android.widget.FrameLayout
 import android.widget.ProgressBar
@@ -39,13 +40,13 @@ class PrimaryButtonView @JvmOverloads constructor(
         setButtonText(buttonText)
         setButtonEnabled(buttonEnabled)
         setLoading(buttonLoading)
-        textView.setOnFocusChangeListener { view, hasFocus ->
-            if (hasFocus) {
-                frame.visibility = View.VISIBLE
-            } else {
-                frame.visibility = View.INVISIBLE
-            }
-        }
+//        textView.setOnFocusChangeListener { view, hasFocus ->
+//            if (hasFocus) {
+//                frame.visibility = View.VISIBLE
+//            } else {
+//                frame.visibility = View.INVISIBLE
+//            }
+//        }
     }
 
     fun setButtonText(text: String) {
@@ -56,10 +57,12 @@ class PrimaryButtonView @JvmOverloads constructor(
     }
 
     fun setButtonEnabled(isEnabled: Boolean) {
+        buttonEnabled = isEnabled
         textView.isEnabled = isEnabled
     }
 
     fun setLoading(loading: Boolean) {
+        buttonLoading = loading
         if (loading) {
             textView.text = ""
             progressBar.visibility = View.VISIBLE
@@ -67,5 +70,40 @@ class PrimaryButtonView @JvmOverloads constructor(
             textView.text = buttonText
             progressBar.visibility = View.GONE
         }
+    }
+
+    override fun onInterceptTouchEvent(ev: MotionEvent?): Boolean {
+        return when (ev?.action) {
+            MotionEvent.ACTION_DOWN, MotionEvent.ACTION_CANCEL, MotionEvent.ACTION_UP -> {
+                return buttonEnabled && !buttonLoading
+            }
+
+            else -> {
+                false
+            }
+        }
+    }
+
+    override fun onTouchEvent(event: MotionEvent?): Boolean {
+
+        when (event?.action) {
+            MotionEvent.ACTION_DOWN -> {
+                frame.visibility = View.VISIBLE
+                performClick()
+                return true
+            }
+
+            MotionEvent.ACTION_CANCEL, MotionEvent.ACTION_UP -> {
+                frame.visibility = View.INVISIBLE
+                performClick()
+                return true
+            }
+        }
+        return super.onTouchEvent(event)
+    }
+
+    override fun performClick(): Boolean {
+        super.performClick()
+        return true
     }
 }
