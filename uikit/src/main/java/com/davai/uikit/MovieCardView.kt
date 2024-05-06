@@ -3,23 +3,25 @@ package com.davai.uikit
 import android.content.Context
 import android.util.AttributeSet
 import android.view.LayoutInflater
+import android.widget.FrameLayout
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.annotation.AttrRes
+import androidx.annotation.StyleRes
 import coil.load
-import com.google.android.material.card.MaterialCardView
 
 class MovieCardView @JvmOverloads constructor(
     context: Context,
     attrs: AttributeSet? = null,
-    @AttrRes defStyleAttr: Int = 0
-) : MaterialCardView(context, attrs, defStyleAttr) {
+    @AttrRes defStyleAttr: Int = 0,
+    @StyleRes defStyleRes: Int = 0
+) : FrameLayout(context, attrs, defStyleAttr, defStyleRes) {
     private var tvMovieTitle: TextView? = null
     private var ivMovieCover: ImageView? = null
 
     init {
         initViews()
-        applyAttributes(context, attrs, defStyleAttr)
+        applyAttributes(context, attrs, defStyleAttr, defStyleRes)
     }
 
     private fun initViews() {
@@ -31,13 +33,14 @@ class MovieCardView @JvmOverloads constructor(
     private fun applyAttributes(
         context: Context,
         attrs: AttributeSet?,
-        defStyleAttr: Int
+        defStyleAttr: Int,
+        defStyleRes: Int
     ) {
         context.theme.obtainStyledAttributes(
             attrs,
             R.styleable.MovieCardView,
             defStyleAttr,
-            0
+            defStyleRes
         ).apply {
             try {
                 val movieTitle = getString(R.styleable.MovieCardView_movie_title) ?: ""
