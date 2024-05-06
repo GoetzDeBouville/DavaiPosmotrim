@@ -87,7 +87,6 @@ class SecondaryButtonView @JvmOverloads constructor(
         when (event?.action) {
             MotionEvent.ACTION_DOWN -> {
                 textView.setTextColor(resources.getColor(R.color.text_caption_dark, context.theme))
-                performClick()
                 return true
             }
 
@@ -98,10 +97,5 @@ class SecondaryButtonView @JvmOverloads constructor(
             }
         }
         return super.onTouchEvent(event)
-    }
-
-    override fun performClick(): Boolean {
-        super.performClick()
-        return true
     }
 }

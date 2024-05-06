@@ -40,13 +40,6 @@ class PrimaryButtonView @JvmOverloads constructor(
         setButtonText(buttonText)
         setButtonEnabled(buttonEnabled)
         setLoading(buttonLoading)
-//        textView.setOnFocusChangeListener { view, hasFocus ->
-//            if (hasFocus) {
-//                frame.visibility = View.VISIBLE
-//            } else {
-//                frame.visibility = View.INVISIBLE
-//            }
-//        }
     }
 
     fun setButtonText(text: String) {
@@ -89,7 +82,6 @@ class PrimaryButtonView @JvmOverloads constructor(
         when (event?.action) {
             MotionEvent.ACTION_DOWN -> {
                 frame.visibility = View.VISIBLE
-                performClick()
                 return true
             }
 
@@ -100,10 +92,5 @@ class PrimaryButtonView @JvmOverloads constructor(
             }
         }
         return super.onTouchEvent(event)
-    }
-
-    override fun performClick(): Boolean {
-        super.performClick()
-        return true
     }
 }
