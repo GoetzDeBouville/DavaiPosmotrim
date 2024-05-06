@@ -83,19 +83,21 @@ class SecondaryButtonView @JvmOverloads constructor(
     }
 
     override fun onTouchEvent(event: MotionEvent?): Boolean {
-
-        when (event?.action) {
+        return when (event?.action) {
             MotionEvent.ACTION_DOWN -> {
                 textView.setTextColor(resources.getColor(R.color.text_caption_dark, context.theme))
-                return true
+                true
             }
 
             MotionEvent.ACTION_CANCEL, MotionEvent.ACTION_UP -> {
                 textView.setTextColor(resources.getColor(R.color.text_base, context.theme))
                 performClick()
-                return true
+                true
+            }
+
+            else -> {
+                super.onTouchEvent(event)
             }
         }
-        return super.onTouchEvent(event)
     }
 }

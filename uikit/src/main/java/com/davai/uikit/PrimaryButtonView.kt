@@ -78,19 +78,21 @@ class PrimaryButtonView @JvmOverloads constructor(
     }
 
     override fun onTouchEvent(event: MotionEvent?): Boolean {
-
-        when (event?.action) {
+        return when (event?.action) {
             MotionEvent.ACTION_DOWN -> {
                 frame.visibility = View.VISIBLE
-                return true
+                true
             }
 
             MotionEvent.ACTION_CANCEL, MotionEvent.ACTION_UP -> {
                 frame.visibility = View.INVISIBLE
                 performClick()
-                return true
+                true
+            }
+
+            else -> {
+                super.onTouchEvent(event)
             }
         }
-        return super.onTouchEvent(event)
     }
 }
