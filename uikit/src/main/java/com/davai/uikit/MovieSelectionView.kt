@@ -12,7 +12,6 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import coil.load
-import coil.transform.RoundedCornersTransformation
 
 class MovieSelectionView @JvmOverloads constructor(
     context: Context,
@@ -70,11 +69,6 @@ class MovieSelectionView @JvmOverloads constructor(
         ivThemeCover?.load(url) {
             error(R.drawable.error_img)
             placeholder(R.drawable.placeholder_img)
-            transformations(
-                RoundedCornersTransformation(
-                    radius = resources.getDimensionPixelSize(R.dimen.card_radius_16).toFloat()
-                )
-            )
         }
     }
 
