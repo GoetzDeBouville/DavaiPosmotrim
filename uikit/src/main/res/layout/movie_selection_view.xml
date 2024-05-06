@@ -24,6 +24,14 @@
         app:shapeAppearanceOverlay="@style/RoundedImageView"
         tools:src="@tools:sample/backgrounds/scenic[1]" />
 
+    <View
+        android:layout_width="0dp"
+        android:layout_height="80dp"
+        android:background="@drawable/background_gradient_transparent_to_black"
+        app:layout_constraintBottom_toBottomOf="@id/iv_theme_cover"
+        app:layout_constraintEnd_toEndOf="@id/iv_theme_cover"
+        app:layout_constraintStart_toStartOf="@id/iv_theme_cover" />
+
     <TextView
         android:id="@+id/tv_theme_title"
         style="@style/Text.Base.Medium"
