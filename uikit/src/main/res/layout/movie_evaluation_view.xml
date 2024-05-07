@@ -12,6 +12,7 @@
 
     <TextView
         android:id="@+id/tv_rate_number"
+        style="@style/Text.Headline.Title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:paddingEnd="@dimen/padding_16"
@@ -24,12 +25,14 @@
 
         <TextView
             android:id="@+id/tv_rate_service"
+            style="@style/Text.Base.Small"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             tools:text="[Рейтинг IMDb]" />
 
         <TextView
             android:id="@+id/tv_number_rates"
+            style="@style/Text.Base.Small"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             tools:text="[1 244 оценки]" />
