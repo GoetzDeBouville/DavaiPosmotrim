@@ -1,6 +1,5 @@
 package com.davai.uikit
 
-import android.annotation.SuppressLint
 import android.content.Context
 import android.content.res.ColorStateList
 import android.util.AttributeSet
@@ -10,6 +9,7 @@ import android.widget.TextView
 import androidx.annotation.AttrRes
 import androidx.annotation.StyleRes
 import androidx.core.content.ContextCompat
+import java.util.Locale
 
 class MovieEvaluationVIew @JvmOverloads constructor(
     context: Context,
@@ -80,7 +80,6 @@ class MovieEvaluationVIew @JvmOverloads constructor(
         setItemBackground(rateNum)
     }
 
-    @Suppress("Detekt.MagicNumber")
     private fun setItemBackground(rate: Float) {
         val color = ContextCompat.getColor(
             context,
@@ -97,10 +96,8 @@ class MovieEvaluationVIew @JvmOverloads constructor(
      * Метод setNumberOfRatesString принимает количество оценок и возвращает строку с разделением
      * числа по разрядам и плюралом слова "оценка"
      */
-    @SuppressLint("DefaultLocale")
-    @Suppress("Detekt.ImplicitDefaultLocale")
     fun setNumberOfRatesString(numberOfRates: Int) {
-        val formattedNumber = String.format("%,d", numberOfRates).replace(",", " ")
+        val formattedNumber = String.format(Locale.ROOT, "%,d", numberOfRates).replace(",", " ")
         tvNumberRates?.text =
             resources.getQuantityString(R.plurals.rate_nums, numberOfRates, formattedNumber)
     }
