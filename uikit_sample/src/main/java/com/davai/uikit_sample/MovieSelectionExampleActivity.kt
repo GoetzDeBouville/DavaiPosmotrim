@@ -6,7 +6,7 @@ import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import com.davai.uikit.MovieSelectionView
 
-@Suppress("Detekt.StringLiteralDuplication")
+@Suppress("Detekt.StringLiteralDuplication", "Detekt.ArgumentListWrapping", "Detekt.MaxLineLength")
 class MovieSelectionExampleActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
