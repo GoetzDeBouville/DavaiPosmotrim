@@ -24,9 +24,9 @@
 
     <com.davai.uikit.MovieEvaluationVIew
         android:id="@+id/normal_rate"
-        android:padding="@dimen/padding_16"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:padding="@dimen/padding_16"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -39,9 +39,9 @@
         android:id="@+id/good_rate"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:padding="@dimen/padding_16"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        android:padding="@dimen/padding_16"
         app:layout_constraintTop_toTopOf="parent"
         app:number_of_rates="199921"
         app:rate_num="8.1"

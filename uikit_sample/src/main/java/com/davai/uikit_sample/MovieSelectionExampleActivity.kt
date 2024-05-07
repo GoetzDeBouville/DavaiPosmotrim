@@ -6,7 +6,7 @@ import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import com.davai.uikit.MovieSelectionView
 
-@Suppress("Detekt.StringLiteralDuplication")
+@Suppress("Detekt.StringLiteralDuplication", "Detekt.ArgumentListWrapping", "Detekt.MaxLineLength")
 class MovieSelectionExampleActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -30,8 +30,9 @@ class MovieSelectionExampleActivity : AppCompatActivity() {
         val movieSelectionThemeDefault =
             findViewById<MovieSelectionView>(R.id.movie_selection_view_default)
 
-        with(movieSelectionThemeDefault) {
-            this.setThemeCover("")
+        movieSelectionThemeDefault.apply {
+            setThemeCover("https://avatars.mds.yandex.net/get-kinopoisk-image/1773646/b86668ec-b0ac-4519-acfc-4fdca570b711/3840x")
+            setThemeTitle("Нестареющая классика")
             this.setOnClickListener {
                 isSelected = this.switchSelection()
                 Toast.makeText(
@@ -44,7 +45,6 @@ class MovieSelectionExampleActivity : AppCompatActivity() {
 
         val movieSelectionThemeDefault2 =
             findViewById<MovieSelectionView>(R.id.movie_selection_view_default_2)
-
 
         with(movieSelectionThemeDefault2) {
             this.setThemeCover("")
