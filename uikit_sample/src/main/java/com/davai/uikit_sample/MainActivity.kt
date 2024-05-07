@@ -1,5 +1,6 @@
 package com.davai.uikit_sample
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
@@ -60,11 +61,7 @@ class MainActivity : AppCompatActivity() {
                 )
                     .show()
 
-                btnToDvSession -> Toast.makeText(
-                    this@MainActivity,
-                    "ToDvSession",
-                    Toast.LENGTH_SHORT
-                ).show()
+                btnToDvSession -> startActivity(Intent(this@MainActivity, SessionExample::class.java))
 
                 btnToDvToolbar -> Toast.makeText(
                     this@MainActivity,
