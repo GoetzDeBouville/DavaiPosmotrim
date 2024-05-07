@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="theme_image">Изображение темы</string>
+    <string name="session_coincidences">Совпадений: %s</string>
     <string name="movie_cover">Обложка фильма</string>
 </resources>
