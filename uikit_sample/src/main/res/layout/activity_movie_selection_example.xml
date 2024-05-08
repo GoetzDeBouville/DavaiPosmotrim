@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MovieSelectionExampleActivity">
+
+    <com.davai.uikit.MovieSelectionView
+        android:id="@+id/movie_selection_view"
+        android:layout_width="0dp"
+        android:layout_height="160dp"
+        android:layout_marginTop="@dimen/margin_32"
+        app:is_selected="true"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:theme_title="[Нестареющая классика]" />
+
+    <com.davai.uikit.MovieSelectionView
+        android:id="@+id/movie_selection_view_default"
+        android:layout_width="0dp"
+        android:layout_height="160dp"
+        android:layout_marginTop="@dimen/margin_16"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/movie_selection_view"
+        app:theme_title="[Новинки]" />
+
+    <com.davai.uikit.MovieSelectionView
+        android:id="@+id/movie_selection_view_default_2"
+        android:layout_width="0dp"
+        android:layout_height="160dp"
+        android:layout_marginTop="@dimen/margin_16"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/movie_selection_view_default"
+        app:theme_title="[Космическая одисея]" />
+</androidx.constraintlayout.widget.ConstraintLayout>
