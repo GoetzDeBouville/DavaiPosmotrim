@@ -34,11 +34,12 @@ class MainActivity : AppCompatActivity() {
     private fun onClickListener() = View.OnClickListener {
         with(binding) {
             when (it) {
-                btnToMoviewEvalution -> Toast.makeText(
-                    this@MainActivity,
-                    "To Movie Evaluation",
-                    Toast.LENGTH_SHORT
-                ).show()
+                btnToMoviewEvalution -> startActivity(
+                    Intent(
+                        this@MainActivity,
+                        MovieEvaluationExample::class.java
+                    )
+                )
 
                 btnToDvBanner -> Toast.makeText(
                     this@MainActivity,
@@ -69,11 +70,12 @@ class MainActivity : AppCompatActivity() {
                     Toast.LENGTH_SHORT
                 ).show()
 
-                btnToDvMovieSelection -> Toast.makeText(
-                    this@MainActivity,
-                    "ToDvMovieSelection",
-                    Toast.LENGTH_SHORT
-                ).show()
+                btnToDvMovieSelection -> startActivity(
+                    Intent(
+                        this@MainActivity,
+                        MovieSelectionExampleActivity::class.java
+                    )
+                )
             }
         }
     }

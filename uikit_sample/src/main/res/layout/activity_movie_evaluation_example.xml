@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="40dp"
+    tools:context=".MovieEvaluationExample">
+
+    <com.davai.uikit.MovieEvaluationVIew
+        android:id="@+id/bad_rate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/padding_16"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:number_of_rates="129121"
+        app:rate_num="3.5"
+        app:rate_service="Рейтинг IMDb" />
+
+
+    <com.davai.uikit.MovieEvaluationVIew
+        android:id="@+id/normal_rate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/padding_16"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:number_of_rates="1000"
+        app:rate_num="5.0"
+        app:rate_service="Рейтинг IMDb" />
+
+
+    <com.davai.uikit.MovieEvaluationVIew
+        android:id="@+id/good_rate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/padding_16"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:number_of_rates="199921"
+        app:rate_num="8.1"
+        app:rate_service="Рейтинг IMDb" />
+</LinearLayout>
