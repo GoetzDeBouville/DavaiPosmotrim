@@ -13,8 +13,8 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContentView(binding.root)
-        val navHostFragment =
-            supportFragmentManager.findFragmentById(R.id.fragment_container_view) as NavHostFragment
-        val navController = navHostFragment.navController
+//        val navHostFragment =
+//            supportFragmentManager.findFragmentById(R.id.fragment_container_view) as NavHostFragment
+//        val navController = navHostFragment.navController
     }
 }
