@@ -3,8 +3,6 @@ package com.davay.android.app
 import android.os.Bundle
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
-import androidx.navigation.fragment.NavHostFragment
-import com.davay.android.R
 import com.davay.android.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
