@@ -70,11 +70,12 @@ class MainActivity : AppCompatActivity() {
                     Toast.LENGTH_SHORT
                 ).show()
 
-                btnToDvMovieSelection -> Toast.makeText(
-                    this@MainActivity,
-                    "ToDvMovieSelection",
-                    Toast.LENGTH_SHORT
-                ).show()
+                btnToDvMovieSelection -> startActivity(
+                    Intent(
+                        this@MainActivity,
+                        MovieSelectionExampleActivity::class.java
+                    )
+                )
             }
         }
     }
