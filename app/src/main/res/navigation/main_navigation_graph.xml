@@ -9,5 +9,18 @@
         android:id="@+id/loadFragment"
         android:name="com.davay.android.feature.load.presentation.LoadFragment"
         android:label="fragment_load"
-        tools:layout="@layout/fragment_load" />
+        tools:layout="@layout/fragment_load" >
+        <action
+            android:id="@+id/action_loadFragment_to_mainFragment"
+            app:destination="@id/mainFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/mainFragment"
+        android:name="com.davay.android.feature.main.presentation.MainFragment"
+        android:label="fragment_main"
+        tools:layout="@layout/fragment_main" >
+        <action
+            android:id="@+id/action_mainFragment_to_loadFragment"
+            app:destination="@id/loadFragment" />
+    </fragment>
 </navigation>
