@@ -1,5 +1,6 @@
 package com.davay.android.di
 
+@Suppress("Detekt.LateinitUsage")
 abstract class DataBasedComponentHolder<T : DIComponent, R : Any> : ComponentHolder<T>() {
 
     private lateinit var dataForBuild: R
