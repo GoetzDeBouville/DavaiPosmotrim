@@ -10,4 +10,12 @@
         <attr name="theme_title" format="string" />
         <attr name="is_selected" format="boolean" />
     </declare-styleable>
+
+    <declare-styleable name="ToolbarView">
+        <attr name="title" format="string" />
+        <attr name="subtitle" format="string" />
+        <attr name="counter" format="integer" />
+        <attr name="end_icon" format="reference" />
+        <attr name="start_icon" format="reference" />
+    </declare-styleable>
 </resources>
