@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/toolbar_height_64"
+    android:background="@drawable/toolbar_background">
+
+    <ImageView
+        android:id="@+id/iv_start_icon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/margin_24"
+        android:contentDescription="@string/navigation_icon"
+        android:src="@drawable/ic_arrow_back"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/tv_toolbar_title"
+        style="@style/Text.Headline.SubTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/text_headings"
+        app:layout_constraintBottom_toBottomOf="@+id/iv_start_icon"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/iv_start_icon"
+        tools:text="[3 сентября]" />
+
+    <TextView
+        android:id="@+id/tv_toolbar_subtitle"
+        style="@style/Text.Base.Small"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/text_caption_light"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/tv_toolbar_title"
+        app:layout_constraintStart_toStartOf="@+id/tv_toolbar_title"
+        app:layout_constraintTop_toBottomOf="@+id/tv_toolbar_title"
+        tools:text="[Сеанс uY2id6l]" />
+
+    <ImageView
+        android:id="@+id/iv_end_icon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/margin_24"
+        android:contentDescription="@string/navigation_icon"
+        android:src="@drawable/ic_heart"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/tv_matches_counter"
+        style="@style/Text.Base.Small"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/background_white"
+        app:layout_constraintBottom_toBottomOf="@+id/iv_end_icon"
+        app:layout_constraintEnd_toEndOf="@+id/iv_end_icon"
+        app:layout_constraintStart_toStartOf="@+id/iv_end_icon"
+        app:layout_constraintTop_toTopOf="@+id/iv_end_icon"
+        tools:text="3" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
