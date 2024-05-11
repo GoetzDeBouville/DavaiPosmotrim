@@ -1,4 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-
+    <declare-styleable name="DvBannerView">
+        <attr name="bannerBackground" format="color" />
+        <attr name="bannerText" format="string" />
+        <attr name="bannerIcon" format="reference" />
+    </declare-styleable>
 </resources>
