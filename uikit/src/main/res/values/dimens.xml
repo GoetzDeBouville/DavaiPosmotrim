@@ -6,6 +6,7 @@
     <dimen name="card_radius_18">18dp</dimen>
 
     <dimen name="session_card_height">240dp</dimen>
+    <dimen name="toolbar_height_64">64dp</dimen>
 
     <dimen name="padding_16">16dp</dimen>
     <dimen name="padding_12">12dp</dimen>
@@ -14,5 +15,6 @@
 
     <dimen name="margin_8">8dp</dimen>
     <dimen name="margin_16">16dp</dimen>
+    <dimen name="margin_24">24dp</dimen>
     <dimen name="margin_32">32dp</dimen>
 </resources>
