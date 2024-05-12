@@ -1,4 +1,4 @@
-package com.davay.android.feature.onboarding
+package com.davay.android.feature.onboarding.viewmodel
 
 import com.davay.android.base.BaseViewModel
 import javax.inject.Inject

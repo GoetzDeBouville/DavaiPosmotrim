@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/background_base"
-    tools:context=".feature.onboarding.OnboardingFragment">
+    tools:context=".feature.onboarding.fragment.OnboardingFragment">
 
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/mcv_pager_holder"
@@ -22,7 +22,8 @@
             android:id="@+id/viewpager"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            tools:context=".ui.screens.intro.IntroViewPagerFragment" />
+            android:layout_centerInParent="true"
+            tools:background="@tools:sample/backgrounds/scenic[5]" />
     </com.google.android.material.card.MaterialCardView>
 
     <me.relex.circleindicator.CircleIndicator3
