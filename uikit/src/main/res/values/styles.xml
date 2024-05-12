@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <style name="Text" parent="TextAppearance.AppCompat"/>
+
+    <style name="Text" parent="TextAppearance.AppCompat" />
 
     <style name="Text.Headline">
         <item name="fontFamily">@font/days_one</item>
@@ -20,6 +21,11 @@
         <item name="android:lineSpacingExtra">24sp</item>
     </style>
 
+    <style name="Text.Headline.Large">
+        <item name="android:textSize">40sp</item>
+        <item name="android:textColor">@color/text_headings</item>
+    </style>
+
     <style name="Text.Base.Medium">
         <item name="android:textSize">14sp</item>
         <item name="android:lineSpacingExtra">20sp</item>
@@ -27,6 +33,11 @@
 
     <style name="Text.Base.Medium.Regular">
         <item name="fontWeight">400</item>
+    </style>
+
+    <style name="Text.Base.Medium.Regular.Description">
+        <item name="android:textSize">16sp</item>
+        <item name="android:textColor">@color/text_base</item>
     </style>
 
     <style name="Text.Base.Medium.Bold">
@@ -62,7 +73,9 @@
     </style>
 
     <style name="CardView.RoundedTopCorners" parent="@style/Widget.MaterialComponents.CardView">
-        <item name="shapeAppearanceOverlay">@style/ShapeAppearanceOverlay.MaterialCardView.RoundTopCorners</item>
+        <item name="shapeAppearanceOverlay">
+            @style/ShapeAppearanceOverlay.MaterialCardView.RoundTopCorners
+        </item>
     </style>
 
     <style name="ShapeAppearanceOverlay.MaterialCardView.RoundTopCorners" parent="">
