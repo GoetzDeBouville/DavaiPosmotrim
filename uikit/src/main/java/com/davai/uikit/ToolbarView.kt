@@ -11,7 +11,8 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.view.isVisible
 
 /**
- * Дкфолтно в ToolbarView для ivStartIcon установлен ic_arrow_back, для ivEndIcon - ic_heart.
+ * Дефолтно в ToolbarView для ivStartIcon и ivEndIcon установлены изображения ic_arrow_back и
+ * ic_heart соответственно.
  * Элементы tvMatchesCounter и ivEndIcon не видимы по дефолту
  */
 class ToolbarView @JvmOverloads constructor(
@@ -20,7 +21,10 @@ class ToolbarView @JvmOverloads constructor(
     @AttrRes defStyleAttr: Int = 0,
     @StyleRes defStyleRes: Int = 0
 ) : ConstraintLayout(
-    context, attrs, defStyleAttr, defStyleRes
+    context,
+    attrs,
+    defStyleAttr,
+    defStyleRes
 ) {
     private var tvTitle: TextView? = null
     private var tvSubtitle: TextView? = null
@@ -30,14 +34,25 @@ class ToolbarView @JvmOverloads constructor(
 
     init {
         initViews()
-        applyAttributes(context, attrs, defStyleAttr, defStyleRes)
+        applyAttributes(
+            context,
+            attrs,
+            defStyleAttr,
+            defStyleRes
+        )
     }
 
     private fun applyAttributes(
-        context: Context, attrs: AttributeSet?, defStyleAttr: Int, defStyleRes: Int
+        context: Context,
+        attrs: AttributeSet?,
+        defStyleAttr: Int,
+        defStyleRes: Int
     ) {
         context.theme.obtainStyledAttributes(
-            attrs, R.styleable.ToolbarView, defStyleAttr, defStyleRes
+            attrs,
+            R.styleable.ToolbarView,
+            defStyleAttr,
+            defStyleRes
         ).apply {
             val subTitleText = getString(R.styleable.ToolbarView_subtitle) ?: ""
             val titleText = getString(R.styleable.ToolbarView_title) ?: ""
@@ -108,12 +123,31 @@ class ToolbarView @JvmOverloads constructor(
         }
     }
 
-    //! Методы управления видимостью ivEndIcon
+    /**
+     * Упроавление видимостью ivEndIcon
+     */
     fun showEndIcon() {
         ivEndIcon?.isVisible = true
     }
 
+    /**
+     * Упроавление видимостью ivEndIcon
+     */
     fun hideEndIcon() {
         ivEndIcon?.isVisible = false
+    }
+
+    /**
+     * Метод для управления слушателем кликов по элементу ivStartIcon
+     */
+    fun setStartIconClickListener(listener: () -> Unit) {
+        ivStartIcon?.setOnClickListener { listener() }
+    }
+
+    /**
+     * Метод для управления слушателем кликов по элементу ivEndIcon
+     */
+    fun setEndIconClickListener(listener: () -> Unit) {
+        ivEndIcon?.setOnClickListener { listener() }
     }
 }
