@@ -22,5 +22,13 @@
         <action
             android:id="@+id/action_mainFragment_to_loadFragment"
             app:destination="@id/loadFragment" />
+        <action
+            android:id="@+id/action_mainFragment_to_onboardingFragment"
+            app:destination="@id/onboardingFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/onboardingFragment"
+        android:name="com.davay.android.feature.onboarding.fragment.OnboardingFragment"
+        android:label="fragment_onboarding"
+        tools:layout="@layout/fragment_onboarding" />
 </navigation>
