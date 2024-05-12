@@ -2,4 +2,7 @@
 <resources>
     <string name="theme_image">Изображение темы</string>
     <string name="session_coincidences">Совпадений: %s</string>
+
+    <string name="continue_view">продлолжить</string>
+    <string name="begin">начать</string>
 </resources>

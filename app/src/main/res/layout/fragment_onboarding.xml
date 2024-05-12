@@ -1,13 +1,63 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/background_base"
     tools:context=".feature.onboarding.OnboardingFragment">
 
-    <TextView
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/mcv_pager_holder"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="Onboardingscreen" />
+        android:layout_height="0dp"
+        android:layout_marginTop="@dimen/margin_40"
+        android:layout_marginBottom="@dimen/margin_16"
+        android:backgroundTint="@color/background_white"
+        app:cardCornerRadius="@dimen/card_radius_24"
+        app:layout_constraintBottom_toTopOf="@+id/mcv_footer"
+        app:layout_constraintTop_toTopOf="parent">
 
-</FrameLayout>
+        <androidx.viewpager2.widget.ViewPager2
+            android:id="@+id/viewpager"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            tools:context=".ui.screens.intro.IntroViewPagerFragment" />
+    </com.google.android.material.card.MaterialCardView>
+
+    <me.relex.circleindicator.CircleIndicator3
+        android:id="@+id/ci_indicator"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/margin_32"
+        android:background="@android:color/transparent"
+        android:elevation="4dp"
+        app:layout_constraintBottom_toBottomOf="@+id/mcv_pager_holder"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/mcv_footer"
+        style="@style/CardView.RoundedTopCorners"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/footer_item_height_114"
+        android:backgroundTint="@color/background_white"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/mbtn_footer_btn"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/button_height_48"
+            android:layout_marginHorizontal="@dimen/margin_16"
+            android:layout_marginTop="@dimen/margin_16"
+            android:backgroundTint="@color/primary_base"
+            android:padding="0dp"
+            android:textAppearance="@style/Text.Base.Button"
+            app:cornerRadius="@dimen/card_radius_12"
+            tools:text="[Продолжить]" />
+    </com.google.android.material.card.MaterialCardView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
