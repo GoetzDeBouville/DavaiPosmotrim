@@ -31,6 +31,11 @@
         <item name="android:lineSpacingExtra">20sp</item>
     </style>
 
+
+    <style name="Text.Base.Medium.NoLineSpacing">
+        <item name="android:lineSpacingExtra">0sp</item>
+    </style>
+
     <style name="Text.Base.Medium.Regular">
         <item name="fontWeight">400</item>
     </style>

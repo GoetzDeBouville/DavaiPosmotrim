@@ -11,6 +11,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.DavayPosmotrim">
         <activity
+            android:name=".MoovieCardViewExampleActivity"
+            android:exported="false" />
+        <activity
             android:name=".SessionExample"
             android:exported="false" />
         <activity

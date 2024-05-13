@@ -2,6 +2,7 @@
 <resources>
     <string name="theme_image">Изображение темы</string>
     <string name="session_coincidences">Совпадений: %s</string>
+    <string name="movie_cover">Обложка фильма</string>
 
     <!--Экран onboarding-->
     <string name="continue_view">продлолжить</string>
