@@ -2,6 +2,7 @@ package com.davay.android.feature.onboarding.fragment
 
 import android.os.Bundle
 import android.view.View
+import androidx.viewpager2.widget.ViewPager2
 import com.davay.android.app.AppComponentHolder
 import com.davay.android.base.BaseFragment
 import com.davay.android.databinding.FragmentOnboardingBinding
@@ -14,6 +15,18 @@ class OnboardingFragment : BaseFragment<FragmentOnboardingBinding, OnboardingVie
     FragmentOnboardingBinding::inflate
 ) {
     override val viewModel: OnboardingViewModel by injectViewModel<OnboardingViewModel>()
+    private val fragmentList = listOf(
+        OnboardingFirstFragment(),
+        OnboardingSecondFragment(),
+        OnboardingThirdFragment()
+    )
+    private val viewPagerAdapter by lazy {
+        OnboardingViewPagerAdapter(
+            fragmentList,
+            viewLifecycleOwner.lifecycle,
+            this.childFragmentManager
+        )
+    }
 
     override fun diComponent(): ScreenComponent = DaggerOnBoardingFragmentComponent.builder()
         .appComponent(AppComponentHolder.getComponent())
@@ -22,33 +35,27 @@ class OnboardingFragment : BaseFragment<FragmentOnboardingBinding, OnboardingVie
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initViews()
+        setUpViewPager()
     }
 
     private fun initViews() = with(binding) {
-        val fragmentList = listOf(
-            OnboardingFirstFragment(),
-            OnboardingSecondFragment(),
-            OnboardingThirdFragment()
-        )
-
-        viewpager.adapter = OnboardingViewPagerAdapter(
-            fragmentList,
-            viewLifecycleOwner.lifecycle,
-            this@OnboardingFragment.childFragmentManager
-        ) { position ->
-            updateButtonText(position)
-        }
-
+        viewpager.adapter = viewPagerAdapter
         ciIndicator.setViewPager(viewpager)
     }
 
-    private fun updateButtonText(position: Int) = with(binding) {
-        mbtnFooterBtn.apply {
-            if (position == SECOND_FRAGMENT_POSITION) {
-                setText(com.davai.uikit.R.string.begin)
-            } else {
-                setText(com.davai.uikit.R.string.continue_view)
+    private fun setUpViewPager() {
+        binding.viewpager.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
+            override fun onPageSelected(position: Int) {
+                super.onPageSelected(position)
+                updateButtonTextForFragment(position)
             }
+        })
+    }
+
+    private fun updateButtonTextForFragment(position: Int) {
+        binding.mbtnFooterBtn.text = when (position) {
+            2 -> resources.getString(com.davai.uikit.R.string.begin)
+            else -> resources.getString(com.davai.uikit.R.string.continue_view)
         }
     }
 
