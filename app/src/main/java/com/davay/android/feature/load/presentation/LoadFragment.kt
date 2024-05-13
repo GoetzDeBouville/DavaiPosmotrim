@@ -38,5 +38,9 @@ class LoadFragment : BaseFragment<FragmentLoadBinding, LoadViewModel>(
         binding.btnToOnboarding.setOnClickListener {
             viewModel.navigate(R.id.action_loadFragment_to_onboardingFragment)
         }
+
+        binding.btnToSplash.setOnClickListener {
+            viewModel.navigate(R.id.action_loadFragment_to_splashFragment)
+        }
     }
 }
