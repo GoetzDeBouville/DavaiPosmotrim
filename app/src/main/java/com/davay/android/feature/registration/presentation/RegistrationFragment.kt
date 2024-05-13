@@ -1,19 +1,17 @@
 package com.davay.android.feature.registration.presentation
 
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
-import androidx.fragment.app.Fragment
+import com.davay.android.base.BaseFragment
 import com.davay.android.databinding.FragmentRegistrationBinding
 
-class RegistrationFragment : Fragment() {
+class RegistrationFragment() :
+    BaseFragment<FragmentRegistrationBinding, RegistrationViewModel>(FragmentRegistrationBinding::inflate) {
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        return FragmentRegistrationBinding.inflate(inflater, container, false).root
+    override val viewModel: RegistrationViewModel by injectViewModel<RegistrationViewModel>()
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        binding.etName.requestFocus()
     }
 }
