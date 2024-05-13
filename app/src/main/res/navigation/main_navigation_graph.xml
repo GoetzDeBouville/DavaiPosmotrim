@@ -9,26 +9,32 @@
         android:id="@+id/loadFragment"
         android:name="com.davay.android.feature.load.presentation.LoadFragment"
         android:label="fragment_load"
-        tools:layout="@layout/fragment_load" >
+        tools:layout="@layout/fragment_load">
         <action
             android:id="@+id/action_loadFragment_to_mainFragment"
             app:destination="@id/mainFragment" />
+        <action
+            android:id="@+id/action_loadFragment_to_onboardingFragment"
+            app:destination="@id/onboardingFragment" />
     </fragment>
     <fragment
         android:id="@+id/mainFragment"
         android:name="com.davay.android.feature.main.presentation.MainFragment"
         android:label="fragment_main"
-        tools:layout="@layout/fragment_main" >
+        tools:layout="@layout/fragment_main">
         <action
             android:id="@+id/action_mainFragment_to_loadFragment"
             app:destination="@id/loadFragment" />
-        <action
-            android:id="@+id/action_mainFragment_to_onboardingFragment"
-            app:destination="@id/onboardingFragment" />
     </fragment>
     <fragment
         android:id="@+id/onboardingFragment"
         android:name="com.davay.android.feature.onboarding.fragment.OnboardingFragment"
         android:label="fragment_onboarding"
-        tools:layout="@layout/fragment_onboarding" />
+        tools:layout="@layout/fragment_onboarding">
+        <action
+            android:id="@+id/action_onboardingFragment_to_mainFragment"
+            app:destination="@id/mainFragment"
+            app:enterAnim="@anim/nav_default_pop_enter_anim"
+            app:exitAnim="@anim/nav_default_pop_exit_anim" />
+    </fragment>
 </navigation>
