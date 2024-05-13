@@ -15,8 +15,10 @@
         android:layout_marginBottom="@dimen/margin_16"
         android:backgroundTint="@color/background_white"
         app:cardCornerRadius="@dimen/card_radius_24"
+        app:cardElevation="@dimen/elevation_4"
         app:layout_constraintBottom_toTopOf="@+id/mcv_footer"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toTopOf="parent"
+        app:strokeColor="@android:color/transparent">
 
         <androidx.viewpager2.widget.ViewPager2
             android:id="@+id/viewpager"
@@ -29,8 +31,9 @@
     <me.relex.circleindicator.CircleIndicator3
         android:id="@+id/ci_indicator"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="@dimen/button_height_48"
         android:layout_marginBottom="@dimen/margin_32"
+        android:elevation="@dimen/elevation_4"
         app:ci_drawable="@drawable/indicator_drawable_selected"
         app:ci_drawable_unselected="@drawable/indicator_drawable_unselected"
         app:layout_constraintBottom_toBottomOf="@+id/mcv_pager_holder"
@@ -43,9 +46,11 @@
         android:layout_width="match_parent"
         android:layout_height="@dimen/footer_item_height_114"
         android:backgroundTint="@color/background_white"
+        app:cardElevation="@dimen/elevation_4"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent">
+        app:layout_constraintStart_toStartOf="parent"
+        app:strokeColor="@android:color/transparent">
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/mbtn_footer_btn"
@@ -57,7 +62,7 @@
             android:padding="0dp"
             android:textAppearance="@style/Text.Base.Button"
             app:cornerRadius="@dimen/card_radius_12"
-            tools:text="[Продолжить]" />
+            tools:text="[Продолжить/Начать]" />
     </com.google.android.material.card.MaterialCardView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

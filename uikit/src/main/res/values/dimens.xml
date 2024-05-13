@@ -9,6 +9,9 @@
     <dimen name="footer_item_height_114">114dp</dimen>
     <dimen name="session_card_height">240dp</dimen>
 
+    <dimen name="elevation_4">4dp</dimen>
+    <dimen name="elevation_8">8dp</dimen>
+
     <dimen name="padding_4">4dp</dimen>
     <dimen name="padding_8">8dp</dimen>
     <dimen name="padding_12">12dp</dimen>
