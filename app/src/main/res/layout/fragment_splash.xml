@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/background_base"
-    tools:context=".feature.splash.SplashFragment">
+    tools:context=".feature.splash.fragment.SplashFragment">
 
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/mcv_cardview"
@@ -23,7 +23,7 @@
         app:strokeColor="@android:color/transparent" />
 
     <TextView
-        android:id="@+id/textview"
+        android:id="@+id/textview1"
         style="@style/Text.Base.SplashItem"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
