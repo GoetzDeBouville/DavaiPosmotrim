@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <style name="Text" parent="TextAppearance.AppCompat"/>
+
+    <style name="Text" parent="TextAppearance.AppCompat" />
 
     <style name="Text.Headline">
         <item name="fontFamily">@font/days_one</item>
@@ -23,6 +24,11 @@
     <style name="Text.Base.Medium">
         <item name="android:textSize">14sp</item>
         <item name="android:lineSpacingExtra">20sp</item>
+    </style>
+
+
+    <style name="Text.Base.Medium.NoLineSpacing">
+        <item name="android:lineSpacingExtra">0sp</item>
     </style>
 
     <style name="Text.Base.Medium.Regular">
@@ -54,5 +60,10 @@
 
     <style name="Text.Base.Button.Bold">
         <item name="fontWeight">600</item>
+    </style>
+
+    <style name="RoundedImageView" parent="">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">@dimen/card_radius_16</item>
     </style>
 </resources>
