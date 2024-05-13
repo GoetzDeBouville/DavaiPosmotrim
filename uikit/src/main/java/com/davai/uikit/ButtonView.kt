@@ -9,7 +9,7 @@ import android.widget.FrameLayout
 import android.widget.ProgressBar
 import android.widget.TextView
 
-class PrimaryButtonView @JvmOverloads constructor(
+class ButtonView @JvmOverloads constructor(
     context: Context,
     attrs: AttributeSet? = null,
     defStyleAttr: Int = 0,
@@ -35,7 +35,7 @@ class PrimaryButtonView @JvmOverloads constructor(
         buttonLoading = typedArray.getBoolean(R.styleable.PrimaryButtonView_button_loading, false)
         buttonViewType = typedArray.getInt(R.styleable.PrimaryButtonView_button_view_type, 1)
         typedArray.recycle()
-        LayoutInflater.from(context).inflate(R.layout.primary_button_view, this)
+        LayoutInflater.from(context).inflate(R.layout.button_view, this)
         frame = findViewById<View>(R.id.frame)
         textView = findViewById<TextView>(R.id.text_view)
         progressBar = findViewById<ProgressBar>(R.id.progress_bar)
