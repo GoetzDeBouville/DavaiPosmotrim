@@ -11,6 +11,10 @@
         <attr name="is_selected" format="boolean" />
     </declare-styleable>
 
+    <declare-styleable name="MovieCardView">
+        <attr name="movie_title" format="string" />
+    </declare-styleable>
+
     <declare-styleable name="PrimaryButtonView">
         <attr name="button_text" format="string" />
         <attr name="button_enabled" format="boolean" />

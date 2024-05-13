@@ -55,12 +55,12 @@ class MainActivity : AppCompatActivity() {
                     )
                 )
 
-                btnToDvFilm -> Toast.makeText(
-                    this@MainActivity,
-                    "ToDvFilm",
-                    Toast.LENGTH_SHORT
+                btnToDvFilm -> startActivity(
+                    Intent(
+                        this@MainActivity,
+                        MoovieCardViewExampleActivity::class.java
+                    )
                 )
-                    .show()
 
                 btnToDvSession -> startActivity(Intent(this@MainActivity, SessionExample::class.java))
 
