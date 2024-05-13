@@ -21,6 +21,7 @@ class PrimaryButtonView @JvmOverloads constructor(
     private val frame: View
     private val textView: TextView
     private val progressBar: ProgressBar
+    private var buttonViewType: Int
 
     init {
         val typedArray = context.obtainStyledAttributes(
@@ -32,26 +33,42 @@ class PrimaryButtonView @JvmOverloads constructor(
         buttonText = typedArray.getString(R.styleable.PrimaryButtonView_button_text) ?: ""
         buttonEnabled = typedArray.getBoolean(R.styleable.PrimaryButtonView_button_enabled, true)
         buttonLoading = typedArray.getBoolean(R.styleable.PrimaryButtonView_button_loading, false)
+        buttonViewType = typedArray.getInt(R.styleable.PrimaryButtonView_button_view_type, 1)
         typedArray.recycle()
         LayoutInflater.from(context).inflate(R.layout.primary_button_view, this)
         frame = findViewById<View>(R.id.frame)
         textView = findViewById<TextView>(R.id.text_view)
         progressBar = findViewById<ProgressBar>(R.id.progress_bar)
-        setButtonText(buttonText)
-        setButtonEnabled(buttonEnabled)
-        setLoading(buttonLoading)
+        setButtonViewType(ButtonViewType.getButtonViewType(buttonViewType))
     }
 
     fun setButtonText(text: String) {
         buttonText = text
-        if (progressBar.visibility != View.VISIBLE) {
-            textView.text = text
+        when (buttonViewType) {
+            1 -> {
+                if (progressBar.visibility != View.VISIBLE) {
+                    textView.text = text
+                }
+            }
+
+            2 -> {
+                if (progressBar.visibility != View.VISIBLE && textView.isEnabled) {
+                    textView.text = text
+                }
+            }
         }
     }
 
     fun setButtonEnabled(isEnabled: Boolean) {
         buttonEnabled = isEnabled
         textView.isEnabled = isEnabled
+        if (buttonViewType == 2) {
+            if (textView.isEnabled) {
+                textView.text = buttonText
+            } else {
+                textView.text = ""
+            }
+        }
     }
 
     fun setLoading(loading: Boolean) {
@@ -80,12 +97,33 @@ class PrimaryButtonView @JvmOverloads constructor(
     override fun onTouchEvent(event: MotionEvent?): Boolean {
         return when (event?.action) {
             MotionEvent.ACTION_DOWN -> {
-                frame.visibility = View.VISIBLE
+                when (buttonViewType) {
+                    1 -> {
+                        frame.visibility = View.VISIBLE
+                    }
+
+                    2 -> {
+                        textView.setTextColor(
+                            resources.getColor(
+                                R.color.text_caption_dark,
+                                context.theme
+                            )
+                        )
+                    }
+                }
                 true
             }
 
             MotionEvent.ACTION_CANCEL, MotionEvent.ACTION_UP -> {
-                frame.visibility = View.INVISIBLE
+                when (buttonViewType) {
+                    1 -> {
+                        frame.visibility = View.INVISIBLE
+                    }
+
+                    2 -> {
+                        textView.setTextColor(resources.getColor(R.color.text_base, context.theme))
+                    }
+                }
                 performClick()
                 true
             }
@@ -93,6 +131,45 @@ class PrimaryButtonView @JvmOverloads constructor(
             else -> {
                 super.onTouchEvent(event)
             }
+        }
+    }
+
+    fun setButtonViewType(type: ButtonViewType) {
+        when (type) {
+            ButtonViewType.PRIMARY -> {
+                buttonViewType = 1
+            }
+
+            ButtonViewType.SECONDARY -> {
+                buttonViewType = 2
+                frame.visibility = View.GONE
+                textView.setTextAppearance(R.style.Text_Base_Button_Bold)
+                textView.setTextColor(resources.getColor(R.color.text_base, context.theme))
+                textView.setBackgroundColor(
+                    resources.getColor(
+                        android.R.color.transparent,
+                        context.theme
+                    )
+                )
+            }
+        }
+        setButtonText(buttonText)
+        setButtonEnabled(buttonEnabled)
+        setLoading(buttonLoading)
+    }
+
+    enum class ButtonViewType {
+        PRIMARY,
+        SECONDARY;
+
+        companion object {
+            fun getButtonViewType(typeInt: Int): ButtonViewType =
+                if (typeInt == 1) {
+                    PRIMARY
+                } else {
+                    SECONDARY
+                }
+
         }
     }
 }

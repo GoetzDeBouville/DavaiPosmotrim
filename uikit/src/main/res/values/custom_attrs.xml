@@ -19,6 +19,10 @@
         <attr name="button_text" format="string" />
         <attr name="button_enabled" format="boolean" />
         <attr name="button_loading" format="boolean" />
+        <attr name="button_view_type" format="enum">
+            <enum name="primary" value="1" />
+            <enum name="secondary" value="2" />
+        </attr>
     </declare-styleable>
 
     <declare-styleable name="SecondaryButtonView">
