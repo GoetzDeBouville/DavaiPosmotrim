@@ -2,6 +2,7 @@ package com.davay.android.feature.onboarding.fragment
 
 import android.os.Bundle
 import android.view.View
+import android.widget.Toast
 import androidx.viewpager2.widget.ViewPager2
 import com.davay.android.app.AppComponentHolder
 import com.davay.android.base.BaseFragment
@@ -36,6 +37,7 @@ class OnboardingFragment : BaseFragment<FragmentOnboardingBinding, OnboardingVie
         super.onViewCreated(view, savedInstanceState)
         initViews()
         setUpViewPager()
+        setUpButtonClickListener()
     }
 
     private fun initViews() = with(binding) {
@@ -54,12 +56,25 @@ class OnboardingFragment : BaseFragment<FragmentOnboardingBinding, OnboardingVie
 
     private fun updateButtonTextForFragment(position: Int) {
         binding.mbtnFooterBtn.text = when (position) {
-            2 -> resources.getString(com.davai.uikit.R.string.begin)
+            fragmentList.lastIndex -> resources.getString(com.davai.uikit.R.string.begin)
             else -> resources.getString(com.davai.uikit.R.string.continue_view)
         }
     }
 
-    private companion object {
-        const val SECOND_FRAGMENT_POSITION = 2
+    private fun setUpButtonClickListener() {
+        binding.mbtnFooterBtn.setOnClickListener {
+            val currentFragment = binding.viewpager.currentItem
+            val nextFragment = currentFragment + 1
+            if (nextFragment < fragmentList.size) {
+                binding.viewpager.setCurrentItem(nextFragment, true)
+            } else {
+                Toast.makeText(
+                    requireContext(),
+                    "переход на экран регистрации",
+                    Toast.LENGTH_SHORT
+                )
+                    .show()
+            }
+        }
     }
 }
