@@ -2,8 +2,8 @@ package com.davay.android.feature.onboarding.fragment
 
 import android.os.Bundle
 import android.view.View
-import android.widget.Toast
 import androidx.viewpager2.widget.ViewPager2
+import com.davay.android.R
 import com.davay.android.app.AppComponentHolder
 import com.davay.android.base.BaseFragment
 import com.davay.android.databinding.FragmentOnboardingBinding
@@ -21,13 +21,6 @@ class OnboardingFragment : BaseFragment<FragmentOnboardingBinding, OnboardingVie
         OnboardingSecondFragment(),
         OnboardingThirdFragment()
     )
-    private val viewPagerAdapter by lazy {
-        OnboardingViewPagerAdapter(
-            fragmentList,
-            viewLifecycleOwner.lifecycle,
-            this.childFragmentManager
-        )
-    }
 
     override fun diComponent(): ScreenComponent = DaggerOnBoardingFragmentComponent.builder()
         .appComponent(AppComponentHolder.getComponent())
@@ -41,7 +34,11 @@ class OnboardingFragment : BaseFragment<FragmentOnboardingBinding, OnboardingVie
     }
 
     private fun initViews() = with(binding) {
-        viewpager.adapter = viewPagerAdapter
+        viewpager.adapter = OnboardingViewPagerAdapter(
+            fragmentList,
+            viewLifecycleOwner.lifecycle,
+            this@OnboardingFragment.childFragmentManager
+        )
         ciIndicator.setViewPager(viewpager)
     }
 
@@ -68,12 +65,7 @@ class OnboardingFragment : BaseFragment<FragmentOnboardingBinding, OnboardingVie
             if (nextFragment < fragmentList.size) {
                 binding.viewpager.setCurrentItem(nextFragment, true)
             } else {
-                Toast.makeText(
-                    requireContext(),
-                    "переход на экран регистрации",
-                    Toast.LENGTH_SHORT
-                )
-                    .show()
+                viewModel.navigate(R.id.action_onboardingFragment_to_mainFragment)
             }
         }
     }
