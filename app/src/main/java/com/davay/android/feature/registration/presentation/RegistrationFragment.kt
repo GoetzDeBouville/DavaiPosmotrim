@@ -61,18 +61,23 @@ class RegistrationFragment :
 
     private fun setButtonClickListeners() {
         binding.btnEnter.setOnClickListener {
-            viewModel.buttonClicked(binding.etName.text)
-            if (viewModel.state.value == RegistrationState.SUCCESS) {
-                Toast.makeText(requireContext(), "navigate", Toast.LENGTH_SHORT).show()
-            }
+            buttonClicked()
         }
         binding.etName.setOnEditorActionListener { v, actionId, event ->
             if (actionId == EditorInfo.IME_ACTION_DONE) {
-                viewModel.buttonClicked(binding.etName.text)
+                buttonClicked()
                 true
             } else {
                 false
             }
+        }
+    }
+
+    private fun buttonClicked() {
+        viewModel.buttonClicked(binding.etName.text)
+        if (viewModel.state.value == RegistrationState.SUCCESS) {
+            // что-то делаем
+            Toast.makeText(requireContext(), "navigate", Toast.LENGTH_SHORT).show()
         }
     }
 
