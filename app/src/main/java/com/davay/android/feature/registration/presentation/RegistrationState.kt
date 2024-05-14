@@ -6,4 +6,5 @@ enum class RegistrationState {
     NUMBERS,
     DEFAULT,
     SUCCESS,
+    MAXIMUM_LETTERS,
 }

@@ -13,10 +13,16 @@ class RegistrationViewModel @Inject constructor() : BaseViewModel() {
         get() = _state
 
     fun buttonClicked(text: Editable?) {
+        textCheck(text)
+    }
+
+    fun textCheck(text: Editable?) {
         if (text.isNullOrBlank()) {
             _state.value = RegistrationState.FIELD_EMPTY
         } else if (text.length == 1) {
             _state.value = RegistrationState.MINIMUM_LETTERS
+        } else if (text.length > 16) {
+            _state.value = RegistrationState.MAXIMUM_LETTERS
         } else {
             for (i in text.indices) {
                 if (!text[i].isLetter()) {

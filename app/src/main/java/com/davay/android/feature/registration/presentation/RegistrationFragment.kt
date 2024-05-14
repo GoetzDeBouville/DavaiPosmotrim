@@ -6,6 +6,7 @@ import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
 import androidx.core.content.ContextCompat.getSystemService
+import androidx.core.widget.doAfterTextChanged
 import androidx.lifecycle.lifecycleScope
 import com.davay.android.R
 import com.davay.android.app.AppComponentHolder
@@ -31,6 +32,14 @@ class RegistrationFragment :
             viewModel.state.collect { stateHandle(it) }
         }
         setButtonClickListeners()
+        binding.etName.doAfterTextChanged {
+            viewModel.textCheck(it)
+            if (it?.length!! >= 12) {
+                binding.etName.setTextAppearance(com.davai.uikit.R.style.Text_Headline_SubTitle)
+            } else {
+                binding.etName.setTextAppearance(com.davai.uikit.R.style.Text_Headline_Title)
+            }
+        }
     }
 
     private fun showSoftKeyboard(view: View) {
@@ -41,36 +50,21 @@ class RegistrationFragment :
     }
 
     private fun stateHandle(state: RegistrationState?) {
-        val text: String
-        when (state) {
-            RegistrationState.FIELD_EMPTY -> {
-                text = resources.getString(R.string.enter_name)
-            }
-
-            RegistrationState.MINIMUM_LETTERS -> {
-                text = resources.getString(R.string.two_letters_minimum)
-            }
-
-            RegistrationState.NUMBERS -> {
-                text = resources.getString(R.string.just_letters)
-            }
-
-            RegistrationState.DEFAULT, null -> {
-                text = ""
-            }
-
-            RegistrationState.SUCCESS -> {
-                text = ""
-                // viewModel.navigate()
-                Toast.makeText(requireContext(), "Success", Toast.LENGTH_SHORT).show()
-            }
+        binding.tvErrorHint.text = when (state) {
+            RegistrationState.FIELD_EMPTY -> resources.getString(R.string.enter_name)
+            RegistrationState.MINIMUM_LETTERS -> resources.getString(R.string.two_letters_minimum)
+            RegistrationState.NUMBERS -> resources.getString(R.string.just_letters)
+            RegistrationState.SUCCESS, RegistrationState.DEFAULT, null -> ""
+            RegistrationState.MAXIMUM_LETTERS -> resources.getString(R.string.not_more_letters)
         }
-        binding.tvErrorHint.text = text
     }
 
     private fun setButtonClickListeners() {
         binding.btnEnter.setOnClickListener {
             viewModel.buttonClicked(binding.etName.text)
+            if (viewModel.state.value == RegistrationState.SUCCESS) {
+                Toast.makeText(requireContext(), "navigate", Toast.LENGTH_SHORT).show()
+            }
         }
         binding.etName.setOnEditorActionListener { v, actionId, event ->
             if (actionId == EditorInfo.IME_ACTION_DONE) {
