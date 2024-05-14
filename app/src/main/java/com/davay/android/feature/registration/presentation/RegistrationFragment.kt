@@ -14,7 +14,7 @@ import com.davay.android.di.ScreenComponent
 import com.davay.android.feature.registration.di.DaggerRegistrationFragmentComponent
 import kotlinx.coroutines.launch
 
-class RegistrationFragment() :
+class RegistrationFragment :
     BaseFragment<FragmentRegistrationBinding, RegistrationViewModel>(FragmentRegistrationBinding::inflate) {
 
     override val viewModel: RegistrationViewModel by injectViewModel<RegistrationViewModel>()
