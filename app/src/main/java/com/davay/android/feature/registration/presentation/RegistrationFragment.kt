@@ -34,7 +34,7 @@ class RegistrationFragment :
         setButtonClickListeners()
         binding.etName.doAfterTextChanged {
             viewModel.textCheck(it)
-            if (it?.length!! >= 12) {
+            if (it?.length!! >= TYPE_SMALL_BORDER) {
                 binding.etName.setTextAppearance(com.davai.uikit.R.style.Text_Headline_SubTitle)
             } else {
                 binding.etName.setTextAppearance(com.davai.uikit.R.style.Text_Headline_Title)
@@ -74,5 +74,9 @@ class RegistrationFragment :
                 false
             }
         }
+    }
+
+    companion object {
+        private const val TYPE_SMALL_BORDER = 12
     }
 }

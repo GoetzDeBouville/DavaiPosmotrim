@@ -19,9 +19,9 @@ class RegistrationViewModel @Inject constructor() : BaseViewModel() {
     fun textCheck(text: Editable?) {
         if (text.isNullOrBlank()) {
             _state.value = RegistrationState.FIELD_EMPTY
-        } else if (text.length == 1) {
+        } else if (text.length == TEXT_LENGTH_MIN) {
             _state.value = RegistrationState.MINIMUM_LETTERS
-        } else if (text.length > 16) {
+        } else if (text.length > TEXT_LENGTH_MAX) {
             _state.value = RegistrationState.MAXIMUM_LETTERS
         } else {
             for (i in text.indices) {
@@ -32,5 +32,10 @@ class RegistrationViewModel @Inject constructor() : BaseViewModel() {
             }
             _state.value = RegistrationState.SUCCESS
         }
+    }
+
+    companion object {
+        private const val TEXT_LENGTH_MIN = 1
+        private const val TEXT_LENGTH_MAX = 16
     }
 }
