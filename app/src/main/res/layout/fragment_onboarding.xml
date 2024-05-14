@@ -30,8 +30,7 @@
     <me.relex.circleindicator.CircleIndicator3
         android:id="@+id/ci_indicator"
         android:layout_width="wrap_content"
-        android:layout_height="@dimen/button_height_48"
-        android:layout_marginBottom="@dimen/margin_32"
+        android:layout_height="@dimen/margin_72"
         app:ci_drawable="@drawable/indicator_drawable_selected"
         app:ci_drawable_unselected="@drawable/indicator_drawable_unselected"
         app:layout_constraintBottom_toBottomOf="@+id/mcv_pager_holder"

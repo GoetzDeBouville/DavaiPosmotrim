@@ -20,6 +20,7 @@
         style="@style/Text.Headline.Large"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/margin_negative_8"
         android:text="@string/onboarding_of_movies"
         app:layout_constraintStart_toStartOf="@+id/textView"
         app:layout_constraintTop_toBottomOf="@+id/textView" />
@@ -39,6 +40,7 @@
         style="@style/Text.Headline.Large"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/margin_negative_8"
         android:text="@string/onboarding_all_tastes"
         android:textColor="@color/primary_base"
         app:layout_constraintStart_toStartOf="@+id/textView2"
