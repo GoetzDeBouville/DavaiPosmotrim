@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center_horizontal"
+    android:orientation="vertical"
+    tools:context=".ButtonViewExampleActivity">
+
+    <com.davai.uikit.ButtonView
+        android:id="@+id/button_1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="48dp"
+        app:button_text="Зарегистрироваться"
+        app:button_view_type="primary" />
+
+    <com.davai.uikit.ButtonView
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        app:button_text="Зарегистрироваться" />
+
+    <com.davai.uikit.ButtonView
+        android:layout_width="350dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        app:button_enabled="false"
+        app:button_text="Зарегистрироваться" />
+
+    <com.davai.uikit.ButtonView
+        android:layout_width="350dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        app:button_loading="true"
+        app:button_text="Зарегистрироваться" />
+
+    <com.davai.uikit.ButtonView
+        android:id="@+id/button_5"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        app:button_text="Зарегистрироваться" />
+
+    <com.davai.uikit.ButtonView
+        android:id="@+id/button_6"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        app:button_text="Зарегистрироваться" />
+
+    <com.davai.uikit.ButtonView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        app:button_text="Текст"
+        app:button_view_type="secondary" />
+
+    <com.davai.uikit.ButtonView
+        android:id="@+id/button_sec_2"
+        android:layout_width="60dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        app:button_text="Текст" />
+
+    <com.davai.uikit.ButtonView
+        android:id="@+id/button_sec_3"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        app:button_view_type="secondary" />
+
+    <com.davai.uikit.ButtonView
+        android:id="@+id/button_sec_4"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        app:button_view_type="secondary" />
+
+</LinearLayout>
