@@ -5,4 +5,5 @@
     <string name="enter_name">Введите имя</string>
     <string name="two_letters_minimum">Минимум две буквы</string>
     <string name="just_letters">Только буквы</string>
+    <string name="not_more_letters">Не более 16 символов</string>
 </resources>
