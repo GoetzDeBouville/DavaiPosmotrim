@@ -11,7 +11,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/margin_32"
         android:layout_marginTop="@dimen/margin_32"
-        android:text="@string/two_of_us"
+        android:text="@string/onboarding_two_of_us"
         android:textColor="@color/primary_base"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -21,7 +21,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/margin_8"
-        android:text="@string/or"
+        android:text="@string/onboarding_or"
         app:layout_constraintStart_toEndOf="@+id/textView"
         app:layout_constraintTop_toTopOf="@+id/textView" />
 
@@ -30,7 +30,7 @@
         style="@style/Text.Headline.Large"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/in_large"
+        android:text="@string/onboarding_in_large"
         app:layout_constraintStart_toStartOf="@+id/textView"
         app:layout_constraintTop_toBottomOf="@+id/textView" />
 
@@ -39,7 +39,7 @@
         style="@style/Text.Headline.Large"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/party"
+        android:text="@string/onboarding_party"
         app:layout_constraintStart_toStartOf="@+id/textView2"
         app:layout_constraintTop_toBottomOf="@+id/textView2" />
 
@@ -60,7 +60,7 @@
         style="@style/Text.Base.Medium.Regular.Description"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/choose_movies_with_any"
+        android:text="@string/onboarding_choose_movies_with_any"
         app:layout_constraintBottom_toTopOf="@+id/textView7"
         app:layout_constraintStart_toStartOf="@+id/textView7" />
 
@@ -70,7 +70,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="@dimen/margin_72"
-        android:text="@string/number_of_people"
+        android:text="@string/onboarding_number_of_people"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="@+id/imageView" />
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -11,7 +11,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/margin_32"
         android:layout_marginTop="@dimen/margin_32"
-        android:text="@string/library"
+        android:text="@string/onboarding_library"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -20,7 +20,7 @@
         style="@style/Text.Headline.Large"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/of_movies"
+        android:text="@string/onboarding_of_movies"
         app:layout_constraintStart_toStartOf="@+id/textView"
         app:layout_constraintTop_toBottomOf="@+id/textView" />
 
@@ -29,7 +29,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/margin_8"
-        android:text="@string/on"
+        android:text="@string/onboarding_on"
         android:textColor="@color/primary_base"
         app:layout_constraintStart_toEndOf="@+id/textView2"
         app:layout_constraintTop_toTopOf="@+id/textView2" />
@@ -39,7 +39,7 @@
         style="@style/Text.Headline.Large"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/all_tastes"
+        android:text="@string/onboarding_all_tastes"
         android:textColor="@color/primary_base"
         app:layout_constraintStart_toStartOf="@+id/textView2"
         app:layout_constraintTop_toBottomOf="@+id/textView2" />
@@ -61,7 +61,7 @@
         style="@style/Text.Base.Medium.Regular.Description"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/only_favorite_genres"
+        android:text="@string/onboarding_only_favorite_genres"
         app:layout_constraintBottom_toTopOf="@+id/textView7"
         app:layout_constraintStart_toStartOf="@+id/textView7" />
 
@@ -71,7 +71,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="@dimen/margin_72"
-        android:text="@string/or_ready_made_selsections"
+        android:text="@string/onboarding_or_ready_made_selsections"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="@+id/imageView" />
 </androidx.constraintlayout.widget.ConstraintLayout>
