@@ -53,8 +53,8 @@ class OnboardingFragment : BaseFragment<FragmentOnboardingBinding, OnboardingVie
 
     private fun updateButtonTextForFragment(position: Int) {
         binding.mbtnFooterBtn.text = when (position) {
-            fragmentList.lastIndex -> resources.getString(com.davai.uikit.R.string.begin)
-            else -> resources.getString(com.davai.uikit.R.string.continue_view)
+            fragmentList.lastIndex -> resources.getString(R.string.onboarding_begin)
+            else -> resources.getString(R.string.onboarding_continue_view)
         }
     }
 

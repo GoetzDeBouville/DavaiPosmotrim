@@ -4,25 +4,4 @@
     <string name="session_coincidences">Совпадений: %s</string>
     <string name="movie_cover">Обложка фильма</string>
 
-    <!--Экран onboarding-->
-    <string name="continue_view">продлолжить</string>
-    <string name="begin">начать</string>
-    <string name="choose">Выбирайте</string>
-    <string name="movies">фильмы</string>
-    <string name="without_stress">без стресса</string>
-    <string name="with_no_more_dicussions">Никаких лишних разговоров</string>
-    <string name="and_long_searches">и долгих поисков.</string>
-    <string name="two_of_us">Вдвоём</string>
-    <string name="or">или</string>
-    <string name="in_large">в большой</string>
-    <string name="party">компании</string>
-    <string name="choose_movies_with_any">Выбирать фильмы можно с любым</string>
-    <string name="number_of_people">количеством людей.</string>
-    <string name="library">Библиотека</string>
-    <string name="of_movies">фильмов</string>
-    <string name="on">на</string>
-    <string name="all_tastes">любой вкус</string>
-    <string name="only_favorite_genres">Только самые любимые жанры</string>
-    <string name="or_ready_made_selsections">или готовые подборки.</string>
-
 </resources>

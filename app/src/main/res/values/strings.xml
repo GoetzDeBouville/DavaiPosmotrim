@@ -1,3 +1,24 @@
 <resources>
     <string name="app_name">DavayPosmotrim</string>
+
+    <!--onboarding screen-->
+    <string name="onboarding_continue_view">продлолжить</string>
+    <string name="onboarding_begin">начать</string>
+    <string name="onboarding_choose">Выбирайте</string>
+    <string name="onboarding_movies">фильмы</string>
+    <string name="onboarding_without_stress">без стресса</string>
+    <string name="onboarding_with_no_more_dicussions">Никаких лишних разговоров</string>
+    <string name="onboarding_and_long_searches">и долгих поисков.</string>
+    <string name="onboarding_two_of_us">Вдвоём</string>
+    <string name="onboarding_or">или</string>
+    <string name="onboarding_in_large">в большой</string>
+    <string name="onboarding_party">компании</string>
+    <string name="onboarding_choose_movies_with_any">Выбирать фильмы можно с любым</string>
+    <string name="onboarding_number_of_people">количеством людей.</string>
+    <string name="onboarding_library">Библиотека</string>
+    <string name="onboarding_of_movies">фильмов</string>
+    <string name="onboarding_on">на</string>
+    <string name="onboarding_all_tastes">любой вкус</string>
+    <string name="onboarding_only_favorite_genres">Только самые любимые жанры</string>
+    <string name="onboarding_or_ready_made_selsections">или готовые подборки.</string>
 </resources>

@@ -11,7 +11,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/margin_32"
         android:layout_marginTop="@dimen/margin_32"
-        android:text="@string/choose"
+        android:text="@string/onboarding_choose"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -20,7 +20,8 @@
         style="@style/Text.Headline.Large"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/movies"
+        android:layout_marginTop="@dimen/margin_negative_8"
+        android:text="@string/onboarding_movies"
         app:layout_constraintStart_toStartOf="@+id/textView"
         app:layout_constraintTop_toBottomOf="@+id/textView" />
 
@@ -29,7 +30,8 @@
         style="@style/Text.Headline.Large"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/without_stress"
+        android:layout_marginTop="@dimen/margin_negative_8"
+        android:text="@string/onboarding_without_stress"
         android:textColor="@color/primary_base"
         app:layout_constraintStart_toStartOf="@+id/textView2"
         app:layout_constraintTop_toBottomOf="@+id/textView2" />
@@ -51,7 +53,7 @@
         style="@style/Text.Base.Medium.Regular.Description"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/with_no_more_dicussions"
+        android:text="@string/onboarding_with_no_more_dicussions"
         app:layout_constraintBottom_toTopOf="@+id/textView7"
         app:layout_constraintStart_toStartOf="@+id/textView7" />
 
@@ -61,7 +63,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="@dimen/margin_72"
-        android:text="@string/and_long_searches"
+        android:text="@string/onboarding_and_long_searches"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="@+id/imageView" />
 </androidx.constraintlayout.widget.ConstraintLayout>
