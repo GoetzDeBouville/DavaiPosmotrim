@@ -26,6 +26,7 @@
         android:autofillHints="name"
         android:backgroundTint="@color/background_white"
         android:gravity="center_horizontal"
+        android:imeOptions="actionDone"
         android:inputType="textPersonName"
         android:maxLength="16"
         android:minWidth="@dimen/min_et"

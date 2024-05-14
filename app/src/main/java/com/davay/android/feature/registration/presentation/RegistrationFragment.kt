@@ -2,6 +2,7 @@ package com.davay.android.feature.registration.presentation
 
 import android.os.Bundle
 import android.view.View
+import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
 import androidx.core.content.ContextCompat.getSystemService
@@ -29,9 +30,7 @@ class RegistrationFragment :
         lifecycleScope.launch {
             viewModel.state.collect { stateHandle(it) }
         }
-        binding.btnEnter.setOnClickListener {
-            viewModel.buttonClicked(binding.etName.text)
-        }
+        setButtonClickListeners()
     }
 
     private fun showSoftKeyboard(view: View) {
@@ -67,5 +66,19 @@ class RegistrationFragment :
             }
         }
         binding.tvErrorHint.text = text
+    }
+
+    private fun setButtonClickListeners() {
+        binding.btnEnter.setOnClickListener {
+            viewModel.buttonClicked(binding.etName.text)
+        }
+        binding.etName.setOnEditorActionListener { v, actionId, event ->
+            if (actionId == EditorInfo.IME_ACTION_DONE) {
+                viewModel.buttonClicked(binding.etName.text)
+                true
+            } else {
+                false
+            }
+        }
     }
 }
