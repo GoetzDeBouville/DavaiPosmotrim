@@ -29,6 +29,7 @@
     <color name="tertiary_hover">#434242</color>
     <color name="tertiary_focused">#585757</color>
     <color name="tertiary_light">#979696</color>
+    <color name="tertiary_light_light">#DDDDDD</color>
 
     <!-- Icons -->
     <color name="icon_primary">#3A3A3A</color>
