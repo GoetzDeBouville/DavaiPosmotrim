@@ -9,9 +9,6 @@
     <dimen name="footer_item_height_114">114dp</dimen>
     <dimen name="session_card_height">240dp</dimen>
 
-    <dimen name="elevation_4">4dp</dimen>
-    <dimen name="elevation_8">8dp</dimen>
-
     <dimen name="padding_4">4dp</dimen>
     <dimen name="padding_8">8dp</dimen>
     <dimen name="padding_12">12dp</dimen>
@@ -24,4 +21,9 @@
     <dimen name="margin_32">32dp</dimen>
     <dimen name="margin_40">40dp</dimen>
     <dimen name="margin_72">72dp</dimen>
+
+    <dimen name="progress_bar">20dp</dimen>
+    <dimen name="frame">4dp</dimen>
+    <dimen name="button_height">48dp</dimen>
+    <dimen name="button_height_frame">56dp</dimen>
 </resources>
