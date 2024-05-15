@@ -14,7 +14,6 @@
         android:layout_marginTop="@dimen/margin_32"
         android:layout_marginBottom="@dimen/margin_32"
         android:background="@color/background_white"
-        android:elevation="@dimen/elevation_4"
         app:cardCornerRadius="@dimen/card_radius_24"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -24,16 +23,75 @@
 
     <TextView
         android:id="@+id/textview1"
-        style="@style/Text.Base.SplashItem"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="@drawable/splash_item_background"
-        android:paddingHorizontal="@dimen/padding_20"
-        android:paddingVertical="@dimen/padding_8"
-        android:rotation="40"
+        style="@style/Text.Base.SplashItem.Card"
+        android:backgroundTint="@color/primary_base"
         android:text="Посмотрим?"
         app:layout_constraintStart_toStartOf="@+id/linearLayout"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/textview2"
+        style="@style/Text.Base.SplashItem.Card"
+        android:text="Комедия"
+        app:layout_constraintStart_toEndOf="@+id/textview1"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/textview3"
+        style="@style/Text.Base.SplashItem.Card"
+        android:text="Фэнтези"
+        app:layout_constraintStart_toStartOf="@+id/textview1"
+        app:layout_constraintTop_toBottomOf="@+id/textview1" />
+
+    <TextView
+        android:id="@+id/textview4"
+        style="@style/Text.Base.SplashItem.Card"
+        android:text="Фантастика"
+        app:layout_constraintStart_toStartOf="@+id/textview3"
+        app:layout_constraintTop_toBottomOf="@+id/textview3" />
+
+
+    <TextView
+        android:id="@+id/textview5"
+        style="@style/Text.Base.SplashItem.Card"
+        android:text="Биография"
+        app:layout_constraintStart_toStartOf="@+id/textview2"
+        app:layout_constraintTop_toBottomOf="@+id/textview2" />
+
+    <TextView
+        android:id="@+id/textview6"
+        style="@style/Text.Base.SplashItem.Card"
+        android:text="Боевик"
+        app:layout_constraintStart_toStartOf="@+id/textview5"
+        app:layout_constraintTop_toBottomOf="@+id/textview5" />
+
+    <TextView
+        android:id="@+id/textview10"
+        style="@style/Text.Base.SplashItem.Card"
+        android:text="Документальный"
+        app:layout_constraintStart_toStartOf="@+id/textview4"
+        app:layout_constraintTop_toBottomOf="@+id/textview4" />
+
+    <TextView
+        android:id="@+id/textview7"
+        style="@style/Text.Base.SplashItem.Card"
+        android:text="Детектив"
+        app:layout_constraintBottom_toTopOf="@+id/textview1"
+        app:layout_constraintStart_toStartOf="@+id/textview1" />
+
+    <TextView
+        android:id="@+id/textview8"
+        style="@style/Text.Base.SplashItem.Card"
+        android:text="Мелодрама"
+        app:layout_constraintBottom_toTopOf="@+id/textview2"
+        app:layout_constraintStart_toEndOf="@+id/textview7" />
+
+    <TextView
+        android:id="@+id/textview9"
+        style="@style/Text.Base.SplashItem.Card"
+        android:text="Триллер"
+        app:layout_constraintBottom_toTopOf="@+id/textview7"
+        app:layout_constraintStart_toStartOf="@+id/textview7" />
 
     <LinearLayout
         android:id="@+id/linearLayout"
@@ -49,6 +107,7 @@
         app:layout_constraintTop_toTopOf="@id/mcv_cardview">
 
         <TextView
+            android:id="@+id/tv_bottom_item"
             style="@style/Text.Headline.Large48"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
