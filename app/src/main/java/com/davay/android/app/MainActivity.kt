@@ -2,9 +2,9 @@ package com.davay.android.app
 
 import android.os.Build
 import android.os.Bundle
-import android.view.WindowInsets
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.WindowInsetsCompat
 import com.davay.android.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
@@ -16,8 +16,12 @@ class MainActivity : AppCompatActivity() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
             window.setDecorFitsSystemWindows(false)
             binding.root.setOnApplyWindowInsetsListener { v, insets ->
-                val imeHeight = insets.getInsets(WindowInsets.Type.ime()).bottom
-                binding.root.setPadding(0, 0, 0, imeHeight)
+                val imeHeight = insets.getInsets(WindowInsetsCompat.Type.ime()).bottom
+                if (imeHeight != 0) {
+                    v.setPadding(0, 0, 0, imeHeight)
+                } else {
+                    v.setPadding(0, 0, 0, 0)
+                }
                 insets
             }
         }
