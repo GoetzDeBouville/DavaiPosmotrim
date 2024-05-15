@@ -1,14 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-
     <style name="Text" parent="TextAppearance.AppCompat" />
 
     <style name="Text.Headline">
-        <item name="fontFamily">@font/days_one</item>
+        <item name="android:fontFamily">@font/days_one</item>
     </style>
 
     <style name="Text.Base">
-        <item name="fontFamily">@font/inter</item>
+        <item name="android:fontFamily">@font/inter</item>
     </style>
 
     <style name="Text.Headline.Title">
@@ -30,7 +29,6 @@
         <item name="android:textSize">14sp</item>
         <item name="android:lineSpacingExtra">20sp</item>
     </style>
-
 
     <style name="Text.Base.Medium.NoLineSpacing">
         <item name="android:lineSpacingExtra">0sp</item>
