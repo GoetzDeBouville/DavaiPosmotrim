@@ -80,6 +80,18 @@
         app:layout_constraintStart_toStartOf="@+id/textview1" />
 
     <TextView
+        android:id="@+id/textview11"
+        style="@style/Text.Base.SplashItem.Card"
+        android:text="Мюзикл"
+        app:layout_constraintBottom_toTopOf="@+id/textview7"
+        app:layout_constraintStart_toStartOf="@+id/textview7" />
+    <TextView
+        android:id="@+id/textview12"
+        style="@style/Text.Base.SplashItem.Card"
+        android:text="Приключение"
+        app:layout_constraintBottom_toTopOf="@+id/textview11"
+        app:layout_constraintStart_toStartOf="@+id/textview11" />
+    <TextView
         android:id="@+id/textview8"
         style="@style/Text.Base.SplashItem.Card"
         android:text="Мелодрама"
