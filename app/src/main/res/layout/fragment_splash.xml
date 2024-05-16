@@ -42,84 +42,84 @@
             android:layout_gravity="top|center_horizontal"
             android:layout_marginTop="@dimen/margin_negative_24"
             android:backgroundTint="@color/primary_base"
-            android:text="Посмотрим?" />
+            android:text="@string/splash_watch" />
 
         <TextView
             android:id="@+id/textview2"
             style="@style/Text.Base.SplashItem"
             android:layout_gravity="top|end"
             android:layout_marginTop="@dimen/margin_negative_24"
-            android:text="Комедия" />
+            android:text="@string/splash_comedy" />
 
         <TextView
             android:id="@+id/textview3"
             style="@style/Text.Base.SplashItem"
             android:layout_gravity="top"
             android:layout_marginTop="@dimen/margin_negative_24"
-            android:text="Фэнтези" />
+            android:text="@string/splash_fantasy" />
 
         <TextView
             android:id="@+id/textview4"
             style="@style/Text.Base.SplashItem"
             android:layout_gravity="top|center_horizontal"
             android:layout_marginTop="@dimen/margin_negative_24"
-            android:text="Фантастика" />
+            android:text="@string/splash_fantastic" />
 
         <TextView
             android:id="@+id/textview5"
             style="@style/Text.Base.SplashItem"
             android:layout_gravity="top|center_horizontal"
             android:layout_marginTop="@dimen/margin_negative_24"
-            android:text="Биография" />
+            android:text="@string/splash_biopic" />
 
         <TextView
             android:id="@+id/textview6"
             style="@style/Text.Base.SplashItem"
             android:layout_gravity="top"
             android:layout_marginTop="@dimen/margin_negative_24"
-            android:text="Боевик" />
+            android:text="@string/splash_action" />
 
         <TextView
             android:id="@+id/textview7"
             style="@style/Text.Base.SplashItem"
             android:layout_gravity="top|end"
             android:layout_marginTop="@dimen/margin_negative_24"
-            android:text="Детектив" />
+            android:text="@string/splash_detective" />
 
         <TextView
             android:id="@+id/textview11"
             style="@style/Text.Base.SplashItem"
             android:layout_gravity="top|center_horizontal"
             android:layout_marginTop="@dimen/margin_negative_24"
-            android:text="Мюзикл" />
+            android:text="@string/splash_musical" />
 
         <TextView
             android:id="@+id/textview12"
             style="@style/Text.Base.SplashItem"
             android:layout_gravity="top|center_horizontal"
             android:layout_marginTop="@dimen/margin_negative_24"
-            android:text="Приключение" />
+            android:text="@string/splash_adventure" />
 
         <TextView
             android:id="@+id/textview8"
             style="@style/Text.Base.SplashItem"
             android:layout_gravity="top|center_horizontal"
             android:layout_marginTop="@dimen/margin_negative_24"
-            android:text="Мелодрама" />
+            android:text="@string/splash_melodrama" />
 
         <TextView
             android:id="@+id/textview9"
             style="@style/Text.Base.SplashItem"
             android:layout_gravity="top|center_horizontal"
             android:layout_marginTop="@dimen/margin_negative_24"
-            android:text="Триллер" />
+            android:text="@string/splash_thriller" />
 
         <TextView
             android:id="@+id/textview10"
             style="@style/Text.Base.SplashItem"
             android:layout_gravity="top|center_horizontal"
             android:layout_marginTop="@dimen/margin_negative_24"
-            android:text="Документальный" />
+            android:text="@string/splash_documental" />
 
         <View
             android:layout_width="@dimen/static_view_width_164"
@@ -136,7 +136,7 @@
         android:layout_height="wrap_content"
         android:layout_marginEnd="@dimen/margin_24"
         android:layout_marginBottom="@dimen/margin_32"
-        android:text="Давай"
+        android:text="@string/splash_let"
         app:layout_constraintBottom_toBottomOf="@+id/mcv_cardview"
         app:layout_constraintEnd_toEndOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>
