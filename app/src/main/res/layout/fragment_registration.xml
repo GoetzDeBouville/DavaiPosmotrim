@@ -20,7 +20,7 @@
 
     <EditText
         android:id="@+id/et_name"
-        style="@style/Text.Headline.Title"
+        style="@style/BigTextEditText"
         android:layout_width="wrap_content"
         android:layout_height="@dimen/edit_text_height"
         android:autofillHints="name"

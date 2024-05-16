@@ -66,4 +66,12 @@
         <item name="cornerFamily">rounded</item>
         <item name="cornerSize">@dimen/card_radius_16</item>
     </style>
+
+    <style name="BigTextEditText" parent="Text.Headline.Title">
+        <item name="android:textColor">@color/text_base</item>
+    </style>
+
+    <style name="MediumTextEditText" parent="Text.Headline.SubTitle">
+        <item name="android:textColor">@color/text_base</item>
+    </style>
 </resources>

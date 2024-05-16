@@ -35,9 +35,9 @@ class RegistrationFragment :
         binding.etName.doAfterTextChanged {
             viewModel.textCheck(it)
             if (it?.length!! >= TYPE_SMALL_BORDER) {
-                binding.etName.setTextAppearance(com.davai.uikit.R.style.Text_Headline_SubTitle)
+                binding.etName.setTextAppearance(com.davai.uikit.R.style.MediumTextEditText)
             } else {
-                binding.etName.setTextAppearance(com.davai.uikit.R.style.Text_Headline_Title)
+                binding.etName.setTextAppearance(com.davai.uikit.R.style.BigTextEditText)
             }
         }
     }
