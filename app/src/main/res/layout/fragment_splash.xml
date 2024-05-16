@@ -23,7 +23,7 @@
 
     <TextView
         android:id="@+id/textview1"
-        style="@style/Text.Base.SplashItem.Card"
+        style="@style/Text.Base.SplashItem"
         android:backgroundTint="@color/primary_base"
         android:text="Посмотрим?"
         app:layout_constraintStart_toStartOf="@+id/linearLayout"
@@ -31,21 +31,21 @@
 
     <TextView
         android:id="@+id/textview2"
-        style="@style/Text.Base.SplashItem.Card"
+        style="@style/Text.Base.SplashItem"
         android:text="Комедия"
         app:layout_constraintStart_toEndOf="@+id/textview1"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/textview3"
-        style="@style/Text.Base.SplashItem.Card"
+        style="@style/Text.Base.SplashItem"
         android:text="Фэнтези"
         app:layout_constraintStart_toStartOf="@+id/textview1"
         app:layout_constraintTop_toBottomOf="@+id/textview1" />
 
     <TextView
         android:id="@+id/textview4"
-        style="@style/Text.Base.SplashItem.Card"
+        style="@style/Text.Base.SplashItem"
         android:text="Фантастика"
         app:layout_constraintStart_toStartOf="@+id/textview3"
         app:layout_constraintTop_toBottomOf="@+id/textview3" />
@@ -53,54 +53,56 @@
 
     <TextView
         android:id="@+id/textview5"
-        style="@style/Text.Base.SplashItem.Card"
+        style="@style/Text.Base.SplashItem"
         android:text="Биография"
         app:layout_constraintStart_toStartOf="@+id/textview2"
         app:layout_constraintTop_toBottomOf="@+id/textview2" />
 
     <TextView
         android:id="@+id/textview6"
-        style="@style/Text.Base.SplashItem.Card"
+        style="@style/Text.Base.SplashItem"
         android:text="Боевик"
         app:layout_constraintStart_toStartOf="@+id/textview5"
         app:layout_constraintTop_toBottomOf="@+id/textview5" />
 
     <TextView
         android:id="@+id/textview10"
-        style="@style/Text.Base.SplashItem.Card"
+        style="@style/Text.Base.SplashItem"
         android:text="Документальный"
         app:layout_constraintStart_toStartOf="@+id/textview4"
         app:layout_constraintTop_toBottomOf="@+id/textview4" />
 
     <TextView
         android:id="@+id/textview7"
-        style="@style/Text.Base.SplashItem.Card"
+        style="@style/Text.Base.SplashItem"
         android:text="Детектив"
         app:layout_constraintBottom_toTopOf="@+id/textview1"
         app:layout_constraintStart_toStartOf="@+id/textview1" />
 
     <TextView
         android:id="@+id/textview11"
-        style="@style/Text.Base.SplashItem.Card"
+        style="@style/Text.Base.SplashItem"
         android:text="Мюзикл"
         app:layout_constraintBottom_toTopOf="@+id/textview7"
         app:layout_constraintStart_toStartOf="@+id/textview7" />
+
     <TextView
         android:id="@+id/textview12"
-        style="@style/Text.Base.SplashItem.Card"
+        style="@style/Text.Base.SplashItem"
         android:text="Приключение"
         app:layout_constraintBottom_toTopOf="@+id/textview11"
         app:layout_constraintStart_toStartOf="@+id/textview11" />
+
     <TextView
         android:id="@+id/textview8"
-        style="@style/Text.Base.SplashItem.Card"
+        style="@style/Text.Base.SplashItem"
         android:text="Мелодрама"
         app:layout_constraintBottom_toTopOf="@+id/textview2"
         app:layout_constraintStart_toEndOf="@+id/textview7" />
 
     <TextView
         android:id="@+id/textview9"
-        style="@style/Text.Base.SplashItem.Card"
+        style="@style/Text.Base.SplashItem"
         android:text="Триллер"
         app:layout_constraintBottom_toTopOf="@+id/textview7"
         app:layout_constraintStart_toStartOf="@+id/textview7" />

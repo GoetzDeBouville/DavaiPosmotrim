@@ -36,11 +36,6 @@
         <item name="android:lineSpacingExtra">20sp</item>
     </style>
 
-    <style name="Text.Base.SplashItem">
-        <item name="android:textSize">20sp</item>
-        <item name="android:textColor">@color/tertiary_base</item>
-    </style>
-
     <style name="Text.Base.Medium.NoLineSpacing">
         <item name="android:lineSpacingExtra">0sp</item>
     </style>
