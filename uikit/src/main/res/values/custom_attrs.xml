@@ -19,4 +19,28 @@
     <declare-styleable name="MovieCardView">
         <attr name="movie_title" format="string" />
     </declare-styleable>
+
+    <declare-styleable name="PrimaryButtonView">
+        <attr name="button_text" format="string" />
+        <attr name="button_enabled" format="boolean" />
+        <attr name="button_loading" format="boolean" />
+        <attr name="button_view_type" format="enum">
+            <enum name="primary" value="1" />
+            <enum name="secondary" value="2" />
+        </attr>
+    </declare-styleable>
+
+    <declare-styleable name="SecondaryButtonView">
+        <attr name="button_text_sec" format="string" />
+        <attr name="button_enabled_sec" format="boolean" />
+        <attr name="button_loading_sec" format="boolean" />
+    </declare-styleable>
+
+    <declare-styleable name="ToolbarView">
+        <attr name="title" format="string" />
+        <attr name="subtitle" format="string" />
+        <attr name="end_icon" format="reference" />
+        <attr name="end_icon_is_visible" format="boolean" />
+        <attr name="start_icon" format="reference" />
+    </declare-styleable>
 </resources>

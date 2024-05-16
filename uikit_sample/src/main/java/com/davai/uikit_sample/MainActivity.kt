@@ -48,12 +48,12 @@ class MainActivity : AppCompatActivity() {
                 )
                     .show()
 
-                btnToDvButton -> Toast.makeText(
-                    this@MainActivity,
-                    "ToDvButton",
-                    Toast.LENGTH_SHORT
+                btnToDvButton -> startActivity(
+                    Intent(
+                        this@MainActivity,
+                        ButtonViewExampleActivity::class.java
+                    )
                 )
-                    .show()
 
                 btnToDvFilm -> startActivity(
                     Intent(
@@ -64,11 +64,7 @@ class MainActivity : AppCompatActivity() {
 
                 btnToDvSession -> startActivity(Intent(this@MainActivity, SessionExample::class.java))
 
-                btnToDvToolbar -> Toast.makeText(
-                    this@MainActivity,
-                    "ToDvToolbar",
-                    Toast.LENGTH_SHORT
-                ).show()
+                btnToDvToolbar -> startActivity(Intent(this@MainActivity, ToolbarExampleActivity::class.java))
 
                 btnToDvMovieSelection -> startActivity(
                     Intent(

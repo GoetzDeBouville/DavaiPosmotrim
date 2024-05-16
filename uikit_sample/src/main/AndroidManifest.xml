@@ -16,6 +16,12 @@
             android:name=".MoovieCardViewExampleActivity"
             android:exported="false" />
         <activity
+            android:name=".ToolbarExampleActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ButtonViewExampleActivity"
+            android:exported="false" />
+        <activity
             android:name=".SessionExample"
             android:exported="false" />
         <activity
