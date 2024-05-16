@@ -5,6 +5,7 @@ import android.content.res.ColorStateList
 import android.content.res.TypedArray
 import android.graphics.Color
 import android.util.AttributeSet
+import android.view.LayoutInflater
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
@@ -24,16 +25,16 @@ class DvBannerView @JvmOverloads constructor(
     private val icon: ImageView by lazy { findViewById(R.id.icon) }
 
     init {
-        inflate(context, R.layout.dv_banner_view, this)
+        LayoutInflater.from(context).inflate(R.layout.dv_banner_view, this, true)
 
         attrs?.applyStyleable(context, R.styleable.DvBannerView) {
             val color = getColor(R.styleable.DvBannerView_bannerBackground, Color.BLACK)
-            container.backgroundTintList = ColorStateList.valueOf(color)
+            setBannerBackgroundColor(color)
 
-            text.text = getString(R.styleable.DvBannerView_bannerText)
+            setBannerText(getString(R.styleable.DvBannerView_bannerText) ?: "")
 
-            val drawable = getDrawable(R.styleable.DvBannerView_bannerIcon)
-            icon.setImageDrawable(drawable)
+            val drawable = getResourceId(R.styleable.DvBannerView_bannerIcon, 0)
+            setBannerIcon(drawable)
         }
     }
 
@@ -45,5 +46,25 @@ class DvBannerView @JvmOverloads constructor(
         val typedArray = context.obtainStyledAttributes(this, id)
         typedArray.action()
         typedArray.recycle()
+    }
+
+    fun setBannerText(value: String) {
+        text.text = value
+    }
+
+    fun setBannerIcon(value: Int) {
+        icon.setImageResource(value)
+    }
+
+    fun setBannerBackgroundColor(value: Int) {
+        container.backgroundTintList = ColorStateList.valueOf(value)
+
+        if (value == context.getColor(R.color.secondary_base) || value == context.getColor(R.color.attention)) {
+            text.setTextColor(context.getColor(R.color.text_base))
+            icon.imageTintList = ColorStateList.valueOf(context.getColor(R.color.icon_primary))
+        } else {
+            text.setTextColor(context.getColor(R.color.text_light))
+            icon.imageTintList = ColorStateList.valueOf(context.getColor(R.color.icon_light))
+        }
     }
 }

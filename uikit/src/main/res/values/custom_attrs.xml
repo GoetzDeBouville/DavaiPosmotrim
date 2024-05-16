@@ -5,6 +5,7 @@
         <attr name="bannerText" format="string" />
         <attr name="bannerIcon" format="reference" />
     </declare-styleable>
+
     <declare-styleable name="MovieEvaluationView">
         <attr name="rate_num" format="float" /> <!--    rate_num - числовое значение рейтинге    -->
         <attr name="rate_service" format="string" /> <!--    rate_service - название сервиса, строка в виде "Рейтинг IMDb"    -->

@@ -8,6 +8,7 @@
     tools:context=".DvBannerViewExample">
 
     <com.davai.uikit.DvBannerView
+        android:id="@+id/banner_view"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         app:layout_constraintStart_toStartOf="parent"
@@ -15,8 +16,8 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         android:layout_marginHorizontal="16dp"
-        app:bannerBackground="@color/attention"
+        app:bannerBackground="@color/secondary_base"
         app:bannerText="Выберите хотя бы один жанр"
-        app:bannerIcon="@drawable/ic_attention" />
+        app:bannerIcon="@drawable/ic_heart" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
