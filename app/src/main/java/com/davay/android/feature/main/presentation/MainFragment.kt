@@ -1,9 +1,11 @@
 package com.davay.android.feature.main.presentation
 
 import android.os.Bundle
+import android.text.SpannableStringBuilder
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.text.toSpannable
 import com.davay.android.R
 import com.davay.android.app.AppComponentHolder
 import com.davay.android.base.BaseFragment
@@ -30,8 +32,8 @@ class MainFragment :
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding.buttonM.setOnClickListener {
-            viewModel.navigate(R.id.action_mainFragment_to_loadFragment)
-        }
+//        binding.buttonM.setOnClickListener {
+//            viewModel.navigate(R.id.action_mainFragment_to_loadFragment)
+//        }
     }
 }
