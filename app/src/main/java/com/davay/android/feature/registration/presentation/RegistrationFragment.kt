@@ -8,6 +8,7 @@ import android.widget.Toast
 import androidx.core.content.ContextCompat.getSystemService
 import androidx.core.widget.doAfterTextChanged
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import com.davay.android.R
 import com.davay.android.app.AppComponentHolder
 import com.davay.android.base.BaseFragment
@@ -39,6 +40,9 @@ class RegistrationFragment :
             } else {
                 binding.etName.setTextAppearance(com.davai.uikit.R.style.BigTextEditText)
             }
+        }
+        binding.etName.buttonBackHandler = {
+            findNavController().navigateUp()
         }
     }
 
