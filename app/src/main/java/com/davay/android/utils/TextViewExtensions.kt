@@ -16,7 +16,6 @@ fun TextView.setSplashTextViewStyle() {
         resources.getDimensionPixelSize(com.davai.uikit.R.dimen.padding_16),
         resources.getDimensionPixelSize(com.davai.uikit.R.dimen.padding_8)
     )
-    setTextAppearance(R.style.Text_Base_SplashItem)
     rotation = Random.nextInt(
         SplashFragment.MAX_NEGATIVE_ANGLE_3000,
         SplashFragment.MAX_ANGLE_3000
