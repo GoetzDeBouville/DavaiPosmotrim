@@ -28,7 +28,7 @@
     </fragment>
     <fragment
         android:id="@+id/onboardingFragment"
-        android:name="com.davay.android.feature.onboarding.fragment.OnboardingFragment"
+        android:name="com.davay.android.feature.onboarding.presentation.OnboardingFragment"
         android:label="fragment_onboarding"
         tools:layout="@layout/fragment_onboarding">
         <action
