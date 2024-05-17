@@ -83,7 +83,8 @@ class BannerView @JvmOverloads constructor(
         container.backgroundTintList = ColorStateList.valueOf(color)
 
         if (color == ContextCompat.getColor(context, R.color.secondary_base)
-            || color == ContextCompat.getColor(context, R.color.attention)) {
+            || color == ContextCompat.getColor(context, R.color.attention)
+        ) {
             text.setTextColor(ContextCompat.getColor(context, R.color.text_base))
             icon.imageTintList = ColorStateList.valueOf(ContextCompat.getColor(context, R.color.icon_primary))
         } else {
