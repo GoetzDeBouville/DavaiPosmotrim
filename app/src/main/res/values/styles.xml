@@ -2,12 +2,7 @@
 <resources>
 
     <style name="Text.Base.SplashItem">
-        <item name="android:layout_width">wrap_content</item>
-        <item name="android:layout_height">wrap_content</item>
         <item name="android:textSize">20sp</item>
         <item name="android:textColor">@color/tertiary_base</item>
-        <item name="android:paddingHorizontal">@dimen/padding_16</item>
-        <item name="android:paddingVertical">@dimen/padding_8</item>
-        <item name="android:background">@drawable/splash_item_background</item>
     </style>
 </resources>
