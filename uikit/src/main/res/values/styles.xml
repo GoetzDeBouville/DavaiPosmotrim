@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
     <style name="Text" parent="TextAppearance.AppCompat" />
 
     <style name="Text.Headline">
@@ -63,5 +64,13 @@
     <style name="RoundedImageView" parent="">
         <item name="cornerFamily">rounded</item>
         <item name="cornerSize">@dimen/card_radius_16</item>
+    </style>
+
+    <style name="TabLayout" parent="Widget.Design.TabLayout">
+        <item name="tabBackground">@drawable/tabs_selector</item>
+        <item name="tabIndicator">@null</item>
+        <item name="android:background">@drawable/tab_layout_background</item>
+        <item name="tabTextColor">@color/text_caption_dark</item>
+        <item name="tabSelectedTextColor">@color/text_light</item>
     </style>
 </resources>
