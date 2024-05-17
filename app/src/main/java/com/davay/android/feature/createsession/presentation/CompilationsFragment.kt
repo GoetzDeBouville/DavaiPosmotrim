@@ -14,4 +14,8 @@ class CompilationsFragment : BaseFragment<FragmentCompilationsBinding, Compilati
     override fun diComponent(): ScreenComponent = DaggerCreateSessionFragmentComponent.builder()
         .appComponent(AppComponentHolder.getComponent())
         .build()
+
+    companion object {
+        fun newInstance() = CompilationsFragment()
+    }
 }

@@ -14,4 +14,8 @@ class GenreFragment : BaseFragment<FragmentGenreBinding, GenreViewModel>(
     override fun diComponent(): ScreenComponent = DaggerCreateSessionFragmentComponent.builder()
         .appComponent(AppComponentHolder.getComponent())
         .build()
+
+    companion object {
+        fun newInstance() = GenreFragment()
+    }
 }
