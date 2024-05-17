@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.view.View
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
-import android.widget.Toast
 import androidx.core.content.ContextCompat.getSystemService
 import androidx.core.widget.doAfterTextChanged
 import androidx.lifecycle.lifecycleScope
@@ -80,8 +79,7 @@ class RegistrationFragment :
     private fun buttonClicked() {
         viewModel.buttonClicked(binding.etName.text)
         if (viewModel.state.value == RegistrationState.SUCCESS) {
-            // что-то делаем
-            Toast.makeText(requireContext(), "navigate", Toast.LENGTH_SHORT).show()
+            viewModel.navigate(R.id.action_registrationFragment_to_mainFragment)
         }
     }
 
