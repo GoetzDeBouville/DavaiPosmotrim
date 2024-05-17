@@ -28,7 +28,7 @@ fun TextView.setSplashTextViewStyle() {
         gravity = getRandomGravity()
         setMargins(
             0,
-            resources.getDimensionPixelSize(com.davai.uikit.R.dimen.margin_negative_24),
+            resources.getDimensionPixelSize(com.davai.uikit.R.dimen.margin_negative_32),
             0,
             0
         )
