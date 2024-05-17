@@ -10,7 +10,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.DavayPosmotrim">
-        <activity android:name=".DvBannerViewExample"
+        <activity android:name=".BannerViewExample"
             android:exported="false" />
         <activity
             android:name=".MoovieCardViewExampleActivity"

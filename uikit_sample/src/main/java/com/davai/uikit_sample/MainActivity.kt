@@ -43,7 +43,7 @@ class MainActivity : AppCompatActivity() {
                 btnToDvBanner -> startActivity(
                     Intent(
                         this@MainActivity,
-                        DvBannerViewExample::class.java
+                        BannerViewExample::class.java
                     )
                 )
 

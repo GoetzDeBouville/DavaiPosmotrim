@@ -6,21 +6,18 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:background="@drawable/dv_banner_background"
+    android:background="@drawable/banner_background"
     android:orientation="horizontal"
     android:gravity="center_vertical"
-    android:paddingHorizontal="16dp"
-    android:paddingVertical="20dp">
+    android:paddingHorizontal="@dimen/margin_16"
+    android:paddingVertical="@dimen/margin_20">
 
     <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/icon"
-        android:layout_width="24dp"
-        android:layout_height="24dp"
+        android:layout_width="@dimen/icon_size"
+        android:layout_height="@dimen/icon_size"
+        android:layout_marginEnd="@dimen/margin_10"
         app:srcCompat="@drawable/ic_attention" />
-
-    <Space
-        android:layout_width="10dp"
-        android:layout_height="wrap_content" />
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/text"
