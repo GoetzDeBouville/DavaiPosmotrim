@@ -2,6 +2,9 @@
 <resources>
     <string name="theme_image">Изображение темы</string>
     <string name="session_coincidences">Совпадений: %s</string>
+
+    <string name="navigation_icon">Иконка навигации</string>
+    <string name="icon_with_number_of_matches">Иконка с количеством совпадений</string>
     <string name="movie_cover">Обложка фильма</string>
 
 </resources>
