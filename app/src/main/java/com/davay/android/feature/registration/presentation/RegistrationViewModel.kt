@@ -20,20 +20,19 @@ class RegistrationViewModel @Inject constructor() : BaseViewModel() {
     }
 
     fun textCheck(text: Editable?) {
-        if (text.isNullOrBlank()) {
-            _state.value = RegistrationState.FIELD_EMPTY
-        } else if (text.length == TEXT_LENGTH_MIN) {
-            _state.value = RegistrationState.MINIMUM_LETTERS
-        } else if (text.length > TEXT_LENGTH_MAX) {
-            _state.value = RegistrationState.MAXIMUM_LETTERS
-        } else {
-            for (i in text.indices) {
-                if (!text[i].isLetter()) {
-                    _state.value = RegistrationState.NUMBERS
-                    return
+        when {
+            text.isNullOrBlank() -> _state.value = RegistrationState.FIELD_EMPTY
+            text.length == TEXT_LENGTH_MIN -> _state.value = RegistrationState.MINIMUM_LETTERS
+            text.length > TEXT_LENGTH_MAX -> _state.value = RegistrationState.MAXIMUM_LETTERS
+            else -> {
+                for (i in text.indices) {
+                    if (!text[i].isLetter()) {
+                        _state.value = RegistrationState.NUMBERS
+                        return
+                    }
                 }
+                _state.value = RegistrationState.SUCCESS
             }
-            _state.value = RegistrationState.SUCCESS
         }
     }
 
