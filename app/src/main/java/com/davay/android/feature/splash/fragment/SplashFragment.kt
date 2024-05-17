@@ -39,6 +39,8 @@ class SplashFragment :
         getSensorAccelerometer()
         lifecycleScope.launch {
             addTextViewsWithDelay()
+            delay(DELAY_4000_MS)
+            viewModel.navigate(R.id.action_splashFragment_to_onboardingFragment)
         }
     }
 
@@ -105,6 +107,7 @@ class SplashFragment :
 
     companion object {
         const val DELAY_10_MS = 10L
+        const val DELAY_4000_MS = 4000L
         const val START_POSITIONS_NUMBER = 3
         const val MAX_ANGLE_3000 = 3000
         const val MAX_NEGATIVE_ANGLE_3000 = -3000
