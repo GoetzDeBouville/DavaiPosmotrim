@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">DavayPosmotrim</string>
+    <string name="create_session_compilations">Подборки</string>
+    <string name="create_session_genre">Жанр</string>
+    <string name="create_session_continue">Продолжить</string>
+    <string name="create_session_create">Создать сеанс</string>
+    <string name="create_session_choose">Выберите понравившиеся подборки</string>
 </resources>
