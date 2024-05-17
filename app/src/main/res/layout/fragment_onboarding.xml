@@ -57,6 +57,7 @@
             android:backgroundTint="@color/primary_base"
             android:padding="0dp"
             android:textAppearance="@style/Text.Base.Button"
+            android:textColor="@color/text_light"
             app:cornerRadius="@dimen/card_radius_12"
             tools:text="[Продолжить/Начать]" />
     </com.google.android.material.card.MaterialCardView>
