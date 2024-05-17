@@ -22,5 +22,13 @@
         <action
             android:id="@+id/action_mainFragment_to_loadFragment"
             app:destination="@id/loadFragment" />
+        <action
+            android:id="@+id/action_mainFragment_to_createSessionFragment"
+            app:destination="@id/createSessionFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/createSessionFragment"
+        android:name="com.davay.android.feature.createsession.presentation.CreateSessionFragment"
+        android:label="fragment_create_session"
+        tools:layout="@layout/fragment_create_session" />
 </navigation>

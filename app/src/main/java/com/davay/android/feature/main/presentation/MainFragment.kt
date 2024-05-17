@@ -33,5 +33,8 @@ class MainFragment :
         binding.buttonM.setOnClickListener {
             viewModel.navigate(R.id.action_mainFragment_to_loadFragment)
         }
+        binding.buttonCreateSession.setOnClickListener {
+            viewModel.navigate(R.id.action_mainFragment_to_createSessionFragment)
+        }
     }
 }
