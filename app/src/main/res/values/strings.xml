@@ -1,9 +1,9 @@
 <resources>
     <string name="app_name">DavayPosmotrim</string>
-    <string name="enter_your_name">Введите ваше имя</string>
-    <string name="enter">Войти</string>
-    <string name="enter_name">Введите имя</string>
-    <string name="two_letters_minimum">Минимум две буквы</string>
-    <string name="just_letters">Только буквы</string>
-    <string name="not_more_letters">Не более 16 символов</string>
+    <string name="registration_enter_your_name">Введите ваше имя</string>
+    <string name="registration_enter">Войти</string>
+    <string name="registration_enter_name">Введите имя</string>
+    <string name="registration_two_letters_minimum">Минимум две буквы</string>
+    <string name="registration_just_letters">Только буквы</string>
+    <string name="registration_not_more_letters">Не более 16 символов</string>
 </resources>

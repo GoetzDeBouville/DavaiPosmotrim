@@ -55,11 +55,11 @@ class RegistrationFragment :
 
     private fun stateHandle(state: RegistrationState?) {
         binding.tvErrorHint.text = when (state) {
-            RegistrationState.FIELD_EMPTY -> resources.getString(R.string.enter_name)
-            RegistrationState.MINIMUM_LETTERS -> resources.getString(R.string.two_letters_minimum)
-            RegistrationState.NUMBERS -> resources.getString(R.string.just_letters)
+            RegistrationState.FIELD_EMPTY -> resources.getString(R.string.registration_enter_name)
+            RegistrationState.MINIMUM_LETTERS -> resources.getString(R.string.registration_two_letters_minimum)
+            RegistrationState.NUMBERS -> resources.getString(R.string.registration_just_letters)
             RegistrationState.SUCCESS, RegistrationState.DEFAULT, null -> ""
-            RegistrationState.MAXIMUM_LETTERS -> resources.getString(R.string.not_more_letters)
+            RegistrationState.MAXIMUM_LETTERS -> resources.getString(R.string.registration_not_more_letters)
         }
     }
 

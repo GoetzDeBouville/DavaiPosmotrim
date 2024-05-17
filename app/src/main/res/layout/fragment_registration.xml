@@ -12,7 +12,7 @@
         style="@style/Text.Base.Small.Regular"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/enter_your_name"
+        android:text="@string/registration_enter_your_name"
         android:textColor="@color/text_caption_dark"
         app:layout_constraintBottom_toTopOf="@id/et_name"
         app:layout_constraintEnd_toEndOf="parent"
@@ -46,7 +46,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/et_name"
-        tools:text="@string/enter_name" />
+        tools:text="@string/registration_enter_name" />
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/btn_enter"
@@ -56,7 +56,7 @@
         android:backgroundTint="@color/primary_base"
         android:insetTop="0dp"
         android:insetBottom="0dp"
-        android:text="@string/enter"
+        android:text="@string/registration_enter"
         android:textColor="@color/text_light"
         app:cornerRadius="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
