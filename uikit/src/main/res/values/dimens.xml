@@ -6,6 +6,7 @@
     <dimen name="card_radius_18">18dp</dimen>
 
     <dimen name="button_height_48">48dp</dimen>
+    <dimen name="footer_item_height_114">114dp</dimen>
     <dimen name="toolbar_height_64">64dp</dimen>
     <dimen name="static_view_height_64">64dp</dimen>
     <dimen name="footer_item_height_114">114dp</dimen>

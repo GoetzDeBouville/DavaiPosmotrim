@@ -1,4 +1,4 @@
-package com.davay.android.feature.onboarding.fragment
+package com.davay.android.feature.onboarding.presentation
 
 import android.os.Bundle
 import android.view.View
