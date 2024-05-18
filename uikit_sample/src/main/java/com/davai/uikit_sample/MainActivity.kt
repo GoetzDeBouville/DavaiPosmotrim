@@ -25,7 +25,8 @@ class MainActivity : AppCompatActivity() {
             btnToDvFilm,
             btnToDvSession,
             btnToDvMovieSelection,
-            btnToDvToolbar
+            btnToDvToolbar,
+            toMsb
         ).forEach {
             it.setOnClickListener(onClickListener())
         }
@@ -72,6 +73,8 @@ class MainActivity : AppCompatActivity() {
                         MovieSelectionExampleActivity::class.java
                     )
                 )
+
+                toMsb -> startActivity(Intent(this@MainActivity, MainScreenButtonViewExample::class.java))
             }
         }
     }
