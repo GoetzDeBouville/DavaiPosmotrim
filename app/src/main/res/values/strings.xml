@@ -2,7 +2,7 @@
     <string name="app_name">DavayPosmotrim</string>
 
     <!--onboarding screen-->
-    <string name="onboarding_continue_view">продлолжить</string>
+    <string name="onboarding_continue_view">продолжить</string>
     <string name="onboarding_begin">начать</string>
     <string name="onboarding_choose">Выбирайте</string>
     <string name="onboarding_movies">фильмы</string>
