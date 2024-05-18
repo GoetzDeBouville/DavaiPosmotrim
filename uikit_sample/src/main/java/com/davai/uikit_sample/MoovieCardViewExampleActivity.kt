@@ -25,7 +25,7 @@ class MoovieCardViewExampleActivity : AppCompatActivity() {
         mcv1.setMovieTitle("Зимняя спячка")
 
         val mcv2 = findViewById<MovieCardView>(R.id.mcv_2)
-        mcv2.setMovieCover("https://avatars.mds.yandex.net/get-kinopoisk-image/1600647/4d5ee1d6-8bbc-4de8-b94b-7429ac8257da/3840x")
+        mcv2.setMovieCover("")//https://avatars.mds.yandex.net/get-kinopoisk-image/1600647/4d5ee1d6-8bbc-4de8-b94b-7429ac8257da/3840x
         mcv2.setMovieTitle("Изгнание")
 
 
