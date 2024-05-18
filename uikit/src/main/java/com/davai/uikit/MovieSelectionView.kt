@@ -26,10 +26,18 @@ class MovieSelectionView @JvmOverloads constructor(
     defStyleAttr,
     defStyleRes
 ) {
-    private var tvTitle: TextView? = null
-    private var ivSelectorIcon: ImageView? = null
-    private var ivThemeCover: ImageView? = null
-    private var body: ConstraintLayout? = null
+    private val tvTitle: TextView by lazy {
+        findViewById(R.id.tv_theme_title)
+    }
+    private val ivSelectorIcon: ImageView by lazy {
+        findViewById(R.id.iv_selector_icon)
+    }
+    private val ivThemeCover: ImageView by lazy {
+        findViewById(R.id.iv_theme_cover)
+    }
+    private val body: ConstraintLayout by lazy {
+        findViewById(R.id.cl_evaluation_body)
+    }
     private var isSelected = false
     private var backgroundColor = -1
 
@@ -40,11 +48,7 @@ class MovieSelectionView @JvmOverloads constructor(
 
     private fun initViews() {
         LayoutInflater.from(context).inflate(R.layout.movie_selection_view, this)
-        tvTitle = findViewById(R.id.tv_theme_title)
-        ivSelectorIcon = findViewById(R.id.iv_selector_icon)
-        ivThemeCover = findViewById(R.id.iv_theme_cover)
-        body = findViewById(R.id.cl_evaluation_body)
-        body?.background?.callback = this
+        body.background?.callback = this
     }
 
     private fun applyAttributes(
@@ -59,7 +63,7 @@ class MovieSelectionView @JvmOverloads constructor(
             defStyleAttr,
             defStyleRes
         ).apply {
-            tvTitle?.text = getString(R.styleable.MovieSelectionView_theme_title)
+            tvTitle.text = getString(R.styleable.MovieSelectionView_theme_title)
             isSelected = getBoolean(R.styleable.MovieSelectionView_is_selected, false)
             setBackgroundColor()
             setBodyTint()
@@ -68,7 +72,7 @@ class MovieSelectionView @JvmOverloads constructor(
     }
 
     fun setThemeCover(url: String) {
-        ivThemeCover?.load(url) {
+        ivThemeCover.load(url) {
             error(R.drawable.placeholder_theme_112)
                 .scale(Scale.FIT)
             placeholder(R.drawable.placeholder_theme_112)
@@ -94,14 +98,14 @@ class MovieSelectionView @JvmOverloads constructor(
     }
 
     private fun setBodyTint() {
-        body?.backgroundTintList = ColorStateList.valueOf(backgroundColor)
+        body.backgroundTintList = ColorStateList.valueOf(backgroundColor)
     }
 
     private fun setSelectorIconVisibility() {
-        ivSelectorIcon?.isVisible = isSelected
+        ivSelectorIcon.isVisible = isSelected
     }
 
     fun setThemeTitle(title: String) {
-        tvTitle?.text = title
+        tvTitle.text = title
     }
 }

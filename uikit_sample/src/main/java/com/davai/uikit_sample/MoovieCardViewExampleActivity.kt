@@ -7,7 +7,7 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.davai.uikit.MovieCardView
 
-@Suppress("Detekt.ArgumentListWrapping", "Detekt.MaxLineLength")
+@Suppress("Detekt.ArgumentListWrapping", "Detekt.MaxLineLength", "Detekt.CommentSpacing")
 class MoovieCardViewExampleActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
