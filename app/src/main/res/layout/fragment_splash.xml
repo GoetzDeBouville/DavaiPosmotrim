@@ -26,7 +26,7 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginHorizontal="@dimen/margin_24"
-        android:layout_marginVertical="@dimen/margin_16"
+        android:layout_marginVertical="@dimen/margin_32"
         android:background="@android:color/transparent"
         app:gravityX="0.0"
         app:gravityY="9.8"
@@ -38,7 +38,7 @@
 
         <View
             android:layout_width="@dimen/static_view_width_164"
-            android:layout_height="@dimen/static_view_height_64"
+            android:layout_height="@dimen/static_view_height_36"
             android:layout_gravity="bottom|end"
             app:layout_bodyType="statik"
             app:layout_shape="rectangle" />
@@ -50,7 +50,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="@dimen/margin_24"
-        android:layout_marginBottom="@dimen/margin_32"
+        android:layout_marginBottom="@dimen/margin_20"
         android:text="@string/splash_let"
         app:layout_constraintBottom_toBottomOf="@+id/mcv_cardview"
         app:layout_constraintEnd_toEndOf="parent" />
