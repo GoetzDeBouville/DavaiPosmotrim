@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="splash_genres">
+        <item>@string/splash_comedy</item>
+        <item>@string/splash_fantasy</item>
+        <item>@string/splash_fantastic</item>
+        <item>@string/splash_biopic</item>
+        <item>@string/splash_action</item>
+        <item>@string/splash_detective</item>
+        <item>@string/splash_musical</item>
+        <item>@string/splash_adventure</item>
+        <item>@string/splash_watch</item>
+        <item>@string/splash_melodrama</item>
+        <item>@string/splash_thriller</item>
+        <item>@string/splash_documental</item>
+    </string-array>
+</resources>

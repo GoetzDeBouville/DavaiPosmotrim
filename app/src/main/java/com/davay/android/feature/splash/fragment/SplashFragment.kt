@@ -76,12 +76,9 @@ class SplashFragment :
     }
 
     private suspend fun addTextViewsWithDelay() {
-        val stringResIds = listOf(
-            R.string.splash_comedy, R.string.splash_fantasy, R.string.splash_fantastic,
-            R.string.splash_biopic, R.string.splash_action, R.string.splash_detective,
-            R.string.splash_musical, R.string.splash_adventure, R.string.splash_watch,
-            R.string.splash_melodrama, R.string.splash_thriller, R.string.splash_documental
-        )
+        val stringArrayResId = R.array.splash_genres
+
+        val stringResIds = resources.getStringArray(stringArrayResId).toList()
 
         for ((index, text) in stringResIds.shuffled().withIndex()) {
             delay(index * DELAY_10_MS)
@@ -89,11 +86,11 @@ class SplashFragment :
         }
     }
 
-    private fun addTextViewToPhysicsLayout(textResId: Int) {
+    private fun addTextViewToPhysicsLayout(title: String) {
         val textView = TextView(requireContext()).apply {
-            text = resources.getString(textResId)
+            text = title
             setTextAppearance(R.style.Text_Base_SplashItem)
-            if (textResId == R.string.splash_watch) {
+            if (title == resources.getString(R.string.splash_watch)) {
                 setTextColor(
                     ContextCompat.getColor(
                         requireContext(),
@@ -120,3 +117,9 @@ class SplashFragment :
         const val MAX_NEGATIVE_ANGLE_3000 = -3000
     }
 }
+
+
+data class Student(
+    val name: String,
+    val marks: List<Int>
+)
