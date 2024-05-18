@@ -17,38 +17,38 @@ class SessionView @JvmOverloads constructor(
     @AttrRes defStyleAttr: Int = 0,
     @StyleRes defStyleRes: Int = 0
 ) : LinearLayout(context, attrs, defStyleAttr, defStyleRes) {
-    private var tvDate: TextView? = null
-    private var tvCoincidences: TextView? = null
-    private var tvNamesList: TextView? = null
-    private var ivCover: ImageView? = null
-
-    init {
-        initViews()
+    private val tvDate: TextView by lazy {
+        findViewById(R.id.tv_session_date)
+    }
+    private val tvCoincidences: TextView by lazy {
+        findViewById(R.id.tv_session_coincidences)
+    }
+    private val tvNamesList: TextView by lazy {
+        findViewById(R.id.tv_session_names_list)
+    }
+    private val ivCover: ImageView by lazy {
+        findViewById(R.id.iv_session_cover)
     }
 
-    private fun initViews() {
+    init {
         LayoutInflater.from(context).inflate(R.layout.session_view, this, true)
-        tvDate = findViewById(R.id.tv_session_date)
-        tvCoincidences = findViewById(R.id.tv_session_coincidences)
-        tvNamesList = findViewById(R.id.tv_session_names_list)
-        ivCover = findViewById(R.id.iv_session_cover)
     }
 
     fun setDate(date: String) {
-        tvDate?.text = date
+        tvDate.text = date
     }
 
     fun setCoincidences(amount: Int) {
-        tvCoincidences?.text =
+        tvCoincidences.text =
             String.format(resources.getString(R.string.session_coincidences), amount.toString())
     }
 
     fun setNamesList(names: String) {
-        tvNamesList?.text = names
+        tvNamesList.text = names
     }
 
     fun setCover(url: String) {
-        ivCover?.load(url) {
+        ivCover.load(url) {
             error(R.drawable.placeholder_theme_112)
                 .scale(coil.size.Scale.FIT)
             placeholder(R.drawable.placeholder_theme_112)
