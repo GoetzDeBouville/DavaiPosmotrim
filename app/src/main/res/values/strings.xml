@@ -4,5 +4,6 @@
     <string name="create_session_genre">Жанр</string>
     <string name="create_session_continue">Продолжить</string>
     <string name="create_session_create">Создать сеанс</string>
-    <string name="create_session_choose">Выберите понравившиеся подборки</string>
+    <string name="create_session_choose_compilations">Выберите понравившиеся подборки</string>
+    <string name="create_session_choose_genre">Выберите понравившиеся жанры</string>
 </resources>

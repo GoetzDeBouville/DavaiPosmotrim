@@ -25,7 +25,7 @@ class CreateSessionFragment : BaseFragment<FragmentCreateSessionBinding, CreateS
         initTabs()
     }
 
-    private fun initTabs(){
+    private fun initTabs() {
         binding.viewPager.adapter = ViewPagerAdapter(this)
         tabMediator = TabLayoutMediator(binding.tabs, binding.viewPager) { tab, position ->
             when (position) {
