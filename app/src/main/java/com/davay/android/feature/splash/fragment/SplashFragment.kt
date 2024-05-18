@@ -90,19 +90,19 @@ class SplashFragment :
     }
 
     private fun addTextViewToPhysicsLayout(textResId: Int) {
-        val textView = TextView(context).apply {
+        val textView = TextView(requireContext()).apply {
             text = resources.getString(textResId)
             setTextAppearance(R.style.Text_Base_SplashItem)
             if (textResId == R.string.splash_watch) {
                 setTextColor(
                     ContextCompat.getColor(
-                        context,
+                        requireContext(),
                         com.davai.uikit.R.color.text_light
                     )
                 )
                 backgroundTintList = ColorStateList.valueOf(
                     ContextCompat.getColor(
-                        context,
+                        requireContext(),
                         com.davai.uikit.R.color.primary_base
                     )
                 )
