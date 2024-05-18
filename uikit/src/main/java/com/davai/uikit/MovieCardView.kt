@@ -9,6 +9,8 @@ import android.widget.TextView
 import androidx.annotation.AttrRes
 import androidx.annotation.StyleRes
 import coil.load
+import coil.size.Scale
+import coil.transform.RoundedCornersTransformation
 
 class MovieCardView @JvmOverloads constructor(
     context: Context,
@@ -53,8 +55,14 @@ class MovieCardView @JvmOverloads constructor(
 
     fun setMovieCover(url: String) {
         ivMovieCover?.load(url) {
-            error(R.drawable.error_img)
-            placeholder(R.drawable.placeholder_img)
+            error(R.drawable.placeholder_film_138)
+                .scale(Scale.FIT)
+            placeholder(R.drawable.placeholder_film_138)
+                .scale(Scale.FIT)
+            
+            transformations(
+                RoundedCornersTransformation()
+            )
         }
     }
 
