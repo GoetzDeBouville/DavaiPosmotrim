@@ -2,6 +2,8 @@ package com.davay.android.feature.createsession.presentation
 
 import android.os.Bundle
 import android.view.View
+import androidx.core.content.res.ResourcesCompat
+import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.davay.android.app.AppComponentHolder
@@ -41,6 +43,18 @@ class CompilationsFragment : BaseFragment<FragmentCompilationsBinding, Compilati
         binding.rvCompilations.adapter = compilationAdapter
         binding.rvCompilations.layoutManager =
             LinearLayoutManager(context, RecyclerView.VERTICAL, false)
+        binding.rvCompilations.addItemDecoration(
+            DividerItemDecoration(requireContext(), RecyclerView.VERTICAL)
+                .apply {
+                    setDrawable(
+                        ResourcesCompat.getDrawable(
+                            resources,
+                            com.davai.uikit.R.drawable.divider,
+                            requireContext().theme
+                        )!!
+                    )
+                }
+        )
     }
 
     override fun onDestroyView() {
