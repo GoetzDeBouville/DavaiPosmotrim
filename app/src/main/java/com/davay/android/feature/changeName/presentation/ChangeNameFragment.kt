@@ -17,9 +17,10 @@ import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetBehavior.BottomSheetCallback
 import kotlinx.coroutines.launch
 
-
-class ChangeNameFragment(private val name: String) : BaseBottomSheetFragment<FragmentNameChangeBinding,
-        ChangeNameViewModel>(FragmentNameChangeBinding::inflate) {
+class ChangeNameFragment(private val name: String) : BaseBottomSheetFragment<
+        FragmentNameChangeBinding,
+        ChangeNameViewModel
+        >(FragmentNameChangeBinding::inflate) {
 
     private var bottomSheetBehavior: BottomSheetBehavior<View>? = null
 
@@ -61,7 +62,7 @@ class ChangeNameFragment(private val name: String) : BaseBottomSheetFragment<Fra
             }
 
             override fun onSlide(bottomSheet: View, slideOffset: Float) {
-                if (slideOffset < 0.60) {
+                if (slideOffset < BOTTOM_SHEET_HIDE_PERCENT) {
                     hideKeyboard(binding.etName)
                     bottomSheetBehavior!!.state = BottomSheetBehavior.STATE_HIDDEN
                 }
@@ -114,5 +115,6 @@ class ChangeNameFragment(private val name: String) : BaseBottomSheetFragment<Fra
 
     companion object {
         private const val TYPE_SMALL_BORDER = 12
+        private const val BOTTOM_SHEET_HIDE_PERCENT = 60
     }
 }
