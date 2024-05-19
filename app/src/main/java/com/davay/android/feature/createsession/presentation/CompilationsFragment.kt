@@ -11,7 +11,6 @@ import com.davay.android.base.BaseFragment
 import com.davay.android.databinding.FragmentCompilationsBinding
 import com.davay.android.di.ScreenComponent
 import com.davay.android.feature.createsession.di.DaggerCreateSessionFragmentComponent
-import com.davay.android.feature.createsession.domain.model.Compilation
 
 class CompilationsFragment : BaseFragment<FragmentCompilationsBinding, CompilationsViewModel>(
     FragmentCompilationsBinding::inflate
