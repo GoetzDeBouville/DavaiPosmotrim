@@ -1,4 +1,4 @@
-package com.davay.android.feature.createsession.presentation
+package com.davay.android.feature.createsession.presentation.genre
 
 import android.widget.TextView
 import androidx.core.content.res.ResourcesCompat

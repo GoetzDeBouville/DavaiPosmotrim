@@ -1,7 +1,9 @@
-package com.davay.android.feature.createsession.presentation
+package com.davay.android.feature.createsession.presentation.createsession
 
 import androidx.fragment.app.Fragment
 import androidx.viewpager2.adapter.FragmentStateAdapter
+import com.davay.android.feature.createsession.presentation.compilations.CompilationsFragment
+import com.davay.android.feature.createsession.presentation.genre.GenreFragment
 
 class ViewPagerAdapter(fragment: Fragment) : FragmentStateAdapter(fragment) {
     override fun getItemCount(): Int = 2

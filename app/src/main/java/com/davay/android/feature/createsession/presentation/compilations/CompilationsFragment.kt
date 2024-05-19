@@ -1,4 +1,4 @@
-package com.davay.android.feature.createsession.presentation
+package com.davay.android.feature.createsession.presentation.compilations
 
 import android.os.Bundle
 import android.view.View

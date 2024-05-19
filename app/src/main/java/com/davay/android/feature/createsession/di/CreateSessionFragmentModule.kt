@@ -2,9 +2,9 @@ package com.davay.android.feature.createsession.di
 
 import androidx.lifecycle.ViewModel
 import com.davay.android.di.ViewModelKey
-import com.davay.android.feature.createsession.presentation.CompilationsViewModel
-import com.davay.android.feature.createsession.presentation.CreateSessionViewModel
-import com.davay.android.feature.createsession.presentation.GenreViewModel
+import com.davay.android.feature.createsession.presentation.compilations.CompilationsViewModel
+import com.davay.android.feature.createsession.presentation.createsession.CreateSessionViewModel
+import com.davay.android.feature.createsession.presentation.genre.GenreViewModel
 import dagger.Binds
 import dagger.Module
 import dagger.multibindings.IntoMap

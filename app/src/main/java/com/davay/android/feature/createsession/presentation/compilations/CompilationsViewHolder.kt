@@ -1,4 +1,4 @@
-package com.davay.android.feature.createsession.presentation
+package com.davay.android.feature.createsession.presentation.compilations
 
 import androidx.recyclerview.widget.RecyclerView
 import com.davai.uikit.MovieSelectionView

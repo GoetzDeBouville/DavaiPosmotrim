@@ -1,4 +1,4 @@
-package com.davay.android.feature.createsession.presentation
+package com.davay.android.feature.createsession.presentation.createsession
 
 import android.os.Bundle
 import android.view.View
@@ -10,6 +10,8 @@ import com.davay.android.base.BaseFragment
 import com.davay.android.databinding.FragmentCreateSessionBinding
 import com.davay.android.di.ScreenComponent
 import com.davay.android.feature.createsession.di.DaggerCreateSessionFragmentComponent
+import com.davay.android.feature.createsession.presentation.compilations.CompilationsFragment
+import com.davay.android.feature.createsession.presentation.genre.GenreFragment
 import com.google.android.material.tabs.TabLayoutMediator
 
 class CreateSessionFragment : BaseFragment<FragmentCreateSessionBinding, CreateSessionViewModel>(

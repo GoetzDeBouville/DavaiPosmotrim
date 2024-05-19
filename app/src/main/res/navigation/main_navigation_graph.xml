@@ -28,7 +28,7 @@
     </fragment>
     <fragment
         android:id="@+id/createSessionFragment"
-        android:name="com.davay.android.feature.createsession.presentation.CreateSessionFragment"
+        android:name="com.davay.android.feature.createsession.presentation.createsession.CreateSessionFragment"
         android:label="fragment_create_session"
         tools:layout="@layout/fragment_create_session" />
 </navigation>
