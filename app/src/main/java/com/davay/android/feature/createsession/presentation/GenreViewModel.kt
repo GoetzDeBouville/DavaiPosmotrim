@@ -1,5 +1,6 @@
 package com.davay.android.feature.createsession.presentation
 
+import android.util.Log
 import com.davay.android.base.BaseViewModel
 import com.davay.android.feature.createsession.domain.model.Genre
 import javax.inject.Inject
@@ -14,5 +15,9 @@ class GenreViewModel @Inject constructor() : BaseViewModel() {
         } else {
             selectedGenreList.remove(genre)
         }
+    }
+
+    fun buttonContinueClicked() {
+        Log.d("MyTag", selectedGenreList.toString())
     }
 }

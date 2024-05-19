@@ -8,6 +8,6 @@
     android:layout_marginBottom="@dimen/margin_8"
     android:background="@drawable/item_background_unselected"
     android:paddingHorizontal="@dimen/margin_20"
-    android:paddingVertical="@dimen/padding_4"
+    android:paddingVertical="@dimen/padding_8"
     android:textColor="@color/text_caption_dark"
     tools:text="Ужасы" />

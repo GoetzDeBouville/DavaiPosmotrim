@@ -2,6 +2,8 @@ package com.davay.android.feature.createsession.presentation
 
 import android.os.Bundle
 import android.view.View
+import androidx.navigation.fragment.findNavController
+import androidx.viewpager2.widget.ViewPager2.OnPageChangeCallback
 import com.davay.android.R
 import com.davay.android.app.AppComponentHolder
 import com.davay.android.base.BaseFragment
@@ -23,6 +25,19 @@ class CreateSessionFragment : BaseFragment<FragmentCreateSessionBinding, CreateS
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initTabs()
+        setupToolbar()
+        binding.btnContinue.setOnClickListener {
+            val fragmentPosition = binding.viewPager.currentItem
+            when (val fragment = childFragmentManager.findFragmentByTag("f$fragmentPosition")) {
+                is CompilationsFragment -> {
+                    fragment.viewModel.buttonContinueClicked()
+                }
+
+                is GenreFragment -> {
+                    fragment.viewModel.buttonContinueClicked()
+                }
+            }
+        }
     }
 
     private fun initTabs() {
@@ -34,6 +49,21 @@ class CreateSessionFragment : BaseFragment<FragmentCreateSessionBinding, CreateS
             }
         }
         tabMediator?.attach()
+    }
+
+    private fun setupToolbar() {
+        binding.viewPager.registerOnPageChangeCallback(object : OnPageChangeCallback() {
+            override fun onPageSelected(position: Int) {
+                super.onPageSelected(position)
+                when (position) {
+                    0 -> binding.toolBar.setSubtitleText(getString(R.string.create_session_choose_compilations))
+                    1 -> binding.toolBar.setSubtitleText(getString(R.string.create_session_choose_genre))
+                }
+            }
+        })
+        binding.toolBar.setStartIconClickListener {
+            findNavController().navigateUp()
+        }
     }
 
     override fun onDestroyView() {
