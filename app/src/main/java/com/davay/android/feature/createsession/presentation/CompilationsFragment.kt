@@ -25,15 +25,6 @@ class CompilationsFragment : BaseFragment<FragmentCompilationsBinding, Compilati
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initRecycler()
-        compilationAdapter?.itemList?.addAll(
-            listOf(
-                Compilation(1, "Фильм 1", false, ""),
-                Compilation(1, "Фильм   vcb  c vb cv b vc fs", false, ""),
-                Compilation(1, "Фильм  c bcvsfs", false, ""),
-                Compilation(1, "Фильм  c bcvsfs", false, ""),
-                Compilation(1, "Фильм  c bcvsfs какой-то там пвп вп  вп вап в пв", false, ""),
-            )
-        )
     }
 
     private fun initRecycler() {
