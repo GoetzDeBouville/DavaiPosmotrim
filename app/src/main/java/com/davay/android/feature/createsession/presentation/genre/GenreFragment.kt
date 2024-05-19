@@ -43,6 +43,7 @@ class GenreFragment : BaseFragment<FragmentGenreBinding, GenreViewModel>(
     }
 
     override fun onDestroyView() {
+        binding.rvGenre.adapter = null
         super.onDestroyView()
         genreAdapter = null
     }

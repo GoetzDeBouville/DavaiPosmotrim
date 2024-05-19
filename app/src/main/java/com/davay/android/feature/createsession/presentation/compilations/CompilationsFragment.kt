@@ -48,6 +48,7 @@ class CompilationsFragment : BaseFragment<FragmentCompilationsBinding, Compilati
     }
 
     override fun onDestroyView() {
+        binding.rvCompilations.adapter = null
         super.onDestroyView()
         compilationAdapter = null
     }

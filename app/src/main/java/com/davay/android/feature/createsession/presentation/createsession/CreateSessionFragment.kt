@@ -77,8 +77,8 @@ class CreateSessionFragment : BaseFragment<FragmentCreateSessionBinding, CreateS
     }
 
     override fun onDestroyView() {
-        super.onDestroyView()
         tabMediator?.detach()
         tabMediator = null
+        super.onDestroyView()
     }
 }
