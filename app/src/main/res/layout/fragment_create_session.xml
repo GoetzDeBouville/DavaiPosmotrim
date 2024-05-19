@@ -85,19 +85,13 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
-    <TextView
-        android:id="@+id/tv_error"
-        style="@style/Text.Base.Medium.Regular"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/toolbar_height_64"
+    <com.davai.uikit.BannerView
+        android:id="@+id/banner_attention"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
         android:layout_marginHorizontal="@dimen/margin_16"
-        android:background="@drawable/attention_background"
-        android:drawablePadding="@dimen/padding_16"
-        android:gravity="center_vertical"
-        android:paddingHorizontal="@dimen/padding_16"
-        android:text="@string/create_session_choose_compilations_one"
         android:visibility="gone"
-        app:drawableStartCompat="@drawable/ic_attention"
+        app:banner_text="@string/create_session_choose_compilations_one"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />

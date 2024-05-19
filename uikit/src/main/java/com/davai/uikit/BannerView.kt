@@ -71,7 +71,7 @@ class BannerView @JvmOverloads constructor(
         }
     }
 
-    private fun setBannerText(value: String) {
+    fun setBannerText(value: String) {
         text.text = value
     }
 

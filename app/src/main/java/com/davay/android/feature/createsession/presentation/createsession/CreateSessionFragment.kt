@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.View
 import androidx.navigation.fragment.findNavController
 import androidx.viewpager2.widget.ViewPager2.OnPageChangeCallback
+import com.davai.uikit.BannerView
 import com.davay.android.R
 import com.davay.android.app.AppComponentHolder
 import com.davay.android.base.BaseFragment
@@ -26,6 +27,7 @@ class CreateSessionFragment : BaseFragment<FragmentCreateSessionBinding, CreateS
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        binding.bannerAttention.setState(BannerView.ATTENTION)
         initTabs()
         setupToolbar()
         binding.btnContinue.setOnClickListener {
@@ -60,13 +62,14 @@ class CreateSessionFragment : BaseFragment<FragmentCreateSessionBinding, CreateS
                 when (position) {
                     0 -> {
                         binding.toolBar.setSubtitleText(getString(R.string.create_session_choose_compilations))
-                        binding.tvError.text =
-                            getString(R.string.create_session_choose_compilations_one)
+                        binding.bannerAttention
+                            .setBannerText(getString(R.string.create_session_choose_compilations_one))
                     }
 
                     1 -> {
                         binding.toolBar.setSubtitleText(getString(R.string.create_session_choose_genre))
-                        binding.tvError.text = getString(R.string.create_session_choose_genre_one)
+                        binding.bannerAttention
+                            .setBannerText(getString(R.string.create_session_choose_genre_one))
                     }
                 }
             }
