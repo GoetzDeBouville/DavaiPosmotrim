@@ -110,7 +110,9 @@ class ChangeNameFragment(private val name: String) : BaseBottomSheetFragment<
 
     private fun buttonClicked() {
         viewModel.buttonClicked(binding.etName.text)
-        bottomSheetBehavior!!.state = BottomSheetBehavior.STATE_HIDDEN
+        if (viewModel.state.value == ChangeNameState.SUCCESS){
+            bottomSheetBehavior!!.state = BottomSheetBehavior.STATE_HIDDEN
+        }
     }
 
     companion object {

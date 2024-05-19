@@ -24,15 +24,8 @@ class ChangeNameViewModel @Inject constructor() : BaseViewModel() {
             text.isNullOrBlank() -> _state.value = ChangeNameState.FIELD_EMPTY
             text.length == TEXT_LENGTH_MIN -> _state.value = ChangeNameState.MINIMUM_LETTERS
             text.length > TEXT_LENGTH_MAX -> _state.value = ChangeNameState.MAXIMUM_LETTERS
-            else -> {
-                for (i in text.indices) {
-                    if (!text[i].isLetter()) {
-                        _state.value = ChangeNameState.NUMBERS
-                        return
-                    }
-                }
-                _state.value = ChangeNameState.SUCCESS
-            }
+            text.any { !it.isLetter() } -> _state.value = ChangeNameState.NUMBERS
+            else -> _state.value = ChangeNameState.SUCCESS
         }
     }
 
