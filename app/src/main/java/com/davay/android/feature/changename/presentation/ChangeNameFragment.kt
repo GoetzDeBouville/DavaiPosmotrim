@@ -1,4 +1,4 @@
-package com.davay.android.feature.changeName.presentation
+package com.davay.android.feature.changename.presentation
 
 import android.os.Bundle
 import android.view.View
@@ -12,15 +12,15 @@ import com.davay.android.app.AppComponentHolder
 import com.davay.android.base.BaseBottomSheetFragment
 import com.davay.android.databinding.FragmentNameChangeBinding
 import com.davay.android.di.ScreenComponent
-import com.davay.android.feature.changeName.di.DaggerChangeNameFragmentComponent
+import com.davay.android.feature.changename.di.DaggerChangeNameFragmentComponent
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetBehavior.BottomSheetCallback
 import kotlinx.coroutines.launch
 
 class ChangeNameFragment(private val name: String) : BaseBottomSheetFragment<
-        FragmentNameChangeBinding,
-        ChangeNameViewModel
-        >(FragmentNameChangeBinding::inflate) {
+    FragmentNameChangeBinding,
+    ChangeNameViewModel
+    >(FragmentNameChangeBinding::inflate) {
 
     private var bottomSheetBehavior: BottomSheetBehavior<View>? = null
 

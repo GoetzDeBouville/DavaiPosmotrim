@@ -1,4 +1,4 @@
-package com.davay.android.feature.changeName.di
+package com.davay.android.feature.changename.di
 
 import com.davay.android.app.AppComponent
 import com.davay.android.di.ScreenComponent

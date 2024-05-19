@@ -9,7 +9,7 @@ import com.davay.android.app.AppComponentHolder
 import com.davay.android.base.BaseFragment
 import com.davay.android.databinding.FragmentLoadBinding
 import com.davay.android.di.ScreenComponent
-import com.davay.android.feature.changeName.presentation.ChangeNameFragment
+import com.davay.android.feature.changename.presentation.ChangeNameFragment
 import com.davay.android.feature.load.di.DaggerLoadFragmentComponent
 
 class LoadFragment : BaseFragment<FragmentLoadBinding, LoadViewModel>(

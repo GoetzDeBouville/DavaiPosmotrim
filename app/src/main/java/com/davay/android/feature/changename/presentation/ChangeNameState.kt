@@ -1,4 +1,4 @@
-package com.davay.android.feature.changeName.presentation
+package com.davay.android.feature.changename.presentation
 
 enum class ChangeNameState {
     FIELD_EMPTY,
