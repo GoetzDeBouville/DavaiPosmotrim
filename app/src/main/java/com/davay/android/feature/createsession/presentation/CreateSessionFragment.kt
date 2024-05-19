@@ -56,8 +56,16 @@ class CreateSessionFragment : BaseFragment<FragmentCreateSessionBinding, CreateS
             override fun onPageSelected(position: Int) {
                 super.onPageSelected(position)
                 when (position) {
-                    0 -> binding.toolBar.setSubtitleText(getString(R.string.create_session_choose_compilations))
-                    1 -> binding.toolBar.setSubtitleText(getString(R.string.create_session_choose_genre))
+                    0 -> {
+                        binding.toolBar.setSubtitleText(getString(R.string.create_session_choose_compilations))
+                        binding.tvError.text =
+                            getString(R.string.create_session_choose_compilations_one)
+                    }
+
+                    1 -> {
+                        binding.toolBar.setSubtitleText(getString(R.string.create_session_choose_genre))
+                        binding.tvError.text = getString(R.string.create_session_choose_genre_one)
+                    }
                 }
             }
         })
