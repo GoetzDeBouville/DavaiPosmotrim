@@ -117,9 +117,3 @@ class SplashFragment :
         const val MAX_NEGATIVE_ANGLE_3000 = -3000
     }
 }
-
-
-data class Student(
-    val name: String,
-    val marks: List<Int>
-)
