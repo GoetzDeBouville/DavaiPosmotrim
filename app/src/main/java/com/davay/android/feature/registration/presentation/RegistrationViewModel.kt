@@ -20,24 +20,18 @@ class RegistrationViewModel @Inject constructor() : BaseViewModel() {
     }
 
     fun textCheck(text: Editable?) {
+        val inputText = text?.toString().orEmpty()
         when {
-            text.isNullOrBlank() -> _state.value = RegistrationState.FIELD_EMPTY
-            text.length == TEXT_LENGTH_MIN -> _state.value = RegistrationState.MINIMUM_LETTERS
-            text.length > TEXT_LENGTH_MAX -> _state.value = RegistrationState.MAXIMUM_LETTERS
-            else -> {
-                for (i in text.indices) {
-                    if (!text[i].isLetter()) {
-                        _state.value = RegistrationState.NUMBERS
-                        return
-                    }
-                }
-                _state.value = RegistrationState.SUCCESS
-            }
+            inputText.isBlank() -> _state.value = RegistrationState.FIELD_EMPTY
+            inputText.length < TEXT_LENGTH_MIN -> _state.value = RegistrationState.MINIMUM_LETTERS
+            inputText.length > TEXT_LENGTH_MAX -> _state.value = RegistrationState.MAXIMUM_LETTERS
+            inputText.any { !it.isLetter() } -> _state.value = RegistrationState.NUMBERS
+            else -> _state.value = RegistrationState.SUCCESS
         }
     }
 
     companion object {
-        private const val TEXT_LENGTH_MIN = 1
+        private const val TEXT_LENGTH_MIN = 2
         private const val TEXT_LENGTH_MAX = 16
     }
 }
