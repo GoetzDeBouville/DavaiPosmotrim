@@ -57,13 +57,13 @@ class MovieCardView @JvmOverloads constructor(
 
     fun setMovieCover(url: String) {
         ivMovieCover.load(url) {
-            error(R.drawable.placeholder_film_138)
+            error(R.drawable.placeholder_error_film_138)
                 .scale(Scale.FIT)
-            placeholder(R.drawable.placeholder_film_138)
+            placeholder(R.drawable.placeholder_general_80)
                 .scale(Scale.FIT)
             transformations(
                 RoundedCornersTransformation()
-            )
+            ).crossfade(true)
         }
     }
 

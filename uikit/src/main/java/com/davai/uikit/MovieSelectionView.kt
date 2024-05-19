@@ -73,13 +73,13 @@ class MovieSelectionView @JvmOverloads constructor(
 
     fun setThemeCover(url: String) {
         ivThemeCover.load(url) {
-            error(R.drawable.placeholder_theme_112)
+            error(R.drawable.placeholder_error_theme_112)
                 .scale(Scale.FIT)
-            placeholder(R.drawable.placeholder_theme_112)
+            placeholder(R.drawable.placeholder_general_80)
                 .scale(Scale.FIT)
             transformations(
                 RoundedCornersTransformation()
-            )
+            ).crossfade(true)
         }
     }
 

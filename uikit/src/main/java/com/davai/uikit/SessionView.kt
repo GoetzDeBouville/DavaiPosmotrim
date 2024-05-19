@@ -49,14 +49,14 @@ class SessionView @JvmOverloads constructor(
 
     fun setCover(url: String) {
         ivCover.load(url) {
-            error(R.drawable.placeholder_theme_112)
+            error(R.drawable.placeholder_error_theme_112)
                 .scale(coil.size.Scale.FIT)
-            placeholder(R.drawable.placeholder_theme_112)
+            placeholder(R.drawable.placeholder_general_80)
                 .scale(coil.size.Scale.FIT)
 
             transformations(
                 RoundedCornersTransformation()
-            )
+            ).crossfade(true)
         }
     }
 }
