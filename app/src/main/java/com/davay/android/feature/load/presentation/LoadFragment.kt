@@ -45,7 +45,7 @@ class LoadFragment : BaseFragment<FragmentLoadBinding, LoadViewModel>(
     }
 
     private fun showBottomSheet(oldName: String) {
-        val bottomSheetFragment = ChangeNameFragment(oldName)
+        val bottomSheetFragment = ChangeNameFragment.newInstance(oldName)
         bottomSheetFragment.show(parentFragmentManager, "tag")
     }
 

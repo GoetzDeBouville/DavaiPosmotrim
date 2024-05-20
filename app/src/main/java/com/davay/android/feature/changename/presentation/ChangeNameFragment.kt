@@ -17,12 +17,13 @@ import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetBehavior.BottomSheetCallback
 import kotlinx.coroutines.launch
 
-class ChangeNameFragment(private val name: String) : BaseBottomSheetFragment<
+class ChangeNameFragment() : BaseBottomSheetFragment<
     FragmentNameChangeBinding,
     ChangeNameViewModel
     >(FragmentNameChangeBinding::inflate) {
 
     private var bottomSheetBehavior: BottomSheetBehavior<View>? = null
+    private var name: String? = null
 
     override val viewModel: ChangeNameViewModel by injectViewModel<ChangeNameViewModel>()
 
@@ -32,7 +33,15 @@ class ChangeNameFragment(private val name: String) : BaseBottomSheetFragment<
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding.etName.setText(name)
+
+        arguments?.let {
+            name = it.getString(ARG_NAME)
+        }
+
+        name?.let{
+            binding.etName.setText(name)
+        }
+
         showSoftKeyboard(binding.etName)
         lifecycleScope.launch {
             viewModel.state.collect { stateHandle(it) }
@@ -118,5 +127,13 @@ class ChangeNameFragment(private val name: String) : BaseBottomSheetFragment<
     companion object {
         private const val TYPE_SMALL_BORDER = 12
         private const val BOTTOM_SHEET_HIDE_PERCENT = 60
+
+        private const val ARG_NAME = "name"
+
+        fun newInstance(name: String) = ChangeNameFragment().apply {
+            arguments = Bundle().apply {
+                putString(ARG_NAME, name)
+            }
+        }
     }
 }
