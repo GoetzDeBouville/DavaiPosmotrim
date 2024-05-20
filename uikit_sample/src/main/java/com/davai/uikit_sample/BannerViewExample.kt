@@ -14,11 +14,14 @@ class BannerViewExample : AppCompatActivity() {
         val bannerView = findViewById<BannerView>(R.id.banner_view)
 
         bannerView.setState(BannerView.SUCCESS)
+        bannerView.setBannerText(getString(com.davai.uikit.R.string.banner_success))
 
         val bannerView2 = findViewById<BannerView>(R.id.banner_view2)
         bannerView2.setState(BannerView.ATTENTION)
+        bannerView2.setBannerText(getString(com.davai.uikit.R.string.banner_attention))
 
         val bannerView3 = findViewById<BannerView>(R.id.banner_view3)
         bannerView3.setState(BannerView.INFO)
+        bannerView3.setBannerText(getString(com.davai.uikit.R.string.banner_success))
     }
 }
