@@ -17,10 +17,10 @@ import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetBehavior.BottomSheetCallback
 import kotlinx.coroutines.launch
 
-class ChangeNameFragment() : BaseBottomSheetFragment<
-    FragmentNameChangeBinding,
-    ChangeNameViewModel
-    >(FragmentNameChangeBinding::inflate) {
+class ChangeNameFragment : BaseBottomSheetFragment<
+        FragmentNameChangeBinding,
+        ChangeNameViewModel
+        >(FragmentNameChangeBinding::inflate) {
 
     private var bottomSheetBehavior: BottomSheetBehavior<View>? = null
     private var name: String? = null
@@ -38,7 +38,7 @@ class ChangeNameFragment() : BaseBottomSheetFragment<
             name = it.getString(ARG_NAME)
         }
 
-        name?.let{
+        name?.let {
             binding.etName.setText(name)
         }
 
