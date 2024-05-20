@@ -18,9 +18,9 @@ import com.google.android.material.bottomsheet.BottomSheetBehavior.BottomSheetCa
 import kotlinx.coroutines.launch
 
 class ChangeNameFragment : BaseBottomSheetFragment<
-        FragmentNameChangeBinding,
-        ChangeNameViewModel
-        >(FragmentNameChangeBinding::inflate) {
+    FragmentNameChangeBinding,
+    ChangeNameViewModel
+    >(FragmentNameChangeBinding::inflate) {
 
     private var bottomSheetBehavior: BottomSheetBehavior<View>? = null
     private var name: String? = null
