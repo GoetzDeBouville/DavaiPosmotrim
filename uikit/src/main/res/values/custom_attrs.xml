@@ -42,6 +42,7 @@
         <attr name="subtitle" format="string" />
         <attr name="end_icon" format="reference" />
         <attr name="end_icon_is_visible" format="boolean" />
+        <attr name="start_icon_is_visible" format="boolean" />
         <attr name="start_icon" format="reference" />
     </declare-styleable>
 </resources>
