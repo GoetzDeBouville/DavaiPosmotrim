@@ -27,4 +27,7 @@
 
     <dimen name="icon_size">24dp</dimen>
     <dimen name="zero">0dp</dimen>
+
+    <dimen name="dimen_80">80dp</dimen>
+    <dimen name="dimen_64">64dp</dimen>
 </resources>
