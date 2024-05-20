@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
     <style name="Text" parent="TextAppearance.AppCompat" />
 
     <style name="Text.Headline">
@@ -13,6 +14,11 @@
     <style name="Text.Headline.Title">
         <item name="android:textSize">24sp</item>
         <item name="android:lineSpacingExtra">28sp</item>
+    </style>
+
+    <style name="Text.Headline.Title.NoLineSpacing">
+        <item name="android:lineSpacingExtra">0sp</item>
+        <item name="android:textColor">@color/text_headings</item>
     </style>
 
     <style name="Text.Headline.SubTitle">
@@ -33,8 +39,16 @@
         <item name="fontWeight">400</item>
     </style>
 
+    <style name="Text.Base.Medium.Regular.NoLineSpacing">
+        <item name="android:lineSpacingExtra">0sp</item>
+    </style>
+
     <style name="Text.Base.Medium.Bold">
         <item name="fontWeight">700</item>
+    </style>
+
+    <style name="Text.Base.Medium.Bold.NoLineSpacing">
+        <item name="android:lineSpacingExtra">0sp</item>
     </style>
 
     <style name="Text.Base.Small">
@@ -44,6 +58,10 @@
 
     <style name="Text.Base.Small.Regular">
         <item name="fontWeight">400</item>
+    </style>
+
+    <style name="Text.Base.Small.Regular.NoLineSpacing">
+        <item name="android:lineSpacingExtra">0sp</item>
     </style>
 
     <style name="Text.Base.Button">

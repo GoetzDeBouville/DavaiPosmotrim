@@ -34,7 +34,7 @@ class SelectMovieFragment :
             setStartIcon(com.davai.uikit.R.drawable.ic_cross)
             setEndIcon(com.davai.uikit.R.drawable.ic_heart)
             showEndIcon()
-            setTitleText(requireContext().getString(R.string.seelect_movies_select_film))
+            setTitleText(requireContext().getString(R.string.select_movies_select_film))
             updateMatchesDisplay(matchesCounter)
         }
     }
