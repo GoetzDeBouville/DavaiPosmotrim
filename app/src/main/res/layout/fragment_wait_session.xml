@@ -7,6 +7,7 @@
     tools:context=".feature.waitsession.presentation.WaitSessionFragment">
 
     <LinearLayout
+        android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
@@ -46,7 +47,7 @@
                     android:layout_height="24dp"
                     android:src="@drawable/ic_copy"/>
             </LinearLayout>
-            
+
             <com.davai.uikit.ButtonView
                 android:layout_width="0dp"
                 android:layout_height="48dp"
@@ -54,5 +55,83 @@
                 app:button_text="ПРИГЛАСИТЬ"/>
         </LinearLayout>
     </LinearLayout>
+
+    <View
+        android:id="@+id/main_container"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginTop="16dp"
+        android:background="@drawable/selection_background"
+        app:layout_constraintTop_toBottomOf="@+id/toolbar"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/bottom_container"/>
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_add_participant"
+        app:layout_constraintTop_toTopOf="@+id/main_container"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="@+id/main_container"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingHorizontal="20dp"
+        android:textColor="@color/text_caption_light"
+        android:layout_marginBottom="@dimen/margin_20"
+        android:textAlignment="center"
+        style="@style/Text.Base.Medium.NoLineSpacing"
+        android:text="Если вы пригласили друзей – дождитесь, когда они подключаться, прежде чем начать сеанс."
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="@+id/main_container"/>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_genre"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:padding="@dimen/padding_16"
+        tools:listitem="@layout/item_text_view"
+        app:layout_constraintTop_toTopOf="@+id/main_container"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="@+id/main_container"/>
+
+    <LinearLayout
+        android:id="@+id/bottom_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:background="@drawable/bottombar_background"
+        android:orientation="vertical"
+        app:layout_constraintTop_toBottomOf="@+id/main_container"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent">
+
+        <com.davai.uikit.ButtonView
+            android:id="@+id/start_session_button"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginHorizontal="16dp"
+            app:button_text="Начать сеанс"/>
+
+        <com.davai.uikit.ButtonView
+            android:id="@+id/cancel_button"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginBottom="@dimen/margin_20"
+            android:layout_marginHorizontal="16dp"
+            app:button_text="Отменить сеанс"
+            app:button_view_type="secondary"/>
+
+    </LinearLayout>
+
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
