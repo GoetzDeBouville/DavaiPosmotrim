@@ -22,5 +22,12 @@
         <action
             android:id="@+id/action_mainFragment_to_loadFragment"
             app:destination="@id/loadFragment" />
+        <action
+            android:id="@+id/action_mainFragment_to_waitSessionFragment"
+            app:destination="@id/waitSessionFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/waitSessionFragment"
+        android:name="com.davay.android.feature.waitsession.presentation.WaitSessionFragment"
+        android:label="WaitSessionFragment" />
 </navigation>
