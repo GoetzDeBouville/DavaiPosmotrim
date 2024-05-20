@@ -1,8 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".feature.selectmovie.presentation.SelectMovieFragment">
 
-</FrameLayout>
+    <View
+        android:id="@+id/space_top"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/margin_24"
+        android:background="@color/background_white"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <com.davai.uikit.ToolbarView
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:start_icon="@drawable/ic_cross"
+        app:end_icon="@drawable/ic_heart"
+        app:end_icon_is_visible="true"
+        app:title="@string/seelect_movies_select_film"
+        app:layout_constraintTop_toBottomOf="@+id/space_top" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

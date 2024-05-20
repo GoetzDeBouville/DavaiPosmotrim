@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">DavayPosmotrim</string>
+
+    <string name="seelect_movies_select_film">Выберите фильм</string>
 </resources>
