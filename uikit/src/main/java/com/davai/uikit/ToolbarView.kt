@@ -138,6 +138,20 @@ class ToolbarView @JvmOverloads constructor(
     }
 
     /**
+     * Упроавление видимостью ivEndIcon
+     */
+    fun showStartIcon() {
+        ivStartIcon?.isVisible = true
+    }
+
+    /**
+     * Упроавление видимостью ivEndIcon
+     */
+    fun hideStartIcon() {
+        ivStartIcon?.isVisible = false
+    }
+
+    /**
      * Метод для управления слушателем кликов по элементу ivStartIcon
      */
     fun setStartIconClickListener(listener: () -> Unit) {
