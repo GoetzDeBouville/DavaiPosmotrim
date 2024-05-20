@@ -12,7 +12,6 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/margin_24"
         android:contentDescription="@string/navigation_icon"
-        android:src="@drawable/ic_arrow_back"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />

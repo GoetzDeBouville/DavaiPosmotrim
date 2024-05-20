@@ -33,18 +33,22 @@ class ToolbarExampleActivity : AppCompatActivity() {
         findViewById<ToolbarView>(R.id.toolbarView2).apply {
             updateMatchesDisplay(5)
             showEndIcon()
+            setStartIcon(com.davai.uikit.R.drawable.ic_cross)
+            showStartIcon()
         }
 
         findViewById<ToolbarView>(R.id.toolbarView3).apply {
             showEndIcon()
             setEndIcon(R.drawable.ic_launcher_foreground)
             setStartIcon(R.drawable.ic_launcher_foreground)
+            showStartIcon()
         }
 
         findViewById<ToolbarView>(R.id.toolbarView4).apply {
             hideEndIcon()
             setEndIcon(R.drawable.ic_launcher_foreground)
-            setStartIcon(R.drawable.ic_launcher_foreground)
+            showStartIcon()
+            setStartIcon(com.davai.uikit.R.drawable.ic_arrow_back)
         }
     }
 }
