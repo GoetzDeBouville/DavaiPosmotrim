@@ -33,6 +33,8 @@ class ToolbarExampleActivity : AppCompatActivity() {
         findViewById<ToolbarView>(R.id.toolbarView2).apply {
             updateMatchesDisplay(5)
             showEndIcon()
+            showMatchesCounter()
+            setEndIcon(com.davai.uikit.R.drawable.ic_heart)
             setStartIcon(com.davai.uikit.R.drawable.ic_cross)
             showStartIcon()
         }

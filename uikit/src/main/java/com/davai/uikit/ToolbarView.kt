@@ -11,9 +11,8 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.view.isVisible
 
 /**
- * Дефолтно в ToolbarView для ivStartIcon и ivEndIcon установлены изображения ic_arrow_back и
- * ic_heart соответственно.
- * Элементы tvMatchesCounter и ivEndIcon не видимы по дефолту
+ * Дефолтно в ToolbarView для ivStartIcon, ivEndIcon и tvMatchesCounter
+ * Дефолтные значения так же не назначены
  */
 class ToolbarView @JvmOverloads constructor(
     context: Context,
