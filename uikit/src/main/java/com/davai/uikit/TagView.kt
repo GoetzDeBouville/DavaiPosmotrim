@@ -9,6 +9,7 @@ import android.widget.TextView
 import androidx.annotation.AttrRes
 import androidx.annotation.StyleRes
 
+@Suppress("Detekt:MagicNumber")
 class TagView @JvmOverloads constructor(
     context: Context,
     attrs: AttributeSet? = null,
@@ -67,23 +68,23 @@ class TagView @JvmOverloads constructor(
             1 -> {
                 vtText?.setBackgroundResource(R.drawable.tag_primary_violet_background)
                 vtText?.setTextColor(context.getColor(R.color.text_light))
-                setPaddings(12, 4)
+                setPaddings(PADDING_SMALL_HORIZONTAL, PADDING_SMALL_VERTICAL)
             }
             2 -> {
                 vtText?.setBackgroundResource(R.drawable.tag_primary_gray_background)
                 vtText?.setTextColor(context.getColor(R.color.text_base))
-                setPaddings(12, 4)
-             }
+                setPaddings(PADDING_SMALL_HORIZONTAL, PADDING_SMALL_VERTICAL)
+            }
             3 -> {
                 vtText?.setBackgroundResource(R.drawable.tag_secodary_green_background)
                 vtText?.setTextColor(context.getColor(R.color.tertiary_base))
-                setPaddings(20, 8)
+                setPaddings(PADDING_BIG_HORIZONTAL, PADDING_BIG_VERTICAL)
             }
             4 -> {
                 vtText?.setBackgroundResource(R.drawable.tag_secondary_gray_background)
                 vtText?.setTextColor(context.getColor(R.color.text_caption_dark))
-                setPaddings(20, 8)
-             }
+                setPaddings(PADDING_BIG_HORIZONTAL, PADDING_BIG_VERTICAL)
+            }
         }
     }
 
@@ -94,5 +95,12 @@ class TagView @JvmOverloads constructor(
             (horizontal * resources.displayMetrics.density).toInt(),
             (vertical * resources.displayMetrics.density).toInt(),
         )
+    }
+
+    private companion object {
+        const val PADDING_SMALL_HORIZONTAL = 12
+        const val PADDING_SMALL_VERTICAL = 4
+        const val PADDING_BIG_HORIZONTAL = 20
+        const val PADDING_BIG_VERTICAL = 8
     }
 }

@@ -76,7 +76,8 @@ class MainActivity : AppCompatActivity() {
                 btnToDvTags -> startActivity(
                     Intent(
                         this@MainActivity,
-                        TagViewExample::class.java)
+                        TagViewExample::class.java
+                    )
                 )
             }
         }
