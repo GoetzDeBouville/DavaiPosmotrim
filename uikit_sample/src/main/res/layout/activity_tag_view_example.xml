@@ -57,4 +57,28 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@id/tag_view3" />
 
+    <com.davai.uikit.TagView
+        android:id="@+id/tag_view5"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/margin_24"
+        android:layout_marginHorizontal="@dimen/margin_16"
+        app:tag_text="Фильм"
+        app:tag_type="onboarding_yellow"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tag_view4" />
+
+    <com.davai.uikit.TagView
+        android:id="@+id/tag_view6"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/margin_24"
+        android:layout_marginHorizontal="@dimen/margin_16"
+        app:tag_text="Фильм"
+        app:tag_type="onboarding_violet"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tag_view5" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

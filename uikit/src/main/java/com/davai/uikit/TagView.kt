@@ -1,6 +1,5 @@
 package com.davai.uikit
 
-import android.annotation.SuppressLint
 import android.content.Context
 import android.util.AttributeSet
 import android.view.LayoutInflater
@@ -9,7 +8,6 @@ import android.widget.TextView
 import androidx.annotation.AttrRes
 import androidx.annotation.StyleRes
 
-@Suppress("Detekt:MagicNumber")
 class TagView @JvmOverloads constructor(
     context: Context,
     attrs: AttributeSet? = null,
@@ -17,7 +15,7 @@ class TagView @JvmOverloads constructor(
     @StyleRes defStyleRes: Int = 0
 ) : FrameLayout(context, attrs, defStyleAttr, defStyleRes) {
 
-    private var vtText: TextView? = null
+    private var tvTagText: TextView? = null
     private var tagType: Int = 1
 
     init {
@@ -27,10 +25,9 @@ class TagView @JvmOverloads constructor(
 
     private fun initViews() {
         LayoutInflater.from(context).inflate(R.layout.tag_view, this)
-        vtText = findViewById(R.id.tv_tag_view)
+        tvTagText = findViewById(R.id.tv_tag_view)
     }
 
-    @SuppressLint("ResourceType")
     private fun applyAttributes(
         context: Context,
         attrs: AttributeSet?,
@@ -43,53 +40,85 @@ class TagView @JvmOverloads constructor(
             defStyleAttr,
             defStyleRes
         ).apply {
-            vtText?.text = getString(R.styleable.TagView_tag_text)
-            tagType = getInt(R.styleable.TagView_tag_type, 1)
-            setStyle(tagType)
+            try {
+                tvTagText?.text = getString(R.styleable.TagView_tag_text)
+                tagType = getInt(R.styleable.TagView_tag_type, 1)
+                setStyle(tagType)
+            } finally {
+                recycle()
+            }
         }
     }
 
     fun setText(text: String) {
-        vtText?.text = text
+        tvTagText?.text = text
     }
 
     fun setChosen() {
-        vtText?.setBackgroundResource(R.drawable.tag_secodary_green_background)
-        vtText?.setTextColor(context.getColor(R.color.tertiary_base))
+        tvTagText?.let {
+            it.setBackgroundResource(R.drawable.tag_secodary_green_background)
+            it.setTextColor(context.getColor(R.color.tertiary_base))
+        }
     }
 
     fun setDisabled() {
-        vtText?.setBackgroundResource(R.drawable.tag_secondary_gray_background)
-        vtText?.setTextColor(context.getColor(R.color.text_caption_dark))
+        tvTagText?.let {
+            it.setBackgroundResource(R.drawable.tag_secondary_gray_background)
+            it.setTextColor(context.getColor(R.color.text_caption_dark))
+        }
     }
 
     private fun setStyle(type: Int) {
         when (type) {
-            1 -> {
-                vtText?.setBackgroundResource(R.drawable.tag_primary_violet_background)
-                vtText?.setTextColor(context.getColor(R.color.text_light))
-                setPaddings(PADDING_SMALL_HORIZONTAL, PADDING_SMALL_VERTICAL)
+            STYLE_PRIMARY_VIOLET -> {
+                tvTagText?.let {
+                    it.setBackgroundResource(R.drawable.tag_primary_violet_background)
+                    it.setTextColor(context.getColor(R.color.text_light))
+                }
+                setPaddings(PADDING_SMALL_HORIZONTAL_DP, PADDING_SMALL_VERTICAL_DP)
             }
-            2 -> {
-                vtText?.setBackgroundResource(R.drawable.tag_primary_gray_background)
-                vtText?.setTextColor(context.getColor(R.color.text_base))
-                setPaddings(PADDING_SMALL_HORIZONTAL, PADDING_SMALL_VERTICAL)
+            STYLE_PRIMARY_GRAY -> {
+                tvTagText?.let {
+                    it.setBackgroundResource(R.drawable.tag_primary_gray_background)
+                    it.setTextColor(context.getColor(R.color.text_base))
+                }
+                setPaddings(PADDING_SMALL_HORIZONTAL_DP, PADDING_SMALL_VERTICAL_DP)
             }
-            3 -> {
-                vtText?.setBackgroundResource(R.drawable.tag_secodary_green_background)
-                vtText?.setTextColor(context.getColor(R.color.tertiary_base))
-                setPaddings(PADDING_BIG_HORIZONTAL, PADDING_BIG_VERTICAL)
+            STYLE_SECONDARY_GREEN -> {
+                tvTagText?.let {
+                    it.setBackgroundResource(R.drawable.tag_secodary_green_background)
+                    it.setTextColor(context.getColor(R.color.text_base))
+                }
+                setPaddings(PADDING_BIG_HORIZONTAL_DP, PADDING_BIG_VERTICAL_DP)
             }
-            4 -> {
-                vtText?.setBackgroundResource(R.drawable.tag_secondary_gray_background)
-                vtText?.setTextColor(context.getColor(R.color.text_caption_dark))
-                setPaddings(PADDING_BIG_HORIZONTAL, PADDING_BIG_VERTICAL)
+            STYLE_SECONDARY_GRAY -> {
+                tvTagText?.let {
+                    it.setBackgroundResource(R.drawable.tag_secondary_gray_background)
+                    it.setTextColor(context.getColor(R.color.text_caption_dark))
+                }
+                setPaddings(PADDING_BIG_HORIZONTAL_DP, PADDING_BIG_VERTICAL_DP)
+            }
+            STYLE_ONBOARDING_YELLOW -> {
+                tvTagText?.let {
+                    it.setBackgroundResource(R.drawable.tag_onboadring_yellow_background)
+                    it.setTextColor(context.getColor(R.color.text_base))
+                    it.setTextAppearance(R.style.Text_Base_SplashItem)
+                }
+                setPaddings(PADDING_BIG_HORIZONTAL_DP, PADDING_BIG_VERTICAL_DP)
+            }
+            STYLE_ONBOARDING_VIOLET -> {
+                tvTagText?.let {
+                    it.setBackgroundResource(R.drawable.tag_onboarding_violet_background)
+                    it.setTextColor(context.getColor(R.color.text_light))
+                    it.setTextAppearance(R.style.Text_Base_SplashItem)
+                }
+                setPaddings(PADDING_BIG_HORIZONTAL_DP, PADDING_BIG_VERTICAL_DP)
             }
         }
     }
 
     private fun setPaddings(horizontal: Int, vertical: Int) {
-        vtText?.setPadding(
+        tvTagText?.setPadding(
             (horizontal * resources.displayMetrics.density).toInt(),
             (vertical * resources.displayMetrics.density).toInt(),
             (horizontal * resources.displayMetrics.density).toInt(),
@@ -98,9 +127,16 @@ class TagView @JvmOverloads constructor(
     }
 
     private companion object {
-        const val PADDING_SMALL_HORIZONTAL = 12
-        const val PADDING_SMALL_VERTICAL = 4
-        const val PADDING_BIG_HORIZONTAL = 20
-        const val PADDING_BIG_VERTICAL = 8
+        const val PADDING_SMALL_HORIZONTAL_DP = 12
+        const val PADDING_SMALL_VERTICAL_DP = 4
+        const val PADDING_BIG_HORIZONTAL_DP = 20
+        const val PADDING_BIG_VERTICAL_DP = 8
+
+        const val STYLE_PRIMARY_VIOLET = 1
+        const val STYLE_PRIMARY_GRAY = 2
+        const val STYLE_SECONDARY_GREEN = 3
+        const val STYLE_SECONDARY_GRAY = 4
+        const val STYLE_ONBOARDING_YELLOW = 5
+        const val STYLE_ONBOARDING_VIOLET = 6
     }
 }
