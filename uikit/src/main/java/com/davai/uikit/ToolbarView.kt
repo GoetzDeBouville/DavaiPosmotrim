@@ -67,8 +67,8 @@ class ToolbarView @JvmOverloads constructor(
             val startIconResId = getResourceId(R.styleable.ToolbarView_start_icon, 0)
             val endIconResId = getResourceId(R.styleable.ToolbarView_end_icon, 0)
 
-            ivEndIcon?.isVisible = getBoolean(R.styleable.ToolbarView_end_icon_is_visible, false)
-            ivStartIcon?.isVisible =
+            ivEndIcon.isVisible = getBoolean(R.styleable.ToolbarView_end_icon_is_visible, false)
+            ivStartIcon.isVisible =
                 getBoolean(R.styleable.ToolbarView_start_icon_is_visible, false)
 
             setTitleText(titleText)
