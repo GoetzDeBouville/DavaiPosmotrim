@@ -54,17 +54,14 @@ class TagView @JvmOverloads constructor(
         tvTagText?.text = text
     }
 
-    fun setChosen() {
-        tvTagText?.let {
-            it.setBackgroundResource(R.drawable.tag_secodary_green_background)
-            it.setTextColor(context.getColor(R.color.tertiary_base))
-        }
-    }
-
-    fun setDisabled() {
-        tvTagText?.let {
-            it.setBackgroundResource(R.drawable.tag_secondary_gray_background)
-            it.setTextColor(context.getColor(R.color.text_caption_dark))
+    fun changeStyle(style: Style) {
+        when (style) {
+            Style.PRIMARY_VIOLET -> setStyle(STYLE_PRIMARY_VIOLET)
+            Style.PRIMARY_GRAY -> setStyle(STYLE_PRIMARY_GRAY)
+            Style.SECONDARY_GREEN -> setStyle(STYLE_SECONDARY_GREEN)
+            Style.SECONDARY_GRAY -> setStyle(STYLE_SECONDARY_GRAY)
+            Style.ONBOARDING_YELLOW -> setStyle(STYLE_ONBOARDING_YELLOW)
+            Style.ONBOARDING_VIOLET -> setStyle(STYLE_ONBOARDING_VIOLET)
         }
     }
 
@@ -126,17 +123,26 @@ class TagView @JvmOverloads constructor(
         )
     }
 
-    private companion object {
-        const val PADDING_SMALL_HORIZONTAL_DP = 12
-        const val PADDING_SMALL_VERTICAL_DP = 4
-        const val PADDING_BIG_HORIZONTAL_DP = 20
-        const val PADDING_BIG_VERTICAL_DP = 8
+    companion object {
+        private const val PADDING_SMALL_HORIZONTAL_DP = 12
+        private const val PADDING_SMALL_VERTICAL_DP = 4
+        private const val PADDING_BIG_HORIZONTAL_DP = 20
+        private const val PADDING_BIG_VERTICAL_DP = 8
 
-        const val STYLE_PRIMARY_VIOLET = 1
-        const val STYLE_PRIMARY_GRAY = 2
-        const val STYLE_SECONDARY_GREEN = 3
-        const val STYLE_SECONDARY_GRAY = 4
-        const val STYLE_ONBOARDING_YELLOW = 5
-        const val STYLE_ONBOARDING_VIOLET = 6
+        private const val STYLE_PRIMARY_VIOLET = 1
+        private const val STYLE_PRIMARY_GRAY = 2
+        private const val STYLE_SECONDARY_GREEN = 3
+        private const val STYLE_SECONDARY_GRAY = 4
+        private const val STYLE_ONBOARDING_YELLOW = 5
+        private const val STYLE_ONBOARDING_VIOLET = 6
+
+        enum class Style {
+            PRIMARY_VIOLET,
+            PRIMARY_GRAY,
+            SECONDARY_GREEN,
+            SECONDARY_GRAY,
+            ONBOARDING_YELLOW,
+            ONBOARDING_VIOLET
+        }
     }
 }

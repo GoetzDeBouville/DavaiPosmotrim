@@ -15,11 +15,11 @@ class TagViewExample : AppCompatActivity() {
         val fourthButton = findViewById<TagView>(R.id.tag_view4)
 
         thirdButton.setOnClickListener {
-            thirdButton.setDisabled()
+            thirdButton.changeStyle(TagView.Companion.Style.SECONDARY_GRAY)
         }
 
         fourthButton.setOnClickListener {
-            fourthButton.setChosen()
+            fourthButton.changeStyle(TagView.Companion.Style.SECONDARY_GREEN)
         }
     }
 }
