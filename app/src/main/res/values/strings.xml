@@ -3,6 +3,7 @@
     <!-- TODO: Remove or change this placeholder text -->
     <!--sessionconnection screen-->
     <string name="sessionconnection_enter_session_code">Код сеанса</string>
+    <string name="sessionconnection_invalid">Код cеанса должен состоять 4 букв и 3 цифр</string>
     <string name="sessionconnection_no_session">Сеанс не найден</string>
     <string name="sessionconnection_join">Присоединиться</string>
 </resources>
