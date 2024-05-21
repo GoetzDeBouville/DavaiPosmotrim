@@ -18,7 +18,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
-    <com.davai.uikit.ImeBackEditText
+    <com.davai.uikit.KeyboardBackEditText
         android:id="@+id/et_name"
         style="@style/BigTextEditText"
         android:layout_width="wrap_content"

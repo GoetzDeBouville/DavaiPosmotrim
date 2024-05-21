@@ -8,7 +8,7 @@ import androidx.appcompat.widget.AppCompatEditText
 /**
 Поле ввода текста, обрабатывающее нажатие кнопки назад.
  */
-class ImeBackEditText : AppCompatEditText {
+class KeyboardBackEditText : AppCompatEditText {
 
     var buttonBackHandler: (() -> Unit)? = null
 
