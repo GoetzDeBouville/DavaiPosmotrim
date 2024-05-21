@@ -6,8 +6,6 @@ import android.view.View
 import android.view.WindowInsetsController
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.ContextCompat
-import com.davay.android.R
 import com.davay.android.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
