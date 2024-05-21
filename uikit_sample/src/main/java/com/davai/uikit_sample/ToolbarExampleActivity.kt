@@ -6,7 +6,7 @@ import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import com.davai.uikit.ToolbarView
 
-@Suppress("Detekt.MagicNumber")
+@Suppress("Detekt.MagicNumber", "Detekt.ArgumentListWrapping")
 class ToolbarExampleActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -22,15 +22,14 @@ class ToolbarExampleActivity : AppCompatActivity() {
             showEndIcon()
             setStartIconClickListener {
                 Toast.makeText(
-                    this@ToolbarExampleActivity,
-                    "Start icon clicked",
-                    Toast.LENGTH_SHORT
+                    this@ToolbarExampleActivity, "Start icon clicked", Toast.LENGTH_SHORT
                 ).show()
             }
             setEndIconClickListener {
                 Toast.makeText(this@ToolbarExampleActivity, "End icon clicked", Toast.LENGTH_SHORT)
                     .show()
             }
+            addStatusBarSpacer(this@ToolbarExampleActivity)
         }
 
         findViewById<ToolbarView>(R.id.toolbarView2).apply {
@@ -39,21 +38,15 @@ class ToolbarExampleActivity : AppCompatActivity() {
             showMatchesCounter()
             setEndIcon(com.davai.uikit.R.drawable.ic_heart)
             setStartIcon(com.davai.uikit.R.drawable.ic_cross)
+            setSubtitleText("Session qwrt12ew")
             showStartIcon()
         }
 
         findViewById<ToolbarView>(R.id.toolbarView3).apply {
             showEndIcon()
-            setEndIcon(R.drawable.ic_launcher_foreground)
-            setStartIcon(R.drawable.ic_launcher_foreground)
+            setEndIcon(com.davai.uikit.R.drawable.ic_cross)
+            setStartIcon(com.davai.uikit.R.drawable.ic_heart)
             showStartIcon()
-        }
-
-        findViewById<ToolbarView>(R.id.toolbarView4).apply {
-            hideEndIcon()
-            setEndIcon(R.drawable.ic_launcher_foreground)
-            showStartIcon()
-            setStartIcon(com.davai.uikit.R.drawable.ic_arrow_back)
         }
     }
 }
