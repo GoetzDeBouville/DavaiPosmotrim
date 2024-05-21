@@ -29,7 +29,7 @@ class ToolbarExampleActivity : AppCompatActivity() {
                 Toast.makeText(this@ToolbarExampleActivity, "End icon clicked", Toast.LENGTH_SHORT)
                     .show()
             }
-            addStatusBarSpacer(this@ToolbarExampleActivity)
+            addStatusBarSpacer()
         }
 
         findViewById<ToolbarView>(R.id.toolbarView2).apply {
