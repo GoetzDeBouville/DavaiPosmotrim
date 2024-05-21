@@ -72,28 +72,28 @@ class TagView @JvmOverloads constructor(
                     it.setBackgroundResource(R.drawable.tag_primary_violet_background)
                     it.setTextColor(context.getColor(R.color.text_light))
                 }
-                setPaddings(PADDING_12_HORIZONTAL_DP, PADDING_4_VERTICAL_DP)
+                setPaddings(PADDING_HORIZONTAL_12_DP, PADDING_VERTICAL_4_DP)
             }
             STYLE_PRIMARY_GRAY -> {
                 tvTagText?.let {
                     it.setBackgroundResource(R.drawable.tag_primary_gray_background)
                     it.setTextColor(context.getColor(R.color.text_base))
                 }
-                setPaddings(PADDING_12_HORIZONTAL_DP, PADDING_4_VERTICAL_DP)
+                setPaddings(PADDING_HORIZONTAL_12_DP, PADDING_VERTICAL_4_DP)
             }
             STYLE_SECONDARY_GREEN -> {
                 tvTagText?.let {
                     it.setBackgroundResource(R.drawable.tag_secodary_green_background)
                     it.setTextColor(context.getColor(R.color.text_base))
                 }
-                setPaddings(PADDING_20_HORIZONTAL_DP, PADDING_8_VERTICAL_DP)
+                setPaddings(PADDING_HORIZONTAL_20_DP, PADDING_VERTICAL_8_DP)
             }
             STYLE_SECONDARY_GRAY -> {
                 tvTagText?.let {
                     it.setBackgroundResource(R.drawable.tag_secondary_gray_background)
                     it.setTextColor(context.getColor(R.color.text_caption_dark))
                 }
-                setPaddings(PADDING_20_HORIZONTAL_DP, PADDING_8_VERTICAL_DP)
+                setPaddings(PADDING_HORIZONTAL_20_DP, PADDING_VERTICAL_8_DP)
             }
             STYLE_ONBOARDING_YELLOW -> {
                 tvTagText?.let {
@@ -101,7 +101,7 @@ class TagView @JvmOverloads constructor(
                     it.setTextColor(context.getColor(R.color.text_base))
                     it.setTextAppearance(R.style.Text_Base_SplashItem)
                 }
-                setPaddings(PADDING_20_HORIZONTAL_DP, PADDING_8_VERTICAL_DP)
+                setPaddings(PADDING_HORIZONTAL_20_DP, PADDING_VERTICAL_8_DP)
             }
             STYLE_ONBOARDING_VIOLET -> {
                 tvTagText?.let {
@@ -109,7 +109,7 @@ class TagView @JvmOverloads constructor(
                     it.setTextColor(context.getColor(R.color.text_light))
                     it.setTextAppearance(R.style.Text_Base_SplashItem)
                 }
-                setPaddings(PADDING_20_HORIZONTAL_DP, PADDING_8_VERTICAL_DP)
+                setPaddings(PADDING_HORIZONTAL_20_DP, PADDING_VERTICAL_8_DP)
             }
         }
     }
@@ -124,10 +124,10 @@ class TagView @JvmOverloads constructor(
     }
 
     companion object {
-        private const val PADDING_12_HORIZONTAL_DP = 12
-        private const val PADDING_4_VERTICAL_DP = 4
-        private const val PADDING_20_HORIZONTAL_DP = 20
-        private const val PADDING_8_VERTICAL_DP = 8
+        private const val PADDING_HORIZONTAL_12_DP = 12
+        private const val PADDING_HORIZONTAL_20_DP = 20
+        private const val PADDING_VERTICAL_4_DP = 4
+        private const val PADDING_VERTICAL_8_DP = 8
 
         private const val STYLE_PRIMARY_VIOLET = 1
         private const val STYLE_PRIMARY_GRAY = 2
