@@ -1,9 +1,14 @@
 package com.davai.uikit
 
+import android.app.Activity
 import android.content.Context
+import android.os.Build
 import android.util.AttributeSet
 import android.view.LayoutInflater
+import android.view.View
+import android.view.WindowInsets
 import android.widget.ImageView
+import android.widget.Space
 import android.widget.TextView
 import androidx.annotation.AttrRes
 import androidx.annotation.StyleRes
@@ -38,6 +43,9 @@ class ToolbarView @JvmOverloads constructor(
     }
     private val ivEndIcon: ImageView by lazy {
         findViewById(R.id.iv_end_icon)
+    }
+    private val topSpace: Space by lazy {
+        findViewById(R.id.top_space)
     }
 
     init {
@@ -175,5 +183,53 @@ class ToolbarView @JvmOverloads constructor(
      */
     fun setEndIconClickListener(listener: () -> Unit) {
         ivEndIcon.setOnClickListener { listener() }
+    }
+
+    /**
+     * Добавляет spacer в высоту статус бара
+     */
+    @Suppress("DEPRECATION")
+    fun addStatusBarSpacer(activity: Activity) {
+        setOnApplyWindowInsetsListener { _, insets ->
+            val statusBarHeight = if (Build.VERSION.SDK_INT < Build.VERSION_CODES.R) {
+                resources.getDimensionPixelSize(
+                    resources.getIdentifier(STATUS_BAR_HEIGHT, DIMEN, ANDROID)
+                )
+            } else {
+                val windowInsets = activity.window.decorView.rootWindowInsets
+                windowInsets.getInsets(WindowInsets.Type.statusBars()).top
+            }
+
+            applySpaceHeight(statusBarHeight)
+
+            if (Build.VERSION.SDK_INT < Build.VERSION_CODES.R) {
+                insets.consumeSystemWindowInsets()
+            } else {
+                WindowInsets.CONSUMED
+            }
+        }
+        requestApplyInsets()
+    }
+
+    private fun applySpaceHeight(statusBarHeight: Int) {
+        topSpace.let {
+            val layoutParams = it.layoutParams
+            layoutParams.height = statusBarHeight
+            it.layoutParams = layoutParams
+        }
+    }
+
+    /**
+     * Удаляет спэйсер в статус баре
+     * ! дефолтно в статус баре спэйсер нулевого размера
+     */
+    fun removeSpacerOnStatusBar() {
+        topSpace.visibility = View.GONE
+    }
+
+    private companion object {
+        const val STATUS_BAR_HEIGHT = "status_bar_height"
+        const val DIMEN = "dimen"
+        const val ANDROID = "android"
     }
 }
