@@ -13,7 +13,8 @@ class SessionExample : AppCompatActivity() {
         val date = "1 января"
         val coincidences = 6
         val namesList = "Дима (вы), Петя, Вася, Катя, Маша, Тимофеевна"
-        val coverUrl = "https://s5.afisha.ru/mediastorage/ba/60/3a2f91298ada4e1cafb1bf3460ba.jpg"
+        val coverUrl =
+            "https://avatars.mds.yandex.net/get-kinopoisk-image/1600647/6e9e2641-5750-4991-a52b-8c1cd0e80b4c/3840x"
 
         setContentView(R.layout.activity_session_example)
 
@@ -22,6 +23,13 @@ class SessionExample : AppCompatActivity() {
             setCoincidences(coincidences)
             setNamesList(namesList)
             setCover(coverUrl)
+        }
+
+        findViewById<SessionView>(R.id.sv_example2).apply {
+            setDate(date)
+            setCoincidences(3)
+            setNamesList(namesList)
+            setCover("bla-bla-bla-bla-bla-bla-bla-bla")
         }
     }
 }

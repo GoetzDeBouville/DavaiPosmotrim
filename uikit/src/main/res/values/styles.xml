@@ -64,4 +64,8 @@
         <item name="cornerFamily">rounded</item>
         <item name="cornerSize">@dimen/card_radius_16</item>
     </style>
+
+    <style name="RoundedImageView.SessionView">
+        <item name="cornerSize">@dimen/card_radius_18</item>
+    </style>
 </resources>

@@ -16,6 +16,9 @@ class ToolbarExampleActivity : AppCompatActivity() {
         findViewById<ToolbarView>(R.id.toolbarView).apply {
             setSubtitleText("Session 828fuYT")
             setTitleText("3 September again")
+            showStartIcon()
+            setStartIcon(com.davai.uikit.R.drawable.ic_arrow_back)
+            setEndIcon(com.davai.uikit.R.drawable.ic_heart)
             showEndIcon()
             setStartIconClickListener {
                 Toast.makeText(
