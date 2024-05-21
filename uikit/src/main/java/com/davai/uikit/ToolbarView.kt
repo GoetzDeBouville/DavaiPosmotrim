@@ -212,10 +212,4 @@ class ToolbarView @JvmOverloads constructor(
     fun removeSpacerOnStatusBar() {
         topSpace.visibility = View.GONE
     }
-
-    private companion object {
-        const val STATUS_BAR_HEIGHT = "status_bar_height"
-        const val DIMEN = "dimen"
-        const val ANDROID = "android"
-    }
 }
