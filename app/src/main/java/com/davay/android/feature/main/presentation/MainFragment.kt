@@ -4,7 +4,8 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.davay.android.R
+import android.widget.Toast
+import com.davai.uikit.MainScreenButtonView
 import com.davay.android.app.AppComponentHolder
 import com.davay.android.base.BaseFragment
 import com.davay.android.databinding.FragmentMainBinding
@@ -25,13 +26,26 @@ class MainFragment :
         savedInstanceState: Bundle?
     ): View {
         super.onCreateView(inflater, container, savedInstanceState)
+        binding.createSession.setState(MainScreenButtonView.CREATE)
+        binding.favorite.setState(MainScreenButtonView.FAVORITE)
+        binding.joinSession.setState(MainScreenButtonView.JOIN)
+
+        // for test
+        binding.userName.text = "Артём"
+
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding.buttonM.setOnClickListener {
-            viewModel.navigate(R.id.action_mainFragment_to_loadFragment)
+        binding.createSession.setOnClickListener {
+            Toast.makeText(requireContext(), "Create Session", Toast.LENGTH_SHORT).show()
+        }
+        binding.favorite.setOnClickListener {
+            Toast.makeText(requireContext(), "Favorite", Toast.LENGTH_SHORT).show()
+        }
+        binding.joinSession.setOnClickListener {
+            Toast.makeText(requireContext(), "Join Session", Toast.LENGTH_SHORT).show()
         }
     }
 }

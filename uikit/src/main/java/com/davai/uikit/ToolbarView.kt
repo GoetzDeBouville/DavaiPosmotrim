@@ -11,9 +11,7 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.view.isVisible
 
 /**
- * Дефолтно в ToolbarView для ivStartIcon и ivEndIcon установлены изображения ic_arrow_back и
- * ic_heart соответственно.
- * Элементы tvMatchesCounter и ivEndIcon не видимы по дефолту
+ * Дефолтные значения в ToolbarView для ivStartIcon, ivEndIcon и tvMatchesCounter не назначены
  */
 class ToolbarView @JvmOverloads constructor(
     context: Context,
@@ -70,6 +68,8 @@ class ToolbarView @JvmOverloads constructor(
             val endIconResId = getResourceId(R.styleable.ToolbarView_end_icon, 0)
 
             ivEndIcon?.isVisible = getBoolean(R.styleable.ToolbarView_end_icon_is_visible, false)
+            ivStartIcon?.isVisible =
+                getBoolean(R.styleable.ToolbarView_start_icon_is_visible, false)
 
             setTitleText(titleText)
             setSubtitleText(subTitleText)
@@ -86,14 +86,21 @@ class ToolbarView @JvmOverloads constructor(
      * Назначает текст счетчика совпадений и управляет видимостью
      */
     fun updateMatchesDisplay(numberOfMatches: Int) {
-        tvMatchesCounter.isVisible = when {
-            numberOfMatches > 0 -> {
-                tvMatchesCounter.text = numberOfMatches.toString()
-                true
-            }
+        tvMatchesCounter.text = numberOfMatches.toString()
+    }
 
-            else -> false
-        }
+    /**
+     * Упроавление видимостью счетчиком
+     */
+    fun showMatchesCounter() {
+        tvMatchesCounter.isVisible = true
+    }
+
+    /**
+     * Упроавление видимостью счетчиком
+     */
+    fun hideMatchesCounter() {
+        tvMatchesCounter.isVisible = false
     }
 
     /**
@@ -111,7 +118,7 @@ class ToolbarView @JvmOverloads constructor(
     }
 
     /**
-     * Назначает ресурс для иконкм для заголовка
+     * Назначает ресурс для StartIcon
      */
     fun setStartIcon(resId: Int) {
         if (resId != 0) {
@@ -120,7 +127,7 @@ class ToolbarView @JvmOverloads constructor(
     }
 
     /**
-     * Назначает ресурс для иконкм для заголовка
+     * Назначает ресурс для EndIcon
      */
     fun setEndIcon(resId: Int) {
         if (resId != 0) {
@@ -140,6 +147,20 @@ class ToolbarView @JvmOverloads constructor(
      */
     fun hideEndIcon() {
         ivEndIcon.isVisible = false
+    }
+
+    /**
+     * Упроавление видимостью ivStartIcon
+     */
+    fun showStartIcon() {
+        ivStartIcon.isVisible = true
+    }
+
+    /**
+     * Упроавление видимостью ivStartIcon
+     */
+    fun hideStartIcon() {
+        ivStartIcon.isVisible = false
     }
 
     /**

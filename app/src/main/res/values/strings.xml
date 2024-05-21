@@ -1,3 +1,6 @@
 <resources>
     <string name="app_name">DavayPosmotrim</string>
+    <string name="main_fragment_text">Забудьте о бесконечных спорах и компромиссах\n
+        <font color="#FF8B55FF">Наслаждайтесь моментами</font>, выбрав вместе\n
+        идеальный фильм</string>
 </resources>
