@@ -76,7 +76,7 @@ class SessionConnectionFragment :
     private fun buttonClicked() {
         viewModel.buttonClicked(binding.etCode.text)
         if (viewModel.state.value == SessionConnectionState.SUCCESS) {
-            //viewModel.navigate(R.id.action_sessionConnectionFragment_to_listOfSessionsFragment)
+            viewModel.navigate(R.id.action_sessionConnectionFragment_to_sessionListFragment)
         }
     }
 }

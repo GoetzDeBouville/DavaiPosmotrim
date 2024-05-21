@@ -6,4 +6,6 @@
     <string name="sessionconnection_invalid">Код cеанса должен состоять 4 букв и 3 цифр</string>
     <string name="sessionconnection_no_session">Сеанс не найден</string>
     <string name="sessionconnection_join">Присоединиться</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
