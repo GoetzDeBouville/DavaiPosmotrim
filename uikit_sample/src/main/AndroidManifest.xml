@@ -13,6 +13,9 @@
         <activity android:name=".BannerViewExample"
             android:exported="false" />
         <activity
+            android:name=".MainScreenButtonViewExample"
+            android:exported="false" />
+        <activity
             android:name=".MoovieCardViewExampleActivity"
             android:exported="false" />
         <activity
