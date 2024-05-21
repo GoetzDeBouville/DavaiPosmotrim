@@ -20,7 +20,6 @@
 
     <com.davai.uikit.KeyboardBackEditText
         android:id="@+id/et_name"
-        style="@style/BigTextEditText"
         android:layout_width="wrap_content"
         android:layout_height="@dimen/dimen_64"
         android:autofillHints="name"
@@ -30,6 +29,7 @@
         android:inputType="textPersonName"
         android:lines="1"
         android:minWidth="@dimen/dimen_80"
+        android:textAppearance="@style/Text.Headline.Title"
         android:textColor="@color/text_base"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
