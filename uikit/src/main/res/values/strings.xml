@@ -6,8 +6,9 @@
     <string name="navigation_icon">Иконка навигации</string>
     <string name="icon_with_number_of_matches">Иконка с количеством совпадений</string>
     <string name="movie_cover">Обложка фильма</string>
-
     <string name="create_session">Создать сеанс</string>
     <string name="favorite">Понравившиеся фильмы</string>
     <string name="join_session">Присоединиться к сеансу</string>
+    <string name="banner_attention">Выберите хотя бы один жанр</string>
+    <string name="banner_success">Код сеанса успешно скопирован</string>
 </resources>

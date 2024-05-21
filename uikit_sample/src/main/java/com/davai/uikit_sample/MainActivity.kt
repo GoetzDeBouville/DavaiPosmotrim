@@ -3,7 +3,6 @@ package com.davai.uikit_sample
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
-import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import com.davai.uikit_sample.databinding.ActivityMainBinding
@@ -42,12 +41,12 @@ class MainActivity : AppCompatActivity() {
                     )
                 )
 
-                btnToDvBanner -> Toast.makeText(
-                    this@MainActivity,
-                    "ToDvBanner",
-                    Toast.LENGTH_SHORT
+                btnToDvBanner -> startActivity(
+                    Intent(
+                        this@MainActivity,
+                        BannerViewExample::class.java
+                    )
                 )
-                    .show()
 
                 btnToDvButton -> startActivity(
                     Intent(
