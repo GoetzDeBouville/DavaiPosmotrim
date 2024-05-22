@@ -5,6 +5,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
+import androidx.core.view.updateLayoutParams
 import com.davai.uikit.MainScreenButtonView
 import com.davay.android.app.AppComponentHolder
 import com.davay.android.base.BaseFragment
@@ -46,6 +49,17 @@ class MainFragment :
         }
         binding.joinSession.setOnClickListener {
             Toast.makeText(requireContext(), "Join Session", Toast.LENGTH_SHORT).show()
+        }
+        updateMarginLogo()
+    }
+
+    private fun updateMarginLogo() {
+        ViewCompat.setOnApplyWindowInsetsListener(binding.logo) { v, windowInsets ->
+            val insets = windowInsets.getInsets(WindowInsetsCompat.Type.statusBars())
+            v.updateLayoutParams<ViewGroup.MarginLayoutParams> {
+                topMargin = insets.top
+            }
+            WindowInsetsCompat.CONSUMED
         }
     }
 }
