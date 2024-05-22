@@ -8,7 +8,9 @@ import android.widget.Toast
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.updateLayoutParams
+import androidx.navigation.fragment.findNavController
 import com.davai.uikit.MainScreenButtonView
+import com.davay.android.R
 import com.davay.android.app.AppComponentHolder
 import com.davay.android.base.BaseFragment
 import com.davay.android.databinding.FragmentMainBinding
@@ -48,7 +50,8 @@ class MainFragment :
             Toast.makeText(requireContext(), "Favorite", Toast.LENGTH_SHORT).show()
         }
         binding.joinSession.setOnClickListener {
-            Toast.makeText(requireContext(), "Join Session", Toast.LENGTH_SHORT).show()
+            //Toast.makeText(requireContext(), "Join Session", Toast.LENGTH_SHORT).show()
+            findNavController().navigate(R.id.action_mainFragment_to_sessionConnectionFragment)
         }
         updateMarginLogo()
     }

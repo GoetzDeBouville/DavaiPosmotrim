@@ -25,6 +25,9 @@
         <action
             android:id="@+id/action_mainFragment_to_loadFragment"
             app:destination="@id/loadFragment" />
+        <action
+            android:id="@+id/action_mainFragment_to_sessionConnectionFragment"
+            app:destination="@id/sessionConnectionFragment" />
     </fragment>
     <fragment
         android:id="@+id/registrationFragment"
@@ -34,9 +37,6 @@
         <action
             android:id="@+id/action_registrationFragment_to_mainFragment"
             app:destination="@id/mainFragment" />
-        <action
-            android:id="@+id/action_mainFragment_to_sessionConnectionFragment"
-            app:destination="@id/sessionConnectionFragment" />
     </fragment>
     <fragment
         android:id="@+id/sessionConnectionFragment"
