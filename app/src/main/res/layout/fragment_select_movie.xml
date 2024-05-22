@@ -68,72 +68,99 @@
             <TextView
                 android:id="@+id/tv_film_title"
                 style="@style/Text.Headline.Title.NoLineSpacing"
-                android:layout_width="match_parent"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="@dimen/margin_16"
+                android:layout_marginBottom="@dimen/padding_12"
                 android:ellipsize="end"
                 android:maxLines="2"
+                app:layout_constraintBottom_toTopOf="@+id/tv_mark_value"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/gl_image_info_border"
-                tools:text="[На 10 минут старше: Труба]" />
+                tools:text="[Приговоренный к смерти бежал или Дух веет где хочет]" />
 
-            <LinearLayout
-                android:id="@+id/ll_mark_block"
-                android:layout_width="match_parent"
+            <TextView
+                android:id="@+id/tv_mark_value"
+                style="@style/Text.Base.Medium.Bold.NoLineSpacing"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginHorizontal="@dimen/margin_16"
-                android:layout_marginLeft=""
-                android:layout_marginTop="@dimen/margin_12"
-                android:orientation="horizontal"
-                app:layout_constraintTop_toBottomOf="@id/tv_film_title">
+                android:layout_marginStart="@dimen/margin_16"
+                android:layout_marginBottom="@dimen/margin_8"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toTopOf="@+id/tv_year_country_runtime"
+                app:layout_constraintStart_toStartOf="parent"
+                tools:text="[9.1]" />
 
-                <TextView
-                    android:id="@+id/tv_mark_value"
-                    style="@style/Text.Base.Medium.Bold.NoLineSpacing"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textStyle="bold"
-                    tools:text="[9.1]" />
-
-                <TextView
-                    android:id="@+id/tv_original_title"
-                    style="@style/Text.Base.Medium.Regular.NoLineSpacing"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/margin_8"
-                    android:ellipsize="end"
-                    android:maxLines="2"
-                    tools:text="[Ten Minutes Older: The Trumpet]" />
-            </LinearLayout>
+            <TextView
+                android:id="@+id/tv_original_title"
+                style="@style/Text.Base.Medium.Regular.NoLineSpacing"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/margin_8"
+                android:layout_marginEnd="@dimen/margin_16"
+                android:ellipsize="end"
+                android:maxLines="1"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/tv_mark_value"
+                app:layout_constraintTop_toTopOf="@+id/tv_mark_value"
+                tools:text="[Un condamné à mort s'est échappé ou Le vent souffle où il veut]" />
 
             <TextView
                 android:id="@+id/tv_year_country_runtime"
                 style="@style/Text.Base.Small.Regular.NoLineSpacing"
-                android:layout_width="match_parent"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="@dimen/margin_16"
-                android:layout_marginTop="@dimen/margin_8"
-                android:ellipsize="end"
-                android:maxLines="1"
-                app:layout_constraintTop_toBottomOf="@+id/ll_mark_block"
-                tools:text="[2002 год ∙ Испания, Великобритания, Германия... ∙ 1 ч 32 мин]" />
+                android:layout_marginBottom="@dimen/margin_16"
+                android:maxLines="2"
+                app:layout_constraintBottom_toTopOf="@+id/rv_genre_list"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                tools:text="[1956 год ∙ Испания, Великобритания, Германия, Франция... ∙ 1 ч 32 мин]" />
 
-            <TextView
-                android:id="@+id/tv_genre"
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rv_genre_list"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/margin_16"
+                android:layout_marginBottom="@dimen/margin_16"
+                app:layout_constraintBottom_toTopOf="@+id/iv_skip"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                tools:itemCount="1"
+                tools:listitem="@layout/item_genre" />
+
+            <ImageView
+                android:id="@+id/iv_skip"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/margin_16"
-                android:layout_marginTop="@dimen/margin_16"
-                android:background="@drawable/tv_genre_background"
-                android:paddingHorizontal="@dimen/padding_12"
-                android:paddingVertical="@dimen/padding_4"
-                android:textColor="@color/background_white"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/tv_year_country_runtime"
-                tools:text="Фантастика" />
+                android:layout_margin="@dimen/margin_24"
+                android:contentDescription="@string/select_movies_skip_icon_description"
+                android:src="@drawable/ic_skip"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent" />
+
+            <ImageView
+                android:id="@+id/iv_revert"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:contentDescription="@string/select_movies_revert_icon_description"
+                android:src="@drawable/ic_revert"
+                app:layout_constraintBottom_toBottomOf="@id/iv_skip"
+                app:layout_constraintEnd_toEndOf="@id/iv_like"
+                app:layout_constraintStart_toStartOf="@id/iv_skip"
+                app:layout_constraintTop_toTopOf="@id/iv_skip" />
+
+            <ImageView
+                android:id="@+id/iv_like"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/margin_24"
+                android:contentDescription="@string/select_movies_like_icon_description"
+                android:src="@drawable/ic_like"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </com.google.android.material.card.MaterialCardView>
-
-
 </androidx.constraintlayout.motion.widget.MotionLayout>

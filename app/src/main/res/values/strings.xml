@@ -3,4 +3,7 @@
 
     <string name="select_movies_select_film">Выберите фильм</string>
     <string name="select_movies_cover_image_description">Изображение обложки фильма</string>
+    <string name="select_movies_skip_icon_description">Сбросить фильм</string>
+    <string name="select_movies_like_icon_description">Выбрать фильм</string>
+    <string name="select_movies_revert_icon_description">Вернуть предыдущий фильм</string>
 </resources>
