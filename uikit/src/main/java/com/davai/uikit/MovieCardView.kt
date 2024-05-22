@@ -9,6 +9,8 @@ import android.widget.TextView
 import androidx.annotation.AttrRes
 import androidx.annotation.StyleRes
 import coil.load
+import coil.size.Scale
+import coil.transform.RoundedCornersTransformation
 
 class MovieCardView @JvmOverloads constructor(
     context: Context,
@@ -16,18 +18,20 @@ class MovieCardView @JvmOverloads constructor(
     @AttrRes defStyleAttr: Int = 0,
     @StyleRes defStyleRes: Int = 0
 ) : FrameLayout(context, attrs, defStyleAttr, defStyleRes) {
-    private var tvMovieTitle: TextView? = null
-    private var ivMovieCover: ImageView? = null
+    private val tvMovieTitle: TextView by lazy {
+        findViewById(R.id.tv_movie_title)
+    }
+    private val ivMovieCover: ImageView by lazy {
+        findViewById(R.id.iv_movie_cover)
+    }
 
     init {
-        initViews()
+        inflateView()
         applyAttributes(context, attrs, defStyleAttr, defStyleRes)
     }
 
-    private fun initViews() {
+    private fun inflateView() {
         LayoutInflater.from(context).inflate(R.layout.movie_card_view, this, true)
-        tvMovieTitle = findViewById(R.id.tv_movie_title)
-        ivMovieCover = findViewById(R.id.iv_movie_cover)
     }
 
     private fun applyAttributes(
@@ -52,13 +56,18 @@ class MovieCardView @JvmOverloads constructor(
     }
 
     fun setMovieCover(url: String) {
-        ivMovieCover?.load(url) {
-            error(R.drawable.error_img)
-            placeholder(R.drawable.placeholder_img)
+        ivMovieCover.load(url) {
+            error(R.drawable.placeholder_error_film_138)
+                .scale(Scale.FIT)
+            placeholder(R.drawable.placeholder_general_80)
+                .scale(Scale.FIT)
+            transformations(
+                RoundedCornersTransformation()
+            ).crossfade(true)
         }
     }
 
     fun setMovieTitle(title: String) {
-        tvMovieTitle?.text = title
+        tvMovieTitle.text = title
     }
 }
