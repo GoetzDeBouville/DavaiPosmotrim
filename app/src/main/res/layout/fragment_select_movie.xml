@@ -33,6 +33,7 @@
         android:layout_marginVertical="@dimen/margin_16"
         android:backgroundTint="@color/background_white"
         app:cardCornerRadius="@dimen/card_radius_24"
+        app:strokeColor="@android:color/transparent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -49,7 +50,8 @@
                 android:contentDescription="@string/select_movies_cover_image_description"
                 android:scaleType="centerCrop"
                 app:layout_constraintBottom_toTopOf="@id/gl_image_info_border"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"
+                tools:src="@tools:sample/backgrounds/scenic[8]" />
 
             <View
                 android:layout_width="match_parent"
