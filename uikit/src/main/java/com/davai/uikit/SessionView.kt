@@ -6,53 +6,57 @@ import android.view.LayoutInflater
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
+import androidx.annotation.AttrRes
+import androidx.annotation.StyleRes
 import coil.load
 import coil.transform.RoundedCornersTransformation
 
 class SessionView @JvmOverloads constructor(
     context: Context,
     attrs: AttributeSet? = null,
-    defStyleAttr: Int = 0,
-    defStyleRes: Int = 0
+    @AttrRes defStyleAttr: Int = 0,
+    @StyleRes defStyleRes: Int = 0
 ) : LinearLayout(context, attrs, defStyleAttr, defStyleRes) {
-    private var tvDate: TextView? = null
-    private var tvCoincidences: TextView? = null
-    private var tvNamesList: TextView? = null
-    private var ivCover: ImageView? = null
-
-    init {
-        initViews()
+    private val tvDate: TextView by lazy {
+        findViewById(R.id.tv_session_date)
+    }
+    private val tvCoincidences: TextView by lazy {
+        findViewById(R.id.tv_session_coincidences)
+    }
+    private val tvNamesList: TextView by lazy {
+        findViewById(R.id.tv_session_names_list)
+    }
+    private val ivCover: ImageView by lazy {
+        findViewById(R.id.iv_session_cover)
     }
 
-    private fun initViews() {
+    init {
         LayoutInflater.from(context).inflate(R.layout.session_view, this, true)
-        tvDate = findViewById(R.id.tv_session_date)
-        tvCoincidences = findViewById(R.id.tv_session_coincidences)
-        tvNamesList = findViewById(R.id.tv_session_names_list)
-        ivCover = findViewById(R.id.iv_session_cover)
     }
 
     fun setDate(date: String) {
-        tvDate?.text = date
+        tvDate.text = date
     }
 
     fun setCoincidences(amount: Int) {
-        tvCoincidences?.text = String.format(resources.getString(R.string.session_coincidences), amount.toString())
+        tvCoincidences.text =
+            String.format(resources.getString(R.string.session_coincidences), amount.toString())
     }
 
     fun setNamesList(names: String) {
-        tvNamesList?.text = names
+        tvNamesList.text = names
     }
 
     fun setCover(url: String) {
-        ivCover?.load(url) {
-            error(R.drawable.error_img)
-            placeholder(R.drawable.placeholder_img)
+        ivCover.load(url) {
+            error(R.drawable.placeholder_error_theme_112)
+                .scale(coil.size.Scale.FIT)
+            placeholder(R.drawable.placeholder_general_80)
+                .scale(coil.size.Scale.FIT)
+
             transformations(
-                RoundedCornersTransformation(
-                    radius = resources.getDimensionPixelSize(R.dimen.card_radius_18).toFloat()
-                )
-            )
+                RoundedCornersTransformation()
+            ).crossfade(true)
         }
     }
 }

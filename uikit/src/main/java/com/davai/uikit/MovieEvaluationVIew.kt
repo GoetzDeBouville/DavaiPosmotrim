@@ -22,13 +22,21 @@ class MovieEvaluationVIew @JvmOverloads constructor(
     defStyleAttr,
     defStyleRes
 ) {
-    private var tvRateNumber: TextView? = null
-    private var tvNumberRates: TextView? = null
-    private var tvRateService: TextView? = null
-    private var body: LinearLayout? = null
+    private val tvRateNumber: TextView by lazy {
+        findViewById(R.id.tv_rate_number)
+    }
+    private val tvNumberRates: TextView by lazy {
+        findViewById(R.id.tv_number_rates)
+    }
+    private val tvRateService: TextView by lazy {
+        findViewById(R.id.tv_rate_service)
+    }
+    private val body: LinearLayout by lazy {
+        findViewById(R.id.ll_evaluation_body)
+    }
 
     init {
-        initViews()
+        inflateView()
         applyAttributes(
             context,
             attrs,
@@ -37,16 +45,12 @@ class MovieEvaluationVIew @JvmOverloads constructor(
         )
     }
 
-    private fun initViews() {
+    private fun inflateView() {
         LayoutInflater.from(context).inflate(
             R.layout.movie_evaluation_view,
             this,
             true
         )
-        tvRateNumber = findViewById(R.id.tv_rate_number)
-        tvNumberRates = findViewById(R.id.tv_number_rates)
-        tvRateService = findViewById(R.id.tv_rate_service)
-        body = findViewById(R.id.ll_evaluation_body)
     }
 
     private fun applyAttributes(
@@ -76,7 +80,7 @@ class MovieEvaluationVIew @JvmOverloads constructor(
     }
 
     fun setRateNum(rateNum: Float) {
-        tvRateNumber?.text = rateNum.toString()
+        tvRateNumber.text = rateNum.toString()
         setItemBackground(rateNum)
     }
 
@@ -89,7 +93,7 @@ class MovieEvaluationVIew @JvmOverloads constructor(
                 else -> R.color.attention
             }
         )
-        body?.backgroundTintList = ColorStateList.valueOf(color)
+        body.backgroundTintList = ColorStateList.valueOf(color)
     }
 
     /**
@@ -98,7 +102,7 @@ class MovieEvaluationVIew @JvmOverloads constructor(
      */
     fun setNumberOfRatesString(numberOfRates: Int) {
         val formattedNumber = String.format(Locale.ROOT, "%,d", numberOfRates).replace(",", " ")
-        tvNumberRates?.text =
+        tvNumberRates.text =
             resources.getQuantityString(R.plurals.rate_nums, numberOfRates, formattedNumber)
     }
 
@@ -106,7 +110,7 @@ class MovieEvaluationVIew @JvmOverloads constructor(
      * Метод setServiceNameString принимает строку с названием сервиса в виде "Рейтинг IMDb"
      */
     fun setServiceNameString(rateService: String) {
-        tvRateService?.text = rateService
+        tvRateService.text = rateService
     }
 
     private companion object {

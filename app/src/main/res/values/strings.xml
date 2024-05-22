@@ -1,5 +1,17 @@
 <resources>
     <string name="app_name">DavayPosmotrim</string>
+    <string name="main_fragment_text">Забудьте о бесконечных спорах и компромиссах\n
+        <font color="#FF8B55FF">Наслаждайтесь моментами</font>, выбрав вместе\n
+        идеальный фильм</string>
+    <string name="registration_enter_your_name">Введите ваше имя</string>
+    <string name="registration_enter">Войти</string>
+    <string name="registration_enter_name">Введите имя</string>
+    <string name="registration_two_letters_minimum">Минимум две буквы</string>
+    <string name="registration_just_letters">Только буквы</string>
+    <string name="registration_not_more_letters">Не более 16 символов</string>
+
+    <string name="change_name_enter">Сохранить</string>
+    <string name="change_name_enter_your_name">Введите ваше имя</string>
 
     <string name="select_movies_select_film">Выберите фильм</string>
     <string name="select_movies_cover_image_description">Изображение обложки фильма</string>
