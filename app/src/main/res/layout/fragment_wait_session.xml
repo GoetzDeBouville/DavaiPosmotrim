@@ -20,7 +20,7 @@
         <com.davai.uikit.ToolbarView
             android:layout_width="match_parent"
             android:layout_height="@dimen/toolbar_height_64"
-            app:title="Участники"/>
+            app:title="@string/wait_session_header"/>
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -30,11 +30,11 @@
             android:paddingHorizontal="@dimen/padding_16">
 
             <LinearLayout
-                android:layout_width="0dp"
-                android:layout_height="48dp"
+                android:layout_width="@dimen/zero"
+                android:layout_height="@dimen/wait_session_button_height"
                 android:layout_weight="1"
-                android:paddingHorizontal="16dp"
-                android:layout_marginEnd="16dp"
+                android:paddingHorizontal="@dimen/padding_16"
+                android:layout_marginEnd="@dimen/margin_16"
                 android:gravity="center_vertical"
                 android:background="@drawable/background_copy_button">
                 <TextView
@@ -44,24 +44,24 @@
                     android:layout_weight="1"
                     android:text="G1gfdg3"/>
                 <ImageView
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
+                    android:layout_width="@dimen/wait_session_copy_button_icon_size"
+                    android:layout_height="@dimen/wait_session_copy_button_icon_size"
                     android:src="@drawable/ic_copy"/>
             </LinearLayout>
 
             <com.davai.uikit.ButtonView
-                android:layout_width="0dp"
-                android:layout_height="48dp"
+                android:layout_width="@dimen/zero"
+                android:layout_height="@dimen/wait_session_button_height"
                 android:layout_weight="1"
-                app:button_text="ПРИГЛАСИТЬ"/>
+                app:button_text="@string/wait_session_invite_button"/>
         </LinearLayout>
     </LinearLayout>
 
     <View
         android:id="@+id/main_container"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_marginTop="16dp"
+        android:layout_height="@dimen/zero"
+        android:layout_marginTop="@dimen/margin_16"
         android:background="@drawable/session_card_background"
         app:layout_constraintTop_toBottomOf="@+id/toolbar"
         app:layout_constraintStart_toStartOf="parent"
@@ -80,12 +80,12 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:paddingHorizontal="20dp"
+        android:paddingHorizontal="@dimen/padding_20"
         android:textColor="@color/text_caption_light"
         android:layout_marginBottom="@dimen/margin_20"
         android:textAlignment="center"
         style="@style/Text.Base.Medium.NoLineSpacing"
-        android:text="Если вы пригласили друзей – дождитесь, когда они подключаться, прежде чем начать сеанс."
+        android:text="@string/wait_session_placeholder"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toBottomOf="@+id/main_container"/>
@@ -93,7 +93,7 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_user"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
+        android:layout_height="@dimen/zero"
         android:padding="@dimen/padding_16"
         tools:listitem="@layout/tag_view"
         app:layout_constraintTop_toTopOf="@+id/main_container"
@@ -105,7 +105,7 @@
         android:id="@+id/bottom_container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="@dimen/margin_16"
         android:background="@drawable/bottombar_background"
         android:orientation="vertical"
         app:layout_constraintTop_toBottomOf="@+id/main_container"
@@ -116,19 +116,19 @@
         <com.davai.uikit.ButtonView
             android:id="@+id/start_session_button"
             android:layout_width="match_parent"
-            android:layout_height="48dp"
-            android:layout_marginTop="16dp"
-            android:layout_marginHorizontal="16dp"
-            app:button_text="Начать сеанс"/>
+            android:layout_height="@dimen/wait_session_button_height"
+            android:layout_marginTop="@dimen/wait_session_button_margin_top"
+            android:layout_marginHorizontal="@dimen/wait_session_button_margin_horizontal"
+            app:button_text="@string/wait_session_start_button"/>
 
         <com.davai.uikit.ButtonView
             android:id="@+id/cancel_button"
             android:layout_width="match_parent"
-            android:layout_height="48dp"
-            android:layout_marginTop="16dp"
+            android:layout_height="@dimen/wait_session_button_height"
+            android:layout_marginTop="@dimen/wait_session_button_margin_top"
             android:layout_marginBottom="@dimen/margin_20"
-            android:layout_marginHorizontal="16dp"
-            app:button_text="Отменить сеанс"
+            android:layout_marginHorizontal="@dimen/wait_session_button_margin_horizontal"
+            app:button_text="@string/wait_session_cancel_button"
             app:button_view_type="secondary"/>
 
     </LinearLayout>

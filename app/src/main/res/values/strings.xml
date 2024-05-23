@@ -12,4 +12,10 @@
 
     <string name="change_name_enter">Сохранить</string>
     <string name="change_name_enter_your_name">Введите ваше имя</string>
+
+    <string name="wait_session_header">Участники</string>
+    <string name="wait_session_placeholder">Если вы пригласили друзей – дождитесь, когда они подключаться, прежде чем начать сеанс.</string>
+    <string name="wait_session_start_button">Начать сеанс</string>
+    <string name="wait_session_cancel_button">Отменить сеанс</string>
+    <string name="wait_session_invite_button">Пригласить</string>
 </resources>
