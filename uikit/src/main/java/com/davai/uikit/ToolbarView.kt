@@ -194,7 +194,6 @@ class ToolbarView @JvmOverloads constructor(
             applySpaceHeight(statusBarHeight)
             insets
         }
-        applySpaceHeight(statusBarHeight)
     }
 
     private fun applySpaceHeight(statusBarHeight: Int) {
