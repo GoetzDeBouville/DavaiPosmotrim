@@ -6,6 +6,8 @@ import android.view.View
 import android.view.WindowInsetsController
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
 import com.davay.android.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
@@ -14,6 +16,15 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContentView(binding.root)
+        ViewCompat.setOnApplyWindowInsetsListener(binding.main) { v, insets ->
+            val imeHeight = insets.getInsets(WindowInsetsCompat.Type.ime()).bottom
+            if (insets.isVisible(WindowInsetsCompat.Type.ime())) {
+                v.setPadding(0, 0, 0, imeHeight)
+            } else {
+                v.setPadding(0, 0, 0, 0)
+            }
+            insets
+        }
 //        val navHostFragment =
 //            supportFragmentManager.findFragmentById(R.id.fragment_container_view) as NavHostFragment
 //        val navController = navHostFragment.navController

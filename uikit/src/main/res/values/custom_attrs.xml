@@ -45,4 +45,16 @@
         <attr name="start_icon_is_visible" format="boolean" />
         <attr name="start_icon" format="reference" />
     </declare-styleable>
+
+    <declare-styleable name="TagView">
+        <attr name="tag_text" format="string" />
+        <attr name="tag_type" format="enum">
+            <enum name="primary_violet" value="1" />
+            <enum name="primary_gray" value="2" />
+            <enum name="secondary_green" value="3" />
+            <enum name="secondary_gray" value="4" />
+            <enum name="onboarding_yellow" value="5" />
+            <enum name="onboarding_violet" value="6" />
+        </attr>
+    </declare-styleable>
 </resources>
