@@ -18,4 +18,11 @@
     <string name="select_movies_skip_icon_description">Сбросить фильм</string>
     <string name="select_movies_like_icon_description">Выбрать фильм</string>
     <string name="select_movies_revert_icon_description">Вернуть предыдущий фильм</string>
+
+    <string name="movie_details_details_title">Подробнее о фильме</string>
+    <string name="movie_details_top_cast">В главных ролях</string>
+    <string name="movie_details_director">Режиссёр</string>
+    <string name="movie_details_rates">Оценки</string>
+    <string name="movie_details_imdb_rate">Рейтинг IMDb</string>
+    <string name="movie_details_kinopoisk_rate">Рейтинг Кинопоиск</string>
 </resources>

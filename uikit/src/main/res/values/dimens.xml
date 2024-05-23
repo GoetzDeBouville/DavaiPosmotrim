@@ -5,6 +5,8 @@
     <dimen name="card_radius_12">12dp</dimen>
     <dimen name="card_radius_18">18dp</dimen>
 
+    <dimen name="drag_handle_height_8">8dp</dimen>
+    <dimen name="drag_handle_width_48">48dp</dimen>
     <dimen name="toolbar_height_64">64dp</dimen>
     <dimen name="session_card_height">240dp</dimen>
     <dimen name="movie_card_height_240">240dp</dimen>
