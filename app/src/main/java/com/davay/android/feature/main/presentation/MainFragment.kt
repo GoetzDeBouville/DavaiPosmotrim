@@ -65,10 +65,6 @@ class MainFragment :
             }
             WindowInsetsCompat.CONSUMED
         }
-
-        binding.toWaitFragment.setOnClickListener {
-            viewModel.navigate(R.id.action_mainFragment_to_waitSessionFragment)
-        }
     }
 
     private fun changeName(oldName: String) {
