@@ -61,7 +61,7 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_marginTop="16dp"
-        android:background="@drawable/selection_background"
+        android:background="@drawable/session_card_background"
         app:layout_constraintTop_toBottomOf="@+id/toolbar"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -90,11 +90,11 @@
         app:layout_constraintBottom_toBottomOf="@+id/main_container"/>
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rv_genre"
+        android:id="@+id/rv_user"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:padding="@dimen/padding_16"
-        tools:listitem="@layout/item_text_view"
+        tools:listitem="@layout/tag_view"
         app:layout_constraintTop_toTopOf="@+id/main_container"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
