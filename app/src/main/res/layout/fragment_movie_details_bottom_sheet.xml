@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/background_white"
     android:paddingHorizontal="@dimen/padding_16"
     tools:context=".feature.moviedetails.presentation.MovieDetailsBottomSheetFragment">
 
@@ -13,101 +14,112 @@
         android:layout_height="@dimen/drag_handle_height_8"
         android:layout_marginTop="@dimen/margin_12"
         android:background="@drawable/drag_handle_background"
+        android:elevation="@dimen/elevation_4"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <TextView
-        android:id="@+id/tv_details_title"
-        style="@style/Text.Headline.SubTitle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/margin_12"
-        android:text="@string/movie_details_details_title"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/bs_details_handle" />
-
-    <TextView
-        android:id="@+id/tv_details_description"
-        style="@style/Text.Base.Medium.NoLineSpacing"
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/margin_12"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tv_details_title"
-        tools:text="[Captured French Resistance fighter Lieutenant Fontaine awaits a certain death sentence for espionage in a stark German prison in Lyon, France. Facing malnutrition and paralyzing fear, he must plot an extraordinary escape, complicated by the questions of whom to trust, and what lies beyond the small portion of the prison they are housed in.—Sam Spector]" />
-
-    <TextView
-        android:id="@+id/tv_details_top_cast"
-        style="@style/Text.Headline.SubTitle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/margin_24"
-        android:text="@string/movie_details_top_cast"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tv_details_description" />
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rv_details_top_cast_list"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/margin_12"
-        app:layout_constraintTop_toBottomOf="@id/tv_details_top_cast"
-        tools:itemCount="2" />
-
-    <TextView
-        android:id="@+id/tv_details_director"
-        style="@style/Text.Headline.SubTitle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/margin_24"
-        android:text="@string/movie_details_director"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/rv_details_top_cast_list" />
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rv_details_director_list"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/margin_12"
-        app:layout_constraintTop_toBottomOf="@id/tv_details_director"
-        tools:itemCount="2" />
-
-    <TextView
-        android:id="@+id/tv_details_rates"
-        style="@style/Text.Headline.SubTitle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/margin_24"
-        android:text="@string/movie_details_rates"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/rv_details_director_list" />
-
-    <HorizontalScrollView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/margin_12"
-        android:orientation="horizontal"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tv_details_rates">
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/bs_details_handle">
 
         <LinearLayout
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:orientation="vertical">
 
-            <com.davai.uikit.MovieEvaluationView
-                android:id="@+id/mev_details_imdb_rate"
+            <TextView
+                android:id="@+id/tv_details_title"
+                style="@style/Text.Headline.SubTitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                app:rate_service="@string/movie_details_imdb_rate" />
+                android:layout_marginTop="@dimen/margin_12"
+                android:elevation="4dp"
+                android:text="@string/movie_details_details_title" />
 
-            <com.davai.uikit.MovieEvaluationView
-                android:id="@+id/mev_details_kinopoisk_rate"
+            <TextView
+                android:id="@+id/tv_details_description"
+                style="@style/Text.Base.Medium.NoLineSpacing"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_12"
+                android:elevation="0dp"
+                tools:text="[Captured French Resistance fighter Lieutenant Fontaine awaits a certain death sentence for espionage in a stark German prison in Lyon, France. Facing malnutrition and paralyzing fear, he must plot an extraordinary escape, complicated by the questions of whom to trust, and what lies beyond the small portion of the prison they are housed in.—Sam Spector]" />
+
+            <TextView
+                android:id="@+id/tv_details_top_cast"
+                style="@style/Text.Headline.SubTitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/margin_8"
-                app:rate_service="@string/movie_details_kinopoisk_rate" />
+                android:layout_marginTop="@dimen/margin_24"
+                android:text="@string/movie_details_top_cast" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rv_details_top_cast_list"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_12"
+                tools:itemCount="2" />
+
+            <TextView
+                android:id="@+id/tv_details_director"
+                style="@style/Text.Headline.SubTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_24"
+                android:text="@string/movie_details_director" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rv_details_director_list"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_12"
+                tools:itemCount="2" />
+
+            <TextView
+                android:id="@+id/tv_details_rates"
+                style="@style/Text.Headline.SubTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_24"
+                android:text="@string/movie_details_rates" />
+
+            <HorizontalScrollView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_12"
+                android:orientation="horizontal">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <com.davai.uikit.MovieEvaluationView
+                        android:id="@+id/mev_details_imdb_rate"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:rate_service="@string/movie_details_imdb_rate" />
+
+                    <com.davai.uikit.MovieEvaluationView
+                        android:id="@+id/mev_details_kinopoisk_rate"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/margin_8"
+                        app:rate_service="@string/movie_details_kinopoisk_rate" />
+                </LinearLayout>
+            </HorizontalScrollView>
         </LinearLayout>
-    </HorizontalScrollView>
+    </androidx.core.widget.NestedScrollView>
+
+    <View
+        android:id="@+id/view_details_foreground_gradient"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/top_gradient_height_80"
+        android:background="@drawable/background_gradient_transparent_to_white"
+        android:rotation="180"
+        android:visibility="invisible"
+        app:layout_constraintTop_toTopOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>
