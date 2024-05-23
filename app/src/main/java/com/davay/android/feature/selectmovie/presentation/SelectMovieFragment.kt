@@ -16,6 +16,24 @@ class SelectMovieFragment :
 
     override val viewModel: SelectMovieViewModel by injectViewModel<SelectMovieViewModel>()
     private var matchesCounter = 0 // TODO заменить на подписку
+    private var directorsList = listOf(
+        "John Doe",
+        "Jane Smith",
+        "Michael Brown",
+        "John Craig",
+        "Tarantino",
+        "Paolo Sorrentino"
+    )
+    private var actorsList = listOf(
+        "Robert Downey Jr.",
+        "Scarlett Johansson",
+        "Leonardo DiCaprio",
+        "Jennifer Lawrence",
+        "Tom Hanks",
+        "Meryl Streep",
+        "Chris Hemsworth",
+        "Natalie Portman"
+    )
 
     override fun diComponent(): ScreenComponent = DaggerSelectMovieFragmentComponent
         .builder()
