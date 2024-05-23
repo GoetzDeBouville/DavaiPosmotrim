@@ -37,5 +37,5 @@
     <dimen name="drag_handle_margin_top">12dp</dimen>
     <dimen name="drag_handle_radius">5dp</dimen>
 
-    <dimen name="input_margin">136dp</dimen>
+    <dimen name="input_margin">152dp</dimen>
 </resources>

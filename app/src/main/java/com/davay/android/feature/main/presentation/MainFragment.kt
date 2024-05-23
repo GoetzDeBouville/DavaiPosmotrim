@@ -51,7 +51,6 @@ class MainFragment :
             Toast.makeText(requireContext(), "Favorite", Toast.LENGTH_SHORT).show()
         }
         binding.joinSession.setOnClickListener {
-            //Toast.makeText(requireContext(), "Join Session", Toast.LENGTH_SHORT).show()
             findNavController().navigate(R.id.action_mainFragment_to_sessionConnectionFragment)
         }
         binding.editUserName.setOnClickListener {
@@ -74,4 +73,5 @@ class MainFragment :
         val bottomSheetFragment = ChangeNameFragment.newInstance(oldName)
         bottomSheetFragment.show(parentFragmentManager, "tag")
     }
+
 }

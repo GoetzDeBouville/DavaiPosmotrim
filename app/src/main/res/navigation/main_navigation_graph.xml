@@ -28,6 +28,9 @@
         <action
             android:id="@+id/action_mainFragment_to_sessionConnectionFragment"
             app:destination="@id/sessionConnectionFragment" />
+        <action
+            android:id="@+id/action_mainFragment_to_changeNameFragment"
+            app:destination="@id/changeNameFragment" />
     </fragment>
     <fragment
         android:id="@+id/registrationFragment"
@@ -39,17 +42,20 @@
             app:destination="@id/mainFragment" />
     </fragment>
     <fragment
-        android:id="@+id/sessionConnectionFragment"
-        android:name="com.davay.android.feature.sessionconnection.presentation.SessionConnectionFragment"
-        android:label="fragment_session_connection"
-        tools:layout="@layout/fragment_session_connection" >
-        <action
-            android:id="@+id/action_sessionConnectionFragment_to_sessionListFragment"
-            app:destination="@id/sessionListFragment" />
-    </fragment>
-    <fragment
         android:id="@+id/sessionListFragment"
         android:name="com.davay.android.feature.sessionlist.presentation.SessionListFragment"
         android:label="fragment_session_list"
         tools:layout="@layout/fragment_session_list" />
+    <dialog
+        android:id="@+id/sessionConnectionFragment"
+        android:name="com.davay.android.feature.sessionconnection.presentation.SessionConnectionFragment"
+        android:label="SessionConnectionFragment" >
+        <action
+            android:id="@+id/action_sessionConnectionFragment_to_sessionListFragment"
+            app:destination="@id/sessionListFragment" />
+    </dialog>
+    <dialog
+        android:id="@+id/changeNameFragment"
+        android:name="com.davay.android.feature.changename.presentation.ChangeNameFragment"
+        android:label="ChangeNameFragment" />
 </navigation>
