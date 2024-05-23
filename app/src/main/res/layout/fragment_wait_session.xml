@@ -30,6 +30,7 @@
             android:paddingHorizontal="@dimen/padding_16">
 
             <LinearLayout
+                android:id="@+id/copy_button"
                 android:layout_width="@dimen/zero"
                 android:layout_height="@dimen/wait_session_button_height"
                 android:layout_weight="1"
@@ -38,6 +39,7 @@
                 android:gravity="center_vertical"
                 android:background="@drawable/background_copy_button">
                 <TextView
+                    android:id="@+id/tv_code"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:textAppearance="@style/Text.Base.Big.Regular"
@@ -50,6 +52,7 @@
             </LinearLayout>
 
             <com.davai.uikit.ButtonView
+                android:id="@+id/send_button"
                 android:layout_width="@dimen/zero"
                 android:layout_height="@dimen/wait_session_button_height"
                 android:layout_weight="1"

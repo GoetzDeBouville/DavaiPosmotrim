@@ -18,4 +18,6 @@
     <string name="wait_session_start_button">Начать сеанс</string>
     <string name="wait_session_cancel_button">Отменить сеанс</string>
     <string name="wait_session_invite_button">Пригласить</string>
+    <string name="wait_session_copy_button_label">Пригласить</string>
+    <string name="wait_session_copy_button_toast_text">Пригласить</string>
 </resources>

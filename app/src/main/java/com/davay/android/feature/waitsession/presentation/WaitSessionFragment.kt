@@ -1,9 +1,14 @@
 package com.davay.android.feature.waitsession.presentation
 
-import android.R.drawable
+import android.content.ClipData
+import android.content.ClipboardManager
+import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
+import android.widget.Toast
 import androidx.core.content.ContextCompat
+import androidx.core.content.ContextCompat.getSystemService
 import com.davay.android.R
 import com.davay.android.app.AppComponentHolder
 import com.davay.android.base.BaseFragment
@@ -43,6 +48,38 @@ class WaitSessionFragment : BaseFragment<FragmentWaitSessionBinding, WaitSession
                 User("7", "Елена"),
             )
         )
+
+        binding.copyButton.setOnClickListener {
+            val code = binding.tvCode.text.toString()
+            copyTextToClipboard(code)
+        }
+
+        binding.sendButton.setOnClickListener {
+            val code = binding.tvCode.text.toString()
+            sendCode(code)
+        }
+    }
+
+    private fun copyTextToClipboard(text: String) {
+        val clipboard = requireContext().getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+        val clip = ClipData.newPlainText(
+            ContextCompat.getString(requireContext(), R.string.wait_session_copy_button_label),
+            text
+        )
+        clipboard.setPrimaryClip(clip)
+
+        Toast.makeText(context, R.string.wait_session_copy_button_toast_text, Toast.LENGTH_SHORT)
+            .show()
+    }
+
+    private fun sendCode(text: String) {
+        val intent = Intent().apply {
+            action = Intent.ACTION_SEND
+            putExtra(Intent.EXTRA_TEXT, text)
+            type = "text/plain"
+        }
+        val shareIntent = Intent.createChooser(intent, null)
+        startActivity(shareIntent)
     }
 
     private fun initRecycler() {
