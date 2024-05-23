@@ -1,6 +1,5 @@
 package com.davay.android.feature.waitsession.presentation
 
-import androidx.core.view.marginRight
 import androidx.recyclerview.widget.RecyclerView
 import com.davai.uikit.TagView
 import com.davay.android.feature.waitsession.domain.User

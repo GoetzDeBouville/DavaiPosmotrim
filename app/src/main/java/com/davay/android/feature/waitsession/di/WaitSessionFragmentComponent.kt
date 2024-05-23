@@ -4,7 +4,6 @@ import com.davay.android.app.AppComponent
 import com.davay.android.di.ScreenComponent
 import dagger.Component
 
-
 @Component(
     dependencies = [AppComponent::class],
     modules = [WaitSessionFragmentModule::class]

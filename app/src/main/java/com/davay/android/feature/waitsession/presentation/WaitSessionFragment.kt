@@ -8,7 +8,6 @@ import android.os.Bundle
 import android.view.View
 import android.widget.Toast
 import androidx.core.content.ContextCompat
-import androidx.core.content.ContextCompat.getSystemService
 import com.davay.android.R
 import com.davay.android.app.AppComponentHolder
 import com.davay.android.base.BaseFragment
@@ -22,7 +21,6 @@ import com.google.android.flexbox.FlexWrap
 import com.google.android.flexbox.FlexboxItemDecoration
 import com.google.android.flexbox.FlexboxLayoutManager
 import com.google.android.flexbox.JustifyContent
-
 
 class WaitSessionFragment : BaseFragment<FragmentWaitSessionBinding, WaitSessionViewModel>(
     FragmentWaitSessionBinding::inflate
@@ -95,7 +93,7 @@ class WaitSessionFragment : BaseFragment<FragmentWaitSessionBinding, WaitSession
         binding.rvUser.layoutManager = layoutManager
 
         val itemDecoration = FlexboxItemDecoration(context)
-        val divider = ContextCompat.getDrawable(requireContext(), com.davai.uikit.R.drawable.recycler_view_divider);
+        val divider = ContextCompat.getDrawable(requireContext(), com.davai.uikit.R.drawable.recycler_view_divider)
         itemDecoration.setDrawable(divider)
 
         binding.rvUser.addItemDecoration(itemDecoration)
