@@ -57,4 +57,5 @@ dependencies {
     implementation(libs.navigation.fragment)
     implementation(libs.navigation.ui)
     implementation(project(":uikit"))
+    implementation(libs.flexbox)
 }
