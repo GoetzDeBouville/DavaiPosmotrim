@@ -7,6 +7,7 @@
 
     <dimen name="toolbar_height_64">64dp</dimen>
     <dimen name="session_card_height">240dp</dimen>
+    <dimen name="movie_card_height_240">240dp</dimen>
 
     <dimen name="padding_16">16dp</dimen>
     <dimen name="padding_12">12dp</dimen>
@@ -24,7 +25,17 @@
     <dimen name="frame">4dp</dimen>
     <dimen name="button_height">48dp</dimen>
     <dimen name="button_height_frame">56dp</dimen>
-
-    <dimen name="icon_size">24dp</dimen>
+    <dimen name="main_screen_button_height">80dp</dimen>
+    <dimen name="main_screen_button_icon_size">40dp</dimen>
     <dimen name="zero">0dp</dimen>
+    <dimen name="icon_size">24dp</dimen>
+    <dimen name="dimen_80">80dp</dimen>
+    <dimen name="dimen_64">64dp</dimen>
+
+    <dimen name="drag_handle_width">48dp</dimen>
+    <dimen name="drag_handle_height">8dp</dimen>
+    <dimen name="drag_handle_margin_top">12dp</dimen>
+    <dimen name="drag_handle_radius">5dp</dimen>
+
+    <dimen name="change_name_input_margin">136dp</dimen>
 </resources>

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/ll_session_body"
     android:layout_width="match_parent"
@@ -47,12 +48,14 @@
         android:singleLine="true"
         tools:text="[Артём (вы), Анна, Константин, Руслан, Никита, Игорь]" />
 
-    <ImageView
+    <com.google.android.material.imageview.ShapeableImageView
         android:id="@+id/iv_session_cover"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
+        android:background="@color/icon_light"
         android:paddingHorizontal="@dimen/padding_8"
-        android:src="@drawable/placeholder_img" />
+        app:shapeAppearanceOverlay="@style/RoundedImageView.SessionView"
+        tools:src="@drawable/placeholder_error_theme_112" />
 </LinearLayout>
 

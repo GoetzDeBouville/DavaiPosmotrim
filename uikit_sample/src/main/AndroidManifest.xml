@@ -13,6 +13,9 @@
         <activity android:name=".BannerViewExample"
             android:exported="false" />
         <activity
+            android:name=".MainScreenButtonViewExample"
+            android:exported="false" />
+        <activity
             android:name=".MoovieCardViewExampleActivity"
             android:exported="false" />
         <activity
@@ -29,6 +32,8 @@
             android:exported="false" />
         <activity
             android:name=".MovieEvaluationExample"
+            android:exported="false" />
+        <activity android:name=".TagViewExample"
             android:exported="false" />
         <activity
             android:name=".MainActivity"

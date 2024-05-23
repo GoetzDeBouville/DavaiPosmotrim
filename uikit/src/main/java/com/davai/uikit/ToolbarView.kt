@@ -11,8 +11,7 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.view.isVisible
 
 /**
- * Дефолтно в ToolbarView для ivStartIcon, ivEndIcon и tvMatchesCounter
- * Дефолтные значения так же не назначены
+ * Дефолтные значения в ToolbarView для ivStartIcon, ivEndIcon и tvMatchesCounter не назначены
  */
 class ToolbarView @JvmOverloads constructor(
     context: Context,
@@ -25,14 +24,24 @@ class ToolbarView @JvmOverloads constructor(
     defStyleAttr,
     defStyleRes
 ) {
-    private var tvTitle: TextView? = null
-    private var tvSubtitle: TextView? = null
-    private var tvMatchesCounter: TextView? = null
-    private var ivStartIcon: ImageView? = null
-    private var ivEndIcon: ImageView? = null
+    private val tvTitle: TextView by lazy {
+        findViewById(R.id.tv_toolbar_title)
+    }
+    private val tvSubtitle: TextView by lazy {
+        findViewById(R.id.tv_toolbar_subtitle)
+    }
+    private val tvMatchesCounter: TextView by lazy {
+        findViewById(R.id.tv_matches_counter)
+    }
+    private val ivStartIcon: ImageView by lazy {
+        findViewById(R.id.iv_start_icon)
+    }
+    private val ivEndIcon: ImageView by lazy {
+        findViewById(R.id.iv_end_icon)
+    }
 
     init {
-        initViews()
+        inflateView()
         applyAttributes(
             context,
             attrs,
@@ -58,8 +67,8 @@ class ToolbarView @JvmOverloads constructor(
             val startIconResId = getResourceId(R.styleable.ToolbarView_start_icon, 0)
             val endIconResId = getResourceId(R.styleable.ToolbarView_end_icon, 0)
 
-            ivEndIcon?.isVisible = getBoolean(R.styleable.ToolbarView_end_icon_is_visible, false)
-            ivStartIcon?.isVisible =
+            ivEndIcon.isVisible = getBoolean(R.styleable.ToolbarView_end_icon_is_visible, false)
+            ivStartIcon.isVisible =
                 getBoolean(R.styleable.ToolbarView_start_icon_is_visible, false)
 
             setTitleText(titleText)
@@ -69,48 +78,43 @@ class ToolbarView @JvmOverloads constructor(
         }
     }
 
-    private fun initViews() {
+    private fun inflateView() {
         LayoutInflater.from(context).inflate(R.layout.toolbar_view, this)
-        tvTitle = findViewById(R.id.tv_toolbar_title)
-        tvSubtitle = findViewById(R.id.tv_toolbar_subtitle)
-        tvMatchesCounter = findViewById(R.id.tv_matches_counter)
-        ivStartIcon = findViewById(R.id.iv_start_icon)
-        ivEndIcon = findViewById(R.id.iv_end_icon)
     }
 
     /**
      * Назначает текст счетчика совпадений и управляет видимостью
      */
     fun updateMatchesDisplay(numberOfMatches: Int) {
-        tvMatchesCounter?.text = numberOfMatches.toString()
+        tvMatchesCounter.text = numberOfMatches.toString()
     }
 
     /**
      * Упроавление видимостью счетчиком
      */
     fun showMatchesCounter() {
-        tvMatchesCounter?.isVisible = true
+        tvMatchesCounter.isVisible = true
     }
 
     /**
      * Упроавление видимостью счетчиком
      */
     fun hideMatchesCounter() {
-        tvMatchesCounter?.isVisible = false
+        tvMatchesCounter.isVisible = false
     }
 
     /**
      * Назначает текст для подзаголовка
      */
     fun setSubtitleText(text: String) {
-        tvSubtitle?.text = text
+        tvSubtitle.text = text
     }
 
     /**
      * Назначает текст для заголовка
      */
     fun setTitleText(text: String) {
-        tvTitle?.text = text
+        tvTitle.text = text
     }
 
     /**
@@ -118,7 +122,7 @@ class ToolbarView @JvmOverloads constructor(
      */
     fun setStartIcon(resId: Int) {
         if (resId != 0) {
-            ivStartIcon?.setImageResource(resId)
+            ivStartIcon.setImageResource(resId)
         }
     }
 
@@ -127,7 +131,7 @@ class ToolbarView @JvmOverloads constructor(
      */
     fun setEndIcon(resId: Int) {
         if (resId != 0) {
-            ivEndIcon?.setImageResource(resId)
+            ivEndIcon.setImageResource(resId)
         }
     }
 
@@ -135,41 +139,41 @@ class ToolbarView @JvmOverloads constructor(
      * Упроавление видимостью ivEndIcon
      */
     fun showEndIcon() {
-        ivEndIcon?.isVisible = true
+        ivEndIcon.isVisible = true
     }
 
     /**
      * Упроавление видимостью ivEndIcon
      */
     fun hideEndIcon() {
-        ivEndIcon?.isVisible = false
+        ivEndIcon.isVisible = false
     }
 
     /**
      * Упроавление видимостью ivStartIcon
      */
     fun showStartIcon() {
-        ivStartIcon?.isVisible = true
+        ivStartIcon.isVisible = true
     }
 
     /**
      * Упроавление видимостью ivStartIcon
      */
     fun hideStartIcon() {
-        ivStartIcon?.isVisible = false
+        ivStartIcon.isVisible = false
     }
 
     /**
      * Метод для управления слушателем кликов по элементу ivStartIcon
      */
     fun setStartIconClickListener(listener: () -> Unit) {
-        ivStartIcon?.setOnClickListener { listener() }
+        ivStartIcon.setOnClickListener { listener() }
     }
 
     /**
      * Метод для управления слушателем кликов по элементу ivEndIcon
      */
     fun setEndIconClickListener(listener: () -> Unit) {
-        ivEndIcon?.setOnClickListener { listener() }
+        ivEndIcon.setOnClickListener { listener() }
     }
 }
