@@ -13,7 +13,7 @@
     <dimen name="session_card_height">240dp</dimen>
     <dimen name="movie_card_height_240">240dp</dimen>
 
-    <dimen name="elevation_4">4dp</dimen>
+    <dimen name="elevation_1">1dp</dimen>
 
     <dimen name="padding_16">16dp</dimen>
     <dimen name="padding_12">12dp</dimen>

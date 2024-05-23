@@ -172,13 +172,13 @@
         app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior"
         tools:context=".feature.moviedetails.presentation.MovieDetailsBottomSheetFragment">
 
-        <View
+        <com.google.android.material.bottomsheet.BottomSheetDragHandleView
             android:id="@+id/bs_details_handle"
             android:layout_width="@dimen/drag_handle_width_48"
             android:layout_height="@dimen/drag_handle_height_8"
             android:layout_marginTop="@dimen/margin_12"
             android:background="@drawable/drag_handle_background"
-            android:elevation="@dimen/elevation_4"
+            android:elevation="@dimen/elevation_1"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
