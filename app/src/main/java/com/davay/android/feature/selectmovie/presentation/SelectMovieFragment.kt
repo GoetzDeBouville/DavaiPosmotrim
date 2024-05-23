@@ -2,7 +2,6 @@ package com.davay.android.feature.selectmovie.presentation
 
 import android.os.Bundle
 import android.view.View
-import androidx.constraintlayout.widget.ConstraintLayout
 import com.davay.android.R
 import com.davay.android.app.AppComponentHolder
 import com.davay.android.base.BaseFragment
@@ -29,28 +28,41 @@ class SelectMovieFragment :
     }
 
     private fun initViews() {
-        setDefaultToolbar()
+        setToolbar()
         setBottomSheet()
     }
 
-    private fun setBottomSheet() {
-        val bottomSheetContainer: BottomSheetBehavior<ConstraintLayout> =
-            BottomSheetBehavior.from(binding.clDetailsBottomSheet).apply {
-                state = BottomSheetBehavior.STATE_COLLAPSED
-                peekHeight = 112.dpToPx().toInt()
+    private fun setBottomSheet() = with(binding) {
+        BottomSheetBehavior.from(clDetailsBottomSheet).apply {
+            state = BottomSheetBehavior.STATE_COLLAPSED
+            peekHeight = BOTTOMSHEET_PEEK_HEIGHT_112_DP.dpToPx().toInt()
+
+            clDetailsBottomSheet.post {
+                val cardLocation = IntArray(2)
+                mcvFilmCard.getLocationOnScreen(cardLocation)
+                val cardTop = cardLocation[1]
+
+                val screenHeight = resources.displayMetrics.heightPixels
+                val maxHeight = screenHeight - cardTop
+
+                clDetailsBottomSheet.layoutParams.height = maxHeight
+                clDetailsBottomSheet.requestLayout()
             }
+        }
     }
 
-    private fun setDefaultToolbar() {
+    private fun setToolbar() {
         binding.toolbarviewHeader.apply {
             setStartIcon(com.davai.uikit.R.drawable.ic_cross)
             setEndIcon(com.davai.uikit.R.drawable.ic_heart)
             showEndIcon()
             setTitleText(requireContext().getString(R.string.select_movies_select_film))
             updateMatchesDisplay(matchesCounter)
-            post {
-                addStatusBarSpacer()
-            }
+            addStatusBarSpacer()
         }
+    }
+
+    private companion object {
+        const val BOTTOMSHEET_PEEK_HEIGHT_112_DP = 112
     }
 }
