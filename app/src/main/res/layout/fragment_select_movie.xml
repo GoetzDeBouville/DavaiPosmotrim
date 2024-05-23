@@ -225,14 +225,15 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/margin_12"
-                    tools:itemCount="2" />
+                    tools:itemCount="2"
+                    tools:listitem="@layout/item_top_cast" />
 
                 <TextView
                     android:id="@+id/tv_details_director"
                     style="@style/Text.Headline.SubTitle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/margin_24"
+                    android:layout_marginTop="@dimen/margin_16"
                     android:text="@string/movie_details_director" />
 
                 <androidx.recyclerview.widget.RecyclerView
@@ -240,14 +241,15 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/margin_12"
-                    tools:itemCount="2" />
+                    tools:itemCount="2"
+                    tools:listitem="@layout/item_top_cast" />
 
                 <TextView
                     android:id="@+id/tv_details_rates"
                     style="@style/Text.Headline.SubTitle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/margin_24"
+                    android:layout_marginTop="@dimen/margin_16"
                     android:text="@string/movie_details_rates" />
 
                 <HorizontalScrollView
@@ -278,6 +280,7 @@
             </LinearLayout>
         </androidx.core.widget.NestedScrollView>
 
+        <!--        TODO Добавить обработчик появления view_details_foreground_gradient-->
         <View
             android:id="@+id/view_details_foreground_gradient"
             android:layout_width="match_parent"
