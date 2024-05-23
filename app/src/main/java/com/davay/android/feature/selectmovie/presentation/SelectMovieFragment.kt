@@ -2,12 +2,15 @@ package com.davay.android.feature.selectmovie.presentation
 
 import android.os.Bundle
 import android.view.View
+import androidx.constraintlayout.widget.ConstraintLayout
 import com.davay.android.R
 import com.davay.android.app.AppComponentHolder
 import com.davay.android.base.BaseFragment
 import com.davay.android.databinding.FragmentSelectMovieBinding
 import com.davay.android.di.ScreenComponent
+import com.davay.android.extensions.dpToPx
 import com.davay.android.feature.selectmovie.di.DaggerSelectMovieFragmentComponent
+import com.google.android.material.bottomsheet.BottomSheetBehavior
 
 class SelectMovieFragment :
     BaseFragment<FragmentSelectMovieBinding, SelectMovieViewModel>(FragmentSelectMovieBinding::inflate) {
@@ -27,6 +30,15 @@ class SelectMovieFragment :
 
     private fun initViews() {
         setDefaultToolbar()
+        setBottomSheet()
+    }
+
+    private fun setBottomSheet() {
+        val bottomSheetContainer: BottomSheetBehavior<ConstraintLayout> =
+            BottomSheetBehavior.from(binding.clDetailsBottomSheet).apply {
+                state = BottomSheetBehavior.STATE_COLLAPSED
+                peekHeight = 112.dpToPx().toInt()
+            }
     }
 
     private fun setDefaultToolbar() {
