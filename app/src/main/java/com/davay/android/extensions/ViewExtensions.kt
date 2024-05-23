@@ -8,9 +8,16 @@ import android.view.View
 /**
  * Методы управления blur effect
  */
-fun View.applyBlurEffect(radius: Float = 15f, tileMode: Shader.TileMode = Shader.TileMode.MIRROR) {
+fun View.applyBlurEffect(radiusX: Float = 15f, radiusY: Float = 15f) {
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
-        val renderEffect = RenderEffect.createBlurEffect(radius, radius, tileMode)
+        val renderEffect = RenderEffect.createBlurEffect(radiusX, radiusY, Shader.TileMode.MIRROR)
+        this.setRenderEffect(renderEffect)
+    }
+}
+
+fun View.applyBlurEffect(radius: Float = 15f) {
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+        val renderEffect = RenderEffect.createBlurEffect(radius, radius, Shader.TileMode.MIRROR)
         this.setRenderEffect(renderEffect)
     }
 }

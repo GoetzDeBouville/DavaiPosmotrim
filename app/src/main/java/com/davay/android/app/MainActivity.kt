@@ -1,7 +1,5 @@
 package com.davay.android.app
 
-import android.graphics.Shader
-import android.os.Build
 import android.os.Bundle
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
@@ -32,9 +30,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun applyBlurEffect() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
-            binding.root.applyBlurEffect(18f)
-        }
+        binding.root.applyBlurEffect(30f)
     }
 
     fun clearBlurEffect() {
