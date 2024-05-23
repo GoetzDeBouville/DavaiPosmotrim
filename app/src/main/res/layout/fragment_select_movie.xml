@@ -9,21 +9,17 @@
     app:showPaths="true"
     tools:context=".feature.selectmovie.presentation.SelectMovieFragment">
 
-    <View
-        android:id="@+id/space_top"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/margin_24"
-        android:background="@color/background_white"
-        app:layout_constraintTop_toTopOf="parent" />
-
     <com.davai.uikit.ToolbarView
-        android:id="@+id/toolbar"
+        android:id="@+id/toolbarview_header"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:end_icon="@drawable/ic_heart"
         app:end_icon_is_visible="true"
-        app:layout_constraintTop_toBottomOf="@+id/space_top"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
         app:start_icon="@drawable/ic_cross"
+        app:start_icon_is_visible="true"
         app:title="@string/select_movies_select_film" />
 
     <com.google.android.material.card.MaterialCardView
@@ -33,11 +29,11 @@
         android:layout_marginVertical="@dimen/margin_16"
         android:backgroundTint="@color/background_white"
         app:cardCornerRadius="@dimen/card_radius_24"
-        app:strokeColor="@android:color/transparent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/toolbar">
+        app:layout_constraintTop_toBottomOf="@+id/toolbarview_header"
+        app:strokeColor="@android:color/transparent">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"

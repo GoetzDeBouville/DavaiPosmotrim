@@ -13,7 +13,7 @@ class SelectMovieFragment :
     BaseFragment<FragmentSelectMovieBinding, SelectMovieViewModel>(FragmentSelectMovieBinding::inflate) {
 
     override val viewModel: SelectMovieViewModel by injectViewModel<SelectMovieViewModel>()
-    private var matchesCounter = 0 // TODO заменит на подписку
+    private var matchesCounter = 0 // TODO заменить на подписку
 
     override fun diComponent(): ScreenComponent = DaggerSelectMovieFragmentComponent
         .builder()
@@ -30,12 +30,15 @@ class SelectMovieFragment :
     }
 
     private fun setDefaultToolbar() {
-        binding.toolbar.apply {
+        binding.toolbarviewHeader.apply {
             setStartIcon(com.davai.uikit.R.drawable.ic_cross)
             setEndIcon(com.davai.uikit.R.drawable.ic_heart)
             showEndIcon()
             setTitleText(requireContext().getString(R.string.select_movies_select_film))
             updateMatchesDisplay(matchesCounter)
+            post {
+                addStatusBarSpacer()
+            }
         }
     }
 }
