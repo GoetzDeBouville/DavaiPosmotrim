@@ -51,9 +51,21 @@ class ChangeNameFragment : BaseBottomSheetFragment<
         binding.etName.doAfterTextChanged {
             viewModel.textCheck(it)
             if (it?.length!! >= TYPE_SMALL_BORDER) {
-                binding.etName.setTextAppearance(com.davai.uikit.R.style.MediumTextEditText)
+                binding.etName.setTextAppearance(com.davai.uikit.R.style.Text_Headline_SubTitle)
+                binding.etName.setTextColor(
+                    resources.getColor(
+                        com.davai.uikit.R.color.text_base,
+                        requireActivity().theme
+                    )
+                )
             } else {
-                binding.etName.setTextAppearance(com.davai.uikit.R.style.BigTextEditText)
+                binding.etName.setTextAppearance(com.davai.uikit.R.style.Text_Headline_Title)
+                binding.etName.setTextColor(
+                    resources.getColor(
+                        com.davai.uikit.R.color.text_base,
+                        requireActivity().theme
+                    )
+                )
             }
         }
         binding.etName.buttonBackHandler = {
