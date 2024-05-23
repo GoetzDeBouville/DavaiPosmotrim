@@ -10,6 +10,9 @@
     <string name="registration_just_letters">Только буквы</string>
     <string name="registration_not_more_letters">Не более 16 символов</string>
 
+    <string name="change_name_enter">Сохранить</string>
+    <string name="change_name_enter_your_name">Введите ваше имя</string>
+
     <!--sessionconnection screen-->
     <string name="sessionconnection_enter_session_code">Код сеанса</string>
     <string name="sessionconnection_invalid">Код cеанса должен состоять 4 букв и 3 цифр</string>
