@@ -32,10 +32,10 @@
     <dimen name="dimen_80">80dp</dimen>
     <dimen name="dimen_64">64dp</dimen>
 
-    <dimen name="drag_handle_width">48dp</dimen>
-    <dimen name="drag_handle_height">6dp</dimen>
-    <dimen name="drag_handle_margin_top">12dp</dimen>
-    <dimen name="drag_handle_radius">5dp</dimen>
+    <dimen name="drag_handle_width_48">48dp</dimen>
+    <dimen name="drag_handle_height_6">6dp</dimen>
+    <dimen name="drag_handle_margin_top_12">12dp</dimen>
+    <dimen name="drag_handle_radius_5">5dp</dimen>
 
     <dimen name="input_margin">152dp</dimen>
 </resources>

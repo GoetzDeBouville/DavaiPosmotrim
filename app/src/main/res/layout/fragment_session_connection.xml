@@ -10,9 +10,9 @@
 
     <com.google.android.material.bottomsheet.BottomSheetDragHandleView
         android:id="@+id/drag_handle"
-        android:layout_width="@dimen/drag_handle_width"
-        android:layout_height="@dimen/drag_handle_height"
-        android:layout_marginTop="@dimen/drag_handle_margin_top"
+        android:layout_width="@dimen/drag_handle_width_48"
+        android:layout_height="@dimen/drag_handle_height_6"
+        android:layout_marginTop="@dimen/drag_handle_margin_top_12"
         android:background="@drawable/drag_handle_background"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
