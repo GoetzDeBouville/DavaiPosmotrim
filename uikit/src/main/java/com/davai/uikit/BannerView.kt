@@ -54,17 +54,14 @@ class BannerView @JvmOverloads constructor(
     fun setState(state: Int) {
         when (state) {
             INFO -> {
-                setBannerText(ContextCompat.getString(context, R.string.banner_success))
                 setBannerBackgroundColor(ContextCompat.getColor(context, R.color.info))
                 setBannerIcon(R.drawable.ic_success)
             }
             SUCCESS -> {
-                setBannerText(ContextCompat.getString(context, R.string.banner_success))
                 setBannerBackgroundColor(ContextCompat.getColor(context, R.color.secondary_base))
                 setBannerIcon(R.drawable.ic_success)
             }
             ATTENTION -> {
-                setBannerText(ContextCompat.getString(context, R.string.banner_attention))
                 setBannerBackgroundColor(ContextCompat.getColor(context, R.color.attention))
                 setBannerIcon(R.drawable.ic_attention)
             }
