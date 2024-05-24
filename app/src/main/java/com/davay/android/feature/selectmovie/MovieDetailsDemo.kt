@@ -42,7 +42,7 @@ data class MovieDetailsDemo(
         }
         movieLengthMin?.let {
             str.append(DOT_DELIMETER)
-            formatMovieDuration(movieLengthMin, context)
+            str.append(formatMovieDuration(movieLengthMin, context))
         }
         return str.toString()
     }
