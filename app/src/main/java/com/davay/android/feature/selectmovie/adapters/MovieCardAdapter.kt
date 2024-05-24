@@ -59,6 +59,7 @@ class MovieCardAdapter : RecyclerView.Adapter<MovieCardAdapter.MovieCardVH>() {
     fun setData(list: List<MovieDetailsDemo>) {
         datalist.clear()
         datalist.addAll(list)
+        notifyDataSetChanged()
     }
 
     private fun buildStringYearCountriesRuntime(data: MovieDetailsDemo, context: Context): String {
