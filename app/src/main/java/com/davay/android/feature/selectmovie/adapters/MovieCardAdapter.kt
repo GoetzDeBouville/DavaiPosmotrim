@@ -1,14 +1,16 @@
 package com.davay.android.feature.selectmovie.adapters
 
+import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
+import com.davay.android.R
 import com.davay.android.databinding.ItemSwipeableMovieCardBinding
 import com.davay.android.feature.selectmovie.MovieDetailsDemo
 
 class MovieCardAdapter : RecyclerView.Adapter<MovieCardAdapter.MovieCardVH>() {
-    class MovieCardVH(private val binding: ItemSwipeableMovieCardBinding) :
+    inner class MovieCardVH(private val binding: ItemSwipeableMovieCardBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(data: MovieDetailsDemo) = with(binding) {
             bindImage(data)
@@ -26,7 +28,10 @@ class MovieCardAdapter : RecyclerView.Adapter<MovieCardAdapter.MovieCardVH>() {
                 }
             }
             tvOriginalTitle.text = data.alternativeName ?: data.englishName ?: ""
-            tvYearCountryRuntime.text = data.buildStringYearCountriesRuntime(binding.root.context)
+            tvYearCountryRuntime.text = buildStringYearCountriesRuntime(
+                data,
+                binding.root.context
+            )
         }
 
         private fun bindImage(data: MovieDetailsDemo) {
@@ -56,8 +61,53 @@ class MovieCardAdapter : RecyclerView.Adapter<MovieCardAdapter.MovieCardVH>() {
         datalist.addAll(list)
     }
 
+    private fun buildStringYearCountriesRuntime(data: MovieDetailsDemo, context: Context): String {
+        with(data) {
+            val str = StringBuilder()
+            year?.let {
+                str.append(it)
+            }
+            if (countries.isNotEmpty()) {
+                val countryList = countries.subList(0, 2)
+                val countriesString = countryList.joinToString {
+                    COMMA_DELIMETER
+                }
+                str.append(DOT_DELIMETER)
+                str.append(countriesString)
+                if (countryList.size > MAX_COUNTRY_NUMBER) {
+                    str.append(MULTIPOINT)
+                }
+            }
+            movieLengthMin?.let {
+                str.append(DOT_DELIMETER)
+                str.append(formatMovieDuration(movieLengthMin, context))
+            }
+            return str.toString()
+        }
+    }
+
+    private fun formatMovieDuration(minutes: Int, context: Context): String {
+        val hours = minutes / MINUTES_NUMBER_IN_HOUR
+        val remainingMinutes = minutes % MINUTES_NUMBER_IN_HOUR
+
+        return when {
+            hours > 0 && remainingMinutes > 0 -> context.getString(
+                R.string.select_movies_hours_and_minutes,
+                hours,
+                remainingMinutes
+            )
+
+            hours > 0 -> context.getString(R.string.select_movies_hours, hours)
+            else -> context.getString(R.string.select_movies_minutes, remainingMinutes)
+        }
+    }
+
     private companion object {
         const val GOOD_RATE_7 = 7.0f
         const val DOT_DELIMETER = " ∙ "
+        const val COMMA_DELIMETER = " ,"
+        const val MULTIPOINT = "..."
+        const val MAX_COUNTRY_NUMBER = 3
+        const val MINUTES_NUMBER_IN_HOUR = 60
     }
 }
