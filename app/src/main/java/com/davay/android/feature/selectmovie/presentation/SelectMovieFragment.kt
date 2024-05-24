@@ -39,7 +39,7 @@ class SelectMovieFragment :
 
             clDetailsBottomSheet.post {
                 val cardLocation = IntArray(2)
-                mcvFilmCard.getLocationOnScreen(cardLocation)
+                rvFilmCard.getLocationOnScreen(cardLocation)
                 val cardTop = cardLocation[1]
 
                 val screenHeight = resources.displayMetrics.heightPixels
