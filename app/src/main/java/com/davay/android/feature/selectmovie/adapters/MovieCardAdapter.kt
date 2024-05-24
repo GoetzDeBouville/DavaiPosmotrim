@@ -1,5 +1,6 @@
 package com.davay.android.feature.selectmovie.adapters
 
+import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
@@ -36,16 +37,23 @@ class MovieCardAdapter : RecyclerView.Adapter<MovieCardAdapter.MovieCardVH>() {
         }
     }
 
+    private val datalist = ArrayList<MovieDetailsDemo>()
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MovieCardVH {
-        TODO("Not yet implemented")
+        val layoutInflater = LayoutInflater.from(parent.context)
+        val binding = ItemSwipeableMovieCardBinding.inflate(layoutInflater, parent, false)
+        return MovieCardVH(binding)
     }
 
-    override fun getItemCount(): Int {
-        TODO("Not yet implemented")
-    }
+    override fun getItemCount(): Int = datalist.size
 
     override fun onBindViewHolder(holder: MovieCardVH, position: Int) {
-        TODO("Not yet implemented")
+        holder.bind(datalist[position])
+    }
+
+    fun setData(list: List<MovieDetailsDemo>) {
+        datalist.clear()
+        datalist.addAll(list)
     }
 
     private companion object {
