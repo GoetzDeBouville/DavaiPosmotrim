@@ -17,63 +17,64 @@
         app:title="@string/session_list_name" />
 
     <View
-        android:id="@+id/main_container"
+        android:id="@+id/v_container"
         android:layout_width="match_parent"
         android:layout_height="@dimen/zero"
         android:layout_marginTop="@dimen/margin_16"
         android:layout_marginBottom="@dimen/margin_16"
         android:background="@drawable/session_card_background"
-        app:layout_constraintTop_toBottomOf="@+id/tool_bar"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/view_bottom"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toTopOf="@+id/view_bottom"/>
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tool_bar" />
 
     <ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:src="@drawable/ic_add_participant"
-        app:layout_constraintTop_toTopOf="@+id/main_container"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toBottomOf="@+id/v_container"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toBottomOf="@+id/main_container"/>
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/v_container" />
 
     <TextView
-        android:id="@+id/waiting_all_participants"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:paddingHorizontal="@dimen/padding_16"
-        android:textColor="@color/text_headings"
-        android:textAlignment="center"
+        android:id="@+id/tv_waiting_all_participants"
         style="@style/Text.Base.Medium.Bold"
-        android:text="@string/waiting_all_participants"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toTopOf="@+id/waiting_all_participants_hint"/>
-
-    <TextView
-        android:id="@+id/waiting_all_participants_hint"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:paddingHorizontal="@dimen/padding_16"
-        android:textColor="@color/text_caption_light"
-        android:layout_marginBottom="@dimen/margin_16"
+        android:text="@string/waiting_all_participants"
         android:textAlignment="center"
-        style="@style/Text.Base.Medium.NoLineSpacing"
-        android:text="@string/waiting_all_participants_hint"
-        app:layout_constraintStart_toStartOf="parent"
+        android:textColor="@color/text_headings"
+        app:layout_constraintBottom_toTopOf="@+id/tv_waiting_all_participants_hint"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toBottomOf="@+id/main_container"/>
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/tv_waiting_all_participants_hint"
+        style="@style/Text.Base.Medium.NoLineSpacing"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/margin_16"
+        android:paddingHorizontal="@dimen/padding_16"
+        android:text="@string/waiting_all_participants_hint"
+        android:textAlignment="center"
+        android:textColor="@color/text_caption_light"
+        app:layout_constraintBottom_toBottomOf="@+id/v_container"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_user"
         android:layout_width="match_parent"
         android:layout_height="@dimen/zero"
         android:padding="@dimen/padding_16"
-        tools:listitem="@layout/tag_view"
-        app:layout_constraintTop_toTopOf="@+id/main_container"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toBottomOf="@+id/v_container"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toBottomOf="@+id/main_container"/>
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/v_container"
+        tools:listitem="@layout/tag_view" />
+
     <View
         android:id="@+id/view_bottom"
         android:layout_width="match_parent"
