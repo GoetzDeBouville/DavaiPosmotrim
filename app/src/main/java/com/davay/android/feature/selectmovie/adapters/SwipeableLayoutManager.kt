@@ -1,10 +1,10 @@
 package com.davay.android.feature.selectmovie.adapters
 
-import android.content.Context
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 
-class SwipeableLayoutManager(context: Context) : RecyclerView.LayoutManager() {
+class SwipeableLayoutManager : RecyclerView.LayoutManager() {
+    private var currentPosition = 0
     override fun generateDefaultLayoutParams(): RecyclerView.LayoutParams =
         RecyclerView.LayoutParams(
             ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT
@@ -16,14 +16,14 @@ class SwipeableLayoutManager(context: Context) : RecyclerView.LayoutManager() {
         }
 
         detachAndScrapAttachedViews(recycler!!)
-        for (i in 0 until itemCount) {
-            val view = recycler.getViewForPosition(i)
+        layoutCurrentView(recycler)
+    }
+
+    private fun layoutCurrentView(recycler: RecyclerView.Recycler) {
+        if (currentPosition < itemCount) {
+            val view = recycler.getViewForPosition(currentPosition)
             addView(view)
-            measureChildWithMargins(
-                view,
-                0,
-                0
-            )
+            measureChildWithMargins(view, 0, 0)
             layoutDecoratedWithMargins(
                 view,
                 0,
@@ -31,20 +31,27 @@ class SwipeableLayoutManager(context: Context) : RecyclerView.LayoutManager() {
                 getDecoratedMeasuredWidth(view),
                 getDecoratedMeasuredHeight(view)
             )
-            break
         }
     }
 
     fun swipeLeft() {
-        // Implement auto swipe left logic
+        if (currentPosition < itemCount - 1) {
+            currentPosition++
+            requestLayout()
+        }
     }
 
     fun swipeRight() {
-        // Implement auto swipe right logic
+        if (currentPosition < itemCount - 1) {
+            currentPosition++
+            requestLayout()
+        }
     }
 
     fun revertSwipe() {
-        // Implement revert swipe logic
+        if (currentPosition > 0) {
+            currentPosition--
+            requestLayout()
+        }
     }
-
 }
