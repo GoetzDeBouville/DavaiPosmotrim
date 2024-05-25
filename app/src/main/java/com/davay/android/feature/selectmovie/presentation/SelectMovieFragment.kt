@@ -22,8 +22,12 @@ class SelectMovieFragment :
 
     override val viewModel: SelectMovieViewModel by injectViewModel<SelectMovieViewModel>()
     private var matchesCounter = 0 // заменить на подписку
-    private val cardAdapter = MovieCardAdapter()
-    private lateinit var swipeCardLayoutManager : SwipeableLayoutManager
+    private val cardAdapter = MovieCardAdapter(
+        swipeLeft = { autoSwipeLeft() },
+        swipeRight = { autoSwipeRight() },
+        revert = { revertSwipe() }
+    )
+    private lateinit var swipeCardLayoutManager: SwipeableLayoutManager
 
     override fun diComponent(): ScreenComponent =
         DaggerSelectMovieFragmentComponent.builder().appComponent(AppComponentHolder.getComponent())
@@ -31,7 +35,7 @@ class SelectMovieFragment :
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        swipeCardLayoutManager = SwipeableLayoutManager(requireContext())
+        swipeCardLayoutManager = SwipeableLayoutManager()
         initViews()
         binding.rvFilmCard.post {
             if (binding.rvFilmCard.adapter == null) {
@@ -49,18 +53,23 @@ class SelectMovieFragment :
     }
 
     private fun buildRecyclerView() {
-        Log.d("SelectMovieFragment", "Building RecyclerView")
+        cardAdapter.setData(mockMovies)
         binding.rvFilmCard.apply {
             layoutManager = swipeCardLayoutManager
             adapter = cardAdapter
         }
 
-        Log.d("SelectMovieFragment", "Adapter attached")
-        val itemTouchHelper = ItemTouchHelper(SwipeCallback(onSwipedLeft = {
-            // Handle manual swipe left
-        }, onSwipedRight = {
-            // Handle manual swipe right
-        }))
+        val itemTouchHelper = ItemTouchHelper(SwipeCallback(
+            swipeCardLayoutManager,
+            onSwipedLeft = {
+                // Add skip method
+                Log.e("MyLog", "swiped left")
+            },
+            onSwipedRight = {
+                // Add like method
+                Log.e("MyLog", "swiped right")
+            }
+        ))
 
         itemTouchHelper.attachToRecyclerView(binding.rvFilmCard)
     }
@@ -94,7 +103,6 @@ class SelectMovieFragment :
             addStatusBarSpacer()
         }
     }
-
 
     private val mockMovies = listOf(
         MovieDetailsDemo(
@@ -147,12 +155,34 @@ class SelectMovieFragment :
             ratingKinopoisk = 6.7f,
             votesKinopoisk = 400000,
             ratingImdb = 8.9f,
-            votesImdb = 1600000,
+            votesImdb = 198728,
             movieLengthMin = 201,
             genres = listOf("Фэнтези", "Приключения", "Драма"),
             countries = listOf("США", "Новая Зеландия", "Великобритания", "Австралия"),
             topCast = listOf("Элайджа Вуд", "Вигго Мортенсен", "Иэн Маккеллен"),
             directors = listOf("Питер Джексон", "Кристофер Нолан")
+        ), MovieDetailsDemo(
+            kinopoiskId = 3457,
+            imdbId = 8912,
+            posterUrl = "https://avatars.mds.yandex.net/get-kinopoisk-image/1777765/cb430f00-1734-4078-abd2-6688a94749a5/3840x",
+            movieName = "Доктор Стрейнджлав, или Как я научился не волноваться и полюбил атомную бомбу",
+            alternativeName = "Dr. Strangelove or: How I Learned to Stop Worrying and Love the Bomb",
+            englishName = "Dr. Strangelove or: How I Learned to Stop Worrying and Love the Bomb",
+            year = 1963,
+            description = "Заключительная часть эпической трилогии.",
+            shortDescription = "Финал эпической трилогии.",
+            ratingKinopoisk = 6.7f,
+            votesKinopoisk = 4099199,
+            ratingImdb = 5.9f,
+            votesImdb = 16090201,
+            movieLengthMin = 201,
+            genres = listOf("комедия", "фантастика", "триллер"),
+            countries = listOf("США", "Великобритания", "Австралия"),
+            topCast = listOf(
+                "Питер Селлерс", "Джордж К. Скотт", "Стерлинг Хейден", "Кинен Уинн", "Слим Пикенс",
+                "Питер Булл", "Джеймс Эрл Джонс", "Трейси Рид", "Джек Крили", "Фрэнк Берри"
+            ),
+            directors = listOf("Стэнли Кубрик", "Терри Саузерн", "Питер Джордж")
         )
     )
 
