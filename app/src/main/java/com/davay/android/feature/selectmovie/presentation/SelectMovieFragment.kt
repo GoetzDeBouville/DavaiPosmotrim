@@ -85,7 +85,7 @@ class SelectMovieFragment :
                 val cardTop = cardLocation[1]
 
                 val screenHeight = resources.displayMetrics.heightPixels
-                val maxHeight = screenHeight - cardTop
+                val maxHeight = screenHeight - (cardTop + MARGIN_TOP_16_DP.dpToPx().toInt())
 
                 clDetailsBottomSheet.layoutParams.height = maxHeight
                 clDetailsBottomSheet.requestLayout()
@@ -200,5 +200,6 @@ class SelectMovieFragment :
 
     private companion object {
         const val BOTTOMSHEET_PEEK_HEIGHT_112_DP = 112
+        const val MARGIN_TOP_16_DP = 16
     }
 }
