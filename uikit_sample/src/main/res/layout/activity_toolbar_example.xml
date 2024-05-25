@@ -12,7 +12,6 @@
         android:id="@+id/toolbarView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/margin_24"
         app:end_icon_is_visible="true"
         app:start_icon_is_visible="true"
         app:layout_constraintEnd_toEndOf="parent"
