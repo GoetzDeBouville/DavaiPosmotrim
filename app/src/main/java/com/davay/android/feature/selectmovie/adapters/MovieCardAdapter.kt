@@ -109,7 +109,9 @@ class MovieCardAdapter(
 
             return when {
                 hours > 0 && remainingMinutes > 0 -> context.getString(
-                    R.string.select_movies_hours_and_minutes, hours, remainingMinutes
+                    R.string.select_movies_hours_and_minutes,
+                    hours,
+                    remainingMinutes
                 )
 
                 hours > 0 -> context.getString(R.string.select_movies_hours, hours)

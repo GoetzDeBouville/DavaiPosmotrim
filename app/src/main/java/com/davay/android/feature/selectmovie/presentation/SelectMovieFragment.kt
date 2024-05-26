@@ -28,7 +28,7 @@ class SelectMovieFragment :
         revert = { revertSwipe() },
         inflateMovieDetails = { movie -> inflateMovieDetails(movie) }
     )
-    private lateinit var swipeCardLayoutManager: SwipeableLayoutManager
+    private val swipeCardLayoutManager = SwipeableLayoutManager()
 
     override fun diComponent(): ScreenComponent =
         DaggerSelectMovieFragmentComponent.builder().appComponent(AppComponentHolder.getComponent())
@@ -36,7 +36,6 @@ class SelectMovieFragment :
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        swipeCardLayoutManager = SwipeableLayoutManager()
         initViews()
         binding.rvFilmCard.post {
             if (binding.rvFilmCard.adapter == null) {
@@ -60,17 +59,19 @@ class SelectMovieFragment :
             adapter = cardAdapter
         }
 
-        val itemTouchHelper = ItemTouchHelper(SwipeCallback(
-            swipeCardLayoutManager,
-            onSwipedLeft = {
-                // Add skip method
-                Log.e("MyLog", "swiped left")
-            },
-            onSwipedRight = {
-                // Add like method
-                Log.e("MyLog", "swiped right")
-            }
-        ))
+        val itemTouchHelper = ItemTouchHelper(
+            SwipeCallback(
+                swipeCardLayoutManager,
+                onSwipedLeft = {
+                    // Add skip method
+                    Log.e("MyLog", "swiped left")
+                },
+                onSwipedRight = {
+                    // Add like method
+                    Log.e("MyLog", "swiped right")
+                }
+            )
+        )
 
         itemTouchHelper.attachToRecyclerView(binding.rvFilmCard)
     }
@@ -151,7 +152,14 @@ class SelectMovieFragment :
     }
 }
 
-
+// В кооде используются моковые данные
+@Suppress(
+    "Detekt.MaxLineLength",
+    "Detekt.StringLiteralDuplication",
+    "Detekt.ArgumentListWrapping",
+    "Detekt.Wrapping",
+    "Detekt.UnderscoresInNumericLiterals"
+)
 private val mockMovies = listOf(
     MovieDetailsDemo(
         kinopoiskId = 12345,
