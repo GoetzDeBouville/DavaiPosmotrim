@@ -59,12 +59,15 @@ class MovieCardAdapter(
         private fun onItemsClicklisteners() = with(binding) {
             ivLike.setOnClickListener {
                 swipeRight.invoke()
+                updateMovieDetails()
             }
             ivSkip.setOnClickListener {
                 swipeLeft.invoke()
+                updateMovieDetails()
             }
             ivRevert.setOnClickListener {
                 revert.invoke()
+                updateMovieDetails()
             }
         }
 
@@ -135,7 +138,7 @@ class MovieCardAdapter(
         currentPosition = holder.adapterPosition
     }
 
-    fun updateMovieDetails() {
+    private fun updateMovieDetails() {
         notifyItemChanged(currentPosition)
     }
 

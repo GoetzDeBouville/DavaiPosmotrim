@@ -107,17 +107,14 @@ class SelectMovieFragment :
 
     private fun autoSwipeLeft() {
         swipeCardLayoutManager.swipeLeft()
-        cardAdapter.updateMovieDetails()
     }
 
     private fun autoSwipeRight() {
         swipeCardLayoutManager.swipeRight()
-        cardAdapter.updateMovieDetails()
     }
 
     private fun revertSwipe() {
         swipeCardLayoutManager.revertSwipe()
-        cardAdapter.updateMovieDetails()
     }
 
     private fun inflateMovieDetails(movie: MovieDetailsDemo) = with(binding) {
