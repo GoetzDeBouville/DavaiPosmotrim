@@ -32,7 +32,7 @@ class CompilationsFragment : BaseFragment<FragmentCompilationsBinding, Compilati
         binding.rvCompilations.adapter = compilationAdapter
         binding.rvCompilations.layoutManager =
             LinearLayoutManager(context, RecyclerView.VERTICAL, false)
-        //временно для теста
+        // временно для теста
         compilationAdapter?.addItemList(
             listOf(
                 Compilation(

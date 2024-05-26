@@ -41,7 +41,7 @@ class GenreFragment : BaseFragment<FragmentGenreBinding, GenreViewModel>(
             alignItems = AlignItems.FLEX_START
         }
         binding.rvGenre.layoutManager = layoutManager
-        //временно для теста
+        // временно для теста
         genreAdapter?.addItemList(
             listOf(
                 Genre(1, "Ужасы"),

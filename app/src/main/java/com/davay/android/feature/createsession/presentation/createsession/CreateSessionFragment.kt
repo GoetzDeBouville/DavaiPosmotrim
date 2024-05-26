@@ -7,6 +7,7 @@ import androidx.viewpager2.widget.ViewPager2.OnPageChangeCallback
 import com.davai.uikit.BannerView
 import com.davay.android.R
 import com.davay.android.app.AppComponentHolder
+import com.davay.android.app.MainActivity
 import com.davay.android.base.BaseFragment
 import com.davay.android.databinding.FragmentCreateSessionBinding
 import com.davay.android.di.ScreenComponent
@@ -27,7 +28,6 @@ class CreateSessionFragment : BaseFragment<FragmentCreateSessionBinding, CreateS
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding.bannerAttention.setState(BannerView.ATTENTION)
         binding.toolBar.addStatusBarSpacer()
         initTabs()
         setupToolbar()
@@ -43,6 +43,10 @@ class CreateSessionFragment : BaseFragment<FragmentCreateSessionBinding, CreateS
                 }
             }
         }
+        updateBanner(
+            getString(R.string.create_session_choose_compilations_one),
+            BannerView.ATTENTION
+        )
     }
 
     private fun initTabs() {
@@ -63,21 +67,33 @@ class CreateSessionFragment : BaseFragment<FragmentCreateSessionBinding, CreateS
                 when (position) {
                     0 -> {
                         binding.toolBar.setSubtitleText(getString(R.string.create_session_choose_compilations))
-                        binding.bannerAttention
-                            .setBannerText(getString(R.string.create_session_choose_compilations_one))
+                        updateBanner(
+                            getString(R.string.create_session_choose_compilations_one),
+                            BannerView.ATTENTION
+                        )
                     }
 
                     1 -> {
                         binding.toolBar.setSubtitleText(getString(R.string.create_session_choose_genre))
-                        binding.bannerAttention
-                            .setBannerText(getString(R.string.create_session_choose_genre_one))
+                        updateBanner(
+                            getString(R.string.create_session_choose_genre_one),
+                            BannerView.ATTENTION
+                        )
                     }
                 }
             }
         })
-        binding.toolBar.setStartIconClickListener {
-            findNavController().navigateUp()
+        with(binding.toolBar) {
+            setStartIcon(com.davai.uikit.R.drawable.ic_arrow_back)
+            showStartIcon()
+            setStartIconClickListener {
+                findNavController().navigateUp()
+            }
         }
+    }
+
+    private fun updateBanner(text: String, type: Int) {
+        (requireActivity() as MainActivity).updateBanner(text, type)
     }
 
     override fun onDestroyView() {

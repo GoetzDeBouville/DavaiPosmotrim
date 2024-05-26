@@ -1,13 +1,18 @@
 package com.davay.android.app
 
+import android.animation.Animator
+import android.animation.AnimatorListenerAdapter
 import android.os.Build
 import android.os.Bundle
 import android.view.View
+import android.view.ViewGroup
 import android.view.WindowInsetsController
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.core.view.postDelayed
+import androidx.core.view.updateLayoutParams
 import com.davay.android.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
@@ -29,6 +34,8 @@ class MainActivity : AppCompatActivity() {
             @Suppress("DEPRECATION")
             window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
         }
+
+        setMarginBanner()
     }
 
     /**
@@ -50,5 +57,46 @@ class MainActivity : AppCompatActivity() {
             }
             insets
         }
+    }
+
+    private fun setMarginBanner() {
+        ViewCompat.setOnApplyWindowInsetsListener(binding.banner) { v, windowInsets ->
+            val insets = windowInsets.getInsets(WindowInsetsCompat.Type.statusBars())
+            v.updateLayoutParams<ViewGroup.MarginLayoutParams> {
+                topMargin = insets.top
+            }
+            WindowInsetsCompat.CONSUMED
+        }
+    }
+
+    fun updateBanner(text: String, type: Int) {
+        binding.banner.setBannerText(text)
+        binding.banner.setState(type)
+    }
+
+    fun showBanner() {
+        val mediumAnimationDuration = resources.getInteger(android.R.integer.config_mediumAnimTime)
+        binding.banner.apply {
+            alpha = 0f
+            visibility = View.VISIBLE
+            animate()
+                .alpha(1f)
+                .setDuration(mediumAnimationDuration.toLong())
+                .setListener(null)
+        }
+        binding.banner.postDelayed(BANNER_TIME_MS) {
+            binding.banner.animate()
+                .alpha(0f)
+                .setDuration(mediumAnimationDuration.toLong())
+                .setListener(object : AnimatorListenerAdapter() {
+                    override fun onAnimationEnd(animation: Animator) {
+                        binding.banner.visibility = View.GONE
+                    }
+                })
+        }
+    }
+
+    companion object {
+        const val BANNER_TIME_MS = 2000L
     }
 }
