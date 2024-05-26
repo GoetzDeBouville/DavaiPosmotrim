@@ -5,6 +5,4 @@
     android:layout_height="wrap_content"
     android:layout_marginEnd="@dimen/margin_8"
     android:layout_marginBottom="@dimen/margin_8"
-    app:tag_type="secondary_gray">
-
-</com.davai.uikit.TagView>
+    app:tag_type="secondary_gray"/>

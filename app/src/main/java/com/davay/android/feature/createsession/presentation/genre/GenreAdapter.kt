@@ -1,6 +1,5 @@
 package com.davay.android.feature.createsession.presentation.genre
 
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
@@ -17,18 +16,17 @@ class GenreAdapter(private val clickListener: ItemClickListener) :
         return GenreViewHolder(
             GenreItemBinding.inflate(inflater, parent, false),
             clickListener
-        ).also { Log.d("MyTag", "onCreateViewHolder " + it.toString()) }
+        )
     }
 
     override fun getItemCount(): Int = itemList.count()
 
     override fun onBindViewHolder(holder: GenreViewHolder, position: Int) {
-        Log.d("MyTag", "bind " + itemList[position].toString())
         holder.bind(itemList[position])
     }
 
     fun addItemList(list: List<Genre>) {
-        itemList.addAll(list).also { Log.d("MyTag", itemList.toString()) }
+        itemList.addAll(list)
     }
 
     fun interface ItemClickListener {

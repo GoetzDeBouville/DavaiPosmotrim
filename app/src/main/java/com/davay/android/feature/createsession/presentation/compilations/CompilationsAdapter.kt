@@ -1,25 +1,20 @@
 package com.davay.android.feature.createsession.presentation.compilations
 
+import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.davai.uikit.MovieSelectionView
+import com.davay.android.databinding.CompilationsItemBinding
 import com.davay.android.feature.createsession.domain.model.Compilation
 
 class CompilationsAdapter(private val clickListener: ItemClickListener) :
     RecyclerView.Adapter<CompilationsViewHolder>() {
 
-    val itemList: MutableList<Compilation> = mutableListOf()
+    private val itemList: MutableList<Compilation> = mutableListOf()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CompilationsViewHolder {
-        val movieSelectionView = MovieSelectionView(parent.context)
-        movieSelectionView.setLayoutParams(
-            ViewGroup.LayoutParams(
-                ViewGroup.LayoutParams.MATCH_PARENT,
-                ViewGroup.LayoutParams.WRAP_CONTENT
-            )
-        )
+        val inflater = LayoutInflater.from(parent.context)
         return CompilationsViewHolder(
-            movieSelectionView,
+            CompilationsItemBinding.inflate(inflater, parent, false),
             clickListener
         )
     }
@@ -28,6 +23,10 @@ class CompilationsAdapter(private val clickListener: ItemClickListener) :
 
     override fun onBindViewHolder(holder: CompilationsViewHolder, position: Int) {
         holder.bind(itemList[position])
+    }
+
+    fun addItemList(list: List<Compilation>) {
+        itemList.addAll(list)
     }
 
     fun interface ItemClickListener {

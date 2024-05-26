@@ -2,8 +2,6 @@ package com.davay.android.feature.createsession.presentation.compilations
 
 import android.os.Bundle
 import android.view.View
-import androidx.core.content.res.ResourcesCompat
-import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.davay.android.app.AppComponentHolder
@@ -11,6 +9,7 @@ import com.davay.android.base.BaseFragment
 import com.davay.android.databinding.FragmentCompilationsBinding
 import com.davay.android.di.ScreenComponent
 import com.davay.android.feature.createsession.di.DaggerCreateSessionFragmentComponent
+import com.davay.android.feature.createsession.domain.model.Compilation
 
 class CompilationsFragment : BaseFragment<FragmentCompilationsBinding, CompilationsViewModel>(
     FragmentCompilationsBinding::inflate
@@ -33,17 +32,30 @@ class CompilationsFragment : BaseFragment<FragmentCompilationsBinding, Compilati
         binding.rvCompilations.adapter = compilationAdapter
         binding.rvCompilations.layoutManager =
             LinearLayoutManager(context, RecyclerView.VERTICAL, false)
-        binding.rvCompilations.addItemDecoration(
-            DividerItemDecoration(requireContext(), RecyclerView.VERTICAL)
-                .apply {
-                    setDrawable(
-                        ResourcesCompat.getDrawable(
-                            resources,
-                            com.davai.uikit.R.drawable.divider,
-                            requireContext().theme
-                        )!!
-                    )
-                }
+        //временно для теста
+        compilationAdapter?.addItemList(
+            listOf(
+                Compilation(
+                    1,
+                    "Ужасы",
+                    "https://pikuco.ru/upload/test_stable/6f1/6f1bd5d0f587f12f4a1bd9bd107beb56.webp"
+                ),
+                Compilation(
+                    1,
+                    "Комедия",
+                    "https://ss.sport-express.ru/userfiles/materials/197/1974960/volga.jpg"
+                ),
+                Compilation(
+                    1,
+                    "Боевик",
+                    "https://s1.afisha.ru/mediastorage/93/da/603bb317d0284ddbb61501aeda93.jpg"
+                ),
+                Compilation(1, "Ужасы2", ""),
+                Compilation(1, "Ужасы3", ""),
+                Compilation(1, "Боевик2", ""),
+                Compilation(1, "Ужасы4", ""),
+                Compilation(1, "Комедия2", "")
+            )
         )
     }
 
