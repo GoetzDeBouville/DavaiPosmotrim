@@ -59,15 +59,15 @@ class MovieCardAdapter(
         private fun onItemsClicklisteners() = with(binding) {
             ivLike.setOnClickListener {
                 swipeRight.invoke()
-                updateMovieDetails()
+                notifyDataSetChanged()
             }
             ivSkip.setOnClickListener {
                 swipeLeft.invoke()
-                updateMovieDetails()
+                notifyDataSetChanged()
             }
             ivRevert.setOnClickListener {
                 revert.invoke()
-                updateMovieDetails()
+                notifyDataSetChanged()
             }
         }
 
@@ -113,7 +113,6 @@ class MovieCardAdapter(
     }
 
     private val datalist = arrayListOf<MovieDetailsDemo>()
-    private var currentPosition = 0
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MovieCardVH {
         val layoutInflater = LayoutInflater.from(parent.context)
@@ -135,12 +134,8 @@ class MovieCardAdapter(
 
     override fun onBindViewHolder(holder: MovieCardVH, position: Int) {
         holder.bind(datalist[position])
-        currentPosition = holder.adapterPosition
     }
 
-    private fun updateMovieDetails() {
-        notifyItemChanged(currentPosition)
-    }
 
     fun setData(list: List<MovieDetailsDemo>) {
         datalist.clear()
