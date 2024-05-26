@@ -12,15 +12,18 @@ import com.davay.android.feature.selectmovie.MovieDetailsDemo
 class MovieCardAdapter(
     private val swipeLeft: () -> Unit,
     private val swipeRight: () -> Unit,
-    private val revert: () -> Unit
+    private val revert: () -> Unit,
+    private val inflateMovieDetails: (MovieDetailsDemo) -> Unit
 ) : RecyclerView.Adapter<MovieCardAdapter.MovieCardVH>() {
     inner class MovieCardVH(
         private val binding: ItemSwipeableMovieCardBinding,
         private val swipeLeft: () -> Unit,
         private val swipeRight: () -> Unit,
-        private val revert: () -> Unit
+        private val revert: () -> Unit,
+        private val inflateMovieDetails: (MovieDetailsDemo) -> Unit
     ) : RecyclerView.ViewHolder(binding.root) {
         fun bind(data: MovieDetailsDemo) = with(binding) {
+            inflateMovieDetails.invoke(data)
             bindImage(data)
             setRateText(data.ratingKinopoisk)
             onItemsClicklisteners()
@@ -107,6 +110,7 @@ class MovieCardAdapter(
     }
 
     private val datalist = arrayListOf<MovieDetailsDemo>()
+    private var currentPosition = 0
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MovieCardVH {
         val layoutInflater = LayoutInflater.from(parent.context)
@@ -119,7 +123,8 @@ class MovieCardAdapter(
             binding,
             swipeLeft,
             swipeRight,
-            revert
+            revert,
+            inflateMovieDetails
         )
     }
 
@@ -127,12 +132,17 @@ class MovieCardAdapter(
 
     override fun onBindViewHolder(holder: MovieCardVH, position: Int) {
         holder.bind(datalist[position])
+        currentPosition = holder.adapterPosition
+    }
+
+    fun updateMovieDetails() {
+        notifyItemChanged(currentPosition)
     }
 
     fun setData(list: List<MovieDetailsDemo>) {
         datalist.clear()
         datalist.addAll(list)
-        notifyDataSetChanged()
+        notifyItemChanged(0)
     }
 
     private companion object {
