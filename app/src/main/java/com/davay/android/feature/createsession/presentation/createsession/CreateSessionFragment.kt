@@ -28,6 +28,7 @@ class CreateSessionFragment : BaseFragment<FragmentCreateSessionBinding, CreateS
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.bannerAttention.setState(BannerView.ATTENTION)
+        binding.toolBar.addStatusBarSpacer()
         initTabs()
         setupToolbar()
         binding.btnContinue.setOnClickListener {
