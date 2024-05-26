@@ -1,42 +1,22 @@
 package com.davay.android.feature.createsession.presentation.genre
 
-import android.widget.TextView
-import androidx.core.content.res.ResourcesCompat
 import androidx.recyclerview.widget.RecyclerView
+import com.davai.uikit.TagView
+import com.davay.android.databinding.GenreItemBinding
 import com.davay.android.feature.createsession.domain.model.Genre
 
 class GenreViewHolder(
-    private val textView: TextView,
+    private val binding: GenreItemBinding,
     private val clickListener: GenreAdapter.ItemClickListener
-) : RecyclerView.ViewHolder(textView) {
+) : RecyclerView.ViewHolder(binding.root) {
     fun bind(genre: Genre) {
-        textView.text = genre.name
-        textView.setOnClickListener {
+        binding.root.setText(genre.name)
+        itemView.setOnClickListener {
             if (genre.isSelected) {
-                textView.background = ResourcesCompat.getDrawable(
-                    itemView.context.resources,
-                    com.davai.uikit.R.drawable.item_background_unselected,
-                    itemView.context.theme
-                )
-                textView.setTextColor(
-                    itemView.resources.getColor(
-                        com.davai.uikit.R.color.text_caption_dark,
-                        itemView.context.theme
-                    )
-                )
+                binding.root.changeStyle(TagView.Companion.Style.SECONDARY_GRAY)
                 genre.isSelected = false
             } else {
-                textView.background = ResourcesCompat.getDrawable(
-                    itemView.context.resources,
-                    com.davai.uikit.R.drawable.item_background_selected,
-                    itemView.context.theme
-                )
-                textView.setTextColor(
-                    itemView.resources.getColor(
-                        com.davai.uikit.R.color.text_base,
-                        itemView.context.theme
-                    )
-                )
+                binding.root.changeStyle(TagView.Companion.Style.SECONDARY_GREEN)
                 genre.isSelected = true
             }
             clickListener.onClick(genre)

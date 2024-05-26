@@ -7,6 +7,7 @@ import com.davay.android.base.BaseFragment
 import com.davay.android.databinding.FragmentGenreBinding
 import com.davay.android.di.ScreenComponent
 import com.davay.android.feature.createsession.di.DaggerCreateSessionFragmentComponent
+import com.davay.android.feature.createsession.domain.model.Genre
 import com.google.android.flexbox.AlignItems
 import com.google.android.flexbox.FlexDirection
 import com.google.android.flexbox.FlexWrap
@@ -40,6 +41,19 @@ class GenreFragment : BaseFragment<FragmentGenreBinding, GenreViewModel>(
             alignItems = AlignItems.FLEX_START
         }
         binding.rvGenre.layoutManager = layoutManager
+        //временно для теста
+        genreAdapter?.addItemList(
+            listOf(
+                Genre(1, "Ужасы"),
+                Genre(1, "Комедия"),
+                Genre(1, "Боевик"),
+                Genre(1, "Ужасы2"),
+                Genre(1, "Ужасы3"),
+                Genre(1, "Боевик2"),
+                Genre(1, "Ужасы4"),
+                Genre(1, "Комедия2")
+            )
+        )
     }
 
     override fun onDestroyView() {

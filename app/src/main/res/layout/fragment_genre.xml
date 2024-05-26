@@ -12,6 +12,6 @@
         android:layout_marginBottom="@dimen/margin_32"
         android:background="@drawable/session_card_background"
         android:padding="@dimen/padding_16"
-        tools:listitem="@layout/item_text_view" />
+        tools:listitem="@layout/genre_item" />
 
 </FrameLayout>
