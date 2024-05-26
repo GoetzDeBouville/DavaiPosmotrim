@@ -22,7 +22,6 @@
                 android:layout_width="0dp"
                 android:layout_height="0dp"
                 android:contentDescription="@string/select_movies_cover_image_description"
-                android:scaleType="centerCrop"
                 app:layout_constraintBottom_toTopOf="@id/gl_image_info_border"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
