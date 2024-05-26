@@ -3,11 +3,15 @@ package com.davai.uikit
 import android.content.Context
 import android.util.AttributeSet
 import android.view.LayoutInflater
+import android.view.View
 import android.widget.ImageView
+import android.widget.Space
 import android.widget.TextView
 import androidx.annotation.AttrRes
 import androidx.annotation.StyleRes
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.isVisible
 
 /**
@@ -38,6 +42,9 @@ class ToolbarView @JvmOverloads constructor(
     }
     private val ivEndIcon: ImageView by lazy {
         findViewById(R.id.iv_end_icon)
+    }
+    private val topSpace: Space by lazy {
+        findViewById(R.id.top_space)
     }
 
     init {
@@ -175,5 +182,34 @@ class ToolbarView @JvmOverloads constructor(
      */
     fun setEndIconClickListener(listener: () -> Unit) {
         ivEndIcon.setOnClickListener { listener() }
+    }
+
+    /**
+     * Добавляет spacer в высоту статус бара
+     */
+    fun addStatusBarSpacer() {
+        var statusBarHeight = 0
+        ViewCompat.setOnApplyWindowInsetsListener(this) { _, insets ->
+            statusBarHeight = insets.getInsets(WindowInsetsCompat.Type.statusBars()).top
+            applySpaceHeight(statusBarHeight)
+            insets
+        }
+        requestApplyInsets()
+    }
+
+    private fun applySpaceHeight(statusBarHeight: Int) {
+        topSpace.let {
+            val layoutParams = it.layoutParams
+            layoutParams.height = statusBarHeight
+            it.layoutParams = layoutParams
+        }
+    }
+
+    /**
+     * Удаляет спэйсер в статус баре
+     * ! дефолтно в статус баре спэйсер нулевого размера
+     */
+    fun removeSpacerOnStatusBar() {
+        topSpace.visibility = View.GONE
     }
 }
