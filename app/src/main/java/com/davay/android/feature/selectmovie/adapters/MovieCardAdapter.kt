@@ -5,6 +5,8 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
+import coil.size.Scale
+import coil.transform.RoundedCornersTransformation
 import com.davay.android.R
 import com.davay.android.databinding.ItemSwipeableMovieCardBinding
 import com.davay.android.feature.selectmovie.MovieDetailsDemo
@@ -38,7 +40,11 @@ class MovieCardAdapter(
         private fun bindImage(data: MovieDetailsDemo) {
             binding.ivSelectMovieCover.load(data.posterUrl) {
                 placeholder(com.davai.uikit.R.drawable.placeholder_general_80)
-                error(com.davai.uikit.R.drawable.placeholder_error_theme_112)
+                    .scale(Scale.FIT)
+                error(R.drawable.ic_movie_selection_error_332)
+                    .scale(Scale.FIT)
+                transformations(RoundedCornersTransformation())
+                    .crossfade(true)
             }
         }
 

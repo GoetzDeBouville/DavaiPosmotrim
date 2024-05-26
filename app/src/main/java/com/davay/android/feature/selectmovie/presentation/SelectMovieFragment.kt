@@ -21,7 +21,7 @@ class SelectMovieFragment :
     BaseFragment<FragmentSelectMovieBinding, SelectMovieViewModel>(FragmentSelectMovieBinding::inflate) {
 
     override val viewModel: SelectMovieViewModel by injectViewModel<SelectMovieViewModel>()
-    private var matchesCounter = 0 // заменить на подписку
+    private var matchesCounter = 0
     private val cardAdapter = MovieCardAdapter(
         swipeLeft = { autoSwipeLeft() },
         swipeRight = { autoSwipeRight() },
