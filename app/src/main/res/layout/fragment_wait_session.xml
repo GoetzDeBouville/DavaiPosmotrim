@@ -7,58 +7,60 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".feature.waitsession.presentation.WaitSessionFragment">
 
-    <LinearLayout
-        android:id="@+id/toolbar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:background="@drawable/toolbar_background"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent">
 
         <com.davai.uikit.ToolbarView
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/toolbar_height_64"
-            app:title="@string/wait_session_header"/>
-        <LinearLayout
+            android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:paddingTop="@dimen/margin_24"
-            android:paddingBottom="@dimen/padding_16"
-            android:paddingHorizontal="@dimen/padding_16">
+            app:title="@string/wait_session_header"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"/>
+        <View
+            android:id="@+id/buttons_container"
+            android:layout_width="match_parent"
+            android:layout_height="88dp"
+            android:background="@drawable/toolbar_background"
+            app:layout_constraintTop_toBottomOf="@id/toolbar"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"/>
 
-            <LinearLayout
-                android:id="@+id/copy_button"
-                android:layout_width="@dimen/zero"
-                android:layout_height="@dimen/wait_session_button_height"
+        <LinearLayout
+            android:id="@+id/ll_copy_button"
+            android:layout_width="@dimen/zero"
+            android:layout_height="@dimen/wait_session_button_height"
+            android:paddingHorizontal="@dimen/padding_16"
+            android:layout_marginEnd="@dimen/margin_16"
+            android:layout_marginTop="@dimen/margin_24"
+            android:layout_marginStart="@dimen/margin_16"
+            android:gravity="center_vertical"
+            android:background="@drawable/background_copy_button"
+            app:layout_constraintTop_toTopOf="@+id/buttons_container"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/send_button">
+            <TextView
+                android:id="@+id/tv_code"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:textAppearance="@style/Text.Base.Big.Regular"
                 android:layout_weight="1"
-                android:paddingHorizontal="@dimen/padding_16"
-                android:layout_marginEnd="@dimen/margin_16"
-                android:gravity="center_vertical"
-                android:background="@drawable/background_copy_button">
-                <TextView
-                    android:id="@+id/tv_code"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:textAppearance="@style/Text.Base.Big.Regular"
-                    android:layout_weight="1"
-                    android:text="G1gfdg3"/>
-                <ImageView
-                    android:layout_width="@dimen/wait_session_copy_button_icon_size"
-                    android:layout_height="@dimen/wait_session_copy_button_icon_size"
-                    android:src="@drawable/ic_copy"/>
-            </LinearLayout>
-
-            <com.davai.uikit.ButtonView
-                android:id="@+id/send_button"
-                android:layout_width="@dimen/zero"
-                android:layout_height="@dimen/wait_session_button_height"
-                android:layout_weight="1"
-                app:button_text="@string/wait_session_invite_button"/>
+                android:text="G1gfdg3"/>
+            <ImageView
+                android:layout_width="@dimen/wait_session_copy_button_icon_size"
+                android:layout_height="@dimen/wait_session_copy_button_icon_size"
+                android:src="@drawable/ic_copy"/>
         </LinearLayout>
-    </LinearLayout>
+
+        <com.davai.uikit.ButtonView
+            android:id="@+id/send_button"
+            android:layout_width="@dimen/zero"
+            android:layout_height="wrap_content"
+            app:button_text="@string/wait_session_invite_button"
+            android:layout_marginEnd="@dimen/margin_16"
+            android:layout_marginTop="@dimen/margin_24"
+            app:layout_constraintTop_toTopOf="@+id/buttons_container"
+            app:layout_constraintStart_toEndOf="@id/ll_copy_button"
+            app:layout_constraintEnd_toEndOf="parent"/>
 
     <View
         android:id="@+id/main_container"
@@ -66,7 +68,7 @@
         android:layout_height="@dimen/zero"
         android:layout_marginTop="@dimen/margin_16"
         android:background="@drawable/session_card_background"
-        app:layout_constraintTop_toBottomOf="@+id/toolbar"
+        app:layout_constraintTop_toBottomOf="@+id/buttons_container"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toTopOf="@+id/bottom_container"/>
@@ -119,7 +121,7 @@
         <com.davai.uikit.ButtonView
             android:id="@+id/start_session_button"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/wait_session_button_height"
+            android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/wait_session_button_margin_top"
             android:layout_marginHorizontal="@dimen/wait_session_button_margin_horizontal"
             app:button_text="@string/wait_session_start_button"/>
@@ -127,7 +129,7 @@
         <com.davai.uikit.ButtonView
             android:id="@+id/cancel_button"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/wait_session_button_height"
+            android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/wait_session_button_margin_top"
             android:layout_marginBottom="@dimen/margin_20"
             android:layout_marginHorizontal="@dimen/wait_session_button_margin_horizontal"

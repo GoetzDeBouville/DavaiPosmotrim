@@ -14,10 +14,12 @@
     <string name="change_name_enter_your_name">Введите ваше имя</string>
 
     <string name="wait_session_header">Участники</string>
-    <string name="wait_session_placeholder">Если вы пригласили друзей – дождитесь, когда они подключаться, прежде чем начать сеанс.</string>
+    <string name="wait_session_placeholder">Если вы пригласили друзей – дождитесь, когда они подключатся, прежде чем начать сеанс.</string>
     <string name="wait_session_start_button">Начать сеанс</string>
     <string name="wait_session_cancel_button">Отменить сеанс</string>
     <string name="wait_session_invite_button">Пригласить</string>
     <string name="wait_session_copy_button_label">Пригласить</string>
-    <string name="wait_session_copy_button_toast_text">Пригласить</string>
+    <string name="wait_session_copy_button_toast_text">Код скопирован</string>
+    <string name="wait_session_tag_owner">%s (вы)</string>
+
 </resources>
