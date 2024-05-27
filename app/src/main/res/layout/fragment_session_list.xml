@@ -8,7 +8,7 @@
     tools:context=".feature.sessionlist.presentation.SessionListFragment">
 
     <com.davai.uikit.ToolbarView
-        android:id="@+id/tool_bar"
+        android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintEnd_toEndOf="parent"
@@ -26,9 +26,10 @@
         app:layout_constraintBottom_toTopOf="@+id/view_bottom"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tool_bar" />
+        app:layout_constraintTop_toBottomOf="@+id/toolbar" />
 
     <ImageView
+        android:id="@+id/iv_session_list_placeholder"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:src="@drawable/ic_add_participant"
@@ -72,14 +73,13 @@
         app:layout_constraintBottom_toBottomOf="@+id/v_container"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/v_container"
-        tools:listitem="@layout/tag_view" />
+        app:layout_constraintTop_toTopOf="@+id/v_container" />
 
     <View
         android:id="@+id/view_bottom"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_marginTop="@dimen/margin_16m"
+        android:layout_height="@dimen/zero"
+        android:layout_marginBottom="@dimen/margin_negative_16"
         android:background="@drawable/round_top_background"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

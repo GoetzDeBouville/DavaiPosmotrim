@@ -1,9 +1,8 @@
-package com.davay.android.feature.sessionlist.presentation
+package com.davay.android.feature.sessionlist.presentation.adapter
 
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.davai.uikit.TagView
-import com.davay.android.feature.sessionlist.domain.User
 
 class UserAdapter :
     RecyclerView.Adapter<UserViewHolder>() {
