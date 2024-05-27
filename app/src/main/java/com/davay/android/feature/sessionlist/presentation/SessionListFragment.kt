@@ -1,6 +1,5 @@
 package com.davay.android.feature.sessionlist.presentation
 
-
 import android.content.Context
 import android.os.Bundle
 import android.util.DisplayMetrics

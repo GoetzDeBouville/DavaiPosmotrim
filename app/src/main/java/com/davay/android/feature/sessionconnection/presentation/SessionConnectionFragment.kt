@@ -1,6 +1,5 @@
 package com.davay.android.feature.sessionconnection.presentation
 
-
 import android.os.Bundle
 import android.view.View
 import android.view.inputmethod.EditorInfo
@@ -85,7 +84,8 @@ class SessionConnectionFragment :
         binding.tvErrorHint.text = when (state) {
             SessionConnectionState.INVALID_LENGTH -> resources.getString(R.string.sessionconnection_invalid)
             SessionConnectionState.INVALID_FORMAT -> resources.getString(R.string.sessionconnection_no_session)
-            SessionConnectionState.SUCCESS, SessionConnectionState.DEFAULT, SessionConnectionState.FIELD_EMPTY, null -> ""
+            SessionConnectionState.SUCCESS, SessionConnectionState.DEFAULT,
+            SessionConnectionState.FIELD_EMPTY, null -> ""
         }
     }
 

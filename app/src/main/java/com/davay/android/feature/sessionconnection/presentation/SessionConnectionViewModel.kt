@@ -26,7 +26,8 @@ class SessionConnectionViewModel @Inject constructor() : BaseViewModel() {
             inputText.length != TEXT_LENGTH -> _state.value = SessionConnectionState.INVALID_LENGTH
             else -> {
                 if (inputText.count { it.isLetter() } != LETTER_COUNT ||
-                    inputText.count { it.isDigit() } != DIGIT_COUNT) {
+                    inputText.count { it.isDigit() } != DIGIT_COUNT
+                ) {
                     _state.value = SessionConnectionState.INVALID_FORMAT
                 } else {
                     _state.value = SessionConnectionState.SUCCESS
