@@ -6,7 +6,7 @@ import com.davai.uikit.TagView
 
 class UserAdapter :
     RecyclerView.Adapter<UserViewHolder>() {
-    private val itemList: MutableList<String> = mutableListOf()
+    val itemList: MutableList<String> = mutableListOf()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): UserViewHolder {
         val tagView = TagView(parent.context)
