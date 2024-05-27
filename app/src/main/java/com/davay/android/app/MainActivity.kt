@@ -3,10 +3,7 @@ package com.davay.android.app
 import android.os.Build
 import android.os.Bundle
 import android.view.View
-<<<<<<<<< Temporary merge branch 1
 import android.view.WindowInsetsController
-=========
->>>>>>>>> Temporary merge branch 2
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
