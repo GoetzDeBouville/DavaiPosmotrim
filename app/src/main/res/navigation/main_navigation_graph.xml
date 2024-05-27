@@ -45,7 +45,11 @@
         android:id="@+id/sessionListFragment"
         android:name="com.davay.android.feature.sessionlist.presentation.SessionListFragment"
         android:label="fragment_session_list"
-        tools:layout="@layout/fragment_session_list" />
+        tools:layout="@layout/fragment_session_list" >
+        <action
+            android:id="@+id/action_sessionListFragment_to_mainFragment"
+            app:destination="@id/mainFragment" />
+    </fragment>
     <dialog
         android:id="@+id/sessionConnectionFragment"
         android:name="com.davay.android.feature.sessionconnection.presentation.SessionConnectionFragment"

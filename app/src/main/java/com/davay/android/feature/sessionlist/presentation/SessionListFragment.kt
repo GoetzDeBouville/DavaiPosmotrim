@@ -5,6 +5,7 @@ import android.content.Context
 import android.os.Bundle
 import android.util.DisplayMetrics
 import android.view.View
+import androidx.navigation.fragment.findNavController
 import com.davay.android.R
 import com.davay.android.app.AppComponentHolder
 import com.davay.android.base.BaseFragment
@@ -18,6 +19,7 @@ import com.google.android.flexbox.FlexDirection
 import com.google.android.flexbox.FlexWrap
 import com.google.android.flexbox.FlexboxLayoutManager
 import com.google.android.flexbox.JustifyContent
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import kotlin.math.roundToInt
 
 class SessionListFragment : BaseFragment<FragmentSessionListBinding, SessionListViewModel>(
@@ -39,6 +41,8 @@ class SessionListFragment : BaseFragment<FragmentSessionListBinding, SessionList
         userAdapter?.itemList?.addAll(
             listOf("Артем", "Руслан", "Константин", "Виктория")
         )
+
+        setButtonClickListeners()
     }
 
     private fun initRecycler() {
@@ -55,6 +59,23 @@ class SessionListFragment : BaseFragment<FragmentSessionListBinding, SessionList
         val spaceBetweenItems = convertPxToDp(requireContext(), SPACING_BETWEEN_RV_ITEMS)
         val itemDecoration = CustomItemDecorator(spaceBetweenItems)
         binding.rvUser.addItemDecoration(itemDecoration)
+    }
+
+
+    private fun setButtonClickListeners() {
+        binding.btnExit.setOnClickListener {
+            MaterialAlertDialogBuilder(requireContext())
+                .setTitle(getString(R.string.leave_session_title))
+                .setMessage(getString(R.string.leave_session_dialog_message))
+                .setPositiveButton(getString(R.string.leave_session_dialog_positive)) { dialog, _ ->
+                    findNavController().navigate(R.id.action_sessionListFragment_to_mainFragment)
+                    dialog.dismiss()
+                }
+                .setNegativeButton(getString(R.string.leave_session_dialog_negative)) { dialog, _ ->
+                    dialog.dismiss()
+                }
+                .show()
+        }
     }
 
     override fun onDestroyView() {
