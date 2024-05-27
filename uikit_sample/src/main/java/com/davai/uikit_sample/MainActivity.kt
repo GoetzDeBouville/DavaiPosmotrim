@@ -25,7 +25,8 @@ class MainActivity : AppCompatActivity() {
             btnToDvSession,
             btnToDvMovieSelection,
             btnToDvToolbar,
-            toMsb
+            toMsb,
+            toBlurExample
         ).forEach {
             it.setOnClickListener(onClickListener())
         }
@@ -62,9 +63,19 @@ class MainActivity : AppCompatActivity() {
                     )
                 )
 
-                btnToDvSession -> startActivity(Intent(this@MainActivity, SessionExample::class.java))
+                btnToDvSession -> startActivity(
+                    Intent(
+                        this@MainActivity,
+                        SessionExample::class.java
+                    )
+                )
 
-                btnToDvToolbar -> startActivity(Intent(this@MainActivity, ToolbarExampleActivity::class.java))
+                btnToDvToolbar -> startActivity(
+                    Intent(
+                        this@MainActivity,
+                        ToolbarExampleActivity::class.java
+                    )
+                )
 
                 btnToDvMovieSelection -> startActivity(
                     Intent(
@@ -73,7 +84,14 @@ class MainActivity : AppCompatActivity() {
                     )
                 )
 
-                toMsb -> startActivity(Intent(this@MainActivity, MainScreenButtonViewExample::class.java))
+                toMsb -> startActivity(
+                    Intent(
+                        this@MainActivity,
+                        MainScreenButtonViewExample::class.java
+                    )
+                )
+
+                toBlurExample -> startActivity(Intent(this@MainActivity, BlurActivity::class.java))
             }
         }
     }
