@@ -79,7 +79,7 @@
         android:id="@+id/view_bottom"
         android:layout_width="match_parent"
         android:layout_height="@dimen/zero"
-        android:layout_marginBottom="@dimen/margin_negative_16"
+        android:layout_marginTop="@dimen/margin_negative_16"
         android:background="@drawable/round_top_background"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
