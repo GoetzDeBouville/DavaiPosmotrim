@@ -70,8 +70,10 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun updateBanner(text: String, type: Int) {
-        binding.banner.setBannerText(text)
-        binding.banner.setState(type)
+        binding.banner.apply {
+            setBannerText(text)
+            setState(type)
+        }
     }
 
     fun showBanner() {
@@ -84,19 +86,22 @@ class MainActivity : AppCompatActivity() {
                 .setDuration(mediumAnimationDuration.toLong())
                 .setListener(null)
         }
-        binding.banner.postDelayed(BANNER_TIME_MS) {
-            binding.banner.animate()
-                .alpha(0f)
-                .setDuration(mediumAnimationDuration.toLong())
-                .setListener(object : AnimatorListenerAdapter() {
-                    override fun onAnimationEnd(animation: Animator) {
-                        binding.banner.visibility = View.GONE
-                    }
-                })
+        with(binding.banner) {
+            postDelayed(BANNER_TIME_DELAY_2000_MS) {
+                animate()
+                    .alpha(0f)
+                    .setDuration(mediumAnimationDuration.toLong())
+                    .setListener(object : AnimatorListenerAdapter() {
+                        override fun onAnimationEnd(animation: Animator) {
+                            binding.banner.visibility = View.GONE
+                        }
+                    })
+            }
         }
     }
 
     companion object {
-        const val BANNER_TIME_MS = 2000L
+        const val BANNER_TIME_DELAY_2000_MS = 2000L
     }
 }
+
