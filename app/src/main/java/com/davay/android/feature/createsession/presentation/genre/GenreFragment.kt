@@ -8,6 +8,7 @@ import com.davay.android.databinding.FragmentGenreBinding
 import com.davay.android.di.ScreenComponent
 import com.davay.android.feature.createsession.di.DaggerCreateSessionFragmentComponent
 import com.davay.android.feature.createsession.domain.model.Genre
+import com.davay.android.feature.createsession.presentation.genre.adapter.GenreAdapter
 import com.google.android.flexbox.AlignItems
 import com.google.android.flexbox.FlexDirection
 import com.google.android.flexbox.FlexWrap

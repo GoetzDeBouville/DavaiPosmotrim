@@ -1,4 +1,4 @@
-package com.davay.android.feature.createsession.presentation.genre
+package com.davay.android.feature.createsession.presentation.genre.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup

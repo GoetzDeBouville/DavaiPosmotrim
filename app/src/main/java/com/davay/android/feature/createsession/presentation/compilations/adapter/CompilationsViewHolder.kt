@@ -1,4 +1,4 @@
-package com.davay.android.feature.createsession.presentation.compilations
+package com.davay.android.feature.createsession.presentation.compilations.adapter
 
 import androidx.recyclerview.widget.RecyclerView
 import com.davay.android.databinding.CompilationsItemBinding

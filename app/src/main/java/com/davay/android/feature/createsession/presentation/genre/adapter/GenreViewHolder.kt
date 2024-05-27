@@ -1,4 +1,4 @@
-package com.davay.android.feature.createsession.presentation.genre
+package com.davay.android.feature.createsession.presentation.genre.adapter
 
 import androidx.recyclerview.widget.RecyclerView
 import com.davai.uikit.TagView
