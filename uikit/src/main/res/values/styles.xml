@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
     <style name="Text" parent="TextAppearance.AppCompat" />
 
     <style name="Text.Headline">
@@ -41,6 +42,10 @@
     <style name="Text.Base.Medium.Regular.Description">
         <item name="android:textSize">16sp</item>
         <item name="android:textColor">@color/text_base</item>
+    </style>
+
+    <style name="Text.Base.Medium.Regular.Description.NoLineSpacing">
+        <item name="android:lineSpacingExtra">0sp</item>
     </style>
 
     <style name="Text.Base.Medium.Bold">
