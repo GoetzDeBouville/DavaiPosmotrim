@@ -1,7 +1,7 @@
 package com.davay.android.app
 
+import android.os.Build
 import android.os.Bundle
-import android.view.View
 import android.view.View
 import android.view.WindowInsetsController
 import androidx.activity.enableEdgeToEdge
@@ -16,11 +16,10 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContentView(binding.root)
-        }
+
 //        val navHostFragment =
 //            supportFragmentManager.findFragmentById(R.id.fragment_container_view) as NavHostFragment
 //        val navController = navHostFragment.navController
-
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
             window.insetsController?.setSystemBarsAppearance(
                 WindowInsetsController.APPEARANCE_LIGHT_STATUS_BARS,
@@ -31,9 +30,10 @@ class MainActivity : AppCompatActivity() {
             window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
         }
     }
-/**
- * Добавляет отступ снизу для клавиатуры
- */
+
+    /**
+     * Добавляет отступ снизу для клавиатуры
+     */
     fun setKeyBoardInsets(
         view: View,
         left: Int = 0,
@@ -52,3 +52,4 @@ class MainActivity : AppCompatActivity() {
         }
     }
 }
+
