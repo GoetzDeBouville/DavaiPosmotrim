@@ -27,6 +27,7 @@ class MainActivity : AppCompatActivity() {
             btnToDvToolbar,
             toMsb,
             toBlurExample
+            btnToDvTags
         ).forEach {
             it.setOnClickListener(onClickListener())
         }
@@ -84,14 +85,14 @@ class MainActivity : AppCompatActivity() {
                     )
                 )
 
-                toMsb -> startActivity(
+                toMsb -> startActivity(Intent(this@MainActivity, MainScreenButtonViewExample::class.java))
+
+                btnToDvTags -> startActivity(
                     Intent(
                         this@MainActivity,
-                        MainScreenButtonViewExample::class.java
+                        TagViewExample::class.java
                     )
                 )
-
-                toBlurExample -> startActivity(Intent(this@MainActivity, BlurActivity::class.java))
             }
         }
     }

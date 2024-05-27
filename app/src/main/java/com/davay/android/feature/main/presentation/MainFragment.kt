@@ -13,6 +13,7 @@ import com.davay.android.app.AppComponentHolder
 import com.davay.android.base.BaseFragment
 import com.davay.android.databinding.FragmentMainBinding
 import com.davay.android.di.ScreenComponent
+import com.davay.android.feature.changename.presentation.ChangeNameFragment
 import com.davay.android.feature.main.di.DaggerMainFragmentComponent
 
 class MainFragment :
@@ -50,6 +51,9 @@ class MainFragment :
         binding.joinSession.setOnClickListener {
             Toast.makeText(requireContext(), "Join Session", Toast.LENGTH_SHORT).show()
         }
+        binding.editUserName.setOnClickListener {
+            changeName("Артём")
+        }
         updateMarginLogo()
     }
 
@@ -61,5 +65,10 @@ class MainFragment :
             }
             WindowInsetsCompat.CONSUMED
         }
+    }
+
+    private fun changeName(oldName: String) {
+        val bottomSheetFragment = ChangeNameFragment.newInstance(oldName)
+        bottomSheetFragment.show(parentFragmentManager, "tag")
     }
 }

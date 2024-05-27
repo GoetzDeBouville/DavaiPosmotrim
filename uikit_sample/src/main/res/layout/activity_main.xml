@@ -94,6 +94,17 @@
 
 
     <Button
+        android:id="@+id/btn_to_dv_tags"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:backgroundTint="@color/done"
+        android:text="To DV Tags"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
         android:id="@+id/to_blur_example"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
