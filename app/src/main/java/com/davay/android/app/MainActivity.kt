@@ -1,7 +1,7 @@
 package com.davay.android.app
 
+import android.os.Build
 import android.os.Bundle
-import android.view.View
 import android.view.View
 import android.view.WindowInsetsController
 import androidx.activity.enableEdgeToEdge
