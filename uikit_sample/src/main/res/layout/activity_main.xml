@@ -108,6 +108,7 @@
         android:id="@+id/to_blur_example"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:backgroundTint="@color/done"
         android:layout_marginTop="16dp"
         android:text="To blur example" />
 

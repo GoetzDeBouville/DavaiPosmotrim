@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.View
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
+import com.davai.uikit.extensions.applyBlurEffect
 import com.davai.uikit_sample.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
@@ -14,6 +15,7 @@ class MainActivity : AppCompatActivity() {
         enableEdgeToEdge()
         setContentView(binding.root)
         clickListeners()
+        binding.toBlurExample.applyBlurEffect(2f)
     }
 
     private fun clickListeners() = with(binding) {
@@ -91,6 +93,13 @@ class MainActivity : AppCompatActivity() {
                     Intent(
                         this@MainActivity,
                         TagViewExample::class.java
+                    )
+                )
+
+                toBlurExample -> startActivity(
+                    Intent(
+                        this@MainActivity,
+                        BlurActivity::class.java
                     )
                 )
             }
