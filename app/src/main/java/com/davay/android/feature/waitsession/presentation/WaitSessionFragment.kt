@@ -1,6 +1,5 @@
 package com.davay.android.feature.waitsession.presentation
 
-import android.app.Activity
 import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.Context
@@ -8,7 +7,6 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
-import androidx.activity.result.ActivityResult
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
@@ -26,7 +24,6 @@ import com.google.android.flexbox.FlexWrap
 import com.google.android.flexbox.FlexboxItemDecoration
 import com.google.android.flexbox.FlexboxLayoutManager
 import com.google.android.flexbox.JustifyContent
-
 
 class WaitSessionFragment : BaseFragment<FragmentWaitSessionBinding, WaitSessionViewModel>(
     FragmentWaitSessionBinding::inflate
