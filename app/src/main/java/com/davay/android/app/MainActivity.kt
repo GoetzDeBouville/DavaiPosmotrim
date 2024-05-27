@@ -1,7 +1,7 @@
 package com.davay.android.app
 
-import android.os.Build
 import android.os.Bundle
+import android.view.View
 import android.view.View
 import android.view.WindowInsetsController
 import androidx.activity.enableEdgeToEdge
@@ -37,6 +37,27 @@ class MainActivity : AppCompatActivity() {
         } else {
             @Suppress("DEPRECATION")
             window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
+        }
+    }
+
+    /**
+     * Добавляет отступ снизу для клавиатуры
+     */
+    fun setKeyBoardInsets(
+        view: View,
+        left: Int = 0,
+        top: Int = 0,
+        right: Int = 0,
+        bottom: Int = 0
+    ) {
+        ViewCompat.setOnApplyWindowInsetsListener(view) { v, insets ->
+            val imeHeight = insets.getInsets(WindowInsetsCompat.Type.ime()).bottom
+            if (insets.isVisible(WindowInsetsCompat.Type.ime())) {
+                v.setPadding(left, top, right, bottom + imeHeight)
+            } else {
+                v.setPadding(left, top, right, bottom)
+            }
+            insets
         }
     }
 }
