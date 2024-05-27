@@ -6,7 +6,7 @@ import com.davai.uikit.TagView
 
 class UserAdapter :
     RecyclerView.Adapter<UserViewHolder>() {
-    val itemList: MutableList<User> = mutableListOf()
+    private val itemList: MutableList<String> = mutableListOf()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): UserViewHolder {
         val tagView = TagView(parent.context)
@@ -17,9 +17,9 @@ class UserAdapter :
 
     override fun onBindViewHolder(holder: UserViewHolder, position: Int) {
         if (position == 0) {
-            holder.bind(itemList[position], true)
+            holder.bind("${itemList[position]} (вы)")
         } else {
-            holder.bind(itemList[position], false)
+            holder.bind(itemList[position])
         }
     }
 }

@@ -6,13 +6,8 @@ import com.davai.uikit.TagView
 class UserViewHolder(
     private val tag: TagView
 ) : RecyclerView.ViewHolder(tag) {
-    fun bind(user: User, isFirst: Boolean) {
+    fun bind(user: String) {
         tag.changeStyle(TagView.Companion.Style.SECONDARY_GREEN)
-
-        if (isFirst) {
-            tag.setText("${user.name} (вы)")
-        } else {
-            tag.setText(user.name)
-        }
+        tag.setText(user)
     }
 }
