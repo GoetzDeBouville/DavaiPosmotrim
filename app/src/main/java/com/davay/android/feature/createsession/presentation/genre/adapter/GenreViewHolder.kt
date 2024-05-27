@@ -9,9 +9,9 @@ class GenreViewHolder(
     private val binding: GenreItemBinding,
     private val clickListener: GenreAdapter.ItemClickListener
 ) : RecyclerView.ViewHolder(binding.root) {
-    fun bind(genre: Genre) {
-        binding.root.setText(genre.name)
-        itemView.setOnClickListener {
+    fun bind(genre: Genre) = with(binding.root) {
+        setText(genre.name)
+        setOnClickListener {
             if (genre.isSelected) {
                 binding.root.changeStyle(TagView.Companion.Style.SECONDARY_GRAY)
                 genre.isSelected = false

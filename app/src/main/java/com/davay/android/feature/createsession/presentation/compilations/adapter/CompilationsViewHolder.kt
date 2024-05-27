@@ -8,14 +8,12 @@ class CompilationsViewHolder(
     private val binding: CompilationsItemBinding,
     private val clickListener: CompilationsAdapter.ItemClickListener,
 ) : RecyclerView.ViewHolder(binding.root) {
-    fun bind(compilation: Compilation) {
-        with(binding.root) {
-            setThemeTitle(compilation.name)
-            setThemeCover(compilation.cover)
-            setOnClickListener {
-                compilation.isSelected = switchSelection()
-                clickListener.onClick(compilation)
-            }
+    fun bind(compilation: Compilation) = with(binding.root) {
+        setThemeTitle(compilation.name)
+        setThemeCover(compilation.cover)
+        setOnClickListener {
+            compilation.isSelected = switchSelection()
+            clickListener.onClick(compilation)
         }
     }
 }
