@@ -16,10 +16,12 @@ class OnboardingFragment : BaseFragment<FragmentOnboardingBinding, OnboardingVie
     FragmentOnboardingBinding::inflate
 ) {
     override val viewModel: OnboardingViewModel by injectViewModel<OnboardingViewModel>()
+
+    private var listarrayid = listOfIds
     private val fragmentList = listOf(
-        OnboardingFirstFragment(),
-        OnboardingSecondFragment(),
-        OnboardingThirdFragment()
+        OnboardingFirstFragment(listarrayid[0]),
+        OnboardingFirstFragment(listarrayid[1]),
+        OnboardingFirstFragment(listarrayid[2])
     )
 
     override fun diComponent(): ScreenComponent = DaggerOnBoardingFragmentComponent.builder()
@@ -28,9 +30,9 @@ class OnboardingFragment : BaseFragment<FragmentOnboardingBinding, OnboardingVie
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        initViews()
         setUpViewPager()
         setUpButtonClickListener()
+        initViews()
     }
 
     private fun initViews() = with(binding) {
@@ -65,8 +67,54 @@ class OnboardingFragment : BaseFragment<FragmentOnboardingBinding, OnboardingVie
             if (nextFragment < fragmentList.size) {
                 binding.viewpager.setCurrentItem(nextFragment, true)
             } else {
-                viewModel.navigate(R.id.action_onboardingFragment_to_mainFragment)
+                viewModel.navigate(listarrayid[3][0])
             }
         }
+    }
+
+    companion object {
+        const val ONBOARDING_KEY = "onboarding_key"
+        const val ONBOARDING_MAIN_SET = 0
+        const val ONBOARDING_INSTRUCTION_SET = 1
+
+        private val listOfIds = arrayOf(
+            intArrayOf(
+                R.string.onboarding_choose_full_text,
+                R.drawable.img_search_movies,
+                R.string.onboarding_with_no_more_dicussions
+            ),
+            intArrayOf(
+                R.string.onboarding_for_large_company,
+                R.drawable.img_large_party,
+                R.string.onboarding_choose_movies_with_any
+            ),
+            intArrayOf(
+                R.string.onboarding_movie_library,
+                R.drawable.img_favorite_film,
+                R.string.onboarding_only_favorite_genres
+            ),
+            intArrayOf(
+                R.id.action_onboardingFragment_to_mainFragment
+            )
+        )
+
+        private val listOfIds2 = arrayOf(
+            intArrayOf(
+                R.string.onboarding_choose_full_text,
+                R.drawable.img_search_movies,
+                R.string.onboarding_with_no_more_dicussions
+            ),
+            intArrayOf(
+                R.string.onboarding_for_large_company,
+                R.drawable.img_large_party,
+                R.string.onboarding_choose_movies_with_any
+            ),
+            intArrayOf(
+                R.string.onboarding_movie_library,
+                R.drawable.img_favorite_film,
+                R.string.onboarding_only_favorite_genres
+            ),
+            intArrayOf(R.id.action_onboardingFragment_to_mainFragment)
+        )
     }
 }
