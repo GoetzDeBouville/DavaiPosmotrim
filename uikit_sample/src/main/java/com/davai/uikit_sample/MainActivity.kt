@@ -26,7 +26,7 @@ class MainActivity : AppCompatActivity() {
             btnToDvMovieSelection,
             btnToDvToolbar,
             toMsb,
-            toBlurExample
+            toBlurExample,
             btnToDvTags
         ).forEach {
             it.setOnClickListener(onClickListener())

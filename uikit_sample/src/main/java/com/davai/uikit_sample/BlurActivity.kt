@@ -12,6 +12,7 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlin.random.Random
 
+@Suppress("Detekt.LateinitUsage", "Detekt.MagicNumber")
 class BlurActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityBlurBinding
