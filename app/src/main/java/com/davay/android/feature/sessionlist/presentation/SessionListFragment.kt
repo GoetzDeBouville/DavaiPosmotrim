@@ -25,6 +25,7 @@ class SessionListFragment : BaseFragment<FragmentSessionListBinding, SessionList
 ) {
     override val viewModel: SessionListViewModel by injectViewModel<SessionListViewModel>()
     private var userAdapter: UserAdapter? = null
+    private var etCode: String? = null
 
     override fun diComponent(): ScreenComponent = DaggerSessionListFragmentComponent.builder()
         .appComponent(AppComponentHolder.getComponent())
@@ -33,7 +34,13 @@ class SessionListFragment : BaseFragment<FragmentSessionListBinding, SessionList
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.toolbar.setTitleText(getString(R.string.session_list_name) + " " + "VMst457")
+        binding.toolbar.addStatusBarSpacer()
+
+        arguments?.let {
+            etCode = it.getString("ET_CODE_KEY")
+        }
+
+        setupToolbar()
 
         initRecycler()
         userAdapter?.itemList?.addAll(
@@ -41,6 +48,10 @@ class SessionListFragment : BaseFragment<FragmentSessionListBinding, SessionList
         )
 
         setButtonClickListeners()
+    }
+
+    private fun setupToolbar() {
+        binding.toolbar.setTitleText(getString(R.string.session_list_name) + " " + etCode)
     }
 
     private fun initRecycler() {

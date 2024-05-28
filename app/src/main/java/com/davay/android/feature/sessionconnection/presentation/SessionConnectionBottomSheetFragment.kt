@@ -7,6 +7,7 @@ import android.view.inputmethod.InputMethodManager
 import androidx.core.content.ContextCompat
 import androidx.core.widget.doAfterTextChanged
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import com.davay.android.R
 import com.davay.android.app.AppComponentHolder
 import com.davay.android.base.BaseBottomSheetFragment
@@ -104,9 +105,13 @@ class SessionConnectionBottomSheetFragment :
     }
 
     private fun buttonClicked() {
+        val etCodeValue = binding.etCode.text.toString()
+        val bundle = Bundle().apply {
+            putString("ET_CODE_KEY", etCodeValue)
+        }
         viewModel.buttonClicked(binding.etCode.text)
         if (viewModel.state.value == SessionConnectionState.SUCCESS) {
-            viewModel.navigate(R.id.action_sessionConnectionFragment_to_sessionListFragment)
+            findNavController().navigate(R.id.action_sessionConnectionFragment_to_sessionListFragment, bundle)
             bottomSheetBehavior!!.state = BottomSheetBehavior.STATE_HIDDEN
         }
     }
