@@ -16,7 +16,7 @@ import com.davay.android.feature.sessionconnection.di.DaggerSessionConnectionFra
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import kotlinx.coroutines.launch
 
-class SessionConnectionFragment :
+class SessionConnectionBottomSheetFragment :
     BaseBottomSheetFragment<FragmentSessionConnectionBinding, SessionConnectionViewModel>(
         FragmentSessionConnectionBinding::inflate
     ) {
@@ -58,7 +58,7 @@ class SessionConnectionFragment :
             }
 
             override fun onSlide(bottomSheet: View, slideOffset: Float) {
-                if (slideOffset < BOTTOM_SHEET_HIDE_PERCENT) {
+                if (slideOffset < BOTTOM_SHEET_HIDE_PERCENT_60) {
                     hideKeyboard(binding.etCode)
                     bottomSheetBehavior!!.state = BottomSheetBehavior.STATE_HIDDEN
                 }
@@ -112,6 +112,6 @@ class SessionConnectionFragment :
     }
 
     companion object {
-        private const val BOTTOM_SHEET_HIDE_PERCENT = 60
+        private const val BOTTOM_SHEET_HIDE_PERCENT_60 = 60
     }
 }

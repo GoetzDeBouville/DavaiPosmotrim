@@ -8,7 +8,6 @@ import android.widget.Toast
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.updateLayoutParams
-import androidx.navigation.fragment.findNavController
 import com.davai.uikit.MainScreenButtonView
 import com.davay.android.R
 import com.davay.android.app.AppComponentHolder
@@ -51,7 +50,7 @@ class MainFragment :
             Toast.makeText(requireContext(), "Favorite", Toast.LENGTH_SHORT).show()
         }
         binding.joinSession.setOnClickListener {
-            findNavController().navigate(R.id.action_mainFragment_to_sessionConnectionFragment)
+            joinSession()
         }
         binding.editUserName.setOnClickListener {
             changeName("Артём")
@@ -67,6 +66,10 @@ class MainFragment :
             }
             WindowInsetsCompat.CONSUMED
         }
+    }
+
+    private fun joinSession() {
+        viewModel.navigate(R.id.action_mainFragment_to_sessionConnectionFragment)
     }
 
     private fun changeName(oldName: String) {

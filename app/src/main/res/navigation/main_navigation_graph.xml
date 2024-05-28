@@ -52,7 +52,7 @@
     </fragment>
     <dialog
         android:id="@+id/sessionConnectionFragment"
-        android:name="com.davay.android.feature.sessionconnection.presentation.SessionConnectionFragment"
+        android:name="com.davay.android.feature.sessionconnection.presentation.SessionConnectionBottomSheetFragment"
         android:label="SessionConnectionFragment" >
         <action
             android:id="@+id/action_sessionConnectionFragment_to_sessionListFragment"

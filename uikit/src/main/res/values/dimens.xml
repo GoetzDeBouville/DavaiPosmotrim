@@ -21,6 +21,7 @@
     <dimen name="margin_20">20dp</dimen>
     <dimen name="margin_32">32dp</dimen>
     <dimen name="margin_negative_16">-16dp</dimen>
+    <dimen name="input_margin_152">152dp</dimen>
 
 
     <dimen name="progress_bar">20dp</dimen>
@@ -39,5 +40,5 @@
     <dimen name="drag_handle_margin_top_12">12dp</dimen>
     <dimen name="drag_handle_radius_5">5dp</dimen>
 
-    <dimen name="input_margin">152dp</dimen>
+
 </resources>

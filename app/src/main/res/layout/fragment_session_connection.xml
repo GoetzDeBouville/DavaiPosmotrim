@@ -23,7 +23,7 @@
         style="@style/Text.Base.Small.Regular"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/input_margin"
+        android:layout_marginTop="@dimen/input_margin_152"
         android:text="@string/sessionconnection_enter_session_code"
         android:textColor="@color/text_caption_dark"
         app:layout_constraintBottom_toTopOf="@id/et_code"
@@ -48,20 +48,20 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tv_enter_session_code"
-        tools:text="VMst457" />
+        tools:text="[VMst457]" />
 
     <TextView
         android:id="@+id/tv_error_hint"
         style="@style/Text.Base.Small.Regular"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/input_margin"
+        android:layout_marginBottom="@dimen/input_margin_152"
         android:textColor="@color/error"
         app:layout_constraintBottom_toTopOf="@id/btn_enter"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/et_code"
-        tools:text="@string/sessionconnection_no_session" />
+        tools:text="[@string/sessionconnection_no_session]" />
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/btn_enter"

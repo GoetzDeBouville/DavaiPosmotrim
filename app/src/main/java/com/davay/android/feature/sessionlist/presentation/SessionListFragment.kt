@@ -4,7 +4,6 @@ import android.content.Context
 import android.os.Bundle
 import android.util.DisplayMetrics
 import android.view.View
-import androidx.navigation.fragment.findNavController
 import com.davay.android.R
 import com.davay.android.app.AppComponentHolder
 import com.davay.android.base.BaseFragment
@@ -55,7 +54,7 @@ class SessionListFragment : BaseFragment<FragmentSessionListBinding, SessionList
         }
 
         binding.rvUser.layoutManager = layoutManager
-        val spaceBetweenItems = convertPxToDp(requireContext(), SPACING_BETWEEN_RV_ITEMS)
+        val spaceBetweenItems = convertPxToDp(requireContext(), SPACING_BETWEEN_RV_ITEMS_8_PX)
         val itemDecoration = CustomItemDecorator(spaceBetweenItems)
         binding.rvUser.addItemDecoration(itemDecoration)
     }
@@ -67,7 +66,7 @@ class SessionListFragment : BaseFragment<FragmentSessionListBinding, SessionList
                 .setTitle(getString(R.string.leave_session_title))
                 .setMessage(getString(R.string.leave_session_dialog_message))
                 .setPositiveButton(getString(R.string.leave_session_dialog_positive)) { dialog, _ ->
-                    findNavController().navigate(R.id.action_sessionListFragment_to_mainFragment)
+                    viewModel.navigate(R.id.action_sessionListFragment_to_mainFragment)
                     dialog.dismiss()
                 }
                 .setNegativeButton(getString(R.string.leave_session_dialog_negative)) { dialog, _ ->
@@ -89,7 +88,7 @@ class SessionListFragment : BaseFragment<FragmentSessionListBinding, SessionList
     }
 
     companion object {
-        private const val SPACING_BETWEEN_RV_ITEMS = 8
+        private const val SPACING_BETWEEN_RV_ITEMS_8_PX = 8
     }
 }
 
