@@ -89,7 +89,7 @@ class MovieCardAdapter(
                 }
                 if (countries.isNotEmpty()) {
                     val countryList = countries.take(MAX_COUNTRY_NUMBER)
-                    val countriesString = countryList.joinToString(separator = COMMA_DELIMETER)
+                    val countriesString = countryList.joinToString(separator = DOT_DELIMETER)
                     str.append(countriesString)
                     if (countries.size > MAX_COUNTRY_NUMBER) {
                         str.append(MULTIPOINT)
@@ -154,7 +154,6 @@ class MovieCardAdapter(
     private companion object {
         const val GOOD_RATE_7 = 7.0f
         const val DOT_DELIMETER = " ∙ "
-        const val COMMA_DELIMETER = ", "
         const val MULTIPOINT = "..."
         const val MAX_COUNTRY_NUMBER = 3
         const val MINUTES_NUMBER_IN_HOUR = 60
