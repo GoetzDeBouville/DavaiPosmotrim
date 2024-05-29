@@ -1,14 +1,93 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/background_base"
     tools:context=".feature.main.presentation.MainFragment">
 
-    <Button
-        android:id="@+id/button_m"
+    <ImageView
+        android:id="@+id/logo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:text="To Load fragment" />
-</FrameLayout>
+        android:layout_margin="@dimen/margin_24"
+        android:src="@drawable/ic_logo_medium"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/margin_20"
+        android:layout_marginBottom="@dimen/margin_24"
+        android:maxLines="3"
+        android:text="@string/main_fragment_text"
+        android:textAlignment="textEnd"
+        android:textAppearance="@style/Text.Base.Small"
+        android:textColor="@color/text_caption_dark"
+        app:layout_constraintBottom_toTopOf="@id/menu"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <LinearLayout
+        android:id="@+id/menu"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:background="@drawable/main_screen_menu_background"
+        android:orientation="vertical"
+        android:padding="@dimen/margin_16"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/main_screen_button_icon_size"
+            android:orientation="horizontal"
+            android:paddingHorizontal="@dimen/padding_16">
+
+            <TextView
+                android:id="@+id/user_name"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:textAppearance="@style/Text.Headline.SubTitle"
+                android:textColor="@color/text_headings"
+                tools:text="Артём" />
+
+            <ImageView
+                android:id="@+id/edit_user_name"
+                android:layout_width="@dimen/main_screen_button_icon_size"
+                android:layout_height="@dimen/main_screen_button_icon_size"
+                android:src="@drawable/ic_edit_exclude"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+        </LinearLayout>
+
+        <com.davai.uikit.MainScreenButtonView
+            android:id="@+id/create_session"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/margin_8" />
+
+        <com.davai.uikit.MainScreenButtonView
+            android:id="@+id/favorite"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/margin_8" />
+
+        <com.davai.uikit.MainScreenButtonView
+            android:id="@+id/join_session"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/margin_8" />
+
+        <Space
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/main_screen_button_height" />
+
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

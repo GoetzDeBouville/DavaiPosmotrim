@@ -13,7 +13,7 @@
     <color name="text_light">#FFFFFF</color>
 
     <!-- Accent Primary -->
-    <color name="primary_base">#8B55FF</color>
+    <color name="primary_base">#FF8B55FF</color>
     <color name="primary_hover">#9666FF</color>
     <color name="primary_focused">#AE88FF</color>
     <color name="primary_light">#C5AAFF</color>

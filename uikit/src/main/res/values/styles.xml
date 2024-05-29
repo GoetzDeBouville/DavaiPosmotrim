@@ -39,15 +39,6 @@
         <item name="fontWeight">400</item>
     </style>
 
-    <style name="Text.Base.Medium.Regular.Description">
-        <item name="android:textSize">16sp</item>
-        <item name="android:textColor">@color/text_base</item>
-    </style>
-
-    <style name="Text.Base.Medium.Regular.Description.NoLineSpacing">
-        <item name="android:lineSpacingExtra">0sp</item>
-    </style>
-
     <style name="Text.Base.Medium.Bold">
         <item name="fontWeight">700</item>
     </style>
@@ -92,5 +83,14 @@
         <item name="cornerSizeTopLeft">@dimen/card_radius_24</item>
         <item name="cornerSizeBottomRight">0dp</item>
         <item name="cornerSizeBottomLeft">0dp</item>
+    </style>
+
+
+    <style name="RoundedImageView.SessionView">
+        <item name="cornerSize">@dimen/card_radius_18</item>
+    </style>
+
+    <style name="Text.Base.SplashItem">
+        <item name="android:textSize">20sp</item>
     </style>
 </resources>

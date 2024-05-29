@@ -3,8 +3,16 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="@dimen/toolbar_height_64"
+    android:layout_height="wrap_content"
     android:background="@drawable/toolbar_background">
+
+    <Space
+        android:id="@+id/top_space"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
         android:id="@+id/iv_start_icon"
@@ -12,21 +20,21 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/margin_24"
         android:contentDescription="@string/navigation_icon"
-        android:src="@drawable/ic_arrow_back"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toBottomOf="@+id/tv_toolbar_title"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="@+id/tv_toolbar_title" />
 
     <TextView
         android:id="@+id/tv_toolbar_title"
         style="@style/Text.Headline.SubTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginVertical="@dimen/margin_20"
         android:textColor="@color/text_headings"
-        app:layout_constraintBottom_toBottomOf="@+id/iv_start_icon"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/iv_start_icon"
+        app:layout_constraintTop_toBottomOf="@+id/top_space"
         tools:text="[3 сентября]" />
 
     <TextView
@@ -47,11 +55,10 @@
         android:layout_height="wrap_content"
         android:layout_marginEnd="@dimen/margin_24"
         android:contentDescription="@string/icon_with_number_of_matches"
-        android:src="@drawable/ic_heart"
         android:visibility="invisible"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toBottomOf="@+id/tv_toolbar_title"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="@+id/tv_toolbar_title" />
 
     <TextView
         android:id="@+id/tv_matches_counter"
@@ -59,7 +66,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textColor="@color/background_white"
-        android:visibility="invisible"
         app:layout_constraintBottom_toBottomOf="@+id/iv_end_icon"
         app:layout_constraintEnd_toEndOf="@+id/iv_end_icon"
         app:layout_constraintStart_toStartOf="@+id/iv_end_icon"
