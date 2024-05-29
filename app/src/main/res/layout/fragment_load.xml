@@ -33,7 +33,9 @@
         android:layout_height="wrap_content"
         android:backgroundTint="@color/done"
         android:text="To onboarding fragment"
-        app:layout_constraintBottom_toTopOf="@id/button2" />
+        app:layout_constraintBottom_toTopOf="@id/button"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
     <Button
         android:id="@+id/button2"

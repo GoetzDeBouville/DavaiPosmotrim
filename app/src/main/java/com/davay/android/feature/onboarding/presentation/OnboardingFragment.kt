@@ -13,6 +13,10 @@ import com.davay.android.feature.onboarding.adapter.OnboardingViewPagerAdapter
 import com.davay.android.feature.onboarding.di.DaggerOnBoardingFragmentComponent
 import com.davay.android.feature.onboarding.viewmodel.OnboardingViewModel
 
+/**
+ * Фрагмент переписан, распаковывает bundle и на основании параметра инфлэйтит viewpager,
+ * дефолтно инфлейтит ресурсы для онбординга с инструкцией
+ */
 class OnboardingFragment : BaseFragment<FragmentOnboardingBinding, OnboardingViewModel>(
     FragmentOnboardingBinding::inflate
 ) {
