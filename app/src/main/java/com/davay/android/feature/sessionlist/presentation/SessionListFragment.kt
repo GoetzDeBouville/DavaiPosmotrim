@@ -1,9 +1,8 @@
 package com.davay.android.feature.sessionlist.presentation
 
-import android.content.Context
 import android.os.Bundle
-import android.util.DisplayMetrics
 import android.view.View
+import com.davai.extensions.pxToDp
 import com.davay.android.R
 import com.davay.android.app.AppComponentHolder
 import com.davay.android.base.BaseFragment
@@ -18,7 +17,6 @@ import com.google.android.flexbox.FlexWrap
 import com.google.android.flexbox.FlexboxLayoutManager
 import com.google.android.flexbox.JustifyContent
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
-import kotlin.math.roundToInt
 
 class SessionListFragment : BaseFragment<FragmentSessionListBinding, SessionListViewModel>(
     FragmentSessionListBinding::inflate
@@ -56,18 +54,19 @@ class SessionListFragment : BaseFragment<FragmentSessionListBinding, SessionList
 
     private fun initRecycler() {
         userAdapter = UserAdapter()
-        binding.rvUser.adapter = userAdapter
-        val layoutManager = FlexboxLayoutManager(context).apply {
+        val flexboxLayoutManager = FlexboxLayoutManager(context).apply {
             flexDirection = FlexDirection.ROW
             flexWrap = FlexWrap.WRAP
             justifyContent = JustifyContent.FLEX_START
             alignItems = AlignItems.FLEX_START
         }
+        val spaceBetweenItems = SPACING_BETWEEN_RV_ITEMS_8_PX.pxToDp()
 
-        binding.rvUser.layoutManager = layoutManager
-        val spaceBetweenItems = convertPxToDp(requireContext(), SPACING_BETWEEN_RV_ITEMS_8_PX)
-        val itemDecoration = CustomItemDecorator(spaceBetweenItems)
-        binding.rvUser.addItemDecoration(itemDecoration)
+        binding.rvUser.apply {
+            adapter = userAdapter
+            layoutManager = flexboxLayoutManager
+            addItemDecoration(CustomItemDecorator(spaceBetweenItems))
+        }
     }
 
 
@@ -93,10 +92,6 @@ class SessionListFragment : BaseFragment<FragmentSessionListBinding, SessionList
         userAdapter = null
     }
 
-    private fun convertPxToDp(context: Context, px: Int): Int {
-        val displayMetrics = context.resources.displayMetrics
-        return (px * (displayMetrics.xdpi / DisplayMetrics.DENSITY_DEFAULT)).roundToInt()
-    }
 
     companion object {
         private const val SPACING_BETWEEN_RV_ITEMS_8_PX = 8
