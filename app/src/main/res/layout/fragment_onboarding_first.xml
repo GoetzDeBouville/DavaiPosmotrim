@@ -5,65 +5,35 @@
     android:layout_height="match_parent">
 
     <TextView
-        android:id="@+id/textView"
+        android:id="@+id/tv_top_title"
         style="@style/Text.Headline.Large"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/margin_32"
         android:layout_marginTop="@dimen/margin_32"
-        android:text="@string/onboarding_choose"
+        android:text="@string/onboarding_choose_full_text"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <TextView
-        android:id="@+id/textView2"
-        style="@style/Text.Headline.Large"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/margin_negative_8"
-        android:text="@string/onboarding_movies"
-        app:layout_constraintStart_toStartOf="@+id/textView"
-        app:layout_constraintTop_toBottomOf="@+id/textView" />
-
-    <TextView
-        android:id="@+id/textView5"
-        style="@style/Text.Headline.Large"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/margin_negative_8"
-        android:text="@string/onboarding_without_stress"
-        android:textColor="@color/primary_base"
-        app:layout_constraintStart_toStartOf="@+id/textView2"
-        app:layout_constraintTop_toBottomOf="@+id/textView2" />
-
     <ImageView
-        android:id="@+id/imageView"
+        android:id="@+id/iv_main_image"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_margin="@dimen/margin_32"
         android:contentDescription="@null"
         android:src="@drawable/img_search_movies"
-        app:layout_constraintBottom_toTopOf="@+id/textView6"
+        app:layout_constraintBottom_toTopOf="@+id/tv_bottom_title"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/textView5" />
+        app:layout_constraintTop_toBottomOf="@id/tv_top_title" />
 
     <TextView
-        android:id="@+id/textView6"
-        style="@style/Text.Base.Medium.Regular.Description"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/onboarding_with_no_more_dicussions"
-        app:layout_constraintBottom_toTopOf="@+id/textView7"
-        app:layout_constraintStart_toStartOf="@+id/textView7" />
-
-    <TextView
-        android:id="@+id/textView7"
+        android:id="@+id/tv_bottom_title"
         style="@style/Text.Base.Medium.Regular.Description"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="@dimen/margin_72"
-        android:text="@string/onboarding_and_long_searches"
+        android:text="@string/onboarding_with_no_more_dicussions"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="@+id/imageView" />
+        app:layout_constraintStart_toStartOf="@+id/iv_main_image" />
 </androidx.constraintlayout.widget.ConstraintLayout>

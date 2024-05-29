@@ -1,26 +1,34 @@
 <resources>
     <string name="app_name">DavayPosmotrim</string>
+    <string name="main_fragment_text">Забудьте о бесконечных спорах и компромиссах\n
+        <font color="#FF8B55FF">Наслаждайтесь моментами</font>, выбрав вместе\n
+        идеальный фильм</string>
+    <string name="registration_enter_your_name">Введите ваше имя</string>
+    <string name="registration_enter">Войти</string>
+    <string name="registration_enter_name">Введите имя</string>
+    <string name="registration_two_letters_minimum">Минимум две буквы</string>
+    <string name="registration_just_letters">Только буквы</string>
+    <string name="registration_not_more_letters">Не более 16 символов</string>
+
+    <string name="change_name_enter">Сохранить</string>
+    <string name="change_name_enter_your_name">Введите ваше имя</string>
 
     <!--onboarding screen-->
-    <string name="onboarding_continue_view">продлолжить</string>
+    <string name="onboarding_continue_view">продолжить</string>
     <string name="onboarding_begin">начать</string>
-    <string name="onboarding_choose">Выбирайте</string>
-    <string name="onboarding_movies">фильмы</string>
-    <string name="onboarding_without_stress">без стресса</string>
-    <string name="onboarding_with_no_more_dicussions">Никаких лишних разговоров</string>
-    <string name="onboarding_and_long_searches">и долгих поисков.</string>
-    <string name="onboarding_two_of_us">Вдвоём</string>
-    <string name="onboarding_or">или</string>
-    <string name="onboarding_in_large">в большой</string>
-    <string name="onboarding_party">компании</string>
-    <string name="onboarding_choose_movies_with_any">Выбирать фильмы можно с любым</string>
-    <string name="onboarding_number_of_people">количеством людей.</string>
-    <string name="onboarding_library">Библиотека</string>
-    <string name="onboarding_of_movies">фильмов</string>
-    <string name="onboarding_on">на</string>
-    <string name="onboarding_all_tastes">любой вкус</string>
-    <string name="onboarding_only_favorite_genres">Только самые любимые жанры</string>
-    <string name="onboarding_or_ready_made_selsections">или готовые подборки.</string>
+    <string name="onboarding_choose_full_text">Выбирайте\nфильмы\n<font color="#8B55FF">без стресса</font></string>
+    <string name="onboarding_with_no_more_dicussions">Никаких лишних разговоров\nи долгих поисков.</string>
+    <string name="onboarding_for_large_company"><font color="#8B55FF">Вдвоём</font> или\nв большой\nкомпании</string>
+    <string name="onboarding_choose_movies_with_any">Выбирать фильмы можно с любым\nколичеством людей.</string>
+    <string name="onboarding_movie_library">Библиотека\nфильмов <font color="#8B55FF">на\nлюбой вкус</font></string>
+    <string name="onboarding_only_favorite_genres">Только самые любимые жанры\nили готовые подборки.</string>
+
+    <string name="onboarding_instructions_as_you_got_used">Все как вы <font color="#8B55FF">\nпривыкли</font></string>
+    <string name="onboarding_instructions_swipes_description">Свайп вправо - нравится.\nСвайп влево - не нравится.\nДа, да, сделали очень оригинально.</string>
+    <string name="onboarding_instructions_choose_from_common_matches">Выбирайте\nиз <font color="#8B55FF">\nобщих\nсовпадений</font></string>
+    <string name="onboarding_instructions_saving_matches_history">Храним историю всех совпадений\nво время и после сеансов.</string>
+    <string name="onboarding_instructions_one_moment">Ещё<font color="#8B55FF">\nсекундочку</font></string>
+    <string name="onboarding_instructions_session_finishing">Сеанс закончится, когда один из участников его покинет.</string>
 
     <!--  splash screen  -->
     <string name="splash_watch">Посмотрим?</string>
