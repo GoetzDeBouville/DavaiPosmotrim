@@ -60,7 +60,7 @@ abstract class BaseFragment<VB : ViewBinding, VM : BaseViewModel>(
     protected open fun navigate(@IdRes actionId: Int) {
         findNavController().navigate(actionId)
     }
-    
+
     protected open fun navigate(@IdRes actionId: Int, bundle: Bundle?) {
         findNavController().navigate(actionId, bundle)
     }
