@@ -17,6 +17,7 @@ import com.davay.android.feature.selectmovie.adapters.MovieCardAdapter
 import com.davay.android.feature.selectmovie.adapters.SwipeCallback
 import com.davay.android.feature.selectmovie.adapters.SwipeableLayoutManager
 import com.davay.android.feature.selectmovie.di.DaggerSelectMovieFragmentComponent
+import com.google.android.flexbox.FlexboxLayout
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 
 class SelectMovieFragment :
@@ -28,10 +29,7 @@ class SelectMovieFragment :
         swipeLeft = { autoSwipeLeft() },
         swipeRight = { autoSwipeRight() },
         revert = { revertSwipe() },
-        inflateMovieDetails = { movie ->
-            inflateMovieDetails(movie)
-            addTopCastList(movie)
-        }
+        inflateMovieDetails = { movie -> inflateMovieDetails(movie) }
     )
     private val swipeCardLayoutManager = SwipeableLayoutManager()
 
@@ -129,6 +127,8 @@ class SelectMovieFragment :
     private fun inflateMovieDetails(movie: MovieDetailsDemo) = with(binding) {
         tvDetailsDescription.text = movie.description
         setRates(movie)
+        inflateCastList(fblDetailsTopCastList, movie.topCast)
+        inflateCastList(fblDetailsDirectorList, movie.directors)
     }
 
     private fun setRates(movie: MovieDetailsDemo) = with(binding) {
@@ -151,25 +151,24 @@ class SelectMovieFragment :
         }
     }
 
-    private fun addTopCastList(movie: MovieDetailsDemo) = with(binding) {
-        fblDetailsTopCastList.removeAllViews()
-        val topCastList = movie.topCast.subList(0, 3)
-        topCastList.forEach {
-            val topCastView = LayoutInflater
-                .from(requireContext())
-                .inflate(
-                    R.layout.item_top_cast,
-                    fblDetailsTopCastList,
-                    false
-                ) as TextView
-            topCastView.text = it
-            fblDetailsTopCastList.addView(topCastView)
+    private fun inflateCastList(fbl: FlexboxLayout, list: List<String>) {
+        fbl.removeAllViews()
+        val castList = list.take(MAX_CAST_NUMBER_4)
+        castList.forEach {
+            val castView = LayoutInflater.from(requireContext()).inflate(
+                R.layout.item_top_cast,
+                fbl,
+                false
+            ) as TextView
+            castView.text = it
+            fbl.addView(castView)
         }
     }
 
     private companion object {
         const val BOTTOMSHEET_PEEK_HEIGHT_112_DP = 112
         const val MARGIN_TOP_16_DP = 16
+        const val MAX_CAST_NUMBER_4 = 4
     }
 }
 
@@ -255,8 +254,16 @@ private val mockMovies = listOf(
         genres = listOf("комедия", "фантастика", "триллер"),
         countries = listOf("США", "Великобритания", "Австралия"),
         topCast = listOf(
-            "Питер Селлерс", "Джордж К. Скотт", "Стерлинг Хейден", "Кинен Уинн", "Слим Пикенс",
-            "Питер Булл", "Джеймс Эрл Джонс", "Трейси Рид", "Джек Крили", "Фрэнк Берри"
+            "Питер Селлерс",
+            "Джордж К. Скотт",
+            "Стерлинг Хейден",
+            "Кинен Уинн",
+            "Слим Пикенс",
+            "Питер Булл",
+            "Джеймс Эрл Джонс",
+            "Трейси Рид",
+            "Джек Крили",
+            "Фрэнк Берри"
         ),
         directors = listOf("Стэнли Кубрик", "Терри Саузерн", "Питер Джордж")
     )
