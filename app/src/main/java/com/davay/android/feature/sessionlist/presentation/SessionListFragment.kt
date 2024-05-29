@@ -22,7 +22,7 @@ class SessionListFragment : BaseFragment<FragmentSessionListBinding, SessionList
     FragmentSessionListBinding::inflate
 ) {
     override val viewModel: SessionListViewModel by injectViewModel<SessionListViewModel>()
-    private var userAdapter: UserAdapter? = null
+    private val userAdapter = UserAdapter()
     private var etCode: String? = null
 
     override fun diComponent(): ScreenComponent = DaggerSessionListFragmentComponent.builder()
@@ -41,7 +41,7 @@ class SessionListFragment : BaseFragment<FragmentSessionListBinding, SessionList
         setupToolbar()
 
         initRecycler()
-        userAdapter?.itemList?.addAll(
+        userAdapter.itemList.addAll(
             listOf("Артем", "Руслан", "Константин", "Виктория")
         )
 
@@ -53,7 +53,6 @@ class SessionListFragment : BaseFragment<FragmentSessionListBinding, SessionList
     }
 
     private fun initRecycler() {
-        userAdapter = UserAdapter()
         val flexboxLayoutManager = FlexboxLayoutManager(context).apply {
             flexDirection = FlexDirection.ROW
             flexWrap = FlexWrap.WRAP
@@ -85,13 +84,6 @@ class SessionListFragment : BaseFragment<FragmentSessionListBinding, SessionList
                 .show()
         }
     }
-
-    override fun onDestroyView() {
-        binding.rvUser.adapter = null
-        super.onDestroyView()
-        userAdapter = null
-    }
-
 
     companion object {
         private const val SPACING_BETWEEN_RV_ITEMS_8_PX = 8
