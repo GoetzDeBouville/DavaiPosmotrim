@@ -19,7 +19,9 @@ class GenreFragment : BaseFragment<FragmentGenreBinding, GenreViewModel>(
     FragmentGenreBinding::inflate
 ) {
     override val viewModel: GenreViewModel by injectViewModel<GenreViewModel>()
-    private var genreAdapter: GenreAdapter? = null
+    private var genreAdapter = GenreAdapter { genre ->
+        viewModel.genreClicked(genre)
+    }
 
     override fun diComponent(): ScreenComponent = DaggerCreateSessionFragmentComponent.builder()
         .appComponent(AppComponentHolder.getComponent())
@@ -31,9 +33,6 @@ class GenreFragment : BaseFragment<FragmentGenreBinding, GenreViewModel>(
     }
 
     private fun initRecycler() {
-        genreAdapter = GenreAdapter { genre ->
-            viewModel.genreClicked(genre)
-        }
         binding.rvGenre.adapter = genreAdapter
         val layoutManager = FlexboxLayoutManager(context).apply {
             flexDirection = FlexDirection.ROW
@@ -43,7 +42,7 @@ class GenreFragment : BaseFragment<FragmentGenreBinding, GenreViewModel>(
         }
         binding.rvGenre.layoutManager = layoutManager
         // временно для теста
-        genreAdapter?.addItemList(
+        genreAdapter.addItemList(
             listOf(
                 Genre(1, "Ужасы"),
                 Genre(1, "Комедия"),
@@ -55,12 +54,6 @@ class GenreFragment : BaseFragment<FragmentGenreBinding, GenreViewModel>(
                 Genre(1, "Комедия2")
             )
         )
-    }
-
-    override fun onDestroyView() {
-        binding.rvGenre.adapter = null
-        super.onDestroyView()
-        genreAdapter = null
     }
 
     companion object {

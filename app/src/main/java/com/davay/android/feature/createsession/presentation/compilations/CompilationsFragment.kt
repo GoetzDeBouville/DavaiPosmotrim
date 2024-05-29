@@ -16,7 +16,9 @@ class CompilationsFragment : BaseFragment<FragmentCompilationsBinding, Compilati
     FragmentCompilationsBinding::inflate
 ) {
     override val viewModel: CompilationsViewModel by injectViewModel<CompilationsViewModel>()
-    private var compilationAdapter: CompilationsAdapter? = null
+    private var compilationAdapter = CompilationsAdapter {
+        viewModel.compilationClicked(it)
+    }
 
     override fun diComponent(): ScreenComponent = DaggerCreateSessionFragmentComponent.builder()
         .appComponent(AppComponentHolder.getComponent()).build()
@@ -27,14 +29,11 @@ class CompilationsFragment : BaseFragment<FragmentCompilationsBinding, Compilati
     }
 
     private fun initRecycler() {
-        compilationAdapter = CompilationsAdapter {
-            viewModel.compilationClicked(it)
-        }
         binding.rvCompilations.adapter = compilationAdapter
         binding.rvCompilations.layoutManager =
             LinearLayoutManager(context, RecyclerView.VERTICAL, false)
         // временно для теста
-        compilationAdapter?.addItemList(
+        compilationAdapter.addItemList(
             listOf(
                 Compilation(
                     1,
@@ -58,12 +57,6 @@ class CompilationsFragment : BaseFragment<FragmentCompilationsBinding, Compilati
                 Compilation(1, "Комедия2", "")
             )
         )
-    }
-
-    override fun onDestroyView() {
-        binding.rvCompilations.adapter = null
-        super.onDestroyView()
-        compilationAdapter = null
     }
 
     companion object {
