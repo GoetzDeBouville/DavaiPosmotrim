@@ -99,18 +99,6 @@
                 app:layout_constraintStart_toStartOf="parent"
                 tools:text="[1956 год ∙ Испания, Великобритания, Германия, Франция... ∙ 1 ч 32 мин]" />
 
-            <!--            <androidx.recyclerview.widget.RecyclerView-->
-            <!--                android:id="@+id/rv_genre_list"-->
-            <!--                android:layout_width="0dp"-->
-            <!--                android:layout_height="wrap_content"-->
-            <!--                android:layout_marginHorizontal="@dimen/margin_16"-->
-            <!--                android:layout_marginBottom="@dimen/margin_16"-->
-            <!--                app:layout_constraintBottom_toTopOf="@+id/iv_skip"-->
-            <!--                app:layout_constraintEnd_toEndOf="parent"-->
-            <!--                app:layout_constraintStart_toStartOf="parent"-->
-            <!--                tools:itemCount="1"-->
-            <!--                tools:listitem="@layout/item_genre" />-->
-
             <com.google.android.flexbox.FlexboxLayout
                 android:id="@+id/fbl_genre_list"
                 android:layout_width="match_parent"
