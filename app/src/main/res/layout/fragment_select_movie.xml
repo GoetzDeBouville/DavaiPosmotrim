@@ -90,13 +90,13 @@
                     android:layout_marginTop="@dimen/margin_24"
                     android:text="@string/select_movies_top_cast" />
 
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/rv_details_top_cast_list"
+                <com.google.android.flexbox.FlexboxLayout
+                    android:id="@+id/fbl_details_top_cast_list"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/margin_12"
-                    tools:itemCount="2"
-                    tools:listitem="@layout/item_top_cast" />
+                    app:flexWrap="wrap"
+                    app:justifyContent="flex_start" />
 
                 <TextView
                     android:id="@+id/tv_details_director"
@@ -106,13 +106,13 @@
                     android:layout_marginTop="@dimen/margin_16"
                     android:text="@string/select_movies_director" />
 
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/rv_details_director_list"
+                <com.google.android.flexbox.FlexboxLayout
+                    android:id="@+id/fbl_details_director_list"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/margin_12"
-                    tools:itemCount="2"
-                    tools:listitem="@layout/item_top_cast" />
+                    app:flexWrap="wrap"
+                    app:justifyContent="flex_start" />
 
                 <TextView
                     android:id="@+id/tv_details_rates"
