@@ -28,9 +28,8 @@ class OnboardingFragment : BaseFragment<FragmentOnboardingBinding, OnboardingVie
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        val bundle = arguments
-        if (bundle != null) {
-            val setNumber = bundle.getInt(ONBOARDING_KEY, ONBOARDING_INSTRUCTION_SET)
+        arguments?.let {
+            val setNumber = it.getInt(ONBOARDING_KEY, ONBOARDING_INSTRUCTION_SET)
             if (setNumber == ONBOARDING_MAIN_SET) {
                 arrayOfIds = dataProvider.getMainOnboardingData()
             }
