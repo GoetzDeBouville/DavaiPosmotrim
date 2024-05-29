@@ -39,6 +39,11 @@
         <item name="fontWeight">400</item>
     </style>
 
+    <style name="Text.Base.Medium.Regular.Description">
+        <item name="android:textColor">@color/text_base</item>
+        <item name="android:lineSpacingExtra">0sp</item>
+    </style>
+
     <style name="Text.Base.Medium.Bold">
         <item name="fontWeight">700</item>
     </style>
