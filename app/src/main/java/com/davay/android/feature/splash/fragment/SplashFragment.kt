@@ -16,6 +16,7 @@ import com.davay.android.app.AppComponentHolder
 import com.davay.android.base.BaseFragment
 import com.davay.android.databinding.FragmentSplashBinding
 import com.davay.android.di.ScreenComponent
+import com.davay.android.feature.onboarding.presentation.OnboardingFragment
 import com.davay.android.feature.splash.di.DaggerSplashFragmentComponent
 import com.davay.android.feature.splash.viewmodel.SplashViewModel
 import com.davay.android.utils.setSplashTextViewStyle
@@ -37,10 +38,13 @@ class SplashFragment :
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         getSensorAccelerometer()
+        val bundle = Bundle().apply {
+            putInt(OnboardingFragment.ONBOARDING_KEY, OnboardingFragment.ONBOARDING_MAIN_SET)
+        }
         lifecycleScope.launch {
             addTextViewsWithDelay()
             delay(DELAY_4000_MS)
-            viewModel.navigate(R.id.action_splashFragment_to_onboardingFragment)
+            navigate(R.id.action_splashFragment_to_onboardingFragment, bundle)
         }
     }
 
