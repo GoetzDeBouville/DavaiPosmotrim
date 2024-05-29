@@ -2,7 +2,9 @@ package com.davay.android.feature.selectmovie.presentation
 
 import android.os.Bundle
 import android.util.Log
+import android.view.LayoutInflater
 import android.view.View
+import android.widget.TextView
 import androidx.recyclerview.widget.ItemTouchHelper
 import com.davay.android.R
 import com.davay.android.app.AppComponentHolder
@@ -26,7 +28,10 @@ class SelectMovieFragment :
         swipeLeft = { autoSwipeLeft() },
         swipeRight = { autoSwipeRight() },
         revert = { revertSwipe() },
-        inflateMovieDetails = { movie -> inflateMovieDetails(movie) }
+        inflateMovieDetails = { movie ->
+            inflateMovieDetails(movie)
+            addTopCastList(movie)
+        }
     )
     private val swipeCardLayoutManager = SwipeableLayoutManager()
 
@@ -143,6 +148,22 @@ class SelectMovieFragment :
                 setRateNum(movie.ratingKinopoisk)
                 setNumberOfRatesString(movie.votesKinopoisk ?: 0)
             }
+        }
+    }
+
+    private fun addTopCastList(movie: MovieDetailsDemo) = with(binding) {
+        fblDetailsTopCastList.removeAllViews()
+        val topCastList = movie.topCast.subList(0, 3)
+        topCastList.forEach {
+            val topCastView = LayoutInflater
+                .from(requireContext())
+                .inflate(
+                    R.layout.item_top_cast,
+                    fblDetailsTopCastList,
+                    false
+                ) as TextView
+            topCastView.text = it
+            fblDetailsTopCastList.addView(topCastView)
         }
     }
 
