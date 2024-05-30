@@ -41,9 +41,8 @@ class SessionListFragment : BaseFragment<FragmentSessionListBinding, SessionList
         setupToolbar()
 
         initRecycler()
-        userAdapter.itemList.addAll(
-            listOf("Артем", "Руслан", "Константин", "Виктория")
-        )
+
+        userAdapter.setItems(listOf("Артем", "Руслан", "Константин", "Виктория"))
 
         setButtonClickListeners()
     }
