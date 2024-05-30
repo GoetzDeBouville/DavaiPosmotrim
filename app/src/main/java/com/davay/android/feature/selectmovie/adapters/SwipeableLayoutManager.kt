@@ -1,7 +1,9 @@
 package com.davay.android.feature.selectmovie.adapters
 
+import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.davai.extensions.animateRevert
 
 class SwipeableLayoutManager : RecyclerView.LayoutManager() {
     private var currentPosition = 0
@@ -50,9 +52,19 @@ class SwipeableLayoutManager : RecyclerView.LayoutManager() {
     }
 
     fun revertSwipe() {
+        val currentView = getCurrentView()
         if (currentPosition > 0) {
             currentPosition--
             requestLayout()
+            currentView?.animateRevert()
+        }
+    }
+
+    fun getCurrentView(): View? {
+        return if (currentPosition in 0 until itemCount) {
+            findViewByPosition(currentPosition)
+        } else {
+            null
         }
     }
 }

@@ -40,13 +40,6 @@ class SelectMovieFragment :
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initViews()
-        binding.rvFilmCard.post {
-            if (binding.rvFilmCard.adapter == null) {
-                Log.e("SelectMovieFragment", "RecyclerView adapter is not attached after setting!")
-            } else {
-                Log.d("SelectMovieFragment", "Adapter successfully attached")
-            }
-        }
     }
 
     private fun initViews() {
