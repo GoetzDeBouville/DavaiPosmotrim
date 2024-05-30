@@ -36,9 +36,9 @@ class LoadFragment : BaseFragment<FragmentLoadBinding, LoadViewModel>(
         }
         binding.btnToMovieSelection.setOnClickListener {
             viewModel.navigate(R.id.action_loadFragment_to_selectMovieFragment)
-            binding.button2.setOnClickListener { _ ->
-                viewModel.navigate(R.id.action_loadFragment_to_registrationFragment)
-            }
+        }
+        binding.button2.setOnClickListener { _ ->
+            viewModel.navigate(R.id.action_loadFragment_to_registrationFragment)
         }
     }
 }
