@@ -11,6 +11,7 @@ import com.davay.android.app.AppComponentHolder
 import com.davay.android.base.BaseFragment
 import com.davay.android.databinding.FragmentSelectMovieBinding
 import com.davay.android.di.ScreenComponent
+import com.davay.android.extensions.SwipeDirection
 import com.davay.android.extensions.dpToPx
 import com.davay.android.feature.selectmovie.MovieDetailsDemo
 import com.davay.android.feature.selectmovie.adapters.MovieCardAdapter
@@ -103,17 +104,17 @@ class SelectMovieFragment :
     }
 
     private fun autoSwipeLeft() {
-        swipeCardLayoutManager.swipeLeftOnClick()
+        swipeCardLayoutManager.animateSwipeAndLayout(SwipeDirection.LEFT)
         cardAdapter.notifyDataSetChanged()
     }
 
     private fun autoSwipeRight() {
-        swipeCardLayoutManager.swipeRightOnClick()
+        swipeCardLayoutManager.animateSwipeAndLayout(SwipeDirection.RIGHT)
         cardAdapter.notifyDataSetChanged()
     }
 
     private fun revertSwipe() {
-        swipeCardLayoutManager.revertSwipe()
+        swipeCardLayoutManager.animateRevertSwipeAndLayout()
         cardAdapter.notifyDataSetChanged()
     }
 
