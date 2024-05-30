@@ -14,9 +14,6 @@ class SessionConnectionViewModel @Inject constructor() : BaseViewModel() {
 
     fun buttonClicked(text: Editable?) {
         textCheck(text)
-//        if (state.value == RegistrationState.SUCCESS){
-//            что-то делаем
-//        }
     }
 
     fun textCheck(text: Editable?) {
