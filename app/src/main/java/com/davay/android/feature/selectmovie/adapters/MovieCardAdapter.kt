@@ -3,6 +3,7 @@ package com.davay.android.feature.selectmovie.adapters
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import coil.size.Scale
@@ -27,6 +28,7 @@ class MovieCardAdapter(
         fun bind(data: MovieDetailsDemo) = with(binding) {
             inflateMovieDetails.invoke(data)
             bindImage(data)
+            addGenreList(data.genres)
             setRateText(data.ratingKinopoisk)
             onItemsClicklisteners()
             tvFilmTitle.text = data.movieName
@@ -89,7 +91,7 @@ class MovieCardAdapter(
                 }
                 if (countries.isNotEmpty()) {
                     val countryList = countries.take(MAX_COUNTRY_NUMBER)
-                    val countriesString = countryList.joinToString(separator = COMMA_DELIMETER)
+                    val countriesString = countryList.joinToString(separator = DOT_DELIMETER)
                     str.append(countriesString)
                     if (countries.size > MAX_COUNTRY_NUMBER) {
                         str.append(MULTIPOINT)
@@ -116,6 +118,20 @@ class MovieCardAdapter(
 
                 hours > 0 -> context.getString(R.string.select_movies_hours, hours)
                 else -> context.getString(R.string.select_movies_minutes, remainingMinutes)
+            }
+        }
+
+        private fun addGenreList(genres: List<String>) = with(binding) {
+            fblGenreList.removeAllViews()
+            genres.forEach {
+                val genreView = LayoutInflater.from(root.context)
+                    .inflate(
+                        R.layout.item_genre,
+                        fblGenreList,
+                        false
+                    ) as TextView
+                genreView.text = it
+                fblGenreList.addView(genreView)
             }
         }
     }
@@ -154,7 +170,6 @@ class MovieCardAdapter(
     private companion object {
         const val GOOD_RATE_7 = 7.0f
         const val DOT_DELIMETER = " ∙ "
-        const val COMMA_DELIMETER = ", "
         const val MULTIPOINT = "..."
         const val MAX_COUNTRY_NUMBER = 3
         const val MINUTES_NUMBER_IN_HOUR = 60

@@ -51,7 +51,7 @@ class SwipeCallback(
         isCurrentlyActive: Boolean
     ) {
         viewHolder.itemView.apply {
-            rotation = dX / recyclerView.width * ROTATION_ANGLE_RANGE_45
+            rotation = dX / recyclerView.width * ROTATION_ANGLE_RANGE_15
             translationX = dX
             translationY = dY
         }
@@ -76,6 +76,6 @@ class SwipeCallback(
     }
 
     private companion object {
-        const val ROTATION_ANGLE_RANGE_45 = 45
+        const val ROTATION_ANGLE_RANGE_15 = 15
     }
 }
