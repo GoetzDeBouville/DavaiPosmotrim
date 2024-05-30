@@ -20,7 +20,9 @@ class SessionConnectionViewModel @Inject constructor() : BaseViewModel() {
         val inputText = text?.toString().orEmpty()
         when {
             inputText.isBlank() -> _state.value = SessionConnectionState.FIELD_EMPTY
-            inputText.length != TEXT_LENGTH_7 -> _state.value = SessionConnectionState.INVALID_LENGTH
+            inputText.length != TEXT_LENGTH_7 ->
+                _state.value = SessionConnectionState.INVALID_LENGTH
+
             else -> {
                 if (inputText.count { it.isLetter() } != LETTER_COUNT_4 ||
                     inputText.count { it.isDigit() } != DIGIT_COUNT_3

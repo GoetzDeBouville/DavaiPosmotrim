@@ -7,3 +7,4 @@ enum class SessionConnectionState {
     INVALID_FORMAT,
     SUCCESS,
 }
+

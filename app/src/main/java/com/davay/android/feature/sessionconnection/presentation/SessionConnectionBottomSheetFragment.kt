@@ -111,7 +111,10 @@ class SessionConnectionBottomSheetFragment :
         }
         viewModel.buttonClicked(binding.etCode.text)
         if (viewModel.state.value == SessionConnectionState.SUCCESS) {
-            findNavController().navigate(R.id.action_sessionConnectionFragment_to_sessionListFragment, bundle)
+            findNavController().navigate(
+                R.id.action_sessionConnectionFragment_to_sessionListFragment,
+                bundle
+            )
             bottomSheetBehavior!!.state = BottomSheetBehavior.STATE_HIDDEN
         }
     }
