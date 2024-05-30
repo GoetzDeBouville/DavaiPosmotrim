@@ -103,12 +103,12 @@ class SelectMovieFragment :
     }
 
     private fun autoSwipeLeft() {
-        swipeCardLayoutManager.swipeLeft()
+        swipeCardLayoutManager.swipeLeftOnClick()
         cardAdapter.notifyDataSetChanged()
     }
 
     private fun autoSwipeRight() {
-        swipeCardLayoutManager.swipeRight()
+        swipeCardLayoutManager.swipeRightOnClick()
         cardAdapter.notifyDataSetChanged()
     }
 
