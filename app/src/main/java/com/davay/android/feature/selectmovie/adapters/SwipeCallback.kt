@@ -30,12 +30,12 @@ class SwipeCallback(
     override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
         when (direction) {
             ItemTouchHelper.LEFT -> {
-                layoutManager.swipeNextAndLayout()
+                layoutManager.moveNextAndLayout()
                 onSwipedLeft()
             }
 
             ItemTouchHelper.RIGHT -> {
-                layoutManager.swipeNextAndLayout()
+                layoutManager.moveNextAndLayout()
                 onSwipedRight()
             }
         }

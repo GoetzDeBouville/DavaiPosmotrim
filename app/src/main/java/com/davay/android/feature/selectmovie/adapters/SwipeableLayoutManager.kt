@@ -46,16 +46,16 @@ class SwipeableLayoutManager : RecyclerView.LayoutManager() {
         }
     }
 
-    fun swipeNextAndLayout() {
-        if (currentPosition < itemCount - 1) {
+    fun moveNextAndLayout() {
+        if (currentPosition < itemCount) {
             currentPosition++
             requestLayout()
         }
     }
 
-    fun animateSwipeAndLayout(swipeDirection: SwipeDirection) {
+    fun moveNextWithSwipeAndLayout(swipeDirection: SwipeDirection) {
         val currentView = getCurrentView()
-        if (currentPosition < itemCount - 1) {
+        if (currentPosition < itemCount) {
             currentView?.let {
                 animateSwipe(currentView, swipeDirection) {
                     currentPosition++
@@ -65,7 +65,7 @@ class SwipeableLayoutManager : RecyclerView.LayoutManager() {
         }
     }
 
-    fun animateRevertSwipeAndLayout() {
+    fun shiftLeftWithRevertAndLayout() {
         val previousView = getCurrentView()
         if (currentPosition > 0) {
             currentPosition--
@@ -183,9 +183,9 @@ class SwipeableLayoutManager : RecyclerView.LayoutManager() {
         const val ANIMATION_DURATION_300_MS = 300L
         const val ANIMATION_DURATION_500_MS = 500L
         const val ROTATION_ANGLE_15_DEG = 15f
-        const val TRANSLATION_Y_5000 = 5000f
         const val TRANSLATION_Y_SHAKING_200 = 200f
         const val TRANSLATION_X_4000 = 4000f
+        const val TRANSLATION_Y_5000 = 5000f
         const val MAX_SCALE_2X = 2f
         const val SCALE_X = "scaleX"
         const val SCALE_Y = "scaleY"
