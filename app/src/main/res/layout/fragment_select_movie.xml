@@ -1,0 +1,293 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/background_base"
+    tools:context=".feature.selectmovie.presentation.SelectMovieFragment">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <com.davai.uikit.ToolbarView
+            android:id="@+id/toolbarview_header"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:end_icon="@drawable/ic_heart"
+            app:end_icon_is_visible="true"
+            app:start_icon="@drawable/ic_cross"
+            app:start_icon_is_visible="true"
+            app:title="@string/select_movies_select_film" />
+
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/mcv_film_card"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="@dimen/margin_16"
+            android:layout_marginBottom="@dimen/margin_128"
+            android:backgroundTint="@color/background_white"
+            app:cardCornerRadius="@dimen/card_radius_24"
+            app:layout_anchor="@id/toolbarview_header"
+            app:layout_anchorGravity="bottom"
+            app:strokeColor="@android:color/transparent">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <ImageView
+                    android:id="@+id/iv_select_movie_cover"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:contentDescription="@string/select_movies_cover_image_description"
+                    android:scaleType="centerCrop"
+                    app:layout_constraintBottom_toTopOf="@id/gl_image_info_border"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:src="@tools:sample/backgrounds/scenic[8]" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:background="@drawable/background_gradient_transparent_to_white"
+                    app:layout_constraintBottom_toTopOf="@id/gl_image_info_border"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <androidx.constraintlayout.widget.Guideline
+                    android:id="@+id/gl_image_info_border"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal"
+                    app:layout_constraintGuide_percent="0.6" />
+
+                <TextView
+                    android:id="@+id/tv_film_title"
+                    style="@style/Text.Headline.Title.NoLineSpacing"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="@dimen/margin_16"
+                    android:layout_marginBottom="@dimen/padding_12"
+                    android:ellipsize="end"
+                    android:maxLines="2"
+                    app:layout_constraintBottom_toTopOf="@+id/tv_mark_value"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    tools:text="[Приговоренный к смерти бежал или Дух веет где хочет]" />
+
+                <TextView
+                    android:id="@+id/tv_mark_value"
+                    style="@style/Text.Base.Medium.Bold.NoLineSpacing"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/margin_16"
+                    android:layout_marginBottom="@dimen/margin_8"
+                    android:textStyle="bold"
+                    app:layout_constraintBottom_toTopOf="@+id/tv_year_country_runtime"
+                    app:layout_constraintStart_toStartOf="parent"
+                    tools:text="[9.1]" />
+
+                <TextView
+                    android:id="@+id/tv_original_title"
+                    style="@style/Text.Base.Medium.Regular.NoLineSpacing"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/margin_8"
+                    android:layout_marginEnd="@dimen/margin_16"
+                    android:ellipsize="end"
+                    android:maxLines="1"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/tv_mark_value"
+                    app:layout_constraintTop_toTopOf="@+id/tv_mark_value"
+                    tools:text="[Un condamné à mort s'est échappé ou Le vent souffle où il veut]" />
+
+                <TextView
+                    android:id="@+id/tv_year_country_runtime"
+                    style="@style/Text.Base.Small.Regular.NoLineSpacing"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="@dimen/margin_16"
+                    android:layout_marginBottom="@dimen/margin_16"
+                    android:maxLines="2"
+                    app:layout_constraintBottom_toTopOf="@+id/rv_genre_list"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    tools:text="[1956 год ∙ Испания, Великобритания, Германия, Франция... ∙ 1 ч 32 мин]" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rv_genre_list"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="@dimen/margin_16"
+                    android:layout_marginBottom="@dimen/margin_16"
+                    app:layout_constraintBottom_toTopOf="@+id/iv_skip"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    tools:itemCount="1"
+                    tools:listitem="@layout/item_genre" />
+
+                <ImageView
+                    android:id="@+id/iv_skip"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/margin_24"
+                    android:contentDescription="@string/select_movies_skip_icon_description"
+                    android:src="@drawable/ic_skip"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent" />
+
+                <ImageView
+                    android:id="@+id/iv_revert"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:contentDescription="@string/select_movies_revert_icon_description"
+                    android:src="@drawable/ic_revert"
+                    app:layout_constraintBottom_toBottomOf="@id/iv_skip"
+                    app:layout_constraintEnd_toEndOf="@id/iv_like"
+                    app:layout_constraintStart_toStartOf="@id/iv_skip"
+                    app:layout_constraintTop_toTopOf="@id/iv_skip" />
+
+                <ImageView
+                    android:id="@+id/iv_like"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/margin_24"
+                    android:contentDescription="@string/select_movies_like_icon_description"
+                    android:src="@drawable/ic_like"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </com.google.android.material.card.MaterialCardView>
+    </LinearLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/cl_details_bottom_sheet"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/bottom_sheet_background"
+        android:paddingHorizontal="@dimen/padding_16"
+        app:behavior_hideable="false"
+        app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior"
+        tools:context=".feature.moviedetails.presentation.MovieDetailsBottomSheetFragment">
+
+        <com.google.android.material.bottomsheet.BottomSheetDragHandleView
+            android:id="@+id/bs_details_handle"
+            android:layout_width="@dimen/drag_handle_width_48"
+            android:layout_height="@dimen/drag_handle_height_8"
+            android:layout_marginTop="@dimen/margin_12"
+            android:background="@drawable/drag_handle_background"
+            android:elevation="@dimen/elevation_1"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.core.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/bs_details_handle">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/tv_details_title"
+                    style="@style/Text.Headline.SubTitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/margin_12"
+                    android:elevation="4dp"
+                    android:text="@string/movie_details_details_title" />
+
+                <TextView
+                    android:id="@+id/tv_details_description"
+                    style="@style/Text.Base.Medium.NoLineSpacing"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/margin_12"
+                    android:elevation="0dp"
+                    tools:text="[Captured French Resistance fighter Lieutenant Fontaine awaits a certain death sentence for espionage in a stark German prison in Lyon, France. Facing malnutrition and paralyzing fear, he must plot an extraordinary escape, complicated by the questions of whom to trust, and what lies beyond the small portion of the prison they are housed in.—Sam Spector]" />
+
+                <TextView
+                    android:id="@+id/tv_details_top_cast"
+                    style="@style/Text.Headline.SubTitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/margin_24"
+                    android:text="@string/movie_details_top_cast" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rv_details_top_cast_list"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/margin_12"
+                    tools:itemCount="2"
+                    tools:listitem="@layout/item_top_cast" />
+
+                <TextView
+                    android:id="@+id/tv_details_director"
+                    style="@style/Text.Headline.SubTitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/margin_16"
+                    android:text="@string/movie_details_director" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rv_details_director_list"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/margin_12"
+                    tools:itemCount="2"
+                    tools:listitem="@layout/item_top_cast" />
+
+                <TextView
+                    android:id="@+id/tv_details_rates"
+                    style="@style/Text.Headline.SubTitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/margin_16"
+                    android:text="@string/movie_details_rates" />
+
+                <HorizontalScrollView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/margin_12"
+                    android:orientation="horizontal">
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <com.davai.uikit.MovieEvaluationView
+                            android:id="@+id/mev_details_imdb_rate"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            app:rate_service="@string/movie_details_imdb_rate" />
+
+                        <com.davai.uikit.MovieEvaluationView
+                            android:id="@+id/mev_details_kinopoisk_rate"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="@dimen/margin_8"
+                            app:rate_service="@string/movie_details_kinopoisk_rate" />
+                    </LinearLayout>
+                </HorizontalScrollView>
+            </LinearLayout>
+        </androidx.core.widget.NestedScrollView>
+
+        <!--        TODO Добавить обработчик появления view_details_foreground_gradient-->
+        <View
+            android:id="@+id/view_details_foreground_gradient"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/top_gradient_height_80"
+            android:background="@drawable/background_gradient_transparent_to_white"
+            android:rotation="180"
+            android:visibility="invisible"
+            app:layout_constraintTop_toTopOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>
