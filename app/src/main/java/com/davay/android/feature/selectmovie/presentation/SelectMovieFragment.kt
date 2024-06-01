@@ -94,10 +94,6 @@ class SelectMovieFragment :
 
     private fun setToolbar() {
         binding.toolbarviewHeader.apply {
-            setStartIcon(com.davai.uikit.R.drawable.ic_cross)
-            setEndIcon(com.davai.uikit.R.drawable.ic_heart)
-            showEndIcon()
-            setTitleText(requireContext().getString(R.string.select_movies_select_film))
             updateMatchesDisplay(matchesCounter)
             addStatusBarSpacer()
         }
