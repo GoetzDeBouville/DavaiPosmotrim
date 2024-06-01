@@ -19,6 +19,9 @@
         <action
             android:id="@+id/action_loadFragment_to_registrationFragment"
             app:destination="@id/registrationFragment" />
+        <action
+            android:id="@+id/action_loadFragment_to_rouletteFragment"
+            app:destination="@id/rouletteFragment" />
     </fragment>
     <fragment
         android:id="@+id/mainFragment"
@@ -43,4 +46,8 @@
         android:name="com.davay.android.feature.selectmovie.presentation.SelectMovieFragment"
         android:label="fragment_select_movie"
         tools:layout="@layout/fragment_select_movie" />
+    <fragment
+        android:id="@+id/rouletteFragment"
+        android:name="com.davay.android.feature.roulette.presentation.RouletteFragment"
+        android:label="RouletteFragment" />
 </navigation>
