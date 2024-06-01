@@ -57,4 +57,9 @@
             <enum name="onboarding_violet" value="6" />
         </attr>
     </declare-styleable>
+
+    <declare-styleable name="ConditionedImageView">
+        <attr name="baseConditionImageId" format="reference"/>
+        <attr name="secondConditionImageId" format="reference"/>
+    </declare-styleable>
 </resources>
