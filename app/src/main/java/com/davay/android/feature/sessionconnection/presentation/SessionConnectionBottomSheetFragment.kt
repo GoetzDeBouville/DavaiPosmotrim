@@ -53,7 +53,7 @@ class SessionConnectionBottomSheetFragment :
             override fun onGlobalLayout() {
                 val displayMetrics = resources.displayMetrics
                 val screenHeight = displayMetrics.heightPixels
-                val desiredHeight = (screenHeight * 0.5).toInt()
+                val desiredHeight = (screenHeight * BOTTOM_SHEET_HEIGHT).toInt()
 
 
                 parentView.layoutParams.height = desiredHeight
@@ -79,7 +79,7 @@ class SessionConnectionBottomSheetFragment :
             }
 
             override fun onSlide(bottomSheet: View, slideOffset: Float) {
-                if (slideOffset < BOTTOM_SHEET_HIDE_PERCENT_60 ) {
+                if (slideOffset < BOTTOM_SHEET_HIDE_PERCENT_60) {
                     hideKeyboard(binding.etCode)
                     bottomSheetBehavior?.state = BottomSheetBehavior.STATE_HIDDEN
                 }
@@ -139,5 +139,6 @@ class SessionConnectionBottomSheetFragment :
 
     companion object {
         private const val BOTTOM_SHEET_HIDE_PERCENT_60 = 60
+        private const val BOTTOM_SHEET_HEIGHT = 0.5
     }
 }
