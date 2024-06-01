@@ -13,11 +13,11 @@ import com.davay.android.databinding.FragmentSelectMovieBinding
 import com.davay.android.di.ScreenComponent
 import com.davay.android.extensions.SwipeDirection
 import com.davay.android.extensions.dpToPx
-import com.davay.android.feature.selectmovie.MovieDetailsDemo
-import com.davay.android.feature.selectmovie.adapters.MovieCardAdapter
-import com.davay.android.feature.selectmovie.adapters.SwipeCallback
-import com.davay.android.feature.selectmovie.adapters.SwipeableLayoutManager
 import com.davay.android.feature.selectmovie.di.DaggerSelectMovieFragmentComponent
+import com.davay.android.feature.selectmovie.domain.models.MovieDetailsDemo
+import com.davay.android.feature.selectmovie.presentation.adapters.MovieCardAdapter
+import com.davay.android.feature.selectmovie.presentation.adapters.SwipeCallback
+import com.davay.android.feature.selectmovie.presentation.adapters.SwipeableLayoutManager
 import com.google.android.flexbox.FlexboxLayout
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 
@@ -166,7 +166,7 @@ class SelectMovieFragment :
     }
 }
 
-// В кооде используются моковые данные
+// В коде используются моковые данные
 @Suppress(
     "Detekt.MaxLineLength",
     "Detekt.StringLiteralDuplication",

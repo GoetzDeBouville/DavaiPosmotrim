@@ -1,4 +1,4 @@
-package com.davay.android.feature.selectmovie.adapters
+package com.davay.android.feature.selectmovie.presentation.adapters
 
 import android.graphics.Canvas
 import androidx.recyclerview.widget.ItemTouchHelper

@@ -1,4 +1,4 @@
-package com.davay.android.feature.selectmovie.adapters
+package com.davay.android.feature.selectmovie.presentation.adapters
 
 import android.content.Context
 import android.view.LayoutInflater
@@ -10,7 +10,7 @@ import coil.size.Scale
 import coil.transform.RoundedCornersTransformation
 import com.davay.android.R
 import com.davay.android.databinding.ItemSwipeableMovieCardBinding
-import com.davay.android.feature.selectmovie.MovieDetailsDemo
+import com.davay.android.feature.selectmovie.domain.models.MovieDetailsDemo
 
 class MovieCardAdapter(
     private val swipeLeft: () -> Unit,

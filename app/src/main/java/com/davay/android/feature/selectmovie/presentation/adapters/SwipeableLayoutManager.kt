@@ -1,4 +1,4 @@
-package com.davay.android.feature.selectmovie.adapters
+package com.davay.android.feature.selectmovie.presentation.adapters
 
 import android.animation.Animator
 import android.animation.AnimatorListenerAdapter
@@ -23,8 +23,10 @@ class SwipeableLayoutManager : RecyclerView.LayoutManager() {
             return
         }
 
-        detachAndScrapAttachedViews(recycler!!)
-        layoutCurrentView(recycler)
+        recycler?.let {
+            detachAndScrapAttachedViews(recycler)
+            layoutCurrentView(recycler)
+        }
     }
 
     private fun layoutCurrentView(recycler: RecyclerView.Recycler) {
@@ -82,30 +84,16 @@ class SwipeableLayoutManager : RecyclerView.LayoutManager() {
         }
     }
 
-    private fun animateRevert(view: View, durationMs: Long = ANIMATION_DURATION_300_MS) {
+    private fun animateRevert(view: View, durationMs: Long = ANIMATION_DURATION_500_MS) {
         val scaleX = scaleX(view)
         val scaleY = scaleY(view)
         val translationY = translationY(view)
-        val shackingY = shackingY(view)
 
-        val animatorSet1 = AnimatorSet().apply {
+        AnimatorSet().apply {
             playTogether(translationY, scaleX, scaleY)
             duration = durationMs
+            start()
         }
-
-        val animatorSet2 = AnimatorSet().apply {
-            play(shackingY)
-            duration = ANIMATION_DURATION_100_MS
-        }
-
-        animatorSet1.addListener(object : AnimatorListenerAdapter() {
-            override fun onAnimationEnd(animation: Animator) {
-                super.onAnimationEnd(animation)
-                animatorSet2.start()
-            }
-        })
-
-        animatorSet1.start()
     }
 
     private fun scaleX(view: View): ObjectAnimator = ObjectAnimator.ofFloat(
@@ -125,30 +113,22 @@ class SwipeableLayoutManager : RecyclerView.LayoutManager() {
     private fun translationY(view: View): ObjectAnimator = ObjectAnimator.ofFloat(
         view,
         TRANSLATION_Y,
-        TRANSLATION_Y_5000.toggleSign(),
-        0f
-    )
-
-    private fun shackingY(view: View): ObjectAnimator = ObjectAnimator.ofFloat(
-        view,
-        TRANSLATION_Y,
-        TRANSLATION_Y_SHAKING_200,
-        TRANSLATION_Y_SHAKING_200.toggleSign(),
+        TRANSLATION_Y_4000.toggleSign(),
         0f
     )
 
     private fun animateSwipe(
         view: View,
         swipeDirection: SwipeDirection,
-        durationMs: Long = ANIMATION_DURATION_500_MS,
+        durationMs: Long = ANIMATION_DURATION_800_MS,
         onEnd: () -> Unit
     ) {
         var rotationAngle = ROTATION_ANGLE_15_DEG
-        var translationDistance = TRANSLATION_X_4000
+        var translationDistance = TRANSLATION_X_2000
 
         if (swipeDirection == SwipeDirection.LEFT) {
             rotationAngle = ROTATION_ANGLE_15_DEG.toggleSign()
-            translationDistance = TRANSLATION_X_4000.toggleSign()
+            translationDistance = TRANSLATION_X_2000.toggleSign()
         }
 
         val rotation = ObjectAnimator.ofFloat(
@@ -179,13 +159,11 @@ class SwipeableLayoutManager : RecyclerView.LayoutManager() {
     }
 
     companion object {
-        const val ANIMATION_DURATION_100_MS = 100L
-        const val ANIMATION_DURATION_300_MS = 300L
+        const val ANIMATION_DURATION_800_MS = 800L
         const val ANIMATION_DURATION_500_MS = 500L
         const val ROTATION_ANGLE_15_DEG = 15f
-        const val TRANSLATION_Y_SHAKING_200 = 200f
-        const val TRANSLATION_X_4000 = 4000f
-        const val TRANSLATION_Y_5000 = 5000f
+        const val TRANSLATION_X_2000 = 3000f
+        const val TRANSLATION_Y_4000 = 4000f
         const val MAX_SCALE_2X = 2f
         const val SCALE_X = "scaleX"
         const val SCALE_Y = "scaleY"
