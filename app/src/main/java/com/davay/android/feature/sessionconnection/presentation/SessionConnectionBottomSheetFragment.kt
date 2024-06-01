@@ -33,48 +33,48 @@ class SessionConnectionBottomSheetFragment :
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        initViews(view)
+        subscribe()
+    }
+
+    private fun initViews(view: View) {
+        initBottomSheet(view)
+        setupEditText()
         showSoftKeyboard(binding.etCode)
+    }
+
+    private fun subscribe() {
         lifecycleScope.launch {
             viewModel.state.collect { stateHandle(it) }
         }
         setButtonClickListeners()
-        binding.etCode.doAfterTextChanged {
-            viewModel.textCheck(it)
-        }
-        binding.etCode.buttonBackHandler = {
-            bottomSheetBehavior?.state = BottomSheetBehavior.STATE_HIDDEN
-        }
+    }
 
+    private fun initBottomSheet(view: View) {
         val parentView = view.parent as? View ?: return
         bottomSheetBehavior = BottomSheetBehavior.from(parentView)
 
-
-        parentView.viewTreeObserver.addOnGlobalLayoutListener(object : ViewTreeObserver.OnGlobalLayoutListener {
+        parentView.viewTreeObserver.addOnGlobalLayoutListener(object :
+            ViewTreeObserver.OnGlobalLayoutListener {
             override fun onGlobalLayout() {
                 val displayMetrics = resources.displayMetrics
                 val screenHeight = displayMetrics.heightPixels
                 val desiredHeight = (screenHeight * BOTTOM_SHEET_HEIGHT).toInt()
 
-
                 parentView.layoutParams.height = desiredHeight
                 parentView.requestLayout()
 
-
                 bottomSheetBehavior?.peekHeight = desiredHeight
-
-
                 parentView.viewTreeObserver.removeOnGlobalLayoutListener(this)
             }
         })
 
-
-
         bottomSheetBehavior?.state = BottomSheetBehavior.STATE_EXPANDED
-
-        bottomSheetBehavior?.addBottomSheetCallback(object : BottomSheetBehavior.BottomSheetCallback() {
+        bottomSheetBehavior?.addBottomSheetCallback(object :
+            BottomSheetBehavior.BottomSheetCallback() {
             override fun onStateChanged(bottomSheet: View, newState: Int) {
-                when (newState) {
-                    BottomSheetBehavior.STATE_EXPANDED -> showSoftKeyboard(binding.etCode)
+                if (newState == BottomSheetBehavior.STATE_EXPANDED) {
+                    showSoftKeyboard(binding.etCode)
                 }
             }
 
@@ -87,9 +87,27 @@ class SessionConnectionBottomSheetFragment :
         })
     }
 
+    private fun setupEditText() {
+        binding.etCode.doAfterTextChanged {
+            viewModel.textCheck(it)
+        }
+        binding.etCode.buttonBackHandler = {
+            bottomSheetBehavior?.state = BottomSheetBehavior.STATE_HIDDEN
+        }
+        binding.etCode.setOnEditorActionListener { _, actionId, _ ->
+            if (actionId == EditorInfo.IME_ACTION_DONE) {
+                buttonClicked()
+                true
+            } else {
+                false
+            }
+        }
+    }
+
     private fun showSoftKeyboard(view: View) {
         if (view.requestFocus()) {
-            val imm = ContextCompat.getSystemService(requireContext(), InputMethodManager::class.java)
+            val imm =
+                ContextCompat.getSystemService(requireContext(), InputMethodManager::class.java)
             imm?.showSoftInput(view, InputMethodManager.SHOW_IMPLICIT)
         }
     }
@@ -111,14 +129,6 @@ class SessionConnectionBottomSheetFragment :
     private fun setButtonClickListeners() {
         binding.btnEnter.setOnClickListener {
             buttonClicked()
-        }
-        binding.etCode.setOnEditorActionListener { _, actionId, _ ->
-            if (actionId == EditorInfo.IME_ACTION_DONE) {
-                buttonClicked()
-                true
-            } else {
-                false
-            }
         }
     }
 
