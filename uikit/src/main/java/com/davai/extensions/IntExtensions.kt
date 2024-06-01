@@ -8,3 +8,8 @@ fun Int.pxToDp(): Int {
     val displayMetrics = Resources.getSystem().displayMetrics
     return (this * (displayMetrics.xdpi / DisplayMetrics.DENSITY_DEFAULT)).roundToInt()
 }
+
+fun Int.dpToPx(): Int {
+    val displayMetrics = Resources.getSystem().displayMetrics
+    return (this * (displayMetrics.densityDpi / DisplayMetrics.DENSITY_DEFAULT.toFloat())).roundToInt()
+}

@@ -2,7 +2,7 @@ package com.davay.android.feature.sessionlist.presentation
 
 import android.os.Bundle
 import android.view.View
-import com.davai.extensions.pxToDp
+import com.davai.extensions.dpToPx
 import com.davay.android.R
 import com.davay.android.app.AppComponentHolder
 import com.davay.android.base.BaseFragment
@@ -58,7 +58,7 @@ class SessionListFragment : BaseFragment<FragmentSessionListBinding, SessionList
             justifyContent = JustifyContent.FLEX_START
             alignItems = AlignItems.FLEX_START
         }
-        val spaceBetweenItems = SPACING_BETWEEN_RV_ITEMS_8_PX.pxToDp()
+        val spaceBetweenItems = SPACING_BETWEEN_RV_ITEMS_8_DP.dpToPx()
 
         binding.rvUser.apply {
             adapter = userAdapter
@@ -85,7 +85,7 @@ class SessionListFragment : BaseFragment<FragmentSessionListBinding, SessionList
     }
 
     companion object {
-        private const val SPACING_BETWEEN_RV_ITEMS_8_PX = 8
+        private const val SPACING_BETWEEN_RV_ITEMS_8_DP = 8
     }
 }
 

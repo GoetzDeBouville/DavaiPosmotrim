@@ -2,6 +2,7 @@ package com.davay.android.feature.sessionconnection.presentation
 
 import android.os.Bundle
 import android.view.View
+import android.view.ViewTreeObserver
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
 import androidx.core.content.ContextCompat
@@ -24,7 +25,6 @@ class SessionConnectionBottomSheetFragment :
 
     private var bottomSheetBehavior: BottomSheetBehavior<View>? = null
 
-
     override val viewModel: SessionConnectionViewModel by injectViewModel<SessionConnectionViewModel>()
 
     override fun diComponent(): ScreenComponent = DaggerSessionConnectionFragmentComponent.builder()
@@ -40,18 +40,38 @@ class SessionConnectionBottomSheetFragment :
         setButtonClickListeners()
         binding.etCode.doAfterTextChanged {
             viewModel.textCheck(it)
-
-
         }
         binding.etCode.buttonBackHandler = {
-            bottomSheetBehavior!!.state = BottomSheetBehavior.STATE_HIDDEN
+            bottomSheetBehavior?.state = BottomSheetBehavior.STATE_HIDDEN
         }
 
-        bottomSheetBehavior = BottomSheetBehavior.from(view.parent as View)
-        bottomSheetBehavior!!.state = BottomSheetBehavior.STATE_EXPANDED
+        val parentView = view.parent as? View ?: return
+        bottomSheetBehavior = BottomSheetBehavior.from(parentView)
 
-        bottomSheetBehavior!!.addBottomSheetCallback(object :
-            BottomSheetBehavior.BottomSheetCallback() {
+
+        parentView.viewTreeObserver.addOnGlobalLayoutListener(object : ViewTreeObserver.OnGlobalLayoutListener {
+            override fun onGlobalLayout() {
+                val displayMetrics = resources.displayMetrics
+                val screenHeight = displayMetrics.heightPixels
+                val desiredHeight = (screenHeight * 0.5).toInt()
+
+
+                parentView.layoutParams.height = desiredHeight
+                parentView.requestLayout()
+
+
+                bottomSheetBehavior?.peekHeight = desiredHeight
+
+
+                parentView.viewTreeObserver.removeOnGlobalLayoutListener(this)
+            }
+        })
+
+
+
+        bottomSheetBehavior?.state = BottomSheetBehavior.STATE_EXPANDED
+
+        bottomSheetBehavior?.addBottomSheetCallback(object : BottomSheetBehavior.BottomSheetCallback() {
             override fun onStateChanged(bottomSheet: View, newState: Int) {
                 when (newState) {
                     BottomSheetBehavior.STATE_EXPANDED -> showSoftKeyboard(binding.etCode)
@@ -59,9 +79,9 @@ class SessionConnectionBottomSheetFragment :
             }
 
             override fun onSlide(bottomSheet: View, slideOffset: Float) {
-                if (slideOffset < BOTTOM_SHEET_HIDE_PERCENT_60) {
+                if (slideOffset < BOTTOM_SHEET_HIDE_PERCENT_60 ) {
                     hideKeyboard(binding.etCode)
-                    bottomSheetBehavior!!.state = BottomSheetBehavior.STATE_HIDDEN
+                    bottomSheetBehavior?.state = BottomSheetBehavior.STATE_HIDDEN
                 }
             }
         })
@@ -69,15 +89,13 @@ class SessionConnectionBottomSheetFragment :
 
     private fun showSoftKeyboard(view: View) {
         if (view.requestFocus()) {
-            val imm =
-                ContextCompat.getSystemService(requireContext(), InputMethodManager::class.java)
+            val imm = ContextCompat.getSystemService(requireContext(), InputMethodManager::class.java)
             imm?.showSoftInput(view, InputMethodManager.SHOW_IMPLICIT)
         }
     }
 
     private fun hideKeyboard(view: View) {
-        val imm =
-            ContextCompat.getSystemService(requireContext(), InputMethodManager::class.java)
+        val imm = ContextCompat.getSystemService(requireContext(), InputMethodManager::class.java)
         imm?.hideSoftInputFromWindow(view.windowToken, 0)
     }
 
@@ -115,7 +133,7 @@ class SessionConnectionBottomSheetFragment :
                 R.id.action_sessionConnectionFragment_to_sessionListFragment,
                 bundle
             )
-            bottomSheetBehavior!!.state = BottomSheetBehavior.STATE_HIDDEN
+            bottomSheetBehavior?.state = BottomSheetBehavior.STATE_HIDDEN
         }
     }
 
