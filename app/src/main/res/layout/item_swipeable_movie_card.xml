@@ -129,7 +129,7 @@
                 android:contentDescription="@string/select_movies_revert_icon_description"
                 app:baseConditionImageId="@drawable/ic_revert"
                 app:layout_constraintBottom_toBottomOf="@id/civ_skip"
-                app:layout_constraintEnd_toEndOf="@id/сiv_like"
+                app:layout_constraintEnd_toEndOf="@id/civ_like"
                 app:layout_constraintStart_toStartOf="@id/civ_skip"
                 app:layout_constraintTop_toTopOf="@id/civ_skip"
                 app:secondConditionImageId="@drawable/ic_revert_filled" />

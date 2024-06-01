@@ -10,6 +10,10 @@ import android.view.View
 import androidx.annotation.AttrRes
 import androidx.annotation.StyleRes
 import androidx.core.graphics.drawable.toBitmap
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import kotlin.math.min
 
 class ConditionedImageView @JvmOverloads constructor(
@@ -86,7 +90,7 @@ class ConditionedImageView @JvmOverloads constructor(
 
             MotionEvent.ACTION_UP -> {
                 if (isClickable) {
-                    imageBitmap = secondConditionBitmap
+                    tempConditionChange()
                     invalidate()
                     performClick()
                     return true
@@ -94,5 +98,26 @@ class ConditionedImageView @JvmOverloads constructor(
             }
         }
         return super.onTouchEvent(event)
+    }
+
+    private fun tempConditionChange() {
+        setSecondCondition()
+        CoroutineScope(Dispatchers.Main).launch {
+            delay(CHANGE_CONDITION_DELAY_500_MS)
+            setBaseCondition()
+            invalidate()
+        }
+    }
+
+    fun setBaseCondition() {
+        imageBitmap = baseConditionBitmap
+    }
+
+    fun setSecondCondition() {
+        imageBitmap = secondConditionBitmap
+    }
+
+    private companion object {
+        const val CHANGE_CONDITION_DELAY_500_MS = 500L
     }
 }
