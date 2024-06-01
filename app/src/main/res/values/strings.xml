@@ -12,4 +12,9 @@
 
     <string name="change_name_enter">Сохранить</string>
     <string name="change_name_enter_your_name">Введите ваше имя</string>
+
+    <string name="roulette_magic">Начнём магию, когда подключатся все участники</string>
+    <string name="roulette_wait">Ждём участников...</string>
+    <string name="roulette_to_film_list">Перейти к списку фильмов</string>
+    <string name="roulette_look">Смотрим!</string>
 </resources>
