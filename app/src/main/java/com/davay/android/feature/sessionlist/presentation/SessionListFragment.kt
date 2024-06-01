@@ -29,21 +29,28 @@ class SessionListFragment : BaseFragment<FragmentSessionListBinding, SessionList
         .appComponent(AppComponentHolder.getComponent())
         .build()
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-
-        binding.toolbar.addStatusBarSpacer()
-
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
         arguments?.let {
             etCode = it.getString("ET_CODE_KEY")
         }
+    }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        initViews()
+        subscribe()
+    }
+
+    private fun initViews() {
         setupToolbar()
-
         initRecycler()
 
         userAdapter.setItems(listOf("Артем", "Руслан", "Константин", "Виктория"))
+        binding.toolbar.addStatusBarSpacer()
+    }
 
+    private fun subscribe() {
         setButtonClickListeners()
     }
 
@@ -67,7 +74,6 @@ class SessionListFragment : BaseFragment<FragmentSessionListBinding, SessionList
         }
     }
 
-
     private fun setButtonClickListeners() {
         binding.btnExit.setOnClickListener {
             MaterialAlertDialogBuilder(requireContext())
@@ -88,4 +94,3 @@ class SessionListFragment : BaseFragment<FragmentSessionListBinding, SessionList
         private const val SPACING_BETWEEN_RV_ITEMS_8_DP = 8
     }
 }
-
