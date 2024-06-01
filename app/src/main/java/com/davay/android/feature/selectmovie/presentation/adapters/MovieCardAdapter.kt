@@ -67,15 +67,12 @@ class MovieCardAdapter(
         private fun onItemsClicklisteners() = with(binding) {
             civLike.setOnClickListener {
                 swipeRight.invoke()
-                notifyDataSetChanged()
             }
             civSkip.setOnClickListener {
                 swipeLeft.invoke()
-                notifyDataSetChanged()
             }
             civRevert.setOnClickListener {
                 revert.invoke()
-                notifyDataSetChanged()
             }
         }
 
@@ -160,11 +157,9 @@ class MovieCardAdapter(
         holder.bind(datalist[position])
     }
 
-
     fun setData(list: List<MovieDetailsDemo>) {
         datalist.clear()
         datalist.addAll(list)
-        notifyItemChanged(0)
     }
 
     private companion object {
