@@ -65,15 +65,15 @@ class MovieCardAdapter(
         }
 
         private fun onItemsClicklisteners() = with(binding) {
-            ivLike.setOnClickListener {
+            civLike.setOnClickListener {
                 swipeRight.invoke()
                 notifyDataSetChanged()
             }
-            ivSkip.setOnClickListener {
+            civSkip.setOnClickListener {
                 swipeLeft.invoke()
                 notifyDataSetChanged()
             }
-            ivRevert.setOnClickListener {
+            civRevert.setOnClickListener {
                 revert.invoke()
                 notifyDataSetChanged()
             }

@@ -6,8 +6,9 @@
     <dimen name="card_radius_18">18dp</dimen>
 
     <dimen name="drag_handle_height_8">8dp</dimen>
+    <dimen name="small_icon_size_40">40dp</dimen>
     <dimen name="drag_handle_width_48">48dp</dimen>
-    <dimen name="default_icon_size_40">40dp</dimen>
+    <dimen name="default_icon_size_52">52dp</dimen>
     <dimen name="toolbar_height_64">64dp</dimen>
     <dimen name="top_gradient_height_80">80dp</dimen>
     <dimen name="bs_dialog_peek_height_96">96dp</dimen>
