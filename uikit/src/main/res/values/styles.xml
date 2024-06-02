@@ -72,4 +72,8 @@
     <style name="Text.Base.SplashItem">
         <item name="android:textSize">20sp</item>
     </style>
+
+    <style name="Text.Headline.Title.Regular">
+        <item name="fontWeight">400</item>
+    </style>
 </resources>
