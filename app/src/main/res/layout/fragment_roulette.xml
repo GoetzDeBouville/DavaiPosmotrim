@@ -7,7 +7,7 @@
     android:background="@color/background_base"
     tools:context=".feature.roulette.presentation.RouletteFragment">
 
-    <androidx.recyclerview.widget.RecyclerView
+    <com.davay.android.feature.roulette.presentation.recycler.NoTouchRecyclerView
         android:id="@+id/recycler_view"
         android:layout_width="match_parent"
         android:layout_height="500dp"

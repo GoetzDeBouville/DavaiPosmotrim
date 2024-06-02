@@ -67,9 +67,9 @@ class RouletteFragment :
         )
     )
 
-    override fun diComponent(): ScreenComponent = DaggerRouletteFragmentComponent.builder()
-        .appComponent(AppComponentHolder.getComponent())
-        .build()
+    override fun diComponent(): ScreenComponent =
+        DaggerRouletteFragmentComponent.builder().appComponent(AppComponentHolder.getComponent())
+            .build()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -78,8 +78,7 @@ class RouletteFragment :
 
     private fun initRecycler() {
         with(binding.recyclerView) {
-            layoutManager =
-                CarouselLayoutManager(requireContext())
+            layoutManager = CarouselLayoutManager(requireContext())
             adapter = carouselAdapter
             val spacing = resources.getDimensionPixelSize(com.davai.uikit.R.dimen.margin_24)
             addItemDecoration(LinearHorizontalSpacingDecoration(spacing))
@@ -89,7 +88,7 @@ class RouletteFragment :
         startAutoScrolling()
         // для примера: останавливаем автопрокрутку и запускаем рулетку
         lifecycleScope.launch {
-            delay(4000)
+            delay(3000)
             binding.recyclerView.stopScroll()
             delay(1000)
             startRouletteScrolling()
@@ -114,7 +113,7 @@ class RouletteFragment :
             }
         }
     }
-*/
+    */
 
     private fun startRouletteScrolling() {
         with(binding.recyclerView) {

@@ -22,9 +22,7 @@ class CarouselLayoutManager(
         dx: Int,
         recycler: RecyclerView.Recycler,
         state: RecyclerView.State
-    ) = super.scrollHorizontallyBy(dx, recycler, state).also {
-        if (orientation == HORIZONTAL) scaleChildren()
-    }
+    ) = super.scrollHorizontallyBy(dx, recycler, state).also { scaleChildren() }
 
     private fun scaleChildren() {
         val containerCenter = width / 2f
