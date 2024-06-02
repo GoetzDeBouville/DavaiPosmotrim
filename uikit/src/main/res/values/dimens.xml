@@ -28,6 +28,7 @@
     <dimen name="margin_20">20dp</dimen>
     <dimen name="margin_32">32dp</dimen>
     <dimen name="margin_128">128dp</dimen>
+    <dimen name="margin_negative_16">-16dp</dimen>
 
     <dimen name="progress_bar">20dp</dimen>
     <dimen name="frame">4dp</dimen>

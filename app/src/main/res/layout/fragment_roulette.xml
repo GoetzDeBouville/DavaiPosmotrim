@@ -14,8 +14,8 @@
         android:orientation="horizontal"
         app:layout_constraintGuide_percent="0.2" />
 
-    <com.davay.android.feature.roulette.presentation.recycler.NoTouchRecyclerView
-        android:id="@+id/recycler_view"
+    <com.davay.android.feature.roulette.presentation.carouselrecycler.NoTouchRecyclerView
+        android:id="@+id/recycler_view_roulette"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         app:layout_constraintBottom_toTopOf="@id/gl_bottom"
@@ -31,5 +31,58 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         app:layout_constraintGuide_percent="0.8" />
+
+    <View
+        android:id="@+id/view_bottom"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginTop="@dimen/margin_negative_16"
+        android:background="@drawable/bottom_sheet_background"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@id/tv_bottom_title" />
+
+    <TextView
+        android:id="@+id/tv_bottom_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/margin_16"
+        android:text="@string/roulette_wait"
+        android:textAppearance="@style/Text.Headline.SubTitle"
+        android:textColor="@color/text_headings"
+        app:layout_constraintBottom_toTopOf="@id/recycler_view_participants"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recycler_view_participants"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/margin_16"
+        android:layout_marginBottom="@dimen/margin_32"
+        app:layout_constraintBottom_toTopOf="@id/tv_bottom_text"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/tv_bottom_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/margin_16"
+        android:layout_marginBottom="@dimen/margin_32"
+        android:text="@string/roulette_magic"
+        android:textAppearance="@style/Text.Base.Medium.Regular"
+        android:textColor="@color/text_caption_light"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <androidx.constraintlayout.widget.Group
+        android:id="@+id/group_participants"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="visible"
+        app:constraint_referenced_ids="view_bottom, tv_bottom_title, recycler_view_participants, tv_bottom_text" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
