@@ -1,15 +1,11 @@
 package com.davai.uikit_sample
 
-import android.app.Dialog
 import android.content.Intent
-import android.graphics.Color
-import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.view.View
-import android.view.Window
 import android.widget.Button
-import android.widget.TextView
 import androidx.activity.enableEdgeToEdge
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import com.davai.uikit_sample.databinding.ActivityMainBinding
 
@@ -90,24 +86,27 @@ class MainActivity : AppCompatActivity() {
                         TagViewExample::class.java
                     )
                 )
-                
-                btnToCustomDialog -> {val message : String? = "Are you sure?"
-                    showCustomDialogBox(message)}
+                btnToCustomDialog -> showCustomDialog()
             }
         }
     }
+    private fun showCustomDialog() {
+        val dialogView = layoutInflater.inflate(com.davai.uikit.R.layout.layout_custom_dialog, null)
 
-    private fun showCustomDialogBox(message: String?) {
-    val dialog = Dialog(this)
-        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
-        dialog.setCancelable(false)
-        dialog.setContentView(com.davai.uikit.R.layout.layout_custom_dialog)
-        dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        val dialog = AlertDialog.Builder(this)
+            .setView(dialogView)
+            .create()
 
-        val tvTitle: TextView = dialog.findViewById(com.davai.uikit.R.id.tv_dialog_title)
-        val tvMessage: TextView = dialog.findViewById(com.davai.uikit.R.id.tv_dialog_message)
-        val btnYes: Button = dialog.findViewById(com.davai.uikit.R.id.btn_yes)
-        val btnNo: Button = dialog.findViewById(com.davai.uikit.R.id.btn_no)
-        tvMessage.text = message
+        dialogView.findViewById<Button>(com.davai.uikit.R.id.btn_yes).setOnClickListener {
+            dialog.dismiss()
+        }
+
+        dialogView.findViewById<Button>(com.davai.uikit.R.id.btn_no).setOnClickListener {
+            dialog.dismiss()
+        }
+
+        dialog.show()
     }
 }
+
+
