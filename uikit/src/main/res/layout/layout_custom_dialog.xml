@@ -31,7 +31,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:marginTop="@dimen/margin_24"
+            android:marginTop="24dp"
             android:text="@string/message_dialog"
             android:textColor="@color/text_base">
 
@@ -42,7 +42,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:gravity="center"
-            android:marginTop="@dimen/margin_32"
+            android:marginTop="32dp"
             android:orientation="horizontal">
 
             <Button
