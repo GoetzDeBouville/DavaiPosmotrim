@@ -54,6 +54,9 @@ class SwipeCallback(
             rotation = dX / recyclerView.width * ROTATION_ANGLE_RANGE_15
             translationX = dX
             translationY = dY
+            if (viewHolder is MovieCardAdapter.MovieCardVH) {
+                viewHolder.updateTransitionx(dX)
+            }
         }
         super.onChildDraw(
             canvas,
