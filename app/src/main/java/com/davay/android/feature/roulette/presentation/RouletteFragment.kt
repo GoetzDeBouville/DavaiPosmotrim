@@ -30,7 +30,8 @@ class RouletteFragment :
                 mark = "5.0",
                 originalTitle = "gfdgd",
                 yearCountryRuntime = "2008, USA",
-                posterUrl = "https://atthemovies.uk/cdn/shop/files/front_07977eff-c3c7-4aa6-a57d-5d3e34727031.png?v=1717112425"
+                posterUrl = "https://atthemovies.uk/cdn/shop/files/" +
+                        "front_07977eff-c3c7-4aa6-a57d-5d3e34727031.png?v=1717112425"
             ),
             FilmRouletteModel(
                 id = 2,
@@ -38,7 +39,8 @@ class RouletteFragment :
                 mark = "7.0",
                 originalTitle = "gfdgd",
                 yearCountryRuntime = "2008, USA",
-                posterUrl = "https://atthemovies.uk/cdn/shop/files/back_ff1004f8-11e7-4e2b-81de-a9cd2a3de2c0.png?v=1717112172"
+                posterUrl = "https://atthemovies.uk/cdn/shop/files/" +
+                        "back_ff1004f8-11e7-4e2b-81de-a9cd2a3de2c0.png?v=1717112172"
             ),
             FilmRouletteModel(
                 id = 3,
@@ -46,7 +48,8 @@ class RouletteFragment :
                 mark = "9.4",
                 originalTitle = "gfdgd",
                 yearCountryRuntime = "1991, UK",
-                posterUrl = "https://atthemovies.uk/cdn/shop/products/Gladiator2000us27x40in195u.jpg?v=1621385091"
+                posterUrl = "https://atthemovies.uk/cdn/shop/products/" +
+                        "Gladiator2000us27x40in195u.jpg?v=1621385091"
             ),
             FilmRouletteModel(
                 id = 4,
@@ -54,15 +57,17 @@ class RouletteFragment :
                 mark = "5.0",
                 originalTitle = "gfdgd",
                 yearCountryRuntime = "2018, USA",
-                posterUrl = "https://atthemovies.uk/cdn/shop/files/front_efd356d9-ab5b-4dc3-a37f-452027a2b68d.png?v=1717110841"
+                posterUrl = "https://atthemovies.uk/cdn/shop/files/" +
+                        "front_efd356d9-ab5b-4dc3-a37f-452027a2b68d.png?v=1717110841"
             ),
             FilmRouletteModel(
                 id = 5,
                 title = "Название 5",
                 mark = "3.0",
-                originalTitle = "gfdgd",
+                originalTitle = "hjjgjkhk hjjh jhjhjk hjkjk",
                 yearCountryRuntime = "2010, Canada",
-                posterUrl = "https://atthemovies.uk/cdn/shop/products/Template_cb39750d-7a4b-44ec-950d-172f4c2fe96c.jpg?v=1666078856"
+                posterUrl = "https://atthemovies.uk/cdn/shop/products/" +
+                        "Template_cb39750d-7a4b-44ec-950d-172f4c2fe96c.jpg?v=1666078856"
             ),
         )
     )
