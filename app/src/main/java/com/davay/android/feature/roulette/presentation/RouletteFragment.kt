@@ -91,12 +91,16 @@ class RouletteFragment :
             delay(3000)
             binding.recyclerView.stopScroll()
             delay(1000)
-            startRouletteScrolling()
+            val position = Random
+                .nextInt(10) + 30 + (binding.recyclerView.layoutManager as CarouselLayoutManager)
+                .findLastVisibleItemPosition()
+            startRouletteScrolling(position)
         }
     }
 
     private fun startAutoScrolling() {
         with(binding.recyclerView) {
+            (layoutManager as CarouselLayoutManager).speed = CarouselLayoutManager.SPEED_LOW
             post {
                 smoothScrollToPosition(Int.MAX_VALUE)
             }
@@ -115,13 +119,11 @@ class RouletteFragment :
     }
     */
 
-    private fun startRouletteScrolling() {
+    private fun startRouletteScrolling(position: Int) {
         with(binding.recyclerView) {
             (layoutManager as CarouselLayoutManager).speed = CarouselLayoutManager.SPEED_HIGH
-            val position =
-                Random.nextInt(10) + 30 + (layoutManager as CarouselLayoutManager).findLastVisibleItemPosition()
             post {
-                binding.recyclerView.smoothScrollToPosition(position)
+                smoothScrollToPosition(position)
             }
         }
     }
