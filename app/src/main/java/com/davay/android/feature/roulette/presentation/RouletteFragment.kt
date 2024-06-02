@@ -10,10 +10,10 @@ import com.davay.android.databinding.FragmentRouletteBinding
 import com.davay.android.di.ScreenComponent
 import com.davay.android.feature.roulette.di.DaggerRouletteFragmentComponent
 import com.davay.android.feature.roulette.presentation.model.FilmRouletteModel
-import com.davay.android.feature.roulette.presentation.recycler.BoundsOffsetDecoration
-import com.davay.android.feature.roulette.presentation.recycler.CarouselAdapter
-import com.davay.android.feature.roulette.presentation.recycler.CarouselLayoutManager
-import com.davay.android.feature.roulette.presentation.recycler.LinearHorizontalSpacingDecoration
+import com.davay.android.feature.roulette.presentation.carouselrecycler.BoundsOffsetDecoration
+import com.davay.android.feature.roulette.presentation.carouselrecycler.CarouselAdapter
+import com.davay.android.feature.roulette.presentation.carouselrecycler.CarouselLayoutManager
+import com.davay.android.feature.roulette.presentation.carouselrecycler.LinearHorizontalSpacingDecoration
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlin.random.Random
@@ -78,14 +78,14 @@ class RouletteFragment :
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        initRecycler()
+        initRecyclerRoulette()
     }
 
-    private fun initRecycler() {
-        with(binding.recyclerView) {
+    private fun initRecyclerRoulette() {
+        with(binding.recyclerViewRoulette) {
             layoutManager = CarouselLayoutManager(requireContext())
             adapter = carouselAdapter
-            val spacing = resources.getDimensionPixelSize(com.davai.uikit.R.dimen.margin_24)
+            val spacing = resources.getDimensionPixelSize(com.davai.uikit.R.dimen.margin_16)
             addItemDecoration(LinearHorizontalSpacingDecoration(spacing))
             addItemDecoration(BoundsOffsetDecoration())
             LinearSnapHelper().attachToRecyclerView(this)
@@ -94,17 +94,17 @@ class RouletteFragment :
         // для примера: останавливаем автопрокрутку и запускаем рулетку
         lifecycleScope.launch {
             delay(3000)
-            binding.recyclerView.stopScroll()
+            binding.recyclerViewRoulette.stopScroll()
             delay(1000)
             val position = Random
-                .nextInt(10) + 30 + (binding.recyclerView.layoutManager as CarouselLayoutManager)
+                .nextInt(10) + 30 + (binding.recyclerViewRoulette.layoutManager as CarouselLayoutManager)
                 .findLastVisibleItemPosition()
             startRouletteScrolling(position)
         }
     }
 
     private fun startAutoScrolling() {
-        with(binding.recyclerView) {
+        with(binding.recyclerViewRoulette) {
             (layoutManager as CarouselLayoutManager).speed = CarouselLayoutManager.SPEED_LOW
             post {
                 smoothScrollToPosition(Int.MAX_VALUE)
@@ -114,7 +114,7 @@ class RouletteFragment :
 
     /*
     private fun stopAutoScrolling() {
-        with(binding.recyclerView) {
+        with(binding.recyclerViewRoulette) {
             post {
                 val position =
                     (layoutManager as CarouselLayoutManager).findLastVisibleItemPosition()
@@ -125,7 +125,7 @@ class RouletteFragment :
     */
 
     private fun startRouletteScrolling(position: Int) {
-        with(binding.recyclerView) {
+        with(binding.recyclerViewRoulette) {
             (layoutManager as CarouselLayoutManager).speed = CarouselLayoutManager.SPEED_HIGH
             post {
                 smoothScrollToPosition(position)

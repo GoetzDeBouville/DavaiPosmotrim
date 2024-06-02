@@ -1,4 +1,4 @@
-package com.davay.android.feature.roulette.presentation.recycler
+package com.davay.android.feature.roulette.presentation.carouselrecycler
 
 import android.content.Context
 import android.util.AttributeSet

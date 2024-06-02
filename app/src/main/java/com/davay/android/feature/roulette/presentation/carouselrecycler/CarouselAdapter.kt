@@ -1,4 +1,4 @@
-package com.davay.android.feature.roulette.presentation.recycler
+package com.davay.android.feature.roulette.presentation.carouselrecycler
 
 import android.view.LayoutInflater
 import android.view.ViewGroup

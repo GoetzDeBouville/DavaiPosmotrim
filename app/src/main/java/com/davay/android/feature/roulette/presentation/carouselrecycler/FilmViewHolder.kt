@@ -1,4 +1,4 @@
-package com.davay.android.feature.roulette.presentation.recycler
+package com.davay.android.feature.roulette.presentation.carouselrecycler
 
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
