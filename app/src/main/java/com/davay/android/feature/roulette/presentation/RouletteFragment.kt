@@ -2,6 +2,7 @@ package com.davay.android.feature.roulette.presentation
 
 import android.os.Bundle
 import android.view.View
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearSnapHelper
 import com.davay.android.app.AppComponentHolder
 import com.davay.android.base.BaseFragment
@@ -13,12 +14,15 @@ import com.davay.android.feature.roulette.presentation.recycler.BoundsOffsetDeco
 import com.davay.android.feature.roulette.presentation.recycler.CarouselAdapter
 import com.davay.android.feature.roulette.presentation.recycler.CarouselLayoutManager
 import com.davay.android.feature.roulette.presentation.recycler.LinearHorizontalSpacingDecoration
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
+import kotlin.random.Random
 
 class RouletteFragment :
     BaseFragment<FragmentRouletteBinding, RouletteViewModel>(FragmentRouletteBinding::inflate) {
 
     override val viewModel: RouletteViewModel by injectViewModel<RouletteViewModel>()
-    private val adapter: CarouselAdapter = CarouselAdapter(
+    private val carouselAdapter: CarouselAdapter = CarouselAdapter(
         listOf(
             FilmRouletteModel(
                 id = 1,
@@ -73,12 +77,53 @@ class RouletteFragment :
     }
 
     private fun initRecycler() {
-        binding.recyclerView.layoutManager =
-            CarouselLayoutManager(requireContext())
-        binding.recyclerView.adapter = adapter
-        val spacing = resources.getDimensionPixelSize(com.davai.uikit.R.dimen.margin_24)
-        binding.recyclerView.addItemDecoration(LinearHorizontalSpacingDecoration(spacing))
-        binding.recyclerView.addItemDecoration(BoundsOffsetDecoration())
-        LinearSnapHelper().attachToRecyclerView(binding.recyclerView)
+        with(binding.recyclerView) {
+            layoutManager =
+                CarouselLayoutManager(requireContext())
+            adapter = carouselAdapter
+            val spacing = resources.getDimensionPixelSize(com.davai.uikit.R.dimen.margin_24)
+            addItemDecoration(LinearHorizontalSpacingDecoration(spacing))
+            addItemDecoration(BoundsOffsetDecoration())
+            LinearSnapHelper().attachToRecyclerView(this)
+        }
+        startAutoScrolling()
+        // для примера: останавливаем автопрокрутку и запускаем рулетку
+        lifecycleScope.launch {
+            delay(4000)
+            binding.recyclerView.stopScroll()
+            delay(1000)
+            startRouletteScrolling()
+        }
+    }
+
+    private fun startAutoScrolling() {
+        with(binding.recyclerView) {
+            post {
+                smoothScrollToPosition(Int.MAX_VALUE)
+            }
+        }
+    }
+
+    /*
+    private fun stopAutoScrolling() {
+        with(binding.recyclerView) {
+            post {
+                val position =
+                    (layoutManager as CarouselLayoutManager).findLastVisibleItemPosition()
+                smoothScrollToPosition(position)
+            }
+        }
+    }
+*/
+
+    private fun startRouletteScrolling() {
+        with(binding.recyclerView) {
+            (layoutManager as CarouselLayoutManager).speed = CarouselLayoutManager.SPEED_HIGH
+            val position =
+                Random.nextInt(10) + 30 + (layoutManager as CarouselLayoutManager).findLastVisibleItemPosition()
+            post {
+                binding.recyclerView.smoothScrollToPosition(position)
+            }
+        }
     }
 }

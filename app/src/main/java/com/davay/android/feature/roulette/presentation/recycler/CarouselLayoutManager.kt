@@ -1,15 +1,19 @@
 package com.davay.android.feature.roulette.presentation.recycler
 
 import android.content.Context
+import android.util.DisplayMetrics
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.LinearSmoothScroller
 import androidx.recyclerview.widget.RecyclerView
 import kotlin.math.abs
 
 class CarouselLayoutManager(
-    context: Context,
+    private val context: Context,
     private val minScaleDistanceFactor: Float = 2.0f,
     private val scaleDownBy: Float = 0.25f
 ) : LinearLayoutManager(context, HORIZONTAL, false) {
+
+    var speed: Float = SPEED_LOW
 
     override fun onLayoutCompleted(state: RecyclerView.State?) =
         super.onLayoutCompleted(state).also { scaleChildren() }
@@ -47,10 +51,29 @@ class CarouselLayoutManager(
 
             if (translationXFromScale > 0 && i >= 1) {
                 getChildAt(i - 1)!!.translationX += 2 * translationXFromScale
-
             } else if (translationXFromScale < 0) {
                 translationXForward = 2 * translationXFromScale
             }
         }
+    }
+
+    override fun smoothScrollToPosition(
+        recyclerView: RecyclerView,
+        state: RecyclerView.State,
+        position: Int
+    ) {
+        val smoothScroller: LinearSmoothScroller = object :
+            LinearSmoothScroller(context) {
+            override fun calculateSpeedPerPixel(displayMetrics: DisplayMetrics): Float {
+                return speed / displayMetrics.densityDpi
+            }
+        }
+        smoothScroller.targetPosition = position
+        startSmoothScroll(smoothScroller)
+    }
+
+    companion object {
+        const val SPEED_LOW = 1500f
+        const val SPEED_HIGH = 100f
     }
 }
