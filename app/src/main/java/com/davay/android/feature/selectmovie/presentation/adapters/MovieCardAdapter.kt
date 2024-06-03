@@ -132,7 +132,7 @@ class MovieCardAdapter(
             }
         }
 
-        fun updateTransitionx(dx: Float) = with(binding) {
+        fun updateSwipeTransition(dx: Float) = with(binding) {
             civLike.updateDynamicAlphaPositive(dx)
             civSkip.updateDynamicAlphaNegative(dx)
         }

@@ -84,7 +84,7 @@ class SwipeableLayoutManager : RecyclerView.LayoutManager() {
         }
     }
 
-    private fun animateRevert(view: View, durationMs: Long = ANIMATION_DURATION_500_MS) {
+    private fun animateRevert(view: View, durationMs: Long = ANIMATION_DURATION_800_MS) {
         val scaleX = scaleX(view)
         val scaleY = scaleY(view)
         val translationY = translationY(view)
@@ -160,7 +160,6 @@ class SwipeableLayoutManager : RecyclerView.LayoutManager() {
 
     companion object {
         const val ANIMATION_DURATION_800_MS = 800L
-        const val ANIMATION_DURATION_500_MS = 500L
         const val ROTATION_ANGLE_15_DEG = 15f
         const val TRANSLATION_X_2000 = 3000f
         const val TRANSLATION_Y_4000 = 4000f
