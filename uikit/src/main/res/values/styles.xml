@@ -16,9 +16,19 @@
         <item name="android:lineSpacingExtra">28sp</item>
     </style>
 
+    <style name="Text.Headline.Title.NoLineSpacing">
+        <item name="android:lineSpacingExtra">0sp</item>
+        <item name="android:textColor">@color/text_headings</item>
+    </style>
+
     <style name="Text.Headline.SubTitle">
         <item name="android:textSize">16sp</item>
         <item name="android:lineSpacingExtra">24sp</item>
+    </style>
+
+    <style name="Text.Headline.SubTitle.NoLineSpacing">
+        <item name="android:lineSpacingExtra">0sp</item>
+        <item name="android:textColor">@color/text_headings</item>
     </style>
 
     <style name="Text.Headline.Large">
@@ -38,10 +48,15 @@
 
     <style name="Text.Base.Medium.NoLineSpacing">
         <item name="android:lineSpacingExtra">0sp</item>
+        <item name="android:textColor">@color/text_base</item>
     </style>
 
     <style name="Text.Base.Medium.Regular">
         <item name="fontWeight">400</item>
+    </style>
+
+    <style name="Text.Base.Medium.Regular.NoLineSpacing">
+        <item name="android:lineSpacingExtra">0sp</item>
     </style>
 
     <style name="Text.Base.Medium.Regular.Description">
@@ -53,6 +68,10 @@
         <item name="fontWeight">700</item>
     </style>
 
+    <style name="Text.Base.Medium.Bold.NoLineSpacing">
+        <item name="android:lineSpacingExtra">0sp</item>
+    </style>
+
     <style name="Text.Base.Small">
         <item name="android:textSize">12sp</item>
         <item name="android:lineSpacingExtra">16sp</item>
@@ -60,6 +79,10 @@
 
     <style name="Text.Base.Small.Regular">
         <item name="fontWeight">400</item>
+    </style>
+
+    <style name="Text.Base.Small.Regular.NoLineSpacing">
+        <item name="android:lineSpacingExtra">0sp</item>
     </style>
 
     <style name="Text.Base.Button">
@@ -94,7 +117,6 @@
         <item name="cornerSizeBottomRight">0dp</item>
         <item name="cornerSizeBottomLeft">0dp</item>
     </style>
-
 
     <style name="RoundedImageView.SessionView">
         <item name="cornerSize">@dimen/card_radius_18</item>

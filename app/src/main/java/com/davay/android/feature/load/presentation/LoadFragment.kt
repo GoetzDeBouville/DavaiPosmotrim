@@ -39,8 +39,11 @@ class LoadFragment : BaseFragment<FragmentLoadBinding, LoadViewModel>(
         binding.button.setOnClickListener { _ ->
             viewModel.navigate(R.id.action_loadFragment_to_mainFragment)
         }
-        binding.button2.setOnClickListener { _ ->
-            viewModel.navigate(R.id.action_loadFragment_to_registrationFragment)
+        binding.btnToMovieSelection.setOnClickListener {
+            viewModel.navigate(R.id.action_loadFragment_to_selectMovieFragment)
+            binding.button2.setOnClickListener { _ ->
+                viewModel.navigate(R.id.action_loadFragment_to_registrationFragment)
+            }
         }
         binding.btnToOnboarding.setOnClickListener {
             val bundle = Bundle().apply {

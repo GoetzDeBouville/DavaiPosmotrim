@@ -3,9 +3,6 @@
     android:shape="rectangle">
     <gradient
         android:angle="@dimen/gradient_rotation_angle_270"
-        android:endColor="@android:color/black"
+        android:endColor="@android:color/white"
         android:startColor="@android:color/transparent" />
-    <corners
-        android:bottomLeftRadius="@dimen/card_radius_16"
-        android:bottomRightRadius="@dimen/card_radius_16" />
 </shape>
