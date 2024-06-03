@@ -7,5 +7,7 @@
     android:background="@drawable/tv_genre_background"
     android:paddingHorizontal="@dimen/padding_12"
     android:paddingVertical="@dimen/padding_4"
+    android:layout_marginEnd="@dimen/margin_8"
+    android:layout_marginBottom="@dimen/margin_12"
     android:textColor="@color/background_white"
     tools:text="Фантастика" />

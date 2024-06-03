@@ -2,7 +2,9 @@ package com.davay.android.feature.selectmovie.presentation
 
 import android.os.Bundle
 import android.util.Log
+import android.view.LayoutInflater
 import android.view.View
+import android.widget.TextView
 import androidx.recyclerview.widget.ItemTouchHelper
 import com.davay.android.R
 import com.davay.android.app.AppComponentHolder
@@ -15,6 +17,7 @@ import com.davay.android.feature.selectmovie.adapters.MovieCardAdapter
 import com.davay.android.feature.selectmovie.adapters.SwipeCallback
 import com.davay.android.feature.selectmovie.adapters.SwipeableLayoutManager
 import com.davay.android.feature.selectmovie.di.DaggerSelectMovieFragmentComponent
+import com.google.android.flexbox.FlexboxLayout
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 
 class SelectMovieFragment :
@@ -124,6 +127,8 @@ class SelectMovieFragment :
     private fun inflateMovieDetails(movie: MovieDetailsDemo) = with(binding) {
         tvDetailsDescription.text = movie.description
         setRates(movie)
+        inflateCastList(fblDetailsTopCastList, movie.topCast)
+        inflateCastList(fblDetailsDirectorList, movie.directors)
     }
 
     private fun setRates(movie: MovieDetailsDemo) = with(binding) {
@@ -146,9 +151,24 @@ class SelectMovieFragment :
         }
     }
 
+    private fun inflateCastList(fbl: FlexboxLayout, list: List<String>) {
+        fbl.removeAllViews()
+        val castList = list.take(MAX_CAST_NUMBER_4)
+        castList.forEach {
+            val castView = LayoutInflater.from(requireContext()).inflate(
+                R.layout.item_top_cast,
+                fbl,
+                false
+            ) as TextView
+            castView.text = it
+            fbl.addView(castView)
+        }
+    }
+
     private companion object {
         const val BOTTOMSHEET_PEEK_HEIGHT_112_DP = 112
         const val MARGIN_TOP_16_DP = 16
+        const val MAX_CAST_NUMBER_4 = 4
     }
 }
 
@@ -195,7 +215,7 @@ private val mockMovies = listOf(
         ratingImdb = 9.0f,
         votesImdb = 231223,
         movieLengthMin = 152,
-        genres = listOf("Экшн", "Криминал", "Драма", "Комиксы"),
+        genres = listOf("Экшн", "Криминал", "Драма", "Комиксы", "Детектив", "Мелодрама", "Байопик"),
         countries = listOf("США", "Великобритания"),
         topCast = listOf("Кристиан Бейл", "Хит Леджер", "Аарон Экхарт"),
         directors = listOf("Кристофер Нолан")
@@ -234,8 +254,16 @@ private val mockMovies = listOf(
         genres = listOf("комедия", "фантастика", "триллер"),
         countries = listOf("США", "Великобритания", "Австралия"),
         topCast = listOf(
-            "Питер Селлерс", "Джордж К. Скотт", "Стерлинг Хейден", "Кинен Уинн", "Слим Пикенс",
-            "Питер Булл", "Джеймс Эрл Джонс", "Трейси Рид", "Джек Крили", "Фрэнк Берри"
+            "Питер Селлерс",
+            "Джордж К. Скотт",
+            "Стерлинг Хейден",
+            "Кинен Уинн",
+            "Слим Пикенс",
+            "Питер Булл",
+            "Джеймс Эрл Джонс",
+            "Трейси Рид",
+            "Джек Крили",
+            "Фрэнк Берри"
         ),
         directors = listOf("Стэнли Кубрик", "Терри Саузерн", "Питер Джордж")
     )

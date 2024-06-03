@@ -3,6 +3,7 @@ package com.davay.android.feature.selectmovie.adapters
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import coil.size.Scale
@@ -27,6 +28,7 @@ class MovieCardAdapter(
         fun bind(data: MovieDetailsDemo) = with(binding) {
             inflateMovieDetails.invoke(data)
             bindImage(data)
+            addGenreList(data.genres)
             setRateText(data.ratingKinopoisk)
             onItemsClicklisteners()
             tvFilmTitle.text = data.movieName
@@ -116,6 +118,20 @@ class MovieCardAdapter(
 
                 hours > 0 -> context.getString(R.string.select_movies_hours, hours)
                 else -> context.getString(R.string.select_movies_minutes, remainingMinutes)
+            }
+        }
+
+        private fun addGenreList(genres: List<String>) = with(binding) {
+            fblGenreList.removeAllViews()
+            genres.forEach {
+                val genreView = LayoutInflater.from(root.context)
+                    .inflate(
+                        R.layout.item_genre,
+                        fblGenreList,
+                        false
+                    ) as TextView
+                genreView.text = it
+                fblGenreList.addView(genreView)
             }
         }
     }
