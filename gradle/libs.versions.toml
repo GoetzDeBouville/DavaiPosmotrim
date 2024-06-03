@@ -25,6 +25,10 @@ nav_version = "2.7.7"
 detekt = "1.23.3"
 
 coil = "2.3.0"
+circle_indicator = "2.1.6"
+flexbox = "3.0.0"
+
+physicslayout = "3.0.2"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -42,6 +46,10 @@ dagger-impl = { group = "com.google.dagger", name = "dagger", version.ref = "dag
 navigation-fragment = { group = "androidx.navigation", name = "navigation-fragment-ktx", version.ref = "nav_version" }
 navigation-ui = { group = "androidx.navigation", name = "navigation-ui-ktx", version.ref = "nav_version" }
 coil = { group = "io.coil-kt", name = "coil", version.ref = "coil" }
+circle-indicator = { group = "me.relex", name = "circleindicator", version.ref = "circle_indicator" }
+flexbox = { group = "com.google.android.flexbox", name = "flexbox", version.ref = "flexbox" }
+
+physicslayout = { module = "com.jawnnypoo:physicslayout", version.ref = "physicslayout" }
 
 # Detekt
 staticAnalysis-detektCli = { module = "io.gitlab.arturbosch.detekt:detekt-cli", version.ref = "detekt" }

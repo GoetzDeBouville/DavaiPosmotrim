@@ -56,5 +56,9 @@ dependencies {
     ksp(libs.dagger.compiler)
     implementation(libs.navigation.fragment)
     implementation(libs.navigation.ui)
+    implementation(libs.coil)
+    implementation(libs.flexbox)
+    implementation(libs.circle.indicator)
+    implementation(libs.physicslayout)
     implementation(project(":uikit"))
 }
