@@ -59,5 +59,6 @@ dependencies {
     implementation(libs.coil)
     implementation(libs.flexbox)
     implementation(libs.circle.indicator)
+    implementation(libs.physicslayout)
     implementation(project(":uikit"))
 }
