@@ -9,7 +9,7 @@
     android:padding="40dp"
     tools:context=".MovieEvaluationExample">
 
-    <com.davai.uikit.MovieEvaluationVIew
+    <com.davai.uikit.MovieEvaluationView
         android:id="@+id/bad_rate"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -22,7 +22,7 @@
         app:rate_service="Рейтинг IMDb" />
 
 
-    <com.davai.uikit.MovieEvaluationVIew
+    <com.davai.uikit.MovieEvaluationView
         android:id="@+id/normal_rate"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -35,7 +35,7 @@
         app:rate_service="Рейтинг IMDb" />
 
 
-    <com.davai.uikit.MovieEvaluationVIew
+    <com.davai.uikit.MovieEvaluationView
         android:id="@+id/good_rate"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

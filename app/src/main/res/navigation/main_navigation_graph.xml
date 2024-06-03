@@ -14,6 +14,9 @@
             android:id="@+id/action_loadFragment_to_mainFragment"
             app:destination="@id/mainFragment" />
         <action
+            android:id="@+id/action_loadFragment_to_selectMovieFragment"
+            app:destination="@id/selectMovieFragment" />
+        <action
             android:id="@+id/action_loadFragment_to_registrationFragment"
             app:destination="@id/registrationFragment" />
         <action
@@ -61,4 +64,9 @@
             android:id="@+id/action_splashFragment_to_onboardingFragment"
             app:destination="@id/onboardingFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/selectMovieFragment"
+        android:name="com.davay.android.feature.selectmovie.presentation.SelectMovieFragment"
+        android:label="fragment_select_movie"
+        tools:layout="@layout/fragment_select_movie" />
 </navigation>

@@ -27,6 +27,15 @@
         app:layout_constraintTop_toBottomOf="@id/text" />
 
     <Button
+        android:id="@+id/btn_to_movie_selection"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="To movie selection"
+        app:layout_constraintBottom_toTopOf="@+id/btn_to_onboarding"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
         android:id="@+id/btn_to_onboarding"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
