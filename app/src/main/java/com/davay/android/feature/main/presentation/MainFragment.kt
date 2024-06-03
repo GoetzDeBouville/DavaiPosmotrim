@@ -9,6 +9,7 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.updateLayoutParams
 import com.davai.uikit.MainScreenButtonView
+import com.davay.android.R
 import com.davay.android.app.AppComponentHolder
 import com.davay.android.base.BaseFragment
 import com.davay.android.databinding.FragmentMainBinding
@@ -49,7 +50,7 @@ class MainFragment :
             Toast.makeText(requireContext(), "Favorite", Toast.LENGTH_SHORT).show()
         }
         binding.joinSession.setOnClickListener {
-            Toast.makeText(requireContext(), "Join Session", Toast.LENGTH_SHORT).show()
+            joinSession()
         }
         binding.editUserName.setOnClickListener {
             changeName("Артём")
@@ -67,8 +68,13 @@ class MainFragment :
         }
     }
 
+    private fun joinSession() {
+        viewModel.navigate(R.id.action_mainFragment_to_sessionConnectionFragment)
+    }
+
     private fun changeName(oldName: String) {
         val bottomSheetFragment = ChangeNameFragment.newInstance(oldName)
         bottomSheetFragment.show(parentFragmentManager, "tag")
     }
+
 }

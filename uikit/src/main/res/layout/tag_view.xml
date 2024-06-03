@@ -9,5 +9,5 @@
         style="Text.Base.Medium.Regular"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        tools:text="Дима (вы)" />
+        tools:text="[Дима (вы)]" />
 </FrameLayout>
