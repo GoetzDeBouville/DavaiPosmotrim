@@ -11,4 +11,5 @@
     <string name="join_session">Присоединиться к сеансу</string>
     <string name="banner_attention">Выберите хотя бы один жанр</string>
     <string name="banner_success">Код сеанса успешно скопирован</string>
+
 </resources>

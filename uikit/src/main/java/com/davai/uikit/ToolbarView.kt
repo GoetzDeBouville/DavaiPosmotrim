@@ -188,7 +188,7 @@ class ToolbarView @JvmOverloads constructor(
      * Добавляет spacer в высоту статус бара
      */
     fun addStatusBarSpacer() {
-        var statusBarHeight = 0
+        var statusBarHeight: Int
         ViewCompat.setOnApplyWindowInsetsListener(this) { _, insets ->
             statusBarHeight = insets.getInsets(WindowInsetsCompat.Type.statusBars()).top
             applySpaceHeight(statusBarHeight)

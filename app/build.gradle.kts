@@ -58,5 +58,6 @@ dependencies {
     implementation(libs.navigation.ui)
     implementation(libs.coil)
     implementation(libs.flexbox)
+    implementation(libs.circle.indicator)
     implementation(project(":uikit"))
 }
