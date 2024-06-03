@@ -10,8 +10,6 @@ import androidx.appcompat.app.AppCompatActivity
 import com.davai.uikit.extensions.applyBlurEffect
 import com.davai.uikit_sample.databinding.ActivityMainBinding
 
-@Suppress("Detekt.LongMethod")
-
 class MainActivity : AppCompatActivity() {
     private val binding: ActivityMainBinding by lazy { ActivityMainBinding.inflate(layoutInflater) }
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -40,77 +38,100 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+//    private fun onClickListener() = View.OnClickListener {
+//        with(binding) {
+//            when (it) {
+//                btnToMoviewEvalution -> startActivity(
+//                    Intent(
+//                        this@MainActivity,
+//                        MovieEvaluationExample::class.java
+//                    )
+//                )
+//
+//                btnToDvBanner -> startActivity(
+//                    Intent(
+//                        this@MainActivity,
+//                        BannerViewExample::class.java
+//                    )
+//                )
+//
+//                btnToDvButton -> startActivity(
+//                    Intent(
+//                        this@MainActivity,
+//                        ButtonViewExampleActivity::class.java
+//                    )
+//                )
+//
+//                btnToDvFilm -> startActivity(
+//                    Intent(
+//                        this@MainActivity,
+//                        MoovieCardViewExampleActivity::class.java
+//                    )
+//                )
+//
+//                btnToDvSession -> startActivity(
+//                    Intent(
+//                        this@MainActivity,
+//                        SessionExample::class.java
+//                    )
+//                )
+//
+//                btnToDvToolbar -> startActivity(
+//                    Intent(
+//                        this@MainActivity,
+//                        ToolbarExampleActivity::class.java
+//                    )
+//                )
+//
+//                btnToDvMovieSelection -> startActivity(
+//                    Intent(
+//                        this@MainActivity,
+//                        MovieSelectionExampleActivity::class.java
+//                    )
+//                )
+//
+//                toMsb -> startActivity(Intent(this@MainActivity, MainScreenButtonViewExample::class.java))
+//
+//                btnToDvTags -> startActivity(
+//                    Intent(
+//                        this@MainActivity,
+//                        TagViewExample::class.java
+//                    )
+//                )
+//
+//                toBlurExample -> startActivity(
+//                    Intent(
+//                        this@MainActivity,
+//                        BlurActivity::class.java
+//                    )
+//                )
+//                btnToCustomDialog -> showCustomDialog()
+//            }
+//        }
+//    }
+
     private fun onClickListener() = View.OnClickListener {
         with(binding) {
             when (it) {
-                btnToMoviewEvalution -> startActivity(
-                    Intent(
-                        this@MainActivity,
-                        MovieEvaluationExample::class.java
-                    )
-                )
-
-                btnToDvBanner -> startActivity(
-                    Intent(
-                        this@MainActivity,
-                        BannerViewExample::class.java
-                    )
-                )
-
-                btnToDvButton -> startActivity(
-                    Intent(
-                        this@MainActivity,
-                        ButtonViewExampleActivity::class.java
-                    )
-                )
-
-                btnToDvFilm -> startActivity(
-                    Intent(
-                        this@MainActivity,
-                        MoovieCardViewExampleActivity::class.java
-                    )
-                )
-
-                btnToDvSession -> startActivity(
-                    Intent(
-                        this@MainActivity,
-                        SessionExample::class.java
-                    )
-                )
-
-                btnToDvToolbar -> startActivity(
-                    Intent(
-                        this@MainActivity,
-                        ToolbarExampleActivity::class.java
-                    )
-                )
-
-                btnToDvMovieSelection -> startActivity(
-                    Intent(
-                        this@MainActivity,
-                        MovieSelectionExampleActivity::class.java
-                    )
-                )
-
-                toMsb -> startActivity(Intent(this@MainActivity, MainScreenButtonViewExample::class.java))
-
-                btnToDvTags -> startActivity(
-                    Intent(
-                        this@MainActivity,
-                        TagViewExample::class.java
-                    )
-                )
-
-                toBlurExample -> startActivity(
-                    Intent(
-                        this@MainActivity,
-                        BlurActivity::class.java
-                    )
-                )
+                btnToMoviewEvalution -> startActivity(createIntent(MovieEvaluationExample::class.java))
+                btnToDvBanner -> startActivity(createIntent(BannerViewExample::class.java))
+                btnToDvButton -> startActivity(createIntent(ButtonViewExampleActivity::class.java))
+                btnToDvFilm -> startActivity(createIntent(MoovieCardViewExampleActivity::class.java))
+                btnToDvSession -> startActivity(createIntent(SessionExample::class.java))
+                btnToDvToolbar -> startActivity(createIntent(ToolbarExampleActivity::class.java))
+                btnToDvMovieSelection -> startActivity(createIntent(MovieSelectionExampleActivity::class.java))
+                toMsb -> startActivity(createIntent(MainScreenButtonViewExample::class.java))
+                btnToDvTags -> startActivity(createIntent(TagViewExample::class.java))
+                toBlurExample -> startActivity(createIntent(BlurActivity::class.java))
                 btnToCustomDialog -> showCustomDialog()
             }
         }
     }
+
+    private fun <T> createIntent(activityClass: Class<T>): Intent {
+        return Intent(this@MainActivity, activityClass)
+    }
+
     private fun showCustomDialog() {
         val dialogView = layoutInflater.inflate(com.davai.uikit.R.layout.layout_custom_dialog, null)
 
