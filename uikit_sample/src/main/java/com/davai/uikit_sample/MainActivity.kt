@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.View
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
+import com.davai.uikit.extensions.applyBlurEffect
 import com.davai.uikit_sample.databinding.ActivityMainBinding
 
 @Suppress("Detekt.LongMethod")
@@ -15,6 +16,7 @@ class MainActivity : AppCompatActivity() {
         enableEdgeToEdge()
         setContentView(binding.root)
         clickListeners()
+        binding.toBlurExample.applyBlurEffect(2f)
     }
 
     private fun clickListeners() = with(binding) {
@@ -26,8 +28,9 @@ class MainActivity : AppCompatActivity() {
             btnToDvSession,
             btnToDvMovieSelection,
             btnToDvToolbar,
-            btnToDvTags,
-            toMsb
+            toMsb,
+            toBlurExample,
+            btnToDvTags
         ).forEach {
             it.setOnClickListener(onClickListener())
         }
@@ -64,9 +67,19 @@ class MainActivity : AppCompatActivity() {
                     )
                 )
 
-                btnToDvSession -> startActivity(Intent(this@MainActivity, SessionExample::class.java))
+                btnToDvSession -> startActivity(
+                    Intent(
+                        this@MainActivity,
+                        SessionExample::class.java
+                    )
+                )
 
-                btnToDvToolbar -> startActivity(Intent(this@MainActivity, ToolbarExampleActivity::class.java))
+                btnToDvToolbar -> startActivity(
+                    Intent(
+                        this@MainActivity,
+                        ToolbarExampleActivity::class.java
+                    )
+                )
 
                 btnToDvMovieSelection -> startActivity(
                     Intent(
@@ -81,6 +94,13 @@ class MainActivity : AppCompatActivity() {
                     Intent(
                         this@MainActivity,
                         TagViewExample::class.java
+                    )
+                )
+
+                toBlurExample -> startActivity(
+                    Intent(
+                        this@MainActivity,
+                        BlurActivity::class.java
                     )
                 )
             }
