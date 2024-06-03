@@ -16,4 +16,14 @@
         app:defaultNavHost="true"
         app:navGraph="@navigation/main_navigation_graph" />
 
+    <com.davai.uikit.BannerView
+        android:id="@+id/banner"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/margin_16"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
 </FrameLayout>
