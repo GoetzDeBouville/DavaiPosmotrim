@@ -10,22 +10,27 @@ import com.davay.android.base.BaseFragment
 import com.davay.android.databinding.FragmentLoadBinding
 import com.davay.android.di.ScreenComponent
 import com.davay.android.feature.load.di.DaggerLoadFragmentComponent
+import com.davay.android.feature.onboarding.presentation.OnboardingFragment
 
 class LoadFragment : BaseFragment<FragmentLoadBinding, LoadViewModel>(
     FragmentLoadBinding::inflate
 ) {
 
     override val viewModel: LoadViewModel by injectViewModel<LoadViewModel>()
-    override fun diComponent(): ScreenComponent = DaggerLoadFragmentComponent.builder()
-        .appComponent(AppComponentHolder.getComponent())
-        .build()
+    override fun diComponent(): ScreenComponent =
+        DaggerLoadFragmentComponent.builder().appComponent(AppComponentHolder.getComponent())
+            .build()
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        super.onCreateView(inflater, container, savedInstanceState)
+        super.onCreateView(
+            inflater,
+            container,
+            savedInstanceState
+        )
         return binding.root
     }
 
@@ -36,6 +41,12 @@ class LoadFragment : BaseFragment<FragmentLoadBinding, LoadViewModel>(
         }
         binding.button2.setOnClickListener { _ ->
             viewModel.navigate(R.id.action_loadFragment_to_registrationFragment)
+        }
+        binding.btnToOnboarding.setOnClickListener {
+            val bundle = Bundle().apply {
+                putInt(OnboardingFragment.ONBOARDING_KEY, OnboardingFragment.ONBOARDING_MAIN_SET)
+            }
+            navigate(R.id.action_loadFragment_to_onboardingFragment, bundle)
         }
     }
 }
