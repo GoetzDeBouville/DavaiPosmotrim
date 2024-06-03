@@ -57,5 +57,6 @@ dependencies {
     implementation(libs.navigation.fragment)
     implementation(libs.navigation.ui)
     implementation(libs.circle.indicator)
+    implementation(libs.physicslayout)
     implementation(project(":uikit"))
 }

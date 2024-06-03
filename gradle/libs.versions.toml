@@ -27,6 +27,8 @@ detekt = "1.23.3"
 coil = "2.3.0"
 circle_indicator = "2.1.6"
 
+physicslayout = "3.0.2"
+
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
 junit = { group = "junit", name = "junit", version.ref = "junit" }
@@ -44,6 +46,8 @@ navigation-fragment = { group = "androidx.navigation", name = "navigation-fragme
 navigation-ui = { group = "androidx.navigation", name = "navigation-ui-ktx", version.ref = "nav_version" }
 coil = { group = "io.coil-kt", name = "coil", version.ref = "coil" }
 circle-indicator = { group = "me.relex", name = "circleindicator", version.ref = "circle_indicator" }
+
+physicslayout = { module = "com.jawnnypoo:physicslayout", version.ref = "physicslayout" }
 
 # Detekt
 staticAnalysis-detektCli = { module = "io.gitlab.arturbosch.detekt:detekt-cli", version.ref = "detekt" }

@@ -29,4 +29,19 @@
     <string name="onboarding_instructions_saving_matches_history">Храним историю всех совпадений\nво время и после сеансов.</string>
     <string name="onboarding_instructions_one_moment">Ещё<font color="#8B55FF">\nсекундочку</font></string>
     <string name="onboarding_instructions_session_finishing">Сеанс закончится, когда один из участников его покинет.</string>
+
+    <!--  splash screen  -->
+    <string name="splash_watch">Посмотрим?</string>
+    <string name="splash_comedy">Комедия</string>
+    <string name="splash_fantasy">Фэнтези</string>
+    <string name="splash_fantastic">Фантастика</string>
+    <string name="splash_biopic">Биография</string>
+    <string name="splash_action">Боевик</string>
+    <string name="splash_detective">Детектив</string>
+    <string name="splash_musical">Мюзикл</string>
+    <string name="splash_adventure">Приключение</string>
+    <string name="splash_melodrama">Мелодрама</string>
+    <string name="splash_thriller">Триллер</string>
+    <string name="splash_documental">Документальный</string>
+    <string name="splash_let">Давай</string>
 </resources>
