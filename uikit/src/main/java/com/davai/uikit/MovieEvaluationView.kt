@@ -11,7 +11,7 @@ import androidx.annotation.StyleRes
 import androidx.core.content.ContextCompat
 import java.util.Locale
 
-class MovieEvaluationVIew @JvmOverloads constructor(
+class MovieEvaluationView @JvmOverloads constructor(
     context: Context,
     attrs: AttributeSet? = null,
     @AttrRes defStyleAttr: Int = 0,

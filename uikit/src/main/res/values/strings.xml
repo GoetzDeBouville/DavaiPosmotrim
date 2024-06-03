@@ -11,6 +11,7 @@
     <string name="join_session">Присоединиться к сеансу</string>
     <string name="banner_attention">Выберите хотя бы один жанр</string>
     <string name="banner_success">Код сеанса успешно скопирован</string>
+
     <string name="title_dialog">Заголовок диалога</string>
     <string name="message_dialog">Текст диалога</string>
     <string name="dialog_yes">ДА</string>
