@@ -25,4 +25,7 @@
     <string name="select_movies_rates">Оценки</string>
     <string name="select_movies_imdb_rate">Рейтинг IMDb</string>
     <string name="select_movies_kinopoisk_rate">Рейтинг Кинопоиск</string>
+    <string name="select_movies_hours_and_minutes">%d ч %d мин</string>
+    <string name="select_movies_hours">%d ч</string>
+    <string name="select_movies_minutes">%d мин</string>
 </resources>

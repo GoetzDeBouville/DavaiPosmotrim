@@ -16,10 +16,19 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContentView(binding.root)
-
+        ViewCompat.setOnApplyWindowInsetsListener(binding.main) { v, insets ->
+            val imeHeight = insets.getInsets(WindowInsetsCompat.Type.ime()).bottom
+            if (insets.isVisible(WindowInsetsCompat.Type.ime())) {
+                v.setPadding(0, 0, 0, imeHeight)
+            } else {
+                v.setPadding(0, 0, 0, 0)
+            }
+            insets
+        }
 //        val navHostFragment =
 //            supportFragmentManager.findFragmentById(R.id.fragment_container_view) as NavHostFragment
 //        val navController = navHostFragment.navController
+
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
             window.insetsController?.setSystemBarsAppearance(
                 WindowInsetsController.APPEARANCE_LIGHT_STATUS_BARS,
@@ -52,4 +61,3 @@ class MainActivity : AppCompatActivity() {
         }
     }
 }
-
