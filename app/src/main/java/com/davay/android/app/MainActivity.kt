@@ -11,6 +11,8 @@ import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import com.davai.uikit.extensions.applyBlurEffect
+import com.davai.uikit.extensions.clearBlurEffect
 import androidx.core.view.postDelayed
 import androidx.core.view.updateLayoutParams
 import com.davay.android.databinding.ActivityMainBinding
@@ -98,6 +100,14 @@ class MainActivity : AppCompatActivity() {
                     })
             }
         }
+    }
+
+    fun applyBlurEffect() {
+        binding.root.applyBlurEffect()
+    }
+
+    fun clearBlurEffect() {
+        binding.root.clearBlurEffect()
     }
 
     companion object {

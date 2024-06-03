@@ -50,7 +50,7 @@ class MainFragment :
             Toast.makeText(requireContext(), "Favorite", Toast.LENGTH_SHORT).show()
         }
         binding.joinSession.setOnClickListener {
-            Toast.makeText(requireContext(), "Join Session", Toast.LENGTH_SHORT).show()
+            joinSession()
         }
         binding.editUserName.setOnClickListener {
             changeName("Артём")
@@ -66,6 +66,10 @@ class MainFragment :
             }
             WindowInsetsCompat.CONSUMED
         }
+    }
+
+    private fun joinSession() {
+        viewModel.navigate(R.id.action_mainFragment_to_sessionConnectionFragment)
     }
 
     private fun changeName(oldName: String) {

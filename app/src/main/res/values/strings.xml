@@ -13,6 +13,72 @@
     <string name="change_name_enter">Сохранить</string>
     <string name="change_name_enter_your_name">Введите ваше имя</string>
 
+    <!--sessionconnection screen-->
+    <string name="sessionconnection_enter_session_code">Код сеанса</string>
+    <string name="sessionconnection_invalid">Код cеанса должен состоять 4 букв и 3 цифр</string>
+    <string name="sessionconnection_no_session">Сеанс не найден</string>
+    <string name="sessionconnection_join">Присоединиться</string>
+
+    <!--sessionlist screen-->
+    <string name="session_list_name">Сеанс</string>
+    <string name="session_list_exit">Выйти</string>
+    <string name="waiting_all_participants">Ожидаем подключения всех участников</string>
+    <string name="waiting_all_participants_hint">Сеанс начнётся, когда подключатся\n все самые нужные люди.</string>
+    <string name="leave_session_title">Покинуть сеанс?</string>
+    <string name="leave_session_dialog_message">До того, как начнётся этот сеанс, вы\nсможете подключиться повторно.</string>
+    <string name="leave_session_dialog_positive">ДА</string>
+    <string name="leave_session_dialog_negative">НЕТ</string>
+    <string name="session_list_you">(вы)</string>
+
+    <!--    select_movies screen -->
+    <string name="select_movies_select_film">Выберите фильм</string>
+    <string name="select_movies_cover_image_description">Изображение обложки фильма</string>
+    <string name="select_movies_skip_icon_description">Сбросить фильм</string>
+    <string name="select_movies_like_icon_description">Выбрать фильм</string>
+    <string name="select_movies_revert_icon_description">Вернуть предыдущий фильм</string>
+    <string name="select_movies_details_title">Подробнее о фильме</string>
+    <string name="select_movies_top_cast">В главных ролях</string>
+    <string name="select_movies_director">Режиссёр</string>
+    <string name="select_movies_rates">Оценки</string>
+    <string name="select_movies_imdb_rate">Рейтинг IMDb</string>
+    <string name="select_movies_kinopoisk_rate">Рейтинг Кинопоиск</string>
+    <string name="select_movies_hours_and_minutes">%d ч %d мин</string>
+    <string name="select_movies_hours">%d ч</string>
+    <string name="select_movies_minutes">%d мин</string>
+
+    <!--onboarding screen-->
+    <string name="onboarding_continue_view">продолжить</string>
+    <string name="onboarding_begin">начать</string>
+    <string name="onboarding_choose_full_text">Выбирайте\nфильмы\n<font color="#8B55FF">без стресса</font></string>
+    <string name="onboarding_with_no_more_dicussions">Никаких лишних разговоров\nи долгих поисков.</string>
+    <string name="onboarding_for_large_company"><font color="#8B55FF">Вдвоём</font> или\nв большой\nкомпании</string>
+    <string name="onboarding_choose_movies_with_any">Выбирать фильмы можно с любым\nколичеством людей.</string>
+    <string name="onboarding_movie_library">Библиотека\nфильмов <font color="#8B55FF">на\nлюбой вкус</font></string>
+    <string name="onboarding_only_favorite_genres">Только самые любимые жанры\nили готовые подборки.</string>
+
+    <string name="onboarding_instructions_as_you_got_used">Все как вы <font color="#8B55FF">\nпривыкли</font></string>
+    <string name="onboarding_instructions_swipes_description">Свайп вправо - нравится.\nСвайп влево - не нравится.\nДа, да, сделали очень оригинально.</string>
+    <string name="onboarding_instructions_choose_from_common_matches">Выбирайте\nиз <font color="#8B55FF">\nобщих\nсовпадений</font></string>
+    <string name="onboarding_instructions_saving_matches_history">Храним историю всех совпадений\nво время и после сеансов.</string>
+    <string name="onboarding_instructions_one_moment">Ещё<font color="#8B55FF">\nсекундочку</font></string>
+    <string name="onboarding_instructions_session_finishing">Сеанс закончится, когда один из участников его покинет.</string>
+
+    <!--  splash screen  -->
+    <string name="splash_watch">Посмотрим?</string>
+    <string name="splash_comedy">Комедия</string>
+    <string name="splash_fantasy">Фэнтези</string>
+    <string name="splash_fantastic">Фантастика</string>
+    <string name="splash_biopic">Биография</string>
+    <string name="splash_action">Боевик</string>
+    <string name="splash_detective">Детектив</string>
+    <string name="splash_musical">Мюзикл</string>
+    <string name="splash_adventure">Приключение</string>
+    <string name="splash_melodrama">Мелодрама</string>
+    <string name="splash_thriller">Триллер</string>
+    <string name="splash_documental">Документальный</string>
+    <string name="splash_let">Давай</string>
+
+    <!--  create session screen  -->
     <string name="create_session_compilations">Подборки</string>
     <string name="create_session_genre">Жанр</string>
     <string name="create_session_continue">Продолжить</string>
