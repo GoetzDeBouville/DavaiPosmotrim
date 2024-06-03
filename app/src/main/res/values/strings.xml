@@ -13,6 +13,22 @@
     <string name="change_name_enter">Сохранить</string>
     <string name="change_name_enter_your_name">Введите ваше имя</string>
 
+    <!--    select_movies screen -->
+    <string name="select_movies_select_film">Выберите фильм</string>
+    <string name="select_movies_cover_image_description">Изображение обложки фильма</string>
+    <string name="select_movies_skip_icon_description">Сбросить фильм</string>
+    <string name="select_movies_like_icon_description">Выбрать фильм</string>
+    <string name="select_movies_revert_icon_description">Вернуть предыдущий фильм</string>
+    <string name="select_movies_details_title">Подробнее о фильме</string>
+    <string name="select_movies_top_cast">В главных ролях</string>
+    <string name="select_movies_director">Режиссёр</string>
+    <string name="select_movies_rates">Оценки</string>
+    <string name="select_movies_imdb_rate">Рейтинг IMDb</string>
+    <string name="select_movies_kinopoisk_rate">Рейтинг Кинопоиск</string>
+    <string name="select_movies_hours_and_minutes">%d ч %d мин</string>
+    <string name="select_movies_hours">%d ч</string>
+    <string name="select_movies_minutes">%d мин</string>
+
     <!--onboarding screen-->
     <string name="onboarding_continue_view">продолжить</string>
     <string name="onboarding_begin">начать</string>
