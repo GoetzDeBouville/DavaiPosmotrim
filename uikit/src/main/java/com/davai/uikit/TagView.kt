@@ -65,6 +65,7 @@ class TagView @JvmOverloads constructor(
         }
     }
 
+    @Suppress("Detekt.LongMethod")
     private fun setStyle(type: Int) {
         when (type) {
             STYLE_PRIMARY_VIOLET -> {

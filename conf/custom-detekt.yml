@@ -94,7 +94,7 @@ complexity:
         threshold: 200
     LongMethod:
         active: true
-        threshold: 60
+        threshold: 40
         excludes: [ '**/test/**', '**/androidTest/**', '**/commonTest/**', '**/jvmTest/**', '**/jsTest/**', '**/iosTest/**' ]
         ignoreAnnotated: [ "Composable" ]
     LongParameterList:
