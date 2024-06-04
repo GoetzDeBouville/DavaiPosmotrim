@@ -49,7 +49,7 @@
             android:layout_width="@dimen/zero"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:background="@drawable/rounded_button_grey"
+            android:backgroundTint="@color/icon_light"
             android:text="@string/dialog_yes"
             android:textColor="@color/text_base" />
 
@@ -60,9 +60,9 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/margin_12"
             android:layout_weight="1"
-            android:background="@drawable/rounded_button"
+            android:backgroundTint="@color/primary_base"
             android:text="@string/dialog_no"
-            android:textColor="@color/text_base" />
+            android:textColor="@color/text_light" />
 
     </LinearLayout>
 
