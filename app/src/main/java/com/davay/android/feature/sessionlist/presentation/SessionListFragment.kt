@@ -11,12 +11,12 @@ import com.davay.android.di.ScreenComponent
 import com.davay.android.feature.sessionlist.di.DaggerSessionListFragmentComponent
 import com.davay.android.feature.sessionlist.presentation.adapter.CustomItemDecorator
 import com.davay.android.feature.sessionlist.presentation.adapter.UserAdapter
+import com.davay.android.utils.CustomDialog
 import com.google.android.flexbox.AlignItems
 import com.google.android.flexbox.FlexDirection
 import com.google.android.flexbox.FlexWrap
 import com.google.android.flexbox.FlexboxLayoutManager
 import com.google.android.flexbox.JustifyContent
-import com.google.android.material.dialog.MaterialAlertDialogBuilder
 
 class SessionListFragment : BaseFragment<FragmentSessionListBinding, SessionListViewModel>(
     FragmentSessionListBinding::inflate
@@ -76,17 +76,18 @@ class SessionListFragment : BaseFragment<FragmentSessionListBinding, SessionList
 
     private fun setButtonClickListeners() {
         binding.btnExit.setOnClickListener {
-            MaterialAlertDialogBuilder(requireContext())
-                .setTitle(getString(R.string.leave_session_title))
-                .setMessage(getString(R.string.leave_session_dialog_message))
-                .setPositiveButton(getString(R.string.leave_session_dialog_positive)) { dialog, _ ->
+            val dialog = CustomDialog.newInstance(
+                title = getString(R.string.leave_session_title),
+                message = getString(R.string.leave_session_dialog_message),
+                yesAction = {
                     viewModel.navigate(R.id.action_sessionListFragment_to_mainFragment)
-                    dialog.dismiss()
+                },
+                noAction = {
                 }
-                .setNegativeButton(getString(R.string.leave_session_dialog_negative)) { dialog, _ ->
-                    dialog.dismiss()
-                }
-                .show()
+            )
+            dialog.show(parentFragmentManager, "customDialog")
+
+
         }
     }
 

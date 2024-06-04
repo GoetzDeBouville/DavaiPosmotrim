@@ -1,4 +1,4 @@
-package com.davai.uikit_sample
+package com.davay.android.utils
 
 import android.content.DialogInterface
 import android.os.Bundle
@@ -13,8 +13,8 @@ import com.davai.uikit.extensions.clearBlurEffect
 
 class CustomDialog : DialogFragment() {
 
-    private var title: String? = "Заголовок диалога"
-    private var message: String? = "Текст диалога"
+    private var title: String? = null
+    private var message: String? = null
     private var yesAction: (() -> Unit)? = null
     private var noAction: (() -> Unit)? = null
 

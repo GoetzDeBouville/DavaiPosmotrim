@@ -19,7 +19,7 @@
 
     <TextView
         android:id="@+id/tv_dialog_message"
-        style="@style/Text.Base.Medium.Regular"
+        style="@style/Text.Base.Medium.Regular.NoLineSpacing"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/margin_24"
