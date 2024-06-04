@@ -1,6 +1,47 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".feature.coincidences.presentation.CoincidencesFragment" />
+    android:orientation="vertical"
+    android:background="@color/background_base"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".feature.coincidences.presentation.CoincidencesFragment">
+
+    <com.davai.uikit.ToolbarView
+        android:id="@+id/toolbar_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:title="@string/coincidences"
+        app:start_icon="@drawable/ic_arrow_back"
+        app:start_icon_is_visible="true"
+        app:end_icon="@drawable/ic_random" />
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:background="@drawable/main_screen_menu_background"
+        android:layout_marginTop="@dimen/margin_16"
+        android:paddingHorizontal="@dimen/padding_16"
+        android:paddingTop="@dimen/padding_16">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/coincidences_list"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+            app:spanCount="2"
+            android:visibility="gone"
+            android:background="@drawable/main_screen_menu_background" />
+
+        <include
+            android:id="@+id/empty_placeholder"
+            layout="@layout/item_empty_placeholder"
+            android:visibility="visible" />
+
+    </FrameLayout>
+
+
+
+</LinearLayout>
