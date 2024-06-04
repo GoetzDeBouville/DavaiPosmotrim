@@ -1,72 +1,69 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.cardview.widget.CardView
-xmlns:android="http://schemas.android.com/apk/res/android"
-xmlns:app="http://schemas.android.com/apk/res-auto"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_marginHorizontal="@dimen/margin_16"
-    app:cardBackgroundColor="@color/background_white"
-    app:cardCornerRadius="@dimen/card_radius_24">
+    android:layout_height="wrap_content">
+
+    <TextView
+        android:id="@+id/tv_dialog_title"
+        style="@style/Text.Headline.Title.Regular"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/margin_16"
+        android:layout_marginStart="@dimen/margin_16"
+        android:text="@string/title_dialog"
+        android:textColor="@color/text_headings"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/tv_dialog_message"
+        style="@style/Text.Base.Medium.Regular"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/margin_24"
+        android:layout_marginStart="@dimen/margin_16"
+        android:text="@string/message_dialog"
+        android:textColor="@color/text_base"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_dialog_title" />
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:orientation="vertical"
-        android:padding="@dimen/margin_16">
+        android:layout_marginTop="@dimen/margin_16"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:padding="@dimen/margin_16"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_dialog_message">
 
-        <TextView
-            android:id="@+id/tv_dialog_title"
-            style="@style/Text.Headline.Title.Regular"
-            android:layout_width="match_parent"
+        <Button
+            android:id="@+id/btn_yes"
+            style="@style/Text.Base.Button.Bold"
+            android:layout_width="@dimen/zero"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginBottom="@dimen/margin_24"
-            android:text="@string/title_dialog"
-            android:textColor="@color/text_headings">
+            android:layout_weight="1"
+            android:background="@drawable/rounded_button_grey"
+            android:text="@string/dialog_yes"
+            android:textColor="@color/text_base" />
 
-        </TextView>
-
-        <TextView
-            android:id="@+id/tv_dialog_message"
-            style="@style/Text.Base.Medium.Regular"
-            android:layout_width="match_parent"
+        <Button
+            android:id="@+id/btn_no"
+            style="@style/Text.Base.Button.Bold"
+            android:layout_width="@dimen/zero"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginBottom="@dimen/margin_32"
-            android:text="@string/message_dialog"
-            android:textColor="@color/text_base">
-
-        </TextView>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:gravity="center"
-            android:orientation="horizontal">
-
-            <Button
-                android:id="@+id/btn_yes"
-                style="@style/Text.Base.Button.Bold"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/dialog_yes"
-                android:background="@drawable/rounded_button_grey"
-                android:textColor="@color/text_base" />
-
-            <Button
-                android:id="@+id/btn_no"
-                style="@style/Text.Base.Button.Bold"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/margin_12"
-                android:text="@string/dialog_no"
-                android:background="@drawable/rounded_button"
-                android:textColor="@color/text_base" />
-
-        </LinearLayout>
+            android:layout_marginStart="@dimen/margin_12"
+            android:layout_weight="1"
+            android:background="@drawable/rounded_button"
+            android:text="@string/dialog_no"
+            android:textColor="@color/text_base" />
 
     </LinearLayout>
 
-</androidx.cardview.widget.CardView>
+</androidx.constraintlayout.widget.ConstraintLayout>

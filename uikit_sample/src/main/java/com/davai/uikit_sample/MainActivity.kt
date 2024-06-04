@@ -3,9 +3,7 @@ package com.davai.uikit_sample
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
-import android.widget.Button
 import androidx.activity.enableEdgeToEdge
-import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import com.davai.uikit.extensions.applyBlurEffect
 import com.davai.uikit_sample.databinding.ActivityMainBinding
@@ -38,78 +36,6 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-//    private fun onClickListener() = View.OnClickListener {
-//        with(binding) {
-//            when (it) {
-//                btnToMoviewEvalution -> startActivity(
-//                    Intent(
-//                        this@MainActivity,
-//                        MovieEvaluationExample::class.java
-//                    )
-//                )
-//
-//                btnToDvBanner -> startActivity(
-//                    Intent(
-//                        this@MainActivity,
-//                        BannerViewExample::class.java
-//                    )
-//                )
-//
-//                btnToDvButton -> startActivity(
-//                    Intent(
-//                        this@MainActivity,
-//                        ButtonViewExampleActivity::class.java
-//                    )
-//                )
-//
-//                btnToDvFilm -> startActivity(
-//                    Intent(
-//                        this@MainActivity,
-//                        MoovieCardViewExampleActivity::class.java
-//                    )
-//                )
-//
-//                btnToDvSession -> startActivity(
-//                    Intent(
-//                        this@MainActivity,
-//                        SessionExample::class.java
-//                    )
-//                )
-//
-//                btnToDvToolbar -> startActivity(
-//                    Intent(
-//                        this@MainActivity,
-//                        ToolbarExampleActivity::class.java
-//                    )
-//                )
-//
-//                btnToDvMovieSelection -> startActivity(
-//                    Intent(
-//                        this@MainActivity,
-//                        MovieSelectionExampleActivity::class.java
-//                    )
-//                )
-//
-//                toMsb -> startActivity(Intent(this@MainActivity, MainScreenButtonViewExample::class.java))
-//
-//                btnToDvTags -> startActivity(
-//                    Intent(
-//                        this@MainActivity,
-//                        TagViewExample::class.java
-//                    )
-//                )
-//
-//                toBlurExample -> startActivity(
-//                    Intent(
-//                        this@MainActivity,
-//                        BlurActivity::class.java
-//                    )
-//                )
-//                btnToCustomDialog -> showCustomDialog()
-//            }
-//        }
-//    }
-
     private fun onClickListener() = View.OnClickListener {
         with(binding) {
             when (it) {
@@ -133,22 +59,8 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun showCustomDialog() {
-        val dialogView = layoutInflater.inflate(com.davai.uikit.R.layout.layout_custom_dialog, null)
-
-        val dialog = AlertDialog.Builder(this)
-            .setView(dialogView)
-            .create()
-
-        dialogView.findViewById<Button>(com.davai.uikit.R.id.btn_yes).setOnClickListener {
-            dialog.dismiss()
-        }
-
-        dialogView.findViewById<Button>(com.davai.uikit.R.id.btn_no).setOnClickListener {
-            dialog.dismiss()
-        }
-
-        dialog.show()
+        val customDialog = CustomDialog()
+        customDialog.show(supportFragmentManager, "CustomDialog")
     }
 }
-
 
