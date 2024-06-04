@@ -77,4 +77,6 @@
     <string name="splash_thriller">Триллер</string>
     <string name="splash_documental">Документальный</string>
     <string name="splash_let">Давай</string>
+
+    <string name="match_continue_session">Продолжить сеанс</string>
 </resources>

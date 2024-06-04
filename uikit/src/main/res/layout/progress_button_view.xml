@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/button_height_48"
+    android:background="@drawable/progress_button_view_background">
+
+    <TextView
+        android:id="@+id/tv_progress_button_title"
+        style="@style/Text.Base.Button"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="@dimen/stroke_width_3"
+        android:background="@drawable/progress_button_background"
+        android:gravity="center"
+        android:textColor="@color/background_white"
+        tools:text="[Продолжить сеанс]" />
+</FrameLayout>
