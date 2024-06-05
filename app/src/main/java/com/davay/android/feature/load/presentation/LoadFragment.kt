@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import com.davay.android.R
 import com.davay.android.app.AppComponentHolder
 import com.davay.android.base.BaseFragment
@@ -54,6 +55,13 @@ class LoadFragment : BaseFragment<FragmentLoadBinding, LoadViewModel>(
 
         binding.btnToSplash.setOnClickListener {
             viewModel.navigate(R.id.action_loadFragment_to_splashFragment)
+        }
+        initVIews()
+    }
+
+    private fun initVIews() = with(binding) {
+        circleProgress.setProgressWithAnimation(5000L, toProgress = 100f) {
+            Toast.makeText(requireContext(), "Finished", Toast.LENGTH_SHORT).show()
         }
     }
 }
