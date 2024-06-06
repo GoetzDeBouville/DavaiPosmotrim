@@ -5,6 +5,7 @@ import android.graphics.Canvas
 import android.graphics.Paint
 import android.hardware.display.DisplayManager
 import android.util.AttributeSet
+import android.util.Log
 import android.view.Display
 import android.view.View
 import androidx.core.content.ContextCompat
@@ -14,7 +15,7 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlin.math.min
 
-class CircularProgressBar @JvmOverloads constructor(
+class CircularProgressView @JvmOverloads constructor(
     context: Context,
     attrs: AttributeSet? = null,
     defStyleAttr: Int = 0
@@ -23,20 +24,24 @@ class CircularProgressBar @JvmOverloads constructor(
     private var progressColor: Int =
         ContextCompat.getColor(context, android.R.color.holo_blue_light)
     private var backgroundColor: Int = ContextCompat.getColor(context, android.R.color.darker_gray)
-    private var progress: Float = 0f
     private var circleDiameter: Float = 0f
     private val refreshDelay: Long = getDisplayRefreshDelay()
-    private var arrowRadius: Float = 0f
-
+    private var scaleX: Float = 1f
     private val backgroundPaint = Paint().apply {
         isAntiAlias = true
-        style = Paint.Style.FILL
+        style = Paint.Style.FILL_AND_STROKE
     }
 
     private val progressPaint = Paint().apply {
         isAntiAlias = true
-        style = Paint.Style.FILL
+        style = Paint.Style.STROKE
+        strokeWidth = radius
     }
+    private var diameter: Float = 0f
+    private var radius: Float = 0f
+    private var centerX: Float = 0f
+    private var centerY: Float = 0f
+    private var sweepAngle: Float = 0f
 
     init {
         applyAttributes(context, attrs)
@@ -58,8 +63,17 @@ class CircularProgressBar @JvmOverloads constructor(
                 backgroundColor =
                     getColor(R.styleable.CustomCircularProgressBar_backgroundColor, backgroundColor)
                 circleDiameter =
-                    getDimension(R.styleable.CustomCircularProgressBar_circleDiameter, 0f)
-                arrowRadius = circleDiameter / 2
+                    getDimension(
+                        R.styleable.CustomCircularProgressBar_circleDiameter,
+                        DEFAULT_DIAMETER_200
+                    )
+
+                diameter = if (circleDiameter > 0) {
+                    circleDiameter
+                } else {
+                    min(width.toFloat(), height.toFloat())
+                }
+                radius = diameter / 2
             } finally {
                 recycle()
             }
@@ -67,6 +81,8 @@ class CircularProgressBar @JvmOverloads constructor(
 
         backgroundPaint.color = backgroundColor
         progressPaint.color = progressColor
+        backgroundPaint.strokeWidth = radius
+        progressPaint.strokeWidth = radius
     }
 
     private fun getDisplayRefreshDelay(): Long {
@@ -75,38 +91,37 @@ class CircularProgressBar @JvmOverloads constructor(
         return (MS_IN_SECOND / display.refreshRate).toLong()
     }
 
+    override fun onSizeChanged(w: Int, h: Int, oldw: Int, oldh: Int) {
+        super.onSizeChanged(w, h, oldw, oldh)
+        centerX = (w / 2).toFloat()
+        centerY = (h / 2).toFloat()
+        scaleX = w.toFloat() / h.toFloat()
+    }
+
     override fun onDraw(canvas: Canvas) {
         super.onDraw(canvas)
-        val width = width.toFloat()
-        val height = height.toFloat()
-        val diameter = if (circleDiameter > 0) circleDiameter else min(width, height)
-        val radius = diameter / 2
-        val centerX = width / 2
-        val centerY = height / 2
-
+        canvas.save()
+        canvas.scale(scaleX, 1f, centerX, centerY)
         canvas.drawCircle(centerX, centerY, radius, backgroundPaint)
 
-        val sweepAngle = (progress / MAX_PROGRESS) * MAX_DEGREES
-        val left = centerX - radius
-        val top = centerY - radius
-        val right = centerX + radius
-        val bottom = centerY + radius
+//        sweepAngle = (progress / MAX_PROGRESS) * MAX_DEGREES
         canvas.drawArc(
-            left,
-            top,
-            right,
-            bottom,
+            centerX - radius,
+            centerY - radius,
+            centerX + radius,
+            centerY + radius,
             START_ANGLE_90,
             sweepAngle,
             false,
             progressPaint
         )
+        canvas.restore()
     }
 
     fun setProgressWithAnimation(
-        duration: Long,
+        duration: Long = DEFAULT_DURATION_5000_MS,
         fromProgress: Float = 0f,
-        toProgress: Float,
+        toProgress: Float = MAX_PROGRESS,
         doOnFinish: (() -> Unit)? = null
     ) {
         val endProgress = toProgress.coerceIn(0f, MAX_PROGRESS)
@@ -120,7 +135,7 @@ class CircularProgressBar @JvmOverloads constructor(
                 fraction = (elapsedTime.toFloat() / duration).coerceIn(0f, 1f)
                 val currentProgress = fromProgress + (endProgress - fromProgress) * fraction
 
-                progress = currentProgress
+                sweepAngle = (currentProgress / MAX_PROGRESS) * MAX_DEGREES
                 invalidate()
                 delay(refreshDelay)
             }
@@ -133,5 +148,7 @@ class CircularProgressBar @JvmOverloads constructor(
         const val MAX_PROGRESS = 100f
         const val MS_IN_SECOND = 1000
         const val START_ANGLE_90 = -90f
+        const val DEFAULT_DIAMETER_200 = 200f
+        const val DEFAULT_DURATION_5000_MS = 5000L
     }
 }
