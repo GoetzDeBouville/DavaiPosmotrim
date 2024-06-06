@@ -14,6 +14,7 @@ import com.davay.android.feature.roulette.presentation.carouselrecycler.Carousel
 import com.davay.android.feature.roulette.presentation.carouselrecycler.CarouselLayoutManager
 import com.davay.android.feature.roulette.presentation.carouselrecycler.LinearHorizontalSpacingDecoration
 import com.davay.android.feature.roulette.presentation.model.FilmRouletteModel
+import com.google.android.material.bottomsheet.BottomSheetBehavior
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlin.random.Random
@@ -23,6 +24,7 @@ class RouletteFragment :
 
     override val viewModel: RouletteViewModel by injectViewModel<RouletteViewModel>()
     private val carouselAdapter: CarouselAdapter = CarouselAdapter()
+    private val bottomSheetBehavior by lazy { BottomSheetBehavior.from(binding.bottomSheetRoulette) }
 
     override fun diComponent(): ScreenComponent =
         DaggerRouletteFragmentComponent.builder().appComponent(AppComponentHolder.getComponent())
@@ -30,6 +32,7 @@ class RouletteFragment :
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        bottomSheetBehavior.state = BottomSheetBehavior.STATE_EXPANDED
         initRecyclerRoulette()
     }
 
@@ -96,6 +99,7 @@ class RouletteFragment :
         lifecycleScope.launch {
             delay(3000)
             binding.recyclerViewRoulette.stopScroll()
+            hideBottomSheet()
             delay(1000)
             val position = Random
                 .nextInt(10) + 30 + (binding.recyclerViewRoulette.layoutManager as CarouselLayoutManager)
@@ -132,5 +136,10 @@ class RouletteFragment :
                 smoothScrollToPosition(position)
             }
         }
+    }
+
+    private fun hideBottomSheet() {
+        bottomSheetBehavior.isHideable = true
+        bottomSheetBehavior.state = BottomSheetBehavior.STATE_HIDDEN
     }
 }
