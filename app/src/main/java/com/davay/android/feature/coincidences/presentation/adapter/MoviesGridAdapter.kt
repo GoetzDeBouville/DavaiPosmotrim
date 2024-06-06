@@ -2,18 +2,24 @@ package com.davay.android.feature.coincidences.presentation.adapter
 
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.davai.uikit.databinding.MovieCardViewBinding
+import com.davay.android.feature.coincidences.presentation.TestMovie
 
-class MoviesGridAdapter(private val binding: MovieCardViewBinding) : RecyclerView.Adapter<MoviesGridViewHolder>() {
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MoviesGridViewHolder {
-        TODO("Not yet implemented")
+class MoviesGridAdapter(
+    private val onItemClicked: (Int) -> Unit,
+) : RecyclerView.Adapter<MoviesGridViewHolder>() {
+
+    private val movies = mutableListOf<TestMovie>()
+
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MoviesGridViewHolder =
+        MoviesGridViewHolder.create(parent)
+
+    override fun getItemCount(): Int = movies.size
+
+    override fun onBindViewHolder(holder: MoviesGridViewHolder, position: Int) = with(holder) {
+        bind(movies[position])
+        itemView.setOnClickListener {
+            onItemClicked(movies[position].id)
+        }
     }
 
-    override fun getItemCount(): Int {
-        TODO("Not yet implemented")
-    }
-
-    override fun onBindViewHolder(holder: MoviesGridViewHolder, position: Int) {
-        TODO("Not yet implemented")
-    }
 }

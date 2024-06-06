@@ -2,6 +2,7 @@ package com.davay.android.feature.coincidences.di
 
 import androidx.lifecycle.ViewModel
 import com.davay.android.di.ViewModelKey
+import com.davay.android.feature.coincidences.data.TestMovieRepository
 import com.davay.android.feature.coincidences.presentation.CoincidencesViewModel
 import dagger.Binds
 import dagger.Module
@@ -14,4 +15,5 @@ interface CoincidencesFragmentModule {
     @ViewModelKey(CoincidencesViewModel::class)
     @Binds
     fun bindVM(impl: CoincidencesViewModel): ViewModel
+
 }

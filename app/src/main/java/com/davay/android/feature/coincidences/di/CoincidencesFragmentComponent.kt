@@ -6,7 +6,10 @@ import dagger.Component
 
 @Component(
     dependencies = [AppComponent::class],
-    modules = [CoincidencesFragmentModule::class]
+    modules = [
+        CoincidencesFragmentModule::class,
+        CoincidencesDataModule::class
+    ]
 )
 interface CoincidencesFragmentComponent : ScreenComponent {
 

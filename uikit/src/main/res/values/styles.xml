@@ -125,4 +125,12 @@
     <style name="Text.Base.SplashItem">
         <item name="android:textSize">20sp</item>
     </style>
+
+    <style name="TabLayout" parent="Widget.Design.TabLayout">
+        <item name="tabBackground">@drawable/tabs_selector</item>
+        <item name="tabIndicator">@null</item>
+        <item name="android:background">@drawable/tab_layout_background</item>
+        <item name="tabTextColor">@color/text_caption_dark</item>
+        <item name="tabSelectedTextColor">@color/text_light</item>
+    </style>
 </resources>
