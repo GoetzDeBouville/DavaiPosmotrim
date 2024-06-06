@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.View
 import android.widget.Toast
 import androidx.core.content.ContextCompat
+import androidx.core.view.isVisible
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
@@ -12,6 +13,7 @@ import com.davay.android.app.AppComponentHolder
 import com.davay.android.base.BaseFragment
 import com.davay.android.databinding.FragmentCoincidencesBinding
 import com.davay.android.di.ScreenComponent
+import com.davay.android.feature.coincidences.ErrorType
 import com.davay.android.feature.coincidences.di.DaggerCoincidencesFragmentComponent
 import com.davay.android.feature.coincidences.presentation.adapter.MoviesGridAdapter
 import com.davay.android.feature.coincidences.presentation.adapter.MoviesGridDecoration
@@ -35,6 +37,7 @@ class CoincidencesFragment : BaseFragment<FragmentCoincidencesBinding, Coinciden
         super.onViewCreated(view, savedInstanceState)
         binding.toolbarView.addStatusBarSpacer()
         setupMoviesGrid()
+        observeState()
         getData()
     }
 
@@ -52,11 +55,35 @@ class CoincidencesFragment : BaseFragment<FragmentCoincidencesBinding, Coinciden
         viewLifecycleOwner.lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.uiState.collectLatest {
-                    when {
-                        it.isLoading ->
+                    when (it) {
+                        is UiState.Empty -> hideExclude(emptyMessage = true)
+                        is UiState.Loading -> hideExclude(progressBar = true)
+                        is UiState.Data -> {
+                            hideExclude(coincidencesList = true)
+                            moviesGridAdapter.setData(it.data)
+                        }
+                        is UiState.Error  ->  {
+                            hideExclude(error = true)
+                            when (it.errorType) {
+                                ErrorType.NO_INTERNET -> { }
+                                ErrorType.SERVER_ERROR -> { }
+                            }
+                        }
                     }
                 }
             }
         }
+    }
+
+    private fun hideExclude(
+        progressBar: Boolean = false,
+        error: Boolean  = false,
+        coincidencesList: Boolean   = false,
+        emptyMessage: Boolean= false
+    ) {
+        binding.progressBar.isVisible = progressBar
+//        binding.error.isVisible  = error
+        binding.coincidencesList.isVisible  = coincidencesList
+        binding.emptyPlaceholder.root.isVisible = emptyMessage
     }
 }

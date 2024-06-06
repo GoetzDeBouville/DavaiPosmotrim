@@ -2,8 +2,10 @@ package com.davay.android.feature.coincidences.presentation
 
 import com.davay.android.feature.coincidences.ErrorType
 
-data class UiState(
-    val isLoading: Boolean = false,
-    val error: ErrorType? = null,
-    val movies: List<TestMovie> = emptyList()
-)
+sealed class UiState {
+
+    data object Empty: UiState()
+    data object Loading : UiState()
+    data class Data(val data: List<TestMovie> = emptyList()) : UiState()
+    data class Error(val errorType: ErrorType) : UiState()
+}

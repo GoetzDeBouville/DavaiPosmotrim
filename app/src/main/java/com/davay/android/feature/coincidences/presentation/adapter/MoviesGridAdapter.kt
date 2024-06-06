@@ -1,6 +1,7 @@
 package com.davay.android.feature.coincidences.presentation.adapter
 
 import android.view.ViewGroup
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.davay.android.feature.coincidences.presentation.TestMovie
 
@@ -22,4 +23,11 @@ class MoviesGridAdapter(
         }
     }
 
+    fun setData(data: List<TestMovie>)  {
+        val callback = MoviesGridDiffCallback(oldItems = movies, newItems = data)
+        val diff = DiffUtil.calculateDiff(callback)
+        movies.clear()
+        movies.addAll(data)
+        diff.dispatchUpdatesTo(this)
+    }
 }
