@@ -5,7 +5,6 @@ import android.graphics.Canvas
 import android.graphics.Paint
 import android.hardware.display.DisplayManager
 import android.util.AttributeSet
-import android.util.Log
 import android.view.Display
 import android.view.View
 import androidx.core.content.ContextCompat
@@ -13,18 +12,16 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import kotlin.math.min
 
-class CircularProgressView @JvmOverloads constructor(
+class OvalProgressView @JvmOverloads constructor(
     context: Context,
     attrs: AttributeSet? = null,
     defStyleAttr: Int = 0
 ) : View(context, attrs, defStyleAttr) {
 
     private var progressColor: Int =
-        ContextCompat.getColor(context, android.R.color.holo_blue_light)
-    private var backgroundColor: Int = ContextCompat.getColor(context, android.R.color.darker_gray)
-    private var circleDiameter: Float = 0f
+        ContextCompat.getColor(context, android.R.color.holo_red_dark)
+    private var backgroundColor: Int = ContextCompat.getColor(context, android.R.color.transparent)
     private val refreshDelay: Long = getDisplayRefreshDelay()
     private var scaleX: Float = 1f
     private val backgroundPaint = Paint().apply {
@@ -62,17 +59,11 @@ class CircularProgressView @JvmOverloads constructor(
                     getColor(R.styleable.CustomCircularProgressBar_progressColor, progressColor)
                 backgroundColor =
                     getColor(R.styleable.CustomCircularProgressBar_backgroundColor, backgroundColor)
-                circleDiameter =
+                diameter =
                     getDimension(
                         R.styleable.CustomCircularProgressBar_circleDiameter,
                         DEFAULT_DIAMETER_200
                     )
-
-                diameter = if (circleDiameter > 0) {
-                    circleDiameter
-                } else {
-                    min(width.toFloat(), height.toFloat())
-                }
                 radius = diameter / 2
             } finally {
                 recycle()
@@ -101,10 +92,19 @@ class CircularProgressView @JvmOverloads constructor(
     override fun onDraw(canvas: Canvas) {
         super.onDraw(canvas)
         canvas.save()
-        canvas.scale(scaleX, 1f, centerX, centerY)
-        canvas.drawCircle(centerX, centerY, radius, backgroundPaint)
+        canvas.scale(
+            scaleX,
+            1f,
+            centerX,
+            centerY
+        )
+        canvas.drawCircle(
+            centerX,
+            centerY,
+            radius,
+            backgroundPaint
+        )
 
-//        sweepAngle = (progress / MAX_PROGRESS) * MAX_DEGREES
         canvas.drawArc(
             centerX - radius,
             centerY - radius,
