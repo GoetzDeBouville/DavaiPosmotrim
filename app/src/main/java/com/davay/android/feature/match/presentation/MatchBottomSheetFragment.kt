@@ -78,12 +78,6 @@ class MatchBottomSheetFragment : BottomSheetDialogFragment() {
         }
     }
 
-    private fun launchProgressButtonAnimation() {
-        binding.matchProgressBtn.opvProgress.setProgressWithAnimation {
-            dismiss()
-        }
-    }
-
     private fun buildBottomSheet() {
         dialog?.setOnShowListener { dialog ->
             val bottomSheet =
@@ -94,6 +88,12 @@ class MatchBottomSheetFragment : BottomSheetDialogFragment() {
             behavior.peekHeight = Resources.getSystem().displayMetrics.heightPixels
             bottomSheet.layoutParams.height = ViewGroup.LayoutParams.MATCH_PARENT
             launchProgressButtonAnimation()
+        }
+    }
+
+    private fun launchProgressButtonAnimation() {
+        binding.matchProgressBtn.opvProgress.setProgressWithAnimation {
+            dismiss()
         }
     }
 
