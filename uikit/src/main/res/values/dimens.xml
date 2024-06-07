@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <dimen name="card_radius_24">24dp</dimen>
     <dimen name="card_radius_16">16dp</dimen>
     <dimen name="card_radius_12">12dp</dimen>
     <dimen name="card_radius_18">18dp</dimen>
+    <dimen name="card_radius_24">24dp</dimen>
 
     <dimen name="drag_handle_height_8">8dp</dimen>
     <dimen name="static_view_height_36">36dp</dimen>
@@ -54,8 +54,6 @@
     <dimen name="drag_handle_height_6">6dp</dimen>
     <dimen name="drag_handle_margin_top_12">12dp</dimen>
     <dimen name="drag_handle_radius_5">5dp</dimen>
-
-    <dimen name="change_name_input_margin">136dp</dimen>
 
     <dimen name="gradient_rotation_angle_180">180</dimen>
     <dimen name="gradient_rotation_angle_270">270</dimen>
