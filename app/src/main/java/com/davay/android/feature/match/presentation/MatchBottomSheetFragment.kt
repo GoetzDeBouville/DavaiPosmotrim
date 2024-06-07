@@ -70,7 +70,6 @@ class MatchBottomSheetFragment : BottomSheetDialogFragment() {
     private fun initViews() {
         buildBottomSheet()
         hideUnusedItems()
-        setUpProgressButton()
     }
 
     private fun subscribe() {
@@ -79,7 +78,7 @@ class MatchBottomSheetFragment : BottomSheetDialogFragment() {
         }
     }
 
-    private fun setUpProgressButton() {
+    private fun launchProgressButtonAnimation() {
         binding.matchProgressBtn.opvProgress.setProgressWithAnimation {
             dismiss()
         }
@@ -94,6 +93,7 @@ class MatchBottomSheetFragment : BottomSheetDialogFragment() {
             behavior.state = BottomSheetBehavior.STATE_EXPANDED
             behavior.peekHeight = Resources.getSystem().displayMetrics.heightPixels
             bottomSheet.layoutParams.height = ViewGroup.LayoutParams.MATCH_PARENT
+            launchProgressButtonAnimation()
         }
     }
 
