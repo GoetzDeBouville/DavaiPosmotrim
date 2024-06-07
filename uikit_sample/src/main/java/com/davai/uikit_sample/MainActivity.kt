@@ -5,11 +5,13 @@ import android.os.Bundle
 import android.view.View
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
+import com.davai.uikit.MainDialogFragment
 import com.davai.uikit.extensions.applyBlurEffect
 import com.davai.uikit_sample.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
     private val binding: ActivityMainBinding by lazy { ActivityMainBinding.inflate(layoutInflater) }
+    private var dialog: MainDialogFragment? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -59,8 +61,17 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun showCustomDialog() {
-        val customDialog = CustomDialog()
-        customDialog.show(supportFragmentManager, "CustomDialog")
+        dialog = MainDialogFragment.newInstance(
+            title = getString(R.string.dialog_title),
+            message = getString(R.string.dialog_message),
+            yesAction = {
+                dialog?.dismiss()
+            },
+            noAction = {
+                dialog?.dismiss()
+            }
+        )
+        dialog?.show(supportFragmentManager, "CustomDialog")
     }
 }
 

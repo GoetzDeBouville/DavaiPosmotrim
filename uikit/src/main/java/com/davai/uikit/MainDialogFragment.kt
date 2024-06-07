@@ -1,4 +1,4 @@
-package com.davai.uikit_sample
+package com.davai.uikit
 
 import android.content.DialogInterface
 import android.os.Bundle
@@ -11,10 +11,10 @@ import androidx.fragment.app.DialogFragment
 import com.davai.uikit.extensions.applyBlurEffect
 import com.davai.uikit.extensions.clearBlurEffect
 
-class CustomDialog : DialogFragment() {
+class MainDialogFragment : DialogFragment() {
 
-    private var title: String? = "Заголовок диалога"
-    private var message: String? = "Текст диалога"
+    private var title: String? = null
+    private var message: String? = null
     private var yesAction: (() -> Unit)? = null
     private var noAction: (() -> Unit)? = null
 
@@ -23,14 +23,14 @@ class CustomDialog : DialogFragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        dialog?.window?.setBackgroundDrawableResource(com.davai.uikit.R.drawable.session_card_background)
-        val view = inflater.inflate(com.davai.uikit.R.layout.layout_custom_dialog, container, false)
+        dialog?.window?.setBackgroundDrawableResource(R.drawable.session_card_background)
+        val view = inflater.inflate(R.layout.layout_custom_dialog, container, false)
         activity?.window?.decorView?.applyBlurEffect()
 
-        val titleTextView = view.findViewById<TextView>(com.davai.uikit.R.id.tv_dialog_title)
-        val messageTextView = view.findViewById<TextView>(com.davai.uikit.R.id.tv_dialog_message)
-        val btnYes = view.findViewById<Button>(com.davai.uikit.R.id.btn_yes)
-        val btnNo = view.findViewById<Button>(com.davai.uikit.R.id.btn_no)
+        val titleTextView = view.findViewById<TextView>(R.id.tv_dialog_title)
+        val messageTextView = view.findViewById<TextView>(R.id.tv_dialog_message)
+        val btnYes = view.findViewById<Button>(R.id.btn_yes)
+        val btnNo = view.findViewById<Button>(R.id.btn_no)
 
         titleTextView.text = title
         messageTextView.text = message
@@ -75,8 +75,8 @@ class CustomDialog : DialogFragment() {
             message: String,
             yesAction: (() -> Unit)? = null,
             noAction: (() -> Unit)? = null
-        ): CustomDialog {
-            val dialog = CustomDialog()
+        ): MainDialogFragment {
+            val dialog = MainDialogFragment()
             dialog.title = title
             dialog.message = message
             dialog.yesAction = yesAction

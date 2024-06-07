@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.View
 import androidx.activity.OnBackPressedCallback
 import com.davai.extensions.dpToPx
+import com.davai.uikit.MainDialogFragment
 import com.davay.android.R
 import com.davay.android.app.AppComponentHolder
 import com.davay.android.base.BaseFragment
@@ -12,7 +13,6 @@ import com.davay.android.di.ScreenComponent
 import com.davay.android.feature.sessionlist.di.DaggerSessionListFragmentComponent
 import com.davay.android.feature.sessionlist.presentation.adapter.CustomItemDecorator
 import com.davay.android.feature.sessionlist.presentation.adapter.UserAdapter
-import com.davay.android.utils.CustomDialog
 import com.google.android.flexbox.AlignItems
 import com.google.android.flexbox.FlexDirection
 import com.google.android.flexbox.FlexWrap
@@ -25,7 +25,7 @@ class SessionListFragment : BaseFragment<FragmentSessionListBinding, SessionList
     override val viewModel: SessionListViewModel by injectViewModel<SessionListViewModel>()
     private val userAdapter = UserAdapter()
     private var etCode: String? = null
-    private var dialog: CustomDialog? = null
+    private var dialog: MainDialogFragment? = null
 
     override fun diComponent(): ScreenComponent = DaggerSessionListFragmentComponent.builder()
         .appComponent(AppComponentHolder.getComponent())
@@ -51,7 +51,7 @@ class SessionListFragment : BaseFragment<FragmentSessionListBinding, SessionList
         initViews()
         subscribe()
 
-        dialog = CustomDialog.newInstance(
+        dialog = MainDialogFragment.newInstance(
             title = getString(R.string.leave_session_title),
             message = getString(R.string.leave_session_dialog_message),
             yesAction = {
