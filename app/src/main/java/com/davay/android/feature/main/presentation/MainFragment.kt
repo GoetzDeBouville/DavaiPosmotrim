@@ -44,7 +44,7 @@ class MainFragment :
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.createSession.setOnClickListener {
-            Toast.makeText(requireContext(), "Create Session", Toast.LENGTH_SHORT).show()
+            createSession()
         }
         binding.favorite.setOnClickListener {
             Toast.makeText(requireContext(), "Favorite", Toast.LENGTH_SHORT).show()
@@ -77,4 +77,7 @@ class MainFragment :
         bottomSheetFragment.show(parentFragmentManager, "tag")
     }
 
+    private fun createSession() {
+        viewModel.navigate(R.id.action_mainFragment_to_createSessionFragment)
+    }
 }
