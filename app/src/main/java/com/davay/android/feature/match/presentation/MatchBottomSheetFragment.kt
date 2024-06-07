@@ -8,7 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.FrameLayout
 import com.davay.android.databinding.FragmentMatchBottomSheetBinding
-import com.davay.android.feature.selectmovie.MovieDetailsDemo
+import com.davay.android.feature.selectmovie.domain.models.MovieDetailsDemo
 import com.davay.android.utils.MovieDetailsHelper
 import com.davay.android.utils.MovieDetailsHelperImpl
 import com.google.android.material.bottomsheet.BottomSheetBehavior
@@ -99,7 +99,7 @@ class MatchBottomSheetFragment : BottomSheetDialogFragment() {
 
     private fun hideUnusedItems() {
         binding.matchMovieCard.apply {
-            listOf(ivLike, ivSkip, ivRevert).forEach {
+            listOf(civLike, civSkip, civRevert).forEach {
                 it.visibility = View.GONE
             }
         }

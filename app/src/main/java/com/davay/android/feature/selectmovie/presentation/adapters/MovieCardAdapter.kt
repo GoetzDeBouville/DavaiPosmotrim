@@ -1,11 +1,10 @@
-package com.davay.android.feature.selectmovie.adapters
+package com.davay.android.feature.selectmovie.presentation.adapters
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.davay.android.databinding.ItemSwipeableMovieCardBinding
 import com.davay.android.feature.selectmovie.domain.models.MovieDetailsDemo
-import com.davay.android.feature.selectmovie.MovieDetailsDemo
 import com.davay.android.utils.MovieDetailsHelper
 import com.davay.android.utils.MovieDetailsHelperImpl
 
@@ -38,16 +37,21 @@ class MovieCardAdapter(
             )
         }
 
+        fun updateSwipeTransition(dx: Float) = with(binding) {
+            civLike.updateDynamicAlphaPositive(dx)
+            civSkip.updateDynamicAlphaNegative(dx)
+        }
+
         private fun onItemsClicklisteners() = with(binding) {
-            ivLike.setOnClickListener {
+            civLike.setOnClickListener {
                 swipeRight.invoke()
                 notifyDataSetChanged()
             }
-            ivSkip.setOnClickListener {
+            civSkip.setOnClickListener {
                 swipeLeft.invoke()
                 notifyDataSetChanged()
             }
-            ivRevert.setOnClickListener {
+            civRevert.setOnClickListener {
                 revert.invoke()
                 notifyDataSetChanged()
             }

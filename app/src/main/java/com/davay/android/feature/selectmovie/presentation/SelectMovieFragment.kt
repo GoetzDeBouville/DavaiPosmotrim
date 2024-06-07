@@ -14,10 +14,6 @@ import com.davay.android.di.ScreenComponent
 import com.davay.android.extensions.SwipeDirection
 import com.davay.android.extensions.dpToPx
 import com.davay.android.feature.match.presentation.MatchBottomSheetFragment
-import com.davay.android.feature.selectmovie.MovieDetailsDemo
-import com.davay.android.feature.selectmovie.adapters.MovieCardAdapter
-import com.davay.android.feature.selectmovie.adapters.SwipeCallback
-import com.davay.android.feature.selectmovie.adapters.SwipeableLayoutManager
 import com.davay.android.feature.selectmovie.di.DaggerSelectMovieFragmentComponent
 import com.davay.android.feature.selectmovie.domain.models.MovieDetailsDemo
 import com.davay.android.feature.selectmovie.presentation.adapters.MovieCardAdapter
