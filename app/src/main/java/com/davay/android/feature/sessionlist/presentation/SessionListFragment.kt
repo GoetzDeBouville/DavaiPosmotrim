@@ -2,6 +2,7 @@ package com.davay.android.feature.sessionlist.presentation
 
 import android.os.Bundle
 import android.view.View
+import androidx.activity.OnBackPressedCallback
 import com.davai.extensions.dpToPx
 import com.davay.android.R
 import com.davay.android.app.AppComponentHolder
@@ -24,6 +25,7 @@ class SessionListFragment : BaseFragment<FragmentSessionListBinding, SessionList
     override val viewModel: SessionListViewModel by injectViewModel<SessionListViewModel>()
     private val userAdapter = UserAdapter()
     private var etCode: String? = null
+    private var dialog: CustomDialog? = null
 
     override fun diComponent(): ScreenComponent = DaggerSessionListFragmentComponent.builder()
         .appComponent(AppComponentHolder.getComponent())
@@ -34,12 +36,28 @@ class SessionListFragment : BaseFragment<FragmentSessionListBinding, SessionList
         arguments?.let {
             etCode = it.getString("ET_CODE_KEY")
         }
+        requireActivity().onBackPressedDispatcher.addCallback(
+            this,
+            object : OnBackPressedCallback(true) {
+                override fun handleOnBackPressed() {
+                    dialog?.show(parentFragmentManager, CUSTOM_DIALOG_TAG)
+                }
+            }
+        )
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initViews()
         subscribe()
+
+        dialog = CustomDialog.newInstance(
+            title = getString(R.string.leave_session_title),
+            message = getString(R.string.leave_session_dialog_message),
+            yesAction = {
+                viewModel.navigate(R.id.action_sessionListFragment_to_mainFragment)
+            }
+        )
     }
 
     private fun initViews() {
@@ -76,22 +94,12 @@ class SessionListFragment : BaseFragment<FragmentSessionListBinding, SessionList
 
     private fun setButtonClickListeners() {
         binding.btnExit.setOnClickListener {
-            val dialog = CustomDialog.newInstance(
-                title = getString(R.string.leave_session_title),
-                message = getString(R.string.leave_session_dialog_message),
-                yesAction = {
-                    viewModel.navigate(R.id.action_sessionListFragment_to_mainFragment)
-                },
-                noAction = {
-                }
-            )
-            dialog.show(parentFragmentManager, "customDialog")
-
-
+            dialog?.show(parentFragmentManager, CUSTOM_DIALOG_TAG)
         }
     }
 
     companion object {
         private const val SPACING_BETWEEN_RV_ITEMS_8_DP = 8
+        private const val CUSTOM_DIALOG_TAG = "customDialog"
     }
 }
