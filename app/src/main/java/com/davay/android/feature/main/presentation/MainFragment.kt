@@ -14,7 +14,7 @@ import com.davay.android.app.AppComponentHolder
 import com.davay.android.base.BaseFragment
 import com.davay.android.databinding.FragmentMainBinding
 import com.davay.android.di.ScreenComponent
-import com.davay.android.feature.changename.presentation.ChangeNameFragment
+import com.davay.android.feature.changename.presentation.ChangeNameBottomSheetFragment
 import com.davay.android.feature.main.di.DaggerMainFragmentComponent
 
 class MainFragment :
@@ -53,9 +53,19 @@ class MainFragment :
             joinSession()
         }
         binding.editUserName.setOnClickListener {
-            changeName("Артём")
+            val currentName = binding.userName.text.toString()
+            changeName(currentName)
         }
         updateMarginLogo()
+        parentFragmentManager.setFragmentResultListener(
+            ChangeNameBottomSheetFragment.REQUEST_KEY,
+            viewLifecycleOwner
+        ) { requestKey, bundle ->
+            if (requestKey == ChangeNameBottomSheetFragment.REQUEST_KEY) {
+                val changedName = bundle.getString(ChangeNameBottomSheetFragment.BUNDLE_KEY_NAME)
+                updateUserName(changedName)
+            }
+        }
     }
 
     private fun updateMarginLogo() {
@@ -73,11 +83,17 @@ class MainFragment :
     }
 
     private fun changeName(oldName: String) {
-        val bottomSheetFragment = ChangeNameFragment.newInstance(oldName)
+        val bottomSheetFragment = ChangeNameBottomSheetFragment.newInstance(oldName)
         bottomSheetFragment.show(parentFragmentManager, "tag")
     }
 
     private fun createSession() {
         viewModel.navigate(R.id.action_mainFragment_to_createSessionFragment)
+    }
+
+    private fun updateUserName(newName: String?) {
+        if (newName != null) {
+            binding.userName.text = newName
+        }
     }
 }
