@@ -9,7 +9,6 @@
     <dimen name="static_view_height_36">36dp</dimen>
     <dimen name="small_icon_size_40">40dp</dimen>
     <dimen name="button_height_48">48dp</dimen>
-    <dimen name="drag_handle_width_48">48dp</dimen>
     <dimen name="default_icon_size_52">52dp</dimen>
     <dimen name="toolbar_height_64">64dp</dimen>
     <dimen name="top_gradient_height_80">80dp</dimen>
