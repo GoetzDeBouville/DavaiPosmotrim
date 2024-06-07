@@ -4,6 +4,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.davay.android.databinding.ItemSwipeableMovieCardBinding
+import com.davay.android.feature.selectmovie.domain.models.MovieDetailsDemo
 import com.davay.android.feature.selectmovie.MovieDetailsDemo
 import com.davay.android.utils.MovieDetailsHelper
 import com.davay.android.utils.MovieDetailsHelperImpl
@@ -82,12 +83,5 @@ class MovieCardAdapter(
         datalist.clear()
         datalist.addAll(list)
         notifyItemChanged(0)
-    }
-
-    private companion object {
-        const val GOOD_RATE_7 = 7.0f
-        const val DOT_DELIMETER = " ∙ "
-        const val MULTIPOINT = "..."
-        const val MAX_COUNTRY_NUMBER = 3
     }
 }
