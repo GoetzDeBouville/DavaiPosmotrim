@@ -1,17 +1,12 @@
 package com.davay.android.feature.selectmovie.adapters
 
-import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import coil.load
-import coil.size.Scale
-import coil.transform.RoundedCornersTransformation
-import com.davay.android.R
 import com.davay.android.databinding.ItemSwipeableMovieCardBinding
-import com.davay.android.extensions.formatMovieDuration
 import com.davay.android.feature.selectmovie.MovieDetailsDemo
+import com.davay.android.utils.MovieDetailsHelper
+import com.davay.android.utils.MovieDetailsHelperImpl
 
 class MovieCardAdapter(
     private val swipeLeft: () -> Unit,
@@ -26,43 +21,20 @@ class MovieCardAdapter(
         private val revert: () -> Unit,
         private val inflateMovieDetails: (MovieDetailsDemo) -> Unit
     ) : RecyclerView.ViewHolder(binding.root) {
+        private val movieDetailsHelper: MovieDetailsHelper = MovieDetailsHelperImpl()
+
         fun bind(data: MovieDetailsDemo) = with(binding) {
             inflateMovieDetails.invoke(data)
-            bindImage(data)
-            addGenreList(data.genres)
-            setRateText(data.ratingKinopoisk)
+            movieDetailsHelper.setImage(ivSelectMovieCover, data.posterUrl)
+            movieDetailsHelper.addGenreList(fblGenreList, data.genres, root.context)
+            movieDetailsHelper.setRateText(tvMarkValue, data.ratingKinopoisk, root.context)
             onItemsClicklisteners()
             tvFilmTitle.text = data.movieName
             tvOriginalTitle.text = data.alternativeName ?: data.englishName ?: ""
-            tvYearCountryRuntime.text = buildStringYearCountriesRuntime(
+            tvYearCountryRuntime.text = movieDetailsHelper.buildStringYearCountriesRuntime(
                 data,
                 binding.root.context
             )
-        }
-
-        private fun bindImage(data: MovieDetailsDemo) {
-            binding.ivSelectMovieCover.load(data.posterUrl) {
-                placeholder(com.davai.uikit.R.drawable.placeholder_general_80)
-                    .scale(Scale.FIT)
-                error(R.drawable.ic_movie_selection_error_332)
-                    .scale(Scale.FIT)
-                transformations(RoundedCornersTransformation())
-                    .crossfade(true)
-            }
-        }
-
-        private fun setRateText(ratingKinopoisk: Float?) = with(binding) {
-            ratingKinopoisk?.let {
-                val textColor = if (it >= GOOD_RATE_7) {
-                    root.context.getColor(com.davai.uikit.R.color.done)
-                } else {
-                    root.context.getColor(com.davai.uikit.R.color.attention)
-                }
-                tvMarkValue.apply {
-                    text = it.toString()
-                    setTextColor(textColor)
-                }
-            }
         }
 
         private fun onItemsClicklisteners() = with(binding) {
@@ -77,46 +49,6 @@ class MovieCardAdapter(
             ivRevert.setOnClickListener {
                 revert.invoke()
                 notifyDataSetChanged()
-            }
-        }
-
-        private fun buildStringYearCountriesRuntime(
-            data: MovieDetailsDemo,
-            context: Context
-        ): String {
-            with(data) {
-                val str = StringBuilder()
-                year?.let {
-                    str.append(it)
-                    str.append(DOT_DELIMETER)
-                }
-                if (countries.isNotEmpty()) {
-                    val countryList = countries.take(MAX_COUNTRY_NUMBER)
-                    val countriesString = countryList.joinToString(separator = DOT_DELIMETER)
-                    str.append(countriesString)
-                    if (countries.size > MAX_COUNTRY_NUMBER) {
-                        str.append(MULTIPOINT)
-                    }
-                }
-                movieLengthMin?.let {
-                    str.append(DOT_DELIMETER)
-                    str.append(movieLengthMin.formatMovieDuration(context))
-                }
-                return str.toString()
-            }
-        }
-
-        private fun addGenreList(genres: List<String>) = with(binding) {
-            fblGenreList.removeAllViews()
-            genres.forEach {
-                val genreView = LayoutInflater.from(root.context)
-                    .inflate(
-                        R.layout.item_genre,
-                        fblGenreList,
-                        false
-                    ) as TextView
-                genreView.text = it
-                fblGenreList.addView(genreView)
             }
         }
     }
