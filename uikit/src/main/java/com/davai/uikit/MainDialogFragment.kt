@@ -29,22 +29,33 @@ class MainDialogFragment : DialogFragment() {
         _binding = LayoutCustomDialogBinding.inflate(inflater, container, false)
         activity?.window?.decorView?.applyBlurEffect()
 
-        binding.tvDialogTitle.text = title
-        binding.tvDialogMessage.text = message
-
-        binding.btnYes.setOnClickListener {
-            yesAction?.invoke()
-            dialog?.dismiss()
-            activity?.window?.decorView?.clearBlurEffect()
-        }
-
-        binding.btnNo.setOnClickListener {
-            noAction?.invoke()
-            dialog?.dismiss()
-            activity?.window?.decorView?.clearBlurEffect()
-        }
+        initViews()
+        subscribe()
 
         return binding.root
+    }
+
+    private fun initViews() {
+        with(binding) {
+            tvDialogTitle.text = title
+            tvDialogMessage.text = message
+        }
+    }
+
+    private fun subscribe() {
+        with(binding) {
+            btnYes.setOnClickListener {
+                yesAction?.invoke()
+                dialog?.dismiss()
+                activity?.window?.decorView?.clearBlurEffect()
+            }
+
+            btnNo.setOnClickListener {
+                noAction?.invoke()
+                dialog?.dismiss()
+                activity?.window?.decorView?.clearBlurEffect()
+            }
+        }
     }
 
     override fun onStart() {

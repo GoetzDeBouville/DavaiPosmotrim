@@ -34,7 +34,7 @@ class SessionListFragment : BaseFragment<FragmentSessionListBinding, SessionList
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
-            etCode = it.getString("ET_CODE_KEY")
+            etCode = it.getString(ET_CODE_KEY)
         }
         requireActivity().onBackPressedDispatcher.addCallback(
             this,
@@ -101,5 +101,6 @@ class SessionListFragment : BaseFragment<FragmentSessionListBinding, SessionList
     companion object {
         private const val SPACING_BETWEEN_RV_ITEMS_8_DP = 8
         private const val CUSTOM_DIALOG_TAG = "customDialog"
+        private const val ET_CODE_KEY = "ET_CODE_KEY"
     }
 }
