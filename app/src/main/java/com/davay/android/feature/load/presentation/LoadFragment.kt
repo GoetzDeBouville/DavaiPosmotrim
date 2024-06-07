@@ -56,12 +56,5 @@ class LoadFragment : BaseFragment<FragmentLoadBinding, LoadViewModel>(
         binding.btnToSplash.setOnClickListener {
             viewModel.navigate(R.id.action_loadFragment_to_splashFragment)
         }
-        initVIews()
-    }
-
-    private fun initVIews() = with(binding) {
-        circleProgress.setProgressWithAnimation(5000L, toProgress = 100f) {
-            Toast.makeText(requireContext(), "Finished", Toast.LENGTH_SHORT).show()
-        }
     }
 }

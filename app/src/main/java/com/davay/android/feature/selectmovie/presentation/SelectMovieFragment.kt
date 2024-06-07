@@ -12,6 +12,7 @@ import com.davay.android.base.BaseFragment
 import com.davay.android.databinding.FragmentSelectMovieBinding
 import com.davay.android.di.ScreenComponent
 import com.davay.android.extensions.dpToPx
+import com.davay.android.feature.match.presentation.MatchBottomSheetFragment
 import com.davay.android.feature.selectmovie.MovieDetailsDemo
 import com.davay.android.feature.selectmovie.adapters.MovieCardAdapter
 import com.davay.android.feature.selectmovie.adapters.SwipeCallback
@@ -40,6 +41,7 @@ class SelectMovieFragment :
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initViews()
+        subscribe()
         binding.rvFilmCard.post {
             if (binding.rvFilmCard.adapter == null) {
                 Log.e("SelectMovieFragment", "RecyclerView adapter is not attached after setting!")
@@ -53,6 +55,12 @@ class SelectMovieFragment :
         buildRecyclerView()
         setToolbar()
         setBottomSheet()
+    }
+
+    private fun subscribe() {
+        binding.toolbarviewHeader.setEndIconClickListener {
+            showBottomSheetFragment(mockMovies[0])
+        }
     }
 
     private fun buildRecyclerView() {
@@ -163,6 +171,16 @@ class SelectMovieFragment :
             castView.text = it
             fbl.addView(castView)
         }
+    }
+
+//    private fun showMatchBottomSheet(movie: MovieDetailsDemo) {
+//        val bottomSheetFragment = MatchBottomSheetFragment.newInstance(movie)
+//        bottomSheetFragment.show(parentFragmentManager, bottomSheetFragment.tag)
+//    }
+
+    private fun showBottomSheetFragment(movie: MovieDetailsDemo) {
+        val bottomSheetFragment = MatchBottomSheetFragment(movie)
+        MatchBottomSheetFragment(movie).show(parentFragmentManager, bottomSheetFragment.tag)
     }
 
     private companion object {

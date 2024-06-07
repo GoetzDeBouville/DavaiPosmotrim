@@ -19,7 +19,7 @@ import com.davay.android.di.ScreenComponent
 import com.davay.android.feature.onboarding.presentation.OnboardingFragment
 import com.davay.android.feature.splash.di.DaggerSplashFragmentComponent
 import com.davay.android.feature.splash.viewmodel.SplashViewModel
-import com.davay.android.utils.setSplashTextViewStyle
+import com.davay.android.extensions.setSplashTextViewStyle
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
