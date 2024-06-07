@@ -10,6 +10,7 @@ import coil.size.Scale
 import coil.transform.RoundedCornersTransformation
 import com.davay.android.R
 import com.davay.android.databinding.ItemSwipeableMovieCardBinding
+import com.davay.android.extensions.formatMovieDuration
 import com.davay.android.feature.selectmovie.MovieDetailsDemo
 
 class MovieCardAdapter(
@@ -99,25 +100,9 @@ class MovieCardAdapter(
                 }
                 movieLengthMin?.let {
                     str.append(DOT_DELIMETER)
-                    str.append(formatMovieDuration(movieLengthMin, context))
+                    str.append(movieLengthMin.formatMovieDuration(context))
                 }
                 return str.toString()
-            }
-        }
-
-        private fun formatMovieDuration(minutes: Int, context: Context): String {
-            val hours = minutes / MINUTES_NUMBER_IN_HOUR
-            val remainingMinutes = minutes % MINUTES_NUMBER_IN_HOUR
-
-            return when {
-                hours > 0 && remainingMinutes > 0 -> context.getString(
-                    R.string.select_movies_hours_and_minutes,
-                    hours,
-                    remainingMinutes
-                )
-
-                hours > 0 -> context.getString(R.string.select_movies_hours, hours)
-                else -> context.getString(R.string.select_movies_minutes, remainingMinutes)
             }
         }
 
@@ -172,6 +157,5 @@ class MovieCardAdapter(
         const val DOT_DELIMETER = " ∙ "
         const val MULTIPOINT = "..."
         const val MAX_COUNTRY_NUMBER = 3
-        const val MINUTES_NUMBER_IN_HOUR = 60
     }
 }
