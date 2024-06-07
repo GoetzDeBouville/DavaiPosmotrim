@@ -135,7 +135,7 @@ class OvalProgressView @JvmOverloads constructor(
                 fraction = (elapsedTime.toFloat() / duration).coerceIn(0f, 1f)
                 val currentProgress = fromProgress + (endProgress - fromProgress) * fraction
 
-                sweepAngle = (currentProgress / MAX_PROGRESS) * MAX_DEGREES
+                sweepAngle = currentProgress * MAX_DEGREES / MAX_PROGRESS
                 invalidate()
                 delay(refreshDelay)
             }

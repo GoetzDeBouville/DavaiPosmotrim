@@ -16,10 +16,10 @@ import com.davay.android.app.AppComponentHolder
 import com.davay.android.base.BaseFragment
 import com.davay.android.databinding.FragmentSplashBinding
 import com.davay.android.di.ScreenComponent
+import com.davay.android.extensions.setSplashTextViewStyle
 import com.davay.android.feature.onboarding.presentation.OnboardingFragment
 import com.davay.android.feature.splash.di.DaggerSplashFragmentComponent
 import com.davay.android.feature.splash.viewmodel.SplashViewModel
-import com.davay.android.extensions.setSplashTextViewStyle
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 

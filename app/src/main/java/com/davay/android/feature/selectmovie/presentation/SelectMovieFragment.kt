@@ -20,6 +20,7 @@ import com.davay.android.feature.selectmovie.adapters.SwipeableLayoutManager
 import com.davay.android.feature.selectmovie.di.DaggerSelectMovieFragmentComponent
 import com.google.android.flexbox.FlexboxLayout
 import com.google.android.material.bottomsheet.BottomSheetBehavior
+import com.google.gson.Gson
 
 class SelectMovieFragment :
     BaseFragment<FragmentSelectMovieBinding, SelectMovieViewModel>(FragmentSelectMovieBinding::inflate) {
@@ -173,14 +174,10 @@ class SelectMovieFragment :
         }
     }
 
-//    private fun showMatchBottomSheet(movie: MovieDetailsDemo) {
-//        val bottomSheetFragment = MatchBottomSheetFragment.newInstance(movie)
-//        bottomSheetFragment.show(parentFragmentManager, bottomSheetFragment.tag)
-//    }
-
     private fun showBottomSheetFragment(movie: MovieDetailsDemo) {
-        val bottomSheetFragment = MatchBottomSheetFragment(movie)
-        MatchBottomSheetFragment(movie).show(parentFragmentManager, bottomSheetFragment.tag)
+        val movieDetails = Gson().toJson(movie)
+        val bottomSheetFragment = MatchBottomSheetFragment.newInstance(movieDetails)
+        bottomSheetFragment.show(parentFragmentManager, bottomSheetFragment.tag)
     }
 
     private companion object {

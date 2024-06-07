@@ -7,7 +7,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.FrameLayout
-import android.widget.Toast
 import com.davay.android.databinding.FragmentMatchBottomSheetBinding
 import com.davay.android.feature.selectmovie.MovieDetailsDemo
 import com.davay.android.utils.MovieDetailsHelper
@@ -15,15 +14,22 @@ import com.davay.android.utils.MovieDetailsHelperImpl
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
+import com.google.gson.Gson
 
-class MatchBottomSheetFragment(
-    private val movieDetails: MovieDetailsDemo
-) : BottomSheetDialogFragment() {
+class MatchBottomSheetFragment : BottomSheetDialogFragment() {
     private var _binding: FragmentMatchBottomSheetBinding? = null
     private val binding: FragmentMatchBottomSheetBinding
         get() = _binding!!
 
     private val movieDetailsHelper: MovieDetailsHelper = MovieDetailsHelperImpl()
+    private var movieDetails: MovieDetailsDemo? = null
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        arguments?.let {
+            movieDetails =
+                Gson().fromJson(it.getString(ARG_MOVIE_DETAILS), MovieDetailsDemo::class.java)
+        }
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -48,8 +54,8 @@ class MatchBottomSheetFragment(
             override fun onCreate(savedInstanceState: Bundle?) {
                 super.onCreate(savedInstanceState)
                 val bottomSheet =
-                    findViewById<View>(com.google.android.material.R.id.design_bottom_sheet) as FrameLayout?
-                bottomSheet?.layoutParams?.height = ViewGroup.LayoutParams.MATCH_PARENT
+                    findViewById<View>(com.google.android.material.R.id.design_bottom_sheet) as FrameLayout
+                bottomSheet.layoutParams?.height = ViewGroup.LayoutParams.MATCH_PARENT
             }
         }
     }
@@ -57,22 +63,24 @@ class MatchBottomSheetFragment(
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initViews()
-        fillData(movieDetails)
+        subscribe()
+        movieDetails?.let { fillData(movieDetails!!) }
     }
-
 
     private fun initViews() {
         buildBottomSheet()
         hideUnusedItems()
-        binding.matchProgressBtn.opvProgress.setProgressWithAnimation {
-            Toast.makeText(requireContext(), "Finished", Toast.LENGTH_SHORT).show()
-            dismiss()
-        }
+        setUpProgressButton()
     }
 
     private fun subscribe() {
         binding.matchProgressBtn.root.setOnClickListener {
-            Toast.makeText(requireContext(), "Clicked", Toast.LENGTH_SHORT).show()
+            dismiss()
+        }
+    }
+
+    private fun setUpProgressButton() {
+        binding.matchProgressBtn.opvProgress.setProgressWithAnimation {
             dismiss()
         }
     }
@@ -106,6 +114,19 @@ class MatchBottomSheetFragment(
             tvYearCountryRuntime.text =
                 movieDetailsHelper.buildStringYearCountriesRuntime(data, requireContext())
             movieDetailsHelper.setRateText(tvMarkValue, data.ratingKinopoisk, requireContext())
+        }
+    }
+
+    companion object {
+        private const val ARG_MOVIE_DETAILS = "movie_details"
+
+        fun newInstance(movieDetails: String): MatchBottomSheetFragment {
+            val fragment = MatchBottomSheetFragment()
+            val args = Bundle().apply {
+                putString(ARG_MOVIE_DETAILS, movieDetails)
+            }
+            fragment.arguments = args
+            return fragment
         }
     }
 }
