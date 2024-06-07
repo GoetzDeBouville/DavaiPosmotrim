@@ -5,9 +5,8 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
-import android.widget.TextView
 import androidx.fragment.app.DialogFragment
+import com.davai.uikit.databinding.LayoutCustomDialogBinding
 import com.davai.uikit.extensions.applyBlurEffect
 import com.davai.uikit.extensions.clearBlurEffect
 
@@ -18,36 +17,34 @@ class MainDialogFragment : DialogFragment() {
     private var yesAction: (() -> Unit)? = null
     private var noAction: (() -> Unit)? = null
 
+    private var _binding: LayoutCustomDialogBinding? = null
+    private val binding get() = _binding!!
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         dialog?.window?.setBackgroundDrawableResource(R.drawable.session_card_background)
-        val view = inflater.inflate(R.layout.layout_custom_dialog, container, false)
+        _binding = LayoutCustomDialogBinding.inflate(inflater, container, false)
         activity?.window?.decorView?.applyBlurEffect()
 
-        val titleTextView = view.findViewById<TextView>(R.id.tv_dialog_title)
-        val messageTextView = view.findViewById<TextView>(R.id.tv_dialog_message)
-        val btnYes = view.findViewById<Button>(R.id.btn_yes)
-        val btnNo = view.findViewById<Button>(R.id.btn_no)
+        binding.tvDialogTitle.text = title
+        binding.tvDialogMessage.text = message
 
-        titleTextView.text = title
-        messageTextView.text = message
-
-        btnYes.setOnClickListener {
+        binding.btnYes.setOnClickListener {
             yesAction?.invoke()
             dialog?.dismiss()
             activity?.window?.decorView?.clearBlurEffect()
         }
 
-        btnNo.setOnClickListener {
+        binding.btnNo.setOnClickListener {
             noAction?.invoke()
             dialog?.dismiss()
             activity?.window?.decorView?.clearBlurEffect()
         }
 
-        return view
+        return binding.root
     }
 
     override fun onStart() {
@@ -65,6 +62,7 @@ class MainDialogFragment : DialogFragment() {
     override fun onDismiss(dialog: DialogInterface) {
         super.onDismiss(dialog)
         activity?.window?.decorView?.clearBlurEffect()
+        _binding = null
     }
 
     companion object {
