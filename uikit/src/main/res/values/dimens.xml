@@ -59,6 +59,7 @@
 
     <dimen name="change_name_input_margin">136dp</dimen>
 
+    <dimen name="banner_angle_neg_12">-12</dimen>
     <dimen name="gradient_rotation_angle_180">180</dimen>
     <dimen name="gradient_rotation_angle_270">270</dimen>
 </resources>
