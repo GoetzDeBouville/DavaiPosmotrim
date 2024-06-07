@@ -6,7 +6,7 @@
 
     <TextView
         android:id="@+id/tv_dialog_title"
-        style="@style/Text.Headline.Title.Regular"
+        style="@style/Text.Headline.Title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/margin_16"

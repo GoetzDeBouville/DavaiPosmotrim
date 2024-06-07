@@ -133,8 +133,4 @@
         <item name="tabTextColor">@color/text_caption_dark</item>
         <item name="tabSelectedTextColor">@color/text_light</item>
     </style>
-
-    <style name="Text.Headline.Title.Regular">
-        <item name="fontWeight">400</item>
-    </style>
 </resources>
