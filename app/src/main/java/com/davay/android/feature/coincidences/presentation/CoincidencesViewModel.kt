@@ -33,8 +33,9 @@ class CoincidencesViewModel @Inject constructor(
                 getData.getData().fold(
                     onSuccess = { movies ->
                         _uiState.emit(
-                            if (movies.isEmpty()) UiState.Empty
-                            else UiState.Data(data = movies)
+                            if (movies.isEmpty()) {
+                                UiState.Empty
+                            } else UiState.Data(data = movies)
                         )
                     },
                     onFailure = { _ ->
