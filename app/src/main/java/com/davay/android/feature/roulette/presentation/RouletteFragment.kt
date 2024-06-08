@@ -144,7 +144,19 @@ class RouletteFragment :
                 transformations(RoundedCornersTransformation())
                     .crossfade(true)
             }
-            root.visibility = View.VISIBLE
+            lifecycleScope.launch {
+                delay(1000)
+                val mediumAnimationDuration =
+                    resources.getInteger(android.R.integer.config_mediumAnimTime)
+                root.apply {
+                    alpha = 0f
+                    visibility = View.VISIBLE
+                    animate()
+                        .alpha(1f)
+                        .setDuration(mediumAnimationDuration.toLong())
+                        .setListener(null)
+                }
+            }
         }
     }
 
