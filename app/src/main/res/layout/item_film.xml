@@ -85,23 +85,23 @@
             android:layout_marginHorizontal="@dimen/margin_16"
             android:layout_marginBottom="@dimen/margin_16"
             android:maxLines="2"
-            app:layout_constraintBottom_toTopOf="@+id/rv_genre_list"
+            app:layout_constraintBottom_toTopOf="@+id/fbl_genre_list"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             tools:text="[1956 год ∙ Испания, Великобритания, Германия, Франция... ∙ 1 ч 32 мин]" />
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rv_genre_list"
-            android:layout_width="0dp"
+        <com.google.android.flexbox.FlexboxLayout
+            android:id="@+id/fbl_genre_list"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="@dimen/margin_16"
             android:layout_marginBottom="@dimen/margin_16"
             android:visibility="gone"
+            app:flexWrap="wrap"
+            app:justifyContent="flex_start"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            tools:itemCount="1"
-            tools:listitem="@layout/item_genre" />
+            app:layout_constraintStart_toStartOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </com.google.android.material.card.MaterialCardView>
