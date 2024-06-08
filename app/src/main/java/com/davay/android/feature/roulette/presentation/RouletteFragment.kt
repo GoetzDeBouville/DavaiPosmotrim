@@ -182,7 +182,7 @@ class RouletteFragment :
                 (binding.recyclerViewRoulette.layoutManager as CarouselLayoutManager)
                     .findLastVisibleItemPosition()
             val position =
-                (currentPosition / state.count) * state.count + state.count * ROULETTE_SCROLL_COEFFICIENT + state.index
+                currentPosition / state.count * state.count + state.count * ROULETTE_SCROLL_COEFFICIENT + state.index
             startRouletteScrolling(position)
         }
     }
