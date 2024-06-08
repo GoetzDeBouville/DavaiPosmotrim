@@ -4,6 +4,8 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.OnBackPressedCallback
+import androidx.navigation.fragment.findNavController
 import com.davay.android.R
 import com.davay.android.app.AppComponentHolder
 import com.davay.android.base.BaseFragment
@@ -49,7 +51,7 @@ class LoadFragment : BaseFragment<FragmentLoadBinding, LoadViewModel>(
             val bundle = Bundle().apply {
                 putInt(OnboardingFragment.ONBOARDING_KEY, OnboardingFragment.ONBOARDING_MAIN_SET)
             }
-            navigate(R.id.action_loadFragment_to_onboardingFragment, bundle)
+            viewModel.navigate(R.id.action_loadFragment_to_onboardingFragment, bundle)
         }
 
         binding.btnToSplash.setOnClickListener {
