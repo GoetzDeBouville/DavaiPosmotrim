@@ -39,8 +39,6 @@ abstract class BaseFragment<VB : ViewBinding, VM : BaseViewModel>(
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-
-
         _binding = inflate.invoke(inflater, container, false)
         return binding.root
     }
