@@ -3,6 +3,7 @@ package com.davay.android.feature.roulette.presentation
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
+import androidx.core.content.res.ResourcesCompat
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearSnapHelper
 import com.davai.uikit.TagView
@@ -18,10 +19,7 @@ import com.davay.android.feature.roulette.presentation.carouselrecycler.Carousel
 import com.davay.android.feature.roulette.presentation.carouselrecycler.LinearHorizontalSpacingDecoration
 import com.davay.android.feature.roulette.presentation.model.FilmRouletteModel
 import com.davay.android.feature.roulette.presentation.model.UserRouletteModel
-import com.google.android.flexbox.AlignItems
-import com.google.android.flexbox.FlexDirection
-import com.google.android.flexbox.FlexWrap
-import com.google.android.flexbox.JustifyContent
+import com.google.android.flexbox.FlexboxLayout
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -154,14 +152,23 @@ class RouletteFragment :
     private fun initBottomSheet() {
         bottomSheetBehavior.state = BottomSheetBehavior.STATE_EXPANDED
         binding.fblParticipants.apply {
-            flexDirection = FlexDirection.ROW
-            flexWrap = FlexWrap.WRAP
-            justifyContent = JustifyContent.FLEX_START
-            alignItems = AlignItems.FLEX_START
+            setDividerDrawable(
+                ResourcesCompat.getDrawable(
+                    resources,
+                    com.davai.uikit.R.drawable.divider_8,
+                    requireActivity().theme
+                )
+            )
+            setShowDivider(FlexboxLayout.SHOW_DIVIDER_MIDDLE)
         }
+
         // откуда-то получаем список участников
         val participantsList =
-            listOf(UserRouletteModel(1, "Masha"), UserRouletteModel(2, "Sasha"))
+            listOf(
+                UserRouletteModel(1, "Masha"),
+                UserRouletteModel(2, "Sasha"),
+                UserRouletteModel(3, "Sasha Sasha Sasha Sashav Sasha Sashav v v Sasha Sa")
+            )
         participantsList.forEach { user ->
             val participantsView = LayoutInflater.from(requireContext()).inflate(
                 R.layout.item_participants,
