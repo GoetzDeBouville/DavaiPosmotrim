@@ -19,7 +19,9 @@ import com.davay.android.feature.coincidences.presentation.adapter.MoviesGridDec
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
-class CoincidencesFragment : BaseFragment<FragmentCoincidencesBinding, CoincidencesViewModel>(FragmentCoincidencesBinding::inflate) {
+class CoincidencesFragment : BaseFragment<FragmentCoincidencesBinding, CoincidencesViewModel>(
+    FragmentCoincidencesBinding::inflate
+) {
 
     override val viewModel: CoincidencesViewModel by injectViewModel<CoincidencesViewModel>()
 
@@ -61,7 +63,7 @@ class CoincidencesFragment : BaseFragment<FragmentCoincidencesBinding, Coinciden
                             hideExclude(coincidencesList = true)
                             moviesGridAdapter.setData(it.data)
                         }
-                        is UiState.Error  ->  {
+                        is UiState.Error -> {
 //                            hideExclude(error = true)
 //                            when (it.errorType) {
 //                                ErrorType.NO_INTERNET -> { }
@@ -76,13 +78,13 @@ class CoincidencesFragment : BaseFragment<FragmentCoincidencesBinding, Coinciden
 
     private fun hideExclude(
         progressBar: Boolean = false,
-//        error: Boolean  = false,
-        coincidencesList: Boolean   = false,
-        emptyMessage: Boolean= false
+//        error: Boolean = false,
+        coincidencesList: Boolean = false,
+        emptyMessage: Boolean = false
     ) {
         binding.progressBar.isVisible = progressBar
-//        binding.error.isVisible  = error
-        binding.coincidencesList.isVisible  = coincidencesList
+//        binding.error.isVisible = error
+        binding.coincidencesList.isVisible = coincidencesList
         binding.emptyPlaceholder.root.isVisible = emptyMessage
     }
 }

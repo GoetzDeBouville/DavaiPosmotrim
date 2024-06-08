@@ -7,6 +7,6 @@ fun checkNetworkState(connectivityManager: ConnectivityManager?): Boolean {
     val activeNetwork = connectivityManager?.activeNetwork
     val networkCapabilities = connectivityManager?.getNetworkCapabilities(activeNetwork) ?: return false
 
-    return networkCapabilities.hasTransport(NetworkCapabilities.TRANSPORT_WIFI) ||
-            networkCapabilities.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR)
+    return networkCapabilities.hasTransport(NetworkCapabilities.TRANSPORT_WIFI)
+            || networkCapabilities.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR)
 }

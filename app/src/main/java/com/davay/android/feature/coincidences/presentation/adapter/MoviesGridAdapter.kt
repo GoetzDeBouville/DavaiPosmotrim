@@ -23,7 +23,7 @@ class MoviesGridAdapter(
         }
     }
 
-    fun setData(data: List<TestMovie>)  {
+    fun setData(data: List<TestMovie>) {
         val callback = MoviesGridDiffCallback(oldItems = movies, newItems = data)
         val diff = DiffUtil.calculateDiff(callback)
         movies.clear()

@@ -27,8 +27,9 @@ class CoincidencesViewModel @Inject constructor(
             _uiState.emit(UiState.Loading)
             val hasNetworkAccess = checkNetworkState(connectivityManager)
 
-            if (!hasNetworkAccess) _uiState.emit(UiState.Error(ErrorType.NO_INTERNET))
-            else {
+            if (!hasNetworkAccess) {
+                _uiState.emit(UiState.Error(ErrorType.NO_INTERNET))
+            } else {
                 getData.getData().fold(
                     onSuccess = { movies ->
                         _uiState.emit(
