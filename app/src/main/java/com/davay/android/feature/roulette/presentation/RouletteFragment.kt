@@ -13,7 +13,6 @@ import com.davay.android.base.BaseFragment
 import com.davay.android.databinding.FragmentRouletteBinding
 import com.davay.android.di.ScreenComponent
 import com.davay.android.feature.roulette.di.DaggerRouletteFragmentComponent
-import com.davay.android.feature.roulette.presentation.carouselrecycler.BoundsOffsetDecoration
 import com.davay.android.feature.roulette.presentation.carouselrecycler.CarouselAdapter
 import com.davay.android.feature.roulette.presentation.carouselrecycler.CarouselLayoutManager
 import com.davay.android.feature.roulette.presentation.carouselrecycler.LinearHorizontalSpacingDecoration
@@ -97,7 +96,6 @@ class RouletteFragment :
             adapter = carouselAdapter
             val spacing = resources.getDimensionPixelSize(com.davai.uikit.R.dimen.margin_16)
             addItemDecoration(LinearHorizontalSpacingDecoration(spacing))
-            addItemDecoration(BoundsOffsetDecoration())
             LinearSnapHelper().attachToRecyclerView(this)
         }
         startAutoScrolling()
