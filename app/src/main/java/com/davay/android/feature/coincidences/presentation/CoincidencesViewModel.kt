@@ -35,7 +35,9 @@ class CoincidencesViewModel @Inject constructor(
                         _uiState.emit(
                             if (movies.isEmpty()) {
                                 UiState.Empty
-                            } else UiState.Data(data = movies)
+                            } else {
+                                UiState.Data(data = movies)
+                            }
                         )
                     },
                     onFailure = { _ ->
