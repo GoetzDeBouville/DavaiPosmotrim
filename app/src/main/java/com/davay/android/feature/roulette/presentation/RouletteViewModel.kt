@@ -33,7 +33,7 @@ class RouletteViewModel @Inject constructor() : BaseViewModel() {
             FilmRouletteModel(
                 id = 1,
                 title = "Название 1",
-                mark = "5.0",
+                mark = 2.0f,
                 originalTitle = "gfdgd",
                 yearCountryRuntime = "2008, USA",
                 posterUrl = "https://atthemovies.uk/cdn/shop/files/" +
@@ -42,7 +42,7 @@ class RouletteViewModel @Inject constructor() : BaseViewModel() {
             FilmRouletteModel(
                 id = 2,
                 title = "Название 2",
-                mark = "7.0",
+                mark = 7.0f,
                 originalTitle = "gfdgd",
                 yearCountryRuntime = "2008, USA",
                 posterUrl = "https://atthemovies.uk/cdn/shop/files/" +
@@ -51,7 +51,7 @@ class RouletteViewModel @Inject constructor() : BaseViewModel() {
             FilmRouletteModel(
                 id = 3,
                 title = "Название 3",
-                mark = "9.4",
+                mark = 9.4f,
                 originalTitle = "gfdgd",
                 yearCountryRuntime = "1991, UK",
                 posterUrl = "https://atthemovies.uk/cdn/shop/products/" +
@@ -60,7 +60,7 @@ class RouletteViewModel @Inject constructor() : BaseViewModel() {
             FilmRouletteModel(
                 id = 4,
                 title = "Название 4",
-                mark = "5.0",
+                mark = 5.0f,
                 originalTitle = "gfdgd",
                 yearCountryRuntime = "2018, USA",
                 posterUrl = "https://atthemovies.uk/cdn/shop/files/" +
@@ -69,7 +69,7 @@ class RouletteViewModel @Inject constructor() : BaseViewModel() {
             FilmRouletteModel(
                 id = 5,
                 title = "Название 5",
-                mark = "3.0",
+                mark = 8.9f,
                 originalTitle = "hjjgjkhk hjjh jhjhjk hjkjk",
                 yearCountryRuntime = "2010, Canada",
                 posterUrl = "https://atthemovies.uk/cdn/shop/products/" +

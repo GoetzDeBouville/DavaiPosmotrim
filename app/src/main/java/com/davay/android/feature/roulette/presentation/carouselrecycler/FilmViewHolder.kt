@@ -21,7 +21,6 @@ class FilmViewHolder(private val binding: ItemFilmBinding, parentWidth: Int) :
     fun bind(film: FilmRouletteModel) {
         binding.tvFilmTitle.text = film.title
         binding.tvOriginalTitle.text = film.originalTitle
-        binding.tvMarkValue.text = film.mark
         binding.tvYearCountryRuntime.text = film.yearCountryRuntime
 
         binding.ivSelectMovieCover.load(film.posterUrl) {
@@ -31,6 +30,16 @@ class FilmViewHolder(private val binding: ItemFilmBinding, parentWidth: Int) :
                 .scale(Scale.FIT)
             transformations(RoundedCornersTransformation())
                 .crossfade(true)
+        }
+
+        binding.tvMarkValue.apply {
+            text = film.mark.toString()
+            val textColor = when {
+                film.mark >= FilmRouletteModel.HIGH_MARK_BORDER_7 -> context.getColor(com.davai.uikit.R.color.done)
+                film.mark >= FilmRouletteModel.LOW_MARK_BORDER_5 -> context.getColor(com.davai.uikit.R.color.attention)
+                else -> context.getColor(com.davai.uikit.R.color.error)
+            }
+            setTextColor(textColor)
         }
     }
 }

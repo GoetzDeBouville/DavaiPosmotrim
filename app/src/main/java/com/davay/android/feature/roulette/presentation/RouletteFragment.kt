@@ -134,7 +134,7 @@ class RouletteFragment :
         with(binding.includedFilm) {
             tvFilmTitle.text = state.film.title
             tvOriginalTitle.text = state.film.originalTitle
-            tvMarkValue.text = state.film.mark
+            tvMarkValue.text = state.film.mark.toString()
             tvYearCountryRuntime.text = state.film.yearCountryRuntime
             ivSelectMovieCover.load(state.film.posterUrl) {
                 placeholder(com.davai.uikit.R.drawable.placeholder_general_80)
@@ -144,6 +144,19 @@ class RouletteFragment :
                 transformations(RoundedCornersTransformation())
                     .crossfade(true)
             }
+            val textColor = when {
+                state.film.mark >= FilmRouletteModel.HIGH_MARK_BORDER_7 -> requireContext().getColor(
+                    com.davai.uikit.R.color.done
+                )
+
+                state.film.mark >= FilmRouletteModel.LOW_MARK_BORDER_5 -> requireContext().getColor(
+                    com.davai.uikit.R.color.attention
+                )
+
+                else -> requireContext().getColor(com.davai.uikit.R.color.error)
+            }
+            tvMarkValue.setTextColor(textColor)
+
             lifecycleScope.launch {
                 delay(1000)
                 val mediumAnimationDuration =
