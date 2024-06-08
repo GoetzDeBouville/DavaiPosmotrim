@@ -12,7 +12,6 @@ import androidx.fragment.app.setFragmentResult
 import androidx.lifecycle.lifecycleScope
 import com.davay.android.R
 import com.davay.android.app.AppComponentHolder
-import com.davay.android.app.MainActivity
 import com.davay.android.base.BaseBottomSheetFragment
 import com.davay.android.databinding.FragmentNameChangeBinding
 import com.davay.android.di.ScreenComponent
@@ -36,7 +35,6 @@ class ChangeNameBottomSheetFragment :
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        (requireActivity() as MainActivity).setKeyBoardInsets(binding.root)
 
         arguments?.let {
             name = it.getString(ARG_NAME)
