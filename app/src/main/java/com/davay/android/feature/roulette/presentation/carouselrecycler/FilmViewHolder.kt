@@ -13,7 +13,7 @@ class FilmViewHolder(private val binding: ItemFilmBinding, parentWidth: Int) :
 
     init {
         binding.root.layoutParams = RecyclerView.LayoutParams(
-            (parentWidth * 0.75f).roundToInt(),
+            (parentWidth * WIDTH_PERCENT).roundToInt(),
             RecyclerView.LayoutParams.MATCH_PARENT
         )
     }
@@ -41,5 +41,9 @@ class FilmViewHolder(private val binding: ItemFilmBinding, parentWidth: Int) :
             }
             setTextColor(textColor)
         }
+    }
+
+    companion object {
+        private const val WIDTH_PERCENT = 0.75f
     }
 }

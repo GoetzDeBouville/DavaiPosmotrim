@@ -158,7 +158,7 @@ class RouletteFragment :
             tvMarkValue.setTextColor(textColor)
 
             lifecycleScope.launch {
-                delay(1000)
+                delay(DELAY_TIME_MS_1000)
                 val mediumAnimationDuration =
                     resources.getInteger(android.R.integer.config_mediumAnimTime)
                 root.apply {
@@ -176,13 +176,13 @@ class RouletteFragment :
     private fun handleRouletteState(state: RouletteState.Roulette) {
         binding.recyclerViewRoulette.stopScroll()
         lifecycleScope.launch {
-            delay(1000)
+            delay(DELAY_TIME_MS_1000)
             hideBottomSheet()
             val currentPosition =
                 (binding.recyclerViewRoulette.layoutManager as CarouselLayoutManager)
                     .findLastVisibleItemPosition()
             val position =
-                (currentPosition / state.count) * state.count + state.count * 4 + state.index
+                (currentPosition / state.count) * state.count + state.count * ROULETTE_SCROLL_COEFFICIENT + state.index
             startRouletteScrolling(position)
         }
     }
@@ -199,5 +199,10 @@ class RouletteFragment :
     private fun handleInitState(state: RouletteState.Init) {
         initBottomSheet(state.users)
         initRecyclerRoulette(state.films)
+    }
+
+    companion object {
+        private const val DELAY_TIME_MS_1000 = 1000L
+        private const val ROULETTE_SCROLL_COEFFICIENT = 4
     }
 }

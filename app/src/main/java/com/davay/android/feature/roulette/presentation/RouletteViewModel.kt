@@ -27,7 +27,7 @@ class RouletteViewModel @Inject constructor() : BaseViewModel() {
         users = listOf(
             UserRouletteModel(1, "Masha"),
             UserRouletteModel(2, "Sasha"),
-            UserRouletteModel(3, "Sasha Sasha Sasha")
+            UserRouletteModel(TEMP_NUMBER_3, "Sasha Sasha Sasha")
         )
         films = listOf(
             FilmRouletteModel(
@@ -78,7 +78,7 @@ class RouletteViewModel @Inject constructor() : BaseViewModel() {
         )
 
         _state = MutableStateFlow(RouletteState.Init(users, films))
-        lookFilmId = Random.nextInt(1, 6)
+        lookFilmId = Random.nextInt(1, TEMP_NUMBER_6)
         if (films.any { it.id == lookFilmId }) {
             checkUsers()
         } else {
@@ -95,7 +95,7 @@ class RouletteViewModel @Inject constructor() : BaseViewModel() {
                     users = list
                     _state.value = RouletteState.Waiting(users)
                     if (users.all { it.isConnected }) {
-                        delay(1000)
+                        delay(DELAY_TIME_MS_1000)
                         val index = films.indexOfFirst { it.id == lookFilmId }
                         _state.value = RouletteState.Roulette(index, films.size)
                     }
@@ -112,11 +112,17 @@ class RouletteViewModel @Inject constructor() : BaseViewModel() {
 
     private fun tempFun(): Flow<List<UserRouletteModel>?> = flow {
         for (i in 0..2) {
-            delay(2000)
+            delay(DELAY_TIME_MS_1000)
             val list = mutableListOf<UserRouletteModel>()
             list.addAll(users.map { it.copy() })
             list[i].isConnected = true
             emit(list)
         }
+    }
+
+    companion object {
+        private const val DELAY_TIME_MS_1000 = 1000L
+        private const val TEMP_NUMBER_6 = 6
+        private const val TEMP_NUMBER_3 = 3
     }
 }
