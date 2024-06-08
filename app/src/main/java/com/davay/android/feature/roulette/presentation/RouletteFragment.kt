@@ -1,9 +1,12 @@
 package com.davay.android.feature.roulette.presentation
 
 import android.os.Bundle
+import android.view.LayoutInflater
 import android.view.View
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearSnapHelper
+import com.davai.uikit.TagView
+import com.davay.android.R
 import com.davay.android.app.AppComponentHolder
 import com.davay.android.base.BaseFragment
 import com.davay.android.databinding.FragmentRouletteBinding
@@ -14,6 +17,11 @@ import com.davay.android.feature.roulette.presentation.carouselrecycler.Carousel
 import com.davay.android.feature.roulette.presentation.carouselrecycler.CarouselLayoutManager
 import com.davay.android.feature.roulette.presentation.carouselrecycler.LinearHorizontalSpacingDecoration
 import com.davay.android.feature.roulette.presentation.model.FilmRouletteModel
+import com.davay.android.feature.roulette.presentation.model.UserRouletteModel
+import com.google.android.flexbox.AlignItems
+import com.google.android.flexbox.FlexDirection
+import com.google.android.flexbox.FlexWrap
+import com.google.android.flexbox.JustifyContent
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -32,7 +40,7 @@ class RouletteFragment :
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        bottomSheetBehavior.state = BottomSheetBehavior.STATE_EXPANDED
+        initBottomSheet()
         initRecyclerRoulette()
     }
 
@@ -141,5 +149,27 @@ class RouletteFragment :
     private fun hideBottomSheet() {
         bottomSheetBehavior.isHideable = true
         bottomSheetBehavior.state = BottomSheetBehavior.STATE_HIDDEN
+    }
+
+    private fun initBottomSheet() {
+        bottomSheetBehavior.state = BottomSheetBehavior.STATE_EXPANDED
+        binding.fblParticipants.apply {
+            flexDirection = FlexDirection.ROW
+            flexWrap = FlexWrap.WRAP
+            justifyContent = JustifyContent.FLEX_START
+            alignItems = AlignItems.FLEX_START
+        }
+        // откуда-то получаем список участников
+        val participantsList =
+            listOf(UserRouletteModel(1, "Masha"), UserRouletteModel(2, "Sasha"))
+        participantsList.forEach { user ->
+            val participantsView = LayoutInflater.from(requireContext()).inflate(
+                R.layout.item_participants,
+                binding.fblParticipants,
+                false
+            ) as TagView
+            participantsView.setText(user.name)
+            binding.fblParticipants.addView(participantsView)
+        }
     }
 }
