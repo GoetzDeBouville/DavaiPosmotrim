@@ -3,9 +3,15 @@ package com.davay.android.feature.roulette.presentation
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
+import android.widget.Toast
 import androidx.core.content.res.ResourcesCompat
+import androidx.core.view.get
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearSnapHelper
+import androidx.recyclerview.widget.RecyclerView
+import coil.load
+import coil.size.Scale
+import coil.transform.RoundedCornersTransformation
 import com.davai.uikit.TagView
 import com.davay.android.R
 import com.davay.android.app.AppComponentHolder
@@ -20,9 +26,7 @@ import com.davay.android.feature.roulette.presentation.model.FilmRouletteModel
 import com.davay.android.feature.roulette.presentation.model.UserRouletteModel
 import com.google.android.flexbox.FlexboxLayout
 import com.google.android.material.bottomsheet.BottomSheetBehavior
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import kotlin.random.Random
 
 class RouletteFragment :
     BaseFragment<FragmentRouletteBinding, RouletteViewModel>(FragmentRouletteBinding::inflate) {
@@ -37,60 +41,15 @@ class RouletteFragment :
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        initBottomSheet()
-        initRecyclerRoulette()
+        lifecycleScope.launch {
+            viewModel.state.collect {
+                handleState(it)
+            }
+        }
     }
 
-    private fun initRecyclerRoulette() {
-        carouselAdapter.addFilms(
-            listOf(
-                FilmRouletteModel(
-                    id = 1,
-                    title = "Название 1",
-                    mark = "5.0",
-                    originalTitle = "gfdgd",
-                    yearCountryRuntime = "2008, USA",
-                    posterUrl = "https://atthemovies.uk/cdn/shop/files/" +
-                            "front_07977eff-c3c7-4aa6-a57d-5d3e34727031.png?v=1717112425"
-                ),
-                FilmRouletteModel(
-                    id = 2,
-                    title = "Название 2",
-                    mark = "7.0",
-                    originalTitle = "gfdgd",
-                    yearCountryRuntime = "2008, USA",
-                    posterUrl = "https://atthemovies.uk/cdn/shop/files/" +
-                            "back_ff1004f8-11e7-4e2b-81de-a9cd2a3de2c0.png?v=1717112172"
-                ),
-                FilmRouletteModel(
-                    id = 3,
-                    title = "Название 3",
-                    mark = "9.4",
-                    originalTitle = "gfdgd",
-                    yearCountryRuntime = "1991, UK",
-                    posterUrl = "https://atthemovies.uk/cdn/shop/products/" +
-                            "Gladiator2000us27x40in195u.jpg?v=1621385091"
-                ),
-                FilmRouletteModel(
-                    id = 4,
-                    title = "Название 4",
-                    mark = "5.0",
-                    originalTitle = "gfdgd",
-                    yearCountryRuntime = "2018, USA",
-                    posterUrl = "https://atthemovies.uk/cdn/shop/files/" +
-                            "front_efd356d9-ab5b-4dc3-a37f-452027a2b68d.png?v=1717110841"
-                ),
-                FilmRouletteModel(
-                    id = 5,
-                    title = "Название 5",
-                    mark = "3.0",
-                    originalTitle = "hjjgjkhk hjjh jhjhjk hjkjk",
-                    yearCountryRuntime = "2010, Canada",
-                    posterUrl = "https://atthemovies.uk/cdn/shop/products/" +
-                            "Template_cb39750d-7a4b-44ec-950d-172f4c2fe96c.jpg?v=1666078856"
-                ),
-            )
-        )
+    private fun initRecyclerRoulette(films: List<FilmRouletteModel>) {
+        carouselAdapter.addFilms(films)
         with(binding.recyclerViewRoulette) {
             layoutManager = CarouselLayoutManager(requireContext())
             adapter = carouselAdapter
@@ -99,17 +58,6 @@ class RouletteFragment :
             LinearSnapHelper().attachToRecyclerView(this)
         }
         startAutoScrolling()
-        // для примера: останавливаем автопрокрутку и запускаем рулетку
-        lifecycleScope.launch {
-            delay(3000)
-            binding.recyclerViewRoulette.stopScroll()
-            hideBottomSheet()
-            delay(1000)
-            val position = Random
-                .nextInt(10) + 30 + (binding.recyclerViewRoulette.layoutManager as CarouselLayoutManager)
-                .findLastVisibleItemPosition()
-            startRouletteScrolling(position)
-        }
     }
 
     private fun startAutoScrolling() {
@@ -121,24 +69,21 @@ class RouletteFragment :
         }
     }
 
-    /*
-    private fun stopAutoScrolling() {
-        with(binding.recyclerViewRoulette) {
-            post {
-                val position =
-                    (layoutManager as CarouselLayoutManager).findLastVisibleItemPosition()
-                smoothScrollToPosition(position)
-            }
-        }
-    }
-    */
-
     private fun startRouletteScrolling(position: Int) {
         with(binding.recyclerViewRoulette) {
             (layoutManager as CarouselLayoutManager).speed = CarouselLayoutManager.SPEED_HIGH
             post {
                 smoothScrollToPosition(position)
             }
+            binding.recyclerViewRoulette.addOnScrollListener(object :
+                RecyclerView.OnScrollListener() {
+                override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
+                    super.onScrollStateChanged(recyclerView, newState)
+                    if (newState == RecyclerView.SCROLL_STATE_IDLE) {
+                        viewModel.rouletteScrollingStopped()
+                    }
+                }
+            })
         }
     }
 
@@ -147,7 +92,7 @@ class RouletteFragment :
         bottomSheetBehavior.state = BottomSheetBehavior.STATE_HIDDEN
     }
 
-    private fun initBottomSheet() {
+    private fun initBottomSheet(participantsList: List<UserRouletteModel>) {
         bottomSheetBehavior.state = BottomSheetBehavior.STATE_EXPANDED
         binding.fblParticipants.apply {
             setDividerDrawable(
@@ -159,14 +104,6 @@ class RouletteFragment :
             )
             setShowDivider(FlexboxLayout.SHOW_DIVIDER_MIDDLE)
         }
-
-        // откуда-то получаем список участников
-        val participantsList =
-            listOf(
-                UserRouletteModel(1, "Masha"),
-                UserRouletteModel(2, "Sasha"),
-                UserRouletteModel(3, "Sasha Sasha Sasha Sashav Sasha Sashav v v Sasha Sa")
-            )
         participantsList.forEach { user ->
             val participantsView = LayoutInflater.from(requireContext()).inflate(
                 R.layout.item_participants,
@@ -176,5 +113,61 @@ class RouletteFragment :
             participantsView.setText(user.name)
             binding.fblParticipants.addView(participantsView)
         }
+    }
+
+    private fun handleState(state: RouletteState) {
+        when (state) {
+            RouletteState.Error -> handleErrorState()
+            is RouletteState.Match -> handleMatchState(state)
+            is RouletteState.Roulette -> handleRouletteState(state)
+            is RouletteState.Waiting -> handleWaitingState(state)
+            is RouletteState.Init -> handleInitState(state)
+        }
+    }
+
+    private fun handleErrorState() {
+        Toast.makeText(requireContext(), "Ошибка", Toast.LENGTH_SHORT).show()
+    }
+
+    private fun handleMatchState(state: RouletteState.Match) {
+        with(binding.includedFilm) {
+            tvFilmTitle.text = state.film.title
+            tvOriginalTitle.text = state.film.originalTitle
+            tvMarkValue.text = state.film.mark
+            tvYearCountryRuntime.text = state.film.yearCountryRuntime
+            ivSelectMovieCover.load(state.film.posterUrl) {
+                placeholder(com.davai.uikit.R.drawable.placeholder_general_80)
+                    .scale(Scale.FIT)
+                error(com.davai.uikit.R.drawable.placeholder_general_80)
+                    .scale(Scale.FIT)
+                transformations(RoundedCornersTransformation())
+                    .crossfade(true)
+            }
+        }
+    }
+
+    private fun handleRouletteState(state: RouletteState.Roulette) {
+        binding.recyclerViewRoulette.stopScroll()
+        hideBottomSheet()
+        val currentPosition =
+            (binding.recyclerViewRoulette.layoutManager as CarouselLayoutManager)
+                .findLastVisibleItemPosition()
+        val position =
+            currentPosition + currentPosition % state.count + state.index + state.count * 4
+        startRouletteScrolling(position)
+    }
+
+    private fun handleWaitingState(state: RouletteState.Waiting) {
+        state.users.forEachIndexed { index, user ->
+            if (user.isConnected) {
+                // Важен порядок
+                (binding.fblParticipants[index] as TagView).changeStyle(TagView.Companion.Style.SECONDARY_GREEN)
+            }
+        }
+    }
+
+    private fun handleInitState(state: RouletteState.Init) {
+        initBottomSheet(state.users)
+        initRecyclerRoulette(state.films)
     }
 }
