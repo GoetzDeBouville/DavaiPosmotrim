@@ -23,7 +23,7 @@
         android:layout_weight="1"
         android:background="@drawable/main_screen_menu_background"
         android:layout_marginTop="@dimen/margin_16"
-        android:paddingHorizontal="@dimen/padding_16"
+        android:paddingHorizontal="@dimen/padding_8"
         android:paddingTop="@dimen/padding_16">
 
         <androidx.recyclerview.widget.RecyclerView

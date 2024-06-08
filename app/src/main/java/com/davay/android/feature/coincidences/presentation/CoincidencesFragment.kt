@@ -13,7 +13,6 @@ import com.davay.android.app.AppComponentHolder
 import com.davay.android.base.BaseFragment
 import com.davay.android.databinding.FragmentCoincidencesBinding
 import com.davay.android.di.ScreenComponent
-import com.davay.android.feature.coincidences.ErrorType
 import com.davay.android.feature.coincidences.di.DaggerCoincidencesFragmentComponent
 import com.davay.android.feature.coincidences.presentation.adapter.MoviesGridAdapter
 import com.davay.android.feature.coincidences.presentation.adapter.MoviesGridDecoration
@@ -63,11 +62,11 @@ class CoincidencesFragment : BaseFragment<FragmentCoincidencesBinding, Coinciden
                             moviesGridAdapter.setData(it.data)
                         }
                         is UiState.Error  ->  {
-                            hideExclude(error = true)
-                            when (it.errorType) {
-                                ErrorType.NO_INTERNET -> { }
-                                ErrorType.SERVER_ERROR -> { }
-                            }
+//                            hideExclude(error = true)
+//                            when (it.errorType) {
+//                                ErrorType.NO_INTERNET -> { }
+//                                ErrorType.SERVER_ERROR -> { }
+//                            }
                         }
                     }
                 }
@@ -77,7 +76,7 @@ class CoincidencesFragment : BaseFragment<FragmentCoincidencesBinding, Coinciden
 
     private fun hideExclude(
         progressBar: Boolean = false,
-        error: Boolean  = false,
+//        error: Boolean  = false,
         coincidencesList: Boolean   = false,
         emptyMessage: Boolean= false
     ) {

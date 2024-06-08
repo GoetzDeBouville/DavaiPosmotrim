@@ -1,6 +1,5 @@
 package com.davay.android.feature.coincidences.presentation.adapter
 
-import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.davai.uikit.MovieCardView
@@ -15,9 +14,7 @@ class MoviesGridViewHolder(private val view: MovieCardView) : RecyclerView.ViewH
 
     companion object {
         val create: (ViewGroup) -> MoviesGridViewHolder = { parent ->
-            val inflater = LayoutInflater.from(parent.context)
-            val view: MovieCardView = inflater
-                .inflate(com.davai.uikit.R.layout.movie_card_view, parent, false) as MovieCardView
+            val view = MovieCardView(parent.context)
             MoviesGridViewHolder(view)
         }
     }

@@ -14,12 +14,13 @@ class MoviesGridDecoration : RecyclerView.ItemDecoration() {
     ) {
         super.getItemOffsets(outRect, view, parent, state)
 
-        val marginInPx = view.resources.getDimensionPixelSize(com.davai.uikit.R.dimen.margin_16)
+        val marginInPx8 = view.resources.getDimensionPixelSize(com.davai.uikit.R.dimen.margin_8)
+        val marginInPx16 = view.resources.getDimensionPixelSize(com.davai.uikit.R.dimen.margin_16)
         outRect.apply {
-            left = marginInPx
-            right = marginInPx
-            top = marginInPx
-            bottom = marginInPx
+            left = marginInPx8
+            right = marginInPx8
+            top = 0
+            bottom = marginInPx16
         }
 
     }
