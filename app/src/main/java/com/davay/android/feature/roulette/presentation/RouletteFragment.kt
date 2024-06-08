@@ -26,6 +26,7 @@ import com.davay.android.feature.roulette.presentation.model.FilmRouletteModel
 import com.davay.android.feature.roulette.presentation.model.UserRouletteModel
 import com.google.android.flexbox.FlexboxLayout
 import com.google.android.material.bottomsheet.BottomSheetBehavior
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 class RouletteFragment :
@@ -143,18 +144,22 @@ class RouletteFragment :
                 transformations(RoundedCornersTransformation())
                     .crossfade(true)
             }
+            root.visibility = View.VISIBLE
         }
     }
 
     private fun handleRouletteState(state: RouletteState.Roulette) {
         binding.recyclerViewRoulette.stopScroll()
-        hideBottomSheet()
-        val currentPosition =
-            (binding.recyclerViewRoulette.layoutManager as CarouselLayoutManager)
-                .findLastVisibleItemPosition()
-        val position =
-            currentPosition + currentPosition % state.count + state.index + state.count * 4
-        startRouletteScrolling(position)
+        lifecycleScope.launch {
+            delay(1000)
+            hideBottomSheet()
+            val currentPosition =
+                (binding.recyclerViewRoulette.layoutManager as CarouselLayoutManager)
+                    .findLastVisibleItemPosition()
+            val position =
+                (currentPosition / state.count) * state.count + state.count * 4 + state.index
+            startRouletteScrolling(position)
+        }
     }
 
     private fun handleWaitingState(state: RouletteState.Waiting) {
