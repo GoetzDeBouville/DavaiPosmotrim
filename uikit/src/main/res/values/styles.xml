@@ -26,6 +26,21 @@
         <item name="android:lineSpacingExtra">24sp</item>
     </style>
 
+    <style name="Text.Headline.SubTitle.NoLineSpacing">
+        <item name="android:lineSpacingExtra">0sp</item>
+        <item name="android:textColor">@color/text_headings</item>
+    </style>
+
+    <style name="Text.Headline.Large">
+        <item name="android:textSize">40sp</item>
+        <item name="android:textColor">@color/text_headings</item>
+    </style>
+
+    <style name="Text.Headline.Large48">
+        <item name="android:textSize">48sp</item>
+        <item name="android:textColor">@color/text_headings</item>
+    </style>
+
     <style name="Text.Base.Medium">
         <item name="android:textSize">14sp</item>
         <item name="android:lineSpacingExtra">20sp</item>
@@ -33,6 +48,7 @@
 
     <style name="Text.Base.Medium.NoLineSpacing">
         <item name="android:lineSpacingExtra">0sp</item>
+        <item name="android:textColor">@color/text_base</item>
     </style>
 
     <style name="Text.Base.Medium.Regular">
@@ -40,6 +56,11 @@
     </style>
 
     <style name="Text.Base.Medium.Regular.NoLineSpacing">
+        <item name="android:lineSpacingExtra">0sp</item>
+    </style>
+
+    <style name="Text.Base.Medium.Regular.Description">
+        <item name="android:textColor">@color/text_base</item>
         <item name="android:lineSpacingExtra">0sp</item>
     </style>
 
@@ -83,11 +104,33 @@
         <item name="cornerSize">@dimen/card_radius_16</item>
     </style>
 
+    <style name="CardView.RoundedTopCorners" parent="@style/Widget.MaterialComponents.CardView">
+        <item name="shapeAppearanceOverlay">
+            @style/ShapeAppearanceOverlay.MaterialCardView.RoundTopCorners
+        </item>
+    </style>
+
+    <style name="ShapeAppearanceOverlay.MaterialCardView.RoundTopCorners" parent="">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSizeTopRight">@dimen/card_radius_24</item>
+        <item name="cornerSizeTopLeft">@dimen/card_radius_24</item>
+        <item name="cornerSizeBottomRight">0dp</item>
+        <item name="cornerSizeBottomLeft">0dp</item>
+    </style>
+
     <style name="RoundedImageView.SessionView">
         <item name="cornerSize">@dimen/card_radius_18</item>
     </style>
 
     <style name="Text.Base.SplashItem">
         <item name="android:textSize">20sp</item>
+    </style>
+
+    <style name="TabLayout" parent="Widget.Design.TabLayout">
+        <item name="tabBackground">@drawable/tabs_selector</item>
+        <item name="tabIndicator">@null</item>
+        <item name="android:background">@drawable/tab_layout_background</item>
+        <item name="tabTextColor">@color/text_caption_dark</item>
+        <item name="tabSelectedTextColor">@color/text_light</item>
     </style>
 </resources>

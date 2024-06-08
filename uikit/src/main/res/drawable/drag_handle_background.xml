@@ -4,6 +4,6 @@
     <solid
         android:color="@color/tertiary_light_light"/>
     <corners
-        android:radius="@dimen/drag_handle_radius"
+        android:radius="@dimen/drag_handle_radius_5"
     />
 </shape>

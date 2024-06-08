@@ -18,10 +18,8 @@ import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetBehavior.BottomSheetCallback
 import kotlinx.coroutines.launch
 
-class ChangeNameFragment : BaseBottomSheetFragment<
-    FragmentNameChangeBinding,
-    ChangeNameViewModel
-    >(FragmentNameChangeBinding::inflate) {
+class ChangeNameFragment : BaseBottomSheetFragment<FragmentNameChangeBinding, ChangeNameViewModel>
+    (FragmentNameChangeBinding::inflate) {
 
     private var bottomSheetBehavior: BottomSheetBehavior<View>? = null
     private var name: String? = null
@@ -73,8 +71,11 @@ class ChangeNameFragment : BaseBottomSheetFragment<
         binding.etName.buttonBackHandler = {
             bottomSheetBehavior!!.state = BottomSheetBehavior.STATE_HIDDEN
         }
+        buildBottomSheet()
+    }
 
-        bottomSheetBehavior = BottomSheetBehavior.from(view.parent as View)
+    private fun buildBottomSheet() {
+        bottomSheetBehavior = BottomSheetBehavior.from(view?.parent as View)
         bottomSheetBehavior!!.state = BottomSheetBehavior.STATE_EXPANDED
 
         bottomSheetBehavior!!.addBottomSheetCallback(object : BottomSheetCallback() {
