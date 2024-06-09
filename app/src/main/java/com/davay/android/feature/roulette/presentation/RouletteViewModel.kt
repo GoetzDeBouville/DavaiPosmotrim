@@ -2,8 +2,8 @@ package com.davay.android.feature.roulette.presentation
 
 import androidx.lifecycle.viewModelScope
 import com.davay.android.base.BaseViewModel
-import com.davay.android.feature.roulette.presentation.model.FilmRouletteModel
 import com.davay.android.feature.roulette.presentation.model.UserRouletteModel
+import com.davay.android.feature.selectmovie.domain.models.MovieDetailsDemo
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -20,7 +20,7 @@ class RouletteViewModel @Inject constructor() : BaseViewModel() {
         get() = _state
 
     private var users: List<UserRouletteModel>
-    private val films: List<FilmRouletteModel>
+    private val films: List<MovieDetailsDemo>
     private val lookFilmId: Int
 
     init {
@@ -30,51 +30,61 @@ class RouletteViewModel @Inject constructor() : BaseViewModel() {
             UserRouletteModel(TEMP_NUMBER_3, "Sasha Sasha Sasha")
         )
         films = listOf(
-            FilmRouletteModel(
-                id = 1,
-                title = "Название 1",
-                mark = 2.0f,
-                originalTitle = "gfdавgd",
-                yearCountryRuntime = "2008, USA",
-                posterUrl = "https://clck.ru/3BACfT"
+            MovieDetailsDemo(
+                kinopoiskId = 1,
+                movieName = "Название 1",
+                ratingKinopoisk = 2.0f,
+                englishName = "gfdавgd",
+                year = 2008,
+                posterUrl = "https://clck.ru/3BACfT",
+                movieLengthMin = 90,
+                countries = listOf("USA", "UK")
             ),
-            FilmRouletteModel(
-                id = 2,
-                title = "Название 2",
-                mark = 7.0f,
-                originalTitle = "gfdgdпв",
-                yearCountryRuntime = "2008, USA",
-                posterUrl = "https://ir.ozone.ru/s3/multimedia-j/c1000/6379140283.jpg"
+            MovieDetailsDemo(
+                kinopoiskId = 2,
+                movieName = "Название 2",
+                ratingKinopoisk = 7.0f,
+                englishName = "gfdgdпв",
+                year = 2008,
+                posterUrl = "https://ir.ozone.ru/s3/multimedia-j/c1000/6379140283.jpg",
+                movieLengthMin = 90,
+                countries = listOf("USA", "UK")
             ),
-            FilmRouletteModel(
-                id = 3,
-                title = "Название 3",
-                mark = 9.4f,
-                originalTitle = "gfdgd",
-                yearCountryRuntime = "1991, UK",
-                posterUrl = "https://static.insales-cdn.com/images/products/1/2985/388467625/%D0%BF0362.png"
+            MovieDetailsDemo(
+                kinopoiskId = 3,
+                movieName = "Название 3",
+                ratingKinopoisk = 9.4f,
+                englishName = "gfdgd",
+                year = 1991,
+                posterUrl = "https://static.insales-cdn.com/images/products/1/2985/388467625/%D0%BF0362.png",
+                movieLengthMin = 90,
+                countries = listOf("USA", "UK")
             ),
-            FilmRouletteModel(
-                id = 4,
-                title = "Название 4",
-                mark = 5.0f,
-                originalTitle = "gfавпdgd",
-                yearCountryRuntime = "2018, USA",
-                posterUrl = "https://clck.ru/3BACbb"
+            MovieDetailsDemo(
+                kinopoiskId = 4,
+                movieName = "Название 4",
+                ratingKinopoisk = 5.0f,
+                englishName = "gfавпdgd",
+                year = 2018,
+                posterUrl = "https://clck.ru/3BACbb",
+                movieLengthMin = 90,
+                countries = listOf("UK")
             ),
-            FilmRouletteModel(
-                id = 5,
-                title = "Название 5",
-                mark = 8.9f,
-                originalTitle = "hjjgjkhk hjjh jhjhjk hjkjk",
-                yearCountryRuntime = "2010, Canada",
-                posterUrl = "https://clck.ru/3BACae"
+            MovieDetailsDemo(
+                kinopoiskId = 5,
+                movieName = "Название 5",
+                ratingKinopoisk = 8.9f,
+                englishName = "hjjgjkhk hjjh jhjhjk hjkjk",
+                year = 2010,
+                posterUrl = "https://clck.ru/3BACae",
+                movieLengthMin = 90,
+                countries = listOf("USA")
             ),
         )
 
         _state = MutableStateFlow(RouletteState.Init(users, films))
         lookFilmId = Random.nextInt(1, TEMP_NUMBER_6)
-        if (films.any { it.id == lookFilmId }) {
+        if (films.any { it.kinopoiskId == lookFilmId }) {
             checkUsers()
         } else {
             _state.value = RouletteState.Error
@@ -91,7 +101,7 @@ class RouletteViewModel @Inject constructor() : BaseViewModel() {
                     _state.value = RouletteState.Waiting(users)
                     if (users.all { it.isConnected }) {
                         delay(DELAY_TIME_MS_1000)
-                        val index = films.indexOfFirst { it.id == lookFilmId }
+                        val index = films.indexOfFirst { it.kinopoiskId == lookFilmId }
                         _state.value = RouletteState.Roulette(index, films.size)
                     }
                 }
@@ -101,7 +111,7 @@ class RouletteViewModel @Inject constructor() : BaseViewModel() {
 
     fun rouletteScrollingStopped() {
         _state.value =
-            films.find { it.id == lookFilmId }?.let { RouletteState.Match(it) }
+            films.find { it.kinopoiskId == lookFilmId }?.let { RouletteState.Match(it) }
                 ?: RouletteState.Error
     }
 

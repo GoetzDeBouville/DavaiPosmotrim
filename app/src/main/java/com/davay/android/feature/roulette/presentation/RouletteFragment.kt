@@ -9,23 +9,22 @@ import androidx.core.view.get
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearSnapHelper
 import androidx.recyclerview.widget.RecyclerView
-import coil.load
-import coil.size.Scale
-import coil.transform.RoundedCornersTransformation
 import com.davai.uikit.TagView
 import com.davay.android.R
 import com.davay.android.app.AppComponentHolder
 import com.davay.android.base.BaseFragment
 import com.davay.android.databinding.FragmentRouletteBinding
 import com.davay.android.di.ScreenComponent
+import com.davay.android.feature.match.presentation.MatchBottomSheetFragment
 import com.davay.android.feature.roulette.di.DaggerRouletteFragmentComponent
 import com.davay.android.feature.roulette.presentation.carouselrecycler.CarouselAdapter
 import com.davay.android.feature.roulette.presentation.carouselrecycler.CarouselLayoutManager
 import com.davay.android.feature.roulette.presentation.carouselrecycler.LinearHorizontalSpacingDecoration
-import com.davay.android.feature.roulette.presentation.model.FilmRouletteModel
 import com.davay.android.feature.roulette.presentation.model.UserRouletteModel
+import com.davay.android.feature.selectmovie.domain.models.MovieDetailsDemo
 import com.google.android.flexbox.FlexboxLayout
 import com.google.android.material.bottomsheet.BottomSheetBehavior
+import com.google.gson.Gson
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
@@ -49,7 +48,7 @@ class RouletteFragment :
         }
     }
 
-    private fun initRecyclerRoulette(films: List<FilmRouletteModel>) {
+    private fun initRecyclerRoulette(films: List<MovieDetailsDemo>) {
         carouselAdapter.addFilms(films)
         with(binding.recyclerViewRoulette) {
             layoutManager = CarouselLayoutManager(requireContext())
@@ -131,49 +130,9 @@ class RouletteFragment :
     }
 
     private fun handleMatchState(state: RouletteState.Match) {
-        with(binding.includedFilm) {
-            tvFilmTitle.text = state.film.title
-            tvOriginalTitle.text = state.film.originalTitle
-            tvMarkValue.text = state.film.mark.toString()
-            tvYearCountryRuntime.text = state.film.yearCountryRuntime
-            ivSelectMovieCover.load(state.film.posterUrl) {
-                placeholder(com.davai.uikit.R.drawable.placeholder_general_80)
-                    .scale(Scale.FIT)
-                error(com.davai.uikit.R.drawable.placeholder_general_80)
-                    .scale(Scale.FIT)
-                transformations(RoundedCornersTransformation())
-                    .crossfade(true)
-            }
-            val textColor = when {
-                state.film.mark >= FilmRouletteModel.HIGH_MARK_BORDER_7 -> requireContext().getColor(
-                    com.davai.uikit.R.color.done
-                )
-
-                state.film.mark >= FilmRouletteModel.LOW_MARK_BORDER_5 -> requireContext().getColor(
-                    com.davai.uikit.R.color.attention
-                )
-
-                else -> requireContext().getColor(com.davai.uikit.R.color.error)
-            }
-            tvMarkValue.setTextColor(textColor)
-            civLike.visibility = View.GONE
-            civRevert.visibility = View.GONE
-            civSkip.visibility = View.GONE
-
-            lifecycleScope.launch {
-                delay(DELAY_TIME_MS_1000)
-                val mediumAnimationDuration =
-                    resources.getInteger(android.R.integer.config_mediumAnimTime)
-                root.apply {
-                    alpha = 0f
-                    visibility = View.VISIBLE
-                    animate()
-                        .alpha(1f)
-                        .setDuration(mediumAnimationDuration.toLong())
-                        .setListener(null)
-                }
-            }
-        }
+        val movieDetails = Gson().toJson(state.film)
+        val bottomSheetFragment = MatchBottomSheetFragment.newInstance(movieDetails)
+        bottomSheetFragment.show(parentFragmentManager, bottomSheetFragment.tag)
     }
 
     private fun handleRouletteState(state: RouletteState.Roulette) {

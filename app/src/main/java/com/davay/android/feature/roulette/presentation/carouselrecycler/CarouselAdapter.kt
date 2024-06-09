@@ -5,12 +5,12 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.davay.android.databinding.ItemSwipeableMovieCardBinding
-import com.davay.android.feature.roulette.presentation.model.FilmRouletteModel
+import com.davay.android.feature.selectmovie.domain.models.MovieDetailsDemo
 
 class CarouselAdapter :
     RecyclerView.Adapter<FilmViewHolder>() {
 
-    private val films: MutableList<FilmRouletteModel> = mutableListOf()
+    private val films: MutableList<MovieDetailsDemo> = mutableListOf()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FilmViewHolder {
         val inflater = LayoutInflater.from(parent.context)
@@ -31,7 +31,7 @@ class CarouselAdapter :
 
     override fun getItemCount(): Int = Integer.MAX_VALUE
 
-    fun addFilms(list: List<FilmRouletteModel>) {
+    fun addFilms(list: List<MovieDetailsDemo>) {
         films.clear()
         films.addAll(list)
         notifyDataSetChanged()

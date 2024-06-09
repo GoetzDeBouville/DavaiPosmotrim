@@ -1,11 +1,10 @@
 package com.davay.android.feature.roulette.presentation.carouselrecycler
 
 import androidx.recyclerview.widget.RecyclerView
-import coil.load
-import coil.size.Scale
-import coil.transform.RoundedCornersTransformation
 import com.davay.android.databinding.ItemSwipeableMovieCardBinding
-import com.davay.android.feature.roulette.presentation.model.FilmRouletteModel
+import com.davay.android.feature.selectmovie.domain.models.MovieDetailsDemo
+import com.davay.android.utils.MovieDetailsHelper
+import com.davay.android.utils.MovieDetailsHelperImpl
 import kotlin.math.roundToInt
 
 class FilmViewHolder(private val binding: ItemSwipeableMovieCardBinding, parentWidth: Int) :
@@ -18,29 +17,23 @@ class FilmViewHolder(private val binding: ItemSwipeableMovieCardBinding, parentW
         )
     }
 
-    fun bind(film: FilmRouletteModel) {
-        binding.tvFilmTitle.text = film.title
-        binding.tvOriginalTitle.text = film.originalTitle
-        binding.tvYearCountryRuntime.text = film.yearCountryRuntime
+    fun bind(film: MovieDetailsDemo) {
+        val movieDetailsHelper: MovieDetailsHelper = MovieDetailsHelperImpl()
 
-        binding.ivSelectMovieCover.load(film.posterUrl) {
-            placeholder(com.davai.uikit.R.drawable.placeholder_general_80)
-                .scale(Scale.FIT)
-            error(com.davai.uikit.R.drawable.placeholder_general_80)
-                .scale(Scale.FIT)
-            transformations(RoundedCornersTransformation())
-                .crossfade(true)
-        }
+        binding.tvFilmTitle.text = film.movieName
+        binding.tvOriginalTitle.text = film.englishName
+        binding.tvYearCountryRuntime.text =
+            movieDetailsHelper.buildStringYearCountriesRuntime(
+                film.copy(countries = emptyList()),
+                binding.root.context
+            )
 
-        binding.tvMarkValue.apply {
-            text = film.mark.toString()
-            val textColor = when {
-                film.mark >= FilmRouletteModel.HIGH_MARK_BORDER_7 -> context.getColor(com.davai.uikit.R.color.done)
-                film.mark >= FilmRouletteModel.LOW_MARK_BORDER_5 -> context.getColor(com.davai.uikit.R.color.attention)
-                else -> context.getColor(com.davai.uikit.R.color.error)
-            }
-            setTextColor(textColor)
-        }
+        movieDetailsHelper.setImage(binding.ivSelectMovieCover, film.posterUrl)
+        movieDetailsHelper.setRateText(
+            binding.tvMarkValue,
+            film.ratingKinopoisk,
+            binding.root.context
+        )
     }
 
     companion object {
