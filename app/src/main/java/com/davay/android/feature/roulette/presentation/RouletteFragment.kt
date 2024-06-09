@@ -161,8 +161,11 @@ class RouletteFragment :
 
     private fun handleMatchState(state: RouletteState.Match) {
         val movieDetails = Gson().toJson(state.film)
-        val bottomSheetFragment = MatchBottomSheetFragment.newInstance(movieDetails)
-        bottomSheetFragment.show(parentFragmentManager, bottomSheetFragment.tag)
+        val matchBottomSheetFragment = MatchBottomSheetFragment.newInstance(
+            movieDetails,
+            getString(R.string.roulette_to_film_list)
+        )
+        matchBottomSheetFragment.show(parentFragmentManager, matchBottomSheetFragment.tag)
     }
 
     private fun handleRouletteState(state: RouletteState.Roulette) {
