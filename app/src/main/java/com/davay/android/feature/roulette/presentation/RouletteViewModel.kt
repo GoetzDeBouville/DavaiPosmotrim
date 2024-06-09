@@ -117,12 +117,16 @@ class RouletteViewModel @Inject constructor() : BaseViewModel() {
 
     private fun tempFun(): Flow<List<UserRouletteModel>?> = flow {
         for (i in 0..2) {
-            delay(DELAY_TIME_MS_1000)
+            delay(DELAY_TIME_MS_1000 * TEMP_NUMBER_6)
             val list = mutableListOf<UserRouletteModel>()
             list.addAll(users.map { it.copy() })
             list[i].isConnected = true
             emit(list)
         }
+    }
+
+    fun rouletteStart() {
+        // отправляем запрос на добавление других пользователей в рулетку
     }
 
     companion object {

@@ -7,6 +7,7 @@ import android.widget.Toast
 import androidx.core.content.res.ResourcesCompat
 import androidx.core.view.get
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearSnapHelper
 import androidx.recyclerview.widget.RecyclerView
 import com.davai.uikit.TagView
@@ -33,7 +34,8 @@ class RouletteFragment :
 
     override val viewModel: RouletteViewModel by injectViewModel<RouletteViewModel>()
     private val carouselAdapter: CarouselAdapter = CarouselAdapter()
-    private val bottomSheetBehavior by lazy { BottomSheetBehavior.from(binding.bottomSheetRoulette) }
+    private val bottomSheetBehaviorWaiting by lazy { BottomSheetBehavior.from(binding.bottomSheetWaiting) }
+    private val bottomSheetBehaviorIntro by lazy { BottomSheetBehavior.from(binding.bottomSheetIntro) }
 
     override fun diComponent(): ScreenComponent =
         DaggerRouletteFragmentComponent.builder().appComponent(AppComponentHolder.getComponent())
@@ -46,6 +48,35 @@ class RouletteFragment :
                 handleState(it)
             }
         }
+        handleStartFragment()
+    }
+
+    /**
+     *  Для инициатора рулетки в bundle должно быть true по ключу ROULETTE_INITIATOR.
+     *  Для остальных пусто или false.
+     */
+    private fun handleStartFragment() {
+        val isInitiator: Boolean? = arguments?.getBoolean(ROULETTE_INITIATOR)
+        if (isInitiator == true) {
+            initBottomSheetIntro()
+        } else {
+            bottomSheetBehaviorIntro.state = BottomSheetBehavior.STATE_HIDDEN
+            startAutoScrolling()
+        }
+    }
+
+    private fun initBottomSheetIntro() {
+        bottomSheetBehaviorIntro.state = BottomSheetBehavior.STATE_EXPANDED
+        bottomSheetBehaviorIntro.isHideable = false
+        binding.btnCancel.setOnClickListener {
+            findNavController().navigateUp()
+        }
+        binding.btnContinue.setOnClickListener {
+            bottomSheetBehaviorIntro.isHideable = true
+            bottomSheetBehaviorIntro.state = BottomSheetBehavior.STATE_HIDDEN
+            viewModel.rouletteStart()
+            startAutoScrolling()
+        }
     }
 
     private fun initRecyclerRoulette(films: List<MovieDetailsDemo>) {
@@ -57,7 +88,6 @@ class RouletteFragment :
             addItemDecoration(LinearHorizontalSpacingDecoration(spacing))
             LinearSnapHelper().attachToRecyclerView(this)
         }
-        startAutoScrolling()
     }
 
     private fun startAutoScrolling() {
@@ -88,12 +118,12 @@ class RouletteFragment :
     }
 
     private fun hideBottomSheet() {
-        bottomSheetBehavior.isHideable = true
-        bottomSheetBehavior.state = BottomSheetBehavior.STATE_HIDDEN
+        bottomSheetBehaviorWaiting.isHideable = true
+        bottomSheetBehaviorWaiting.state = BottomSheetBehavior.STATE_HIDDEN
     }
 
-    private fun initBottomSheet(participantsList: List<UserRouletteModel>) {
-        bottomSheetBehavior.state = BottomSheetBehavior.STATE_EXPANDED
+    private fun initBottomSheetWaiting(participantsList: List<UserRouletteModel>) {
+        bottomSheetBehaviorWaiting.state = BottomSheetBehavior.STATE_EXPANDED
         binding.fblParticipants.apply {
             setDividerDrawable(
                 ResourcesCompat.getDrawable(
@@ -159,12 +189,13 @@ class RouletteFragment :
     }
 
     private fun handleInitState(state: RouletteState.Init) {
-        initBottomSheet(state.users)
+        initBottomSheetWaiting(state.users)
         initRecyclerRoulette(state.films)
     }
 
     companion object {
         private const val DELAY_TIME_MS_1000 = 1000L
         private const val ROULETTE_SCROLL_COEFFICIENT = 4
+        const val ROULETTE_INITIATOR = "ROULETTE_INITIATOR"
     }
 }

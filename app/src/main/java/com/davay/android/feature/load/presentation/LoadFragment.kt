@@ -4,6 +4,8 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.os.bundleOf
+import androidx.navigation.fragment.findNavController
 import com.davay.android.R
 import com.davay.android.app.AppComponentHolder
 import com.davay.android.base.BaseFragment
@@ -11,6 +13,7 @@ import com.davay.android.databinding.FragmentLoadBinding
 import com.davay.android.di.ScreenComponent
 import com.davay.android.feature.load.di.DaggerLoadFragmentComponent
 import com.davay.android.feature.onboarding.presentation.OnboardingFragment
+import com.davay.android.feature.roulette.presentation.RouletteFragment
 
 class LoadFragment : BaseFragment<FragmentLoadBinding, LoadViewModel>(
     FragmentLoadBinding::inflate
@@ -56,7 +59,13 @@ class LoadFragment : BaseFragment<FragmentLoadBinding, LoadViewModel>(
             viewModel.navigate(R.id.action_loadFragment_to_splashFragment)
         }
         binding.btnToRoulette.setOnClickListener {
-            viewModel.navigate(R.id.action_loadFragment_to_rouletteFragment)
+            findNavController().navigate(R.id.action_loadFragment_to_rouletteFragment)
+        }
+        binding.btnToRoulette2.setOnClickListener {
+            findNavController().navigate(
+                R.id.action_loadFragment_to_rouletteFragment,
+                bundleOf(RouletteFragment.ROULETTE_INITIATOR to true)
+            )
         }
     }
 }
