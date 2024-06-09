@@ -44,7 +44,7 @@
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <LinearLayout
-        android:id="@+id/bottom_sheet_roulette"
+        android:id="@+id/bottom_sheet_waiting"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/bottom_sheet_background"
@@ -79,6 +79,72 @@
             android:text="@string/roulette_magic"
             android:textAppearance="@style/Text.Base.Medium.Regular"
             android:textColor="@color/text_caption_light" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/bottom_sheet_intro"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/bottom_sheet_background"
+        android:orientation="vertical"
+        android:paddingHorizontal="@dimen/padding_16"
+        android:paddingTop="@dimen/padding_16"
+        android:paddingBottom="@dimen/padding_20"
+        app:behavior_hideable="true"
+        app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/roulette_random_selection"
+            android:textAppearance="@style/Text.Headline.Title"
+            android:textColor="@color/text_headings" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_32"
+            android:text="@string/roulette_description_1"
+            android:textAppearance="@style/Text.Base.Medium.Regular"
+            android:textColor="@color/text_base" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_16"
+            android:text="@string/roulette_description_2"
+            android:textAppearance="@style/Text.Base.Medium.Regular"
+            android:textColor="@color/text_base" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_continue"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/button_height_48"
+            android:layout_marginTop="@dimen/margin_32"
+            android:backgroundTint="@color/primary_base"
+            android:insetTop="0dp"
+            android:insetBottom="0dp"
+            android:padding="0dp"
+            android:text="@string/onboarding_begin"
+            android:textAppearance="@style/Text.Base.Button.Regular"
+            android:textColor="@color/text_light"
+            app:cornerRadius="@dimen/card_radius_12" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_cancel"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/button_height_48"
+            android:layout_marginTop="@dimen/margin_16"
+            android:backgroundTint="@color/background_white"
+            android:insetTop="0dp"
+            android:insetBottom="0dp"
+            android:padding="0dp"
+            android:text="@string/roulette_cancel"
+            android:textAppearance="@style/Text.Base.Button.Bold"
+            android:textColor="@color/text_base"
+            android:textStyle="bold"
+            app:cornerRadius="@dimen/card_radius_12" />
+
     </LinearLayout>
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
