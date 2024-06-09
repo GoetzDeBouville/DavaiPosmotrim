@@ -54,7 +54,7 @@ class RouletteFragment :
         with(binding.recyclerViewRoulette) {
             layoutManager = CarouselLayoutManager(requireContext())
             adapter = carouselAdapter
-            val spacing = resources.getDimensionPixelSize(com.davai.uikit.R.dimen.margin_16)
+            val spacing = resources.getDimensionPixelSize(com.davai.uikit.R.dimen.zero)
             addItemDecoration(LinearHorizontalSpacingDecoration(spacing))
             LinearSnapHelper().attachToRecyclerView(this)
         }
@@ -156,9 +156,9 @@ class RouletteFragment :
                 else -> requireContext().getColor(com.davai.uikit.R.color.error)
             }
             tvMarkValue.setTextColor(textColor)
-            ivLike.visibility = View.GONE
-            ivRevert.visibility = View.GONE
-            ivSkip.visibility = View.GONE
+            civLike.visibility = View.GONE
+            civRevert.visibility = View.GONE
+            civSkip.visibility = View.GONE
 
             lifecycleScope.launch {
                 delay(DELAY_TIME_MS_1000)

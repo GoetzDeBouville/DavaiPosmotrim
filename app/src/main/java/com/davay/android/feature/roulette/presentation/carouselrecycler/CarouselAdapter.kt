@@ -16,9 +16,9 @@ class CarouselAdapter :
         val inflater = LayoutInflater.from(parent.context)
         return FilmViewHolder(
             ItemSwipeableMovieCardBinding.inflate(inflater, parent, false).apply {
-                ivLike.visibility = View.GONE
-                ivRevert.visibility = View.GONE
-                ivSkip.visibility = View.GONE
+                civLike.visibility = View.GONE
+                civRevert.visibility = View.GONE
+                civSkip.visibility = View.GONE
             },
             parent.width
         )
