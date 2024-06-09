@@ -4,11 +4,11 @@ import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import coil.size.Scale
 import coil.transform.RoundedCornersTransformation
-import com.davay.android.databinding.ItemFilmBinding
+import com.davay.android.databinding.ItemSwipeableMovieCardBinding
 import com.davay.android.feature.roulette.presentation.model.FilmRouletteModel
 import kotlin.math.roundToInt
 
-class FilmViewHolder(private val binding: ItemFilmBinding, parentWidth: Int) :
+class FilmViewHolder(private val binding: ItemSwipeableMovieCardBinding, parentWidth: Int) :
     RecyclerView.ViewHolder(binding.root) {
 
     init {

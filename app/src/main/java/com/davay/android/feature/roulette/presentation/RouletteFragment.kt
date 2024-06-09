@@ -156,6 +156,9 @@ class RouletteFragment :
                 else -> requireContext().getColor(com.davai.uikit.R.color.error)
             }
             tvMarkValue.setTextColor(textColor)
+            ivLike.visibility = View.GONE
+            ivRevert.visibility = View.GONE
+            ivSkip.visibility = View.GONE
 
             lifecycleScope.launch {
                 delay(DELAY_TIME_MS_1000)
