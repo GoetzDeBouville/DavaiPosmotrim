@@ -57,4 +57,15 @@
             <enum name="onboarding_violet" value="6" />
         </attr>
     </declare-styleable>
+
+    <declare-styleable name="ConditionedImageView">
+        <attr name="baseConditionImageId" format="reference"/>
+        <attr name="secondConditionImageId" format="reference"/>
+    </declare-styleable>
+
+    <declare-styleable name="CustomCircularProgressBar">
+        <attr name="progressColor" format="color"/>
+        <attr name="backgroundColor" format="color"/>
+        <attr name="circleDiameter" format="dimension"/>
+    </declare-styleable>
 </resources>

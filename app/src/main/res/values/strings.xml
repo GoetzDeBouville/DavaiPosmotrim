@@ -88,6 +88,11 @@
     <string name="create_session_choose_genre">Выберите понравившиеся жанры</string>
     <string name="create_session_choose_genre_one">Выберите хотя бы один жанр</string>
 
+    <!--  match dialog  -->
+    <string name="match_continue_session">Продолжить сеанс</string>
+    <string name="match_watch">Смотрим!</string>
+
+    <!--  roulette  -->
     <string name="roulette_magic">Начнём магию, когда подключатся все участники</string>
     <string name="roulette_wait">Ждём участников...</string>
     <string name="roulette_to_film_list">Перейти к списку фильмов</string>

@@ -1,4 +1,4 @@
-package com.davay.android.feature.selectmovie
+package com.davay.android.feature.selectmovie.domain.models
 
 // используется для demo
 data class MovieDetailsDemo(
@@ -19,5 +19,6 @@ data class MovieDetailsDemo(
     val genres: List<String> = emptyList(),
     val countries: List<String> = emptyList(),
     val topCast: List<String> = emptyList(),
-    val directors: List<String> = emptyList()
+    val directors: List<String> = emptyList(),
+    val isLiked: Boolean = false
 )

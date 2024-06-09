@@ -11,14 +11,17 @@ import com.davay.android.app.AppComponentHolder
 import com.davay.android.base.BaseFragment
 import com.davay.android.databinding.FragmentSelectMovieBinding
 import com.davay.android.di.ScreenComponent
+import com.davay.android.extensions.SwipeDirection
 import com.davay.android.extensions.dpToPx
-import com.davay.android.feature.selectmovie.MovieDetailsDemo
-import com.davay.android.feature.selectmovie.adapters.MovieCardAdapter
-import com.davay.android.feature.selectmovie.adapters.SwipeCallback
-import com.davay.android.feature.selectmovie.adapters.SwipeableLayoutManager
+import com.davay.android.feature.match.presentation.MatchBottomSheetFragment
 import com.davay.android.feature.selectmovie.di.DaggerSelectMovieFragmentComponent
+import com.davay.android.feature.selectmovie.domain.models.MovieDetailsDemo
+import com.davay.android.feature.selectmovie.presentation.adapters.MovieCardAdapter
+import com.davay.android.feature.selectmovie.presentation.adapters.SwipeCallback
+import com.davay.android.feature.selectmovie.presentation.adapters.SwipeableLayoutManager
 import com.google.android.flexbox.FlexboxLayout
 import com.google.android.material.bottomsheet.BottomSheetBehavior
+import com.google.gson.Gson
 
 class SelectMovieFragment :
     BaseFragment<FragmentSelectMovieBinding, SelectMovieViewModel>(FragmentSelectMovieBinding::inflate) {
@@ -40,19 +43,19 @@ class SelectMovieFragment :
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initViews()
-        binding.rvFilmCard.post {
-            if (binding.rvFilmCard.adapter == null) {
-                Log.e("SelectMovieFragment", "RecyclerView adapter is not attached after setting!")
-            } else {
-                Log.d("SelectMovieFragment", "Adapter successfully attached")
-            }
-        }
+        subscribe()
     }
 
     private fun initViews() {
         buildRecyclerView()
         setToolbar()
         setBottomSheet()
+    }
+
+    private fun subscribe() {
+        binding.toolbarviewHeader.setEndIconClickListener {
+            showBottomSheetFragment(mockMovies[0])
+        }
     }
 
     private fun buildRecyclerView() {
@@ -100,27 +103,23 @@ class SelectMovieFragment :
 
     private fun setToolbar() {
         binding.toolbarviewHeader.apply {
-            setStartIcon(com.davai.uikit.R.drawable.ic_cross)
-            setEndIcon(com.davai.uikit.R.drawable.ic_heart)
-            showEndIcon()
-            setTitleText(requireContext().getString(R.string.select_movies_select_film))
             updateMatchesDisplay(matchesCounter)
             addStatusBarSpacer()
         }
     }
 
     private fun autoSwipeLeft() {
-        swipeCardLayoutManager.swipeLeft()
+        swipeCardLayoutManager.moveNextWithSwipeAndLayout(SwipeDirection.LEFT)
         cardAdapter.notifyDataSetChanged()
     }
 
     private fun autoSwipeRight() {
-        swipeCardLayoutManager.swipeRight()
+        swipeCardLayoutManager.moveNextWithSwipeAndLayout(SwipeDirection.RIGHT)
         cardAdapter.notifyDataSetChanged()
     }
 
     private fun revertSwipe() {
-        swipeCardLayoutManager.revertSwipe()
+        swipeCardLayoutManager.shiftLeftWithRevertAndLayout()
         cardAdapter.notifyDataSetChanged()
     }
 
@@ -163,6 +162,12 @@ class SelectMovieFragment :
             castView.text = it
             fbl.addView(castView)
         }
+    }
+
+    private fun showBottomSheetFragment(movie: MovieDetailsDemo) {
+        val movieDetails = Gson().toJson(movie)
+        val bottomSheetFragment = MatchBottomSheetFragment.newInstance(movieDetails)
+        bottomSheetFragment.show(parentFragmentManager, bottomSheetFragment.tag)
     }
 
     private companion object {

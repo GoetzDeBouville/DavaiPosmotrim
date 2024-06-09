@@ -1,13 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <dimen name="card_radius_24">24dp</dimen>
-    <dimen name="card_radius_16">16dp</dimen>
+    <dimen name="card_radius_9">9dp</dimen>
     <dimen name="card_radius_12">12dp</dimen>
+    <dimen name="card_radius_16">16dp</dimen>
     <dimen name="card_radius_18">18dp</dimen>
+    <dimen name="card_radius_24">24dp</dimen>
 
+    <dimen name="stroke_width_3">3dp</dimen>
     <dimen name="drag_handle_height_8">8dp</dimen>
     <dimen name="static_view_height_36">36dp</dimen>
+    <dimen name="small_icon_size_40">40dp</dimen>
     <dimen name="button_height_48">48dp</dimen>
+    <dimen name="default_icon_size_52">52dp</dimen>
     <dimen name="toolbar_height_64">64dp</dimen>
     <dimen name="top_gradient_height_80">80dp</dimen>
     <dimen name="bs_dialog_peek_height_96">96dp</dimen>
@@ -51,13 +55,14 @@
     <dimen name="dimen_80">80dp</dimen>
     <dimen name="dimen_64">64dp</dimen>
 
-    <dimen name="drag_handle_width_48">48dp</dimen>
+    <dimen name="drag_handle_radius_5">5dp</dimen>
     <dimen name="drag_handle_height_6">6dp</dimen>
     <dimen name="drag_handle_margin_top_12">12dp</dimen>
-    <dimen name="drag_handle_radius_5">5dp</dimen>
+    <dimen name="drag_handle_width_48">48dp</dimen>
 
     <dimen name="change_name_input_margin">136dp</dimen>
 
+    <dimen name="banner_angle_neg_12">-12</dimen>
     <dimen name="gradient_rotation_angle_180">180</dimen>
     <dimen name="gradient_rotation_angle_270">270</dimen>
 </resources>
