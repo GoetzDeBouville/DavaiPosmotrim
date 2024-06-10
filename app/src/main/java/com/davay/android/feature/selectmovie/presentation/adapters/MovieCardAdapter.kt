@@ -25,12 +25,15 @@ class MovieCardAdapter(
         private val revert: () -> Unit,
         private val inflateMovieDetails: (MovieDetailsDemo) -> Unit
     ) : RecyclerView.ViewHolder(binding.root) {
+        init {
+            onItemsClicklisteners()
+        }
+
         fun bind(data: MovieDetailsDemo) = with(binding) {
             inflateMovieDetails.invoke(data)
             bindImage(data)
             addGenreList(data.genres)
             setRateText(data.ratingKinopoisk)
-            onItemsClicklisteners()
             tvFilmTitle.text = data.movieName
             tvOriginalTitle.text = data.alternativeName ?: data.englishName ?: ""
             tvYearCountryRuntime.text = buildStringYearCountriesRuntime(
@@ -138,7 +141,7 @@ class MovieCardAdapter(
         }
     }
 
-    private val datalist = arrayListOf<MovieDetailsDemo>()
+    private val datalist = mutableListOf<MovieDetailsDemo>()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MovieCardVH {
         val layoutInflater = LayoutInflater.from(parent.context)

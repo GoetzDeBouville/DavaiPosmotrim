@@ -83,7 +83,7 @@ class SelectMovieFragment :
                 rvFilmCard.getLocationOnScreen(cardLocation)
                 val cardTop = cardLocation[1]
 
-                val screenHeight = resources.displayMetrics.heightPixels
+                val screenHeight = activity?.resources?.displayMetrics?.heightPixels ?: 0
                 val maxHeight = screenHeight - (cardTop + MARGIN_TOP_16_DP.dpToPx().toInt())
 
                 clDetailsBottomSheet.layoutParams.height = maxHeight

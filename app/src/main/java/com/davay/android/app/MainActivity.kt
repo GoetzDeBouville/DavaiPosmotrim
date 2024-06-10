@@ -2,6 +2,7 @@ package com.davay.android.app
 
 import android.animation.Animator
 import android.animation.AnimatorListenerAdapter
+import android.content.pm.ActivityInfo
 import android.os.Build
 import android.os.Bundle
 import android.view.View
@@ -38,6 +39,7 @@ class MainActivity : AppCompatActivity() {
         }
 
         setMarginBanner()
+        requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
     }
 
     /**
