@@ -7,7 +7,7 @@
     android:orientation="vertical">
     <ImageView
         android:id="@+id/empty_iv"
-        android:contentDescription="@string/empty_coincidences"
+        android:contentDescription="@string/coincidences_screen_empty_coincidences"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:src="@drawable/placeholder_empty" />
@@ -17,7 +17,7 @@
         android:layout_height="wrap_content"
         android:textAppearance="@style/Text.Headline.SubTitle"
         android:layout_marginTop="@dimen/margin_4"
-        android:text="@string/empty_coincidences"
+        android:text="@string/coincidences_screen_empty_coincidences"
         android:gravity="center" />
 
 

@@ -38,7 +38,7 @@ class CoincidencesFragment : BaseFragment<FragmentCoincidencesBinding, Coinciden
         super.onViewCreated(view, savedInstanceState)
         binding.toolbarView.addStatusBarSpacer()
         setupMoviesGrid()
-        observeState()
+        subscribe()
         getData()
     }
 
@@ -52,39 +52,43 @@ class CoincidencesFragment : BaseFragment<FragmentCoincidencesBinding, Coinciden
         viewModel.onGetData(connectivityManager)
     }
 
-    private fun observeState() {
+    private fun subscribe() {
         viewLifecycleOwner.lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
-                viewModel.uiState.collectLatest {
-                    when (it) {
-                        is UiState.Empty -> hideExclude(emptyMessage = true)
-                        is UiState.Loading -> hideExclude(progressBar = true)
-                        is UiState.Data -> {
-                            hideExclude(coincidencesList = true)
-                            moviesGridAdapter.setData(it.data)
-                        }
-                        is UiState.Error -> {
-//                            hideExclude(error = true)
-//                            when (it.errorType) {
-//                                ErrorType.NO_INTERNET -> { }
-//                                ErrorType.SERVER_ERROR -> { }
-//                            }
-                        }
-                    }
+                viewModel.state.collectLatest {
+                    handleState(it)
                 }
             }
         }
     }
 
-    private fun hideExclude(
-        progressBar: Boolean = false,
-//        error: Boolean = false,
-        coincidencesList: Boolean = false,
-        emptyMessage: Boolean = false
-    ) {
-        binding.progressBar.isVisible = progressBar
-//        binding.error.isVisible = error
-        binding.coincidencesList.isVisible = coincidencesList
-        binding.emptyPlaceholder.root.isVisible = emptyMessage
+    private fun handleState(state: UiState) {
+        when (state) {
+            is UiState.Empty -> updateVisibility(emptyMessageIsVisible = true)
+            is UiState.Loading -> updateVisibility(progressBarIsVisible = true)
+            is UiState.Data -> {
+                updateVisibility(coincidencesListIsVisible = true)
+                moviesGridAdapter.setData(state.data)
+            }
+            is UiState.Error -> {
+//                            hideExclude(error = true)
+//                            when (it.errorType) {
+//                                ErrorType.NO_INTERNET -> { }
+//                                ErrorType.SERVER_ERROR -> { }
+//                            }
+            }
+        }
+    }
+
+    private fun updateVisibility(
+        progressBarIsVisible: Boolean = false,
+//        errorIsVisible: Boolean = false,
+        coincidencesListIsVisible: Boolean = false,
+        emptyMessageIsVisible: Boolean = false
+    ) = with(binding) {
+        progressBar.isVisible = progressBarIsVisible
+//        error.isVisible = error
+        coincidencesList.isVisible = coincidencesListIsVisible
+        emptyPlaceholder.root.isVisible = emptyMessageIsVisible
     }
 }

@@ -19,20 +19,21 @@ class CoincidencesViewModel @Inject constructor(
     private val getData: GetData<TestMovie>
 ) : BaseViewModel() {
 
-    private val _uiState: MutableStateFlow<UiState> = MutableStateFlow(UiState.Empty)
-    val uiState: StateFlow<UiState> = _uiState
+    private val _state: MutableStateFlow<UiState> = MutableStateFlow(UiState.Empty)
+    val state: StateFlow<UiState>
+        get() = _state
 
     fun onGetData(connectivityManager: ConnectivityManager?) {
         viewModelScope.launch(Dispatchers.IO) {
-            _uiState.emit(UiState.Loading)
+            _state.emit(UiState.Loading)
             val hasNetworkAccess = checkNetworkState(connectivityManager)
 
             if (!hasNetworkAccess) {
-                _uiState.emit(UiState.Error(ErrorType.NO_INTERNET))
+                _state.emit(UiState.Error(ErrorType.NO_INTERNET))
             } else {
                 getData.getData().fold(
                     onSuccess = { movies ->
-                        _uiState.emit(
+                        _state.emit(
                             if (movies.isEmpty()) {
                                 UiState.Empty
                             } else {
@@ -41,7 +42,7 @@ class CoincidencesViewModel @Inject constructor(
                         )
                     },
                     onFailure = { _ ->
-                        _uiState.emit(UiState.Error(ErrorType.SERVER_ERROR))
+                        _state.emit(UiState.Error(ErrorType.SERVER_ERROR))
                     }
                 )
             }

@@ -89,11 +89,7 @@
     <string name="create_session_choose_genre_one">Выберите хотя бы один жанр</string>
 
     <!-- coincidences screen -->
-    <string name="coincidences">Совпадения</string>
-    <string name="empty_coincidences">Пока ничего нет</string>
-    <string name="url1">https://images.squarespace-cdn.com/content/v1/57488e28746fb940f103c64e/1626726014496-MF7OB9OBHLB21UR0LJV0/Fellowship+for+Trailer.jpg</string>
-    <string name="url2">https://i.pinimg.com/originals/b8/79/e4/b879e41af44317004f6e765cb215b41c.jpg</string>
-    <string name="url3">https://ruskino.ru/media/gallery/624/uxpmUNTVnFXMiVWIWSebd4l03TI.jpg</string>
-    <string name="url4">https://i.pinimg.com/736x/5e/14/c7/5e14c743d3afd01c80f12e3a5171cada.jWind</string>
-    <string name="url5">https://labande-annonce.fr/www-site/uploads/2014/12/affiche-whiplash-fr.jpg</string>
+    <string name="coincidences_screen_coincidences">Совпадения</string>
+    <string name="coincidences_screen_empty_coincidences">Пока ничего нет</string>
+
 </resources>

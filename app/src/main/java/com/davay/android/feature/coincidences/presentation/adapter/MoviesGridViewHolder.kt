@@ -8,7 +8,7 @@ import com.davay.android.feature.coincidences.presentation.TestMovie
 class MoviesGridViewHolder(private val view: MovieCardView) : RecyclerView.ViewHolder(view) {
 
     fun bind(movie: TestMovie) = with(view) {
-        setMovieCover(view.context.getString(movie.imageUrl))
+        setMovieCover(movie.imageUrl)
         setMovieTitle(movie.title)
     }
 
