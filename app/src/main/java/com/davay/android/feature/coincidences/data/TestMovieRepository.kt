@@ -10,7 +10,7 @@ class TestMovieRepository : GetData<TestMovie> {
     companion object {
         private val urls = listOf(
             "https://images.squarespace-cdn.com/content/v1/57488e28746fb940f103c64e/" +
-                    "1626726014496-MF7OB9OBHLB21UR0LJV0/Fellowship+for+Trailer.jpg",
+                "1626726014496-MF7OB9OBHLB21UR0LJV0/Fellowship+for+Trailer.jpg",
             "https://i.pinimg.com/originals/b8/79/e4/b879e41af44317004f6e765cb215b41c.jpg",
             "https://ruskino.ru/media/gallery/624/uxpmUNTVnFXMiVWIWSebd4l03TI.jpg",
             "https://i.pinimg.com/736x/5e/14/c7/5e14c743d3afd01c80f12e3a5171cada.jWind",
