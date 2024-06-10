@@ -6,6 +6,8 @@ import android.view.View
 import android.widget.Toast
 import androidx.core.content.res.ResourcesCompat
 import androidx.core.view.get
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearSnapHelper
@@ -36,6 +38,14 @@ class RouletteFragment :
     private val carouselAdapter: CarouselAdapter = CarouselAdapter()
     private val bottomSheetBehaviorWaiting by lazy { BottomSheetBehavior.from(binding.bottomSheetWaiting) }
     private val bottomSheetBehaviorIntro by lazy { BottomSheetBehavior.from(binding.bottomSheetIntro) }
+    private val fragmentLifecycleCallbacks = object : FragmentManager.FragmentLifecycleCallbacks() {
+        override fun onFragmentDetached(fm: FragmentManager, f: Fragment) {
+            super.onFragmentDetached(fm, f)
+            if (f is MatchBottomSheetFragment) {
+                findNavController().navigateUp()
+            }
+        }
+    }
 
     override fun diComponent(): ScreenComponent =
         DaggerRouletteFragmentComponent.builder().appComponent(AppComponentHolder.getComponent())
@@ -43,12 +53,18 @@ class RouletteFragment :
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        parentFragmentManager.registerFragmentLifecycleCallbacks(fragmentLifecycleCallbacks, true)
         lifecycleScope.launch {
             viewModel.state.collect {
                 handleState(it)
             }
         }
         handleStartFragment()
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        parentFragmentManager.unregisterFragmentLifecycleCallbacks(fragmentLifecycleCallbacks)
     }
 
     /**
