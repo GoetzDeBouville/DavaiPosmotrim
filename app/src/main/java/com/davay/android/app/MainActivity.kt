@@ -14,8 +14,6 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.postDelayed
 import androidx.core.view.updateLayoutParams
-import com.davai.uikit.extensions.applyBlurEffect
-import com.davai.uikit.extensions.clearBlurEffect
 import com.davay.android.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
