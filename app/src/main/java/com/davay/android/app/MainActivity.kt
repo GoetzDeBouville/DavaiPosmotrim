@@ -2,6 +2,7 @@ package com.davay.android.app
 
 import android.animation.Animator
 import android.animation.AnimatorListenerAdapter
+import android.content.pm.ActivityInfo
 import android.os.Build
 import android.os.Bundle
 import android.view.View
@@ -25,6 +26,22 @@ class MainActivity : AppCompatActivity() {
 //            supportFragmentManager.findFragmentById(R.id.fragment_container_view) as NavHostFragment
 //        val navController = navHostFragment.navController
 
+        configureLightStatusBar()
+        setMarginBanner()
+        setPortraitOrientation()
+    }
+
+    /**
+     * Задаем портретную ориентацию т.к. нет дизайна и требований по landscape
+     */
+    private fun setPortraitOrientation() {
+        requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
+    }
+
+    /**
+     * Метод настраивает цвет элементов статус бара
+     */
+    private fun configureLightStatusBar() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
             window.insetsController?.setSystemBarsAppearance(
                 WindowInsetsController.APPEARANCE_LIGHT_STATUS_BARS,
@@ -34,8 +51,6 @@ class MainActivity : AppCompatActivity() {
             @Suppress("DEPRECATION")
             window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
         }
-
-        setMarginBanner()
     }
 
     /**
