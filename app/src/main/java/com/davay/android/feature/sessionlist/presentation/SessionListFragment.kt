@@ -2,7 +2,10 @@ package com.davay.android.feature.sessionlist.presentation
 
 import android.os.Bundle
 import android.view.View
+import androidx.activity.OnBackPressedCallback
+import androidx.navigation.fragment.findNavController
 import com.davai.extensions.dpToPx
+import com.davai.uikit.MainDialogFragment
 import com.davay.android.R
 import com.davay.android.app.AppComponentHolder
 import com.davay.android.base.BaseFragment
@@ -16,7 +19,6 @@ import com.google.android.flexbox.FlexDirection
 import com.google.android.flexbox.FlexWrap
 import com.google.android.flexbox.FlexboxLayoutManager
 import com.google.android.flexbox.JustifyContent
-import com.google.android.material.dialog.MaterialAlertDialogBuilder
 
 class SessionListFragment : BaseFragment<FragmentSessionListBinding, SessionListViewModel>(
     FragmentSessionListBinding::inflate
@@ -24,6 +26,7 @@ class SessionListFragment : BaseFragment<FragmentSessionListBinding, SessionList
     override val viewModel: SessionListViewModel by injectViewModel<SessionListViewModel>()
     private val userAdapter = UserAdapter()
     private var etCode: String? = null
+    private var dialog: MainDialogFragment? = null
 
     override fun diComponent(): ScreenComponent = DaggerSessionListFragmentComponent.builder()
         .appComponent(AppComponentHolder.getComponent())
@@ -32,14 +35,30 @@ class SessionListFragment : BaseFragment<FragmentSessionListBinding, SessionList
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
-            etCode = it.getString("ET_CODE_KEY")
+            etCode = it.getString(ET_CODE_KEY)
         }
+        requireActivity().onBackPressedDispatcher.addCallback(
+            this,
+            object : OnBackPressedCallback(true) {
+                override fun handleOnBackPressed() {
+                    dialog?.show(parentFragmentManager, CUSTOM_DIALOG_TAG)
+                }
+            }
+        )
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initViews()
         subscribe()
+
+        dialog = MainDialogFragment.newInstance(
+            title = getString(R.string.leave_session_title),
+            message = getString(R.string.leave_session_dialog_message),
+            yesAction = {
+                findNavController().popBackStack(R.id.mainFragment, true)
+            }
+        )
     }
 
     private fun initViews() {
@@ -76,21 +95,13 @@ class SessionListFragment : BaseFragment<FragmentSessionListBinding, SessionList
 
     private fun setButtonClickListeners() {
         binding.btnExit.setOnClickListener {
-            MaterialAlertDialogBuilder(requireContext())
-                .setTitle(getString(R.string.leave_session_title))
-                .setMessage(getString(R.string.leave_session_dialog_message))
-                .setPositiveButton(getString(R.string.leave_session_dialog_positive)) { dialog, _ ->
-                    viewModel.navigate(R.id.action_sessionListFragment_to_mainFragment)
-                    dialog.dismiss()
-                }
-                .setNegativeButton(getString(R.string.leave_session_dialog_negative)) { dialog, _ ->
-                    dialog.dismiss()
-                }
-                .show()
+            dialog?.show(parentFragmentManager, CUSTOM_DIALOG_TAG)
         }
     }
 
     companion object {
         private const val SPACING_BETWEEN_RV_ITEMS_8_DP = 8
+        private const val CUSTOM_DIALOG_TAG = "customDialog"
+        private const val ET_CODE_KEY = "ET_CODE_KEY"
     }
 }
