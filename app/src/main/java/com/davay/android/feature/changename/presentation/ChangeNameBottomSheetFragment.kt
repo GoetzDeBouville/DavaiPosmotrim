@@ -33,18 +33,28 @@ class ChangeNameBottomSheetFragment :
         .appComponent(AppComponentHolder.getComponent())
         .build()
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
         arguments?.let {
             name = it.getString(ARG_NAME)
         }
+        savedInstanceState?.let {
+            name = it.getString(ARG_NAME)
+        }
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        outState.putString(ARG_NAME, binding.etName.text.toString())
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
 
         name?.let {
-            binding.etName.setText(name)
+            binding.etName.setText(it)
         }
 
-        showSoftKeyboard(binding.etName)
         lifecycleScope.launch {
             viewModel.state.collect { stateHandle(it) }
         }
@@ -74,6 +84,7 @@ class ChangeNameBottomSheetFragment :
             bottomSheetBehavior!!.state = BottomSheetBehavior.STATE_HIDDEN
         }
         buildBottomSheet()
+        showSoftKeyboard(binding.etName)
     }
 
     private fun buildBottomSheet() {
@@ -112,7 +123,6 @@ class ChangeNameBottomSheetFragment :
             }
         })
     }
-
 
     private fun showSoftKeyboard(view: View) {
         if (view.requestFocus()) {
@@ -163,8 +173,8 @@ class ChangeNameBottomSheetFragment :
 
     companion object {
         private const val TYPE_SMALL_BORDER = 12
-        private const val BOTTOM_SHEET_HIDE_PERCENT_60 = 60
-        private const val BOTTOM_SHEET_HEIGHT = 0.5
+        private const val BOTTOM_SHEET_HIDE_PERCENT_60 = 0.6f
+        private const val BOTTOM_SHEET_HEIGHT = 0.5f
 
         private const val ARG_NAME = "name"
         const val REQUEST_KEY = "changeNameRequestKey"

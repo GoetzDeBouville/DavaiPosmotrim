@@ -21,9 +21,18 @@ class MainFragment :
     BaseFragment<FragmentMainBinding, MainViewModel>(FragmentMainBinding::inflate) {
 
     override val viewModel: MainViewModel by injectViewModel<MainViewModel>()
+    private var userName: String? = null
+
     override fun diComponent(): ScreenComponent = DaggerMainFragmentComponent.builder()
         .appComponent(AppComponentHolder.getComponent())
         .build()
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        if (savedInstanceState != null) {
+            userName = savedInstanceState.getString(USER_NAME_KEY)
+        }
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -36,9 +45,14 @@ class MainFragment :
         binding.joinSession.setState(MainScreenButtonView.JOIN)
 
         // for test
-        binding.userName.text = "Артём"
+        binding.userName.text = userName ?: "Артём"
 
         return binding.root
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        outState.putString(USER_NAME_KEY, binding.userName.text.toString())
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -95,5 +109,9 @@ class MainFragment :
         if (newName != null) {
             binding.userName.text = newName
         }
+    }
+
+    companion object {
+        private const val USER_NAME_KEY = "user_name_key"
     }
 }
