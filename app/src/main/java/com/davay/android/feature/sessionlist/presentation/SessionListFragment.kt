@@ -3,6 +3,7 @@ package com.davay.android.feature.sessionlist.presentation
 import android.os.Bundle
 import android.view.View
 import androidx.activity.OnBackPressedCallback
+import androidx.navigation.fragment.findNavController
 import com.davai.extensions.dpToPx
 import com.davai.uikit.MainDialogFragment
 import com.davay.android.R
@@ -55,7 +56,7 @@ class SessionListFragment : BaseFragment<FragmentSessionListBinding, SessionList
             title = getString(R.string.leave_session_title),
             message = getString(R.string.leave_session_dialog_message),
             yesAction = {
-                viewModel.navigate(R.id.action_sessionListFragment_to_mainFragment)
+                findNavController().popBackStack(R.id.mainFragment, true)
             }
         )
     }
