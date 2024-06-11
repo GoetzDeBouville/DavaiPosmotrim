@@ -12,4 +12,9 @@
     <string name="banner_attention">Выберите хотя бы один жанр</string>
     <string name="banner_success">Код сеанса успешно скопирован</string>
 
+    <string name="dialog_title">Заголовок диалога</string>
+    <string name="dialog_message">Текст диалога</string>
+    <string name="dialog_yes">ДА</string>
+    <string name="dialog_no">НЕТ</string>
+
 </resources>
