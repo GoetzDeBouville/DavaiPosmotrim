@@ -18,7 +18,7 @@ class ProgressButtonView @JvmOverloads constructor(
 ) : MaterialButton(context, attrs, defStyleAttr) {
     private var progress = 0
     private var progressStrokeColor = Color.GREEN
-    private var progressStrokeWidth = 10f
+    private var progressStrokeWidth = DEFAULT_STROKE_WIDTH_10
 
     private val paint = Paint()
     private val arcPaint = Paint().apply {
@@ -74,25 +74,26 @@ class ProgressButtonView @JvmOverloads constructor(
 
     override fun onDraw(canvas: Canvas) {
         super.onDraw(canvas)
+        val halfLength = width.toFloat() / 2
         val totalPathLength =
             2 * width +
                     2 * height -
                     8 * cornerRadius +
                     2 * Math.PI.toFloat() * cornerRadius
-        val curr = totalPathLength * progress / NUM_OF_STEPS
+        val currentLength = totalPathLength * progress / NUM_OF_STEPS
         canvas.drawLine(
-            0.5f * width,
+            halfLength,
             0f,
-            min(0.5f * width + curr, width - cornerRadius - 0f),
+            min(halfLength + currentLength, (width - cornerRadius).toFloat()),
             0f,
             paint
         )
-        if (curr > 0.5f * width - cornerRadius) {
+        if (currentLength > halfLength - cornerRadius) {
             val cornerLength = Math.PI.toFloat() / 2f * cornerRadius
             val step = totalPathLength / NUM_OF_STEPS
             val numOfStepsInCornerLength = cornerLength / step
             val degreeByStep = SWEAP_ANGLE_90_DEG / numOfStepsInCornerLength
-            val newCurr = curr - (0.5f * width - cornerRadius)
+            val newCurr = currentLength - (halfLength - cornerRadius)
             canvas.drawArc(
                 width - 2f * cornerRadius - 2f,
                 2f,
@@ -111,5 +112,6 @@ class ProgressButtonView @JvmOverloads constructor(
         private const val NUM_OF_STEPS = 500
         private const val SWEAP_ANGLE_90_DEG = 90f
         private const val START_ANGLE_270_DEG = 270f
+        private const val DEFAULT_STROKE_WIDTH_10 = 10f
     }
 }
