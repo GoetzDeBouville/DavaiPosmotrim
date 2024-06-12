@@ -72,4 +72,22 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/btn_to_onboarding" />
+
+    <com.davai.uikit.ProgressButtonView
+        android:id="@+id/ccp_progress_button"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/button_height_48"
+        android:layout_marginHorizontal="@dimen/margin_16"
+        android:contentDescription="CCP"
+        android:gravity="center"
+        android:text="Progress"
+        android:textAppearance="@style/Text.Base.Button"
+        android:textColor="@color/white"
+        app:cornerRadius="@dimen/card_radius_12"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:backgroundTint="@color/tertiary_base"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/button2"
+        app:progress_stroke_color="@color/secondary_base"
+        app:progress_stroke_width="@dimen/stroke_width_3" />
 </androidx.constraintlayout.widget.ConstraintLayout>

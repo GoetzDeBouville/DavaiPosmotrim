@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.lifecycle.lifecycleScope
 import com.davay.android.R
 import com.davay.android.app.AppComponentHolder
 import com.davay.android.base.BaseFragment
@@ -11,6 +12,8 @@ import com.davay.android.databinding.FragmentLoadBinding
 import com.davay.android.di.ScreenComponent
 import com.davay.android.feature.load.di.DaggerLoadFragmentComponent
 import com.davay.android.feature.onboarding.presentation.OnboardingFragment
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 class LoadFragment : BaseFragment<FragmentLoadBinding, LoadViewModel>(
     FragmentLoadBinding::inflate
@@ -54,6 +57,15 @@ class LoadFragment : BaseFragment<FragmentLoadBinding, LoadViewModel>(
 
         binding.btnToSplash.setOnClickListener {
             viewModel.navigate(R.id.action_loadFragment_to_splashFragment)
+        }
+
+        binding.ccpProgressButton.apply {
+            cornerRadius = resources.getDimensionPixelSize(com.davai.uikit.R.dimen.card_radius_24)
+        }.also {
+            lifecycleScope.launch {
+                delay(1000L)
+                it.startAnimation(this)
+            }
         }
     }
 }
