@@ -107,40 +107,44 @@
                 android:layout_marginBottom="@dimen/margin_4"
                 app:flexWrap="wrap"
                 app:justifyContent="flex_start"
-                app:layout_constraintBottom_toTopOf="@+id/iv_skip"
+                app:layout_constraintBottom_toTopOf="@+id/civ_skip"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent" />
 
-            <ImageView
-                android:id="@+id/iv_skip"
+            <com.davai.uikit.ConditionedImageView
+                android:id="@+id/civ_skip"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/margin_24"
                 android:contentDescription="@string/select_movies_skip_icon_description"
-                android:src="@drawable/ic_skip"
+                app:baseConditionImageId="@drawable/ic_skip"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent" />
+                app:layout_constraintStart_toStartOf="parent"
+                app:secondConditionImageId="@drawable/ic_skip_filled" />
 
-            <ImageView
-                android:id="@+id/iv_revert"
-                android:layout_width="wrap_content"
+            <com.davai.uikit.ConditionedImageView
+                android:id="@+id/civ_revert"
+                android:layout_width="@dimen/small_icon_size_40"
                 android:layout_height="wrap_content"
                 android:contentDescription="@string/select_movies_revert_icon_description"
-                android:src="@drawable/ic_revert"
-                app:layout_constraintBottom_toBottomOf="@id/iv_skip"
-                app:layout_constraintEnd_toEndOf="@id/iv_like"
-                app:layout_constraintStart_toStartOf="@id/iv_skip"
-                app:layout_constraintTop_toTopOf="@id/iv_skip" />
+                app:baseConditionImageId="@drawable/ic_revert"
+                app:layout_constraintBottom_toBottomOf="@id/civ_skip"
+                app:layout_constraintEnd_toEndOf="@id/civ_like"
+                app:layout_constraintStart_toStartOf="@id/civ_skip"
+                app:layout_constraintTop_toTopOf="@id/civ_skip"
+                app:secondConditionImageId="@drawable/ic_revert_filled" />
 
-            <ImageView
-                android:id="@+id/iv_like"
+            <com.davai.uikit.ConditionedImageView
+                android:id="@+id/civ_like"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/margin_24"
                 android:contentDescription="@string/select_movies_like_icon_description"
-                android:src="@drawable/ic_like"
+                app:baseConditionImageId="@drawable/ic_like"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent" />
+                app:layout_constraintEnd_toEndOf="parent"
+                app:secondConditionImageId="@drawable/ic_like_filled" />
+
         </androidx.constraintlayout.widget.ConstraintLayout>
     </com.google.android.material.card.MaterialCardView>
 </LinearLayout>
