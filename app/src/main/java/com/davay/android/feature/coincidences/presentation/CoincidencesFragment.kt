@@ -36,7 +36,7 @@ class CoincidencesFragment : BaseFragment<FragmentCoincidencesBinding, Coinciden
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding.toolbarView.addStatusBarSpacer()
+        setupToolbar()
         setupMoviesGrid()
         subscribe()
         getData()
@@ -45,6 +45,18 @@ class CoincidencesFragment : BaseFragment<FragmentCoincidencesBinding, Coinciden
     private fun setupMoviesGrid() = with(binding.coincidencesList) {
         addItemDecoration(MoviesGridDecoration())
         adapter = moviesGridAdapter
+    }
+
+    private fun setupToolbar() = with(binding.toolbarView) {
+        addStatusBarSpacer()
+        setEndIcon(com.davai.uikit.R.drawable.ic_random)
+        showEndIcon()
+        setEndIconClickListener {
+            // navigate to
+        }
+        setStartIconClickListener {
+            // navigateBack
+        }
     }
 
     private fun getData() {
