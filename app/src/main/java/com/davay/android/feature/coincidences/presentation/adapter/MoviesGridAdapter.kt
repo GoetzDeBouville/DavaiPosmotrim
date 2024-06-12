@@ -12,15 +12,16 @@ class MoviesGridAdapter(
     private val movies = mutableListOf<TestMovie>()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MoviesGridViewHolder =
-        MoviesGridViewHolder.create(parent)
+        MoviesGridViewHolder.create(parent).apply {
+            itemView.setOnClickListener {
+                onItemClicked(movies[adapterPosition].id)
+            }
+        }
 
     override fun getItemCount(): Int = movies.size
 
     override fun onBindViewHolder(holder: MoviesGridViewHolder, position: Int) = with(holder) {
         bind(movies[position])
-        itemView.setOnClickListener {
-            onItemClicked(movies[position].id)
-        }
     }
 
     fun setData(data: List<TestMovie>) {

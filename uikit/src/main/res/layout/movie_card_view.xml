@@ -21,20 +21,17 @@
         android:layout_gravity="center"
         android:visibility="gone" />
 
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="76dp"
-        android:layout_gravity="bottom|start"
-        android:background="@drawable/background_gradient_transparent_to_black" />
-
     <TextView
         android:id="@+id/tv_movie_title"
         style="@style/Text.Base.Medium.NoLineSpacing"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|start"
-        android:layout_marginHorizontal="@dimen/margin_20"
-        android:layout_marginBottom="@dimen/margin_16"
+        android:paddingHorizontal="@dimen/margin_20"
+        android:paddingBottom="@dimen/margin_16"
+        android:background="@drawable/background_gradient_transparent_to_black"
+        android:maxLines="3"
+        android:ellipsize="end"
         android:textColor="@color/background_white"
         tools:text="[Text Example Text Example Text Example Text Example Text Example Text Example Text Example Text Example]" />
 </FrameLayout>

@@ -52,7 +52,7 @@ class CoincidencesFragment : BaseFragment<FragmentCoincidencesBinding, Coinciden
         setEndIcon(com.davai.uikit.R.drawable.ic_random)
         showEndIcon()
         setEndIconClickListener {
-            // navigate to
+            // navigate to random
         }
         setStartIconClickListener {
             // navigateBack
@@ -83,23 +83,17 @@ class CoincidencesFragment : BaseFragment<FragmentCoincidencesBinding, Coinciden
                 moviesGridAdapter.setData(state.data)
             }
             is UiState.Error -> {
-//                            hideExclude(error = true)
-//                            when (it.errorType) {
-//                                ErrorType.NO_INTERNET -> { }
-//                                ErrorType.SERVER_ERROR -> { }
-//                            }
+                Toast.makeText(requireContext(), "Error occurred!", Toast.LENGTH_SHORT).show()
             }
         }
     }
 
     private fun updateVisibility(
         progressBarIsVisible: Boolean = false,
-//        errorIsVisible: Boolean = false,
         coincidencesListIsVisible: Boolean = false,
         emptyMessageIsVisible: Boolean = false
     ) = with(binding) {
         progressBar.isVisible = progressBarIsVisible
-//        error.isVisible = error
         coincidencesList.isVisible = coincidencesListIsVisible
         emptyPlaceholder.root.isVisible = emptyMessageIsVisible
     }
