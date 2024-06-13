@@ -50,11 +50,11 @@ class ProgressButtonView @JvmOverloads constructor(
                     getDimension(R.styleable.ProgressButtonView_progress_stroke_width, 0f)
                 paint.apply {
                     color = progressStrokeColor
-                    strokeWidth = progressStrokeWidth
+                    strokeWidth = progressStrokeWidth * 2
                 }
                 arcPaint.apply {
                     color = progressStrokeColor
-                    strokeWidth = progressStrokeWidth / 2
+                    strokeWidth = progressStrokeWidth * Math.PI.toFloat() / 2
                 }
             } finally {
                 recycle()
@@ -79,24 +79,43 @@ class ProgressButtonView @JvmOverloads constructor(
         val totalPathLength = calculateTotalPathLength(strokeCornerRadius)
         val currentLength = calculateCurrentLength(totalPathLength)
 
-        drawProgressLine(canvas, halfLength, strokeCornerRadius, currentLength)
+        drawFirstHalfTopProgressLine(canvas, halfLength, strokeCornerRadius, currentLength)
         if (currentLength > halfLength - strokeCornerRadius) {
-            drawCornerArc(canvas, halfLength, strokeCornerRadius, currentLength, totalPathLength)
+            val remainingLengthAfterFirstCorner =
+                drawTopRightCornerArc(canvas, halfLength, strokeCornerRadius, currentLength)
+            if (remainingLengthAfterFirstCorner > 0) {
+                val remainingLengthAfterRightLine = drawRightVerticalLine(
+                    canvas,
+                    strokeCornerRadius,
+                    remainingLengthAfterFirstCorner
+                )
+                if (remainingLengthAfterRightLine > 0) {
+                    val remainingLengthAfterBottomRightCorner = drawBottomRightCornerArc(
+                        canvas,
+                        strokeCornerRadius,
+                        remainingLengthAfterRightLine
+                    )
+                    if (remainingLengthAfterBottomRightCorner > 0) {
+                        drawBottomLine(
+                            canvas,
+                            strokeCornerRadius,
+                            remainingLengthAfterBottomRightCorner
+                        )
+                    }
+                }
+            }
         }
     }
 
     private fun calculateTotalPathLength(strokeCornerRadius: Float): Float {
-        return 2 * width +
-                2 * height -
-                8 * strokeCornerRadius +
-                2 * Math.PI.toFloat() * strokeCornerRadius
+        return 2 * (width + height - strokeCornerRadius + Math.PI.toFloat() * strokeCornerRadius)
     }
 
     private fun calculateCurrentLength(totalPathLength: Float): Float {
         return totalPathLength * progress / NUM_OF_STEPS
     }
 
-    private fun drawProgressLine(
+    private fun drawFirstHalfTopProgressLine(
         canvas: Canvas,
         halfLength: Float,
         strokeCornerRadius: Float,
@@ -105,21 +124,20 @@ class ProgressButtonView @JvmOverloads constructor(
         canvas.drawLine(
             halfLength,
             0f,
-            min(halfLength + currentLength, (width - strokeCornerRadius).toFloat()),
+            min(halfLength + currentLength, (width - strokeCornerRadius)),
             0f,
             paint
         )
     }
 
-    private fun drawCornerArc(
+    private fun drawTopRightCornerArc(
         canvas: Canvas,
         halfLength: Float,
         strokeCornerRadius: Float,
-        currentLength: Float,
-        totalPathLength: Float
-    ) {
+        currentLength: Float
+    ): Float {
         val cornerLength = Math.PI.toFloat() / 2f * strokeCornerRadius
-        val step = totalPathLength / NUM_OF_STEPS
+        val step = calculateTotalPathLength(strokeCornerRadius) / NUM_OF_STEPS
         val numOfStepsInCornerLength = cornerLength / step
         val degreeByStep = SWEAP_ANGLE_90_DEG / numOfStepsInCornerLength
         val newCurr = currentLength - (halfLength - strokeCornerRadius)
@@ -134,7 +152,72 @@ class ProgressButtonView @JvmOverloads constructor(
             false,
             arcPaint
         )
+        return newCurr - cornerLength
     }
+
+    private fun drawRightVerticalLine(
+        canvas: Canvas,
+        strokeCornerRadius: Float,
+        remainingLength: Float
+    ): Float {
+        val lineLength = height - 2 * strokeCornerRadius
+        val drawLength = min(remainingLength, lineLength)
+        canvas.drawLine(
+            width.toFloat(),
+            strokeCornerRadius,
+            width.toFloat(),
+            strokeCornerRadius + drawLength,
+            paint
+        )
+        return remainingLength - drawLength
+    }
+
+    private fun drawBottomRightCornerArc(
+        canvas: Canvas,
+        strokeCornerRadius: Float,
+        remainingLength: Float
+    ): Float {
+        val cornerLength = Math.PI.toFloat() / 2f * strokeCornerRadius
+        val step = calculateTotalPathLength(strokeCornerRadius) / NUM_OF_STEPS
+        val numOfStepsInCornerLength = cornerLength / step
+        val degreeByStep = SWEAP_ANGLE_90_DEG / numOfStepsInCornerLength
+        val sweepAngle = min(remainingLength * degreeByStep, SWEAP_ANGLE_90_DEG)
+
+        canvas.drawArc(
+            width - 2f * strokeCornerRadius - 2f,
+            height - 2f * strokeCornerRadius - 2f,
+            width.toFloat() - 2f,
+            height.toFloat() - 2f,
+            START_ANGLE_0_DEG,
+            sweepAngle,
+            false,
+            arcPaint
+        )
+
+        return remainingLength - cornerLength
+    }
+
+    private fun drawBottomLine(
+        canvas: Canvas,
+        strokeCornerRadius: Float,
+        remainingLength: Float
+    ): Float {
+        val bottomLineStartX = width.toFloat() - strokeCornerRadius
+        val bottomLineEndX = strokeCornerRadius
+        val bottomLineLength = bottomLineStartX - bottomLineEndX
+        val drawLength = min(remainingLength, bottomLineLength)
+
+        canvas.drawLine(
+            bottomLineStartX,
+            height.toFloat(),
+            bottomLineStartX - drawLength,
+            height.toFloat(),
+            paint
+        )
+
+        return remainingLength - drawLength
+    }
+
 
     companion object {
         private const val NEXT_STEP_DELAY = 16L
