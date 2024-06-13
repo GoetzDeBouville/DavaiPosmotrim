@@ -11,6 +11,7 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlin.math.min
 
+@Suppress("Detekt.NestedBlockDepth", "Detekt.NestedBlockDepth")
 class ProgressButtonView @JvmOverloads constructor(
     context: Context,
     attrs: AttributeSet? = null,
@@ -82,7 +83,13 @@ class ProgressButtonView @JvmOverloads constructor(
         drawFirstHalfTopProgressLine(canvas, halfLength, strokeCornerRadius, currentLength)
         if (currentLength > halfLength - strokeCornerRadius) {
             val remainingLengthAfterFirstCorner =
-                drawTopRightCornerArc(canvas, halfLength, strokeCornerRadius, currentLength)
+                drawCornerArc(
+                    canvas,
+                    strokeCornerRadius,
+                    currentLength - (halfLength - strokeCornerRadius),
+                    START_ANGLE_270_DEG,
+                    START_ANGLE_270_DEG
+                )
             if (remainingLengthAfterFirstCorner > 0) {
                 val remainingLengthAfterRightLine = drawRightVerticalLine(
                     canvas,
@@ -90,21 +97,108 @@ class ProgressButtonView @JvmOverloads constructor(
                     remainingLengthAfterFirstCorner
                 )
                 if (remainingLengthAfterRightLine > 0) {
-                    val remainingLengthAfterBottomRightCorner = drawBottomRightCornerArc(
+                    val remainingLengthAfterBottomRightCorner = drawCornerArc(
                         canvas,
                         strokeCornerRadius,
-                        remainingLengthAfterRightLine
+                        remainingLengthAfterRightLine,
+                        SWEAP_ANGLE_0_DEG,
+                        SWEAP_ANGLE_0_DEG
                     )
                     if (remainingLengthAfterBottomRightCorner > 0) {
-                        drawBottomLine(
+                        val remainingLengthAfterBottomLine = drawBottomLine(
                             canvas,
                             strokeCornerRadius,
                             remainingLengthAfterBottomRightCorner
                         )
+                        if (remainingLengthAfterBottomLine > 0) {
+                            val remainingLengthAfterBottomLeftCorner = drawCornerArc(
+                                canvas,
+                                strokeCornerRadius,
+                                remainingLengthAfterBottomLine,
+                                SWEAP_ANGLE_90_DEG,
+                                SWEAP_ANGLE_90_DEG
+                            )
+                            if (remainingLengthAfterBottomLeftCorner > 0) {
+                                val remainingLengthAfterLeftLine = drawLeftVerticalLine(
+                                    canvas,
+                                    strokeCornerRadius,
+                                    remainingLengthAfterBottomLeftCorner
+                                )
+                                if (remainingLengthAfterLeftLine > 0) {
+                                    val remainingLengthAfterTopLeftCorner = drawCornerArc(
+                                        canvas,
+                                        strokeCornerRadius,
+                                        remainingLengthAfterLeftLine,
+                                        SWEAP_ANGLE_180_DEG,
+                                        SWEAP_ANGLE_180_DEG
+                                    )
+                                    if (remainingLengthAfterTopLeftCorner > 0) {
+                                        drawFirstHalfTopProgressLine(
+                                            canvas,
+                                            0f + strokeCornerRadius,
+                                            strokeCornerRadius,
+                                            halfLength
+                                        )
+                                    }
+                                }
+                            }
+                        }
                     }
                 }
             }
         }
+    }
+
+    private fun drawCornerArc(
+        canvas: Canvas,
+        strokeCornerRadius: Float,
+        remainingLength: Float,
+        startAngle: Float,
+        baseAngle: Float
+    ): Float {
+        val cornerLength = Math.PI.toFloat() / 2f * strokeCornerRadius
+        val step = calculateTotalPathLength(strokeCornerRadius) / NUM_OF_STEPS
+        val numOfStepsInCornerLength = cornerLength / step
+        val degreeByStep = SWEAP_ANGLE_90_DEG / numOfStepsInCornerLength
+        val sweepAngle = min(remainingLength * degreeByStep, SWEAP_ANGLE_90_DEG)
+
+        val left =
+            if (baseAngle == START_ANGLE_270_DEG || baseAngle == 0f) {
+                width - 2f * strokeCornerRadius - 2f
+            } else {
+                2f
+            }
+        val top =
+            if (baseAngle == 0f || baseAngle == SWEAP_ANGLE_90_DEG) {
+                height - 2f * strokeCornerRadius - 2f
+            } else {
+                2f
+            }
+        val right =
+            if (baseAngle == START_ANGLE_270_DEG || baseAngle == 0f) {
+                width.toFloat() - 2f
+            } else {
+                2f * strokeCornerRadius + 2f
+            }
+        val bottom =
+            if (baseAngle == 0f || baseAngle == SWEAP_ANGLE_90_DEG) {
+                height.toFloat() - 2f
+            } else {
+                2f * strokeCornerRadius + 2f
+            }
+
+        canvas.drawArc(
+            left,
+            top,
+            right,
+            bottom,
+            startAngle,
+            sweepAngle,
+            false,
+            arcPaint
+        )
+
+        return remainingLength - cornerLength
     }
 
     private fun calculateTotalPathLength(strokeCornerRadius: Float): Float {
@@ -130,29 +224,19 @@ class ProgressButtonView @JvmOverloads constructor(
         )
     }
 
-    private fun drawTopRightCornerArc(
+    private fun drawLastHalfTopProgressLine(
         canvas: Canvas,
         halfLength: Float,
         strokeCornerRadius: Float,
         currentLength: Float
-    ): Float {
-        val cornerLength = Math.PI.toFloat() / 2f * strokeCornerRadius
-        val step = calculateTotalPathLength(strokeCornerRadius) / NUM_OF_STEPS
-        val numOfStepsInCornerLength = cornerLength / step
-        val degreeByStep = SWEAP_ANGLE_90_DEG / numOfStepsInCornerLength
-        val newCurr = currentLength - (halfLength - strokeCornerRadius)
-
-        canvas.drawArc(
-            width - 2f * strokeCornerRadius - 2f,
-            2f,
-            width.toFloat() - 2f,
-            2f * strokeCornerRadius + 2f,
-            START_ANGLE_270_DEG,
-            min(newCurr * degreeByStep, SWEAP_ANGLE_90_DEG),
-            false,
-            arcPaint
+    ) {
+        canvas.drawLine(
+            halfLength,
+            0f,
+            min(halfLength + currentLength, (width - strokeCornerRadius)),
+            0f,
+            paint
         )
-        return newCurr - cornerLength
     }
 
     private fun drawRightVerticalLine(
@@ -172,29 +256,21 @@ class ProgressButtonView @JvmOverloads constructor(
         return remainingLength - drawLength
     }
 
-    private fun drawBottomRightCornerArc(
+    private fun drawLeftVerticalLine(
         canvas: Canvas,
         strokeCornerRadius: Float,
         remainingLength: Float
     ): Float {
-        val cornerLength = Math.PI.toFloat() / 2f * strokeCornerRadius
-        val step = calculateTotalPathLength(strokeCornerRadius) / NUM_OF_STEPS
-        val numOfStepsInCornerLength = cornerLength / step
-        val degreeByStep = SWEAP_ANGLE_90_DEG / numOfStepsInCornerLength
-        val sweepAngle = min(remainingLength * degreeByStep, SWEAP_ANGLE_90_DEG)
-
-        canvas.drawArc(
-            width - 2f * strokeCornerRadius - 2f,
-            height - 2f * strokeCornerRadius - 2f,
-            width.toFloat() - 2f,
-            height.toFloat() - 2f,
-            START_ANGLE_0_DEG,
-            sweepAngle,
-            false,
-            arcPaint
+        val lineLength = height - 2 * strokeCornerRadius
+        val drawLength = min(remainingLength, lineLength)
+        canvas.drawLine(
+            0f,
+            height.toFloat() - strokeCornerRadius,
+            0f,
+            height.toFloat() - strokeCornerRadius - drawLength,
+            paint
         )
-
-        return remainingLength - cornerLength
+        return remainingLength - drawLength
     }
 
     private fun drawBottomLine(
@@ -218,13 +294,13 @@ class ProgressButtonView @JvmOverloads constructor(
         return remainingLength - drawLength
     }
 
-
     companion object {
         private const val NEXT_STEP_DELAY = 16L
         private const val NUM_OF_STEPS = 500
+        private const val SWEAP_ANGLE_0_DEG = 0f
         private const val SWEAP_ANGLE_90_DEG = 90f
+        private const val SWEAP_ANGLE_180_DEG = 180f
         private const val START_ANGLE_270_DEG = 270f
-        private const val START_ANGLE_0_DEG = 0f
         private const val DEFAULT_STROKE_WIDTH_10 = 10f
     }
 }
