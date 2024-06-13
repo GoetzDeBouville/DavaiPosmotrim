@@ -75,43 +75,73 @@ class ProgressButtonView @JvmOverloads constructor(
     override fun onDraw(canvas: Canvas) {
         super.onDraw(canvas)
         val halfLength = width.toFloat() / 2
-        val totalPathLength =
-            2 * width +
-                    2 * height -
-                    8 * cornerRadius +
-                    2 * Math.PI.toFloat() * cornerRadius
-        val currentLength = totalPathLength * progress / NUM_OF_STEPS
-        canvas.drawLine(
-            halfLength,
-            0f,
-            min(halfLength + currentLength, (width - cornerRadius).toFloat()),
-            0f,
-            paint
-        )
-        if (currentLength > halfLength - cornerRadius) {
-            val cornerLength = Math.PI.toFloat() / 2f * cornerRadius
-            val step = totalPathLength / NUM_OF_STEPS
-            val numOfStepsInCornerLength = cornerLength / step
-            val degreeByStep = SWEAP_ANGLE_90_DEG / numOfStepsInCornerLength
-            val newCurr = currentLength - (halfLength - cornerRadius)
-            canvas.drawArc(
-                width - 2f * cornerRadius - 2f,
-                2f,
-                width.toFloat() - 2f,
-                2f * cornerRadius + 2f,
-                START_ANGLE_270_DEG,
-                min(newCurr * degreeByStep, SWEAP_ANGLE_90_DEG),
-                false,
-                arcPaint
-            )
+        val strokeCornerRadius = cornerRadius.toFloat() / 2
+        val totalPathLength = calculateTotalPathLength(strokeCornerRadius)
+        val currentLength = calculateCurrentLength(totalPathLength)
+
+        drawProgressLine(canvas, halfLength, strokeCornerRadius, currentLength)
+        if (currentLength > halfLength - strokeCornerRadius) {
+            drawCornerArc(canvas, halfLength, strokeCornerRadius, currentLength, totalPathLength)
         }
     }
 
+    private fun calculateTotalPathLength(strokeCornerRadius: Float): Float {
+        return 2 * width +
+                2 * height -
+                8 * strokeCornerRadius +
+                2 * Math.PI.toFloat() * strokeCornerRadius
+    }
+
+    private fun calculateCurrentLength(totalPathLength: Float): Float {
+        return totalPathLength * progress / NUM_OF_STEPS
+    }
+
+    private fun drawProgressLine(
+        canvas: Canvas,
+        halfLength: Float,
+        strokeCornerRadius: Float,
+        currentLength: Float
+    ) {
+        canvas.drawLine(
+            halfLength,
+            0f,
+            min(halfLength + currentLength, (width - strokeCornerRadius).toFloat()),
+            0f,
+            paint
+        )
+    }
+
+    private fun drawCornerArc(
+        canvas: Canvas,
+        halfLength: Float,
+        strokeCornerRadius: Float,
+        currentLength: Float,
+        totalPathLength: Float
+    ) {
+        val cornerLength = Math.PI.toFloat() / 2f * strokeCornerRadius
+        val step = totalPathLength / NUM_OF_STEPS
+        val numOfStepsInCornerLength = cornerLength / step
+        val degreeByStep = SWEAP_ANGLE_90_DEG / numOfStepsInCornerLength
+        val newCurr = currentLength - (halfLength - strokeCornerRadius)
+
+        canvas.drawArc(
+            width - 2f * strokeCornerRadius - 2f,
+            2f,
+            width.toFloat() - 2f,
+            2f * strokeCornerRadius + 2f,
+            START_ANGLE_270_DEG,
+            min(newCurr * degreeByStep, SWEAP_ANGLE_90_DEG),
+            false,
+            arcPaint
+        )
+    }
+
     companion object {
-        private const val NEXT_STEP_DELAY = 50L
+        private const val NEXT_STEP_DELAY = 16L
         private const val NUM_OF_STEPS = 500
         private const val SWEAP_ANGLE_90_DEG = 90f
         private const val START_ANGLE_270_DEG = 270f
+        private const val START_ANGLE_0_DEG = 0f
         private const val DEFAULT_STROKE_WIDTH_10 = 10f
     }
 }
