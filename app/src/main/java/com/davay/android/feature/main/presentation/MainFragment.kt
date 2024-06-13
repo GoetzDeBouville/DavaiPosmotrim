@@ -1,7 +1,6 @@
 package com.davay.android.feature.main.presentation
 
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
@@ -21,34 +20,10 @@ class MainFragment :
     BaseFragment<FragmentMainBinding, MainViewModel>(FragmentMainBinding::inflate) {
 
     override val viewModel: MainViewModel by injectViewModel<MainViewModel>()
-    private var userName: String? = null
 
     override fun diComponent(): ScreenComponent = DaggerMainFragmentComponent.builder()
         .appComponent(AppComponentHolder.getComponent())
         .build()
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        if (savedInstanceState != null) {
-            userName = savedInstanceState.getString(USER_NAME_KEY)
-        }
-    }
-
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        super.onCreateView(inflater, container, savedInstanceState)
-        binding.createSession.setState(MainScreenButtonView.CREATE)
-        binding.favorite.setState(MainScreenButtonView.FAVORITE)
-        binding.joinSession.setState(MainScreenButtonView.JOIN)
-
-        // for test
-        binding.userName.text = userName ?: "Артём"
-
-        return binding.root
-    }
 
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
@@ -57,6 +32,12 @@ class MainFragment :
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        binding.createSession.setState(MainScreenButtonView.CREATE)
+        binding.favorite.setState(MainScreenButtonView.FAVORITE)
+        binding.joinSession.setState(MainScreenButtonView.JOIN)
+
+        binding.userName.text = savedInstanceState?.getString(USER_NAME_KEY) ?: "Артём"
         binding.createSession.setOnClickListener {
             createSession()
         }
