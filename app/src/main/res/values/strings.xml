@@ -10,16 +10,17 @@
     <string name="registration_just_letters">Только буквы</string>
     <string name="registration_not_more_letters">Не более 16 символов</string>
 
+    <!--change name screen-->
     <string name="change_name_enter">Сохранить</string>
     <string name="change_name_enter_your_name">Введите ваше имя</string>
 
-    <!--sessionconnection screen-->
+    <!--session connection screen-->
     <string name="sessionconnection_enter_session_code">Код сеанса</string>
     <string name="sessionconnection_invalid">Код cеанса должен состоять 4 букв и 3 цифр</string>
     <string name="sessionconnection_no_session">Сеанс не найден</string>
     <string name="sessionconnection_join">Присоединиться</string>
 
-    <!--sessionlist screen-->
+    <!--session list screen-->
     <string name="session_list_name">Сеанс</string>
     <string name="session_list_exit">Выйти</string>
     <string name="waiting_all_participants">Ожидаем подключения всех участников</string>

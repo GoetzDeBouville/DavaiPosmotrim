@@ -114,8 +114,6 @@ class MainActivity : AppCompatActivity() {
             }
         }
     }
-    }
-}
 
     companion object {
         const val BANNER_TIME_DELAY_2000_MS = 2000L
