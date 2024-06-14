@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="Text.Base.SplashItem">
+        <item name="android:textSize">20sp</item>
+        <item name="android:textColor">@color/tertiary_base</item>
+    </style>
+</resources>

@@ -9,13 +9,22 @@
         android:id="@+id/loadFragment"
         android:name="com.davay.android.feature.load.presentation.LoadFragment"
         android:label="fragment_load"
-        tools:layout="@layout/fragment_load" >
+        tools:layout="@layout/fragment_load">
         <action
             android:id="@+id/action_loadFragment_to_mainFragment"
             app:destination="@id/mainFragment" />
         <action
+            android:id="@+id/action_loadFragment_to_selectMovieFragment"
+            app:destination="@id/selectMovieFragment" />
+        <action
             android:id="@+id/action_loadFragment_to_registrationFragment"
             app:destination="@id/registrationFragment" />
+        <action
+            android:id="@+id/action_loadFragment_to_onboardingFragment"
+            app:destination="@id/onboardingFragment" />
+        <action
+            android:id="@+id/action_loadFragment_to_splashFragment"
+            app:destination="@id/splashFragment" />
         <action
             android:id="@+id/action_loadFragment_to_waitSessionFragment"
             app:destination="@id/waitSessionFragment" />
@@ -24,20 +33,80 @@
         android:id="@+id/mainFragment"
         android:name="com.davay.android.feature.main.presentation.MainFragment"
         android:label="fragment_main"
-        tools:layout="@layout/fragment_main" >
+        tools:layout="@layout/fragment_main">
         <action
             android:id="@+id/action_mainFragment_to_loadFragment"
             app:destination="@id/loadFragment" />
+        <action
+            android:id="@+id/action_mainFragment_to_sessionConnectionFragment"
+            app:destination="@id/sessionConnectionFragment" />
+        <action
+            android:id="@+id/action_mainFragment_to_changeNameFragment"
+            app:destination="@id/changeNameFragment" />
+        <action
+            android:id="@+id/action_mainFragment_to_createSessionFragment"
+            app:destination="@id/createSessionFragment" />
     </fragment>
     <fragment
         android:id="@+id/registrationFragment"
         android:name="com.davay.android.feature.registration.presentation.RegistrationFragment"
         android:label="fragment_registration"
-        tools:layout="@layout/fragment_registration" >
+        tools:layout="@layout/fragment_registration">
         <action
             android:id="@+id/action_registrationFragment_to_mainFragment"
             app:destination="@id/mainFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/sessionListFragment"
+        android:name="com.davay.android.feature.sessionlist.presentation.SessionListFragment"
+        android:label="fragment_session_list"
+        tools:layout="@layout/fragment_session_list" >
+        <action
+            android:id="@+id/action_sessionListFragment_to_mainFragment"
+            app:destination="@id/mainFragment" />
+    </fragment>
+    <dialog
+        android:id="@+id/sessionConnectionFragment"
+        android:name="com.davay.android.feature.sessionconnection.presentation.SessionConnectionBottomSheetFragment"
+        android:label="SessionConnectionFragment" >
+        <action
+            android:id="@+id/action_sessionConnectionFragment_to_sessionListFragment"
+            app:destination="@id/sessionListFragment" />
+    </dialog>
+    <dialog
+        android:id="@+id/changeNameFragment"
+        android:name="com.davay.android.feature.changename.presentation.ChangeNameBottomSheetFragment"
+        android:label="ChangeNameFragment" />
+    <fragment
+        android:id="@+id/onboardingFragment"
+        android:name="com.davay.android.feature.onboarding.presentation.OnboardingFragment"
+        android:label="fragment_onboarding"
+        tools:layout="@layout/fragment_onboarding">
+        <action
+            android:id="@+id/action_onboardingFragment_to_mainFragment"
+            app:destination="@id/mainFragment"
+            app:enterAnim="@anim/nav_default_pop_enter_anim"
+            app:exitAnim="@anim/nav_default_pop_exit_anim" />
+    </fragment>
+    <fragment
+        android:id="@+id/splashFragment"
+        android:name="com.davay.android.feature.splash.fragment.SplashFragment"
+        android:label="fragment_splash"
+        tools:layout="@layout/fragment_splash" >
+        <action
+            android:id="@+id/action_splashFragment_to_onboardingFragment"
+            app:destination="@id/onboardingFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/selectMovieFragment"
+        android:name="com.davay.android.feature.selectmovie.presentation.SelectMovieFragment"
+        android:label="fragment_select_movie"
+        tools:layout="@layout/fragment_select_movie" />
+    <fragment
+        android:id="@+id/createSessionFragment"
+        android:name="com.davay.android.feature.createsession.presentation.createsession.CreateSessionFragment"
+        android:label="fragment_create_session"
+        tools:layout="@layout/fragment_create_session" />
     <fragment
         android:id="@+id/waitSessionFragment"
         android:name="com.davay.android.feature.waitsession.presentation.WaitSessionFragment"

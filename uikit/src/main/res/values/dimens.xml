@@ -1,26 +1,46 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <dimen name="card_radius_24">24dp</dimen>
-    <dimen name="card_radius_16">16dp</dimen>
     <dimen name="card_radius_12">12dp</dimen>
+    <dimen name="card_radius_16">16dp</dimen>
     <dimen name="card_radius_18">18dp</dimen>
+    <dimen name="card_radius_24">24dp</dimen>
 
+
+    <dimen name="drag_handle_height_8">8dp</dimen>
+    <dimen name="static_view_height_36">36dp</dimen>
+    <dimen name="small_icon_size_40">40dp</dimen>
+    <dimen name="button_height_48">48dp</dimen>
+    <dimen name="default_icon_size_52">52dp</dimen>
     <dimen name="toolbar_height_64">64dp</dimen>
+    <dimen name="top_gradient_height_80">80dp</dimen>
+    <dimen name="bs_dialog_peek_height_96">96dp</dimen>
+    <dimen name="footer_item_height_114">114dp</dimen>
+    <dimen name="static_view_width_164">164dp</dimen>
     <dimen name="session_card_height">240dp</dimen>
     <dimen name="movie_card_height_240">240dp</dimen>
 
-    <dimen name="padding_16">16dp</dimen>
-    <dimen name="padding_12">12dp</dimen>
-    <dimen name="padding_8">8dp</dimen>
+    <dimen name="elevation_1">1dp</dimen>
+
     <dimen name="padding_4">4dp</dimen>
+    <dimen name="padding_8">8dp</dimen>
+    <dimen name="padding_12">12dp</dimen>
+    <dimen name="padding_16">16dp</dimen>
     <dimen name="padding_20">20dp</dimen>
 
+    <dimen name="margin_negative_32">-32dp</dimen>
+    <dimen name="margin_negative_16">-16dp</dimen>
+    <dimen name="margin_negative_8">-8dp</dimen>
+    <dimen name="margin_4">4dp</dimen>
     <dimen name="margin_8">8dp</dimen>
     <dimen name="margin_10">10dp</dimen>
+    <dimen name="margin_12">12dp</dimen>
     <dimen name="margin_16">16dp</dimen>
-    <dimen name="margin_24">24dp</dimen>
     <dimen name="margin_20">20dp</dimen>
+    <dimen name="margin_24">24dp</dimen>
     <dimen name="margin_32">32dp</dimen>
+    <dimen name="margin_40">40dp</dimen>
+    <dimen name="margin_72">72dp</dimen>
+    <dimen name="margin_112">112dp</dimen>
 
     <dimen name="progress_bar">20dp</dimen>
     <dimen name="frame">4dp</dimen>
@@ -33,11 +53,13 @@
     <dimen name="dimen_80">80dp</dimen>
     <dimen name="dimen_64">64dp</dimen>
 
-    <dimen name="drag_handle_width">48dp</dimen>
-    <dimen name="drag_handle_height">8dp</dimen>
-    <dimen name="drag_handle_margin_top">12dp</dimen>
-    <dimen name="drag_handle_radius">5dp</dimen>
+    <dimen name="drag_handle_radius_5">5dp</dimen>
+    <dimen name="drag_handle_height_6">6dp</dimen>
+    <dimen name="drag_handle_margin_top_12">12dp</dimen>
+    <dimen name="drag_handle_width_48">48dp</dimen>
 
+    <dimen name="gradient_rotation_angle_180">180</dimen>
+    <dimen name="gradient_rotation_angle_270">270</dimen>
     <dimen name="change_name_input_margin">136dp</dimen>
 
     <dimen name="wait_session_button_height">48dp</dimen>
