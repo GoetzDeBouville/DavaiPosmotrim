@@ -28,7 +28,7 @@ class ProgressButtonView @JvmOverloads constructor(
     private var progressStrokeColor = Color.GREEN
     private var progressStrokeWidth = DEFAULT_STROKE_WIDTH_10
     private val refreshDelay: Long = getDisplayRefreshDelay()
-
+    private var currentLength = 0f
     private val paint = Paint()
     private val arcPaint = Paint().apply {
         style = Paint.Style.STROKE
@@ -100,8 +100,7 @@ class ProgressButtonView @JvmOverloads constructor(
      */
     override fun onDraw(canvas: Canvas) {
         super.onDraw(canvas)
-        val totalPathLength = calculateTotalPathLength(cornerRadius / 2f)
-        val currentLength = calculateCurrentLength(totalPathLength)
+        updateCurrentLength()
         canvas.drawFirstHalfTopHorizontalLine(currentLength)
         if (currentLength > width / 2f - cornerRadius / 2f) {
             remainingLengthAfterTopRightCorner = canvas.drawCornerArc(
@@ -256,12 +255,12 @@ class ProgressButtonView @JvmOverloads constructor(
         )
     }
 
-    private fun calculateTotalPathLength(strokeCornerRadius: Float): Float {
-        return 2 * (width + height - strokeCornerRadius + Math.PI.toFloat() * strokeCornerRadius)
+    private fun calculateTotalPathLength(): Float {
+        return 2 * (width + height - cornerRadius / 2 + Math.PI.toFloat() * cornerRadius / 2)
     }
 
-    private fun calculateCurrentLength(totalPathLength: Float): Float {
-        return totalPathLength * progress / numOfSteps
+    private fun updateCurrentLength() {
+        currentLength = calculateTotalPathLength() * progress / numOfSteps
     }
 
     /**
