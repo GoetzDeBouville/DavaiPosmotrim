@@ -12,7 +12,9 @@ class TestMovieRepository(
     override suspend fun getData(): Result<List<TestMovie>> =
         if (connectionChecker.isConnected) {
             Result.success(mockTestMovieList)
-        } else Result.failure(IOException())
+        } else {
+            Result.failure(IOException("No internet connection"))
+        }
 
 
     companion object {

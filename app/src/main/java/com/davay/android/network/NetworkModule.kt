@@ -27,5 +27,5 @@ class NetworkModule {
     }
 
     @Provides
-    fun connectionChecker(context: Context): ConnectionChecker  = ConnectionChecker(context)
+    fun connectionChecker(context: Context): ConnectionChecker = ConnectionChecker(context)
 }
