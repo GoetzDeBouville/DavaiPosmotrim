@@ -11,12 +11,13 @@ import com.davay.android.app.AppComponentHolder
 import com.davay.android.base.BaseFragment
 import com.davay.android.databinding.FragmentSelectMovieBinding
 import com.davay.android.di.ScreenComponent
+import com.davay.android.extensions.SwipeDirection
 import com.davay.android.extensions.dpToPx
-import com.davay.android.feature.selectmovie.MovieDetailsDemo
-import com.davay.android.feature.selectmovie.adapters.MovieCardAdapter
-import com.davay.android.feature.selectmovie.adapters.SwipeCallback
-import com.davay.android.feature.selectmovie.adapters.SwipeableLayoutManager
 import com.davay.android.feature.selectmovie.di.DaggerSelectMovieFragmentComponent
+import com.davay.android.feature.selectmovie.domain.models.MovieDetailsDemo
+import com.davay.android.feature.selectmovie.presentation.adapters.MovieCardAdapter
+import com.davay.android.feature.selectmovie.presentation.adapters.SwipeCallback
+import com.davay.android.feature.selectmovie.presentation.adapters.SwipeableLayoutManager
 import com.google.android.flexbox.FlexboxLayout
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 
@@ -32,6 +33,7 @@ class SelectMovieFragment :
         inflateMovieDetails = { movie -> inflateMovieDetails(movie) }
     )
     private val swipeCardLayoutManager = SwipeableLayoutManager()
+    private var currentPosition = 0
 
     override fun diComponent(): ScreenComponent =
         DaggerSelectMovieFragmentComponent.builder().appComponent(AppComponentHolder.getComponent())
@@ -39,14 +41,21 @@ class SelectMovieFragment :
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        getSavedPositionAndUpdateStartPosition(savedInstanceState)
         initViews()
-        binding.rvFilmCard.post {
-            if (binding.rvFilmCard.adapter == null) {
-                Log.e("SelectMovieFragment", "RecyclerView adapter is not attached after setting!")
-            } else {
-                Log.d("SelectMovieFragment", "Adapter successfully attached")
-            }
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        currentPosition = swipeCardLayoutManager.getCurrentPosition()
+        outState.putInt(CURRENT_POSITION_KEY, currentPosition)
+    }
+
+    private fun getSavedPositionAndUpdateStartPosition(savedInstanceState: Bundle?) {
+        savedInstanceState?.let {
+            currentPosition = it.getInt(CURRENT_POSITION_KEY, 0)
         }
+        swipeCardLayoutManager.updateCurrentPosition(currentPosition)
     }
 
     private fun initViews() {
@@ -60,6 +69,8 @@ class SelectMovieFragment :
         binding.rvFilmCard.apply {
             layoutManager = swipeCardLayoutManager
             adapter = cardAdapter
+            // помимо установки позици на layputmanger дополнительно скролим до необходимой позиции
+            scrollToPosition(currentPosition)
         }
 
         val itemTouchHelper = ItemTouchHelper(
@@ -89,7 +100,7 @@ class SelectMovieFragment :
                 rvFilmCard.getLocationOnScreen(cardLocation)
                 val cardTop = cardLocation[1]
 
-                val screenHeight = resources.displayMetrics.heightPixels
+                val screenHeight = activity?.resources?.displayMetrics?.heightPixels ?: 0
                 val maxHeight = screenHeight - (cardTop + MARGIN_TOP_16_DP.dpToPx().toInt())
 
                 clDetailsBottomSheet.layoutParams.height = maxHeight
@@ -100,27 +111,23 @@ class SelectMovieFragment :
 
     private fun setToolbar() {
         binding.toolbarviewHeader.apply {
-            setStartIcon(com.davai.uikit.R.drawable.ic_cross)
-            setEndIcon(com.davai.uikit.R.drawable.ic_heart)
-            showEndIcon()
-            setTitleText(requireContext().getString(R.string.select_movies_select_film))
             updateMatchesDisplay(matchesCounter)
             addStatusBarSpacer()
         }
     }
 
     private fun autoSwipeLeft() {
-        swipeCardLayoutManager.swipeLeft()
+        swipeCardLayoutManager.moveNextWithSwipeAndLayout(SwipeDirection.LEFT)
         cardAdapter.notifyDataSetChanged()
     }
 
     private fun autoSwipeRight() {
-        swipeCardLayoutManager.swipeRight()
+        swipeCardLayoutManager.moveNextWithSwipeAndLayout(SwipeDirection.RIGHT)
         cardAdapter.notifyDataSetChanged()
     }
 
     private fun revertSwipe() {
-        swipeCardLayoutManager.revertSwipe()
+        swipeCardLayoutManager.shiftLeftWithRevertAndLayout()
         cardAdapter.notifyDataSetChanged()
     }
 
@@ -169,10 +176,11 @@ class SelectMovieFragment :
         const val BOTTOMSHEET_PEEK_HEIGHT_112_DP = 112
         const val MARGIN_TOP_16_DP = 16
         const val MAX_CAST_NUMBER_4 = 4
+        const val CURRENT_POSITION_KEY = "currentPosition"
     }
 }
 
-// В кооде используются моковые данные
+// В коде используются моковые данные
 @Suppress(
     "Detekt.MaxLineLength",
     "Detekt.StringLiteralDuplication",
@@ -228,6 +236,7 @@ private val mockMovies = listOf(
         year = 2003,
         description = "Заключительная часть эпической трилогии.",
         shortDescription = "Финал эпической трилогии.",
+        posterUrl = "https://kinopoisk-ru.clstorage.net/q16Zn1136/6f24c6b4xm/4L1PkIrF2UWxiuivpK_AEO9-C9xtrDXcdIDX5Zv5mqrMhG2BJ4TOjizUU8r6IHkeYZ5txyFH5J7nNsBjNiGaKqLoCZfVjsYR4NSg4_b2lxSiMgSOLuV9jzCdxLXFprWa5LZE8wG75q4AtRKPvT8mRz7efJosAe3T9CayXScu-XbfiWiymfK4ZrySq6y8puASzTUH9mHzOMp3-_7HltSIkcadTPg5o_yhIrYsrqh0FH823WqhKRbpsOMaukVADexlz45coK_8uk-4u6GCrqjtJfMzN9xW7QHyYeXN4LD3vIPuvXHFKpvMmSSvN4ygcDlCAvdHkTAc46rHHrRSdiXmX8OXSKSh0qZbrIiQtbywyT3AJSDeds037WL87vmn2byi3IZk5z67244NkhyRuUYiexPmYLEVN-Cz1CG_c3EX1UrikUKen8yZZ5ibtaKEsfUy4RwHyGPgKMhn9cTKpNKlqPGcUuc8gs2eBJ0Im5BXAkkS9V6FDALfi8UFn2ZgAsxmwZBCt5n1gHyZlLGkiLTWL801LfxAxxzRdtvUyp7uo7LSnVzAIq3suyauH4u7aBpKO-dKvAYazrHEK6xMaCzGdvOITJ661aNShq2Eg7ySzw3vFRT8QdoazEv5-fqG76aWwJ5cwCKRxYcNmBCKv3kdTAX1T600H-m15QGoYEUU72Lnu1aEodSfYJKIqIOoptQB5x4C80HuNf9ByPDlrNeQsuC_bOkUmMCsKJEGrIRLP0s0-me7PTvMqMQErHd2ENlt179zuZ_5nlqxnKG7orTHONUGMtNu1jz-b8f54JreoYPRh0D5L4zdpD63LrW5ciZGPuBdsDQH_JrSP5ljTijHRfCfXaGw_758mq-KrrGL7S_FESnKafcHzEjU6OCn44Oq9Ydc1T-h5L4PtSq_jWUgbAD8X502N-OM7hCmQEgx1EjetEiemt2ySqGhnp2HuO0Ywzk0ylDoI_VYz8b-h_S_idaPSOgvp-OeILEmvrhyO0Yg-Vi2JwPWrvYdmFN0LeZz75Rjm7HgpF2eibSEnaLQEfwVH-xK5yHsTNXy54XCq5HBm0DvCJHHvR66Iaygcix3F_RbmTU_x4viH6tWbTnubuWPVIuZ3oRunq6WsaaCyx_aBQbtYfIY0Gba1-6axI-N671i-CGI2oM4jAKxoVgLexjma5gKAMeO8wGjZ38G00_eq0KjrtyvToKds6yAkdw6_h8WymztOvB0zv7JhfyDg-CPcPs7qOSFL5Amk5BVJHw75k--MRnIlegenGR_Ast_95Z3k57CtmOHj7-ZgZHgMeA9CeF6wCTWZdTM_7jEp5bGhFLlK77opzOLMauDWyF8Nd9dszIo96TFF6l2TwLzQfumeJWOwZVppJqKrq2mzR30MgnoYfEI1mXM2uCP3pmqxJJxxzyk2ZEkjQKZg18KVh7SVKIXPf65xTS6UU4EzmHEuU2olMauSoGPrLKUjc0m5RMIy13zIv5L5s_ZnNytvfCYSsErg-aIEYwzkKtlF2M94EGRNDvxlP4chXFLNetK4Y9Mma7OhGy7mre8q7DIDOYpCtF47TzLed735JHHr6fJk2v6K4r8pzu5EKqrVy9aPeRdpQo-zJHKEaFrQRPMctWuU7So2JZOhI-ov7OAwx7gOy3Yc_sE8lPq2u-N3YmAwplP6xiM2YwslyGegXgDaQXZRJg_GtyU7Da3T2kM2V_AmG68n9S0UJiAiaOmkcYy_hgW9XPgH_Bx597hrNiZlcewVt44neKrD7MImaVyGXwc4mScIybCisgbgmdvAfJj869pv4_ssXycupWcporWHNYeF8t11x_xdsbM3bPhpaTchHzkKa78sC2ZPZaLXyRMF_RYpwET1K7QPqVnXRXSbcKqT5ew_plRvayMlJC53D3zAwDufdcI4HjA8vyH-6Kz3Jhc3C-fw4MitAi_hksjQz_Ga4QnJvSu3BynZ2oi-mbakW6_s8OxYqyap5mLg-8h-AYdwFj7Oc1RwtDmktuYqe2DXvkMguCRO5Mjor1VGWQS32iaJhXDheUnjnZGNNlk35VIp4r5o1CDoK6wl5blBd0YLN9e1wDXSfnt1aDsuq_VhE_7PY7ViiiTDp6gUzx5BN1Ntycg0qfJOrRjUiHHROKaebWKwr5eurinl4mZzBLNABzQXMsz3HDl1NS_wKm2zbhI2hqY4rkuugK_uGAMSzPZbqEOH8ucyBisYGUN8ULerWKzq8SOTIKrtKCNp8gS7wYX0WnwONdX_d_frdCHk--ka-MPk-CIBa4Rq7peNHsmwXyFFwTUpewVumxxKvRW_ZJfs4nRuVi7l6isj7LCEfMyPNNWxxv-aOz52pzRraDduFzqKbz3hTORDpCFXQd5HvV2swoG96rlPI5lUxH6dvW4SqmJ9I5gopSNg6Si3gzNABfeSss063D0xf6E84mtz6Ni_D-51Yggki-Ion8AVifkdp0zPtae_zihT18w20ravlSLr-OeYIKPoJmWhe8h-igE32rMG-lT1fD5jMeghMmkUsUgu-GNMasLrIZUDEUT5GKlBhD-isw4jEZxM8Riz7ZWo4z0rmqkjZWklrneBOAHLNFu2wLNRdry1obhmLDmsVP8K63YuwWaIKKtex99MvVahyA2yJvfOZdUfTDZa_y3bIGO8KFNvZ-wl42E_gTjGxPPcu4D22rH_uSH8rCTz6Jn_yW82qAvgTaOklg0SCX_f4cMM8K73BiebF8I1VbssU-njdOie42NkJ-cucY8xgE97U_tONdFwvPanuymq8yyYuo7qsCnO4IWvYF0KWA6yEqgIwHkmMMLvktXI-dw3qlKl6r-mV2SoLSap4_hIO8YLuxd0RrMQvnm9J7AhZfCtkTgJYz9mC2QDJOleQFpP8JpgT0w16XhFaNnQjHXRPOmeIO-_JNqpqCHu5Cu3RLPPwjKdeQ_13f78uK-4YSty7trwzmEy7sKgiGygWcCbyfLWYYKKs2VxQo",
         ratingKinopoisk = 6.7f,
         votesKinopoisk = 400000,
         ratingImdb = 8.9f,

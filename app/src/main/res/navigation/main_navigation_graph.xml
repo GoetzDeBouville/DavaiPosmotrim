@@ -72,7 +72,7 @@
     </dialog>
     <dialog
         android:id="@+id/changeNameFragment"
-        android:name="com.davay.android.feature.changename.presentation.ChangeNameFragment"
+        android:name="com.davay.android.feature.changename.presentation.ChangeNameBottomSheetFragment"
         android:label="ChangeNameFragment" />
     <fragment
         android:id="@+id/onboardingFragment"
@@ -104,4 +104,5 @@
         android:name="com.davay.android.feature.createsession.presentation.createsession.CreateSessionFragment"
         android:label="fragment_create_session"
         tools:layout="@layout/fragment_create_session" />
+
 </navigation>

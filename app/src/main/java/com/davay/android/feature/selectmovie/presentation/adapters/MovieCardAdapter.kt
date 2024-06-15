@@ -1,4 +1,4 @@
-package com.davay.android.feature.selectmovie.adapters
+package com.davay.android.feature.selectmovie.presentation.adapters
 
 import android.content.Context
 import android.view.LayoutInflater
@@ -10,7 +10,7 @@ import coil.size.Scale
 import coil.transform.RoundedCornersTransformation
 import com.davay.android.R
 import com.davay.android.databinding.ItemSwipeableMovieCardBinding
-import com.davay.android.feature.selectmovie.MovieDetailsDemo
+import com.davay.android.feature.selectmovie.domain.models.MovieDetailsDemo
 
 class MovieCardAdapter(
     private val swipeLeft: () -> Unit,
@@ -25,12 +25,15 @@ class MovieCardAdapter(
         private val revert: () -> Unit,
         private val inflateMovieDetails: (MovieDetailsDemo) -> Unit
     ) : RecyclerView.ViewHolder(binding.root) {
+        init {
+            onItemsClicklisteners()
+        }
+
         fun bind(data: MovieDetailsDemo) = with(binding) {
             inflateMovieDetails.invoke(data)
             bindImage(data)
             addGenreList(data.genres)
             setRateText(data.ratingKinopoisk)
-            onItemsClicklisteners()
             tvFilmTitle.text = data.movieName
             tvOriginalTitle.text = data.alternativeName ?: data.englishName ?: ""
             tvYearCountryRuntime.text = buildStringYearCountriesRuntime(
@@ -65,17 +68,14 @@ class MovieCardAdapter(
         }
 
         private fun onItemsClicklisteners() = with(binding) {
-            ivLike.setOnClickListener {
+            civLike.setOnClickListener {
                 swipeRight.invoke()
-                notifyDataSetChanged()
             }
-            ivSkip.setOnClickListener {
+            civSkip.setOnClickListener {
                 swipeLeft.invoke()
-                notifyDataSetChanged()
             }
-            ivRevert.setOnClickListener {
+            civRevert.setOnClickListener {
                 revert.invoke()
-                notifyDataSetChanged()
             }
         }
 
@@ -90,10 +90,10 @@ class MovieCardAdapter(
                     str.append(DOT_DELIMETER)
                 }
                 if (countries.isNotEmpty()) {
-                    val countryList = countries.take(MAX_COUNTRY_NUMBER)
+                    val countryList = countries.take(MAX_COUNTRY_NUMBER_3)
                     val countriesString = countryList.joinToString(separator = DOT_DELIMETER)
                     str.append(countriesString)
-                    if (countries.size > MAX_COUNTRY_NUMBER) {
+                    if (countries.size > MAX_COUNTRY_NUMBER_3) {
                         str.append(MULTIPOINT)
                     }
                 }
@@ -134,9 +134,14 @@ class MovieCardAdapter(
                 fblGenreList.addView(genreView)
             }
         }
+
+        fun updateSwipeTransition(dx: Float) = with(binding) {
+            civLike.updateDynamicAlphaPositive(dx)
+            civSkip.updateDynamicAlphaNegative(dx)
+        }
     }
 
-    private val datalist = arrayListOf<MovieDetailsDemo>()
+    private val datalist = mutableListOf<MovieDetailsDemo>()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MovieCardVH {
         val layoutInflater = LayoutInflater.from(parent.context)
@@ -160,18 +165,16 @@ class MovieCardAdapter(
         holder.bind(datalist[position])
     }
 
-
     fun setData(list: List<MovieDetailsDemo>) {
         datalist.clear()
         datalist.addAll(list)
-        notifyItemChanged(0)
     }
 
     private companion object {
         const val GOOD_RATE_7 = 7.0f
         const val DOT_DELIMETER = " ∙ "
         const val MULTIPOINT = "..."
-        const val MAX_COUNTRY_NUMBER = 3
+        const val MAX_COUNTRY_NUMBER_3 = 3
         const val MINUTES_NUMBER_IN_HOUR = 60
     }
 }
