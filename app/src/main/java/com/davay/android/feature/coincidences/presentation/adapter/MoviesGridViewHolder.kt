@@ -3,13 +3,13 @@ package com.davay.android.feature.coincidences.presentation.adapter
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.davai.uikit.MovieCardView
-import com.davay.android.feature.coincidences.presentation.TestMovie
+import com.davay.android.feature.selectmovie.domain.models.MovieDetailsDemo
 
 class MoviesGridViewHolder(private val view: MovieCardView) : RecyclerView.ViewHolder(view) {
 
-    fun bind(movie: TestMovie) = with(view) {
-        setMovieCover(movie.imageUrl)
-        setMovieTitle(movie.title)
+    fun bind(movie: MovieDetailsDemo) = with(view) {
+        setMovieCover(movie.posterUrl ?: "")
+        setMovieTitle(movie.movieName)
     }
 
     companion object {

@@ -1,21 +1,20 @@
 package com.davay.android.feature.coincidences.data
 
 import com.davay.android.base.usecases.GetData
-import com.davay.android.feature.coincidences.presentation.TestMovie
+import com.davay.android.feature.selectmovie.domain.models.MovieDetailsDemo
 import com.davay.android.utils.ConnectionChecker
 import java.io.IOException
 
 class TestMovieRepository(
     private val connectionChecker: ConnectionChecker
-) : GetData<TestMovie> {
+) : GetData<MovieDetailsDemo> {
 
-    override suspend fun getData(): Result<List<TestMovie>> =
+    override suspend fun getData(): Result<List<MovieDetailsDemo>> =
         if (connectionChecker.isConnected) {
             Result.success(mockTestMovieList)
         } else {
             Result.failure(IOException("No internet connection"))
         }
-
 
     companion object {
         private val urls = listOf(
@@ -36,13 +35,11 @@ class TestMovieRepository(
         )
 
         private val mockTestMovieList = List(10) {
-            TestMovie(
-                id = it,
-                title = films[it % 5].first,
-                imageUrl = films[it % 5].second
+            MovieDetailsDemo(
+                kinopoiskId = it,
+                movieName = films[it % 5].first,
+                posterUrl = films[it % 5].second
             )
         }
-
-
     }
 }

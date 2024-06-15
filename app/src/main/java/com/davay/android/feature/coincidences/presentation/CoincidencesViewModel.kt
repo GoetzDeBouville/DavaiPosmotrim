@@ -5,6 +5,7 @@ import com.davay.android.base.BaseViewModel
 import com.davay.android.base.usecases.GetData
 import com.davay.android.feature.coincidences.ErrorType
 import com.davay.android.feature.coincidences.di.GET_TEST_MOVIE_USE_CASE
+import com.davay.android.feature.selectmovie.domain.models.MovieDetailsDemo
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -15,7 +16,7 @@ import javax.inject.Named
 
 class CoincidencesViewModel @Inject constructor(
     @Named(GET_TEST_MOVIE_USE_CASE)
-    private val getData: GetData<TestMovie>
+    private val getData: GetData<MovieDetailsDemo>
 ) : BaseViewModel() {
 
     private val _state: MutableStateFlow<UiState> = MutableStateFlow(UiState.Empty)

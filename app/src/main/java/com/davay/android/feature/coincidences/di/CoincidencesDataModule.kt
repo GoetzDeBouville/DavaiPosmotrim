@@ -2,7 +2,7 @@ package com.davay.android.feature.coincidences.di
 
 import com.davay.android.base.usecases.GetData
 import com.davay.android.feature.coincidences.data.TestMovieRepository
-import com.davay.android.feature.coincidences.presentation.TestMovie
+import com.davay.android.feature.selectmovie.domain.models.MovieDetailsDemo
 import com.davay.android.utils.ConnectionChecker
 import dagger.Module
 import dagger.Provides
@@ -18,5 +18,5 @@ class CoincidencesDataModule {
 
     @Provides
     @Named(GET_TEST_MOVIE_USE_CASE)
-    fun getTestMovieUseCase(repo: TestMovieRepository): GetData<TestMovie> = repo
+    fun getTestMovieUseCase(repo: TestMovieRepository): GetData<MovieDetailsDemo> = repo
 }
