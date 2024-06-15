@@ -49,7 +49,7 @@ class LoadFragment : BaseFragment<FragmentLoadBinding, LoadViewModel>(
             val bundle = Bundle().apply {
                 putInt(OnboardingFragment.ONBOARDING_KEY, OnboardingFragment.ONBOARDING_MAIN_SET)
             }
-            navigate(R.id.action_loadFragment_to_onboardingFragment, bundle)
+            viewModel.navigate(R.id.action_loadFragment_to_onboardingFragment, bundle)
         }
 
         binding.btnToCoincidences.setOnClickListener {
