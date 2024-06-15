@@ -35,6 +35,7 @@ class SelectMovieFragment :
         inflateMovieDetails = { movie -> inflateMovieDetails(movie) }
     )
     private val swipeCardLayoutManager = SwipeableLayoutManager()
+    private var currentPosition = 0
 
     override fun diComponent(): ScreenComponent =
         DaggerSelectMovieFragmentComponent.builder().appComponent(AppComponentHolder.getComponent())
@@ -42,8 +43,22 @@ class SelectMovieFragment :
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        getSavedPositionAndUpdateStartPosition(savedInstanceState)
         initViews()
         subscribe()
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        currentPosition = swipeCardLayoutManager.getCurrentPosition()
+        outState.putInt(CURRENT_POSITION_KEY, currentPosition)
+    }
+
+    private fun getSavedPositionAndUpdateStartPosition(savedInstanceState: Bundle?) {
+        savedInstanceState?.let {
+            currentPosition = it.getInt(CURRENT_POSITION_KEY, 0)
+        }
+        swipeCardLayoutManager.updateCurrentPosition(currentPosition)
     }
 
     private fun initViews() {
@@ -63,6 +78,8 @@ class SelectMovieFragment :
         binding.rvFilmCard.apply {
             layoutManager = swipeCardLayoutManager
             adapter = cardAdapter
+            // помимо установки позици на layputmanger дополнительно скролим до необходимой позиции
+            scrollToPosition(currentPosition)
         }
 
         val itemTouchHelper = ItemTouchHelper(
@@ -92,7 +109,7 @@ class SelectMovieFragment :
                 rvFilmCard.getLocationOnScreen(cardLocation)
                 val cardTop = cardLocation[1]
 
-                val screenHeight = resources.displayMetrics.heightPixels
+                val screenHeight = activity?.resources?.displayMetrics?.heightPixels ?: 0
                 val maxHeight = screenHeight - (cardTop + MARGIN_TOP_16_DP.dpToPx().toInt())
 
                 clDetailsBottomSheet.layoutParams.height = maxHeight
@@ -174,6 +191,7 @@ class SelectMovieFragment :
         const val BOTTOMSHEET_PEEK_HEIGHT_112_DP = 112
         const val MARGIN_TOP_16_DP = 16
         const val MAX_CAST_NUMBER_4 = 4
+        const val CURRENT_POSITION_KEY = "currentPosition"
     }
 }
 
