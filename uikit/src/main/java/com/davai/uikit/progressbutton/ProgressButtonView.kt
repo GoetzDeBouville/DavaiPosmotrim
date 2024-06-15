@@ -1,4 +1,4 @@
-package com.davai.uikit
+package com.davai.uikit.progressbutton
 
 import android.content.Context
 import android.graphics.Canvas
@@ -7,6 +7,7 @@ import android.graphics.Paint
 import android.hardware.display.DisplayManager
 import android.util.AttributeSet
 import android.view.Display
+import com.davai.uikit.R
 import com.google.android.material.button.MaterialButton
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.delay
@@ -24,14 +25,13 @@ class ProgressButtonView @JvmOverloads constructor(
     private val refreshDelay: Long = getDisplayRefreshDelay()
     private var numOfSteps: Int = 0
 
-    //    private val strokeCornerRadius = cornerRadius / 2f
     private val paint = Paint()
     private val arcPaint = Paint().apply {
         style = Paint.Style.STROKE
         isAntiAlias = true
     }
 
-    //? Выносим из onDraw создание объектов
+    // Выносим из onDraw создание объектов
     private var remainingLengthAfterTopRightCorner = 0f
     private var remainingLengthAfterRightVerticalLine = 0f
     private var remainingLengthAfterBottomRightCorner = 0f
@@ -44,11 +44,12 @@ class ProgressButtonView @JvmOverloads constructor(
         applyAttributeSet(context, attrs)
     }
 
-    private fun applyAttributeSet(
-        context: Context, attrs: AttributeSet?
-    ) {
+    private fun applyAttributeSet(context: Context, attrs: AttributeSet?) {
         context.theme.obtainStyledAttributes(
-            attrs, R.styleable.ProgressButtonView, 0, 0
+            attrs,
+            R.styleable.ProgressButtonView,
+            0,
+            0
         ).apply {
             try {
                 progressStrokeColor = getColor(
@@ -98,77 +99,91 @@ class ProgressButtonView @JvmOverloads constructor(
     /**
      * Прорисовка прогресса выполняется по принципу цепочки и чейнит каждый последующий этап
      * прорисовки к предыдущему через проверку остатка длины
+     * Первая половина верхнего открезка периметра кнопки прорисовывается без привязок.
+     * Верхний правый угол привязан к currentLength, чтобы не создавать переменную для первой
+     * половины верхнего отрезка периметра кнопки
      */
     override fun onDraw(canvas: Canvas) {
         super.onDraw(canvas)
         val totalPathLength = calculateTotalPathLength(cornerRadius / 2f)
         val currentLength = calculateCurrentLength(totalPathLength)
-        // Прорисовываем первую половину  верхнего отрезка периметра кнопки
         canvas.drawFirstHalfTopHorizontalLine(width / 2f, currentLength)
-        // привязываемся к величине текущей длины чтобы не создавать лишнюю переменную
-        if (currentLength > width / 2f - cornerRadius / 2f) remainingLengthAfterTopRightCorner =
-            canvas.drawCornerArc(
-                currentLength - (width / 2f - cornerRadius / 2f), ANGLE_270_DEG
+        if (currentLength > width / 2f - cornerRadius / 2f) {
+            remainingLengthAfterTopRightCorner = canvas.drawCornerArc(
+                currentLength - (width / 2f - cornerRadius / 2f), CornerType.TOP_RIGHT
             )
-
-        if (remainingLengthAfterTopRightCorner > 0) remainingLengthAfterRightVerticalLine =
-            canvas.drawRightVerticalLine(remainingLengthAfterTopRightCorner)
-
-        if (remainingLengthAfterRightVerticalLine > 0) remainingLengthAfterBottomRightCorner =
-            canvas.drawCornerArc(remainingLengthAfterRightVerticalLine, ANGLE_0_DEG)
-
-        if (remainingLengthAfterBottomRightCorner > 0) remainingLengthAfterBottomLine =
-            canvas.drawBottomLine(remainingLengthAfterBottomRightCorner)
-
-        if (remainingLengthAfterBottomLine > 0) remainingLengthAfterBottomLeftCorner =
-            canvas.drawCornerArc(remainingLengthAfterBottomLine, ANGLE_90_DEG)
-
-        if (remainingLengthAfterBottomLeftCorner > 0) remainingLengthAfterLeftVerticalLine =
-            canvas.drawLeftVerticalLine(remainingLengthAfterBottomLeftCorner)
-
-        if (remainingLengthAfterLeftVerticalLine > 0) remainingLengthAfterTopLeftCorner =
-            canvas.drawCornerArc(remainingLengthAfterLeftVerticalLine, ANGLE_180_DEG)
-
-        if (remainingLengthAfterTopLeftCorner > 0f) canvas.drawSecondHalfTopProgressLine(
-            remainingLengthAfterTopLeftCorner
-        )
+        }
+        if (remainingLengthAfterTopRightCorner > 0) {
+            remainingLengthAfterRightVerticalLine =
+                canvas.drawRightVerticalLine(remainingLengthAfterTopRightCorner)
+        }
+        if (remainingLengthAfterRightVerticalLine > 0) {
+            remainingLengthAfterBottomRightCorner =
+                canvas.drawCornerArc(remainingLengthAfterRightVerticalLine, CornerType.BOTTOM_RIGHT)
+        }
+        if (remainingLengthAfterBottomRightCorner > 0) {
+            remainingLengthAfterBottomLine =
+                canvas.drawBottomLine(remainingLengthAfterBottomRightCorner)
+        }
+        if (remainingLengthAfterBottomLine > 0) {
+            remainingLengthAfterBottomLeftCorner =
+                canvas.drawCornerArc(remainingLengthAfterBottomLine, CornerType.BOTTOM_LEFT)
+        }
+        if (remainingLengthAfterBottomLeftCorner > 0) {
+            remainingLengthAfterLeftVerticalLine =
+                canvas.drawLeftVerticalLine(remainingLengthAfterBottomLeftCorner)
+        }
+        if (remainingLengthAfterLeftVerticalLine > 0) {
+            remainingLengthAfterTopLeftCorner =
+                canvas.drawCornerArc(remainingLengthAfterLeftVerticalLine, CornerType.TOP_LEFT)
+        }
+        if (remainingLengthAfterTopLeftCorner > 0f) {
+            canvas.drawSecondHalfTopProgressLine(remainingLengthAfterTopLeftCorner)
+        }
     }
 
     /**
      * Универсальный метод для прорисовки углов. Магические это эмпирические значения и будут
-     * применимы для конкретноой толщины линии прогресса.
+     * применимы для конкретноой толщины линии прогресса. Метод собирает координаты квадрат и
+     * передает их в drawArc
      */
-    private fun Canvas.drawCornerArc(
-        remainingLength: Float, startAngle: Float
-    ): Float {
-        val strokeCornerRadius = cornerRadius / 2f
-        val cornerLength = Math.PI.toFloat() / 2f * strokeCornerRadius
+    private fun Canvas.drawCornerArc(remainingLength: Float, cornerType: CornerType): Float {
+        val cornerLength = Math.PI.toFloat() / cornerRadius
         val sweepAngle = min(remainingLength / cornerLength * ANGLE_90_DEG, ANGLE_90_DEG)
-
-        val left = if (startAngle == ANGLE_270_DEG || startAngle == ANGLE_0_DEG) {
-            width - 2f * strokeCornerRadius - 2f
-        } else 2f
-        val top = if (startAngle == ANGLE_0_DEG || startAngle == ANGLE_90_DEG) {
-            height - 2f * strokeCornerRadius - 2f
-        } else 2f
-        val right = if (startAngle == ANGLE_270_DEG || startAngle == ANGLE_0_DEG) {
-            width.toFloat() - 2f
-        } else 2f * strokeCornerRadius + 2f
-        val bottom = if (startAngle == ANGLE_0_DEG || startAngle == ANGLE_90_DEG) {
-            height.toFloat() - 2f
-        } else 2f * strokeCornerRadius + 2f
-
+        val left =
+            if (cornerType == CornerType.TOP_RIGHT || cornerType == CornerType.BOTTOM_RIGHT) {
+                width - cornerRadius - 2f
+            } else {
+                2f
+            }
+        val top =
+            if (cornerType == CornerType.BOTTOM_RIGHT || cornerType == CornerType.BOTTOM_LEFT) {
+                height - cornerRadius - 2f
+            } else {
+                2f
+            }
+        val right =
+            if (cornerType == CornerType.TOP_RIGHT || cornerType == CornerType.BOTTOM_RIGHT) {
+                width.toFloat() - 2f
+            } else {
+                cornerRadius + 2f
+            }
+        val bottom =
+            if (cornerType == CornerType.BOTTOM_RIGHT || cornerType == CornerType.BOTTOM_LEFT) {
+                height.toFloat() - 2f
+            } else {
+                cornerRadius + 2f
+            }
         this.drawArc(
             left,
             top,
             right,
             bottom,
-            startAngle,
+            cornerType.startAngle,
             sweepAngle,
             false,
             arcPaint
         )
-
         return remainingLength - cornerLength
     }
 
@@ -181,7 +196,8 @@ class ProgressButtonView @JvmOverloads constructor(
     }
 
     private fun Canvas.drawFirstHalfTopHorizontalLine(
-        halfLength: Float, currentLength: Float
+        halfLength: Float,
+        currentLength: Float
     ): Float {
         val lineLength = width - halfLength - cornerRadius / 2
         val drawLength = min(currentLength, lineLength)
@@ -261,7 +277,14 @@ class ProgressButtonView @JvmOverloads constructor(
         private const val ANGLE_180_DEG = 180f
         private const val ANGLE_270_DEG = 270f
         private const val DEFAULT_STROKE_WIDTH_10 = 10f
-        const val MS_IN_SECOND = 1000
+        const val MS_IN_SECOND = 1000L
         const val DEFAULT_DURATION_5000_MS = 5000L
+
+        enum class CornerType(val startAngle: Float) {
+            TOP_RIGHT(ANGLE_270_DEG),
+            BOTTOM_RIGHT(ANGLE_0_DEG),
+            BOTTOM_LEFT(ANGLE_90_DEG),
+            TOP_LEFT(ANGLE_180_DEG)
+        }
     }
 }
