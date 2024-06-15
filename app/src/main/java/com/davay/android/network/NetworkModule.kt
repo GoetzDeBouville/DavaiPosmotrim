@@ -1,5 +1,7 @@
 package com.davay.android.network
 
+import android.content.Context
+import com.davay.android.utils.ConnectionChecker
 import dagger.Module
 import dagger.Provides
 import okhttp3.OkHttpClient
@@ -23,4 +25,7 @@ class NetworkModule {
             .client(okHttpClient)
             .build()
     }
+
+    @Provides
+    fun connectionChecker(context: Context): ConnectionChecker  = ConnectionChecker(context)
 }

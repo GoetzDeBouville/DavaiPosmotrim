@@ -1,10 +1,8 @@
 package com.davay.android.feature.coincidences.presentation
 
-import android.net.ConnectivityManager
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
-import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
@@ -15,7 +13,6 @@ import com.davay.android.databinding.FragmentCoincidencesBinding
 import com.davay.android.di.ScreenComponent
 import com.davay.android.feature.coincidences.di.DaggerCoincidencesFragmentComponent
 import com.davay.android.feature.coincidences.presentation.adapter.MoviesGridAdapter
-import com.davay.android.feature.coincidences.presentation.adapter.MoviesGridDecoration
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
@@ -39,11 +36,10 @@ class CoincidencesFragment : BaseFragment<FragmentCoincidencesBinding, Coinciden
         setupToolbar()
         setupMoviesGrid()
         subscribe()
-        getData()
+        viewModel.getCoincidences()
     }
 
     private fun setupMoviesGrid() = with(binding.coincidencesList) {
-        addItemDecoration(MoviesGridDecoration())
         adapter = moviesGridAdapter
     }
 
@@ -52,16 +48,11 @@ class CoincidencesFragment : BaseFragment<FragmentCoincidencesBinding, Coinciden
         setEndIcon(com.davai.uikit.R.drawable.ic_random)
         showEndIcon()
         setEndIconClickListener {
-            // navigate to random
+            Toast.makeText(requireContext(), "Navigate to random.", Toast.LENGTH_SHORT).show()
         }
         setStartIconClickListener {
-            // navigateBack
+            Toast.makeText(requireContext(), "Navigate back.", Toast.LENGTH_SHORT).show()
         }
-    }
-
-    private fun getData() {
-        val connectivityManager = ContextCompat.getSystemService(requireContext(), ConnectivityManager::class.java)
-        viewModel.onGetData(connectivityManager)
     }
 
     private fun subscribe() {

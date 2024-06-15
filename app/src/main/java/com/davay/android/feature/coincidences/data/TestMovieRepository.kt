@@ -2,10 +2,18 @@ package com.davay.android.feature.coincidences.data
 
 import com.davay.android.base.usecases.GetData
 import com.davay.android.feature.coincidences.presentation.TestMovie
+import com.davay.android.utils.ConnectionChecker
+import java.io.IOException
 
-class TestMovieRepository : GetData<TestMovie> {
+class TestMovieRepository(
+    private val connectionChecker: ConnectionChecker
+) : GetData<TestMovie> {
 
-    override suspend fun getData(): Result<List<TestMovie>> = Result.success(mockTestMovieList)
+    override suspend fun getData(): Result<List<TestMovie>> =
+        if (connectionChecker.isConnected) {
+            Result.success(mockTestMovieList)
+        } else Result.failure(IOException())
+
 
     companion object {
         private val urls = listOf(

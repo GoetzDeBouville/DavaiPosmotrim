@@ -2,6 +2,8 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:layout_marginHorizontal="@dimen/margin_8"
+    android:layout_marginBottom="@dimen/margin_16"
     android:layout_width="match_parent"
     android:layout_height="@dimen/movie_card_height_240">
 

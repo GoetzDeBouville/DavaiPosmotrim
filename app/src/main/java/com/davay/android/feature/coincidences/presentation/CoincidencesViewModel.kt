@@ -1,16 +1,15 @@
 package com.davay.android.feature.coincidences.presentation
 
-import android.net.ConnectivityManager
 import androidx.lifecycle.viewModelScope
 import com.davay.android.base.BaseViewModel
 import com.davay.android.base.usecases.GetData
 import com.davay.android.feature.coincidences.ErrorType
 import com.davay.android.feature.coincidences.di.GET_TEST_MOVIE_USE_CASE
-import com.davay.android.utils.checkNetworkState
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
+import java.io.IOException
 import javax.inject.Inject
 import javax.inject.Named
 
@@ -23,29 +22,24 @@ class CoincidencesViewModel @Inject constructor(
     val state: StateFlow<UiState>
         get() = _state
 
-    fun onGetData(connectivityManager: ConnectivityManager?) {
+    fun getCoincidences() {
         viewModelScope.launch(Dispatchers.IO) {
             _state.emit(UiState.Loading)
-            val hasNetworkAccess = checkNetworkState(connectivityManager)
 
-            if (!hasNetworkAccess) {
-                _state.emit(UiState.Error(ErrorType.NO_INTERNET))
-            } else {
-                getData.getData().fold(
-                    onSuccess = { movies ->
-                        _state.emit(
-                            if (movies.isEmpty()) {
-                                UiState.Empty
-                            } else {
-                                UiState.Data(data = movies)
-                            }
-                        )
-                    },
-                    onFailure = { _ ->
-                        _state.emit(UiState.Error(ErrorType.SERVER_ERROR))
+            getData.getData().fold(
+                onSuccess = { movies ->
+                    val newState = if (movies.isEmpty()) UiState.Empty else UiState.Data(data = movies)
+                    _state.emit(newState)
+                },
+                onFailure = { throwable ->
+                    val errorType = if (throwable is IOException) {
+                        ErrorType.NO_INTERNET
+                    } else {
+                        ErrorType.SERVER_ERROR
                     }
-                )
-            }
+                    _state.emit(UiState.Error(errorType))
+                }
+            )
         }
     }
 }
