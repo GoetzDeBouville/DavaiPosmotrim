@@ -1,4 +1,4 @@
-package com.davai.uikit.progressbutton
+package com.davai.uikit
 
 import android.content.Context
 import android.graphics.Canvas
@@ -7,7 +7,6 @@ import android.graphics.Paint
 import android.hardware.display.DisplayManager
 import android.util.AttributeSet
 import android.view.Display
-import com.davai.uikit.R
 import com.google.android.material.button.MaterialButton
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.delay
@@ -35,7 +34,7 @@ class ProgressButtonView @JvmOverloads constructor(
         isAntiAlias = true
     }
 
-    // Выносим из onDraw создание объектов
+    // Выносим из onDraw инициализацию объектов
     private var remainingLengthAfterTopRightCorner = 0f
     private var remainingLengthAfterRightVerticalLine = 0f
     private var remainingLengthAfterBottomRightCorner = 0f
@@ -69,6 +68,7 @@ class ProgressButtonView @JvmOverloads constructor(
                     color = progressStrokeColor
                     strokeWidth = progressStrokeWidth * Math.PI.toFloat() / 2
                 }
+                cornerRadius *= 2 // корректировка радиуса для прорисовки
             } finally {
                 recycle()
             }
@@ -80,7 +80,11 @@ class ProgressButtonView @JvmOverloads constructor(
      * и вычисляет число обновлений с учетом частоты обновления экрана (т.к. экраны могут
      * обновляться с частотой и 60 Гц и 144 Гц или даже комбинировать частоту обновления).
      */
-    fun startAnimation(coroutineScope: CoroutineScope, duration: Long = DEFAULT_DURATION_5000_MS) {
+    fun animateProgress(
+        coroutineScope: CoroutineScope,
+        duration: Long = DEFAULT_DURATION_5000_MS,
+        doOnFinish: (() -> Unit)? = null
+    ) {
         numOfSteps = (duration / refreshDelay).toInt()
         coroutineScope.launch {
             while (progress < numOfSteps) {
@@ -88,6 +92,7 @@ class ProgressButtonView @JvmOverloads constructor(
                 ++progress
                 invalidate()
             }
+            doOnFinish?.invoke()
         }
     }
 

@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.FrameLayout
+import androidx.lifecycle.lifecycleScope
 import com.davay.android.databinding.FragmentMatchBottomSheetBinding
 import com.davay.android.feature.selectmovie.domain.models.MovieDetailsDemo
 import com.davay.android.utils.MovieDetailsHelper
@@ -15,6 +16,7 @@ import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.google.gson.Gson
+import kotlinx.coroutines.launch
 
 class MatchBottomSheetFragment : BottomSheetDialogFragment() {
     private var _binding: FragmentMatchBottomSheetBinding? = null
@@ -73,7 +75,7 @@ class MatchBottomSheetFragment : BottomSheetDialogFragment() {
     }
 
     private fun subscribe() {
-        binding.matchProgressBtn.root.setOnClickListener {
+        binding.progressButtonItem.root.setOnClickListener {
             dismiss()
         }
     }
@@ -92,8 +94,12 @@ class MatchBottomSheetFragment : BottomSheetDialogFragment() {
     }
 
     private fun launchProgressButtonAnimation() {
-        binding.matchProgressBtn.opvProgress.setProgressWithAnimation {
-            dismiss()
+        binding.progressButtonItem.progressButton.also {
+            lifecycleScope.launch {
+                it.animateProgress(this) {
+                    dismiss()
+                }
+            }
         }
     }
 
