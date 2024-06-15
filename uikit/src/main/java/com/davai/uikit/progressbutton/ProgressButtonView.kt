@@ -14,16 +14,20 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlin.math.min
 
+/**
+ * Прогресс реализован как пошаговая перерисовка по периметору с линейной зависимостью от времени.
+ */
+@Suppress("Detekt.LargeClass")
 class ProgressButtonView @JvmOverloads constructor(
     context: Context,
     attrs: AttributeSet? = null,
     defStyleAttr: Int = 0
 ) : MaterialButton(context, attrs, defStyleAttr) {
     private var progress = 0
+    private var numOfSteps: Int = 0
     private var progressStrokeColor = Color.GREEN
     private var progressStrokeWidth = DEFAULT_STROKE_WIDTH_10
     private val refreshDelay: Long = getDisplayRefreshDelay()
-    private var numOfSteps: Int = 0
 
     private val paint = Paint()
     private val arcPaint = Paint().apply {
@@ -72,15 +76,6 @@ class ProgressButtonView @JvmOverloads constructor(
     }
 
     /**
-     * Метод getDisplayRefreshDelay получает значения времени обновления экрана.
-     */
-    private fun getDisplayRefreshDelay(): Long {
-        val displayManger = context.getSystemService(Context.DISPLAY_SERVICE) as DisplayManager
-        val display = displayManger.getDisplay(Display.DEFAULT_DISPLAY)
-        return (MS_IN_SECOND / display.refreshRate).toLong()
-    }
-
-    /**
      * Метод startAnimation использует системное время обновления экрана (переменная refreshDelay)
      * и вычисляет число обновлений с учетом частоты обновления экрана (т.к. экраны могут
      * обновляться с частотой и 60 Гц и 144 Гц или даже комбинировать частоту обновления).
@@ -107,7 +102,7 @@ class ProgressButtonView @JvmOverloads constructor(
         super.onDraw(canvas)
         val totalPathLength = calculateTotalPathLength(cornerRadius / 2f)
         val currentLength = calculateCurrentLength(totalPathLength)
-        canvas.drawFirstHalfTopHorizontalLine(width / 2f, currentLength)
+        canvas.drawFirstHalfTopHorizontalLine(currentLength)
         if (currentLength > width / 2f - cornerRadius / 2f) {
             remainingLengthAfterTopRightCorner = canvas.drawCornerArc(
                 currentLength - (width / 2f - cornerRadius / 2f), CornerType.TOP_RIGHT
@@ -146,33 +141,35 @@ class ProgressButtonView @JvmOverloads constructor(
      * Универсальный метод для прорисовки углов. Магические это эмпирические значения и будут
      * применимы для конкретноой толщины линии прогресса. Метод собирает координаты квадрат и
      * передает их в drawArc
+     * значение COEFFICIENT_CONSTANT_2 влияет на смещение линии прогресса на углах и установлено 2
+     * после экспериментов
      */
     private fun Canvas.drawCornerArc(remainingLength: Float, cornerType: CornerType): Float {
-        val cornerLength = Math.PI.toFloat() / cornerRadius
+        val cornerLength = Math.PI.toFloat() * cornerRadius / 2 - progressStrokeWidth
         val sweepAngle = min(remainingLength / cornerLength * ANGLE_90_DEG, ANGLE_90_DEG)
         val left =
             if (cornerType == CornerType.TOP_RIGHT || cornerType == CornerType.BOTTOM_RIGHT) {
-                width - cornerRadius - 2f
+                width - cornerRadius - progressStrokeWidth
             } else {
-                2f
+                COEFFICIENT_CONSTANT_2
             }
         val top =
             if (cornerType == CornerType.BOTTOM_RIGHT || cornerType == CornerType.BOTTOM_LEFT) {
-                height - cornerRadius - 2f
+                height - cornerRadius - progressStrokeWidth
             } else {
-                2f
+                COEFFICIENT_CONSTANT_2
             }
         val right =
             if (cornerType == CornerType.TOP_RIGHT || cornerType == CornerType.BOTTOM_RIGHT) {
-                width.toFloat() - 2f
+                width - COEFFICIENT_CONSTANT_2
             } else {
-                cornerRadius + 2f
+                cornerRadius + COEFFICIENT_CONSTANT_2
             }
         val bottom =
             if (cornerType == CornerType.BOTTOM_RIGHT || cornerType == CornerType.BOTTOM_LEFT) {
-                height.toFloat() - 2f
+                height - COEFFICIENT_CONSTANT_2
             } else {
-                cornerRadius + 2f
+                cornerRadius + COEFFICIENT_CONSTANT_2
             }
         this.drawArc(
             left,
@@ -187,25 +184,14 @@ class ProgressButtonView @JvmOverloads constructor(
         return remainingLength - cornerLength
     }
 
-    private fun calculateTotalPathLength(strokeCornerRadius: Float): Float {
-        return 2 * (width + height - strokeCornerRadius + Math.PI.toFloat() * strokeCornerRadius)
-    }
-
-    private fun calculateCurrentLength(totalPathLength: Float): Float {
-        return totalPathLength * progress / numOfSteps
-    }
-
-    private fun Canvas.drawFirstHalfTopHorizontalLine(
-        halfLength: Float,
-        currentLength: Float
-    ): Float {
-        val lineLength = width - halfLength - cornerRadius / 2
-        val drawLength = min(currentLength, lineLength)
+    private fun Canvas.drawFirstHalfTopHorizontalLine(currentLength: Float): Float {
+        val lineLength = width - cornerRadius / 2f
+        val drawLength = min(currentLength, lineLength - width / 2)
 
         this.drawLine(
-            halfLength,
+            width / 2f,
             0f,
-            min(halfLength + currentLength, (width - cornerRadius / 2f)),
+            min(width / 2f + currentLength, lineLength),
             0f,
             paint
         )
@@ -257,7 +243,6 @@ class ProgressButtonView @JvmOverloads constructor(
         return remainingLength - drawLength
     }
 
-
     private fun Canvas.drawSecondHalfTopProgressLine(remainingLength: Float) {
         val lineLength = width / 2 - cornerRadius / 2f
         val drawLength = min(remainingLength, lineLength)
@@ -271,14 +256,32 @@ class ProgressButtonView @JvmOverloads constructor(
         )
     }
 
+    private fun calculateTotalPathLength(strokeCornerRadius: Float): Float {
+        return 2 * (width + height - strokeCornerRadius + Math.PI.toFloat() * strokeCornerRadius)
+    }
+
+    private fun calculateCurrentLength(totalPathLength: Float): Float {
+        return totalPathLength * progress / numOfSteps
+    }
+
+    /**
+     * Метод getDisplayRefreshDelay получает значения времени обновления экрана.
+     */
+    private fun getDisplayRefreshDelay(): Long {
+        val displayManger = context.getSystemService(Context.DISPLAY_SERVICE) as DisplayManager
+        val display = displayManger.getDisplay(Display.DEFAULT_DISPLAY)
+        return (MS_IN_SECOND / display.refreshRate).toLong()
+    }
+
     companion object {
         private const val ANGLE_0_DEG = 0f
         private const val ANGLE_90_DEG = 90f
         private const val ANGLE_180_DEG = 180f
         private const val ANGLE_270_DEG = 270f
         private const val DEFAULT_STROKE_WIDTH_10 = 10f
-        const val MS_IN_SECOND = 1000L
-        const val DEFAULT_DURATION_5000_MS = 5000L
+        private const val COEFFICIENT_CONSTANT_2 = 2f
+        private const val MS_IN_SECOND = 1000L
+        private const val DEFAULT_DURATION_5000_MS = 5000L
 
         enum class CornerType(val startAngle: Float) {
             TOP_RIGHT(ANGLE_270_DEG),

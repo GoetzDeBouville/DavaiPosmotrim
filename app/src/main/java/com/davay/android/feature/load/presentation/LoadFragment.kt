@@ -63,9 +63,13 @@ class LoadFragment : BaseFragment<FragmentLoadBinding, LoadViewModel>(
             cornerRadius = resources.getDimensionPixelSize(com.davai.uikit.R.dimen.card_radius_24)
         }.also {
             lifecycleScope.launch {
-                delay(1000L)
+                delay(MS_IN_SEC)
                 it.startAnimation(this)
             }
         }
+    }
+
+    companion object {
+        const val MS_IN_SEC = 1000L
     }
 }
