@@ -3,8 +3,8 @@ package com.davay.android.feature.coincidences.data
 import com.davay.android.base.usecases.GetData
 import com.davay.android.feature.coincidences.ErrorType
 import com.davay.android.feature.selectmovie.domain.models.MovieDetailsDemo
-import com.davay.android.utils.Result
 import com.davay.android.utils.ConnectionChecker
+import com.davay.android.utils.Result
 
 class TestMovieRepository(
     private val connectionChecker: ConnectionChecker
