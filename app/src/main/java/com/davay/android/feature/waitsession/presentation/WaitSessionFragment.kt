@@ -60,7 +60,7 @@ class WaitSessionFragment : BaseFragment<FragmentWaitSessionBinding, WaitSession
             listOf("Дима", "Петя", "Женя", "Леша", "Катя", "Коля", "Елена")
         )
 
-        binding.llCopyButton.setOnClickListener {
+        binding.buttonContainer.setOnClickListener {
             val code = binding.tvCode.text.toString()
             copyTextToClipboard(code)
         }
@@ -80,7 +80,8 @@ class WaitSessionFragment : BaseFragment<FragmentWaitSessionBinding, WaitSession
     }
 
     private fun copyTextToClipboard(text: String) {
-        val clipboard = requireContext().getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+        val clipboard =
+            requireContext().getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
         val clip = ClipData.newPlainText(
             ContextCompat.getString(requireContext(), R.string.wait_session_copy_button_label),
             text
@@ -116,6 +117,7 @@ class WaitSessionFragment : BaseFragment<FragmentWaitSessionBinding, WaitSession
         val itemDecoration = CustomItemDecorator(spaceBetweenItems)
         binding.rvUser.addItemDecoration(itemDecoration)
     }
+
     override fun onDestroyView() {
         super.onDestroyView()
         userAdapter = null
