@@ -4,8 +4,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.os.bundleOf
-import androidx.navigation.fragment.findNavController
 import com.davay.android.R
 import com.davay.android.app.AppComponentHolder
 import com.davay.android.base.BaseFragment
@@ -39,14 +37,8 @@ class LoadFragment : BaseFragment<FragmentLoadBinding, LoadViewModel>(
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding.button.setOnClickListener { _ ->
-            viewModel.navigate(R.id.action_loadFragment_to_mainFragment)
-        }
         binding.btnToMovieSelection.setOnClickListener {
             viewModel.navigate(R.id.action_loadFragment_to_selectMovieFragment)
-        }
-        binding.button2.setOnClickListener { _ ->
-            viewModel.navigate(R.id.action_loadFragment_to_registrationFragment)
         }
         binding.btnToOnboarding.setOnClickListener {
             val bundle = Bundle().apply {
@@ -58,14 +50,20 @@ class LoadFragment : BaseFragment<FragmentLoadBinding, LoadViewModel>(
         binding.btnToSplash.setOnClickListener {
             viewModel.navigate(R.id.action_loadFragment_to_splashFragment)
         }
+        binding.button.setOnClickListener { _ ->
+            viewModel.navigate(R.id.action_loadFragment_to_mainFragment)
+        }
+        binding.button2.setOnClickListener { _ ->
+            viewModel.navigate(R.id.action_loadFragment_to_registrationFragment)
+        }
         binding.btnToRoulette.setOnClickListener {
-            findNavController().navigate(R.id.action_loadFragment_to_rouletteFragment)
+            viewModel.navigate(R.id.action_loadFragment_to_rouletteFragment)
         }
         binding.btnToRoulette2.setOnClickListener {
-            findNavController().navigate(
-                R.id.action_loadFragment_to_rouletteFragment,
-                bundleOf(RouletteFragment.ROULETTE_INITIATOR to true)
-            )
+            val bundle = Bundle().apply {
+                putBoolean(RouletteFragment.ROULETTE_INITIATOR, true)
+            }
+            viewModel.navigate(R.id.action_loadFragment_to_rouletteFragment, bundle)
         }
     }
 
