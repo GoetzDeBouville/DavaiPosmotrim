@@ -3,18 +3,18 @@ package com.davay.android.feature.coincidences.data
 import com.davay.android.base.usecases.GetData
 import com.davay.android.feature.coincidences.ErrorType
 import com.davay.android.feature.selectmovie.domain.models.MovieDetailsDemo
-import com.davay.android.utils.RequestResult
+import com.davay.android.utils.Result
 import com.davay.android.utils.ConnectionChecker
 
 class TestMovieRepository(
     private val connectionChecker: ConnectionChecker
 ) : GetData<MovieDetailsDemo> {
 
-    override suspend fun getData(): RequestResult<List<MovieDetailsDemo>> =
+    override suspend fun getData(): Result<List<MovieDetailsDemo>, ErrorType> =
         if (connectionChecker.isConnected) {
-            RequestResult.Success(mockTestMovieList)
+            Result.Success(mockTestMovieList)
         } else {
-            RequestResult.Error(ErrorType.NO_INTERNET)
+            Result.Error(ErrorType.NO_INTERNET)
         }
 
     companion object {
