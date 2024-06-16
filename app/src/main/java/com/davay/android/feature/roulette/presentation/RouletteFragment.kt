@@ -100,7 +100,7 @@ class RouletteFragment :
         with(binding.recyclerViewRoulette) {
             layoutManager = CarouselLayoutManager(requireContext())
             adapter = carouselAdapter
-            val spacing = resources.getDimensionPixelSize(com.davai.uikit.R.dimen.zero)
+            val spacing = resources.getDimensionPixelSize(com.davai.uikit.R.dimen.margin_negative_16)
             addItemDecoration(LinearHorizontalSpacingDecoration(spacing))
             LinearSnapHelper().attachToRecyclerView(this)
         }
