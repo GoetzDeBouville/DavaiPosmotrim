@@ -1,6 +1,8 @@
 package com.davay.android.base.usecases
 
-interface GetData<T> {
+import com.davay.android.utils.Result
 
-    suspend fun getData(): Result<List<T>>
+interface GetData<T, E> {
+
+    suspend fun getData(): Result<List<T>, E>
 }

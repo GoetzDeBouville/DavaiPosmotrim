@@ -1,6 +1,7 @@
 package com.davay.android.feature.coincidences
 
 enum class ErrorType {
-    SERVER_ERROR,
-    NO_INTERNET
+    SERVICE_UNAVAILABLE,
+    NO_INTERNET,
+    OLD_VERSION
 }
