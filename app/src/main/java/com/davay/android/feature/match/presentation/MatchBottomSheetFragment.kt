@@ -74,7 +74,7 @@ class MatchBottomSheetFragment : BottomSheetDialogFragment() {
     private fun initViews() {
         buildBottomSheet()
         hideUnusedItems()
-        if (buttonText != null) binding.matchProgressBtn.tvProgressButtonTitle.text = buttonText
+        if (buttonText != null) setButtonText(buttonText!!)
     }
 
     private fun subscribe() {
@@ -127,7 +127,7 @@ class MatchBottomSheetFragment : BottomSheetDialogFragment() {
     }
 
     fun setButtonText(text: String) {
-        binding.matchProgressBtn.tvProgressButtonTitle.text = text
+        binding.progressButtonItem.progressButton.text = text
     }
 
     companion object {

@@ -27,7 +27,7 @@ class RouletteViewModel @Inject constructor() : BaseViewModel() {
         users = listOf(
             UserRouletteModel(1, "Masha"),
             UserRouletteModel(2, "Sasha"),
-            UserRouletteModel(TEMP_NUMBER_3, "Sasha Sasha Sasha")
+            UserRouletteModel(TEMP_NUMBER_3, "Sasha Sasha Sasha Sasha Sasha")
         )
         films = listOf(
             MovieDetailsDemo(

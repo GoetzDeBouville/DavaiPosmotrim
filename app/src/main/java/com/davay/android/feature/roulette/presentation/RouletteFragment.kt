@@ -133,7 +133,7 @@ class RouletteFragment :
         }
     }
 
-    private fun hideBottomSheet() {
+    private fun hideBottomSheetWaiting() {
         bottomSheetBehaviorWaiting.isHideable = true
         bottomSheetBehaviorWaiting.state = BottomSheetBehavior.STATE_HIDDEN
     }
@@ -178,8 +178,8 @@ class RouletteFragment :
     private fun handleMatchState(state: RouletteState.Match) {
         val movieDetails = Gson().toJson(state.film)
         val matchBottomSheetFragment = MatchBottomSheetFragment.newInstance(
-            movieDetails,
-            getString(R.string.roulette_to_film_list)
+            movieDetails = movieDetails,
+            buttonText = getString(R.string.roulette_to_film_list)
         )
         matchBottomSheetFragment.show(parentFragmentManager, matchBottomSheetFragment.tag)
     }
@@ -188,7 +188,7 @@ class RouletteFragment :
         binding.recyclerViewRoulette.stopScroll()
         lifecycleScope.launch {
             delay(DELAY_TIME_MS_1000)
-            hideBottomSheet()
+            hideBottomSheetWaiting()
             val currentPosition =
                 (binding.recyclerViewRoulette.layoutManager as CarouselLayoutManager)
                     .findLastVisibleItemPosition()
