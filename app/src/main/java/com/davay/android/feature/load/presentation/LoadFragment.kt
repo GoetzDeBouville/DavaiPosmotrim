@@ -52,7 +52,7 @@ class LoadFragment : BaseFragment<FragmentLoadBinding, LoadViewModel>(
             val bundle = Bundle().apply {
                 putInt(OnboardingFragment.ONBOARDING_KEY, OnboardingFragment.ONBOARDING_MAIN_SET)
             }
-            navigate(R.id.action_loadFragment_to_onboardingFragment, bundle)
+            viewModel.navigate(R.id.action_loadFragment_to_onboardingFragment, bundle)
         }
 
         binding.btnToSplash.setOnClickListener {
@@ -67,5 +67,9 @@ class LoadFragment : BaseFragment<FragmentLoadBinding, LoadViewModel>(
                 bundleOf(RouletteFragment.ROULETTE_INITIATOR to true)
             )
         }
+    }
+
+    companion object {
+        const val MS_IN_SEC = 1000L
     }
 }

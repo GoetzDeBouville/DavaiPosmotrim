@@ -2,24 +2,27 @@ package com.davay.android.feature.changename.presentation
 
 import android.os.Bundle
 import android.view.View
+import android.view.ViewTreeObserver
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
 import androidx.core.content.ContextCompat
+import androidx.core.os.bundleOf
 import androidx.core.widget.doAfterTextChanged
+import androidx.fragment.app.setFragmentResult
 import androidx.lifecycle.lifecycleScope
 import com.davay.android.R
 import com.davay.android.app.AppComponentHolder
-import com.davay.android.app.MainActivity
 import com.davay.android.base.BaseBottomSheetFragment
 import com.davay.android.databinding.FragmentNameChangeBinding
 import com.davay.android.di.ScreenComponent
 import com.davay.android.feature.changename.di.DaggerChangeNameFragmentComponent
 import com.google.android.material.bottomsheet.BottomSheetBehavior
-import com.google.android.material.bottomsheet.BottomSheetBehavior.BottomSheetCallback
 import kotlinx.coroutines.launch
 
-class ChangeNameFragment : BaseBottomSheetFragment<FragmentNameChangeBinding, ChangeNameViewModel>
-    (FragmentNameChangeBinding::inflate) {
+class ChangeNameBottomSheetFragment :
+    BaseBottomSheetFragment<FragmentNameChangeBinding, ChangeNameViewModel>(
+        FragmentNameChangeBinding::inflate
+    ) {
 
     private var bottomSheetBehavior: BottomSheetBehavior<View>? = null
     private var name: String? = null
@@ -30,19 +33,23 @@ class ChangeNameFragment : BaseBottomSheetFragment<FragmentNameChangeBinding, Ch
         .appComponent(AppComponentHolder.getComponent())
         .build()
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        (requireActivity() as MainActivity).setKeyBoardInsets(binding.root)
-
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
         arguments?.let {
             name = it.getString(ARG_NAME)
         }
+        savedInstanceState?.let {
+            name = it.getString(ARG_NAME)
+        }
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
 
         name?.let {
-            binding.etName.setText(name)
+            binding.etName.setText(it)
         }
 
-        showSoftKeyboard(binding.etName)
         lifecycleScope.launch {
             viewModel.state.collect { stateHandle(it) }
         }
@@ -72,23 +79,41 @@ class ChangeNameFragment : BaseBottomSheetFragment<FragmentNameChangeBinding, Ch
             bottomSheetBehavior!!.state = BottomSheetBehavior.STATE_HIDDEN
         }
         buildBottomSheet()
+        showSoftKeyboard(binding.etName)
     }
 
     private fun buildBottomSheet() {
-        bottomSheetBehavior = BottomSheetBehavior.from(view?.parent as View)
-        bottomSheetBehavior!!.state = BottomSheetBehavior.STATE_EXPANDED
+        val parentView = view?.parent as? View ?: return
+        bottomSheetBehavior = BottomSheetBehavior.from(parentView)
 
-        bottomSheetBehavior!!.addBottomSheetCallback(object : BottomSheetCallback() {
+        parentView.viewTreeObserver.addOnGlobalLayoutListener(object :
+            ViewTreeObserver.OnGlobalLayoutListener {
+            override fun onGlobalLayout() {
+                val displayMetrics = resources.displayMetrics
+                val screenHeight = displayMetrics.heightPixels
+                val desiredHeight = (screenHeight * BOTTOM_SHEET_HEIGHT).toInt()
+
+                parentView.layoutParams.height = desiredHeight
+                parentView.requestLayout()
+
+                bottomSheetBehavior?.peekHeight = desiredHeight
+                parentView.viewTreeObserver.removeOnGlobalLayoutListener(this)
+            }
+        })
+
+        bottomSheetBehavior?.state = BottomSheetBehavior.STATE_EXPANDED
+        bottomSheetBehavior?.addBottomSheetCallback(object :
+            BottomSheetBehavior.BottomSheetCallback() {
             override fun onStateChanged(bottomSheet: View, newState: Int) {
-                when (newState) {
-                    BottomSheetBehavior.STATE_EXPANDED -> showSoftKeyboard(binding.etName)
+                if (newState == BottomSheetBehavior.STATE_EXPANDED) {
+                    showSoftKeyboard(binding.etName)
                 }
             }
 
             override fun onSlide(bottomSheet: View, slideOffset: Float) {
-                if (slideOffset < BOTTOM_SHEET_HIDE_PERCENT) {
+                if (slideOffset < BOTTOM_SHEET_HIDE_PERCENT_60) {
                     hideKeyboard(binding.etName)
-                    bottomSheetBehavior!!.state = BottomSheetBehavior.STATE_HIDDEN
+                    bottomSheetBehavior?.state = BottomSheetBehavior.STATE_HIDDEN
                 }
             }
         })
@@ -135,17 +160,22 @@ class ChangeNameFragment : BaseBottomSheetFragment<FragmentNameChangeBinding, Ch
     private fun buttonClicked() {
         viewModel.buttonClicked(binding.etName.text)
         if (viewModel.state.value == ChangeNameState.SUCCESS) {
+            val newName = binding.etName.text.toString()
+            setFragmentResult(REQUEST_KEY, bundleOf(BUNDLE_KEY_NAME to newName))
             bottomSheetBehavior!!.state = BottomSheetBehavior.STATE_HIDDEN
         }
     }
 
     companion object {
         private const val TYPE_SMALL_BORDER = 12
-        private const val BOTTOM_SHEET_HIDE_PERCENT = 60
+        private const val BOTTOM_SHEET_HIDE_PERCENT_60 = 0.6f
+        private const val BOTTOM_SHEET_HEIGHT = 0.5f
 
         private const val ARG_NAME = "name"
+        const val REQUEST_KEY = "changeNameRequestKey"
+        const val BUNDLE_KEY_NAME = "changedName"
 
-        fun newInstance(name: String) = ChangeNameFragment().apply {
+        fun newInstance(name: String) = ChangeNameBottomSheetFragment().apply {
             arguments = Bundle().apply {
                 putString(ARG_NAME, name)
             }

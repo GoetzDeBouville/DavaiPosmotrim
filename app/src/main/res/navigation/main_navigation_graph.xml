@@ -75,7 +75,7 @@
     </dialog>
     <dialog
         android:id="@+id/changeNameFragment"
-        android:name="com.davay.android.feature.changename.presentation.ChangeNameFragment"
+        android:name="com.davay.android.feature.changename.presentation.ChangeNameBottomSheetFragment"
         android:label="ChangeNameFragment" />
     <fragment
         android:id="@+id/onboardingFragment"
@@ -111,4 +111,5 @@
         android:id="@+id/rouletteFragment"
         android:name="com.davay.android.feature.roulette.presentation.RouletteFragment"
         android:label="RouletteFragment" />
+
 </navigation>

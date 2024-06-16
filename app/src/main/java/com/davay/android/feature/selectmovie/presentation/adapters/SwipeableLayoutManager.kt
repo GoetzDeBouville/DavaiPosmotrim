@@ -84,6 +84,12 @@ class SwipeableLayoutManager : RecyclerView.LayoutManager() {
         }
     }
 
+    fun getCurrentPosition(): Int = currentPosition
+
+    fun updateCurrentPosition(newPosition: Int) {
+        currentPosition = newPosition
+    }
+
     private fun animateRevert(view: View, durationMs: Long = ANIMATION_DURATION_800_MS) {
         val scaleX = scaleX(view)
         val scaleY = scaleY(view)
