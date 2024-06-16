@@ -8,7 +8,7 @@ import com.davay.android.utils.ConnectionChecker
 
 class TestMovieRepository(
     private val connectionChecker: ConnectionChecker
-) : GetData<MovieDetailsDemo> {
+) : GetData<MovieDetailsDemo, ErrorType> {
 
     override suspend fun getData(): Result<List<MovieDetailsDemo>, ErrorType> =
         if (connectionChecker.isConnected) {
