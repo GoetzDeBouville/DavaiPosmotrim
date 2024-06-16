@@ -1,19 +1,20 @@
 package com.davay.android.feature.coincidences.data
 
 import com.davay.android.base.usecases.GetData
+import com.davay.android.feature.coincidences.ErrorType
 import com.davay.android.feature.selectmovie.domain.models.MovieDetailsDemo
+import com.davay.android.utils.RequestResult
 import com.davay.android.utils.ConnectionChecker
-import java.io.IOException
 
 class TestMovieRepository(
     private val connectionChecker: ConnectionChecker
 ) : GetData<MovieDetailsDemo> {
 
-    override suspend fun getData(): Result<List<MovieDetailsDemo>> =
+    override suspend fun getData(): RequestResult<List<MovieDetailsDemo>> =
         if (connectionChecker.isConnected) {
-            Result.success(mockTestMovieList)
+            RequestResult.Success(mockTestMovieList)
         } else {
-            Result.failure(IOException("No internet connection"))
+            RequestResult.Error(ErrorType.NO_INTERNET)
         }
 
     companion object {
