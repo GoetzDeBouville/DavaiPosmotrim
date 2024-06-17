@@ -5,12 +5,12 @@ import android.content.ClipboardManager
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.util.DisplayMetrics
 import android.view.View
 import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
+import com.davai.extensions.dpToPx
 import com.davai.uikit.ButtonView
 import com.davay.android.R
 import com.davay.android.app.AppComponentHolder
@@ -25,13 +25,12 @@ import com.google.android.flexbox.FlexDirection
 import com.google.android.flexbox.FlexWrap
 import com.google.android.flexbox.FlexboxLayoutManager
 import com.google.android.flexbox.JustifyContent
-import kotlin.math.roundToInt
 
 class WaitSessionFragment : BaseFragment<FragmentWaitSessionBinding, WaitSessionViewModel>(
     FragmentWaitSessionBinding::inflate
 ) {
     override val viewModel: WaitSessionViewModel by injectViewModel<WaitSessionViewModel>()
-    private var userAdapter: UserAdapter? = null
+    private val userAdapter = UserAdapter()
     private var sendButton: ButtonView? = null
     private var launcher: ActivityResultLauncher<Intent>? = null
 
@@ -56,11 +55,12 @@ class WaitSessionFragment : BaseFragment<FragmentWaitSessionBinding, WaitSession
         sendButton = binding.sendButton
 
         initRecycler()
-        userAdapter?.itemList?.addAll(
-            listOf("Дима", "Петя", "Женя", "Леша", "Катя", "Коля", "Елена")
+        userAdapter.setItems(
+            listOf("Артем", "Руслан", "Константин", "Виктория")
         )
+        binding.toolbar.addStatusBarSpacer()
 
-        binding.buttonContainer.setOnClickListener {
+        binding.llButtonContainer.setOnClickListener {
             val code = binding.tvCode.text.toString()
             copyTextToClipboard(code)
         }
@@ -103,32 +103,22 @@ class WaitSessionFragment : BaseFragment<FragmentWaitSessionBinding, WaitSession
     }
 
     private fun initRecycler() {
-        userAdapter = UserAdapter()
-        binding.rvUser.adapter = userAdapter
-        val layoutManager = FlexboxLayoutManager(context).apply {
+        val flexboxLayoutManager = FlexboxLayoutManager(context).apply {
             flexDirection = FlexDirection.ROW
             flexWrap = FlexWrap.WRAP
             justifyContent = JustifyContent.FLEX_START
             alignItems = AlignItems.FLEX_START
         }
+        val spaceBetweenItems = SPACING_BETWEEN_RV_ITEMS_8_DP.dpToPx()
 
-        binding.rvUser.layoutManager = layoutManager
-        val spaceBetweenItems = convertPxToDp(requireContext(), SPACING_BETWEEN_RV_ITEMS)
-        val itemDecoration = CustomItemDecorator(spaceBetweenItems)
-        binding.rvUser.addItemDecoration(itemDecoration)
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        userAdapter = null
-    }
-
-    private fun convertPxToDp(context: Context, px: Int): Int {
-        val displayMetrics = context.resources.displayMetrics
-        return (px * (displayMetrics.xdpi / DisplayMetrics.DENSITY_DEFAULT)).roundToInt()
+        binding.rvUser.apply {
+            adapter = userAdapter
+            layoutManager = flexboxLayoutManager
+            addItemDecoration(CustomItemDecorator(spaceBetweenItems))
+        }
     }
 
     companion object {
-        private const val SPACING_BETWEEN_RV_ITEMS = 8
+        private const val SPACING_BETWEEN_RV_ITEMS_8_DP = 8
     }
 }

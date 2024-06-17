@@ -13,7 +13,7 @@
         android:layout_height="@dimen/zero"
         android:layout_marginBottom="@dimen/margin_negative_16"
         android:background="@drawable/round_bottom_background"
-        app:layout_constraintBottom_toBottomOf="@+id/button_container"
+        app:layout_constraintBottom_toBottomOf="@+id/ll_button_container"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -28,7 +28,7 @@
         app:title="@string/wait_session_header" />
 
     <LinearLayout
-        android:id="@+id/button_container"
+        android:id="@+id/ll_button_container"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/margin_24"
@@ -72,7 +72,7 @@
         android:layout_height="@dimen/zero"
         android:layout_marginTop="@dimen/margin_16"
         android:background="@drawable/session_card_background"
-        app:layout_constraintBottom_toTopOf="@+id/bottom_container"
+        app:layout_constraintBottom_toTopOf="@+id/ll_bottom_container"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/view_top" />
@@ -111,7 +111,7 @@
         tools:listitem="@layout/tag_view" />
 
     <LinearLayout
-        android:id="@+id/bottom_container"
+        android:id="@+id/ll_bottom_container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/margin_16"

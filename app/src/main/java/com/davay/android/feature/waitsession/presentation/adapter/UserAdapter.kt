@@ -2,17 +2,15 @@ package com.davay.android.feature.waitsession.presentation.adapter
 
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.davai.uikit.TagView
 import com.davay.android.R
 
 class UserAdapter :
     RecyclerView.Adapter<UserViewHolder>() {
 
-    val itemList: MutableList<String> = mutableListOf()
+    private val itemList: MutableList<String> = mutableListOf()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): UserViewHolder {
-        val tagView = TagView(parent.context)
-        return UserViewHolder(tagView)
+        return UserViewHolder.from(parent)
     }
 
     override fun getItemCount(): Int = itemList.count()
@@ -25,5 +23,18 @@ class UserAdapter :
         } else {
             holder.bind(itemList[position])
         }
+    }
+
+    fun setItems(items: List<String>) {
+        itemList.clear()
+        itemList.addAll(items)
+        notifyDataSetChanged()
+    }
+
+    fun getItems(): List<String> = itemList
+
+    fun clearItems() {
+        itemList.clear()
+        notifyDataSetChanged()
     }
 }
