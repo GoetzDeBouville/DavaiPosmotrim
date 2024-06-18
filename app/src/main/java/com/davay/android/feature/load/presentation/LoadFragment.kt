@@ -52,6 +52,10 @@ class LoadFragment : BaseFragment<FragmentLoadBinding, LoadViewModel>(
             viewModel.navigate(R.id.action_loadFragment_to_onboardingFragment, bundle)
         }
 
+        binding.btnToCoincidences.setOnClickListener {
+            viewModel.navigate(R.id.action_loadFragment_to_coincidencesFragment)
+        }
+
         binding.btnToSplash.setOnClickListener {
             viewModel.navigate(R.id.action_loadFragment_to_splashFragment)
         }

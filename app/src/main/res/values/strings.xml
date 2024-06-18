@@ -99,4 +99,8 @@
     <string name="wait_session_copy_button_toast_text">Код скопирован</string>
     <string name="wait_session_tag_owner">%s (вы)</string>
 
+    <!-- coincidences screen -->
+    <string name="coincidences_screen_coincidences">Совпадения</string>
+    <string name="coincidences_screen_empty_coincidences">Пока ничего нет</string>
+
 </resources>
