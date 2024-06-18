@@ -28,6 +28,7 @@
     <dimen name="padding_20">20dp</dimen>
 
     <dimen name="margin_negative_32">-32dp</dimen>
+    <dimen name="margin_negative_24">-24dp</dimen>
     <dimen name="margin_negative_16">-16dp</dimen>
     <dimen name="margin_negative_8">-8dp</dimen>
     <dimen name="margin_4">4dp</dimen>
@@ -60,4 +61,11 @@
 
     <dimen name="gradient_rotation_angle_180">180</dimen>
     <dimen name="gradient_rotation_angle_270">270</dimen>
+    <dimen name="change_name_input_margin">136dp</dimen>
+
+    <dimen name="wait_session_button_height">48dp</dimen>
+    <dimen name="wait_session_button_margin_horizontal">16dp</dimen>
+    <dimen name="wait_session_button_margin_top">16dp</dimen>
+    <dimen name="wait_session_copy_button_icon_size">24dp</dimen>
+
 </resources>
