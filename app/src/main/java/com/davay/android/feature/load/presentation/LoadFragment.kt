@@ -46,7 +46,6 @@ class LoadFragment : BaseFragment<FragmentLoadBinding, LoadViewModel>(
             }
             viewModel.navigate(R.id.action_loadFragment_to_onboardingFragment, bundle)
         }
-
         binding.btnToSplash.setOnClickListener {
             viewModel.navigate(R.id.action_loadFragment_to_splashFragment)
         }
@@ -65,9 +64,12 @@ class LoadFragment : BaseFragment<FragmentLoadBinding, LoadViewModel>(
             }
             viewModel.navigate(R.id.action_loadFragment_to_rouletteFragment, bundle)
         }
+        binding.btnToCoincidences.setOnClickListener {
+            viewModel.navigate(R.id.action_loadFragment_to_coincidencesFragment)
+        }
+        binding.button3.setOnClickListener { _ ->
+            viewModel.navigate(R.id.action_loadFragment_to_waitSessionFragment)
+        }
     }
 
-    companion object {
-        const val MS_IN_SEC = 1000L
-    }
 }

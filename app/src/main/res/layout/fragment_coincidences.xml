@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/background_base"
+    android:orientation="vertical"
+    tools:context=".feature.coincidences.presentation.CoincidencesFragment">
+
+    <com.davai.uikit.ToolbarView
+        android:id="@+id/toolbar_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:end_icon="@drawable/ic_random"
+        app:start_icon="@drawable/ic_arrow_back"
+        app:start_icon_is_visible="true"
+        app:title="@string/coincidences_screen_coincidences" />
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginTop="@dimen/margin_16"
+        android:layout_weight="1"
+        android:background="@drawable/main_screen_menu_background"
+        android:paddingHorizontal="@dimen/padding_8"
+        android:paddingTop="@dimen/padding_16">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/coincidences_list"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/main_screen_menu_background"
+            android:visibility="gone"
+            app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+            app:spanCount="2" />
+
+        <include
+            android:id="@+id/empty_placeholder"
+            layout="@layout/item_empty_placeholder"
+            android:visibility="visible" />
+
+        <ProgressBar
+            android:id="@+id/progress_bar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:visibility="gone" />
+    </FrameLayout>
+
+
+
+</LinearLayout>

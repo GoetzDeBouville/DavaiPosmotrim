@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/background_base"
+    tools:context=".feature.waitsession.presentation.WaitSessionFragment">
+
+    <View
+        android:id="@+id/view_top"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/zero"
+        android:layout_marginBottom="@dimen/margin_negative_16"
+        android:background="@drawable/round_bottom_background"
+        app:layout_constraintBottom_toBottomOf="@+id/ll_button_container"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <com.davai.uikit.ToolbarView
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:title="@string/wait_session_header" />
+
+    <LinearLayout
+        android:id="@+id/ll_button_container"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/margin_24"
+        android:layout_marginBottom="@dimen/margin_16"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toBottomOf="@id/view_top"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/toolbar">
+
+        <TextView
+            android:id="@+id/tv_code"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/button_height"
+            android:layout_marginStart="@dimen/margin_20"
+            android:layout_marginTop="@dimen/frame"
+            android:layout_marginBottom="@dimen/frame"
+            android:layout_weight="1"
+            android:background="@drawable/background_copy_button"
+            android:drawableEnd="@drawable/ic_copy"
+            android:gravity="center"
+            android:paddingHorizontal="@dimen/padding_16"
+            android:text="GIGd281"
+            android:textAppearance="@style/Text.Base.Big.Regular"
+            android:textColor="@color/text_base" />
+
+        <com.davai.uikit.ButtonView
+            android:id="@+id/send_button"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/margin_16"
+            android:layout_marginEnd="@dimen/margin_16"
+            android:layout_weight="1"
+            app:button_text="@string/wait_session_invite_button" />
+
+    </LinearLayout>
+
+    <View
+        android:id="@+id/main_container"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/zero"
+        android:layout_marginTop="@dimen/margin_16"
+        android:background="@drawable/session_card_background"
+        app:layout_constraintBottom_toTopOf="@+id/ll_bottom_container"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/view_top" />
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_add_participant"
+        app:layout_constraintBottom_toBottomOf="@+id/main_container"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/main_container" />
+
+    <TextView
+        style="@style/Text.Base.Medium.NoLineSpacing"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/margin_20"
+        android:paddingHorizontal="@dimen/padding_20"
+        android:text="@string/wait_session_placeholder"
+        android:textAlignment="center"
+        android:textColor="@color/text_caption_light"
+        app:layout_constraintBottom_toBottomOf="@+id/main_container"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_user"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/zero"
+        android:padding="@dimen/padding_16"
+        app:layout_constraintBottom_toBottomOf="@+id/main_container"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/main_container"
+        tools:listitem="@layout/tag_view" />
+
+    <LinearLayout
+        android:id="@+id/ll_bottom_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/margin_16"
+        android:background="@drawable/bottombar_background"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/main_container">
+
+        <com.davai.uikit.ButtonView
+            android:id="@+id/start_session_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/wait_session_button_margin_horizontal"
+            android:layout_marginTop="@dimen/wait_session_button_margin_top"
+            app:button_text="@string/wait_session_start_button" />
+
+        <com.davai.uikit.ButtonView
+            android:id="@+id/cancel_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/wait_session_button_margin_horizontal"
+            android:layout_marginTop="@dimen/wait_session_button_margin_top"
+            android:layout_marginBottom="@dimen/margin_20"
+            app:button_text="@string/wait_session_cancel_button"
+            app:button_view_type="secondary" />
+
+    </LinearLayout>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
