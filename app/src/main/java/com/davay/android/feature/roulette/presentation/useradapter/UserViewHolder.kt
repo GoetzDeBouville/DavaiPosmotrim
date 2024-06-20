@@ -8,20 +8,20 @@ import com.davay.android.feature.roulette.presentation.model.UserRouletteModel
 class UserViewHolder(
     private val binding: ItemParticipantsBinding
 ) : RecyclerView.ViewHolder(binding.root) {
-    fun bind(user: UserRouletteModel) {
-        binding.root.setText(user.name)
+    fun bind(user: UserRouletteModel) = with(binding.root) {
+        setText(user.name)
         if (user.isConnected) {
-            binding.root.changeStyle(TagView.Companion.Style.SECONDARY_GREEN)
+            changeStyle(TagView.Companion.Style.SECONDARY_GREEN)
         } else {
-            binding.root.changeStyle(TagView.Companion.Style.SECONDARY_GRAY)
+            changeStyle(TagView.Companion.Style.SECONDARY_GRAY)
         }
     }
 
-    fun bindStyle(user: UserRouletteModel) {
+    fun bindStyle(user: UserRouletteModel) = with(binding.root) {
         if (user.isConnected) {
-            binding.root.changeStyle(TagView.Companion.Style.SECONDARY_GREEN)
+            changeStyle(TagView.Companion.Style.SECONDARY_GREEN)
         } else {
-            binding.root.changeStyle(TagView.Companion.Style.SECONDARY_GRAY)
+            changeStyle(TagView.Companion.Style.SECONDARY_GRAY)
         }
     }
 }
