@@ -36,6 +36,10 @@
         <item name="android:textColor">@color/text_headings</item>
     </style>
 
+    <style name="Text.Headline.Large.NoSpacing">
+        <item name="android:lineSpacingExtra">0sp</item>
+    </style>
+
     <style name="Text.Headline.Large48">
         <item name="android:textSize">48sp</item>
         <item name="android:textColor">@color/text_headings</item>
