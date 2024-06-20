@@ -10,16 +10,17 @@
     <string name="registration_just_letters">Только буквы</string>
     <string name="registration_not_more_letters">Не более 16 символов</string>
 
+    <!--change name screen-->
     <string name="change_name_enter">Сохранить</string>
     <string name="change_name_enter_your_name">Введите ваше имя</string>
 
-    <!--sessionconnection screen-->
+    <!--session connection screen-->
     <string name="sessionconnection_enter_session_code">Код сеанса</string>
     <string name="sessionconnection_invalid">Код cеанса должен состоять 4 букв и 3 цифр</string>
     <string name="sessionconnection_no_session">Сеанс не найден</string>
     <string name="sessionconnection_join">Присоединиться</string>
 
-    <!--sessionlist screen-->
+    <!--session list screen-->
     <string name="session_list_name">Сеанс</string>
     <string name="session_list_exit">Выйти</string>
     <string name="waiting_all_participants">Ожидаем подключения всех участников</string>
@@ -91,4 +92,19 @@
     <!--  match dialog  -->
     <string name="match_continue_session">Продолжить сеанс</string>
     <string name="match_watch">Смотрим!</string>
+
+    <!--  wait session screen  -->
+    <string name="wait_session_header">Участники</string>
+    <string name="wait_session_placeholder">Если вы пригласили друзей – дождитесь, когда они подключатся, прежде чем начать сеанс.</string>
+    <string name="wait_session_start_button">Начать сеанс</string>
+    <string name="wait_session_cancel_button">Отменить сеанс</string>
+    <string name="wait_session_invite_button">Пригласить</string>
+    <string name="wait_session_copy_button_label">Пригласить</string>
+    <string name="wait_session_copy_button_toast_text">Код скопирован</string>
+    <string name="wait_session_tag_owner">%s (вы)</string>
+
+    <!-- coincidences screen -->
+    <string name="coincidences_screen_coincidences">Совпадения</string>
+    <string name="coincidences_screen_empty_coincidences">Пока ничего нет</string>
+
 </resources>

@@ -2,6 +2,8 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:layout_marginHorizontal="@dimen/margin_8"
+    android:layout_marginBottom="@dimen/margin_16"
     android:layout_width="match_parent"
     android:layout_height="@dimen/movie_card_height_240">
 
@@ -14,20 +16,24 @@
         app:shapeAppearanceOverlay="@style/RoundedImageView"
         tools:src="@tools:sample/backgrounds/scenic[8]" />
 
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="76dp"
-        android:layout_gravity="bottom|start"
-        android:background="@drawable/background_gradient_transparent_to_black" />
+    <ProgressBar
+        android:id="@+id/progress_bar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:visibility="gone" />
 
     <TextView
         android:id="@+id/tv_movie_title"
         style="@style/Text.Base.Medium.NoLineSpacing"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|start"
-        android:layout_marginHorizontal="@dimen/margin_20"
-        android:layout_marginBottom="@dimen/margin_16"
+        android:paddingHorizontal="@dimen/margin_20"
+        android:paddingBottom="@dimen/margin_16"
+        android:background="@drawable/background_gradient_transparent_to_black"
+        android:maxLines="3"
+        android:ellipsize="end"
         android:textColor="@color/background_white"
         tools:text="[Text Example Text Example Text Example Text Example Text Example Text Example Text Example Text Example]" />
 </FrameLayout>
