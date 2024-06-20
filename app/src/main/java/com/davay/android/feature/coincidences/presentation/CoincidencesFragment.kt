@@ -11,6 +11,7 @@ import com.davay.android.app.AppComponentHolder
 import com.davay.android.base.BaseFragment
 import com.davay.android.databinding.FragmentCoincidencesBinding
 import com.davay.android.di.ScreenComponent
+import com.davay.android.feature.coincidences.bottomsheetdialog.RouletteBottomSheetDialogFragment
 import com.davay.android.feature.coincidences.di.DaggerCoincidencesFragmentComponent
 import com.davay.android.feature.coincidences.presentation.adapter.MoviesGridAdapter
 import kotlinx.coroutines.flow.collectLatest
@@ -37,6 +38,7 @@ class CoincidencesFragment : BaseFragment<FragmentCoincidencesBinding, Coinciden
         setupMoviesGrid()
         subscribe()
         viewModel.getCoincidences()
+        showBottomSheetDialogFragment()
     }
 
     private fun setupMoviesGrid() = with(binding.coincidencesList) {
@@ -87,5 +89,10 @@ class CoincidencesFragment : BaseFragment<FragmentCoincidencesBinding, Coinciden
         progressBar.isVisible = progressBarIsVisible
         coincidencesList.isVisible = coincidencesListIsVisible
         emptyPlaceholder.root.isVisible = emptyMessageIsVisible
+    }
+
+    private fun showBottomSheetDialogFragment() {
+        val bottomSheetFragment = RouletteBottomSheetDialogFragment()
+        bottomSheetFragment.show(parentFragmentManager, bottomSheetFragment.tag)
     }
 }
