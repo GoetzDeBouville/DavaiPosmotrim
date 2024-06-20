@@ -110,9 +110,12 @@ class RouletteViewModel @Inject constructor() : BaseViewModel() {
     }
 
     fun rouletteScrollingStopped() {
-        _state.value =
-            films.find { it.kinopoiskId == lookFilmId }?.let { RouletteState.Match(it) }
-                ?: RouletteState.Error
+        viewModelScope.launch {
+            delay(DELAY_TIME_MS_1000)
+            _state.value =
+                films.find { it.kinopoiskId == lookFilmId }?.let { RouletteState.Match(it) }
+                    ?: RouletteState.Error
+        }
     }
 
     private fun tempFun(): Flow<List<UserRouletteModel>?> = flow {

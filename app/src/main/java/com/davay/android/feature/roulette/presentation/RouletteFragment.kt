@@ -1,18 +1,14 @@
 package com.davay.android.feature.roulette.presentation
 
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
 import android.widget.Toast
-import androidx.core.content.res.ResourcesCompat
-import androidx.core.view.get
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearSnapHelper
 import androidx.recyclerview.widget.RecyclerView
-import com.davai.uikit.TagView
 import com.davay.android.R
 import com.davay.android.app.AppComponentHolder
 import com.davay.android.base.BaseFragment
@@ -24,8 +20,14 @@ import com.davay.android.feature.roulette.presentation.carouselrecycler.Carousel
 import com.davay.android.feature.roulette.presentation.carouselrecycler.CarouselLayoutManager
 import com.davay.android.feature.roulette.presentation.carouselrecycler.LinearHorizontalSpacingDecoration
 import com.davay.android.feature.roulette.presentation.model.UserRouletteModel
+import com.davay.android.feature.roulette.presentation.useradapter.UserAdapter
 import com.davay.android.feature.selectmovie.domain.models.MovieDetailsDemo
-import com.google.android.flexbox.FlexboxLayout
+import com.davay.android.feature.waitsession.presentation.adapter.CustomItemDecorator
+import com.google.android.flexbox.AlignItems
+import com.google.android.flexbox.FlexDirection
+import com.google.android.flexbox.FlexWrap
+import com.google.android.flexbox.FlexboxLayoutManager
+import com.google.android.flexbox.JustifyContent
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.gson.Gson
 import kotlinx.coroutines.delay
@@ -100,7 +102,8 @@ class RouletteFragment :
         with(binding.recyclerViewRoulette) {
             layoutManager = CarouselLayoutManager(requireContext())
             adapter = carouselAdapter
-            val spacing = resources.getDimensionPixelSize(com.davai.uikit.R.dimen.margin_negative_16)
+            val spacing =
+                resources.getDimensionPixelSize(com.davai.uikit.R.dimen.margin_negative_16)
             addItemDecoration(LinearHorizontalSpacingDecoration(spacing))
             LinearSnapHelper().attachToRecyclerView(this)
         }
@@ -140,25 +143,18 @@ class RouletteFragment :
 
     private fun initBottomSheetWaiting(participantsList: List<UserRouletteModel>) {
         bottomSheetBehaviorWaiting.state = BottomSheetBehavior.STATE_EXPANDED
-        binding.fblParticipants.apply {
-            setDividerDrawable(
-                ResourcesCompat.getDrawable(
-                    resources,
-                    com.davai.uikit.R.drawable.divider_8,
-                    requireActivity().theme
-                )
-            )
-            setShowDivider(FlexboxLayout.SHOW_DIVIDER_MIDDLE)
+        binding.rvParticipants.adapter = UserAdapter().apply {
+            setItems(participantsList)
         }
-        participantsList.forEach { user ->
-            val participantsView = LayoutInflater.from(requireContext()).inflate(
-                R.layout.item_participants,
-                binding.fblParticipants,
-                false
-            ) as TagView
-            participantsView.setText(user.name)
-            binding.fblParticipants.addView(participantsView)
+        binding.rvParticipants.layoutManager = FlexboxLayoutManager(context).apply {
+            flexDirection = FlexDirection.ROW
+            flexWrap = FlexWrap.WRAP
+            justifyContent = JustifyContent.FLEX_START
+            alignItems = AlignItems.FLEX_START
         }
+        val spaceBetweenItems = resources.getDimensionPixelSize(com.davai.uikit.R.dimen.margin_8)
+        binding.rvParticipants.addItemDecoration(CustomItemDecorator(spaceBetweenItems))
+        binding.rvParticipants.setHasFixedSize(true)
     }
 
     private fun handleState(state: RouletteState) {
@@ -201,8 +197,7 @@ class RouletteFragment :
     private fun handleWaitingState(state: RouletteState.Waiting) {
         state.users.forEachIndexed { index, user ->
             if (user.isConnected) {
-                // Важен порядок
-                (binding.fblParticipants[index] as TagView).changeStyle(TagView.Companion.Style.SECONDARY_GREEN)
+                (binding.rvParticipants.adapter as UserAdapter).updateItem(index, user)
             }
         }
     }
