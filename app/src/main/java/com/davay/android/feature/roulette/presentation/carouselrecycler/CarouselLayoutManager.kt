@@ -13,7 +13,7 @@ class CarouselLayoutManager(
     private val scaleDownBy: Float = 0.25f
 ) : LinearLayoutManager(context, HORIZONTAL, false) {
 
-    var speed: Float = SPEED_LOW
+    private var speed: Float = SPEED_LOW
 
     override fun onLayoutCompleted(state: RecyclerView.State?) =
         super.onLayoutCompleted(state).also { scaleChildren() }
@@ -70,8 +70,16 @@ class CarouselLayoutManager(
         startSmoothScroll(smoothScroller)
     }
 
+    fun setSlowSpeedTransition() {
+        speed = SPEED_LOW
+    }
+
+    fun setFastSpeedTransition() {
+        speed = SPEED_HIGH
+    }
+
     companion object {
-        const val SPEED_LOW = 1500f
-        const val SPEED_HIGH = 100f
+        private const val SPEED_LOW = 1500f
+        private const val SPEED_HIGH = 100f
     }
 }

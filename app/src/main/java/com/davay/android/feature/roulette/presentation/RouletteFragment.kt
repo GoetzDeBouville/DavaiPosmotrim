@@ -111,7 +111,7 @@ class RouletteFragment :
 
     private fun startAutoScrolling() {
         with(binding.recyclerViewRoulette) {
-            (layoutManager as CarouselLayoutManager).speed = CarouselLayoutManager.SPEED_LOW
+            (layoutManager as CarouselLayoutManager).setSlowSpeedTransition()
             post {
                 smoothScrollToPosition(Int.MAX_VALUE)
             }
@@ -120,7 +120,7 @@ class RouletteFragment :
 
     private fun startRouletteScrolling(position: Int) {
         with(binding.recyclerViewRoulette) {
-            (layoutManager as CarouselLayoutManager).speed = CarouselLayoutManager.SPEED_HIGH
+            (layoutManager as CarouselLayoutManager).setFastSpeedTransition()
             post {
                 smoothScrollToPosition(position)
             }
