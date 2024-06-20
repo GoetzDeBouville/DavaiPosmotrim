@@ -16,15 +16,15 @@ class CarouselLayoutManager(
     private var speed: Float = SPEED_LOW
 
     override fun onLayoutCompleted(state: RecyclerView.State?) =
-        super.onLayoutCompleted(state).also { scaleChildren() }
+        super.onLayoutCompleted(state).also { applyScaleAndTranslationToChildren() }
 
     override fun scrollHorizontallyBy(
         dx: Int,
         recycler: RecyclerView.Recycler,
         state: RecyclerView.State
-    ) = super.scrollHorizontallyBy(dx, recycler, state).also { scaleChildren() }
+    ) = super.scrollHorizontallyBy(dx, recycler, state).also { applyScaleAndTranslationToChildren() }
 
-    private fun scaleChildren() {
+    private fun applyScaleAndTranslationToChildren() {
         val containerCenter = width / 2f
         val scaleDistanceThreshold = minScaleDistanceFactor * containerCenter
         var translationXForward = 0f

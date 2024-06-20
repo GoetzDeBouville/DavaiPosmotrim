@@ -21,7 +21,7 @@ class RouletteViewModel @Inject constructor() : BaseViewModel() {
 
     private var users: List<UserRouletteModel>
     private val films: List<MovieDetailsDemo>
-    private val lookFilmId: Int
+    private val watchFilmId: Int
 
     init {
         users = listOf(
@@ -83,8 +83,8 @@ class RouletteViewModel @Inject constructor() : BaseViewModel() {
         )
 
         _state = MutableStateFlow(RouletteState.Init(users, films))
-        lookFilmId = Random.nextInt(1, TEMP_NUMBER_6)
-        if (films.any { it.kinopoiskId == lookFilmId }) {
+        watchFilmId = Random.nextInt(1, TEMP_NUMBER_6)
+        if (films.any { it.kinopoiskId == watchFilmId }) {
             checkUsers()
         } else {
             _state.value = RouletteState.Error
@@ -101,7 +101,7 @@ class RouletteViewModel @Inject constructor() : BaseViewModel() {
                     _state.value = RouletteState.Waiting(users)
                     if (users.all { it.isConnected }) {
                         delay(DELAY_TIME_MS_1000)
-                        val index = films.indexOfFirst { it.kinopoiskId == lookFilmId }
+                        val index = films.indexOfFirst { it.kinopoiskId == watchFilmId }
                         _state.value = RouletteState.Roulette(index, films.size)
                     }
                 }
@@ -113,7 +113,7 @@ class RouletteViewModel @Inject constructor() : BaseViewModel() {
         viewModelScope.launch {
             delay(DELAY_TIME_MS_1000)
             _state.value =
-                films.find { it.kinopoiskId == lookFilmId }?.let { RouletteState.Match(it) }
+                films.find { it.kinopoiskId == watchFilmId }?.let { RouletteState.Match(it) }
                     ?: RouletteState.Error
         }
     }
