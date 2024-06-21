@@ -21,14 +21,17 @@ class MovieCardAdapter(
         private val revert: () -> Unit,
         private val inflateMovieDetails: (MovieDetailsDemo) -> Unit
     ) : RecyclerView.ViewHolder(binding.root) {
+        init {
+            onItemsClicklisteners()
+        }
+
         private val movieDetailsHelper: MovieDetailsHelper = MovieDetailsHelperImpl()
 
         fun bind(data: MovieDetailsDemo) = with(binding) {
             inflateMovieDetails.invoke(data)
             movieDetailsHelper.setImage(ivSelectMovieCover, data.posterUrl)
-            movieDetailsHelper.addGenreList(fblGenreList, data.genres, root.context)
-            movieDetailsHelper.setRateText(tvMarkValue, data.ratingKinopoisk, root.context)
-            onItemsClicklisteners()
+            movieDetailsHelper.addGenreList(fblGenreList, data.genres)
+            movieDetailsHelper.setRateText(tvMarkValue, data.ratingKinopoisk)
             tvFilmTitle.text = data.movieName
             tvOriginalTitle.text = data.alternativeName ?: data.englishName ?: ""
             tvYearCountryRuntime.text = movieDetailsHelper.buildStringYearCountriesRuntime(

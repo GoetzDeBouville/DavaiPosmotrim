@@ -1,12 +1,12 @@
 package com.davay.android.utils
 
 import android.content.Context
-import android.view.LayoutInflater
 import android.widget.ImageView
 import android.widget.TextView
 import coil.load
 import coil.size.Scale
 import coil.transform.RoundedCornersTransformation
+import com.davai.uikit.TagView
 import com.davay.android.R
 import com.davay.android.feature.selectmovie.domain.models.MovieDetailsDemo
 import com.google.android.flexbox.FlexboxLayout
@@ -16,41 +16,42 @@ import com.google.android.flexbox.FlexboxLayout
  */
 open class MovieDetailsHelperImpl : MovieDetailsHelper {
     override fun setImage(img: ImageView, url: String?) {
-        img.load(url) {
-            placeholder(com.davai.uikit.R.drawable.placeholder_general_80)
-                .scale(Scale.FIT)
-            error(R.drawable.ic_movie_selection_error_332)
-                .scale(Scale.FIT)
-            transformations(RoundedCornersTransformation())
-                .crossfade(true)
+        if (url.isNullOrEmpty()) {
+            img.load(R.drawable.ic_movie_selection_error_332) {
+                transformations(RoundedCornersTransformation())
+                    .crossfade(true)
+            }
+        } else {
+            img.load(url) {
+                placeholder(com.davai.uikit.R.drawable.placeholder_general_80)
+                    .scale(Scale.FIT)
+                error(R.drawable.ic_movie_selection_error_332)
+                    .scale(Scale.FIT)
+                transformations(RoundedCornersTransformation())
+                    .crossfade(true)
+            }
         }
     }
 
-    override fun setRateText(tvRate: TextView, ratingKinopoisk: Float?, context: Context) {
+    override fun setRateText(tvRate: TextView, ratingKinopoisk: Float?) {
         ratingKinopoisk?.let {
-            val textColor = if (it >= GOOD_RATE_7) {
-                context.getColor(com.davai.uikit.R.color.done)
+            val textColor = if (ratingKinopoisk >= GOOD_RATE_7) {
+                tvRate.context.getColor(com.davai.uikit.R.color.done)
             } else {
-                context.getColor(com.davai.uikit.R.color.attention)
+                tvRate.context.getColor(com.davai.uikit.R.color.attention)
             }
             tvRate.apply {
-                text = it.toString()
+                text = ratingKinopoisk.toString()
                 setTextColor(textColor)
             }
         }
     }
 
-    override fun addGenreList(flexBox: FlexboxLayout, genres: List<String>, context: Context) {
+    override fun addGenreList(flexBox: FlexboxLayout, genres: List<String>) {
         flexBox.removeAllViews()
-        genres.forEach {
-            val genreView = LayoutInflater.from(context)
-                .inflate(
-                    R.layout.item_genre,
-                    flexBox,
-                    false
-                ) as TextView
-            genreView.text = it
-            flexBox.addView(genreView)
+        genres.forEach { genre ->
+            val tagView = createTagView(genre, flexBox.context)
+            flexBox.addView(tagView)
         }
     }
 
@@ -77,7 +78,7 @@ open class MovieDetailsHelperImpl : MovieDetailsHelper {
         }
     }
 
-    fun Int.formatMovieDuration(context: Context): String {
+    private fun Int.formatMovieDuration(context: Context): String {
         val hours = this / MINUTES_IN_HOUR
         val remainingMinutes = this % MINUTES_IN_HOUR
 
@@ -93,7 +94,28 @@ open class MovieDetailsHelperImpl : MovieDetailsHelper {
         }
     }
 
-    companion object {
+    private fun createTagView(text: String, context: Context): TagView {
+        val tagView = TagView(context).apply {
+            setText(text)
+            changeStyle(TagView.Companion.Style.PRIMARY_VIOLET)
+        }
+
+        val layoutParams = FlexboxLayout.LayoutParams(
+            FlexboxLayout.LayoutParams.WRAP_CONTENT,
+            FlexboxLayout.LayoutParams.WRAP_CONTENT
+        ).apply {
+            val marginEnd =
+                context.resources.getDimensionPixelSize(com.davai.uikit.R.dimen.margin_8)
+            val marginBottom =
+                context.resources.getDimensionPixelSize(com.davai.uikit.R.dimen.margin_12)
+            setMargins(0, 0, marginEnd, marginBottom)
+        }
+
+        tagView.layoutParams = layoutParams
+        return tagView
+    }
+
+    private companion object {
         const val MINUTES_IN_HOUR = 60
         const val DOT_DELIMETER = " ∙ "
         const val MULTIPOINT = "..."

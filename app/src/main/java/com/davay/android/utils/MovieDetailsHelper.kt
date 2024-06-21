@@ -8,7 +8,7 @@ import com.google.android.flexbox.FlexboxLayout
 
 interface MovieDetailsHelper {
     fun setImage(img: ImageView, url: String?)
-    fun setRateText(tvRate: TextView, ratingKinopoisk: Float?, context: Context)
-    fun addGenreList(flexBox: FlexboxLayout, genres: List<String>, context: Context)
+    fun setRateText(tvRate: TextView, ratingKinopoisk: Float?)
+    fun addGenreList(flexBox: FlexboxLayout, genres: List<String>)
     fun buildStringYearCountriesRuntime(data: MovieDetailsDemo, context: Context): String
 }
