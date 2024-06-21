@@ -32,7 +32,6 @@ class FilmViewHolder(private val binding: ItemSwipeableMovieCardBinding, parentW
         movieDetailsHelper.setRateText(
             binding.tvMarkValue,
             film.ratingKinopoisk,
-            binding.root.context
         )
     }
 
