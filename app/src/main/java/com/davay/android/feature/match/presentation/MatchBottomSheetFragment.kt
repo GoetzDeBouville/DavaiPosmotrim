@@ -114,12 +114,12 @@ class MatchBottomSheetFragment : BottomSheetDialogFragment() {
     private fun fillData(data: MovieDetailsDemo) {
         binding.matchMovieCard.apply {
             movieDetailsHelper.setImage(ivSelectMovieCover, data.posterUrl)
-            movieDetailsHelper.addGenreList(fblGenreList, data.genres, requireContext())
+            movieDetailsHelper.addGenreList(fblGenreList, data.genres)
             tvFilmTitle.text = data.movieName
             tvOriginalTitle.text = data.alternativeName ?: data.englishName ?: ""
             tvYearCountryRuntime.text =
                 movieDetailsHelper.buildStringYearCountriesRuntime(data, requireContext())
-            movieDetailsHelper.setRateText(tvMarkValue, data.ratingKinopoisk, requireContext())
+            movieDetailsHelper.setRateText(tvMarkValue, data.ratingKinopoisk)
         }
     }
 

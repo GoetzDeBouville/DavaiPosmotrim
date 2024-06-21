@@ -30,7 +30,7 @@
 
     <LinearLayout
         android:id="@+id/ll_match_footer"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="@dimen/footer_item_height_114"
         android:background="@drawable/main_screen_menu_background"
         android:orientation="vertical"
@@ -40,9 +40,6 @@
 
         <include
             android:id="@+id/progress_button_item"
-            layout="@layout/item_progress_button"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            layout="@layout/item_progress_button" />
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
