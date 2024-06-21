@@ -1,7 +1,11 @@
 package com.davay.android.feature.coincidences.presentation
 
+import android.content.Context
+import android.graphics.PixelFormat
 import android.os.Bundle
+import android.view.Gravity
 import android.view.View
+import android.view.WindowManager
 import android.widget.Toast
 import androidx.core.view.isVisible
 import androidx.lifecycle.Lifecycle
@@ -45,15 +49,15 @@ class CoincidencesFragment : BaseFragment<FragmentCoincidencesBinding, Coinciden
         adapter = moviesGridAdapter
     }
 
-    private fun setupToolbar() = with(binding.toolbarView) {
-        addStatusBarSpacer()
-        setEndIcon(com.davai.uikit.R.drawable.ic_random)
-        showEndIcon()
-        setEndIconClickListener {
-            Toast.makeText(requireContext(), "Navigate to random.", Toast.LENGTH_SHORT).show()
-        }
-        setStartIconClickListener {
-            Toast.makeText(requireContext(), "Navigate back.", Toast.LENGTH_SHORT).show()
+    private fun setupToolbar() {
+        binding.toolbarView.apply {
+            addStatusBarSpacer()
+            setEndIconClickListener {
+                Toast.makeText(requireContext(), "Navigate to random.", Toast.LENGTH_SHORT).show()
+            }
+            setStartIconClickListener {
+                viewModel.navigateBack()
+            }
         }
     }
 
@@ -75,6 +79,7 @@ class CoincidencesFragment : BaseFragment<FragmentCoincidencesBinding, Coinciden
                 updateVisibility(coincidencesListIsVisible = true)
                 moviesGridAdapter.setData(state.data)
             }
+
             is UiState.Error -> {
                 Toast.makeText(requireContext(), "Error occurred!", Toast.LENGTH_SHORT).show()
             }
@@ -92,7 +97,18 @@ class CoincidencesFragment : BaseFragment<FragmentCoincidencesBinding, Coinciden
     }
 
     private fun showBottomSheetDialogFragment() {
-        val bottomSheetFragment = RouletteBottomSheetDialogFragment()
+        val bottomSheetFragment = RouletteBottomSheetDialogFragment {
+            hideFigureArrow()
+        }
         bottomSheetFragment.show(parentFragmentManager, bottomSheetFragment.tag)
+        showFigureArrow()
+    }
+
+    private fun showFigureArrow() {
+        binding.ivFigureArrow.isVisible = true
+    }
+
+    private fun hideFigureArrow() {
+        binding.ivFigureArrow.isVisible = false
     }
 }
