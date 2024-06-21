@@ -80,7 +80,7 @@ class RegistrationFragment :
         binding.btnEnter.setOnClickListener {
             buttonClicked()
         }
-        binding.etName.setOnEditorActionListener { v, actionId, event ->
+        binding.etName.setOnEditorActionListener { _, actionId, _ ->
             if (actionId == EditorInfo.IME_ACTION_DONE) {
                 buttonClicked()
                 true

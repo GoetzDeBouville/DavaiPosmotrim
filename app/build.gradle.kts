@@ -60,6 +60,6 @@ dependencies {
     implementation(libs.flexbox)
     implementation(libs.circle.indicator)
     implementation(libs.physicslayout)
+
     implementation(project(":uikit"))
-    implementation(libs.flexbox)
 }

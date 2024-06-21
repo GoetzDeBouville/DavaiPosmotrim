@@ -59,7 +59,18 @@
     </declare-styleable>
 
     <declare-styleable name="ConditionedImageView">
-        <attr name="baseConditionImageId" format="reference"/>
-        <attr name="secondConditionImageId" format="reference"/>
+        <attr name="baseConditionImageId" format="reference" />
+        <attr name="secondConditionImageId" format="reference" />
+    </declare-styleable>
+
+    <declare-styleable name="CustomCircularProgressBar">
+        <attr name="progressColor" format="color" />
+        <attr name="backgroundColor" format="color" />
+        <attr name="circleDiameter" format="dimension" />
+    </declare-styleable>
+
+    <declare-styleable name="ProgressButtonView">
+        <attr name="progress_stroke_color" format="color" />
+        <attr name="progress_stroke_width" format="dimension" />
     </declare-styleable>
 </resources>
