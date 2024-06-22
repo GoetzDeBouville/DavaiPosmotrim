@@ -57,22 +57,27 @@ class SessionConnectionBottomSheetFragment :
     }
 
     private fun animateKeyboard() {
-        ViewCompat.setOnApplyWindowInsetsListener(requireView().rootView) { v, windowInsets ->
-            Log.d("MyTag", "setOnApplyWindowInsetsListener")
-            var insetsIme = windowInsets.getInsets(WindowInsetsCompat.Type.ime())
-            Log.d("MyTag", "ime " + insetsIme.bottom.toString())
-            val insetsNav = windowInsets.getInsets(WindowInsetsCompat.Type.navigationBars())
-            Log.d("MyTag", "navigationBars " + insetsNav.bottom.toString())
-            if (windowInsets.isVisible(WindowInsetsCompat.Type.ime())) {
-                binding.btnEnter.updateLayoutParams<ViewGroup.MarginLayoutParams> {
-                    bottomMargin = insetsIme.bottom - insetsNav.bottom
-                    Log.d("MyTag", "ime - navigationBars " + bottomMargin.toString())
+        ViewCompat.setOnApplyWindowInsetsListener(requireActivity().window.decorView) { _, windowInsets ->
+            try {
+                Log.d("MyTag", "setOnApplyWindowInsetsListener")
+                var insetsIme = windowInsets.getInsets(WindowInsetsCompat.Type.ime())
+                Log.d("MyTag", "ime " + insetsIme.bottom.toString())
+                val insetsNav = windowInsets.getInsets(WindowInsetsCompat.Type.navigationBars())
+                Log.d("MyTag", "navigationBars " + insetsNav.bottom.toString())
+                if (windowInsets.isVisible(WindowInsetsCompat.Type.ime())) {
+                    binding.btnEnter.updateLayoutParams<ViewGroup.MarginLayoutParams> {
+                        bottomMargin = insetsIme.bottom - insetsNav.bottom
+                        Log.d("MyTag", "ime - navigationBars " + bottomMargin.toString())
+                    }
+                } else {
+                    binding.btnEnter.updateLayoutParams<ViewGroup.MarginLayoutParams> {
+                        bottomMargin = 0
+                        Log.d("MyTag", bottomMargin.toString())
+                    }
                 }
-            } else {
-                binding.btnEnter.updateLayoutParams<ViewGroup.MarginLayoutParams> {
-                    bottomMargin = 0
-                    Log.d("MyTag", bottomMargin.toString())
-                }
+            } catch (e: NullPointerException) {
+                // ничего не делаем
+                e.printStackTrace()
             }
             windowInsets
         }

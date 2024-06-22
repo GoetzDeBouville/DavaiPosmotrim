@@ -47,9 +47,6 @@ class MainActivity : AppCompatActivity() {
                 WindowInsetsController.APPEARANCE_LIGHT_STATUS_BARS,
                 WindowInsetsController.APPEARANCE_LIGHT_STATUS_BARS
             )
-        } else {
-            @Suppress("DEPRECATION")
-            window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
         }
     }
 
