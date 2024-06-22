@@ -2,7 +2,6 @@ package com.davay.android.feature.sessionconnection.presentation
 
 import android.app.Dialog
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.view.ViewGroup
 import android.view.ViewTreeObserver
@@ -59,20 +58,15 @@ class SessionConnectionBottomSheetFragment :
     private fun animateKeyboard() {
         ViewCompat.setOnApplyWindowInsetsListener(requireActivity().window.decorView) { _, windowInsets ->
             try {
-                Log.d("MyTag", "setOnApplyWindowInsetsListener")
                 var insetsIme = windowInsets.getInsets(WindowInsetsCompat.Type.ime())
-                Log.d("MyTag", "ime " + insetsIme.bottom.toString())
                 val insetsNav = windowInsets.getInsets(WindowInsetsCompat.Type.navigationBars())
-                Log.d("MyTag", "navigationBars " + insetsNav.bottom.toString())
                 if (windowInsets.isVisible(WindowInsetsCompat.Type.ime())) {
                     binding.btnEnter.updateLayoutParams<ViewGroup.MarginLayoutParams> {
                         bottomMargin = insetsIme.bottom - insetsNav.bottom
-                        Log.d("MyTag", "ime - navigationBars " + bottomMargin.toString())
                     }
                 } else {
                     binding.btnEnter.updateLayoutParams<ViewGroup.MarginLayoutParams> {
                         bottomMargin = 0
-                        Log.d("MyTag", bottomMargin.toString())
                     }
                 }
             } catch (e: NullPointerException) {
@@ -82,6 +76,7 @@ class SessionConnectionBottomSheetFragment :
             windowInsets
         }
 
+        // api 30+
         ViewCompat.setWindowInsetsAnimationCallback(
             requireView().rootView,
             object : WindowInsetsAnimationCompat.Callback(DISPATCH_MODE_STOP) {
@@ -91,15 +86,14 @@ class SessionConnectionBottomSheetFragment :
                 override fun onPrepare(
                     animation: WindowInsetsAnimationCompat
                 ) {
-                    startBottom = binding.btnEnter.bottom.toFloat()
+                    startBottom = requireView().rootView.bottom.toFloat()
                 }
 
                 override fun onStart(
                     animation: WindowInsetsAnimationCompat,
                     bounds: WindowInsetsAnimationCompat.BoundsCompat
                 ): WindowInsetsAnimationCompat.BoundsCompat {
-                    endBottom = binding.btnEnter.bottom.toFloat()
-                    Log.d("MyTag", "onStart: $startBottom, $endBottom")
+                    endBottom = binding.root.bottom.toFloat()
                     return bounds
                 }
 
