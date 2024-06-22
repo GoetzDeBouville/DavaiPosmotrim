@@ -1,11 +1,20 @@
 package com.davay.android.feature.sessionconnection.presentation
 
+import android.app.Dialog
 import android.os.Bundle
+import android.util.Log
 import android.view.View
+import android.view.ViewGroup
 import android.view.ViewTreeObserver
+import android.view.WindowManager
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
 import androidx.core.content.ContextCompat
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowCompat
+import androidx.core.view.WindowInsetsAnimationCompat
+import androidx.core.view.WindowInsetsCompat
+import androidx.core.view.updateLayoutParams
 import androidx.core.widget.doAfterTextChanged
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
@@ -31,10 +40,77 @@ class SessionConnectionBottomSheetFragment :
         .appComponent(AppComponentHolder.getComponent())
         .build()
 
+    override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
+        val thisDdailog = super.onCreateDialog(savedInstanceState)
+        thisDdailog.window?.also {
+            it.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE)
+            WindowCompat.setDecorFitsSystemWindows(it, false)
+        }
+        return thisDdailog
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initViews(view)
         subscribe()
+        animateKeyboard()
+    }
+
+    private fun animateKeyboard() {
+        ViewCompat.setOnApplyWindowInsetsListener(requireView().rootView) { v, windowInsets ->
+            Log.d("MyTag", "setOnApplyWindowInsetsListener")
+            var insetsIme = windowInsets.getInsets(WindowInsetsCompat.Type.ime())
+            Log.d("MyTag", "ime " + insetsIme.bottom.toString())
+            val insetsNav = windowInsets.getInsets(WindowInsetsCompat.Type.navigationBars())
+            Log.d("MyTag", "navigationBars " + insetsNav.bottom.toString())
+            if (windowInsets.isVisible(WindowInsetsCompat.Type.ime())) {
+                binding.btnEnter.updateLayoutParams<ViewGroup.MarginLayoutParams> {
+                    bottomMargin = insetsIme.bottom - insetsNav.bottom
+                    Log.d("MyTag", "ime - navigationBars " + bottomMargin.toString())
+                }
+            } else {
+                binding.btnEnter.updateLayoutParams<ViewGroup.MarginLayoutParams> {
+                    bottomMargin = 0
+                    Log.d("MyTag", bottomMargin.toString())
+                }
+            }
+            windowInsets
+        }
+
+        ViewCompat.setWindowInsetsAnimationCallback(
+            requireView().rootView,
+            object : WindowInsetsAnimationCompat.Callback(DISPATCH_MODE_STOP) {
+                var startBottom = 0f
+                var endBottom = 0f
+
+                override fun onPrepare(
+                    animation: WindowInsetsAnimationCompat
+                ) {
+                    startBottom = binding.btnEnter.bottom.toFloat()
+                }
+
+                override fun onStart(
+                    animation: WindowInsetsAnimationCompat,
+                    bounds: WindowInsetsAnimationCompat.BoundsCompat
+                ): WindowInsetsAnimationCompat.BoundsCompat {
+                    endBottom = binding.btnEnter.bottom.toFloat()
+                    Log.d("MyTag", "onStart: $startBottom, $endBottom")
+                    return bounds
+                }
+
+                override fun onProgress(
+                    insets: WindowInsetsCompat,
+                    runningAnimations: MutableList<WindowInsetsAnimationCompat>
+                ): WindowInsetsCompat {
+                    val imeAnimation = runningAnimations.find {
+                        it.typeMask and WindowInsetsCompat.Type.ime() != 0
+                    } ?: return insets
+                    binding.btnEnter.translationY =
+                        (startBottom - endBottom) * (1 - imeAnimation.interpolatedFraction)
+                    return insets
+                }
+            }
+        )
     }
 
     private fun initViews(view: View) {
@@ -149,6 +225,6 @@ class SessionConnectionBottomSheetFragment :
 
     companion object {
         private const val BOTTOM_SHEET_HIDE_PERCENT_60 = 60
-        private const val BOTTOM_SHEET_HEIGHT = 0.5
+        private const val BOTTOM_SHEET_HEIGHT = 0.9
     }
 }
