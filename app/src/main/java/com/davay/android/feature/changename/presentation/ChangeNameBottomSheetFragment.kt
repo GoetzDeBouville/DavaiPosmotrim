@@ -3,16 +3,11 @@ package com.davay.android.feature.changename.presentation
 import android.app.Dialog
 import android.os.Bundle
 import android.view.View
-import android.view.ViewGroup
 import android.view.ViewTreeObserver
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
 import androidx.core.content.ContextCompat
 import androidx.core.os.bundleOf
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsAnimationCompat
-import androidx.core.view.WindowInsetsCompat
-import androidx.core.view.updateLayoutParams
 import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.setFragmentResult
 import androidx.lifecycle.lifecycleScope
@@ -69,18 +64,12 @@ class ChangeNameBottomSheetFragment :
             if (it?.length!! >= TYPE_SMALL_BORDER) {
                 binding.etName.setTextAppearance(com.davai.uikit.R.style.Text_Headline_SubTitle)
                 binding.etName.setTextColor(
-                    resources.getColor(
-                        com.davai.uikit.R.color.text_base,
-                        requireActivity().theme
-                    )
+                    resources.getColor(com.davai.uikit.R.color.text_base, requireActivity().theme)
                 )
             } else {
                 binding.etName.setTextAppearance(com.davai.uikit.R.style.Text_Headline_Title)
                 binding.etName.setTextColor(
-                    resources.getColor(
-                        com.davai.uikit.R.color.text_base,
-                        requireActivity().theme
-                    )
+                    resources.getColor(com.davai.uikit.R.color.text_base, requireActivity().theme)
                 )
             }
         }
@@ -138,8 +127,7 @@ class ChangeNameBottomSheetFragment :
     }
 
     private fun hideKeyboard(view: View) {
-        val imm =
-            ContextCompat.getSystemService(requireContext(), InputMethodManager::class.java)
+        val imm = ContextCompat.getSystemService(requireContext(), InputMethodManager::class.java)
         imm?.hideSoftInputFromWindow(view.windowToken, 0)
     }
 

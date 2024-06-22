@@ -68,7 +68,11 @@ abstract class BaseBottomSheetFragment<VB : ViewBinding, VM : BaseViewModel>(
 
     private fun handleNavigation(navCommand: NavigationCommand) {
         when (navCommand) {
-            is NavigationCommand.ToDirection -> findNavController().navigate(navCommand.directions, navCommand.bundle)
+            is NavigationCommand.ToDirection -> findNavController().navigate(
+                navCommand.directions,
+                navCommand.bundle
+            )
+
             is NavigationCommand.Back -> findNavController().navigateUp()
         }
     }
@@ -86,6 +90,7 @@ abstract class BaseBottomSheetFragment<VB : ViewBinding, VM : BaseViewModel>(
     // для диалогов с клавиатурой
     protected fun moveBottomView(movingView: View) {
         ViewCompat.setOnApplyWindowInsetsListener(requireActivity().window.decorView) { _, windowInsets ->
+            @Suppress("TooGenericExceptionCaught")
             try {
                 var insetsIme = windowInsets.getInsets(WindowInsetsCompat.Type.ime())
                 val insetsNav = windowInsets.getInsets(WindowInsetsCompat.Type.navigationBars())
