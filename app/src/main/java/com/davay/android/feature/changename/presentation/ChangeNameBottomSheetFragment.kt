@@ -5,13 +5,11 @@ import android.os.Bundle
 import android.view.View
 import android.view.ViewGroup
 import android.view.ViewTreeObserver
-import android.view.WindowManager
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
 import androidx.core.content.ContextCompat
 import androidx.core.os.bundleOf
 import androidx.core.view.ViewCompat
-import androidx.core.view.WindowCompat
 import androidx.core.view.WindowInsetsAnimationCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.updateLayoutParams
@@ -51,14 +49,8 @@ class ChangeNameBottomSheetFragment :
         }
     }
 
-    override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
-        val thisDdailog = super.onCreateDialog(savedInstanceState)
-        thisDdailog.window?.also {
-            it.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE)
-            WindowCompat.setDecorFitsSystemWindows(it, false)
-        }
-        return thisDdailog
-    }
+    override fun onCreateDialog(savedInstanceState: Bundle?): Dialog =
+        makeDialogWithKeyboard(savedInstanceState)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -96,7 +88,7 @@ class ChangeNameBottomSheetFragment :
             bottomSheetBehavior!!.state = BottomSheetBehavior.STATE_HIDDEN
         }
         buildBottomSheet()
-        animateKeyboard()
+        moveBottomView(binding.btnEnter)
         showSoftKeyboard(binding.etName)
     }
 
@@ -182,63 +174,6 @@ class ChangeNameBottomSheetFragment :
             setFragmentResult(REQUEST_KEY, bundleOf(BUNDLE_KEY_NAME to newName))
             bottomSheetBehavior!!.state = BottomSheetBehavior.STATE_HIDDEN
         }
-    }
-
-    private fun animateKeyboard() {
-        ViewCompat.setOnApplyWindowInsetsListener(requireActivity().window.decorView) { _, windowInsets ->
-            try {
-                var insetsIme = windowInsets.getInsets(WindowInsetsCompat.Type.ime())
-                val insetsNav = windowInsets.getInsets(WindowInsetsCompat.Type.navigationBars())
-                if (windowInsets.isVisible(WindowInsetsCompat.Type.ime())) {
-                    binding.btnEnter.updateLayoutParams<ViewGroup.MarginLayoutParams> {
-                        bottomMargin = insetsIme.bottom - insetsNav.bottom
-                    }
-                } else {
-                    binding.btnEnter.updateLayoutParams<ViewGroup.MarginLayoutParams> {
-                        bottomMargin = 0
-                    }
-                }
-            } catch (e: NullPointerException) {
-                // так как по нажатию кнопки никуда не переходим, то можно без try-catch
-                e.printStackTrace()
-            }
-            windowInsets
-        }
-
-        // api 30+
-        ViewCompat.setWindowInsetsAnimationCallback(
-            requireView().rootView,
-            object : WindowInsetsAnimationCompat.Callback(DISPATCH_MODE_STOP) {
-                var startBottom = 0f
-                var endBottom = 0f
-
-                override fun onPrepare(
-                    animation: WindowInsetsAnimationCompat
-                ) {
-                    startBottom = requireView().rootView.bottom.toFloat()
-                }
-
-                override fun onStart(
-                    animation: WindowInsetsAnimationCompat,
-                    bounds: WindowInsetsAnimationCompat.BoundsCompat
-                ): WindowInsetsAnimationCompat.BoundsCompat {
-                    endBottom = binding.root.bottom.toFloat()
-                    return bounds
-                }
-
-                override fun onProgress(
-                    insets: WindowInsetsCompat,
-                    runningAnimations: MutableList<WindowInsetsAnimationCompat>
-                ): WindowInsetsCompat {
-                    val imeAnimation = runningAnimations.find {
-                        it.typeMask and WindowInsetsCompat.Type.ime() != 0
-                    } ?: return insets
-                    binding.btnEnter.translationY =
-                        (startBottom - endBottom) * (1 - imeAnimation.interpolatedFraction)
-                    return insets
-                }
-            }
-        )
     }
 
     companion object {

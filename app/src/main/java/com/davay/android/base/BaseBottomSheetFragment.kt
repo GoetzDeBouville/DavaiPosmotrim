@@ -1,9 +1,16 @@
 package com.davay.android.base
 
+import android.app.Dialog
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.WindowManager
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowCompat
+import androidx.core.view.WindowInsetsAnimationCompat
+import androidx.core.view.WindowInsetsCompat
+import androidx.core.view.updateLayoutParams
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
@@ -66,4 +73,71 @@ abstract class BaseBottomSheetFragment<VB : ViewBinding, VM : BaseViewModel>(
         }
     }
 
+    // для диалогов с клавиатурой
+    protected fun makeDialogWithKeyboard(savedInstanceState: Bundle?): Dialog {
+        val thisDdailog = super.onCreateDialog(savedInstanceState)
+        thisDdailog.window?.also {
+            it.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE)
+            WindowCompat.setDecorFitsSystemWindows(it, false)
+        }
+        return thisDdailog
+    }
+
+    // для диалогов с клавиатурой
+    protected fun moveBottomView(movingView: View) {
+        ViewCompat.setOnApplyWindowInsetsListener(requireActivity().window.decorView) { _, windowInsets ->
+            try {
+                var insetsIme = windowInsets.getInsets(WindowInsetsCompat.Type.ime())
+                val insetsNav = windowInsets.getInsets(WindowInsetsCompat.Type.navigationBars())
+                if (windowInsets.isVisible(WindowInsetsCompat.Type.ime())) {
+                    movingView.updateLayoutParams<ViewGroup.MarginLayoutParams> {
+                        bottomMargin = insetsIme.bottom - insetsNav.bottom
+                    }
+                } else {
+                    movingView.updateLayoutParams<ViewGroup.MarginLayoutParams> {
+                        bottomMargin = 0
+                    }
+                }
+            } catch (e: NullPointerException) {
+                // ничего не делаем
+                e.printStackTrace()
+            }
+            windowInsets
+        }
+
+        // api 30+
+        ViewCompat.setWindowInsetsAnimationCallback(
+            binding.root.rootView,
+            object : WindowInsetsAnimationCompat.Callback(DISPATCH_MODE_CONTINUE_ON_SUBTREE) {
+                var startBottom = 0f
+                var endBottom = 0f
+
+                override fun onPrepare(
+                    animation: WindowInsetsAnimationCompat
+                ) {
+                    startBottom = binding.root.rootView.bottom.toFloat()
+                }
+
+                override fun onStart(
+                    animation: WindowInsetsAnimationCompat,
+                    bounds: WindowInsetsAnimationCompat.BoundsCompat
+                ): WindowInsetsAnimationCompat.BoundsCompat {
+                    endBottom = binding.root.bottom.toFloat()
+                    return bounds
+                }
+
+                override fun onProgress(
+                    insets: WindowInsetsCompat,
+                    runningAnimations: MutableList<WindowInsetsAnimationCompat>
+                ): WindowInsetsCompat {
+                    val imeAnimation = runningAnimations.find {
+                        it.typeMask and WindowInsetsCompat.Type.ime() != 0
+                    } ?: return insets
+                    movingView.translationY =
+                        (startBottom - endBottom) * (1 - imeAnimation.interpolatedFraction)
+                    return insets
+                }
+            }
+        )
+    }
 }
