@@ -47,6 +47,10 @@ class MainActivity : AppCompatActivity() {
                 WindowInsetsController.APPEARANCE_LIGHT_STATUS_BARS,
                 WindowInsetsController.APPEARANCE_LIGHT_STATUS_BARS
             )
+        } else {
+            var flags: Int = window.decorView.getSystemUiVisibility()
+            flags = flags or View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
+            window.decorView.setSystemUiVisibility(flags)
         }
     }
 
