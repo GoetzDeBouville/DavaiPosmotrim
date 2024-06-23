@@ -89,6 +89,10 @@
     <string name="create_session_choose_genre">Выберите понравившиеся жанры</string>
     <string name="create_session_choose_genre_one">Выберите хотя бы один жанр</string>
 
+    <!--  match dialog  -->
+    <string name="match_continue_session">Продолжить сеанс</string>
+    <string name="match_watch">Смотрим!</string>
+
     <!--  wait session screen  -->
     <string name="wait_session_header">Участники</string>
     <string name="wait_session_placeholder">Если вы пригласили друзей – дождитесь, когда они подключатся, прежде чем начать сеанс.</string>

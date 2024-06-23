@@ -1,4 +1,4 @@
-package com.davay.android.utils
+package com.davay.android.extensions
 
 import android.view.Gravity
 import android.widget.FrameLayout

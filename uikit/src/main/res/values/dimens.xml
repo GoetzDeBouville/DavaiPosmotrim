@@ -5,7 +5,7 @@
     <dimen name="card_radius_18">18dp</dimen>
     <dimen name="card_radius_24">24dp</dimen>
 
-
+    <dimen name="stroke_width_3">3dp</dimen>
     <dimen name="drag_handle_height_8">8dp</dimen>
     <dimen name="static_view_height_36">36dp</dimen>
     <dimen name="small_icon_size_40">40dp</dimen>
@@ -59,9 +59,11 @@
     <dimen name="drag_handle_margin_top_12">12dp</dimen>
     <dimen name="drag_handle_width_48">48dp</dimen>
 
+    <dimen name="change_name_input_margin">136dp</dimen>
+
+    <dimen name="banner_angle_neg_12">-12</dimen>
     <dimen name="gradient_rotation_angle_180">180</dimen>
     <dimen name="gradient_rotation_angle_270">270</dimen>
-    <dimen name="change_name_input_margin">136dp</dimen>
 
     <dimen name="wait_session_button_height">48dp</dimen>
     <dimen name="wait_session_button_margin_horizontal">16dp</dimen>
