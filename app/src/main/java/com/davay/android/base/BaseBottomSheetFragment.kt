@@ -79,12 +79,12 @@ abstract class BaseBottomSheetFragment<VB : ViewBinding, VM : BaseViewModel>(
 
     // для диалогов с клавиатурой
     protected fun makeDialogWithKeyboard(savedInstanceState: Bundle?): Dialog {
-        val thisDdailog = super.onCreateDialog(savedInstanceState)
-        thisDdailog.window?.also {
+        val thisDialog = super.onCreateDialog(savedInstanceState)
+        thisDialog.window?.also {
             it.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE)
             WindowCompat.setDecorFitsSystemWindows(it, false)
         }
-        return thisDdailog
+        return thisDialog
     }
 
     // для диалогов с клавиатурой
