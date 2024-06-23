@@ -1,12 +1,12 @@
 package com.davay.android.feature.coincidences.presentation
 
-import android.content.Context
-import android.graphics.PixelFormat
 import android.os.Bundle
-import android.view.Gravity
+import android.util.Log
 import android.view.View
-import android.view.WindowManager
 import android.widget.Toast
+import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.isVisible
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
@@ -98,17 +98,51 @@ class CoincidencesFragment : BaseFragment<FragmentCoincidencesBinding, Coinciden
 
     private fun showBottomSheetDialogFragment() {
         val bottomSheetFragment = RouletteBottomSheetDialogFragment {
-            hideFigureArrow()
+            hidePointersAndShadow()
         }
         bottomSheetFragment.show(parentFragmentManager, bottomSheetFragment.tag)
-        showFigureArrow()
+        showPointersAndShadow()
     }
 
-    private fun showFigureArrow() {
-        binding.ivFigureArrow.isVisible = true
+    private fun showPointersAndShadow() = with(binding) {
+        listOf(ivFigureArrow, viewDialogShadow).forEach {
+            it.visibility = View.VISIBLE
+            addStatusBarSpacerAndShowPointer(requireView())
+        }
     }
 
-    private fun hideFigureArrow() {
-        binding.ivFigureArrow.isVisible = false
+    private fun hidePointersAndShadow() = with(binding) {
+        listOf(ivDices, ivWhitePointer, ivFigureArrow, viewDialogShadow).forEach {
+            it.visibility = View.GONE
+        }
+    }
+
+    private fun addStatusBarSpacerAndShowPointer(view: View) {
+        var statusBarHeight: Int
+        ViewCompat.setOnApplyWindowInsetsListener(view) { _, insets ->
+            statusBarHeight = insets.getInsets(WindowInsetsCompat.Type.statusBars()).top
+            Log.v("MyLog", "statusBarHeight: $statusBarHeight")
+            applySpaceHeightAndShowPointer(statusBarHeight)
+            insets
+        }
+        view.requestApplyInsets()
+    }
+
+    private fun applySpaceHeightAndShowPointer(statusBarHeight: Int) = with(binding) {
+        topSpace.let {
+            val layoutParams = it.layoutParams
+            layoutParams.height = statusBarHeight
+            it.layoutParams = layoutParams
+        }
+
+        ivWhitePointer.post {
+            val layoutParams = ivWhitePointer.layoutParams as ConstraintLayout.LayoutParams
+            layoutParams.topMargin = statusBarHeight
+            ivWhitePointer.apply {
+                visibility = View.VISIBLE
+                this.layoutParams = layoutParams
+            }
+            ivDices.visibility = View.VISIBLE
+        }
     }
 }

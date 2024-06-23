@@ -146,4 +146,9 @@
         <item name="tabTextColor">@color/text_caption_dark</item>
         <item name="tabSelectedTextColor">@color/text_light</item>
     </style>
+
+    <style name="NoShadowBottomSheet" parent="Theme.AppCompat.Light">
+        <item name="android:background">@android:color/transparent</item>
+        <item name="android:colorBackground">@android:color/transparent</item>
+    </style>
 </resources>
