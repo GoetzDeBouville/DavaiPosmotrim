@@ -94,13 +94,11 @@ abstract class BaseBottomSheetFragment<VB : ViewBinding, VM : BaseViewModel>(
             try {
                 var insetsIme = windowInsets.getInsets(WindowInsetsCompat.Type.ime())
                 val insetsNav = windowInsets.getInsets(WindowInsetsCompat.Type.navigationBars())
-                if (windowInsets.isVisible(WindowInsetsCompat.Type.ime())) {
-                    movingView.updateLayoutParams<ViewGroup.MarginLayoutParams> {
-                        bottomMargin = insetsIme.bottom - insetsNav.bottom
-                    }
-                } else {
-                    movingView.updateLayoutParams<ViewGroup.MarginLayoutParams> {
-                        bottomMargin = 0
+                movingView.updateLayoutParams<ViewGroup.MarginLayoutParams> {
+                    bottomMargin = if (windowInsets.isVisible(WindowInsetsCompat.Type.ime())) {
+                        insetsIme.bottom - insetsNav.bottom
+                    } else {
+                        0
                     }
                 }
             } catch (e: NullPointerException) {
@@ -114,8 +112,8 @@ abstract class BaseBottomSheetFragment<VB : ViewBinding, VM : BaseViewModel>(
         ViewCompat.setWindowInsetsAnimationCallback(
             binding.root.rootView,
             object : WindowInsetsAnimationCompat.Callback(DISPATCH_MODE_CONTINUE_ON_SUBTREE) {
-                var startBottom = 0f
-                var endBottom = 0f
+                private var startBottom = 0f
+                private var endBottom = 0f
 
                 override fun onPrepare(
                     animation: WindowInsetsAnimationCompat
