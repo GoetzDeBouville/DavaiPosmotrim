@@ -32,7 +32,7 @@
         android:layout_height="@dimen/drag_handle_width_48"
         android:layout_marginEnd="@dimen/margin_16"
         android:contentDescription="@string/icon_with_number_of_matches"
-        android:elevation="4dp"
+        android:elevation="@dimen/elevation_4"
         android:src="@drawable/white_pointer"
         android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="@+id/toolbar_view"
@@ -44,7 +44,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:contentDescription="@string/icon_with_number_of_matches"
-        android:elevation="4dp"
+        android:elevation="@dimen/elevation_4"
         android:src="@drawable/ic_random"
         android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="@+id/iv_white_pointer"
@@ -69,7 +69,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/transparent_black"
-        android:elevation="2dp"
+        android:elevation="@dimen/elevation_2"
         android:visibility="gone" />
 
     <FrameLayout
