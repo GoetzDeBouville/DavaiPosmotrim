@@ -42,13 +42,12 @@ class MainActivity : AppCompatActivity() {
      * Метод настраивает цвет элементов статус бара
      */
     private fun configureLightStatusBar() {
-        @Suppress("DEPRECATION")
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
             window.insetsController?.setSystemBarsAppearance(
                 WindowInsetsController.APPEARANCE_LIGHT_STATUS_BARS,
                 WindowInsetsController.APPEARANCE_LIGHT_STATUS_BARS
             )
-        } else {
+        } else @Suppress("DEPRECATION") {
             var flags: Int = window.decorView.getSystemUiVisibility()
             flags = flags or View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
             window.decorView.setSystemUiVisibility(flags)

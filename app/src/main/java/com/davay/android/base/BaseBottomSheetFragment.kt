@@ -92,7 +92,7 @@ abstract class BaseBottomSheetFragment<VB : ViewBinding, VM : BaseViewModel>(
         ViewCompat.setOnApplyWindowInsetsListener(requireActivity().window.decorView) { _, windowInsets ->
             @Suppress("TooGenericExceptionCaught")
             try {
-                var insetsIme = windowInsets.getInsets(WindowInsetsCompat.Type.ime())
+                val insetsIme = windowInsets.getInsets(WindowInsetsCompat.Type.ime())
                 val insetsNav = windowInsets.getInsets(WindowInsetsCompat.Type.navigationBars())
                 movingView.updateLayoutParams<ViewGroup.MarginLayoutParams> {
                     bottomMargin = if (windowInsets.isVisible(WindowInsetsCompat.Type.ime())) {
