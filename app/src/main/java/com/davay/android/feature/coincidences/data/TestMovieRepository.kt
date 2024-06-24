@@ -38,7 +38,7 @@ class TestMovieRepository(
         private val mockTestMovieList = List(10) {
             MovieDetailsDemo(
                 kinopoiskId = it,
-                movieName = films[it % 5].first,
+                name = films[it % 5].first,
                 posterUrl = films[it % 5].second
             )
         }
