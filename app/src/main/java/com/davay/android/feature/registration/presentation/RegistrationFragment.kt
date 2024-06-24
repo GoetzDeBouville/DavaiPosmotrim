@@ -105,8 +105,8 @@ class RegistrationFragment :
         ViewCompat.setWindowInsetsAnimationCallback(
             binding.root,
             object : WindowInsetsAnimationCompat.Callback(DISPATCH_MODE_STOP) {
-                var startBottom = 0f
-                var endBottom = 0f
+                private var startBottom = 0f
+                private var endBottom = 0f
 
                 override fun onPrepare(
                     animation: WindowInsetsAnimationCompat
