@@ -1,7 +1,6 @@
 package com.davay.android.feature.coincidences.presentation
 
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.constraintlayout.widget.ConstraintLayout
@@ -121,7 +120,6 @@ class CoincidencesFragment : BaseFragment<FragmentCoincidencesBinding, Coinciden
         var statusBarHeight: Int
         ViewCompat.setOnApplyWindowInsetsListener(view) { _, insets ->
             statusBarHeight = insets.getInsets(WindowInsetsCompat.Type.statusBars()).top
-            Log.v("MyLog", "statusBarHeight: $statusBarHeight")
             applySpaceHeightAndShowPointer(statusBarHeight)
             insets
         }
