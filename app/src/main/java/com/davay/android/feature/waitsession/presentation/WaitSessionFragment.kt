@@ -11,9 +11,11 @@ import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
 import com.davai.extensions.dpToPx
+import com.davai.uikit.BannerView
 import com.davai.uikit.ButtonView
 import com.davay.android.R
 import com.davay.android.app.AppComponentHolder
+import com.davay.android.app.MainActivity
 import com.davay.android.base.BaseFragment
 import com.davay.android.databinding.FragmentWaitSessionBinding
 import com.davay.android.di.ScreenComponent
@@ -32,6 +34,7 @@ class WaitSessionFragment : BaseFragment<FragmentWaitSessionBinding, WaitSession
     override val viewModel: WaitSessionViewModel by injectViewModel<WaitSessionViewModel>()
     private val userAdapter = UserAdapter()
     private var sendButton: ButtonView? = null
+    private var startSessionButton: ButtonView? = null
     private var launcher: ActivityResultLauncher<Intent>? = null
 
     override fun diComponent(): ScreenComponent = DaggerWaitSessionFragmentComponent.builder()
@@ -53,6 +56,7 @@ class WaitSessionFragment : BaseFragment<FragmentWaitSessionBinding, WaitSession
 
         binding.toolbar.addStatusBarSpacer()
         sendButton = binding.sendButton
+        startSessionButton = binding.startSessionButton
 
         initRecycler()
         userAdapter.setItems(
@@ -63,6 +67,13 @@ class WaitSessionFragment : BaseFragment<FragmentWaitSessionBinding, WaitSession
         binding.llButtonContainer.setOnClickListener {
             val code = binding.tvCode.text.toString()
             copyTextToClipboard(code)
+        }
+
+        startSessionButton?.setOnClickListener {
+            updateBanner(
+                getString(R.string.wait_session_min_two_user),
+                BannerView.ATTENTION
+            )
         }
 
         sendButton?.setOnClickListener {
@@ -79,6 +90,10 @@ class WaitSessionFragment : BaseFragment<FragmentWaitSessionBinding, WaitSession
         launcher = null
     }
 
+    private fun updateBanner(text: String, type: Int) {
+        (requireActivity() as MainActivity).updateBanner(text, type)
+    }
+
     private fun copyTextToClipboard(text: String) {
         val clipboard =
             requireContext().getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
@@ -93,9 +108,13 @@ class WaitSessionFragment : BaseFragment<FragmentWaitSessionBinding, WaitSession
     }
 
     private fun sendCode(text: String) {
+        val part1 = getString(R.string.additional_message_part1)
+        val part2 = getString(R.string.additional_message_part2)
+        val combinedText = "$part1\n$part2 $text"
+
         val intent = Intent().apply {
             action = Intent.ACTION_SEND
-            putExtra(Intent.EXTRA_TEXT, text)
+            putExtra(Intent.EXTRA_TEXT, combinedText)
             type = "text/plain"
         }
         val shareIntent = Intent.createChooser(intent, null)
