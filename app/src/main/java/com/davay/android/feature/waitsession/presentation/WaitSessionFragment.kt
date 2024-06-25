@@ -83,6 +83,7 @@ class WaitSessionFragment : BaseFragment<FragmentWaitSessionBinding, WaitSession
             copyTextToClipboard(code)
         }
 
+
         sendButton?.setOnClickListener {
             val code = binding.tvCode.text.toString()
             if (it.isEnabled) {
@@ -123,9 +124,13 @@ class WaitSessionFragment : BaseFragment<FragmentWaitSessionBinding, WaitSession
     }
 
     private fun sendCode(text: String) {
+        val part1 = getString(R.string.additional_message_part1)
+        val part2 = getString(R.string.additional_message_part2)
+        val combinedText = "$part1\n$part2 $text"
+
         val intent = Intent().apply {
             action = Intent.ACTION_SEND
-            putExtra(Intent.EXTRA_TEXT, text)
+            putExtra(Intent.EXTRA_TEXT, combinedText)
             type = "text/plain"
         }
         val shareIntent = Intent.createChooser(intent, null)

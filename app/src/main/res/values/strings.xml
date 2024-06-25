@@ -104,6 +104,9 @@
     <string name="wait_session_tag_owner">%s (вы)</string>
     <string name="leave_wait_session_title">Отменить?</string>
     <string name="leave_wait_session_dialog_message">Вы действительно хотите отменить уже созданный сеанс?</string>
+    <string name="wait_session_min_two_user">Должно быть хотя бы два участника</string>
+    <string name="additional_message_part1">Выбор фильма зависит от вас!</string>
+    <string name="additional_message_part2">Код для подключения к сеансу:</string>
 
     <!-- coincidences screen -->
     <string name="coincidences_screen_coincidences">Совпадения</string>
