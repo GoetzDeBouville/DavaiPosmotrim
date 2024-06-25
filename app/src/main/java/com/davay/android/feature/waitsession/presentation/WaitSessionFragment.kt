@@ -95,7 +95,7 @@ class WaitSessionFragment : BaseFragment<FragmentWaitSessionBinding, WaitSession
             title = getString(R.string.leave_wait_session_title),
             message = getString(R.string.leave_wait_session_dialog_message),
             yesAction = {
-                findNavController().popBackStack(R.id.mainFragment, true)
+                findNavController().popBackStack()
             }
         )
     }
