@@ -53,6 +53,8 @@ class CoincidencesFragment : BaseFragment<FragmentCoincidencesBinding, Coinciden
             }
         }
 
+    private var rouletteBottomSheetDialogFragment: RouletteBottomSheetDialogFragment? = null
+
     override fun diComponent(): ScreenComponent = DaggerCoincidencesFragmentComponent
         .builder()
         .appComponent(AppComponentHolder.getComponent())
@@ -63,18 +65,39 @@ class CoincidencesFragment : BaseFragment<FragmentCoincidencesBinding, Coinciden
         setupToolbar()
         setupMoviesGrid()
         subscribe()
-        viewModel.getCoincidences()
-        showBottomSheetDialogFragment()
+
+        // При смене конфигурации не нужно показывать подсказку
+        if (savedInstanceState == null) {
+            showHint()
+        }
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        parentFragmentManager.unregisterFragmentLifecycleCallbacks(
+            bottomSheetFragmentLifecycleCallbacks
+        )
+    }
+
+    /**
+     * Показывает подсказку, если она еще не показана
+     */
+    private fun showHint() {
+        if (viewModel.isHintShown()) {
+            val existingFragment = parentFragmentManager.findFragmentByTag(
+                RouletteBottomSheetDialogFragment::class.java.simpleName
+            )
+            if (existingFragment is RouletteBottomSheetDialogFragment) {
+                rouletteBottomSheetDialogFragment = existingFragment
+            }
+        } else {
+            showBottomSheetDialogFragment()
+        }
 
         parentFragmentManager.registerFragmentLifecycleCallbacks(
             bottomSheetFragmentLifecycleCallbacks,
             true
         )
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        parentFragmentManager.unregisterFragmentLifecycleCallbacks(bottomSheetFragmentLifecycleCallbacks)
     }
 
     private fun setupMoviesGrid() = with(binding.coincidencesList) {
@@ -129,9 +152,13 @@ class CoincidencesFragment : BaseFragment<FragmentCoincidencesBinding, Coinciden
     }
 
     private fun showBottomSheetDialogFragment() {
-        val bottomSheetFragment = RouletteBottomSheetDialogFragment()
-        bottomSheetFragment.show(parentFragmentManager, bottomSheetFragment.tag)
-        showPointersAndShadow()
+        if (rouletteBottomSheetDialogFragment == null) {
+            rouletteBottomSheetDialogFragment = RouletteBottomSheetDialogFragment()
+            rouletteBottomSheetDialogFragment?.show(
+                parentFragmentManager,
+                RouletteBottomSheetDialogFragment::class.java.simpleName
+            )
+        }
     }
 
     private fun showPointersAndShadow() = with(binding) {

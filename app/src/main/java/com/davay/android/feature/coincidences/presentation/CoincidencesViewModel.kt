@@ -22,6 +22,10 @@ class CoincidencesViewModel @Inject constructor(
     val state: StateFlow<UiState>
         get() = _state
 
+    init {
+        getCoincidences()
+    }
+
     fun getCoincidences() {
         viewModelScope.launch(Dispatchers.IO) {
             _state.emit(UiState.Loading)
@@ -35,5 +39,9 @@ class CoincidencesViewModel @Inject constructor(
                 }
             )
         }
+    }
+
+    fun isHintShown(): Boolean { // Запровайдить префы
+        return false
     }
 }
