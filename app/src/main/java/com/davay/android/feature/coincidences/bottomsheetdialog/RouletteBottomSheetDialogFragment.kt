@@ -10,8 +10,7 @@ import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.google.android.material.button.MaterialButton
 
-class RouletteBottomSheetDialogFragment(private val action: () -> Unit) :
-    BottomSheetDialogFragment() {
+class RouletteBottomSheetDialogFragment : BottomSheetDialogFragment() {
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         return BottomSheetDialog(requireContext(), com.davai.uikit.R.style.NoShadowBottomSheet)
@@ -34,10 +33,5 @@ class RouletteBottomSheetDialogFragment(private val action: () -> Unit) :
         view.findViewById<MaterialButton>(R.id.mbtn_roulette_dialog_footer_btn).setOnClickListener {
             dismiss()
         }
-    }
-
-    override fun onDetach() {
-        super.onDetach()
-        action.invoke()
     }
 }

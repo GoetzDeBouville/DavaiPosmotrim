@@ -7,6 +7,8 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.isVisible
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
@@ -30,6 +32,27 @@ class CoincidencesFragment : BaseFragment<FragmentCoincidencesBinding, Coinciden
         Toast.makeText(requireContext(), "Clicked!", Toast.LENGTH_SHORT).show()
     }
 
+    private val bottomSheetFragmentLifecycleCallbacks =
+        object : FragmentManager.FragmentLifecycleCallbacks() {
+            override fun onFragmentCreated(
+                fm: FragmentManager,
+                f: Fragment,
+                savedInstanceState: Bundle?
+            ) {
+                super.onFragmentCreated(fm, f, savedInstanceState)
+                if (f is RouletteBottomSheetDialogFragment) {
+                    showPointersAndShadow()
+                }
+            }
+
+            override fun onFragmentDestroyed(fm: FragmentManager, f: Fragment) {
+                super.onFragmentDestroyed(fm, f)
+                if (f is RouletteBottomSheetDialogFragment) {
+                    hidePointersAndShadow()
+                }
+            }
+        }
+
     override fun diComponent(): ScreenComponent = DaggerCoincidencesFragmentComponent
         .builder()
         .appComponent(AppComponentHolder.getComponent())
@@ -42,6 +65,16 @@ class CoincidencesFragment : BaseFragment<FragmentCoincidencesBinding, Coinciden
         subscribe()
         viewModel.getCoincidences()
         showBottomSheetDialogFragment()
+
+        parentFragmentManager.registerFragmentLifecycleCallbacks(
+            bottomSheetFragmentLifecycleCallbacks,
+            true
+        )
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        parentFragmentManager.unregisterFragmentLifecycleCallbacks(bottomSheetFragmentLifecycleCallbacks)
     }
 
     private fun setupMoviesGrid() = with(binding.coincidencesList) {
@@ -96,9 +129,7 @@ class CoincidencesFragment : BaseFragment<FragmentCoincidencesBinding, Coinciden
     }
 
     private fun showBottomSheetDialogFragment() {
-        val bottomSheetFragment = RouletteBottomSheetDialogFragment {
-            hidePointersAndShadow()
-        }
+        val bottomSheetFragment = RouletteBottomSheetDialogFragment()
         bottomSheetFragment.show(parentFragmentManager, bottomSheetFragment.tag)
         showPointersAndShadow()
     }
@@ -117,9 +148,8 @@ class CoincidencesFragment : BaseFragment<FragmentCoincidencesBinding, Coinciden
     }
 
     private fun addStatusBarSpacerAndShowPointer(view: View) {
-        var statusBarHeight: Int
         ViewCompat.setOnApplyWindowInsetsListener(view) { _, insets ->
-            statusBarHeight = insets.getInsets(WindowInsetsCompat.Type.statusBars()).top
+            val statusBarHeight = insets.getInsets(WindowInsetsCompat.Type.statusBars()).top
             applySpaceHeightAndShowPointer(statusBarHeight)
             insets
         }
