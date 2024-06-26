@@ -6,7 +6,7 @@ import com.davay.android.di.ComponentHolderMode
 import com.davay.android.di.ContextModule
 import com.davay.android.di.DIComponent
 import com.davay.android.di.DataBasedComponentHolder
-import com.davay.android.network.NetworkModule
+import com.davay.android.data.di.NetworkModule
 import com.davay.android.utils.ConnectionChecker
 import dagger.BindsInstance
 import dagger.Component
