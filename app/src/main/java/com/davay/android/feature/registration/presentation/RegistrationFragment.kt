@@ -5,9 +5,6 @@ import android.view.View
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
 import androidx.core.content.ContextCompat.getSystemService
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsAnimationCompat
-import androidx.core.view.WindowInsetsCompat
 import androidx.core.widget.doAfterTextChanged
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
@@ -17,6 +14,7 @@ import com.davay.android.app.MainActivity
 import com.davay.android.base.BaseFragment
 import com.davay.android.databinding.FragmentRegistrationBinding
 import com.davay.android.di.ScreenComponent
+import com.davay.android.extensions.animateBottom
 import com.davay.android.feature.registration.di.DaggerRegistrationFragmentComponent
 import kotlinx.coroutines.launch
 
@@ -32,7 +30,12 @@ class RegistrationFragment :
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         (requireActivity() as MainActivity).setKeyBoardInsets(binding.root)
-        animateBottomView()
+        animateBottom(
+            listenableView = binding.root,
+            startBottomView = binding.btnEnter,
+            endBottomView = binding.btnEnter,
+            animateView = binding.root
+        )
         showSoftKeyboard(binding.etName)
         lifecycleScope.launch {
             viewModel.state.collect { stateHandle(it) }
@@ -99,42 +102,6 @@ class RegistrationFragment :
         if (viewModel.state.value == RegistrationState.SUCCESS) {
             viewModel.navigate(R.id.action_registrationFragment_to_mainFragment)
         }
-    }
-
-    private fun animateBottomView() {
-        ViewCompat.setWindowInsetsAnimationCallback(
-            binding.root,
-            object : WindowInsetsAnimationCompat.Callback(DISPATCH_MODE_STOP) {
-                private var startBottom = 0f
-                private var endBottom = 0f
-
-                override fun onPrepare(
-                    animation: WindowInsetsAnimationCompat
-                ) {
-                    startBottom = binding.btnEnter.bottom.toFloat()
-                }
-
-                override fun onStart(
-                    animation: WindowInsetsAnimationCompat,
-                    bounds: WindowInsetsAnimationCompat.BoundsCompat
-                ): WindowInsetsAnimationCompat.BoundsCompat {
-                    endBottom = binding.btnEnter.bottom.toFloat()
-                    return bounds
-                }
-
-                override fun onProgress(
-                    insets: WindowInsetsCompat,
-                    runningAnimations: MutableList<WindowInsetsAnimationCompat>
-                ): WindowInsetsCompat {
-                    val imeAnimation = runningAnimations.find {
-                        it.typeMask and WindowInsetsCompat.Type.ime() != 0
-                    } ?: return insets
-                    binding.root.translationY =
-                        (startBottom - endBottom) * (1 - imeAnimation.interpolatedFraction)
-                    return insets
-                }
-            }
-        )
     }
 
     companion object {

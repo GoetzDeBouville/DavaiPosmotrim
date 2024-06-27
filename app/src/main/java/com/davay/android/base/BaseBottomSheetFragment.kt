@@ -8,7 +8,6 @@ import android.view.ViewGroup
 import android.view.WindowManager
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowCompat
-import androidx.core.view.WindowInsetsAnimationCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.updateLayoutParams
 import androidx.fragment.app.viewModels
@@ -16,6 +15,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.viewbinding.ViewBinding
 import com.davay.android.di.ScreenComponent
+import com.davay.android.extensions.animateBottom
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 
 abstract class BaseBottomSheetFragment<VB : ViewBinding, VM : BaseViewModel>(
@@ -108,39 +108,11 @@ abstract class BaseBottomSheetFragment<VB : ViewBinding, VM : BaseViewModel>(
             windowInsets
         }
 
-        // api 30+
-        ViewCompat.setWindowInsetsAnimationCallback(
-            binding.root.rootView,
-            object : WindowInsetsAnimationCompat.Callback(DISPATCH_MODE_CONTINUE_ON_SUBTREE) {
-                private var startBottom = 0f
-                private var endBottom = 0f
-
-                override fun onPrepare(
-                    animation: WindowInsetsAnimationCompat
-                ) {
-                    startBottom = binding.root.rootView.bottom.toFloat()
-                }
-
-                override fun onStart(
-                    animation: WindowInsetsAnimationCompat,
-                    bounds: WindowInsetsAnimationCompat.BoundsCompat
-                ): WindowInsetsAnimationCompat.BoundsCompat {
-                    endBottom = binding.root.bottom.toFloat()
-                    return bounds
-                }
-
-                override fun onProgress(
-                    insets: WindowInsetsCompat,
-                    runningAnimations: MutableList<WindowInsetsAnimationCompat>
-                ): WindowInsetsCompat {
-                    val imeAnimation = runningAnimations.find {
-                        it.typeMask and WindowInsetsCompat.Type.ime() != 0
-                    } ?: return insets
-                    movingView.translationY =
-                        (startBottom - endBottom) * (1 - imeAnimation.interpolatedFraction)
-                    return insets
-                }
-            }
+        animateBottom(
+            listenableView = binding.root.rootView,
+            startBottomView = binding.root.rootView,
+            endBottomView = binding.root,
+            animateView = movingView
         )
     }
 }
