@@ -74,7 +74,7 @@ class MatchBottomSheetFragment : BottomSheetDialogFragment() {
     private fun initViews() {
         buildBottomSheet()
         hideUnusedItems()
-        if (buttonText != null) setButtonText(buttonText!!)
+        buttonText?.let { setButtonText(it) }
     }
 
     private fun subscribe() {
@@ -126,7 +126,7 @@ class MatchBottomSheetFragment : BottomSheetDialogFragment() {
         }
     }
 
-    fun setButtonText(text: String) {
+    private fun setButtonText(text: String) {
         binding.progressButtonItem.progressButton.text = text
     }
 
