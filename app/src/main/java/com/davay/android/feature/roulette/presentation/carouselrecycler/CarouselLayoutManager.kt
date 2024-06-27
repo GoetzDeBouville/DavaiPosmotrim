@@ -22,7 +22,8 @@ class CarouselLayoutManager(
         dx: Int,
         recycler: RecyclerView.Recycler,
         state: RecyclerView.State
-    ) = super.scrollHorizontallyBy(dx, recycler, state).also { applyScaleAndTranslationToChildren() }
+    ) = super.scrollHorizontallyBy(dx, recycler, state)
+        .also { applyScaleAndTranslationToChildren() }
 
     private fun applyScaleAndTranslationToChildren() {
         val containerCenter = width / 2f
@@ -30,27 +31,26 @@ class CarouselLayoutManager(
         var translationXForward = 0f
 
         for (i in 0 until childCount) {
-            val child = getChildAt(i)!!
+            getChildAt(i)?.let { child ->
+                val childCenter = (child.left + child.right) / 2f
+                val distanceToCenter = abs(childCenter - containerCenter)
 
-            val childCenter = (child.left + child.right) / 2f
-            val distanceToCenter = abs(childCenter - containerCenter)
+                val scaleDownAmount = (distanceToCenter / scaleDistanceThreshold).coerceAtMost(1f)
+                val scale = 1f - scaleDownBy * scaleDownAmount
 
-            val scaleDownAmount = (distanceToCenter / scaleDistanceThreshold).coerceAtMost(1f)
-            val scale = 1f - scaleDownBy * scaleDownAmount
+                child.scaleX = scale
+                child.scaleY = scale
 
-            child.scaleX = scale
-            child.scaleY = scale
+                val translationDirection = if (childCenter > containerCenter) -1 else 1
+                val translationXFromScale = translationDirection * child.width * (1 - scale) / 2f
+                child.translationX = translationXFromScale + translationXForward
+                translationXForward = 0f
 
-            val translationDirection = if (childCenter > containerCenter) -1 else 1
-            val translationXFromScale = translationDirection * child.width * (1 - scale) / 2f
-            child.translationX = translationXFromScale + translationXForward
-
-            translationXForward = 0f
-
-            if (translationXFromScale > 0 && i >= 1) {
-                getChildAt(i - 1)!!.translationX += 2 * translationXFromScale
-            } else if (translationXFromScale < 0) {
-                translationXForward = 2 * translationXFromScale
+                if (translationXFromScale > 0 && i >= 1) {
+                    getChildAt(i - 1)!!.translationX += 2 * translationXFromScale
+                } else if (translationXFromScale < 0) {
+                    translationXForward = 2 * translationXFromScale
+                }
             }
         }
     }

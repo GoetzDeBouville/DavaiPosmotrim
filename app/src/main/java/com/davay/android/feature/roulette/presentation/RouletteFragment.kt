@@ -36,8 +36,8 @@ import kotlinx.coroutines.launch
 class RouletteFragment :
     BaseFragment<FragmentRouletteBinding, RouletteViewModel>(FragmentRouletteBinding::inflate) {
 
-    override val viewModel: RouletteViewModel by injectViewModel<RouletteViewModel>()
-    private val carouselAdapter: CarouselAdapter = CarouselAdapter()
+    override val viewModel by injectViewModel<RouletteViewModel>()
+    private val carouselAdapter = CarouselAdapter()
     private val bottomSheetBehaviorWaiting by lazy { BottomSheetBehavior.from(binding.bottomSheetWaiting) }
     private val bottomSheetBehaviorIntro by lazy { BottomSheetBehavior.from(binding.bottomSheetIntro) }
     private val fragmentLifecycleCallbacks = object : FragmentManager.FragmentLifecycleCallbacks() {
@@ -188,6 +188,13 @@ class RouletteFragment :
             val currentPosition =
                 (binding.recyclerViewRoulette.layoutManager as CarouselLayoutManager)
                     .findLastVisibleItemPosition()
+            /*
+            Порядковый номер последнего видимого элемента прокручиваемого списка (максимум Integer.MAX_VALUE)
+            делим и умножаем на количество фильмов.
+            Получим количество пройденных элементов, кратное количеству фильмов.
+            Прибавляем state.index (это индекс нужного фильма в списке фильмов).
+            Для красоты делаем несколько полных оборотов (ROULETTE_SCROLL_COEFFICIENT).
+            */
             val position =
                 currentPosition / state.count * state.count + state.count * ROULETTE_SCROLL_COEFFICIENT + state.index
             startRouletteScrolling(position)

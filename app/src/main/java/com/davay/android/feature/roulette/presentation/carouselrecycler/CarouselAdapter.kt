@@ -10,7 +10,7 @@ import com.davay.android.feature.selectmovie.domain.models.MovieDetailsDemo
 class CarouselAdapter :
     RecyclerView.Adapter<FilmViewHolder>() {
 
-    private val films: MutableList<MovieDetailsDemo> = mutableListOf()
+    private val films = mutableListOf<MovieDetailsDemo>()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FilmViewHolder {
         val inflater = LayoutInflater.from(parent.context)

@@ -10,6 +10,8 @@ import kotlin.math.roundToInt
 class FilmViewHolder(private val binding: ItemSwipeableMovieCardBinding, parentWidth: Int) :
     RecyclerView.ViewHolder(binding.root) {
 
+    private val movieDetailsHelper: MovieDetailsHelper = MovieDetailsHelperImpl()
+
     init {
         binding.root.layoutParams = RecyclerView.LayoutParams(
             (parentWidth * WIDTH_PERCENT).roundToInt(),
@@ -18,8 +20,6 @@ class FilmViewHolder(private val binding: ItemSwipeableMovieCardBinding, parentW
     }
 
     fun bind(film: MovieDetailsDemo) {
-        val movieDetailsHelper: MovieDetailsHelper = MovieDetailsHelperImpl()
-
         binding.tvFilmTitle.text = film.movieName
         binding.tvOriginalTitle.text = film.englishName
         binding.tvYearCountryRuntime.text =

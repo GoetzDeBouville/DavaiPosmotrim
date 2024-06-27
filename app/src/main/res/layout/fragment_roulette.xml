@@ -23,8 +23,6 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"
             app:layout_constraintBottom_toTopOf="@id/gl_bottom"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/gl_top"
             tools:itemCount="10"
             tools:listitem="@layout/item_swipeable_movie_card" />
@@ -35,11 +33,6 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             app:layout_constraintGuide_percent="0.8" />
-
-        <include
-            android:id="@+id/included_film"
-            layout="@layout/item_swipeable_movie_card"
-            android:visibility="gone" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -75,8 +68,6 @@
             android:textAppearance="@style/Text.Headline.SubTitle"
             android:textColor="@color/text_headings"
             app:layout_constraintBottom_toTopOf="@id/gl_bs_top"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
         <androidx.recyclerview.widget.RecyclerView
@@ -87,8 +78,6 @@
             android:layout_marginBottom="@dimen/margin_32"
             app:layout_constrainedHeight="true"
             app:layout_constraintBottom_toTopOf="@id/gl_bs_bottom"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/gl_bs_top" />
 
         <TextView
@@ -101,8 +90,6 @@
             android:textAppearance="@style/Text.Base.Medium.Regular"
             android:textColor="@color/text_caption_light"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/gl_bs_bottom" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
