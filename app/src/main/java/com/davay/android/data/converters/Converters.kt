@@ -9,9 +9,9 @@ import com.davay.android.data.dto.UserDto
 import com.davay.android.domain.models.Collection
 import com.davay.android.domain.models.Genre
 import com.davay.android.domain.models.MovieDetails
+import com.davay.android.domain.models.Session
 import com.davay.android.domain.models.ShortMovie
 import com.davay.android.domain.models.User
-import com.davay.android.domain.models.Session
 
 fun CollectionDto.convert() = Collection(
     id,
