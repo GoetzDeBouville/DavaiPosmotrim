@@ -1,7 +1,9 @@
 package com.davay.android.data.dto
 
+import com.google.gson.annotations.SerializedName
+
 data class CollectionDto(
-    val id: Int,
+    @SerializedName("slug") val id: String,
     val name: String,
-    val imgUrl: String
+    @SerializedName("cover") val imgUrl: String
 )
