@@ -33,6 +33,14 @@
         android:layout_marginTop="@dimen/margin_12"
         android:text="@string/roulette_bottomsheet_dialog_randomly_choose_film" />
 
+    <TextView
+        style="@style/Text.Base.Medium.Bold.NoLineSpacing"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/margin_16"
+        android:layout_marginTop="@dimen/margin_12"
+        android:text="@string/roulette_bottomsheet_dialog_roulete_lounch_condition" />
+
     <com.google.android.material.button.MaterialButton
         android:id="@+id/mbtn_roulette_dialog_footer_btn"
         android:layout_width="match_parent"
