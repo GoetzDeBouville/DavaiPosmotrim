@@ -5,31 +5,31 @@ import com.davay.android.domain.models.ErrorType
 import retrofit2.HttpException
 
 class ErrorHandlerImpl : ErrorHandler {
-    override fun handleErrorCode(resultCode: Int): Resource.Error {
-        return when (resultCode) {
-            ApiConstants.BAD_REQUEST -> Resource.Error(ErrorType.BAD_REQUEST)
-            ApiConstants.UNAUTHORIZED -> Resource.Error(ErrorType.UNAUTHORIZED)
-            ApiConstants.FORBIDDEN -> Resource.Error(ErrorType.FORBIDDEN)
-            ApiConstants.NOT_FOUND -> Resource.Error(ErrorType.NOT_FOUND)
-            ApiConstants.CONFLICT -> Resource.Error(ErrorType.CONFLICT)
-            ApiConstants.UNPROCESSABLE_ENTITY -> Resource.Error(ErrorType.UNPROCESSABLE_ENTITY)
-            ApiConstants.INTERNAL_SERVER_ERROR -> Resource.Error(ErrorType.INTERNAL_SERVER_ERROR)
-            ApiConstants.BAD_GATEWAY -> Resource.Error(ErrorType.BAD_GATEWAY)
-            else -> Resource.Error(ErrorType.UNEXPECTED)
+    override fun handleErrorCode(resultCode: Int) = Resource.Error(
+        when (resultCode) {
+            ApiConstants.BAD_REQUEST -> ErrorType.BAD_REQUEST
+            ApiConstants.UNAUTHORIZED -> ErrorType.UNAUTHORIZED
+            ApiConstants.FORBIDDEN -> ErrorType.FORBIDDEN
+            ApiConstants.NOT_FOUND -> ErrorType.NOT_FOUND
+            ApiConstants.CONFLICT -> ErrorType.CONFLICT
+            ApiConstants.UNPROCESSABLE_ENTITY -> ErrorType.UNPROCESSABLE_ENTITY
+            ApiConstants.INTERNAL_SERVER_ERROR -> ErrorType.INTERNAL_SERVER_ERROR
+            ApiConstants.BAD_GATEWAY -> ErrorType.BAD_GATEWAY
+            else -> ErrorType.UNEXPECTED
         }
-    }
+    )
 
-    override fun handleHttpException(exception: HttpException): Resource.Error {
-        return when (exception.code()) {
-            ApiConstants.BAD_REQUEST -> Resource.Error(ErrorType.BAD_REQUEST)
-            ApiConstants.UNAUTHORIZED -> Resource.Error(ErrorType.UNAUTHORIZED)
-            ApiConstants.FORBIDDEN -> Resource.Error(ErrorType.FORBIDDEN)
-            ApiConstants.NOT_FOUND -> Resource.Error(ErrorType.NOT_FOUND)
-            ApiConstants.CONFLICT -> Resource.Error(ErrorType.CONFLICT)
-            ApiConstants.UNPROCESSABLE_ENTITY -> Resource.Error(ErrorType.UNPROCESSABLE_ENTITY)
-            ApiConstants.INTERNAL_SERVER_ERROR -> Resource.Error(ErrorType.INTERNAL_SERVER_ERROR)
-            ApiConstants.BAD_GATEWAY -> Resource.Error(ErrorType.BAD_GATEWAY)
-            else -> Resource.Error(ErrorType.UNEXPECTED)
+    override fun handleHttpException(exception: HttpException) = Resource.Error (
+        when (exception.code()) {
+            ApiConstants.BAD_REQUEST -> ErrorType.BAD_REQUEST
+            ApiConstants.UNAUTHORIZED -> ErrorType.UNAUTHORIZED
+            ApiConstants.FORBIDDEN -> ErrorType.FORBIDDEN
+            ApiConstants.NOT_FOUND -> ErrorType.NOT_FOUND
+            ApiConstants.CONFLICT -> ErrorType.CONFLICT
+            ApiConstants.UNPROCESSABLE_ENTITY -> ErrorType.UNPROCESSABLE_ENTITY
+            ApiConstants.INTERNAL_SERVER_ERROR -> ErrorType.INTERNAL_SERVER_ERROR
+            ApiConstants.BAD_GATEWAY -> ErrorType.BAD_GATEWAY
+            else -> ErrorType.UNEXPECTED
         }
-    }
+    )
 }
