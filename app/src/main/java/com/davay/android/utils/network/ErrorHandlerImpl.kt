@@ -19,7 +19,7 @@ class ErrorHandlerImpl : ErrorHandler {
         }
     )
 
-    override fun handleHttpException(exception: HttpException) = Resource.Error (
+    override fun handleHttpException(exception: HttpException) = Resource.Error(
         when (exception.code()) {
             ApiConstants.BAD_REQUEST -> ErrorType.BAD_REQUEST
             ApiConstants.UNAUTHORIZED -> ErrorType.UNAUTHORIZED
