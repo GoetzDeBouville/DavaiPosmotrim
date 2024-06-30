@@ -37,7 +37,6 @@ class RouletteFragment :
     BaseFragment<FragmentRouletteBinding, RouletteViewModel>(FragmentRouletteBinding::inflate) {
 
     override val viewModel by injectViewModel<RouletteViewModel>()
-    private val carouselAdapter = CarouselAdapter()
     private val bottomSheetBehaviorWaiting by lazy { BottomSheetBehavior.from(binding.bottomSheetWaiting) }
     private val bottomSheetBehaviorIntro by lazy { BottomSheetBehavior.from(binding.bottomSheetIntro) }
     private val fragmentLifecycleCallbacks = object : FragmentManager.FragmentLifecycleCallbacks() {
@@ -65,6 +64,7 @@ class RouletteFragment :
     }
 
     override fun onDestroyView() {
+        binding.recyclerViewRoulette.clearOnScrollListeners()
         super.onDestroyView()
         parentFragmentManager.unregisterFragmentLifecycleCallbacks(fragmentLifecycleCallbacks)
     }
@@ -76,6 +76,7 @@ class RouletteFragment :
     private fun handleStartFragment() {
         val isInitiator: Boolean? = arguments?.getBoolean(ROULETTE_INITIATOR)
         if (isInitiator == true) {
+            arguments?.remove(ROULETTE_INITIATOR)
             initBottomSheetIntro()
         } else {
             bottomSheetBehaviorIntro.state = BottomSheetBehavior.STATE_HIDDEN
@@ -98,7 +99,9 @@ class RouletteFragment :
     }
 
     private fun initRecyclerRoulette(films: List<MovieDetailsDemo>) {
-        carouselAdapter.addFilms(films)
+        val carouselAdapter = CarouselAdapter().apply {
+            addFilms(films)
+        }
         with(binding.recyclerViewRoulette) {
             layoutManager = CarouselLayoutManager(requireContext())
             adapter = carouselAdapter
@@ -128,7 +131,7 @@ class RouletteFragment :
                 RecyclerView.OnScrollListener() {
                 override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
                     super.onScrollStateChanged(recyclerView, newState)
-                    if (newState == RecyclerView.SCROLL_STATE_IDLE) {
+                    if (newState == RecyclerView.SCROLL_STATE_IDLE && activity?.isDestroyed == false) {
                         viewModel.rouletteScrollingStopped()
                     }
                 }
@@ -178,9 +181,14 @@ class RouletteFragment :
             buttonText = getString(R.string.roulette_to_film_list)
         )
         matchBottomSheetFragment.show(parentFragmentManager, matchBottomSheetFragment.tag)
+
     }
 
     private fun handleRouletteState(state: RouletteState.Roulette) {
+        if (binding.recyclerViewRoulette.adapter == null) {
+            initBottomSheetWaiting(state.users)
+            initRecyclerRoulette(state.films)
+        }
         binding.recyclerViewRoulette.stopScroll()
         lifecycleScope.launch {
             delay(DELAY_TIME_MS_1000)
@@ -202,6 +210,10 @@ class RouletteFragment :
     }
 
     private fun handleWaitingState(state: RouletteState.Waiting) {
+        if (binding.rvParticipants.adapter == null) {
+            initBottomSheetWaiting(state.users)
+            initRecyclerRoulette(state.films)
+        }
         state.users.forEachIndexed { index, user ->
             if (user.isConnected) {
                 (binding.rvParticipants.adapter as UserAdapter).updateItem(index, user)

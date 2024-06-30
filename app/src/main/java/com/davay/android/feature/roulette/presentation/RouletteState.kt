@@ -10,10 +10,20 @@ sealed interface RouletteState {
     ) : RouletteState
 
     class Waiting(
-        val users: List<UserRouletteModel>
+        val users: List<UserRouletteModel>,
+        val films: List<MovieDetailsDemo>
     ) : RouletteState
 
-    class Roulette(val index: Int, val count: Int) : RouletteState
-    data class Match constructor(val film: MovieDetailsDemo) : RouletteState
+    class Roulette(
+        val index: Int,
+        val count: Int,
+        val users: List<UserRouletteModel>,
+        val films: List<MovieDetailsDemo>
+    ) : RouletteState
+
+    data class Match constructor(
+        val film: MovieDetailsDemo,
+    ) : RouletteState
+
     object Error : RouletteState
 }

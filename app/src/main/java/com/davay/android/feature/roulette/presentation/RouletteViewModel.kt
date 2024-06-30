@@ -98,11 +98,16 @@ class RouletteViewModel @Inject constructor() : BaseViewModel() {
                     _state.value = RouletteState.Error
                 } else {
                     users = list
-                    _state.value = RouletteState.Waiting(users)
+                    _state.value = RouletteState.Waiting(users = users, films = films)
                     if (users.all { it.isConnected }) {
                         delay(DELAY_TIME_MS_1000)
                         val index = films.indexOfFirst { it.kinopoiskId == watchFilmId }
-                        _state.value = RouletteState.Roulette(index, films.size)
+                        _state.value = RouletteState.Roulette(
+                            index = index,
+                            count = films.size,
+                            users = users,
+                            films = films
+                        )
                     }
                 }
             }
