@@ -4,7 +4,7 @@ import com.davay.android.feature.splash.domain.OnBoardingRepository
 
 class OnBoardingRepositoryImpl(
     private val isNotFirstTimeStorage: IsNotFirstTimeStorage
-): OnBoardingRepository {
+) : OnBoardingRepository {
     override fun getIsNotFirstTime(): Boolean {
         return isNotFirstTimeStorage.getIsNotFirstTime()
     }

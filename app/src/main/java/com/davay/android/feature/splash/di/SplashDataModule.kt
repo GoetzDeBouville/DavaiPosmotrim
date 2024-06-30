@@ -13,15 +13,20 @@ import dagger.Provides
 @Module
 class SplashDataModule {
     @Provides
-    fun onBoardingRepository(isNotFirstTimeStorage: IsNotFirstTimeStorage): OnBoardingRepository = OnBoardingRepositoryImpl(isNotFirstTimeStorage)
+    fun onBoardingRepository(isNotFirstTimeStorage: IsNotFirstTimeStorage): OnBoardingRepository =
+        OnBoardingRepositoryImpl(isNotFirstTimeStorage)
 
     @Provides
-    fun onBoardingInteractor(repository: OnBoardingRepository): OnBoardingInteractror = OnBoardingInteractorImpl(repository)
+    fun onBoardingInteractor(repository: OnBoardingRepository): OnBoardingInteractror =
+        OnBoardingInteractorImpl(repository)
 
     @Provides
-    fun isFirstTimeStorage(sharedPreferences: SharedPreferences): IsNotFirstTimeStorage = IsNotFirstTimeStorage(sharedPreferences)
+    fun isFirstTimeStorage(sharedPreferences: SharedPreferences): IsNotFirstTimeStorage =
+        IsNotFirstTimeStorage(sharedPreferences)
 
     @Provides
-    fun sharedPreferences(context: Context): SharedPreferences = context.getSharedPreferences("sharedPreferences",
-        Context.MODE_PRIVATE)
+    fun sharedPreferences(context: Context): SharedPreferences = context.getSharedPreferences(
+        "sharedPreferences",
+        Context.MODE_PRIVATE
+    )
 }
