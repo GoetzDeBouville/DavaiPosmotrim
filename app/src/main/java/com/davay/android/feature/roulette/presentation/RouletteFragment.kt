@@ -1,7 +1,6 @@
 package com.davay.android.feature.roulette.presentation
 
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.fragment.app.Fragment
@@ -54,7 +53,6 @@ class RouletteFragment :
             .build()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        Log.d("MyTag", "onViewCreated")
         super.onViewCreated(view, savedInstanceState)
         parentFragmentManager.registerFragmentLifecycleCallbacks(fragmentLifecycleCallbacks, true)
         lifecycleScope.launch {
@@ -69,36 +67,14 @@ class RouletteFragment :
         }
     }
 
-    override fun onStart() {
-        super.onStart()
-        Log.d("MyTag", "onStart")
-    }
-
     override fun onResume() {
         super.onResume()
-        Log.d("MyTag", "onResume")
         if (viewModel.state.value is RouletteState.Match) {
             handleMatchState(viewModel.state.value as RouletteState.Match)
         }
     }
 
-    override fun onPause() {
-        super.onPause()
-        Log.d("MyTag", "onPause")
-    }
-
-    override fun onStop() {
-        super.onStop()
-        Log.d("MyTag", "onStop")
-    }
-
-    override fun onSaveInstanceState(outState: Bundle) {
-        super.onSaveInstanceState(outState)
-        Log.d("MyTag", "outState: $outState")
-    }
-
     override fun onDestroyView() {
-        Log.d("MyTag", "onDestroyView")
         binding.recyclerViewRoulette.clearOnScrollListeners()
         super.onDestroyView()
         parentFragmentManager.unregisterFragmentLifecycleCallbacks(fragmentLifecycleCallbacks)
@@ -109,7 +85,6 @@ class RouletteFragment :
      *  Для остальных пусто или false.
      */
     private fun handleStartFragment() {
-        Log.d("MyTag", "handleStartFragment")
         val isInitiator: Boolean? = arguments?.getBoolean(ROULETTE_INITIATOR)
         if (isInitiator == true) {
             arguments?.remove(ROULETTE_INITIATOR)
@@ -121,7 +96,6 @@ class RouletteFragment :
     }
 
     private fun initBottomSheetIntro() {
-        Log.d("MyTag", "initBottomSheetIntro")
         bottomSheetBehaviorIntro.state = BottomSheetBehavior.STATE_EXPANDED
         bottomSheetBehaviorIntro.isHideable = false
         binding.btnCancel.setOnClickListener {
@@ -136,7 +110,6 @@ class RouletteFragment :
     }
 
     private fun initRecyclerRoulette(films: List<MovieDetailsDemo>) {
-        Log.d("MyTag", "initRecyclerRoulette")
         val carouselAdapter = CarouselAdapter().apply {
             addFilms(films)
         }
@@ -151,7 +124,6 @@ class RouletteFragment :
     }
 
     private fun startAutoScrolling() {
-        Log.d("MyTag", "startAutoScrolling")
         with(binding.recyclerViewRoulette) {
             (layoutManager as CarouselLayoutManager).setSlowSpeedTransition()
             post {
@@ -161,7 +133,6 @@ class RouletteFragment :
     }
 
     private fun startRouletteScrolling(position: Int) {
-        Log.d("MyTag", "startRouletteScrolling")
         with(binding.recyclerViewRoulette) {
             (layoutManager as CarouselLayoutManager).setFastSpeedTransition()
             post {
@@ -180,13 +151,11 @@ class RouletteFragment :
     }
 
     private fun hideBottomSheetWaiting() {
-        Log.d("MyTag", "hideBottomSheetWaiting")
         bottomSheetBehaviorWaiting.isHideable = true
         bottomSheetBehaviorWaiting.state = BottomSheetBehavior.STATE_HIDDEN
     }
 
     private fun initBottomSheetWaiting(participantsList: List<UserRouletteModel>) {
-        Log.d("MyTag", "initBottomSheetWaiting")
         bottomSheetBehaviorWaiting.state = BottomSheetBehavior.STATE_EXPANDED
         binding.rvParticipants.adapter = UserAdapter().apply {
             setItems(participantsList)
@@ -203,7 +172,6 @@ class RouletteFragment :
     }
 
     private fun handleState(state: RouletteState) {
-        Log.d("MyTag", "handleState: $state")
         when (state) {
             RouletteState.Error -> handleErrorState()
             is RouletteState.Match -> {
@@ -219,12 +187,10 @@ class RouletteFragment :
     }
 
     private fun handleErrorState() {
-        Log.d("MyTag", "handleErrorState")
         Toast.makeText(requireContext(), "Ошибка", Toast.LENGTH_SHORT).show()
     }
 
     private fun handleMatchState(state: RouletteState.Match) {
-        Log.d("MyTag", "handleMatchState")
         val movieDetails = Gson().toJson(state.film)
         val matchBottomSheetFragment = MatchBottomSheetFragment.newInstance(
             movieDetails = movieDetails,
@@ -234,7 +200,6 @@ class RouletteFragment :
     }
 
     private fun handleRouletteState(state: RouletteState.Roulette) {
-        Log.d("MyTag", "handleRouletteState: $state")
         if (binding.recyclerViewRoulette.adapter == null) {
             initBottomSheetWaiting(state.users)
             initRecyclerRoulette(state.films)
@@ -246,13 +211,11 @@ class RouletteFragment :
             val currentPosition =
                 (binding.recyclerViewRoulette.layoutManager as CarouselLayoutManager)
                     .findLastVisibleItemPosition()
-            /*
-            Порядковый номер последнего видимого элемента прокручиваемого списка (максимум Integer.MAX_VALUE)
+            /* Порядковый номер последнего видимого элемента прокручиваемого списка (максимум Integer.MAX_VALUE)
             делим и умножаем на количество фильмов.
             Получим количество пройденных элементов, кратное количеству фильмов.
             Прибавляем state.index (это индекс нужного фильма в списке фильмов).
-            Для красоты делаем несколько полных оборотов (ROULETTE_SCROLL_COEFFICIENT).
-            */
+            Для красоты делаем несколько полных оборотов (ROULETTE_SCROLL_COEFFICIENT). */
             val position =
                 currentPosition / state.count * state.count + state.count * ROULETTE_SCROLL_COEFFICIENT + state.index
             startRouletteScrolling(position)
@@ -260,7 +223,6 @@ class RouletteFragment :
     }
 
     private fun handleWaitingState(state: RouletteState.Waiting) {
-        Log.d("MyTag", "handleWaitingState")
         if (binding.rvParticipants.adapter == null) {
             initBottomSheetWaiting(state.users)
             initRecyclerRoulette(state.films)
@@ -273,7 +235,6 @@ class RouletteFragment :
     }
 
     private fun handleInitState(state: RouletteState.Init) {
-        Log.d("MyTag", "handleInitState")
         initBottomSheetWaiting(state.users)
         initRecyclerRoulette(state.films)
     }
