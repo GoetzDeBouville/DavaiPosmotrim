@@ -8,12 +8,13 @@ import com.davai.uikit_sample.databinding.ActivityProgressbarViewExampleBinding
 
 class ProgressBarViewExample : AppCompatActivity() {
 
-    private lateinit var binding: ActivityProgressbarViewExampleBinding
+    private val binding: ActivityProgressbarViewExampleBinding by lazy {
+        ActivityProgressbarViewExampleBinding.inflate(layoutInflater)
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
-        binding = ActivityProgressbarViewExampleBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
         showProgressBar(true)

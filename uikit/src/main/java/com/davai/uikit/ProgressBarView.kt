@@ -17,14 +17,17 @@ class ProgressBarView @JvmOverloads constructor(
     defStyleAttr: Int = 0
 ) : View(context, attrs, defStyleAttr) {
 
-    private val paint = Paint(Paint.ANTI_ALIAS_FLAG)
+    private val paint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
+        style = Paint.Style.STROKE
+        strokeWidth = STROKE_WIDTH
+    }
     private var rotationAngle = 0f
     private val rectF = RectF()
-    private lateinit var gradient: SweepGradient
+    private var gradient: SweepGradient? = null
 
     init {
-        ValueAnimator.ofFloat(0f, 360f).apply {
-            duration = 1400L
+        ValueAnimator.ofFloat(0f, FULL_ROTATION).apply {
+            duration = ANIMATION_DURATION
             interpolator = LinearInterpolator()
             addUpdateListener { animation ->
                 rotationAngle = animation.animatedValue as Float
@@ -34,9 +37,6 @@ class ProgressBarView @JvmOverloads constructor(
             repeatCount = ValueAnimator.INFINITE
             start()
         }
-
-        paint.style = Paint.Style.STROKE
-        paint.strokeWidth = 25f
     }
 
     override fun onDraw(canvas: Canvas) {
@@ -48,15 +48,22 @@ class ProgressBarView @JvmOverloads constructor(
 
         rectF.set(cx - radius, cy - radius, cx + radius, cy + radius)
 
-        val colors = intArrayOf(Color.DKGRAY, Color.GRAY, Color.LTGRAY, Color.WHITE)
-        val positions = floatArrayOf(0f, 0.2f, 0.4f, 1f)
-        gradient = SweepGradient(cx, cy, colors, positions)
+        if (gradient == null) {
+            gradient = SweepGradient(cx, cy, GRADIENT_COLORS, GRADIENT_POSITIONS)
+        }
 
         paint.shader = gradient
 
         canvas.save()
         canvas.rotate(rotationAngle, cx, cy)
-        canvas.drawArc(rectF, 0f, 360f, false, paint)
+        canvas.drawArc(rectF, 0f, FULL_ROTATION, false, paint)
         canvas.restore()
+    }
+    companion object {
+        private const val ANIMATION_DURATION = 1400L
+        private const val STROKE_WIDTH = 25f
+        private val GRADIENT_COLORS = intArrayOf(Color.DKGRAY, Color.GRAY, Color.LTGRAY, Color.WHITE)
+        private val GRADIENT_POSITIONS = floatArrayOf(0f, 0.2f, 0.4f, 1f)
+        private const val FULL_ROTATION = 360f
     }
 }
