@@ -41,11 +41,16 @@ class SplashFragment :
         val bundle = Bundle().apply {
             putInt(OnboardingFragment.ONBOARDING_KEY, OnboardingFragment.ONBOARDING_MAIN_SET)
         }
-        lifecycleScope.launch {
-            addTextViewsWithDelay()
-            delay(DELAY_4000_MS)
-            viewModel.navigate(R.id.action_splashFragment_to_onboardingFragment, bundle)
-        }
+            lifecycleScope.launch {
+                addTextViewsWithDelay()
+                delay(DELAY_4000_MS)
+                if (viewModel.getIsFirstTime()) {
+                    viewModel.navigate(R.id.action_splashFragment_to_mainFragment, bundle)
+                } else {
+                    viewModel.setIsFirstTime(true)
+                    viewModel.navigate(R.id.action_splashFragment_to_onboardingFragment, bundle)
+                }
+            }
     }
 
     private fun getSensorAccelerometer() {

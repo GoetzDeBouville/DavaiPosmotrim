@@ -2,7 +2,7 @@ package com.davay.android.feature.splash.domain
 
 class OnBoardingInteractorImpl(
     private val repository: OnBoardingRepository
-): OnBoardingIteractror {
+): OnBoardingInteractror {
     override fun setIsFirstTime(isFirstTime: Boolean) {
         repository.setIsFirstTime(isFirstTime)
     }
