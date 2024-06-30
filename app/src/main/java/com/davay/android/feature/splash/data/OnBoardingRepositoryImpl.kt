@@ -3,13 +3,13 @@ package com.davay.android.feature.splash.data
 import com.davay.android.feature.splash.domain.OnBoardingRepository
 
 class OnBoardingRepositoryImpl(
-    private val isFirstTimeStorage: IsFirstTimeStorage
+    private val isNotFirstTimeStorage: IsNotFirstTimeStorage
 ): OnBoardingRepository {
-    override fun getIsFirstTime(): Boolean {
-        return isFirstTimeStorage.getIsFirstTime()
+    override fun getIsNotFirstTime(): Boolean {
+        return isNotFirstTimeStorage.getIsNotFirstTime()
     }
 
-    override fun setIsFirstTime(isFirstTime: Boolean) {
-        isFirstTimeStorage.setIsFirstTime(isFirstTime)
+    override fun setIsNotFirstTime(isNotFirstTime: Boolean) {
+        isNotFirstTimeStorage.setIsNotFirstTime(isNotFirstTime)
     }
 }

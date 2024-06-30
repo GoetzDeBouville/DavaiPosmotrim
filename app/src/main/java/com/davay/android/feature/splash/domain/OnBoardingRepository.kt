@@ -1,6 +1,6 @@
 package com.davay.android.feature.splash.domain
 
 interface OnBoardingRepository {
-    fun getIsFirstTime(): Boolean
-    fun setIsFirstTime(isFirstTime: Boolean)
+    fun getIsNotFirstTime(): Boolean
+    fun setIsNotFirstTime(isNotFirstTime: Boolean)
 }
