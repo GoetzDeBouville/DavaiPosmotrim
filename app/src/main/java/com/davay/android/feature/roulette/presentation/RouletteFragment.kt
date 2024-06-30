@@ -62,8 +62,10 @@ class RouletteFragment :
                 handleState(it)
             }
         }
-        if (viewModel.state.value !is RouletteState.Match) {
+        if (viewModel.state.value !is RouletteState.Match && viewModel.state.value !is RouletteState.Error) {
             handleStartFragment()
+        } else {
+            bottomSheetBehaviorIntro.state = BottomSheetBehavior.STATE_HIDDEN
         }
     }
 
