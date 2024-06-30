@@ -49,7 +49,7 @@ class ProgressBarView @JvmOverloads constructor(
         rectF.set(cx - radius, cy - radius, cx + radius, cy + radius)
 
         val colors = intArrayOf(Color.DKGRAY, Color.GRAY, Color.LTGRAY, Color.WHITE)
-        val positions = floatArrayOf(0f, 0.3f, 0.6f, 1f)
+        val positions = floatArrayOf(0f, 0.2f, 0.4f, 1f)
         gradient = SweepGradient(cx, cy, colors, positions)
 
         paint.shader = gradient
