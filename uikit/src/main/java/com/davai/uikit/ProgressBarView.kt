@@ -9,7 +9,7 @@ import android.graphics.RectF
 import android.graphics.SweepGradient
 import android.util.AttributeSet
 import android.view.View
-import androidx.interpolator.view.animation.FastOutSlowInInterpolator
+import android.view.animation.LinearInterpolator
 
 class ProgressBarView @JvmOverloads constructor(
     context: Context,
@@ -18,16 +18,16 @@ class ProgressBarView @JvmOverloads constructor(
 ) : View(context, attrs, defStyleAttr) {
 
     private val paint = Paint(Paint.ANTI_ALIAS_FLAG)
-    private var progress = 0f
+    private var rotationAngle = 0f
     private val rectF = RectF()
     private lateinit var gradient: SweepGradient
 
     init {
-        ValueAnimator.ofFloat(0f, 1f).apply {
-            duration = 2400L
-            interpolator = FastOutSlowInInterpolator()
+        ValueAnimator.ofFloat(0f, 360f).apply {
+            duration = 1400L
+            interpolator = LinearInterpolator()
             addUpdateListener { animation ->
-                progress = animation.animatedValue as Float
+                rotationAngle = animation.animatedValue as Float
                 invalidate()
             }
             repeatMode = ValueAnimator.RESTART
@@ -48,14 +48,14 @@ class ProgressBarView @JvmOverloads constructor(
 
         rectF.set(cx - radius, cy - radius, cx + radius, cy + radius)
 
-        val colors = intArrayOf(Color.WHITE, Color.GRAY, Color.DKGRAY, Color.DKGRAY)
-        val positions = floatArrayOf(progress, progress + 0.1f, progress + 0.5f, 1f)
+        val colors = intArrayOf(Color.DKGRAY, Color.GRAY, Color.LTGRAY, Color.WHITE)
+        val positions = floatArrayOf(0f, 0.3f, 0.6f, 1f)
         gradient = SweepGradient(cx, cy, colors, positions)
 
         paint.shader = gradient
 
         canvas.save()
-        canvas.rotate(-90f, cx, cy)
+        canvas.rotate(rotationAngle, cx, cy)
         canvas.drawArc(rectF, 0f, 360f, false, paint)
         canvas.restore()
     }
