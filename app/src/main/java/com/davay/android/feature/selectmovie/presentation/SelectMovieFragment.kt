@@ -44,8 +44,6 @@ class SelectMovieFragment :
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         getSavedPositionAndUpdateStartPosition(savedInstanceState)
-        initViews()
-        subscribe()
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
@@ -61,13 +59,13 @@ class SelectMovieFragment :
         swipeCardLayoutManager.updateCurrentPosition(currentPosition)
     }
 
-    private fun initViews() {
+    override fun initViews() {
         buildRecyclerView()
         setToolbar()
         setBottomSheet()
     }
 
-    private fun subscribe() {
+    override fun subscribe() {
         binding.toolbarviewHeader.setEndIconClickListener {
             showBottomSheetFragment(mockMovies[0])
         }
