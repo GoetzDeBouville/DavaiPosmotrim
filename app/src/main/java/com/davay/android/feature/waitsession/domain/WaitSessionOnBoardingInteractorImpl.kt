@@ -1,9 +1,8 @@
-package com.davay.android.feature.splash.domain
+package com.davay.android.feature.waitsession.domain
 
-
-class OnBoardingInteractorImpl(
-    private val repository: OnBoardingRepository
-) : OnBoardingInteractror {
+class WaitSessionOnBoardingInteractorImpl(
+    private val repository: WaitSessionOnBoardingRepository
+) : WaitSessionOnBoardingInteractror {
     override fun setIsNotFirstTime(isNotFirstTime: Boolean) {
         repository.setIsNotFirstTime(isNotFirstTime)
     }
