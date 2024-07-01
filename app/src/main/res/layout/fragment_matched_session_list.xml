@@ -21,4 +21,35 @@
         android:layout_height="match_parent"
         tools:itemCount="4"
         tools:listitem="@layout/item_session" />
+
+    <LinearLayout
+        android:id="@+id/ll_state_error_and_progress_parent"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="@dimen/margin_16"
+        android:background="@drawable/bottom_sheet_background"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:visibility="gone">
+
+        <include
+            android:id="@+id/empty_placeholder"
+            layout="@layout/item_empty_placeholder" />
+
+        <TextView
+            android:id="@+id/tv_error_empty_message"
+            style="@style/Text.Base.Medium.NoLineSpacing"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_12"
+            android:gravity="center_horizontal"
+            android:text="@string/matched_sessions_empty_list_error" />
+
+        <ProgressBar
+            android:id="@+id/progress_bar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:visibility="gone" />
+    </LinearLayout>
 </LinearLayout>
