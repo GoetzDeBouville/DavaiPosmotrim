@@ -46,4 +46,10 @@ class SessionListAdapter(
             onSessionClickListener.invoke(session.id)
         }
     }
+
+    fun setData(sessions: List<Session>) {
+        sessionList.clear()
+        sessionList.addAll(sessions)
+        notifyDataSetChanged()
+    }
 }
