@@ -4,7 +4,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.davay.android.databinding.ItemSessionBinding
-import com.davay.android.feature.sessionsmatched.domain.models.Session
+import com.davay.android.domain.models.Session
 
 class SessionListAdapter(
     private val onSessionClickListener: (id: String) -> Unit?
@@ -22,8 +22,8 @@ class SessionListAdapter(
                 setNamesList(
                     userList.joinToString(" ,")
                 )
-                setCover(session.movies[0].posterUrl ?: "")
-                setCoincidences(session.matchedMovies.size)
+                setCover(session.imgUrl)
+                setCoincidences(session.numberOfMatchedMovies ?: 0)
             }
         }
     }
