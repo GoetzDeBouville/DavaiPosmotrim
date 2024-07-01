@@ -55,10 +55,10 @@ fun MovieDetailsDto.convert() = MovieDetails(
 fun SessionDto.convert() = Session(
     id,
     users.map { it.convert() },
-    movies,
-    matchedMovies,
+    numberOfMatchedMovies,
     date,
-    status.convert()
+    status.convert(),
+    imgUrl
 )
 
 fun SessionStatusDto.convert(): SessionStatus {

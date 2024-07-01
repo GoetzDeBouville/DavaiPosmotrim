@@ -1,5 +1,6 @@
 package com.davay.android.feature.sessionconnection.presentation
 
+import android.app.Dialog
 import android.os.Bundle
 import android.view.View
 import android.view.ViewTreeObserver
@@ -31,10 +32,14 @@ class SessionConnectionBottomSheetFragment :
         .appComponent(AppComponentHolder.getComponent())
         .build()
 
+    override fun onCreateDialog(savedInstanceState: Bundle?): Dialog =
+        makeDialogWithKeyboard(savedInstanceState)
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initViews(view)
         subscribe()
+        moveBottomView(binding.btnEnter)
     }
 
     private fun initViews(view: View) {
@@ -149,6 +154,6 @@ class SessionConnectionBottomSheetFragment :
 
     companion object {
         private const val BOTTOM_SHEET_HIDE_PERCENT_60 = 60
-        private const val BOTTOM_SHEET_HEIGHT = 0.5
+        private const val BOTTOM_SHEET_HEIGHT = 0.9
     }
 }
