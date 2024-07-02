@@ -96,7 +96,7 @@
     </fragment>
     <fragment
         android:id="@+id/splashFragment"
-        android:name="com.davay.android.feature.splash.fragment.SplashFragment"
+        android:name="com.davay.android.feature.splash.presentation.SplashFragment"
         android:label="fragment_splash"
         tools:layout="@layout/fragment_splash" >
         <action

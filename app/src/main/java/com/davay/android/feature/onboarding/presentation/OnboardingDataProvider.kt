@@ -44,6 +44,6 @@ class OnboardingDataProvider {
             ),
             intArrayOf(
                 R.id.action_onboardingFragment_to_selectMovieFragment
-            ) // После влива фрагмента выбора заменить action id
+            )
         )
 }

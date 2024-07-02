@@ -1,4 +1,4 @@
-package com.davay.android.feature.splash.fragment
+package com.davay.android.feature.splash.presentation
 
 import android.content.Context.SENSOR_SERVICE
 import android.content.res.ColorStateList
@@ -19,7 +19,6 @@ import com.davay.android.di.ScreenComponent
 import com.davay.android.extensions.setSplashTextViewStyle
 import com.davay.android.feature.onboarding.presentation.OnboardingFragment
 import com.davay.android.feature.splash.di.DaggerSplashFragmentComponent
-import com.davay.android.feature.splash.viewmodel.SplashViewModel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 

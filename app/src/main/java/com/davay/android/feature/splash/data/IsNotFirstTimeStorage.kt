@@ -13,7 +13,7 @@ class IsNotFirstTimeStorage(
         sharedPreferences.edit().putBoolean(IS_NOT_FIRST_TIME, isNotFirstTime).apply()
     }
 
-    companion object {
+    private companion object {
         const val IS_NOT_FIRST_TIME = "isNotFirstTime"
     }
 }

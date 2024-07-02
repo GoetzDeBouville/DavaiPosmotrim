@@ -1,4 +1,4 @@
-package com.davay.android.feature.splash.viewmodel
+package com.davay.android.feature.splash.presentation
 
 import com.davay.android.base.BaseViewModel
 import com.davay.android.feature.splash.domain.OnBoardingInteractror

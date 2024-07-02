@@ -5,7 +5,7 @@ import android.widget.FrameLayout
 import android.widget.TextView
 import androidx.core.content.ContextCompat
 import com.davay.android.R
-import com.davay.android.feature.splash.fragment.SplashFragment
+import com.davay.android.feature.splash.presentation.SplashFragment
 import kotlin.random.Random
 
 fun TextView.setSplashTextViewStyle() {
