@@ -4,6 +4,7 @@ import android.widget.Toast
 import androidx.core.view.isVisible
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.davai.extensions.dpToPx
 import com.davay.android.app.AppComponentHolder
 import com.davay.android.base.BaseFragment
 import com.davay.android.databinding.FragmentMatchedSessionListBinding
@@ -12,6 +13,7 @@ import com.davay.android.domain.models.ErrorType
 import com.davay.android.domain.models.Session
 import com.davay.android.feature.sessionsmatched.di.DaggerMatchedSessionListFragmentComponent
 import com.davay.android.feature.sessionsmatched.presentation.adapters.SessionListAdapter
+import com.davay.android.feature.sessionsmatched.presentation.adapters.TopSpacingItemDecoration
 import kotlinx.coroutines.launch
 
 class MatchedSessionListFragment :
@@ -44,6 +46,7 @@ class MatchedSessionListFragment :
             rvSessionList.apply {
                 adapter = sessionsAdapter
                 layoutManager = LinearLayoutManager(requireContext())
+                addItemDecoration(TopSpacingItemDecoration(16.dpToPx()))
             }
         }
     }

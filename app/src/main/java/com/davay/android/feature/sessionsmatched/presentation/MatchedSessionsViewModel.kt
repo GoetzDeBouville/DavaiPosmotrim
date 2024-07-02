@@ -66,5 +66,35 @@ private val matchedSessions = listOf(
         date = "2024-06-20",
         status = SessionStatus.WAITING,
         imgUrl = "https://avatars.mds.yandex.net/get-kinopoisk-image/1600647/6e9e2641-5750-4991-a52b-8c1cd0e80b4c/3840x"
+    ),
+    Session(
+        id = "risus",
+        users = listOf(
+            User(userId = "dqwdqw123dad", name = "Riley Bryan"),
+            User(userId = "contentiones", name = "Forest Summers"),
+            User(userId = "molestiae", name = "Sherri Saunders"),
+            User(userId = "molestie", name = "Kate Griffin"),
+            User(userId = "ponderum", name = "Earl England"),
+            User(userId = "senserit", name = "Maribel Daniel")
+        ),
+        numberOfMatchedMovies = 3,
+        date = "2024-06-21",
+        status = SessionStatus.CLOSED,
+        imgUrl = "https://avatars.mds.yandex.net/get-kinopoisk-image/4774061/0d60959d-fef2-4f1f-a28b-3d08247ec817/3840x"
+    ),
+    Session(
+        id = "i1243hr36w",
+        users = listOf(
+            User(userId = "dqwdqw123dad", name = "Riley Bryan"),
+            User(userId = "contentiones", name = "Forest Summers"),
+            User(userId = "molestiae", name = "Sherri Saunders"),
+            User(userId = "molestie", name = "Kate Griffin"),
+            User(userId = "ponderum", name = "Earl England"),
+            User(userId = "senserit", name = "Maribel Daniel")
+        ),
+        numberOfMatchedMovies = 3,
+        date = "2024-06-27",
+        status = SessionStatus.CLOSED,
+        imgUrl = ""
     )
 )
