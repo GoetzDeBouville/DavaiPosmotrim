@@ -1,5 +1,6 @@
 package com.davay.android.feature.waitsession.data
 
+import com.davay.android.feature.waitsession.domain.FirstTimeFlagForWaitSessionStorage
 import com.davay.android.feature.waitsession.domain.WaitSessionOnBoardingRepository
 
 class WaitSessionOnBoardingRepositoryImpl(

@@ -1,5 +1,6 @@
 package com.davay.android.feature.splash.data
 
+import com.davay.android.feature.splash.domain.FirstTimeFlagStorage
 import com.davay.android.feature.splash.domain.SplashOnBoardingRepository
 
 class SplashOnBoardingRepositoryImpl(
