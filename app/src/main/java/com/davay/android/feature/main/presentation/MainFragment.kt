@@ -20,7 +20,7 @@ class MainFragment :
     BaseFragment<FragmentMainBinding, MainViewModel>(FragmentMainBinding::inflate) {
 
     override val viewModel: MainViewModel by injectViewModel<MainViewModel>()
-
+    private var changedName: String? = null
     override fun diComponent(): ScreenComponent = DaggerMainFragmentComponent.builder()
         .appComponent(AppComponentHolder.getComponent())
         .build()
@@ -57,7 +57,7 @@ class MainFragment :
             viewLifecycleOwner
         ) { requestKey, bundle ->
             if (requestKey == ChangeNameBottomSheetFragment.REQUEST_KEY) {
-                val changedName = bundle.getString(ChangeNameBottomSheetFragment.BUNDLE_KEY_NAME)
+                changedName = bundle.getString(ChangeNameBottomSheetFragment.BUNDLE_KEY_NAME)
                 updateUserName(changedName)
             }
         }
@@ -89,6 +89,12 @@ class MainFragment :
     private fun updateUserName(newName: String?) {
         if (newName != null) {
             binding.userName.text = newName
+        }
+    }
+    override fun onResume() {
+        super.onResume()
+        if (changedName != null) {
+            binding.userName.text = changedName
         }
     }
 
