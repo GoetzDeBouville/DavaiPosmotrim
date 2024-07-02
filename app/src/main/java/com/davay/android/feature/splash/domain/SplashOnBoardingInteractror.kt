@@ -1,6 +1,6 @@
 package com.davay.android.feature.splash.domain
 
-interface OnBoardingInteractror {
+interface SplashOnBoardingInteractror {
     fun setFirstTimeLaunch()
     fun isFirstTimeLaunch(): Boolean
 }

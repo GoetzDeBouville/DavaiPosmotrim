@@ -3,22 +3,24 @@ package com.davay.android.feature.splash.di
 import android.content.Context
 import android.content.SharedPreferences
 import com.davay.android.feature.splash.data.FirstTimeFlagStorage
-import com.davay.android.feature.splash.data.OnBoardingRepositoryImpl
-import com.davay.android.feature.splash.domain.OnBoardingInteractorImpl
-import com.davay.android.feature.splash.domain.OnBoardingInteractror
-import com.davay.android.feature.splash.domain.OnBoardingRepository
+import com.davay.android.feature.splash.data.SplashOnBoardingRepositoryImpl
+import com.davay.android.feature.splash.domain.SplashOnBoardingInteractorImpl
+import com.davay.android.feature.splash.domain.SplashOnBoardingInteractror
+import com.davay.android.feature.splash.domain.SplashOnBoardingRepository
 import dagger.Module
 import dagger.Provides
 
 @Module
 class SplashDataModule {
     @Provides
-    fun onBoardingRepository(firstTimeFlagStorage: FirstTimeFlagStorage): OnBoardingRepository =
-        OnBoardingRepositoryImpl(firstTimeFlagStorage)
+    fun onBoardingRepository(
+        firstTimeFlagStorage: FirstTimeFlagStorage
+    ): SplashOnBoardingRepository =
+        SplashOnBoardingRepositoryImpl(firstTimeFlagStorage)
 
     @Provides
-    fun onBoardingInteractor(repository: OnBoardingRepository): OnBoardingInteractror =
-        OnBoardingInteractorImpl(repository)
+    fun onBoardingInteractor(repository: SplashOnBoardingRepository): SplashOnBoardingInteractror =
+        SplashOnBoardingInteractorImpl(repository)
 
     @Provides
     fun isFirstTimeStorage(sharedPreferences: SharedPreferences): FirstTimeFlagStorage =

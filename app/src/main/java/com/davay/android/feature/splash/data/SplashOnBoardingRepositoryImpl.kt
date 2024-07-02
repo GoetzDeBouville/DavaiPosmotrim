@@ -1,10 +1,10 @@
 package com.davay.android.feature.splash.data
 
-import com.davay.android.feature.splash.domain.OnBoardingRepository
+import com.davay.android.feature.splash.domain.SplashOnBoardingRepository
 
-class OnBoardingRepositoryImpl(
+class SplashOnBoardingRepositoryImpl(
     private val firstTimeFlagStorage: FirstTimeFlagStorage
-) : OnBoardingRepository {
+) : SplashOnBoardingRepository {
     override fun isFirstTimeLaunch(): Boolean {
         return firstTimeFlagStorage.isFirstTimeLaunch()
     }
