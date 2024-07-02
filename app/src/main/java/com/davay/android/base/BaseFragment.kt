@@ -70,7 +70,7 @@ abstract class BaseFragment<VB : ViewBinding, VM : BaseViewModel>(
         }
     }
 
-    open protected fun initViews() = Unit
+    protected open fun initViews() = Unit
 
-    open protected fun subscribe() = Unit
+    protected open fun subscribe() = Unit
 }

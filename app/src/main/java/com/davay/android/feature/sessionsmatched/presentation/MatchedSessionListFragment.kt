@@ -1,10 +1,9 @@
 package com.davay.android.feature.sessionsmatched.presentation
 
-import android.os.Bundle
-import android.view.View
 import android.widget.Toast
 import androidx.core.view.isVisible
 import androidx.lifecycle.lifecycleScope
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.davay.android.app.AppComponentHolder
 import com.davay.android.base.BaseFragment
 import com.davay.android.databinding.FragmentMatchedSessionListBinding
@@ -29,11 +28,6 @@ class MatchedSessionListFragment :
         navigateToSessionMovies(id)
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        binding.toolbarSessions.addStatusBarSpacer()
-    }
-
     override fun subscribe() {
         super.subscribe()
         viewLifecycleOwner.lifecycleScope.launch {
@@ -44,9 +38,13 @@ class MatchedSessionListFragment :
     }
 
     override fun initViews() {
-        super.initViews()
-        binding.rvSessionList.apply {
-            adapter = sessionsAdapter
+        with(binding) {
+            super.initViews()
+            toolbarSessions.addStatusBarSpacer()
+            rvSessionList.apply {
+                adapter = sessionsAdapter
+                layoutManager = LinearLayoutManager(requireContext())
+            }
         }
     }
 
@@ -64,7 +62,9 @@ class MatchedSessionListFragment :
         sessionsAdapter.setData(sessions)
     }
 
-    private fun showError(errorType: ErrorType) = Unit
+    private fun showError(errorType: ErrorType) {
+        Toast.makeText(requireContext(), errorType.toString(), Toast.LENGTH_SHORT).show()
+    }
 
     private fun showEmpty() = with(binding) {
         rvSessionList.isVisible = false
