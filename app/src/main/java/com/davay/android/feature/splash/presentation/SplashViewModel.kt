@@ -7,11 +7,11 @@ import javax.inject.Inject
 class SplashViewModel @Inject constructor(
     private val onBoardingInteractror: OnBoardingInteractror
 ) : BaseViewModel() {
-    fun getIsNotFirstTime(): Boolean {
-        return onBoardingInteractror.getIsNotFirstTime()
+    fun isFirstTimeLaunch(): Boolean {
+        return onBoardingInteractror.isFirstTimeLaunch()
     }
 
-    fun setIsNotFirstTime(isNotFirstTime: Boolean) {
-        onBoardingInteractror.setIsNotFirstTime(isNotFirstTime)
+    fun setFirstTimeLaunch() {
+        onBoardingInteractror.setFirstTimeLaunch()
     }
 }
