@@ -159,14 +159,14 @@ class WaitSessionFragment : BaseFragment<FragmentWaitSessionBinding, WaitSession
             dialog?.show(parentFragmentManager, CUSTOM_DIALOG_TAG)
         }
         binding.startSessionButton.setOnClickListener {
-            if (viewModel.getIsNotFirstTime()) {
-                viewModel.navigate(R.id.action_waitSessionFragment_to_selectMovieFragment)
-            } else {
-                viewModel.setIsNotFirstTime(true)
+            if (viewModel.isFirstTimeLaunch()) {
+                viewModel.setFirstTimeLaunch()
                 val bundle = Bundle().apply {
                     putInt(OnboardingFragment.ONBOARDING_KEY, OnboardingFragment.ONBOARDING_INSTRUCTION_SET)
                 }
                 viewModel.navigate(R.id.action_waitSessionFragment_to_onboardingFragment, bundle)
+            } else {
+                viewModel.navigate(R.id.action_waitSessionFragment_to_selectMovieFragment)
             }
         }
     }

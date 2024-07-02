@@ -3,13 +3,13 @@ package com.davay.android.feature.waitsession.data
 import com.davay.android.feature.waitsession.domain.WaitSessionOnBoardingRepository
 
 class WaitSessionOnBoardingRepositoryImpl(
-    private val isNotFirstTimeStorage: IsNotFirstTimeForWaitSessionStorage
+    private val firstTimeFlagForWaitSessionStorage: FirstTimeFlagForWaitSessionStorage
 ) : WaitSessionOnBoardingRepository {
-    override fun getIsNotFirstTime(): Boolean {
-        return isNotFirstTimeStorage.getIsNotFirstTime()
+    override fun isFirstTimeLaunch(): Boolean {
+        return firstTimeFlagForWaitSessionStorage.isFirstTimeLaunch()
     }
 
-    override fun setIsNotFirstTime(isNotFirstTime: Boolean) {
-        isNotFirstTimeStorage.setIsNotFirstTime(isNotFirstTime)
+    override fun setFirstTimeLaunch() {
+        firstTimeFlagForWaitSessionStorage.setFirstTimeLaunch()
     }
 }

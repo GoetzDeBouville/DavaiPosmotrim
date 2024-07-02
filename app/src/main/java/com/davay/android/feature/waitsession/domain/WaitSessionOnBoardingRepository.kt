@@ -1,6 +1,6 @@
 package com.davay.android.feature.waitsession.domain
 
 interface WaitSessionOnBoardingRepository {
-    fun getIsNotFirstTime(): Boolean
-    fun setIsNotFirstTime(isNotFirstTime: Boolean)
+    fun isFirstTimeLaunch(): Boolean
+    fun setFirstTimeLaunch()
 }

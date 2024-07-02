@@ -7,11 +7,11 @@ import javax.inject.Inject
 class WaitSessionViewModel @Inject constructor(
     private val waitSessionOnBoardingInteractror: WaitSessionOnBoardingInteractror
 ) : BaseViewModel() {
-    fun getIsNotFirstTime(): Boolean {
-        return waitSessionOnBoardingInteractror.getIsNotFirstTime()
+    fun isFirstTimeLaunch(): Boolean {
+        return waitSessionOnBoardingInteractror.isFirstTimeLaunch()
     }
 
-    fun setIsNotFirstTime(isNotFirstTime: Boolean) {
-        waitSessionOnBoardingInteractror.setIsNotFirstTime(isNotFirstTime)
+    fun setFirstTimeLaunch() {
+        waitSessionOnBoardingInteractror.setFirstTimeLaunch()
     }
 }
