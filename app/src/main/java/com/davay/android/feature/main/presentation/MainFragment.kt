@@ -1,5 +1,7 @@
 package com.davay.android.feature.main.presentation
 
+import android.content.Context
+import android.content.Context.MODE_PRIVATE
 import android.os.Bundle
 import android.view.View
 import android.view.ViewGroup
@@ -12,6 +14,7 @@ import com.davay.android.R
 import com.davay.android.app.AppComponentHolder
 import com.davay.android.base.BaseFragment
 import com.davay.android.databinding.FragmentMainBinding
+import com.davay.android.di.ContextModule
 import com.davay.android.di.ScreenComponent
 import com.davay.android.feature.changename.presentation.ChangeNameBottomSheetFragment
 import com.davay.android.feature.main.di.DaggerMainFragmentComponent
@@ -21,6 +24,10 @@ class MainFragment :
 
     override val viewModel: MainViewModel by injectViewModel<MainViewModel>()
     private var changedName: String? = null
+    private val nameSharedPrefs by lazy {
+        context?.getSharedPreferences(USER_NAME_KEY,MODE_PRIVATE)
+    }
+
     override fun diComponent(): ScreenComponent = DaggerMainFragmentComponent.builder()
         .appComponent(AppComponentHolder.getComponent())
         .build()
@@ -37,7 +44,7 @@ class MainFragment :
         binding.favorite.setState(MainScreenButtonView.FAVORITE)
         binding.joinSession.setState(MainScreenButtonView.JOIN)
 
-        binding.userName.text = savedInstanceState?.getString(USER_NAME_KEY) ?: "Артём"
+        binding.userName.text = nameSharedPrefs?.getString(USER_NAME_KEY,"Артём")
         binding.createSession.setOnClickListener {
             createSession()
         }
@@ -89,6 +96,7 @@ class MainFragment :
     private fun updateUserName(newName: String?) {
         if (newName != null) {
             binding.userName.text = newName
+            nameSharedPrefs?.edit()?.putString(USER_NAME_KEY,newName)?.apply()
         }
     }
     override fun onResume() {
