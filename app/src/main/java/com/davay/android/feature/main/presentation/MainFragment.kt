@@ -99,12 +99,6 @@ class MainFragment :
             nameSharedPrefs?.edit()?.putString(USER_NAME_KEY,newName)?.apply()
         }
     }
-    override fun onResume() {
-        super.onResume()
-        if (changedName != null) {
-            binding.userName.text = changedName
-        }
-    }
 
     companion object {
         private const val USER_NAME_KEY = "user_name_key"
