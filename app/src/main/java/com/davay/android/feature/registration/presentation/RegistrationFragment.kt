@@ -14,6 +14,7 @@ import com.davay.android.app.MainActivity
 import com.davay.android.base.BaseFragment
 import com.davay.android.databinding.FragmentRegistrationBinding
 import com.davay.android.di.ScreenComponent
+import com.davay.android.extensions.animateBottom
 import com.davay.android.feature.registration.di.DaggerRegistrationFragmentComponent
 import kotlinx.coroutines.launch
 
@@ -29,6 +30,12 @@ class RegistrationFragment :
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         (requireActivity() as MainActivity).setKeyBoardInsets(binding.root)
+        animateBottom(
+            listenableView = binding.root,
+            startBottomView = binding.btnEnter,
+            endBottomView = binding.btnEnter,
+            animateView = binding.root
+        )
         showSoftKeyboard(binding.etName)
         lifecycleScope.launch {
             viewModel.state.collect { stateHandle(it) }

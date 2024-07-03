@@ -7,11 +7,14 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
+import androidx.activity.OnBackPressedCallback
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
+import androidx.navigation.fragment.findNavController
 import com.davai.extensions.dpToPx
 import com.davai.uikit.ButtonView
+import com.davai.uikit.MainDialogFragment
 import com.davay.android.R
 import com.davay.android.app.AppComponentHolder
 import com.davay.android.base.BaseFragment
@@ -32,11 +35,24 @@ class WaitSessionFragment : BaseFragment<FragmentWaitSessionBinding, WaitSession
     override val viewModel: WaitSessionViewModel by injectViewModel<WaitSessionViewModel>()
     private val userAdapter = UserAdapter()
     private var sendButton: ButtonView? = null
+    private var dialog: MainDialogFragment? = null
     private var launcher: ActivityResultLauncher<Intent>? = null
 
     override fun diComponent(): ScreenComponent = DaggerWaitSessionFragmentComponent.builder()
         .appComponent(AppComponentHolder.getComponent())
         .build()
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        requireActivity().onBackPressedDispatcher.addCallback(
+            this,
+            object : OnBackPressedCallback(true) {
+                override fun handleOnBackPressed() {
+                    dialog?.show(parentFragmentManager, CUSTOM_DIALOG_TAG)
+                }
+            }
+        )
+    }
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -60,10 +76,13 @@ class WaitSessionFragment : BaseFragment<FragmentWaitSessionBinding, WaitSession
         )
         binding.toolbar.addStatusBarSpacer()
 
+        subscribe()
+
         binding.llButtonContainer.setOnClickListener {
             val code = binding.tvCode.text.toString()
             copyTextToClipboard(code)
         }
+
 
         sendButton?.setOnClickListener {
             val code = binding.tvCode.text.toString()
@@ -72,6 +91,18 @@ class WaitSessionFragment : BaseFragment<FragmentWaitSessionBinding, WaitSession
                 sendButton?.setButtonEnabled(false)
             }
         }
+
+        dialog = MainDialogFragment.newInstance(
+            title = getString(R.string.leave_wait_session_title),
+            message = getString(R.string.leave_wait_session_dialog_message),
+            yesAction = {
+                findNavController().popBackStack()
+            }
+        )
+    }
+
+    private fun subscribe() {
+        setButtonClickListeners()
     }
 
     override fun onDetach() {
@@ -93,9 +124,13 @@ class WaitSessionFragment : BaseFragment<FragmentWaitSessionBinding, WaitSession
     }
 
     private fun sendCode(text: String) {
+        val part1 = getString(R.string.additional_message_part1)
+        val part2 = getString(R.string.additional_message_part2)
+        val combinedText = "$part1\n$part2 $text"
+
         val intent = Intent().apply {
             action = Intent.ACTION_SEND
-            putExtra(Intent.EXTRA_TEXT, text)
+            putExtra(Intent.EXTRA_TEXT, combinedText)
             type = "text/plain"
         }
         val shareIntent = Intent.createChooser(intent, null)
@@ -118,7 +153,14 @@ class WaitSessionFragment : BaseFragment<FragmentWaitSessionBinding, WaitSession
         }
     }
 
+    private fun setButtonClickListeners() {
+        binding.cancelButton.setOnClickListener {
+            dialog?.show(parentFragmentManager, CUSTOM_DIALOG_TAG)
+        }
+    }
+
     companion object {
         private const val SPACING_BETWEEN_RV_ITEMS_8_DP = 8
+        private const val CUSTOM_DIALOG_TAG = "customDialog"
     }
 }

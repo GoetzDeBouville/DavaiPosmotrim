@@ -1,5 +1,6 @@
 package com.davay.android.feature.changename.presentation
 
+import android.app.Dialog
 import android.os.Bundle
 import android.view.View
 import android.view.ViewTreeObserver
@@ -43,6 +44,9 @@ class ChangeNameBottomSheetFragment :
         }
     }
 
+    override fun onCreateDialog(savedInstanceState: Bundle?): Dialog =
+        makeDialogWithKeyboard(savedInstanceState)
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -60,18 +64,12 @@ class ChangeNameBottomSheetFragment :
             if (it?.length!! >= TYPE_SMALL_BORDER) {
                 binding.etName.setTextAppearance(com.davai.uikit.R.style.Text_Headline_SubTitle)
                 binding.etName.setTextColor(
-                    resources.getColor(
-                        com.davai.uikit.R.color.text_base,
-                        requireActivity().theme
-                    )
+                    resources.getColor(com.davai.uikit.R.color.text_base, requireActivity().theme)
                 )
             } else {
                 binding.etName.setTextAppearance(com.davai.uikit.R.style.Text_Headline_Title)
                 binding.etName.setTextColor(
-                    resources.getColor(
-                        com.davai.uikit.R.color.text_base,
-                        requireActivity().theme
-                    )
+                    resources.getColor(com.davai.uikit.R.color.text_base, requireActivity().theme)
                 )
             }
         }
@@ -79,6 +77,7 @@ class ChangeNameBottomSheetFragment :
             bottomSheetBehavior!!.state = BottomSheetBehavior.STATE_HIDDEN
         }
         buildBottomSheet()
+        moveBottomView(binding.btnEnter)
         showSoftKeyboard(binding.etName)
     }
 
@@ -128,8 +127,7 @@ class ChangeNameBottomSheetFragment :
     }
 
     private fun hideKeyboard(view: View) {
-        val imm =
-            ContextCompat.getSystemService(requireContext(), InputMethodManager::class.java)
+        val imm = ContextCompat.getSystemService(requireContext(), InputMethodManager::class.java)
         imm?.hideSoftInputFromWindow(view.windowToken, 0)
     }
 
@@ -169,7 +167,7 @@ class ChangeNameBottomSheetFragment :
     companion object {
         private const val TYPE_SMALL_BORDER = 12
         private const val BOTTOM_SHEET_HIDE_PERCENT_60 = 0.6f
-        private const val BOTTOM_SHEET_HEIGHT = 0.5f
+        private const val BOTTOM_SHEET_HEIGHT = 0.9f
 
         private const val ARG_NAME = "name"
         const val REQUEST_KEY = "changeNameRequestKey"
