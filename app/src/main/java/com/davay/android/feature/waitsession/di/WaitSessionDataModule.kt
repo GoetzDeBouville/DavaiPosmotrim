@@ -14,22 +14,22 @@ import dagger.Provides
 @Module
 class WaitSessionDataModule {
     @Provides
-    fun bindWaitSessionOnBoardingRepository(
+    fun provideWaitSessionOnBoardingRepository(
         isNotFirstTimeStorage: FirstTimeFlagForWaitSessionStorage
     ): WaitSessionOnBoardingRepository = WaitSessionOnBoardingRepositoryImpl(isNotFirstTimeStorage)
 
     @Provides
-    fun bindWaitSessionOnBoardingInteractor(
+    fun provideWaitSessionOnBoardingInteractor(
         repository: WaitSessionOnBoardingRepository
     ): WaitSessionOnBoardingInteractror = WaitSessionOnBoardingInteractorImpl(repository)
 
     @Provides
-    fun bindIsFirstTimeStorage(
+    fun provideIsFirstTimeStorage(
         sharedPreferences: SharedPreferences
     ): FirstTimeFlagForWaitSessionStorage = FirstTimeFlagForWaitSessionStorageImpl(sharedPreferences)
 
     @Provides
-    fun bindSharedPreferences(context: Context): SharedPreferences = context.getSharedPreferences(
+    fun provideSharedPreferences(context: Context): SharedPreferences = context.getSharedPreferences(
         "sharedPreferences",
         Context.MODE_PRIVATE
     )
