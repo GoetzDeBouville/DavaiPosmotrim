@@ -122,4 +122,10 @@
     <string name="roulette_description_2">Остальные участники подключатся автоматически.</string>
     <string name="roulette_cancel">Отменить</string>
 
+    <string name="roulette_bottomsheet_dialog_trust_occasion">Доверьтесь\nслучаю</string>
+    <string name="roulette_bottomsheet_dialog_if_you_like_movies">Если понравилось много фильмов и тяжело определиться, что же посмотреть.</string>
+    <string name="roulette_bottomsheet_dialog_randomly_choose_film">Рандомно выберем фильм из всех понравившихся в этом сеансе.</string>
+    <string name="roulette_bottomsheet_dialog_got_it">Понял, принял</string>
+    <string name="roulette_bottomsheet_dialog_roulete_lounch_condition">Для запуска рулетки требуется <b>не менее трёх</b> совпадений.</string>
+
 </resources>
