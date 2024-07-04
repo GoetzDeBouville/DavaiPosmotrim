@@ -70,5 +70,8 @@ class LoadFragment : BaseFragment<FragmentLoadBinding, LoadViewModel>(
         binding.button3.setOnClickListener { _ ->
             viewModel.navigate(R.id.action_loadFragment_to_waitSessionFragment)
         }
+        binding.btnToMatchedSession.setOnClickListener {
+            viewModel.navigate(R.id.action_loadFragment_to_matchedSessionFragment)
+        }
     }
 }

@@ -34,6 +34,9 @@
         <action
             android:id="@+id/action_loadFragment_to_waitSessionFragment"
             app:destination="@id/waitSessionFragment" />
+        <action
+            android:id="@+id/action_loadFragment_to_matchedSessionFragment"
+            app:destination="@id/matchedSessionFragment" />
     </fragment>
     <fragment
         android:id="@+id/mainFragment"
@@ -74,7 +77,8 @@
     <dialog
         android:id="@+id/sessionConnectionFragment"
         android:name="com.davay.android.feature.sessionconnection.presentation.SessionConnectionBottomSheetFragment"
-        android:label="SessionConnectionFragment" >
+        android:label="SessionConnectionFragment"
+        tools:layout="@layout/fragment_session_connection">
         <action
             android:id="@+id/action_sessionConnectionFragment_to_sessionListFragment"
             app:destination="@id/sessionListFragment" />
@@ -82,7 +86,8 @@
     <dialog
         android:id="@+id/changeNameFragment"
         android:name="com.davay.android.feature.changename.presentation.ChangeNameBottomSheetFragment"
-        android:label="ChangeNameFragment" />
+        android:label="ChangeNameFragment"
+        tools:layout="@layout/fragment_name_change"/>
     <fragment
         android:id="@+id/onboardingFragment"
         android:name="com.davay.android.feature.onboarding.presentation.OnboardingFragment"
@@ -127,5 +132,10 @@
         android:name="com.davay.android.feature.coincidences.presentation.CoincidencesFragment"
         android:label="fragment_coincidences"
         tools:layout="@layout/fragment_coincidences" />
+    <fragment
+        android:id="@+id/matchedSessionFragment"
+        android:name="com.davay.android.feature.matchedsession.presentation.MatchedSessionFragment"
+        android:label="MatchedSessionFragment"
+        tools:layout="@layout/fragment_matched_session"/>
 
 </navigation>
