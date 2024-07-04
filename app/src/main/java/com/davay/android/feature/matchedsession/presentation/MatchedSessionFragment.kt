@@ -34,9 +34,7 @@ class MatchedSessionFragment :
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.toolbar.addStatusBarSpacer()
-        binding.toolbar.setTitleText("23 сентября")
-        binding.toolbar.setSubtitleText("VMst456")
+        setupToolbar()
         initUsersRecycler()
         setupMoviesGrid()
         userAdapter.setItems(
@@ -63,6 +61,17 @@ class MatchedSessionFragment :
 
     private fun setupMoviesGrid() = with(binding.coincidencesList) {
         adapter = moviesGridAdapter
+    }
+
+    private fun setupToolbar() {
+        binding.toolbar.apply {
+            addStatusBarSpacer()
+            setTitleText("23 сентября")
+            setSubtitleText("VMst456")
+            setStartIconClickListener {
+                viewModel.navigateBack()
+            }
+        }
     }
 
     companion object {
