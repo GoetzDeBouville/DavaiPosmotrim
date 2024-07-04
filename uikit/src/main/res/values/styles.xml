@@ -92,6 +92,14 @@
         <item name="android:lineSpacingExtra">18sp</item>
     </style>
 
+    <style name="Text.Base.Big.Bold">
+        <item name="fontWeight">700</item>
+    </style>
+
+    <style name="Text.Base.Big.Bold.Title">
+        <item name="android:textColor">@color/text_headings</item>
+    </style>
+
     <style name="Text.Base.Small.Regular">
         <item name="fontWeight">400</item>
     </style>

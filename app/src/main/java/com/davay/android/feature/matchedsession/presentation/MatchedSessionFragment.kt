@@ -34,6 +34,9 @@ class MatchedSessionFragment :
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        binding.toolbar.addStatusBarSpacer()
+        binding.toolbar.setTitleText("23 сентября")
+        binding.toolbar.setSubtitleText("VMst456")
         initUsersRecycler()
         setupMoviesGrid()
         userAdapter.setItems(

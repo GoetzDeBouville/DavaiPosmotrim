@@ -17,7 +17,7 @@
         tools:text="[@string/session_list_name]" />
 
     <View
-        android:id="@+id/v_container"
+        android:id="@+id/view_top"
         android:layout_width="match_parent"
         android:layout_height="@dimen/zero"
         android:layout_marginTop="@dimen/margin_16"
@@ -33,10 +33,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:src="@drawable/ic_add_participant"
-        app:layout_constraintBottom_toBottomOf="@+id/v_container"
+        app:layout_constraintBottom_toBottomOf="@+id/view_top"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/v_container" />
+        app:layout_constraintTop_toTopOf="@+id/view_top" />
 
     <TextView
         android:id="@+id/tv_waiting_all_participants"
@@ -61,7 +61,7 @@
         android:text="@string/waiting_all_participants_hint"
         android:textAlignment="center"
         android:textColor="@color/text_caption_light"
-        app:layout_constraintBottom_toBottomOf="@+id/v_container"
+        app:layout_constraintBottom_toBottomOf="@+id/view_top"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
@@ -70,10 +70,10 @@
         android:layout_width="match_parent"
         android:layout_height="@dimen/zero"
         android:padding="@dimen/padding_16"
-        app:layout_constraintBottom_toBottomOf="@+id/v_container"
+        app:layout_constraintBottom_toBottomOf="@+id/view_top"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/v_container" />
+        app:layout_constraintTop_toTopOf="@+id/view_top" />
 
     <View
         android:id="@+id/view_bottom"
