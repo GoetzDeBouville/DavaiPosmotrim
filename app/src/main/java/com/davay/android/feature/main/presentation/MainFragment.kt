@@ -1,6 +1,5 @@
 package com.davay.android.feature.main.presentation
 
-import android.content.Context
 import android.content.Context.MODE_PRIVATE
 import android.os.Bundle
 import android.view.View
@@ -14,7 +13,6 @@ import com.davay.android.R
 import com.davay.android.app.AppComponentHolder
 import com.davay.android.base.BaseFragment
 import com.davay.android.databinding.FragmentMainBinding
-import com.davay.android.di.ContextModule
 import com.davay.android.di.ScreenComponent
 import com.davay.android.feature.changename.presentation.ChangeNameBottomSheetFragment
 import com.davay.android.feature.main.di.DaggerMainFragmentComponent
