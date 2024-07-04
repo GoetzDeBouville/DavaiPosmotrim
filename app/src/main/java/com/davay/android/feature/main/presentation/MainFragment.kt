@@ -25,7 +25,7 @@ class MainFragment :
     override val viewModel: MainViewModel by injectViewModel<MainViewModel>()
     private var changedName: String? = null
     private val nameSharedPrefs by lazy {
-        context?.getSharedPreferences(USER_NAME_KEY,MODE_PRIVATE)
+        context?.getSharedPreferences(USER_NAME_KEY, MODE_PRIVATE)
     }
 
     override fun diComponent(): ScreenComponent = DaggerMainFragmentComponent.builder()
@@ -44,7 +44,7 @@ class MainFragment :
         binding.favorite.setState(MainScreenButtonView.FAVORITE)
         binding.joinSession.setState(MainScreenButtonView.JOIN)
 
-        binding.userName.text = nameSharedPrefs?.getString(USER_NAME_KEY,"Артём")
+        binding.userName.text = nameSharedPrefs?.getString(USER_NAME_KEY, "Артём")
         binding.createSession.setOnClickListener {
             createSession()
         }
@@ -96,7 +96,7 @@ class MainFragment :
     private fun updateUserName(newName: String?) {
         if (newName != null) {
             binding.userName.text = newName
-            nameSharedPrefs?.edit()?.putString(USER_NAME_KEY,newName)?.apply()
+            nameSharedPrefs?.edit()?.putString(USER_NAME_KEY, newName)?.apply()
         }
     }
 
