@@ -8,7 +8,7 @@ import com.davay.android.domain.models.Genre
 
 @Entity(tableName = "movies")
 data class MovieDetailsEntity(
-    @PrimaryKey val id: Int,
+    @PrimaryKey val movieId: Int,
     val name: String,
     val description: String?,
     val year: String?,

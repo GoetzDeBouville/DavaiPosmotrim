@@ -8,7 +8,7 @@ import com.davay.android.domain.models.User
 
 @Entity(tableName = "sessions")
 data class SessionEntity(
-    @PrimaryKey val id: String,
+    @PrimaryKey val sessionId: String,
     val users: List<User>,
     val numberOfMatchedMovies: Int,
     val date: String,

@@ -18,7 +18,7 @@ interface HistoryDao {
 
     @Transaction
     @Query("SELECT * FROM sessions WHERE sessionId = :sessionId")
-    suspend fun getSessionWithMovies(sessionId: Long): SessionWithMovies
+    suspend fun getSessionWithMovies(sessionId: String): SessionWithMovies
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertSession(session: SessionEntity)
