@@ -81,7 +81,6 @@ class WaitSessionFragment : BaseFragment<FragmentWaitSessionBinding, WaitSession
             copyTextToClipboard(code)
         }
 
-
         sendButton?.setOnClickListener {
             val code = binding.tvCode.text.toString()
             if (it.isEnabled) {

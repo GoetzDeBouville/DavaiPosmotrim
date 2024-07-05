@@ -64,7 +64,6 @@ class CoincidencesFragment : BaseFragment<FragmentCoincidencesBinding, Coinciden
         super.onViewCreated(view, savedInstanceState)
         setupToolbar()
         setupMoviesGrid()
-        viewModel.getCoincidences()
 
         // При смене конфигурации не нужно показывать подсказку
         if (savedInstanceState == null) {
@@ -104,14 +103,13 @@ class CoincidencesFragment : BaseFragment<FragmentCoincidencesBinding, Coinciden
         adapter = moviesGridAdapter
     }
 
-    private fun setupToolbar() = with(binding.toolbarView) {
-        addStatusBarSpacer()
-        setEndIcon(com.davai.uikit.R.drawable.ic_random)
-        showEndIcon()
-        setEndIconClickListener {
-            Toast.makeText(requireContext(), "Navigate to random.", Toast.LENGTH_SHORT).show()
-        }
-        setStartIconClickListener {
+    private fun setupToolbar() {
+        binding.toolbarView.apply {
+            addStatusBarSpacer()
+            setEndIconClickListener {
+                Toast.makeText(requireContext(), "Navigate to random.", Toast.LENGTH_SHORT).show()
+            }
+            setStartIconClickListener {
                 viewModel.navigateBack()
             }
         }
