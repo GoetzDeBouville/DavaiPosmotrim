@@ -1,5 +1,7 @@
 package com.davay.android.data.dto
 
+import com.google.gson.annotations.SerializedName
+
 data class GenreDto(
-    val name: String
+    @SerializedName("name") val name: String
 )

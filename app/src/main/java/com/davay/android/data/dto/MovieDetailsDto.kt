@@ -3,11 +3,11 @@ package com.davay.android.data.dto
 import com.google.gson.annotations.SerializedName
 
 data class MovieDetailsDto(
-    val id: Int,
-    val name: String,
-    val description: String?,
-    val year: String?,
-    val countries: List<String>?,
+    @SerializedName("id") val id: Int,
+    @SerializedName("name") val name: String,
+    @SerializedName("description") val description: String?,
+    @SerializedName("year") val year: String?,
+    @SerializedName("countries") val countries: List<String>?,
     @SerializedName("poster") val imgUrl: String?,
     @SerializedName("alternative_name") val alternativeName: String?,
     @SerializedName("rating_kp") val ratingKinopoisk: Float?,
@@ -15,7 +15,7 @@ data class MovieDetailsDto(
     @SerializedName("votes_kp") val numOfMarksKinopoisk: Int?,
     @SerializedName("votes_imdb") val numOfMarksImdb: Int?,
     @SerializedName("movie_length") val duration: Int?,
-    val genres: List<GenreDto>,
-    val directors: List<String>?,
-    val actors: List<String>?
+    @SerializedName("genres") val genres: List<GenreDto>,
+    @SerializedName("directors") val directors: List<String>?,
+    @SerializedName("actors") val actors: List<String>?
 )

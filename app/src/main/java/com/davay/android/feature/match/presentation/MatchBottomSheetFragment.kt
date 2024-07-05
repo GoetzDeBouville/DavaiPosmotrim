@@ -9,7 +9,7 @@ import android.view.ViewGroup
 import android.widget.FrameLayout
 import androidx.lifecycle.lifecycleScope
 import com.davay.android.databinding.FragmentMatchBottomSheetBinding
-import com.davay.android.feature.selectmovie.domain.models.MovieDetailsDemo
+import com.davay.android.domain.models.MovieDetails
 import com.davay.android.utils.MovieDetailsHelper
 import com.davay.android.utils.MovieDetailsHelperImpl
 import com.google.android.material.bottomsheet.BottomSheetBehavior
@@ -22,15 +22,15 @@ class MatchBottomSheetFragment : BottomSheetDialogFragment() {
     private var _binding: FragmentMatchBottomSheetBinding? = null
     private val binding: FragmentMatchBottomSheetBinding
         get() = _binding!!
-
     private val movieDetailsHelper: MovieDetailsHelper = MovieDetailsHelperImpl()
-    private var movieDetails: MovieDetailsDemo? = null
+    private var movieDetails: MovieDetails? = null
     private var buttonText: String? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
             movieDetails =
-                Gson().fromJson(it.getString(ARG_MOVIE_DETAILS), MovieDetailsDemo::class.java)
+                Gson().fromJson(it.getString(ARG_MOVIE_DETAILS), MovieDetails::class.java)
             buttonText = it.getString(ARG_BUTTON_TEXT)
         }
     }
@@ -114,9 +114,9 @@ class MatchBottomSheetFragment : BottomSheetDialogFragment() {
         }
     }
 
-    private fun fillData(data: MovieDetailsDemo) {
+    private fun fillData(data: MovieDetails) {
         binding.matchMovieCard.apply {
-            movieDetailsHelper.setImage(ivSelectMovieCover, data.posterUrl)
+            movieDetailsHelper.setImage(ivSelectMovieCover, data.imgUrl)
             movieDetailsHelper.addGenreList(fblGenreList, data.genres)
             tvFilmTitle.text = data.name
             tvOriginalTitle.text = data.alternativeName ?: ""
