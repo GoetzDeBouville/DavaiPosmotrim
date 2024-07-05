@@ -1,7 +1,6 @@
 package com.davay.android.feature.coincidences.data
 
 import com.davay.android.base.usecases.GetData
-import com.davay.android.data.dto.MovieDetailsDto
 import com.davay.android.domain.models.ErrorType
 import com.davay.android.domain.models.MovieDetails
 import com.davay.android.utils.ConnectionChecker

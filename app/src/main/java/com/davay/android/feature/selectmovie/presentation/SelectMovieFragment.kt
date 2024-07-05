@@ -203,7 +203,6 @@ class SelectMovieFragment :
     "Detekt.Wrapping",
     "Detekt.UnderscoresInNumericLiterals"
 )
-
 private val mockMovies = listOf(
     MovieDetails(
         id = 12345,
