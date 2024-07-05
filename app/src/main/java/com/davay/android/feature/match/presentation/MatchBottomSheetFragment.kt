@@ -22,9 +22,10 @@ class MatchBottomSheetFragment : BottomSheetDialogFragment() {
     private var _binding: FragmentMatchBottomSheetBinding? = null
     private val binding: FragmentMatchBottomSheetBinding
         get() = _binding!!
-
     private val movieDetailsHelper: MovieDetailsHelper = MovieDetailsHelperImpl()
     private var movieDetails: MovieDetails? = null
+    private var buttonText: String? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
@@ -73,6 +74,7 @@ class MatchBottomSheetFragment : BottomSheetDialogFragment() {
     private fun initViews() {
         buildBottomSheet()
         hideUnusedItems()
+        buttonText?.let { setButtonText(it) }
     }
 
     private fun subscribe() {
