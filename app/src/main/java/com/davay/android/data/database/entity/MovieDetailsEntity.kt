@@ -2,8 +2,6 @@ package com.davay.android.data.database.entity
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import androidx.room.TypeConverters
-import com.davay.android.data.database.Converters
 import com.davay.android.domain.models.Genre
 
 @Entity(tableName = "movies")

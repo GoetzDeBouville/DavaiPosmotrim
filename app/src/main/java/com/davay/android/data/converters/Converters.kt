@@ -126,8 +126,8 @@ fun MovieDetails.toEntity(): MovieDetailsEntity {
         numOfMarksImdb = numOfMarksImdb,
         duration = duration,
         genres = genres.map { Genre(it) },
-        actors = actors?: emptyList(),
-        directors = directors?: emptyList(),
+        actors = actors ?: emptyList(),
+        directors = directors ?: emptyList(),
     )
 }
 
