@@ -110,3 +110,33 @@ fun SessionWithMovies.getSession(): Session {
 fun SessionWithMovies.getMovies(): List<MovieDetails> {
     return movies.map { it.convert() }
 }
+
+fun MovieDetails.toEntity(): MovieDetailsEntity {
+    return MovieDetailsEntity(
+        movieId = id,
+        name = name,
+        description = description,
+        year = year,
+        countries = countries ?: emptyList(),
+        imgUrl = imgUrl,
+        alternativeName = alternativeName,
+        ratingKinopoisk = ratingKinopoisk,
+        ratingImdb = ratingImdb,
+        numOfMarksKinopoisk = numOfMarksKinopoisk,
+        numOfMarksImdb = numOfMarksImdb,
+        duration = duration,
+        genres = genres.map { Genre(it) },
+        actors = actors?: emptyList(),
+        directors = directors?: emptyList(),
+    )
+}
+
+fun Session.toEntity(): SessionEntity {
+    return SessionEntity(
+        sessionId = id,
+        users = users,
+        numberOfMatchedMovies = numberOfMatchedMovies ?: 0,
+        date = date,
+        imgUrl = imgUrl
+    )
+}
