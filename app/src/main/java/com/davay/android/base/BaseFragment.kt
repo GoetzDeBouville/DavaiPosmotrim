@@ -51,7 +51,12 @@ abstract class BaseFragment<VB : ViewBinding, VM : BaseViewModel>(
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         observeNavigation()
+        initViews()
+        subscribe()
     }
+
+    protected open fun initViews() = Unit
+    protected open fun subscribe() = Unit
 
     private fun observeNavigation() {
         viewModel.navigation.observeNonNull(viewLifecycleOwner) {

@@ -2,15 +2,15 @@ package com.davay.android.feature.coincidences.data
 
 import com.davay.android.base.usecases.GetData
 import com.davay.android.domain.models.ErrorType
-import com.davay.android.feature.selectmovie.domain.models.MovieDetailsDemo
+import com.davay.android.domain.models.MovieDetails
 import com.davay.android.utils.ConnectionChecker
 import com.davay.android.utils.Result
 
 class TestMovieRepository(
     private val connectionChecker: ConnectionChecker
-) : GetData<MovieDetailsDemo, ErrorType> {
+) : GetData<MovieDetails, ErrorType> {
 
-    override suspend fun getData(): Result<List<MovieDetailsDemo>, ErrorType> =
+    override suspend fun getData(): Result<List<MovieDetails>, ErrorType> =
         if (connectionChecker.isConnected) {
             Result.Success(mockTestMovieList)
         } else {
@@ -36,10 +36,22 @@ class TestMovieRepository(
         )
 
         private val mockTestMovieList = List(10) {
-            MovieDetailsDemo(
-                kinopoiskId = it,
+            MovieDetails(
+                id = it,
                 name = films[it % 5].first,
-                posterUrl = films[it % 5].second
+                imgUrl = films[it % 5].second,
+                description = null,
+                year = null,
+                countries = listOf(),
+                alternativeName = null,
+                ratingKinopoisk = null,
+                ratingImdb = null,
+                numOfMarksKinopoisk = null,
+                numOfMarksImdb = null,
+                duration = null,
+                genres = listOf(),
+                directors = listOf(),
+                actors = listOf(),
             )
         }
     }

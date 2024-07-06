@@ -4,6 +4,7 @@
     <!-- Background -->
     <color name="background_base">#F1F3F8</color>
     <color name="background_white">#FFFFFF</color>
+    <color name="transparent_dim">#80F1F3F8</color>
 
     <!-- Text -->
     <color name="text_base">#2E2D2D</color>
@@ -42,5 +43,7 @@
     <color name="attention">#FBC136</color>
     <color name="error">#DE1135</color>
     <color name="info">#2E2D2D</color>
+
+    <color name="transparent_black">#4D272727</color>
 
 </resources>
