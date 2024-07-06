@@ -3,13 +3,13 @@ package com.davay.android.feature.matchedsession.presentation.adapter
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.davai.uikit.MovieCardView
-import com.davay.android.feature.selectmovie.domain.models.MovieDetailsDemo
+import com.davay.android.domain.models.MovieDetails
 
 class MoviesGridViewHolder(private val view: MovieCardView) : RecyclerView.ViewHolder(view) {
 
-    fun bind(movie: MovieDetailsDemo) = with(view) {
-        setMovieCover(movie.posterUrl ?: "")
-        setMovieTitle(movie.movieName)
+    fun bind(movie: MovieDetails) = with(view) {
+        setMovieCover(movie.imgUrl ?: "")
+        setMovieTitle(movie.name)
     }
 
     companion object {

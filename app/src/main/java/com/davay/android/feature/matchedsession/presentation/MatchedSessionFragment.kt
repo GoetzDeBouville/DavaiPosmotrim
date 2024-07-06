@@ -8,6 +8,7 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import com.davai.extensions.dpToPx
+import com.davay.android.R
 import com.davay.android.app.AppComponentHolder
 import com.davay.android.base.BaseFragment
 import com.davay.android.databinding.FragmentMatchedSessionBinding
@@ -72,7 +73,7 @@ class MatchedSessionFragment :
     }
 //    Начало -> Взято из совпадений, чисто для демонстрации
 
-    private fun subscribe() {
+    override fun subscribe() {
         viewLifecycleOwner.lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.state.collectLatest {
@@ -112,8 +113,10 @@ class MatchedSessionFragment :
     private fun setupToolbar() {
         binding.toolbar.apply {
             addStatusBarSpacer()
+            val sessionId = "VMst456"
+            val subTitleText = "${R.string.session_list_name} $sessionId"
             setTitleText("23 сентября")
-            setSubtitleText("VMst456")
+            setSubtitleText(subTitleText)
             setStartIconClickListener {
                 viewModel.navigateBack()
             }

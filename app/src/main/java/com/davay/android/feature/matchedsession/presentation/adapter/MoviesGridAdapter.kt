@@ -3,18 +3,18 @@ package com.davay.android.feature.matchedsession.presentation.adapter
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
-import com.davay.android.feature.selectmovie.domain.models.MovieDetailsDemo
+import com.davay.android.domain.models.MovieDetails
 
 class MoviesGridAdapter(
     private val onItemClicked: (Int) -> Unit,
 ) : RecyclerView.Adapter<MoviesGridViewHolder>() {
 
-    private val movies = mutableListOf<MovieDetailsDemo>()
+    private val movies = mutableListOf<MovieDetails>()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MoviesGridViewHolder =
         MoviesGridViewHolder.create(parent).apply {
             itemView.setOnClickListener {
-                onItemClicked(movies[adapterPosition].kinopoiskId ?: 0)
+                onItemClicked(movies[adapterPosition].id ?: 0)
             }
         }
 
@@ -24,7 +24,7 @@ class MoviesGridAdapter(
         bind(movies[position])
     }
 
-    fun setData(data: List<MovieDetailsDemo>) {
+    fun setData(data: List<MovieDetails>) {
         val callback = MoviesGridDiffCallback(oldItems = movies, newItems = data)
         val diff = DiffUtil.calculateDiff(callback)
         movies.clear()
