@@ -72,12 +72,14 @@ class LoadFragment : BaseFragment<FragmentLoadBinding, LoadViewModel>(
             viewModel.navigate(R.id.action_loadFragment_to_waitSessionFragment)
         }
         binding.btnToMatchedSession.setOnClickListener {
-            val bundle = Bundle().apply {
-                putString(MatchedSessionFragment.SESSION_ID, "VMst456")
-                putStringArray(MatchedSessionFragment.USERS, arrayOf("Артём", "Виктория", "Иван", "Марина", "Фёдор"))
-                putString(MatchedSessionFragment.DATE, "2024.06.07")
-            }
-            viewModel.navigate(R.id.action_loadFragment_to_matchedSessionFragment, bundle)
+            viewModel.navigate(R.id.action_loadFragment_to_matchedSessionFragment, getBundleForMatchedSession())
         }
     }
+
+    private fun getBundleForMatchedSession(): Bundle =
+        Bundle().apply {
+            putString(MatchedSessionFragment.SESSION_ID, "VMst456")
+            putStringArray(MatchedSessionFragment.USERS, arrayOf("Артём", "Виктория", "Иван", "Марина", "Фёдор"))
+            putString(MatchedSessionFragment.DATE, "2024.06.07")
+        }
 }
