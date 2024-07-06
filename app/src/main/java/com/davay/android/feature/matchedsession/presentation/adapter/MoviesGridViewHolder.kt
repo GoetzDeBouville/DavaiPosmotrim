@@ -1,4 +1,4 @@
-package com.davay.android.feature.matchedsession.adapter
+package com.davay.android.feature.matchedsession.presentation.adapter
 
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView

@@ -1,4 +1,4 @@
-package com.davay.android.feature.matchedsession.adapter
+package com.davay.android.feature.matchedsession.presentation.adapter
 
 import androidx.recyclerview.widget.DiffUtil
 
