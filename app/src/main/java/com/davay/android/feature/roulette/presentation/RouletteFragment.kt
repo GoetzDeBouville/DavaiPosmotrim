@@ -14,6 +14,7 @@ import com.davay.android.app.AppComponentHolder
 import com.davay.android.base.BaseFragment
 import com.davay.android.databinding.FragmentRouletteBinding
 import com.davay.android.di.ScreenComponent
+import com.davay.android.domain.models.MovieDetails
 import com.davay.android.feature.match.presentation.MatchBottomSheetFragment
 import com.davay.android.feature.roulette.di.DaggerRouletteFragmentComponent
 import com.davay.android.feature.roulette.presentation.carouselrecycler.CarouselAdapter
@@ -21,7 +22,6 @@ import com.davay.android.feature.roulette.presentation.carouselrecycler.Carousel
 import com.davay.android.feature.roulette.presentation.carouselrecycler.LinearHorizontalSpacingDecoration
 import com.davay.android.feature.roulette.presentation.model.UserRouletteModel
 import com.davay.android.feature.roulette.presentation.useradapter.UserAdapter
-import com.davay.android.feature.selectmovie.domain.models.MovieDetailsDemo
 import com.davay.android.feature.waitsession.presentation.adapter.CustomItemDecorator
 import com.google.android.flexbox.AlignItems
 import com.google.android.flexbox.FlexDirection
@@ -109,7 +109,7 @@ class RouletteFragment :
         }
     }
 
-    private fun initRecyclerRoulette(films: List<MovieDetailsDemo>) {
+    private fun initRecyclerRoulette(films: List<MovieDetails>) {
         val carouselAdapter = CarouselAdapter().apply {
             addFilms(films)
         }
