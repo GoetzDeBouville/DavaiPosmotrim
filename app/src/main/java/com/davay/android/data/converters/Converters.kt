@@ -1,5 +1,8 @@
 package com.davay.android.data.converters
 
+import com.davay.android.data.database.entity.MovieDetailsEntity
+import com.davay.android.data.database.entity.SessionEntity
+import com.davay.android.data.database.entity.SessionWithMovies
 import com.davay.android.data.dto.CollectionDto
 import com.davay.android.data.dto.GenreDto
 import com.davay.android.data.dto.MovieDetailsDto
@@ -67,4 +70,43 @@ fun SessionStatusDto.convert(): SessionStatus {
         SessionStatusDto.VOTING -> SessionStatus.VOTING
         SessionStatusDto.CLOSED -> SessionStatus.CLOSED
     }
+}
+
+fun MovieDetailsEntity.convert(): MovieDetails {
+    return MovieDetails(
+        id = movieId,
+        name = name,
+        description = description,
+        year = year,
+        countries = countries,
+        imgUrl = imgUrl,
+        alternativeName = alternativeName,
+        ratingKinopoisk = ratingKinopoisk,
+        ratingImdb = ratingImdb,
+        numOfMarksKinopoisk = numOfMarksKinopoisk,
+        numOfMarksImdb = numOfMarksImdb,
+        duration = duration,
+        genres = genres.map { it.name },
+        actors = actors,
+        directors = directors
+    )
+}
+
+fun SessionEntity.convert(): Session {
+    return Session(
+        id = sessionId,
+        users = users,
+        numberOfMatchedMovies = numberOfMatchedMovies,
+        date = date,
+        status = SessionStatus.CLOSED,
+        imgUrl = imgUrl
+    )
+}
+
+fun SessionWithMovies.getSession(): Session {
+    return session.convert()
+}
+
+fun SessionWithMovies.getMovies(): List<MovieDetails> {
+    return movies.map { it.convert() }
 }
