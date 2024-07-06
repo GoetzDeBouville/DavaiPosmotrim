@@ -43,7 +43,4 @@ class MatchedSessionViewModel @Inject constructor(
             )
         }
     }
-
-    @Suppress("Detekt.FunctionOnlyReturningConstant")
-    fun isHintShown(): Boolean = false // Запровайдить префы
 }

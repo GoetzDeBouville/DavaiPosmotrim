@@ -42,14 +42,16 @@ class MatchedSessionFragment :
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        setupToolbar()
+        arguments?.let {
+            userAdapter.setItems(it.getStringArray(USERS)?.toList() ?: listOf())
+            setupToolbar(
+                sessionId = it.getString(SESSION_ID) ?: String(),
+                date = it.getString(DATE) ?: String()
+            )
+        } // Сделал получение данных через бандл, может быть решим по-другому потом
         initUsersRecycler()
         setupMoviesGrid()
         subscribe()
-        userAdapter.setItems(
-            listOf("Артем", "Руслан", "Константин", "Виктория")
-        )
-
     }
 
     private fun initUsersRecycler() {
@@ -110,12 +112,11 @@ class MatchedSessionFragment :
 
 //        Конец -> Взято из совпадений, чисто для демонстрации
 
-    private fun setupToolbar() {
+    private fun setupToolbar(sessionId: String, date: String) {
         binding.toolbar.apply {
             addStatusBarSpacer()
-            val sessionId = "VMst456"
-            val subTitleText = "${R.string.session_list_name} $sessionId"
-            setTitleText("23 сентября")
+            val subTitleText = "${getString(R.string.session_list_name)} $sessionId"
+            setTitleText(date)
             setSubtitleText(subTitleText)
             setStartIconClickListener {
                 viewModel.navigateBack()
@@ -125,5 +126,8 @@ class MatchedSessionFragment :
 
     companion object {
         private const val SPACING_BETWEEN_RV_ITEMS_8_DP = 8
+        const val USERS = "users"
+        const val DATE = "date"
+        const val SESSION_ID = "sessionId"
     }
 }

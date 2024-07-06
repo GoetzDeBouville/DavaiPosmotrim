@@ -10,6 +10,7 @@ import com.davay.android.base.BaseFragment
 import com.davay.android.databinding.FragmentLoadBinding
 import com.davay.android.di.ScreenComponent
 import com.davay.android.feature.load.di.DaggerLoadFragmentComponent
+import com.davay.android.feature.matchedsession.presentation.MatchedSessionFragment
 import com.davay.android.feature.onboarding.presentation.OnboardingFragment
 import com.davay.android.feature.roulette.presentation.RouletteFragment
 
@@ -71,7 +72,12 @@ class LoadFragment : BaseFragment<FragmentLoadBinding, LoadViewModel>(
             viewModel.navigate(R.id.action_loadFragment_to_waitSessionFragment)
         }
         binding.btnToMatchedSession.setOnClickListener {
-            viewModel.navigate(R.id.action_loadFragment_to_matchedSessionFragment)
+            val bundle = Bundle().apply {
+                putString(MatchedSessionFragment.SESSION_ID, "VMst456")
+                putStringArray(MatchedSessionFragment.USERS, arrayOf("Артём", "Виктория", "Иван", "Марина", "Фёдор"))
+                putString(MatchedSessionFragment.DATE, "2024.06.07")
+            }
+            viewModel.navigate(R.id.action_loadFragment_to_matchedSessionFragment, bundle)
         }
     }
 }
