@@ -8,7 +8,6 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import com.davai.extensions.dpToPx
-import com.davay.android.R
 import com.davay.android.app.AppComponentHolder
 import com.davay.android.base.BaseFragment
 import com.davay.android.databinding.FragmentMatchedSessionBinding
@@ -45,7 +44,7 @@ class MatchedSessionFragment :
         arguments?.let {
             userAdapter.setItems(it.getStringArray(USERS)?.toList() ?: listOf())
             setupToolbar(
-                sessionId = it.getString(SESSION_ID) ?: String(),
+                subTitle = it.getString(SUBTITLE) ?: String(),
                 date = it.getString(DATE) ?: String()
             )
         } // Сделал получение данных через бандл, может быть решим по-другому потом
@@ -112,12 +111,11 @@ class MatchedSessionFragment :
 
 //        Конец -> Взято из совпадений, чисто для демонстрации
 
-    private fun setupToolbar(sessionId: String, date: String) {
+    private fun setupToolbar(subTitle: String, date: String) {
         binding.toolbar.apply {
             addStatusBarSpacer()
-            val subTitleText = "${getString(R.string.session_list_name)} $sessionId"
             setTitleText(date)
-            setSubtitleText(subTitleText)
+            setSubtitleText(subTitle)
             setStartIconClickListener {
                 viewModel.navigateBack()
             }
@@ -128,6 +126,6 @@ class MatchedSessionFragment :
         private const val SPACING_BETWEEN_RV_ITEMS_8_DP = 8
         const val USERS = "users"
         const val DATE = "date"
-        const val SESSION_ID = "sessionId"
+        const val SUBTITLE = "sessionId"
     }
 }
