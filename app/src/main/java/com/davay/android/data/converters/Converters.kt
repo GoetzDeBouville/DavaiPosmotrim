@@ -100,11 +100,13 @@ fun MovieDetailsEntity.convert(): MovieDetails {
 }
 
 fun SessionEntity.convert(): Session {
+    val dateFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
+    val parsedDate = requireNotNull(dateFormat.parse(date)) { "Date parsing failed for $date" }
     return Session(
         id = sessionId,
         users = users,
         numberOfMatchedMovies = numberOfMatchedMovies,
-        date = date,
+        date = parsedDate,
         status = SessionStatus.CLOSED,
         imgUrl = imgUrl
     )
@@ -139,11 +141,13 @@ fun MovieDetails.toEntity(): MovieDetailsEntity {
 }
 
 fun Session.toEntity(): SessionEntity {
+    val dateFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
+    val dateString = dateFormat.format(date)
     return SessionEntity(
         sessionId = id,
         users = users,
         numberOfMatchedMovies = numberOfMatchedMovies ?: 0,
-        date = date,
+        date = dateString,
         imgUrl = imgUrl
     )
 }
