@@ -14,6 +14,8 @@ import com.davay.android.domain.models.MovieDetails
 import com.davay.android.domain.models.Session
 import com.davay.android.domain.models.SessionStatus
 import com.davay.android.domain.models.User
+import java.text.SimpleDateFormat
+import java.util.Locale
 
 fun CollectionDto.convert() = Collection(
     id,
@@ -56,7 +58,7 @@ fun SessionDto.convert() = Session(
     id,
     users.map { it.convert() },
     numberOfMatchedMovies,
-    date,
+    SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).parse(date),
     status.convert(),
     imgUrl
 )
