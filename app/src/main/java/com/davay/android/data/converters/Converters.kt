@@ -54,14 +54,19 @@ fun MovieDetailsDto.convert() = MovieDetails(
     directors
 )
 
-fun SessionDto.convert() = Session(
-    id,
-    users.map { it.convert() },
-    numberOfMatchedMovies,
-    SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).parse(date),
-    status.convert(),
-    imgUrl
-)
+fun SessionDto.convert(): Session {
+    val dateFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
+    val parsedDate = requireNotNull(dateFormat.parse(date)) { "Date parsing failed for $date" }
+
+    return Session(
+        id = id,
+        users = users.map { it.convert() },
+        numberOfMatchedMovies = numberOfMatchedMovies,
+        date = parsedDate,
+        status = status.convert(),
+        imgUrl = imgUrl
+    )
+}
 
 fun SessionStatusDto.convert(): SessionStatus {
     return when (this) {
