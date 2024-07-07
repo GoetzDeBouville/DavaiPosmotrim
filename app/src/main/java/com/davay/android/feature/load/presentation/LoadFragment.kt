@@ -1,5 +1,6 @@
 package com.davay.android.feature.load.presentation
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -91,13 +92,8 @@ class LoadFragment : BaseFragment<FragmentLoadBinding, LoadViewModel>(
                 )
                 val users = session.users.map { it.name }.toTypedArray()
                 putStringArray(MatchedSessionFragment.USERS, users)
-                val simpleDate =
-                    SimpleDateFormat(
-                        "yyyy-MM-dd",
-                        Locale.getDefault()
-                    ).parse(session.date) ?: Calendar.getInstance().time
                 val formater = SimpleDateFormat("dd MMMM", Locale.getDefault())
-                putString(MatchedSessionFragment.DATE, formater.format(simpleDate))
+                putString(MatchedSessionFragment.DATE, formater.format(session.date))
             }
         viewModel.navigate(
             R.id.action_loadFragment_to_matchedSessionFragment,
@@ -106,10 +102,14 @@ class LoadFragment : BaseFragment<FragmentLoadBinding, LoadViewModel>(
     }
 
     companion object {
-        //        Данные будем брать из модели, переход будет со страницы списка сессий, там все это будет
+        //        Временно. В бою данные будем брать из модели, переход будет со страницы списка сессий, там все это будет
+        @SuppressLint("ConstantLocale")
         val session = Session(
             id = "VMst456",
-            date = "2023-09-23",
+            date = SimpleDateFormat(
+                "yyyy-MM-dd",
+                Locale.getDefault()
+            ).parse("2023-09-23") ?: Calendar.getInstance().time,
             imgUrl = "//imgUrl",
             users = listOf(
                 User("1", "Артём"),
