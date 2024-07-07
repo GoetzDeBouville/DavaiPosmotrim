@@ -83,8 +83,12 @@ class LoadFragment : BaseFragment<FragmentLoadBinding, LoadViewModel>(
 //        Данные берем из модели, переход будет со страницы списка сессий, там все это будет
         Bundle().apply {
             putString(MatchedSessionFragment.SUBTITLE, "${getString(R.string.session_list_name)} VMst456")
-            putStringArray(MatchedSessionFragment.USERS, arrayOf("Артём", "Виктория", "Иван", "Марина", "Фёдор", "Артём", "Виктория", "Иван", "Марина", "Фёдор", "Артём", "Виктория", "Иван", "Марина", "Фёдор", "Артём", "Виктория", "Иван", "Марина", "Фёдор", "Артём", "Виктория", "Иван", "Марина", "Фёдор","Артём", "Виктория", "Иван", "Марина", "Фёдор"))
-            val simpleDate = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).parse("2023-09-23") ?: Calendar.getInstance().time
+            putStringArray(MatchedSessionFragment.USERS, arrayOf("Артём", "Виктория", "Иван", "Марина", "Фёдор"))
+            val simpleDate =
+                SimpleDateFormat(
+                    "yyyy-MM-dd",
+                    Locale.getDefault()
+                ).parse("2023-09-23") ?: Calendar.getInstance().time
             val formater = SimpleDateFormat("dd MMMM", Locale.getDefault())
             putString(MatchedSessionFragment.DATE, formater.format(simpleDate))
         }
