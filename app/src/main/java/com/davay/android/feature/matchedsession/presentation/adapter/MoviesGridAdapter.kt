@@ -14,7 +14,7 @@ class MoviesGridAdapter(
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MoviesGridViewHolder =
         MoviesGridViewHolder.create(parent).apply {
             itemView.setOnClickListener {
-                onItemClicked(movies[adapterPosition].id ?: 0)
+                onItemClicked(movies[adapterPosition].id)
             }
         }
 
