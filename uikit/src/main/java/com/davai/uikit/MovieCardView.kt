@@ -99,7 +99,7 @@ class MovieCardView @JvmOverloads constructor(
                 },
                 onError = { _, _ ->
                     progressBar.isGone = true
-                    ivMovieCover.setImageResource(R.drawable.placeholder_general_80)
+                    ivMovieCover.setImageResource(R.drawable.placeholder_general_w163)
                     tvMovieTitle.background = null
                     tvMovieTitle.setTextColor(ContextCompat.getColor(context, R.color.text_headings))
                 }
