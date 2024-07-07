@@ -13,8 +13,8 @@ import com.davay.android.base.BaseFragment
 import com.davay.android.databinding.FragmentMatchedSessionBinding
 import com.davay.android.di.ScreenComponent
 import com.davay.android.feature.coincidences.presentation.UiState
-import com.davay.android.feature.coincidences.presentation.adapter.MoviesGridAdapter
 import com.davay.android.feature.matchedsession.di.DaggerMatchedSessionFragmentComponent
+import com.davay.android.feature.matchedsession.presentation.adapter.MoviesGridAdapter
 import com.davay.android.feature.waitsession.presentation.adapter.CustomItemDecorator
 import com.davay.android.feature.waitsession.presentation.adapter.UserAdapter
 import com.google.android.flexbox.AlignItems
