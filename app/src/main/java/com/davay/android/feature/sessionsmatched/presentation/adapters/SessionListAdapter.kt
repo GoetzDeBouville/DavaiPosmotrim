@@ -6,6 +6,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.davay.android.databinding.ItemSessionBinding
 import com.davay.android.domain.models.Session
+import java.util.Date
 import java.util.Locale
 
 class SessionListAdapter(
@@ -31,11 +32,9 @@ class SessionListAdapter(
             }
         }
 
-        private fun formatDate(inputDate: String): String {
-            val inputFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
+        private fun formatDate(inputDate: Date): String {
             val outputFormat = SimpleDateFormat("dd MMMM yyyy", Locale("ru"))
-            val date = inputFormat.parse(inputDate)
-            return outputFormat.format(date)
+            return outputFormat.format(inputDate)
         }
     }
 
