@@ -42,7 +42,12 @@ class MatchedSessionListFragment :
     override fun initViews() {
         with(binding) {
             super.initViews()
-            toolbarSessions.addStatusBarSpacer()
+            toolbarSessions.apply {
+                addStatusBarSpacer()
+                setStartIconClickListener {
+                    viewModel.navigateBack()
+                }
+            }
             rvSessionList.apply {
                 adapter = sessionsAdapter
                 layoutManager = LinearLayoutManager(requireContext())
