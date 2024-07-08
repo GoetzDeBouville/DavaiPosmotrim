@@ -1,10 +1,9 @@
 package com.davay.android.data.database
 
 import androidx.room.Dao
-import androidx.room.Insert
-import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.Transaction
+import androidx.room.Upsert
 import com.davay.android.data.database.entity.MovieDetailsEntity
 import com.davay.android.data.database.entity.SessionEntity
 import com.davay.android.data.database.entity.SessionMovieCrossRef
@@ -23,14 +22,14 @@ interface HistoryDao {
     suspend fun getSessionWithMovies(sessionId: String): SessionWithMovies?
 
     // Сохранение сессии (без фильмов)
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    @Upsert
     suspend fun insertSession(session: SessionEntity)
 
     // Сохранение фильма
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    @Upsert
     suspend fun insertMovie(movie: MovieDetailsEntity)
 
     // Сохранение связи сессии и фильма с помощью sessionId и movieId
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    @Upsert
     suspend fun insertSessionMovieReference(sessionMovieCrossRef: SessionMovieCrossRef)
 }
