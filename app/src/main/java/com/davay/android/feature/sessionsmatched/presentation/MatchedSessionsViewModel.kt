@@ -8,8 +8,6 @@ import com.davay.android.domain.models.User
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
-import java.text.SimpleDateFormat
-import java.util.Locale
 import javax.inject.Inject
 
 class MatchedSessionsViewModel @Inject constructor() : BaseViewModel() {
@@ -27,9 +25,7 @@ class MatchedSessionsViewModel @Inject constructor() : BaseViewModel() {
     }
 }
 
-val dateFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
-
-@Suppress("Detekt.MagicNumber", "Detekt.StringLiteralDuplication")
+@Suppress("Detekt.MagicNumber", "Detekt.StringLiteralDuplication", "Detekt.UnderscoresInNumericLiterals")
 private val matchedSessions = listOf(
     Session(
         id = "11Sq21",
@@ -40,8 +36,8 @@ private val matchedSessions = listOf(
             User(userId = "ponderum", name = "Earl England"),
             User(userId = "senserit", name = "Maribel Daniel")
         ),
-        numberOfMatchedMovies = null,
-        date = dateFormat.parse("2024-05-23") ?: throw IllegalArgumentException("Invalid date format"),
+        numberOfMatchedMovies = 1,
+        date = 1707350400000L,
         status = SessionStatus.VOTING,
         imgUrl = "https://avatars.mds.yandex.net/get-kinopoisk-image/1704946/0a54b73c-bbec-4ec0-9516-0faaf7ebe9fa/3840x"
     ),
@@ -54,7 +50,7 @@ private val matchedSessions = listOf(
             User(userId = "consectetuer", name = "Lavonne Beasley")
         ),
         numberOfMatchedMovies = 6,
-        date = dateFormat.parse("2024-06-03") ?: throw IllegalArgumentException("Invalid date format"),
+        date = 1716249600000L,
         status = SessionStatus.CLOSED,
         imgUrl = "https://avatars.mds.yandex.net/get-kinopoisk-image/4303601/119d3aad-a479-4532-aadf-b428eb330337/3840x"
     ),
@@ -67,7 +63,7 @@ private val matchedSessions = listOf(
             User(userId = "convallis", name = "Liza Cotton")
         ),
         numberOfMatchedMovies = 4,
-        date = dateFormat.parse("2024-06-20") ?: throw IllegalArgumentException("Invalid date format"),
+        date = 1718150400000L,
         status = SessionStatus.WAITING,
         imgUrl = "https://avatars.mds.yandex.net/get-kinopoisk-image/1600647/6e9e2641-5750-4991-a52b-8c1cd0e80b4c/3840x"
     ),
@@ -82,7 +78,7 @@ private val matchedSessions = listOf(
             User(userId = "senserit", name = "Maribel Daniel")
         ),
         numberOfMatchedMovies = 3,
-        date = dateFormat.parse("2024-06-21") ?: throw IllegalArgumentException("Invalid date format"),
+        date = 1719964800000L,
         status = SessionStatus.CLOSED,
         imgUrl = "https://avatars.mds.yandex.net/get-kinopoisk-image/4774061/0d60959d-fef2-4f1f-a28b-3d08247ec817/3840x"
     ),
@@ -97,7 +93,7 @@ private val matchedSessions = listOf(
             User(userId = "senserit", name = "Maribel Daniel")
         ),
         numberOfMatchedMovies = 3,
-        date = dateFormat.parse("2024-06-27") ?: throw IllegalArgumentException("Invalid date format"),
+        date = 1718236800000L,
         status = SessionStatus.CLOSED,
         imgUrl = ""
     )
