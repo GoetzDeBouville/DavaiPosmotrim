@@ -9,6 +9,6 @@ data class SessionEntity(
     @PrimaryKey val sessionId: String,
     val users: List<String>,
     val numberOfMatchedMovies: Int,
-    val date: String,
+    val date: Long,
     val imgUrl: String,
 )

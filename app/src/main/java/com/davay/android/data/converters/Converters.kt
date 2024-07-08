@@ -18,6 +18,7 @@ import com.davay.android.domain.models.Session
 import com.davay.android.domain.models.SessionStatus
 import com.davay.android.domain.models.User
 import java.text.SimpleDateFormat
+import java.util.Date
 import java.util.Locale
 
 fun CollectionDto.convert() = Collection(
@@ -100,13 +101,11 @@ fun MovieDetailsEntity.convert(): MovieDetails {
 }
 
 fun SessionEntity.convert(): Session {
-    val dateFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
-    val parsedDate = requireNotNull(dateFormat.parse(date)) { "Date parsing failed for $date" }
     return Session(
         id = sessionId,
         users = users.mapIndexed() { index, name -> User(index.toString(), name) },
         numberOfMatchedMovies = numberOfMatchedMovies,
-        date = parsedDate,
+        date = Date(date),
         status = SessionStatus.CLOSED,
         imgUrl = imgUrl
     )
@@ -141,13 +140,11 @@ fun MovieDetails.toEntity(): MovieDetailsEntity {
 }
 
 fun Session.toEntity(): SessionEntity {
-    val dateFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
-    val dateString = dateFormat.format(date)
     return SessionEntity(
         sessionId = id,
         users = users.map { it.name },
         numberOfMatchedMovies = numberOfMatchedMovies ?: 0,
-        date = dateString,
+        date = date.time,
         imgUrl = imgUrl
     )
 }
