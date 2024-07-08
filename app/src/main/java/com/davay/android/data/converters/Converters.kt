@@ -127,7 +127,7 @@ fun MovieDetailsEntity.convert(): MovieDetails {
 fun SessionEntity.convert(): Session {
     return Session(
         id = sessionId,
-        users = users.mapIndexed() { index, name -> User(index.toString(), name) },
+        users = users.mapIndexed { index, name -> User(index.toString(), name) },
         numberOfMatchedMovies = numberOfMatchedMovies,
         date = date,
         status = SessionStatus.CLOSED,
