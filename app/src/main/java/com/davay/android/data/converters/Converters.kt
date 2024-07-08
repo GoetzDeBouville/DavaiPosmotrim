@@ -93,7 +93,7 @@ fun MovieDetailsEntity.convert(): MovieDetails {
         numOfMarksKinopoisk = numOfMarksKinopoisk,
         numOfMarksImdb = numOfMarksImdb,
         duration = duration,
-        genres = genres.map { it.name },
+        genres = genres,
         actors = actors,
         directors = directors
     )
@@ -134,7 +134,7 @@ fun MovieDetails.toEntity(): MovieDetailsEntity {
         numOfMarksKinopoisk = numOfMarksKinopoisk,
         numOfMarksImdb = numOfMarksImdb,
         duration = duration,
-        genres = genres.map { Genre(it) },
+        genres = genres,
         actors = actors ?: emptyList(),
         directors = directors ?: emptyList(),
     )

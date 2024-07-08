@@ -2,7 +2,6 @@ package com.davay.android.data.database.entity
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import com.davay.android.domain.models.Genre
 
 @Entity(tableName = "movies")
 data class MovieDetailsEntity(
@@ -18,7 +17,7 @@ data class MovieDetailsEntity(
     val numOfMarksKinopoisk: Int? = null,
     val numOfMarksImdb: Int? = null,
     val duration: Int? = null,
-    val genres: List<Genre>,
+    val genres: List<String>,
     val directors: List<String>,
     val actors: List<String>,
 )
