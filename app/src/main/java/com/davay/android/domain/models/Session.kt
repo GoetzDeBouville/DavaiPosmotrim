@@ -1,12 +1,12 @@
 package com.davay.android.domain.models
 
-import java.util.Date
+typealias timeStamp = Long
 
 data class Session(
     val id: String,
     val users: List<User>,
     val numberOfMatchedMovies: Int?,
-    val date: Date,
+    val date: timeStamp,
     val status: SessionStatus,
     val imgUrl: String
 )
