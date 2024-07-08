@@ -1,17 +1,18 @@
 package com.davay.android.feature.coincidences.data
 
+import android.content.Context
 import com.davay.android.base.usecases.GetData
 import com.davay.android.domain.models.ErrorType
 import com.davay.android.domain.models.MovieDetails
-import com.davay.android.utils.ConnectionChecker
+import com.davay.android.extensions.isInternetReachable
 import com.davay.android.utils.Result
 
 class TestMovieRepository(
-    private val connectionChecker: ConnectionChecker
+    private val context: Context
 ) : GetData<MovieDetails, ErrorType> {
 
     override suspend fun getData(): Result<List<MovieDetails>, ErrorType> =
-        if (connectionChecker.isConnected) {
+        if (context.isInternetReachable()) {
             Result.Success(mockTestMovieList)
         } else {
             Result.Error(ErrorType.NO_CONNECTION)
