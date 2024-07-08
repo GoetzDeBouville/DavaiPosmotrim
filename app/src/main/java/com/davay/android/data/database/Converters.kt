@@ -28,17 +28,4 @@ class Converters {
             Genre(it)
         }
     }
-
-    @TypeConverter
-    fun toStringFromUsersList(value: List<User>): String {
-        return value.map { it.name + "," + it.userId }.joinToString(separator = ";")
-    }
-
-    @TypeConverter
-    fun toUsersListFromString(value: String): List<User> {
-        return value.split(";").map {
-            val (name, userId) = it.split(",")
-            User(name, userId)
-        }
-    }
 }

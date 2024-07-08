@@ -104,7 +104,7 @@ fun SessionEntity.convert(): Session {
     val parsedDate = requireNotNull(dateFormat.parse(date)) { "Date parsing failed for $date" }
     return Session(
         id = sessionId,
-        users = users,
+        users = users.mapIndexed() { index, name -> User(index.toString(), name) },
         numberOfMatchedMovies = numberOfMatchedMovies,
         date = parsedDate,
         status = SessionStatus.CLOSED,
@@ -145,7 +145,7 @@ fun Session.toEntity(): SessionEntity {
     val dateString = dateFormat.format(date)
     return SessionEntity(
         sessionId = id,
-        users = users,
+        users = users.map { it.name },
         numberOfMatchedMovies = numberOfMatchedMovies ?: 0,
         date = dateString,
         imgUrl = imgUrl
