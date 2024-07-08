@@ -123,7 +123,7 @@ fun SessionEntity.convert(): Session {
         id = sessionId,
         users = users.mapIndexed() { index, name -> User(index.toString(), name) },
         numberOfMatchedMovies = numberOfMatchedMovies,
-        date = Date(date),
+        date = date,
         status = SessionStatus.CLOSED,
         imgUrl = imgUrl
     )
@@ -162,7 +162,7 @@ fun Session.toEntity(): SessionEntity {
         sessionId = id,
         users = users.map { it.name },
         numberOfMatchedMovies = numberOfMatchedMovies ?: 0,
-        date = date.time,
+        date = date,
         imgUrl = imgUrl
     )
 }
