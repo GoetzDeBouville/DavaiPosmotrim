@@ -1,4 +1,4 @@
-package com.davay.android.userData
+package com.davay.android.userdata
 
 class UserDataInteractorImpl(
     private val repository: UserDataRepository

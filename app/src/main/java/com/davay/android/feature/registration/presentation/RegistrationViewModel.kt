@@ -3,7 +3,7 @@ package com.davay.android.feature.registration.presentation
 import android.text.Editable
 import android.util.Log
 import com.davay.android.base.BaseViewModel
-import com.davay.android.userData.UserDataInteractor
+import com.davay.android.userdata.UserDataInteractor
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import java.util.UUID.randomUUID

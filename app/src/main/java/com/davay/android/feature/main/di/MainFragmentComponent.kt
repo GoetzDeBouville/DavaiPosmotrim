@@ -2,7 +2,7 @@ package com.davay.android.feature.main.di
 
 import com.davay.android.app.AppComponent
 import com.davay.android.di.ScreenComponent
-import com.davay.android.userData.UserDataModule
+import com.davay.android.userdata.UserDataModule
 import dagger.Component
 
 @Component(

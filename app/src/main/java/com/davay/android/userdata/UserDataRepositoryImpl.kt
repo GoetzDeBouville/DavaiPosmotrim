@@ -1,4 +1,4 @@
-package com.davay.android.userData
+package com.davay.android.userdata
 
 import android.content.SharedPreferences
 

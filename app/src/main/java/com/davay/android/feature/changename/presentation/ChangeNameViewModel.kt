@@ -2,7 +2,7 @@ package com.davay.android.feature.changename.presentation
 
 import android.text.Editable
 import com.davay.android.base.BaseViewModel
-import com.davay.android.userData.UserDataInteractor
+import com.davay.android.userdata.UserDataInteractor
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import javax.inject.Inject
@@ -30,6 +30,10 @@ class ChangeNameViewModel @Inject constructor(
             text.any { !it.isLetter() } -> _state.value = ChangeNameState.NUMBERS
             else -> _state.value = ChangeNameState.SUCCESS
         }
+    }
+
+    fun getUserName(): String {
+        return userDataInteractor.getUserName()
     }
 
     companion object {
