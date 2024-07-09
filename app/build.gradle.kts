@@ -60,6 +60,7 @@ dependencies {
     implementation(libs.flexbox)
     implementation(libs.circle.indicator)
     implementation(libs.physicslayout)
+    implementation (libs.encrypted.sharedpreferences)
 
     implementation(project(":uikit"))
 }

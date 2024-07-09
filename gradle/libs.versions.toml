@@ -30,6 +30,8 @@ circle_indicator = "2.1.6"
 
 physicslayout = "3.0.2"
 
+encrypted_sharedpreferences = "1.0.0"
+
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
 junit = { group = "junit", name = "junit", version.ref = "junit" }
@@ -50,6 +52,8 @@ flexbox = { group = "com.google.android.flexbox", name = "flexbox", version.ref 
 circle-indicator = { group = "me.relex", name = "circleindicator", version.ref = "circle_indicator" }
 
 physicslayout = { module = "com.jawnnypoo:physicslayout", version.ref = "physicslayout" }
+
+encrypted-sharedpreferences = { group = "androidx.security", name = "security-crypto", version.ref = "encrypted_sharedpreferences" }
 
 # Detekt
 staticAnalysis-detektCli = { module = "io.gitlab.arturbosch.detekt:detekt-cli", version.ref = "detekt" }
