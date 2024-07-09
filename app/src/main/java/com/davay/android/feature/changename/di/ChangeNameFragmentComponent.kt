@@ -2,11 +2,12 @@ package com.davay.android.feature.changename.di
 
 import com.davay.android.app.AppComponent
 import com.davay.android.di.ScreenComponent
+import com.davay.android.userData.UserDataModule
 import dagger.Component
 
 @Component(
     dependencies = [AppComponent::class],
-    modules = [ChangeNameFragmentModule::class]
+    modules = [ChangeNameFragmentModule::class, UserDataModule::class]
 )
 interface ChangeNameFragmentComponent : ScreenComponent {
 

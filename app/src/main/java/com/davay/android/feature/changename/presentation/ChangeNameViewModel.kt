@@ -2,11 +2,14 @@ package com.davay.android.feature.changename.presentation
 
 import android.text.Editable
 import com.davay.android.base.BaseViewModel
+import com.davay.android.userData.UserDataInteractor
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import javax.inject.Inject
 
-class ChangeNameViewModel @Inject constructor() : BaseViewModel() {
+class ChangeNameViewModel @Inject constructor(
+    private val userDataInteractor: UserDataInteractor
+) : BaseViewModel() {
 
     private val _state = MutableStateFlow(ChangeNameState.DEFAULT)
     val state: StateFlow<ChangeNameState>
@@ -14,6 +17,9 @@ class ChangeNameViewModel @Inject constructor() : BaseViewModel() {
 
     fun buttonClicked(text: Editable?) {
         textCheck(text)
+        if (state.value == ChangeNameState.SUCCESS) {
+            userDataInteractor.setUserName(text.toString())
+        }
     }
 
     fun textCheck(text: Editable?) {
