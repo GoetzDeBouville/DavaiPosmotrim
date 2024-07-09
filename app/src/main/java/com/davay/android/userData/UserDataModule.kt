@@ -1,15 +1,11 @@
-package com.davay.android.feature.registration.di
+package com.davay.android.userData
 
 import android.content.SharedPreferences
-import com.davay.android.feature.registration.data.UserDataRepositoryImpl
-import com.davay.android.feature.registration.domain.UserDataInteractor
-import com.davay.android.feature.registration.domain.UserDataInteractorImpl
-import com.davay.android.feature.registration.domain.UserDataRepository
 import dagger.Module
 import dagger.Provides
 
 @Module
-class RegistrationDataModule {
+class UserDataModule {
     @Provides
     fun provideUserDataRepository(
         storage: SharedPreferences

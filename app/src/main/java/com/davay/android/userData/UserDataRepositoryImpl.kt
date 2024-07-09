@@ -1,7 +1,6 @@
-package com.davay.android.feature.registration.data
+package com.davay.android.userData
 
 import android.content.SharedPreferences
-import com.davay.android.feature.registration.domain.UserDataRepository
 
 class UserDataRepositoryImpl(
     private val storage: SharedPreferences

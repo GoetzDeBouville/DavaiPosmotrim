@@ -1,4 +1,4 @@
-package com.davay.android.feature.registration.domain
+package com.davay.android.userData
 
 class UserDataInteractorImpl(
     private val repository: UserDataRepository

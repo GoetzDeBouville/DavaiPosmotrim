@@ -1,6 +1,6 @@
-package com.davay.android.feature.registration.domain
+package com.davay.android.userData
 
-interface UserDataRepository {
+interface UserDataInteractor {
     fun getUserId(): String
     fun getUserName(): String
     fun setUserId(userId: String)
