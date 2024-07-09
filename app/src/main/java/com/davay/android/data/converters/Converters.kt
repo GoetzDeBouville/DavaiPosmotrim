@@ -14,7 +14,9 @@ import com.davay.android.domain.models.MovieDetails
 import com.davay.android.domain.models.Session
 import com.davay.android.domain.models.SessionStatus
 import com.davay.android.domain.models.User
+import java.text.ParseException
 import java.text.SimpleDateFormat
+import java.util.Date
 import java.util.Locale
 
 fun CollectionDto.convert() = Collection(
@@ -54,15 +56,38 @@ fun MovieDetailsDto.convert() = MovieDetails(
     directors
 )
 
+/**
+ * Конвертирует строку с датой в timeStamp.
+ * Если при форматировании дата получается null, то возвращается дата minDate.
+ * Если при форматировании дата больше текущей, то возвращается дата minDate.
+ * Если при форматировании дата меньше minDate, то возвращается minDate.
+ * minDate устанавливаем на 2024-01-01.
+ */
 fun SessionDto.convert(): Session {
     val dateFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
-    val parsedDate = requireNotNull(dateFormat.parse(date)) { "Date parsing failed for $date" }
+    val minDate = dateFormat.parse("2024-01-01")
+    val currentDate = Date()
+
+    val parsedDate = try {
+        dateFormat.parse(date)
+    } catch (e: ParseException) {
+        null
+    }
+
+    val validDate = when {
+        parsedDate == null -> minDate
+        parsedDate.before(minDate) -> minDate
+        parsedDate.after(currentDate) -> minDate
+        else -> parsedDate
+    }
+
+    val timestamp = validDate.time
 
     return Session(
         id = id,
         users = users.map { it.convert() },
         numberOfMatchedMovies = numberOfMatchedMovies,
-        date = parsedDate,
+        date = timestamp,
         status = status.convert(),
         imgUrl = imgUrl
     )
