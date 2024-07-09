@@ -14,6 +14,7 @@ import com.davay.android.domain.models.MovieDetails
 import com.davay.android.domain.models.Session
 import com.davay.android.domain.models.SessionStatus
 import com.davay.android.domain.models.User
+import java.text.ParseException
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
@@ -64,9 +65,14 @@ fun MovieDetailsDto.convert() = MovieDetails(
  */
 fun SessionDto.convert(): Session {
     val dateFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
-    val parsedDate = dateFormat.parse(date)
     val minDate = dateFormat.parse("2024-01-01")
     val currentDate = Date()
+
+    val parsedDate = try {
+        dateFormat.parse(date)
+    } catch (e: ParseException) {
+        null
+    }
 
     val validDate = when {
         parsedDate == null -> minDate
