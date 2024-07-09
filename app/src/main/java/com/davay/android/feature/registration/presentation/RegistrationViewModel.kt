@@ -1,12 +1,16 @@
 package com.davay.android.feature.registration.presentation
 
 import android.text.Editable
+import android.util.Log
 import com.davay.android.base.BaseViewModel
+import com.davay.android.feature.registration.domain.UserDataInteractor
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import javax.inject.Inject
 
-class RegistrationViewModel @Inject constructor() : BaseViewModel() {
+class RegistrationViewModel @Inject constructor(
+    private val userDataInteractor: UserDataInteractor
+) : BaseViewModel() {
 
     private val _state = MutableStateFlow(RegistrationState.DEFAULT)
     val state: StateFlow<RegistrationState>
@@ -14,9 +18,10 @@ class RegistrationViewModel @Inject constructor() : BaseViewModel() {
 
     fun buttonClicked(text: Editable?) {
         textCheck(text)
-//        if (state.value == RegistrationState.SUCCESS){
-//            что-то делаем
-//        }
+        if (state.value == RegistrationState.SUCCESS) {
+            userDataInteractor.setUserName(text.toString())
+        }
+        Log.d("TAG", userDataInteractor.getUserName())
     }
 
     fun textCheck(text: Editable?) {

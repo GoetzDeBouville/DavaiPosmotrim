@@ -8,11 +8,9 @@ import dagger.Module
 import dagger.Provides
 
 @Module
-class EncryptedSharedPreferencesModule(
-    private val encryptedSharedPreferences: SharedPreferences,
-    private val context: Context) {
+class EncryptedSharedPreferencesModule {
     @Provides
-    fun encryptedSharedPreferences(): SharedPreferences {
+    fun encryptedSharedPreferences(context: Context): SharedPreferences {
         val masterKeyAlias = MasterKeys.getOrCreate(MasterKeys.AES256_GCM_SPEC)
         val encryptedSharedPreferences = EncryptedSharedPreferences.create(
             "UserInfo",

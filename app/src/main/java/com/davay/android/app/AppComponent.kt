@@ -33,7 +33,9 @@ interface AppComponent : DIComponent {
 
         fun contextModule(contextModule: ContextModule): Builder
 
-        fun encryptedSharedPreferencesModule(encryptedSharedPreferencesModule: EncryptedSharedPreferencesModule): Builder
+        fun encryptedSharedPreferencesModule(
+            encryptedSharedPreferencesModule: EncryptedSharedPreferencesModule
+        ): Builder
     }
 }
 
