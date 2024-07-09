@@ -18,7 +18,6 @@ import com.davay.android.feature.matchedsession.presentation.MatchedSessionFragm
 import com.davay.android.feature.onboarding.presentation.OnboardingFragment
 import com.davay.android.feature.roulette.presentation.RouletteFragment
 import java.text.SimpleDateFormat
-import java.util.Calendar
 import java.util.Locale
 
 class LoadFragment : BaseFragment<FragmentLoadBinding, LoadViewModel>(
@@ -104,12 +103,10 @@ class LoadFragment : BaseFragment<FragmentLoadBinding, LoadViewModel>(
     companion object {
         //        Временно. В бою данные будем брать из модели, переход будет со страницы списка сессий, там все это будет
         @SuppressLint("ConstantLocale")
+        val formater = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
         val session = Session(
             id = "VMst456",
-            date = SimpleDateFormat(
-                "yyyy-MM-dd",
-                Locale.getDefault()
-            ).parse("2023-09-23") ?: Calendar.getInstance().time,
+            date = formater.parse("2023-09-23")?.time ?: System.currentTimeMillis(),
             imgUrl = "//imgUrl",
             users = listOf(
                 User("1", "Артём"),
