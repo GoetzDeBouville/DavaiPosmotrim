@@ -6,6 +6,7 @@ import com.davay.android.base.BaseViewModel
 import com.davay.android.feature.registration.domain.UserDataInteractor
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import java.util.UUID.randomUUID
 import javax.inject.Inject
 
 class RegistrationViewModel @Inject constructor(
@@ -20,8 +21,11 @@ class RegistrationViewModel @Inject constructor(
         textCheck(text)
         if (state.value == RegistrationState.SUCCESS) {
             userDataInteractor.setUserName(text.toString())
+            val userId = randomUUID().toString().plus(USER_ID_POSTFIX)
+            userDataInteractor.setUserId(userId)
         }
         Log.d("TAG", userDataInteractor.getUserName())
+        Log.d("TAG", userDataInteractor.getUserId())
     }
 
     fun textCheck(text: Editable?) {
@@ -38,5 +42,6 @@ class RegistrationViewModel @Inject constructor(
     companion object {
         private const val TEXT_LENGTH_MIN = 2
         private const val TEXT_LENGTH_MAX = 16
+        private const val USER_ID_POSTFIX = "_android"
     }
 }
