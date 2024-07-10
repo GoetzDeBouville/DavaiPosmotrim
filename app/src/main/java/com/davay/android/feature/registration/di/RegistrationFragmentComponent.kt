@@ -2,12 +2,11 @@ package com.davay.android.feature.registration.di
 
 import com.davay.android.app.AppComponent
 import com.davay.android.di.ScreenComponent
-import com.davay.android.userdata.UserDataModule
 import dagger.Component
 
 @Component(
     dependencies = [AppComponent::class],
-    modules = [RegistrationFragmentModule::class, UserDataModule::class]
+    modules = [RegistrationFragmentModule::class, RegistrationDataModule::class]
 )
 interface RegistrationFragmentComponent : ScreenComponent {
 

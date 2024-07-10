@@ -1,16 +1,16 @@
 package com.davay.android.feature.registration.presentation
 
 import android.text.Editable
-import android.util.Log
 import com.davay.android.base.BaseViewModel
-import com.davay.android.userdata.UserDataInteractor
+import com.davay.android.base.usecases.SetSharedPreferences
+import com.davay.android.utils.SharedKeys
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import java.util.UUID.randomUUID
 import javax.inject.Inject
 
 class RegistrationViewModel @Inject constructor(
-    private val userDataInteractor: UserDataInteractor
+    private val setUserData: SetSharedPreferences<String>
 ) : BaseViewModel() {
 
     private val _state = MutableStateFlow(RegistrationState.DEFAULT)
@@ -20,12 +20,10 @@ class RegistrationViewModel @Inject constructor(
     fun buttonClicked(text: Editable?) {
         textCheck(text)
         if (state.value == RegistrationState.SUCCESS) {
-            userDataInteractor.setUserName(text.toString())
+            setUserData.setSharedPreferences(SharedKeys.USER_NAME, text.toString())
             val userId = randomUUID().toString().plus(USER_ID_POSTFIX)
-            userDataInteractor.setUserId(userId)
+            setUserData.setSharedPreferences(SharedKeys.USER_ID, userId)
         }
-        Log.d("TAG", userDataInteractor.getUserName())
-        Log.d("TAG", userDataInteractor.getUserId())
     }
 
     fun textCheck(text: Editable?) {
