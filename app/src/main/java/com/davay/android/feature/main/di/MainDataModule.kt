@@ -7,9 +7,11 @@ import dagger.Module
 import dagger.Provides
 
 @Module
-class MainDataModule {
-    @Provides
-    fun provideGetSharedPreferences(
-        storage: SharedPreferences
-    ): GetSharedPreferences<String> = GetSPUserRepository(storage)
+interface MainDataModule {
+    companion object {
+        @Provides
+        fun provideGetSharedPreferences(
+            storage: SharedPreferences
+        ): GetSharedPreferences<String> = GetSPUserRepository(storage)
+    }
 }

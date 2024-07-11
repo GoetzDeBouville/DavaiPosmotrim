@@ -9,15 +9,16 @@ import dagger.Module
 import dagger.Provides
 
 @Module
-class ChangeNameDataModule {
-    @Provides
-    fun provideSetSharedPreferences(
-        storage: SharedPreferences
-    ): SetSharedPreferences<String> = SetSPUserRepository(storage)
+interface ChangeNameDataModule {
+    companion object {
+        @Provides
+        fun provideSetSharedPreferences(
+            storage: SharedPreferences
+        ): SetSharedPreferences<String> = SetSPUserRepository(storage)
 
-    @Provides
-    fun provideGetSharedPreferences(
-        storage: SharedPreferences
-    ): GetSharedPreferences<String> = GetSPUserRepository(storage)
-
+        @Provides
+        fun provideGetSharedPreferences(
+            storage: SharedPreferences
+        ): GetSharedPreferences<String> = GetSPUserRepository(storage)
+    }
 }

@@ -7,9 +7,11 @@ import dagger.Module
 import dagger.Provides
 
 @Module
-class RegistrationDataModule {
-    @Provides
-    fun provideSetSharedPreferences(
-        storage: SharedPreferences
-    ): SetSharedPreferences<String> = SetSPUserRepository(storage)
+interface RegistrationDataModule {
+    companion object {
+        @Provides
+        fun provideSetSharedPreferences(
+            storage: SharedPreferences
+        ): SetSharedPreferences<String> = SetSPUserRepository(storage)
+    }
 }
