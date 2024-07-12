@@ -1,11 +1,11 @@
 package com.davay.android.base.repositories
 
 import android.content.SharedPreferences
-import com.davay.android.base.usecases.SetSharedPreferences
+import com.davay.android.base.usecases.SetDataByKeyUseCase
 
 class SetSPUserRepository(
     private val userStorage: SharedPreferences
-) : SetSharedPreferences<String> {
+) : SetDataByKeyUseCase<String> {
     override fun setSharedPreferences(key: String, value: String) {
         userStorage
             .edit()

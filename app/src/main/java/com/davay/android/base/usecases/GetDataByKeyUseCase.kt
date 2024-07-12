@@ -1,5 +1,5 @@
 package com.davay.android.base.usecases
 
-interface GetSharedPreferences<T> {
+interface GetDataByKeyUseCase<T> {
     fun getSharedPreferences(key: String): T
 }

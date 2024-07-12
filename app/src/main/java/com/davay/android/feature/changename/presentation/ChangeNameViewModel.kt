@@ -2,16 +2,16 @@ package com.davay.android.feature.changename.presentation
 
 import android.text.Editable
 import com.davay.android.base.BaseViewModel
-import com.davay.android.base.usecases.GetSharedPreferences
-import com.davay.android.base.usecases.SetSharedPreferences
+import com.davay.android.base.usecases.GetDataByKeyUseCase
+import com.davay.android.base.usecases.SetDataByKeyUseCase
 import com.davay.android.utils.SharedKeys
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import javax.inject.Inject
 
 class ChangeNameViewModel @Inject constructor(
-    private val setUserData: SetSharedPreferences<String>,
-    private val getUserData: GetSharedPreferences<String>,
+    private val setUserData: SetDataByKeyUseCase<String>,
+    private val getUserData: GetDataByKeyUseCase<String>,
 ) : BaseViewModel() {
 
     private val _state = MutableStateFlow(ChangeNameState.DEFAULT)

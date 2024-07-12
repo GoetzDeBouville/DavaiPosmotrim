@@ -2,7 +2,7 @@ package com.davay.android.feature.main.di
 
 import android.content.SharedPreferences
 import com.davay.android.base.repositories.GetSPUserRepository
-import com.davay.android.base.usecases.GetSharedPreferences
+import com.davay.android.base.usecases.GetDataByKeyUseCase
 import dagger.Module
 import dagger.Provides
 
@@ -12,6 +12,6 @@ interface MainDataModule {
         @Provides
         fun provideGetSharedPreferences(
             storage: SharedPreferences
-        ): GetSharedPreferences<String> = GetSPUserRepository(storage)
+        ): GetDataByKeyUseCase<String> = GetSPUserRepository(storage)
     }
 }

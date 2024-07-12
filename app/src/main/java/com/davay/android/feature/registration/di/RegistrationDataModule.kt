@@ -2,7 +2,7 @@ package com.davay.android.feature.registration.di
 
 import android.content.SharedPreferences
 import com.davay.android.base.repositories.SetSPUserRepository
-import com.davay.android.base.usecases.SetSharedPreferences
+import com.davay.android.base.usecases.SetDataByKeyUseCase
 import dagger.Module
 import dagger.Provides
 
@@ -12,6 +12,6 @@ interface RegistrationDataModule {
         @Provides
         fun provideSetSharedPreferences(
             storage: SharedPreferences
-        ): SetSharedPreferences<String> = SetSPUserRepository(storage)
+        ): SetDataByKeyUseCase<String> = SetSPUserRepository(storage)
     }
 }
