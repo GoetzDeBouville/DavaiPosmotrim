@@ -53,6 +53,11 @@ class SelectMovieFragment :
         outState.putInt(CURRENT_POSITION_KEY, currentPosition)
     }
 
+    override fun onDestroyView() {
+        binding.rvFilmCard.layoutManager = null
+        super.onDestroyView()
+    }
+
     private fun getSavedPositionAndUpdateStartPosition(savedInstanceState: Bundle?) {
         savedInstanceState?.let {
             currentPosition = it.getInt(CURRENT_POSITION_KEY, 0)
@@ -68,7 +73,7 @@ class SelectMovieFragment :
 
     private fun subscribe() {
         binding.toolbarviewHeader.setEndIconClickListener {
-            showBottomSheetFragment(mockMovies[0])
+            viewModel.navigate(R.id.action_selectMovieFragment_to_coincidencesFragment)
         }
     }
 

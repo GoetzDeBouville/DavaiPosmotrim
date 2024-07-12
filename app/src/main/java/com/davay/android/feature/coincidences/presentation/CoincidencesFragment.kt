@@ -12,6 +12,7 @@ import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import com.davay.android.R
 import com.davay.android.app.AppComponentHolder
 import com.davay.android.base.BaseFragment
 import com.davay.android.databinding.FragmentCoincidencesBinding
@@ -108,7 +109,7 @@ class CoincidencesFragment : BaseFragment<FragmentCoincidencesBinding, Coinciden
         binding.toolbarView.apply {
             addStatusBarSpacer()
             setEndIconClickListener {
-                Toast.makeText(requireContext(), "Navigate to random.", Toast.LENGTH_SHORT).show()
+                viewModel.navigate(R.id.action_coincidencesFragment_to_rouletteFragment)
             }
             setStartIconClickListener {
                 viewModel.navigateBack()

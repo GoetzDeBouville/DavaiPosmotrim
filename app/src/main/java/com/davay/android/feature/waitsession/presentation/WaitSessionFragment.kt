@@ -153,9 +153,12 @@ class WaitSessionFragment : BaseFragment<FragmentWaitSessionBinding, WaitSession
         }
     }
 
-    private fun setButtonClickListeners() {
-        binding.cancelButton.setOnClickListener {
+    private fun setButtonClickListeners() = with(binding) {
+        cancelButton.setOnClickListener {
             dialog?.show(parentFragmentManager, CUSTOM_DIALOG_TAG)
+        }
+        startSessionButton.setOnClickListener {
+            viewModel.navigate(R.id.action_waitSessionFragment_to_onboardingFragment)
         }
     }
 

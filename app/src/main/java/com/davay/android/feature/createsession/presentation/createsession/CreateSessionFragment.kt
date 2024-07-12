@@ -42,6 +42,7 @@ class CreateSessionFragment : BaseFragment<FragmentCreateSessionBinding, CreateS
                     fragment.viewModel.buttonContinueClicked()
                 }
             }
+            viewModel.navigate(R.id.action_createSessionFragment_to_waitSessionFragment)
         }
         updateBanner(
             getString(R.string.create_session_choose_compilations_one),
