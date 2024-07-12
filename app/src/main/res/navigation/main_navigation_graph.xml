@@ -12,9 +12,7 @@
         tools:layout="@layout/fragment_main">
         <action
             android:id="@+id/action_mainFragment_to_sessionConnectionFragment"
-            app:destination="@id/sessionConnectionFragment"
-            app:enterAnim="@anim/nav_default_pop_enter_anim"
-            app:exitAnim="@anim/nav_default_pop_exit_anim" />
+            app:destination="@id/sessionConnectionFragment" />
         <action
             android:id="@+id/action_mainFragment_to_changeNameFragment"
             app:destination="@id/changeNameFragment"
@@ -65,9 +63,7 @@
         tools:layout="@layout/fragment_session_connection">
         <action
             android:id="@+id/action_sessionConnectionFragment_to_sessionListFragment"
-            app:destination="@id/sessionListFragment"
-            app:enterAnim="@anim/nav_default_pop_enter_anim"
-            app:exitAnim="@anim/nav_default_pop_exit_anim" />
+            app:destination="@id/sessionListFragment" />
     </dialog>
     <dialog
         android:id="@+id/changeNameFragment"

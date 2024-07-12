@@ -11,7 +11,6 @@ import androidx.activity.OnBackPressedCallback
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
-import androidx.navigation.fragment.findNavController
 import com.davai.extensions.dpToPx
 import com.davai.uikit.ButtonView
 import com.davai.uikit.MainDialogFragment
@@ -96,7 +95,7 @@ class WaitSessionFragment : BaseFragment<FragmentWaitSessionBinding, WaitSession
             title = getString(R.string.leave_wait_session_title),
             message = getString(R.string.leave_wait_session_dialog_message),
             yesAction = {
-                findNavController().popBackStack()
+                viewModel.navigateBack()
             }
         )
     }

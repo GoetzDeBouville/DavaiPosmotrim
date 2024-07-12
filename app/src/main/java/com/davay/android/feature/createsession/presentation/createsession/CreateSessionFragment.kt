@@ -2,7 +2,6 @@ package com.davay.android.feature.createsession.presentation.createsession
 
 import android.os.Bundle
 import android.view.View
-import androidx.navigation.fragment.findNavController
 import androidx.viewpager2.widget.ViewPager2.OnPageChangeCallback
 import com.davai.uikit.BannerView
 import com.davay.android.R
@@ -88,7 +87,7 @@ class CreateSessionFragment : BaseFragment<FragmentCreateSessionBinding, CreateS
             setStartIcon(com.davai.uikit.R.drawable.ic_arrow_back)
             showStartIcon()
             setStartIconClickListener {
-                findNavController().navigateUp()
+                viewModel.navigateBack()
             }
         }
     }
