@@ -1,7 +1,7 @@
-package com.davay.android.base.repositories
+package com.davay.android.data.repositories
 
 import android.content.SharedPreferences
-import com.davay.android.base.usecases.GetDataByKeyUseCase
+import com.davay.android.domain.usecases.GetDataByKeyUseCase
 
 class GetSPUserRepository(
     private val storage: SharedPreferences

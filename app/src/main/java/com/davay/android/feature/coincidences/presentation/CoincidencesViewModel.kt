@@ -2,7 +2,7 @@ package com.davay.android.feature.coincidences.presentation
 
 import androidx.lifecycle.viewModelScope
 import com.davay.android.base.BaseViewModel
-import com.davay.android.base.usecases.GetData
+import com.davay.android.domain.usecases.GetData
 import com.davay.android.feature.coincidences.ErrorType
 import com.davay.android.feature.coincidences.di.GET_TEST_MOVIE_USE_CASE
 import com.davay.android.feature.selectmovie.domain.models.MovieDetailsDemo

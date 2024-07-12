@@ -1,10 +1,10 @@
 package com.davay.android.feature.changename.di
 
 import android.content.SharedPreferences
-import com.davay.android.base.repositories.GetSPUserRepository
-import com.davay.android.base.repositories.SetSPUserRepository
-import com.davay.android.base.usecases.GetDataByKeyUseCase
-import com.davay.android.base.usecases.SetDataByKeyUseCase
+import com.davay.android.data.repositories.GetSPUserRepository
+import com.davay.android.data.repositories.SetSPUserRepository
+import com.davay.android.domain.usecases.GetDataByKeyUseCase
+import com.davay.android.domain.usecases.SetDataByKeyUseCase
 import dagger.Module
 import dagger.Provides
 

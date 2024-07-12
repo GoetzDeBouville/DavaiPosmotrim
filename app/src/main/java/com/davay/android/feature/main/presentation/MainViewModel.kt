@@ -1,7 +1,7 @@
 package com.davay.android.feature.main.presentation
 
 import com.davay.android.base.BaseViewModel
-import com.davay.android.base.usecases.GetDataByKeyUseCase
+import com.davay.android.domain.usecases.GetDataByKeyUseCase
 import com.davay.android.utils.SharedKeys
 import javax.inject.Inject
 

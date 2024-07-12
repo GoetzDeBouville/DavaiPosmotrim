@@ -2,7 +2,7 @@ package com.davay.android.feature.registration.presentation
 
 import android.text.Editable
 import com.davay.android.base.BaseViewModel
-import com.davay.android.base.usecases.SetDataByKeyUseCase
+import com.davay.android.domain.usecases.SetDataByKeyUseCase
 import com.davay.android.utils.SharedKeys
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
