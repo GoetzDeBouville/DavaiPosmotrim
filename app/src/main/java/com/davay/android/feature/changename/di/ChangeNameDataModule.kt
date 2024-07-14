@@ -1,8 +1,8 @@
 package com.davay.android.feature.changename.di
 
 import android.content.SharedPreferences
-import com.davay.android.data.repositories.GetSPUserRepository
-import com.davay.android.data.repositories.SetSPUserRepository
+import com.davay.android.data.impl.GetUserIdRepositoryImpl
+import com.davay.android.data.impl.SetUserIdRepositoryImpl
 import com.davay.android.domain.usecases.GetDataByKeyUseCase
 import com.davay.android.domain.usecases.SetDataByKeyUseCase
 import dagger.Module
@@ -14,11 +14,11 @@ interface ChangeNameDataModule {
         @Provides
         fun provideSetSharedPreferences(
             storage: SharedPreferences
-        ): SetDataByKeyUseCase<String> = SetSPUserRepository(storage)
+        ): SetDataByKeyUseCase<String> = SetUserIdRepositoryImpl(storage)
 
         @Provides
         fun provideGetSharedPreferences(
             storage: SharedPreferences
-        ): GetDataByKeyUseCase<String> = GetSPUserRepository(storage)
+        ): GetDataByKeyUseCase<String> = GetUserIdRepositoryImpl(storage)
     }
 }
