@@ -76,8 +76,25 @@ class MainDialogFragment : DialogFragment() {
         _binding = null
     }
 
+    override fun onViewStateRestored(savedInstanceState: Bundle?) {
+        super.onViewStateRestored(savedInstanceState)
+        if (savedInstanceState != null){
+            title = savedInstanceState.getString(KEY_TITLE)
+            message = savedInstanceState.getString(KEY_MESSAGE)
+            initViews()
+        }
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        outState.putString(KEY_TITLE, title)
+        outState.putString(KEY_MESSAGE, message)
+    }
+
     companion object {
         private const val SCREEN_WIDTH = 0.9
+        private const val KEY_TITLE = "KEY_TITLE"
+        private const val KEY_MESSAGE = "KEY_MESSAGE"
 
         fun newInstance(
             title: String,
