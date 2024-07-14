@@ -9,7 +9,10 @@ class SetUserIdRepositoryImpl(
     override fun setUserId(value: String) {
         userStorage
             .edit()
-            .putString("userId", value)
+            .putString(USER_ID, value)
             .apply()
+    }
+    companion object {
+        const val USER_ID = "userId"
     }
 }

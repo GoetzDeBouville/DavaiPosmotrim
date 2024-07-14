@@ -8,7 +8,10 @@ class GetUserNameRepositoryImpl(
 ) : GetUserNameRepository {
     override fun getUserName(): String {
         var value = String()
-        storage.getString("userName", String())?.let { value = it }
+        storage.getString(USER_NAME, String())?.let { value = it }
         return value
+    }
+    companion object {
+        const val USER_NAME = "userName"
     }
 }

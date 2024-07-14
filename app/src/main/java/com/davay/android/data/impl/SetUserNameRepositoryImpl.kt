@@ -9,7 +9,10 @@ class SetUserNameRepositoryImpl(
     override fun setUserName(value: String) {
         userStorage
             .edit()
-            .putString("userName", value)
+            .putString(USER_NAME, value)
             .apply()
+    }
+    companion object {
+        const val USER_NAME = "userName"
     }
 }

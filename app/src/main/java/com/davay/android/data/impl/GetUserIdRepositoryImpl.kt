@@ -8,7 +8,10 @@ class GetUserIdRepositoryImpl(
 ) : GetUserIdRepository {
     override fun getUserId(): String {
         var value = String()
-        storage.getString("userId", String())?.let { value = it }
+        storage.getString(USER_ID, String())?.let { value = it }
         return value
+    }
+    companion object {
+        const val USER_ID = "userId"
     }
 }
