@@ -1,7 +1,7 @@
 package com.davay.android.data.impl
 
 import android.content.SharedPreferences
-import com.davay.android.data.repositories.GetUserIdRepository
+import com.davay.android.domain.repositories.GetUserIdRepository
 
 class GetUserIdRepositoryImpl(
     private val storage: SharedPreferences

@@ -1,10 +1,14 @@
 package com.davay.android.feature.changename.di
 
 import android.content.SharedPreferences
-import com.davay.android.data.impl.GetUserIdRepositoryImpl
-import com.davay.android.data.impl.SetUserIdRepositoryImpl
-import com.davay.android.domain.usecases.GetDataByKeyUseCase
-import com.davay.android.domain.usecases.SetDataByKeyUseCase
+import com.davay.android.data.impl.GetUserNameRepositoryImpl
+import com.davay.android.data.impl.SetUserNameRepositoryImpl
+import com.davay.android.domain.impl.GetUserNameUseCaseImpl
+import com.davay.android.domain.impl.SetUserNameUseCaseImpl
+import com.davay.android.domain.repositories.GetUserNameRepository
+import com.davay.android.domain.repositories.SetUserNameRepository
+import com.davay.android.domain.usecases.GetSingleDataUseCase
+import com.davay.android.domain.usecases.SetSingleDataUseCase
 import dagger.Module
 import dagger.Provides
 
@@ -12,13 +16,23 @@ import dagger.Provides
 interface ChangeNameDataModule {
     companion object {
         @Provides
-        fun provideSetSharedPreferences(
+        fun provideSetUserNameRepository(
             storage: SharedPreferences
-        ): SetDataByKeyUseCase<String> = SetUserIdRepositoryImpl(storage)
+        ): SetUserNameRepository = SetUserNameRepositoryImpl(storage)
 
         @Provides
-        fun provideGetSharedPreferences(
+        fun provideSetUserNameUseCase(
+            repository: SetUserNameRepository
+        ): SetSingleDataUseCase<String> = SetUserNameUseCaseImpl(repository)
+
+        @Provides
+        fun provideGetUserNameRepository(
             storage: SharedPreferences
-        ): GetDataByKeyUseCase<String> = GetUserIdRepositoryImpl(storage)
+        ): GetUserNameRepository = GetUserNameRepositoryImpl(storage)
+
+        @Provides
+        fun provideGetUserNameUseCase(
+            repository: GetUserNameRepository
+        ): GetSingleDataUseCase<String> = GetUserNameUseCaseImpl(repository)
     }
 }

@@ -1,14 +1,13 @@
 package com.davay.android.feature.main.presentation
 
 import com.davay.android.base.BaseViewModel
-import com.davay.android.domain.usecases.GetDataByKeyUseCase
-import com.davay.android.utils.SharedKeys
+import com.davay.android.domain.usecases.GetSingleDataUseCase
 import javax.inject.Inject
 
 class MainViewModel @Inject constructor(
-    private val getUserData: GetDataByKeyUseCase<String>
+    private val getUserName: GetSingleDataUseCase<String>
 ) : BaseViewModel() {
-    fun getUserName(): String {
-        return getUserData.getSharedPreferences(SharedKeys.USER_NAME)
+    fun getNameOfUser(): String {
+        return getUserName.getSingleData()
     }
 }

@@ -39,7 +39,7 @@ class ChangeNameBottomSheetFragment :
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.etName.setText(viewModel.getUserName())
+        binding.etName.setText(viewModel.getNameofUser())
 
         lifecycleScope.launch {
             viewModel.state.collect { stateHandle(it) }
