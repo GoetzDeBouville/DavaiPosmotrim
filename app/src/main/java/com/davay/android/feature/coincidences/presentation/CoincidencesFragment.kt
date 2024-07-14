@@ -12,8 +12,10 @@ import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import com.davai.uikit.BannerView
 import com.davay.android.R
 import com.davay.android.app.AppComponentHolder
+import com.davay.android.app.MainActivity
 import com.davay.android.base.BaseFragment
 import com.davay.android.databinding.FragmentCoincidencesBinding
 import com.davay.android.di.ScreenComponent
@@ -113,11 +115,12 @@ class CoincidencesFragment : BaseFragment<FragmentCoincidencesBinding, Coinciden
                 if (coincidences >= MIN_COINCIDENCES_FOR_NAVIGATION_3) {
                     viewModel.navigate(R.id.action_coincidencesFragment_to_rouletteFragment)
                 } else {
-                    Toast.makeText(
-                        requireContext(),
-                        resources.getString(R.string.coincidences_screen_start_roulette),
-                        Toast.LENGTH_SHORT
-                    ).show()
+                    val activity = requireActivity() as MainActivity
+                    activity.updateBanner(
+                        getString(R.string.coincidences_screen_start_roulette),
+                        BannerView.ATTENTION
+                    )
+                    activity.showBanner()
                 }
             }
             setStartIconClickListener {
