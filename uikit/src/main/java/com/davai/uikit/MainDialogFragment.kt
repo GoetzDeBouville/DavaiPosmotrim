@@ -78,7 +78,7 @@ class MainDialogFragment : DialogFragment() {
 
     override fun onViewStateRestored(savedInstanceState: Bundle?) {
         super.onViewStateRestored(savedInstanceState)
-        if (savedInstanceState != null){
+        if (savedInstanceState != null) {
             title = savedInstanceState.getString(KEY_TITLE)
             message = savedInstanceState.getString(KEY_MESSAGE)
             initViews()
