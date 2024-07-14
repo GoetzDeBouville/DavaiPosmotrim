@@ -110,7 +110,7 @@ class CoincidencesFragment : BaseFragment<FragmentCoincidencesBinding, Coinciden
             addStatusBarSpacer()
             setEndIconClickListener {
                 val coincidences = viewModel.getCoincidencesCount()
-                if (coincidences >= 3) {
+                if (coincidences >= MIN_COINCIDENCES_FOR_NAVIGATION_3) {
                     viewModel.navigate(R.id.action_coincidencesFragment_to_rouletteFragment)
                 } else {
                     Toast.makeText(
@@ -209,5 +209,9 @@ class CoincidencesFragment : BaseFragment<FragmentCoincidencesBinding, Coinciden
             }
             ivDices.visibility = View.VISIBLE
         }
+    }
+
+    companion object {
+        private const val MIN_COINCIDENCES_FOR_NAVIGATION_3 = 3
     }
 }
