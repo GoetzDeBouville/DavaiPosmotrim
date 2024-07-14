@@ -111,7 +111,7 @@
     <!-- coincidences screen -->
     <string name="coincidences_screen_coincidences">Совпадения</string>
     <string name="coincidences_screen_empty_coincidences">Пока ничего нет</string>
-    <string name="coincidences_screen_start_roulette">Рулетка может быть запущена для трёх и более совпадений</string>
+    <string name="coincidences_screen_start_roulette">Рулетка может быть запущена\n для трёх и более совпадений</string>
 
     <!--  roulette  -->
     <string name="roulette_magic">Начнём магию, когда подключатся все участники</string>
