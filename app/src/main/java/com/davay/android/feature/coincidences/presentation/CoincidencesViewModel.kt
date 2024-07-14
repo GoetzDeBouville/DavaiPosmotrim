@@ -43,4 +43,13 @@ class CoincidencesViewModel @Inject constructor(
 
     @Suppress("Detekt.FunctionOnlyReturningConstant")
     fun isHintShown(): Boolean = false // Запровайдить префы
+
+    fun getCoincidencesCount(): Int {
+        val currentState = _state.value
+        return if (currentState is UiState.Data) {
+            currentState.data.size
+        } else {
+            0
+        }
+    }
 }

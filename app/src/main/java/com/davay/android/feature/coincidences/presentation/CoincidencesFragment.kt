@@ -109,7 +109,16 @@ class CoincidencesFragment : BaseFragment<FragmentCoincidencesBinding, Coinciden
         binding.toolbarView.apply {
             addStatusBarSpacer()
             setEndIconClickListener {
-                Toast.makeText(requireContext(), resources.getString(R.string.coincidences_screen_start_roulette), Toast.LENGTH_SHORT).show()
+                val coincidences = viewModel.getCoincidencesCount()
+                if (coincidences >= 3) {
+                    viewModel.navigate(R.id.action_coincidencesFragment_to_rouletteFragment)
+                } else {
+                    Toast.makeText(
+                        requireContext(),
+                        resources.getString(R.string.coincidences_screen_start_roulette),
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
             }
             setStartIconClickListener {
                 viewModel.navigateBack()
