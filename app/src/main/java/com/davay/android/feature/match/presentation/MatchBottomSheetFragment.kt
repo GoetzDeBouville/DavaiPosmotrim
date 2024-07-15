@@ -67,6 +67,11 @@ class MatchBottomSheetFragment(private val action: (() -> Unit)? = null) :
                     findViewById<View>(com.google.android.material.R.id.design_bottom_sheet) as FrameLayout
                 bottomSheet.layoutParams?.height = ViewGroup.LayoutParams.MATCH_PARENT
             }
+
+            override fun onBackPressed() {
+                action?.invoke()
+                super.onBackPressed()
+            }
         }
     }
 
