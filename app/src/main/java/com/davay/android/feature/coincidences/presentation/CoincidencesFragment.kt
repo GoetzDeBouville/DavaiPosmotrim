@@ -64,7 +64,6 @@ class CoincidencesFragment : BaseFragment<FragmentCoincidencesBinding, Coinciden
         super.onViewCreated(view, savedInstanceState)
         setupToolbar()
         setupMoviesGrid()
-        subscribe()
 
         // При смене конфигурации не нужно показывать подсказку
         if (savedInstanceState == null) {
@@ -116,7 +115,7 @@ class CoincidencesFragment : BaseFragment<FragmentCoincidencesBinding, Coinciden
         }
     }
 
-    private fun subscribe() {
+    override fun subscribe() {
         viewLifecycleOwner.lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.state.collectLatest {
