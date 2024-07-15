@@ -22,6 +22,7 @@ import com.davay.android.di.ScreenComponent
 import com.davay.android.feature.coincidences.bottomsheetdialog.RouletteBottomSheetDialogFragment
 import com.davay.android.feature.coincidences.di.DaggerCoincidencesFragmentComponent
 import com.davay.android.feature.coincidences.presentation.adapter.MoviesGridAdapter
+import com.davay.android.feature.roulette.presentation.RouletteFragment.Companion.ROULETTE_INITIATOR
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
@@ -113,7 +114,10 @@ class CoincidencesFragment : BaseFragment<FragmentCoincidencesBinding, Coinciden
             setEndIconClickListener {
                 val coincidences = viewModel.getCoincidencesCount()
                 if (coincidences >= MIN_COINCIDENCES_FOR_NAVIGATION_3) {
-                    viewModel.navigate(R.id.action_coincidencesFragment_to_rouletteFragment)
+                    val bundle = Bundle().apply {
+                        putBoolean(ROULETTE_INITIATOR, true)
+                    }
+                    viewModel.navigate(R.id.action_coincidencesFragment_to_rouletteFragment, bundle)
                 } else {
                     val activity = requireActivity() as MainActivity
                     activity.updateBanner(
