@@ -9,7 +9,7 @@ import android.view.ViewGroup
 import android.widget.FrameLayout
 import androidx.lifecycle.lifecycleScope
 import com.davay.android.databinding.FragmentMatchBottomSheetBinding
-import com.davay.android.feature.selectmovie.domain.models.MovieDetailsDemo
+import com.davay.android.domain.models.MovieDetails
 import com.davay.android.utils.MovieDetailsHelper
 import com.davay.android.utils.MovieDetailsHelperImpl
 import com.google.android.material.bottomsheet.BottomSheetBehavior
@@ -22,14 +22,16 @@ class MatchBottomSheetFragment : BottomSheetDialogFragment() {
     private var _binding: FragmentMatchBottomSheetBinding? = null
     private val binding: FragmentMatchBottomSheetBinding
         get() = _binding!!
-
     private val movieDetailsHelper: MovieDetailsHelper = MovieDetailsHelperImpl()
-    private var movieDetails: MovieDetailsDemo? = null
+    private var movieDetails: MovieDetails? = null
+    private var buttonText: String? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
             movieDetails =
-                Gson().fromJson(it.getString(ARG_MOVIE_DETAILS), MovieDetailsDemo::class.java)
+                Gson().fromJson(it.getString(ARG_MOVIE_DETAILS), MovieDetails::class.java)
+            buttonText = it.getString(ARG_BUTTON_TEXT)
         }
     }
 
@@ -72,6 +74,7 @@ class MatchBottomSheetFragment : BottomSheetDialogFragment() {
     private fun initViews() {
         buildBottomSheet()
         hideUnusedItems()
+        buttonText?.let { setButtonText(it) }
     }
 
     private fun subscribe() {
@@ -111,25 +114,34 @@ class MatchBottomSheetFragment : BottomSheetDialogFragment() {
         }
     }
 
-    private fun fillData(data: MovieDetailsDemo) {
+    private fun fillData(data: MovieDetails) {
         binding.matchMovieCard.apply {
-            movieDetailsHelper.setImage(ivSelectMovieCover, data.posterUrl)
+            movieDetailsHelper.setImage(ivSelectMovieCover, data.imgUrl)
             movieDetailsHelper.addGenreList(fblGenreList, data.genres)
-            tvFilmTitle.text = data.movieName
-            tvOriginalTitle.text = data.alternativeName ?: data.englishName ?: ""
+            tvFilmTitle.text = data.name
+            tvOriginalTitle.text = data.alternativeName ?: ""
             tvYearCountryRuntime.text =
                 movieDetailsHelper.buildStringYearCountriesRuntime(data, requireContext())
             movieDetailsHelper.setRateText(tvMarkValue, data.ratingKinopoisk)
         }
     }
 
+    private fun setButtonText(text: String) {
+        binding.progressButtonItem.progressButton.text = text
+    }
+
     companion object {
         private const val ARG_MOVIE_DETAILS = "movie_details"
+        private const val ARG_BUTTON_TEXT = "button_text"
 
-        fun newInstance(movieDetails: String): MatchBottomSheetFragment {
+        fun newInstance(
+            movieDetails: String,
+            buttonText: String? = null
+        ): MatchBottomSheetFragment {
             val fragment = MatchBottomSheetFragment()
             val args = Bundle().apply {
                 putString(ARG_MOVIE_DETAILS, movieDetails)
+                if (buttonText != null) putString(ARG_BUTTON_TEXT, buttonText)
             }
             fragment.arguments = args
             return fragment

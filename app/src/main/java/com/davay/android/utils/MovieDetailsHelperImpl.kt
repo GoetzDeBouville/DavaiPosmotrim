@@ -8,7 +8,7 @@ import coil.size.Scale
 import coil.transform.RoundedCornersTransformation
 import com.davai.uikit.TagView
 import com.davay.android.R
-import com.davay.android.feature.selectmovie.domain.models.MovieDetailsDemo
+import com.davay.android.domain.models.MovieDetails
 import com.google.android.flexbox.FlexboxLayout
 
 /**
@@ -55,26 +55,38 @@ open class MovieDetailsHelperImpl : MovieDetailsHelper {
         }
     }
 
-    override fun buildStringYearCountriesRuntime(data: MovieDetailsDemo, context: Context): String {
-        with(data) {
-            val str = StringBuilder()
-            year?.let {
-                str.append(it)
-                str.append(DOT_DELIMETER)
-            }
-            if (countries.isNotEmpty()) {
-                val countryList = countries.take(MAX_COUNTRY_NUMBER)
+    override fun buildStringYearCountriesRuntime(data: MovieDetails, context: Context): String {
+        val str = StringBuilder()
+        appendYear(data.year, str)
+        appendCountries(data.countries, str)
+        appendDuration(data.duration, str, context)
+        return str.toString()
+    }
+
+    private fun appendYear(year: String?, str: StringBuilder) {
+        year?.let {
+            str.append(it)
+            str.append(DOT_DELIMETER)
+        }
+    }
+
+    private fun appendCountries(countries: List<String>?, str: StringBuilder) {
+        countries?.let {
+            if (it.isNotEmpty()) {
+                val countryList = it.take(MAX_COUNTRY_NUMBER)
                 val countriesString = countryList.joinToString(separator = DOT_DELIMETER)
                 str.append(countriesString)
-                if (countries.size > MAX_COUNTRY_NUMBER) {
+                if (it.size > MAX_COUNTRY_NUMBER) {
                     str.append(MULTIPOINT)
                 }
-            }
-            movieLengthMin?.let {
                 str.append(DOT_DELIMETER)
-                str.append(movieLengthMin.formatMovieDuration(context))
             }
-            return str.toString()
+        }
+    }
+
+    private fun appendDuration(duration: Int?, str: StringBuilder, context: Context) {
+        duration?.let {
+            str.append(it.formatMovieDuration(context))
         }
     }
 

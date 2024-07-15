@@ -77,13 +77,10 @@ class WaitSessionFragment : BaseFragment<FragmentWaitSessionBinding, WaitSession
         )
         binding.toolbar.addStatusBarSpacer()
 
-        subscribe()
-
         binding.llButtonContainer.setOnClickListener {
             val code = binding.tvCode.text.toString()
             copyTextToClipboard(code)
         }
-
 
         sendButton?.setOnClickListener {
             val code = binding.tvCode.text.toString()
@@ -102,7 +99,7 @@ class WaitSessionFragment : BaseFragment<FragmentWaitSessionBinding, WaitSession
         )
     }
 
-    private fun subscribe() {
+    override fun subscribe() {
         setButtonClickListeners()
     }
 
