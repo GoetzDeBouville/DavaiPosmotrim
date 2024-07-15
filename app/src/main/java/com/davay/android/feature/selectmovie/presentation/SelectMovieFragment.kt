@@ -47,6 +47,11 @@ class SelectMovieFragment :
         subscribe()
     }
 
+    override fun onDestroyView() {
+        binding.rvFilmCard.adapter = null
+        super.onDestroyView()
+    }
+
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
         currentPosition = swipeCardLayoutManager.getCurrentPosition()
@@ -77,7 +82,7 @@ class SelectMovieFragment :
         binding.rvFilmCard.apply {
             layoutManager = swipeCardLayoutManager
             adapter = cardAdapter
-            // помимо установки позици на layputmanger дополнительно скролим до необходимой позиции
+            // помимо установки позици на layputmanger дополни тельно скролим до необходимой позиции
             scrollToPosition(currentPosition)
         }
 
