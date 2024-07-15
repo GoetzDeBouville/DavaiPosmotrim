@@ -99,11 +99,27 @@ class MatchBottomSheetFragment(private val action: (() -> Unit)? = null) :
             val bottomSheet =
                 (dialog as BottomSheetDialog)
                     .findViewById<View>(com.google.android.material.R.id.design_bottom_sheet) as FrameLayout
-            val behavior = BottomSheetBehavior.from(bottomSheet)
-            behavior.state = BottomSheetBehavior.STATE_EXPANDED
-            behavior.peekHeight = Resources.getSystem().displayMetrics.heightPixels
-            bottomSheet.layoutParams.height = ViewGroup.LayoutParams.MATCH_PARENT
+            BottomSheetBehavior.from(bottomSheet).apply {
+                state = BottomSheetBehavior.STATE_EXPANDED
+                peekHeight = Resources.getSystem().displayMetrics.heightPixels
+
+                addBottomSheetCallback(object : BottomSheetBehavior.BottomSheetCallback() {
+                    override fun onStateChanged(bottomSheet: View, newState: Int) {
+                        if (newState == BottomSheetBehavior.STATE_EXPANDED) {
+                            animateBannerDrop()
+                        }
+                    }
+
+                    override fun onSlide(bottomSheet: View, slideOffset: Float) {
+                        // Do nothing
+                    }
+                })
+            }.also {
+                bottomSheet.layoutParams.height = ViewGroup.LayoutParams.MATCH_PARENT
+            }
+
             launchProgressButtonAnimation()
+            animateBannerDrop()
         }
     }
 
@@ -176,9 +192,30 @@ class MatchBottomSheetFragment(private val action: (() -> Unit)? = null) :
         animatorSet.start()
     }
 
+    private fun animateBannerDrop() {
+        val banner = binding.tvBannerMatchWatch
+
+        val scaleX = ObjectAnimator.ofFloat(banner, View.SCALE_X, START_SCALE_X5, 1f)
+        val scaleY = ObjectAnimator.ofFloat(banner, View.SCALE_Y, START_SCALE_X5, 1f)
+        val alpha = ObjectAnimator.ofFloat(banner, View.ALPHA, 0f, 1f)
+
+        scaleX.duration = BANNER_DROP_DURATION_500_MS
+        scaleY.duration = BANNER_DROP_DURATION_500_MS
+        alpha.duration = BANNER_DROP_DURATION_500_MS
+
+        val animatorSet = AnimatorSet().apply {
+            playTogether(scaleX, scaleY, alpha)
+        }
+
+        animatorSet.start()
+    }
+
+
     companion object {
         private const val EXTERNAL_SPACING_24_DP = 24
         private const val MORPHING_ANIMATION_DURATION_500_MS = 500L
+        private const val BANNER_DROP_DURATION_500_MS = 500L
+        private const val START_SCALE_X5 = 5f
         private const val ARG_MOVIE_DETAILS = "movie_details"
         private const val ARG_BUTTON_TEXT = "button_text"
 
