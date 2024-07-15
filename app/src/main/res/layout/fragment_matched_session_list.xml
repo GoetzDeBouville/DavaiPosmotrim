@@ -48,8 +48,8 @@
 
         <com.davai.uikit.ProgressBarView
             android:id="@+id/progress_bar"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="@dimen/dimen_80"
+            android:layout_height="@dimen/dimen_80"
             android:layout_gravity="center"
             android:visibility="gone" />
     </LinearLayout>
