@@ -11,7 +11,7 @@ import java.util.Date
 import java.util.Locale
 
 class SessionListAdapter(
-    private val onSessionClickListener: (id: String) -> Unit?
+    private val onSessionClickListener: ((id: String) -> Unit)?
 ) : RecyclerView.Adapter<SessionListAdapter.SessionListViewHolder>() {
 
     private val sessionList = mutableListOf<Session>()
@@ -46,7 +46,14 @@ class SessionListAdapter(
             parent,
             false
         )
-        return SessionListViewHolder(binding)
+        val viewHolder = SessionListViewHolder(binding)
+        viewHolder.itemView.setOnClickListener {
+            val position = viewHolder.adapterPosition
+            if (position != RecyclerView.NO_POSITION) {
+                onSessionClickListener?.invoke(sessionList[position].id)
+            }
+        }
+        return viewHolder
     }
 
     override fun getItemCount() = sessionList.size
@@ -54,9 +61,6 @@ class SessionListAdapter(
     override fun onBindViewHolder(holder: SessionListViewHolder, position: Int) {
         val session = sessionList[position]
         holder.bind(session)
-        holder.itemView.setOnClickListener {
-            onSessionClickListener.invoke(session.id)
-        }
     }
 
     fun setData(sessions: List<Session>) {
