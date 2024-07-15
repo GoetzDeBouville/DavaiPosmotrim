@@ -46,6 +46,7 @@
     <string name="select_movies_hours_and_minutes">%d ч %d мин</string>
     <string name="select_movies_hours">%d ч</string>
     <string name="select_movies_minutes">%d мин</string>
+    <string name="select_movies_increment_1">+1</string>
 
     <!--onboarding screen-->
     <string name="onboarding_continue_view">продолжить</string>

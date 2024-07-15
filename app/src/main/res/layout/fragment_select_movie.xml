@@ -7,7 +7,7 @@
     android:background="@color/background_base"
     tools:context=".feature.selectmovie.presentation.SelectMovieFragment">
 
-    <LinearLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
@@ -18,18 +18,35 @@
             android:layout_height="wrap_content"
             app:end_icon="@drawable/ic_heart"
             app:end_icon_is_visible="true"
+            app:layout_constraintTop_toTopOf="parent"
             app:start_icon="@drawable/ic_cross"
             app:start_icon_is_visible="true"
             app:title="@string/select_movies_select_film" />
 
+        <TextView
+            android:id="@+id/tv_motioned_increment"
+            style="@style/Text.Headline.SubTitle.NoLineSpacing"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/margin_8"
+            android:text="@string/select_movies_increment_1"
+            android:textColor="@color/primary_hover"
+            android:visibility="invisible"
+            app:layout_constraintBottom_toBottomOf="@id/toolbarview_header"
+            app:layout_constraintEnd_toEndOf="parent"
+            tools:visibility="visible" />
+
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rv_film_card"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="0dp"
             android:layout_marginBottom="@dimen/margin_112"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/toolbarview_header"
             tools:itemCount="1"
+            tools:layout_height="match_parent"
             tools:listitem="@layout/item_swipeable_movie_card" />
-    </LinearLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/cl_details_bottom_sheet"
