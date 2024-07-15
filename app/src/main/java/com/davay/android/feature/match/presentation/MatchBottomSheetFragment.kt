@@ -23,7 +23,8 @@ import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.google.gson.Gson
 import kotlinx.coroutines.launch
 
-class MatchBottomSheetFragment : BottomSheetDialogFragment() {
+class MatchBottomSheetFragment(private val action: (() -> Unit)? = null) :
+    BottomSheetDialogFragment() {
     private var _binding: FragmentMatchBottomSheetBinding? = null
     private val binding: FragmentMatchBottomSheetBinding
         get() = _binding!!
@@ -163,6 +164,7 @@ class MatchBottomSheetFragment : BottomSheetDialogFragment() {
         animatorSet.addListener(object : AnimatorListenerAdapter() {
             override fun onAnimationEnd(animation: Animator) {
                 dismiss()
+                action?.invoke()
             }
         })
 
@@ -177,9 +179,10 @@ class MatchBottomSheetFragment : BottomSheetDialogFragment() {
 
         fun newInstance(
             movieDetails: String,
-            buttonText: String? = null
+            buttonText: String? = null,
+            action: (() -> Unit)? = null
         ): MatchBottomSheetFragment {
-            val fragment = MatchBottomSheetFragment()
+            val fragment = MatchBottomSheetFragment(action = action)
             val args = Bundle().apply {
                 putString(ARG_MOVIE_DETAILS, movieDetails)
                 if (buttonText != null) putString(ARG_BUTTON_TEXT, buttonText)
