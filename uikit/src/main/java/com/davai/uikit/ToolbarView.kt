@@ -96,6 +96,14 @@ class ToolbarView @JvmOverloads constructor(
         tvMatchesCounter.text = numberOfMatches.toString()
     }
 
+
+    /**
+     * Инкрементирует на один значение мэтчей в иконке
+     */
+    fun incrementMatchesDisplay() {
+        tvMatchesCounter.text = tvMatchesCounter.text.toString().toInt().plus(1).toString()
+    }
+
     /**
      * Упроавление видимостью счетчиком
      */
