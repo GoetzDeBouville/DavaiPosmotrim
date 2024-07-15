@@ -30,11 +30,6 @@ class MainFragment :
         .appComponent(AppComponentHolder.getComponent())
         .build()
 
-    override fun onSaveInstanceState(outState: Bundle) {
-        super.onSaveInstanceState(outState)
-        outState.putString(USER_NAME_KEY, binding.userName.text.toString())
-    }
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
