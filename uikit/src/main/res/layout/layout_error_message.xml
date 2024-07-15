@@ -16,7 +16,7 @@
 
     <TextView
         android:id="@+id/tv_error_title"
-        style="@style/Text.Base.Big.Regular.ErrorTitle"
+        style="@style/Text.Headline.ErrorTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/margin_12"
