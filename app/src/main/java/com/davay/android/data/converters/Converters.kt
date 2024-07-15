@@ -19,26 +19,26 @@ import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
 
-fun CollectionDto.convert() = Collection(
+fun CollectionDto.toDomain() = Collection(
     id,
     name,
     imgUrl
 )
 
-fun GenreDto.convert() = Genre(name)
+fun GenreDto.toDomain() = Genre(name)
 
-fun MovieDto.convert() = Movie(
+fun MovieDto.toDomain() = Movie(
     id,
     name,
     imgUrl
 )
 
-fun UserDto.convert() = User(
+fun UserDto.toDomain() = User(
     userId,
     name
 )
 
-fun MovieDetailsDto.convert() = MovieDetails(
+fun MovieDetailsDto.toDomain() = MovieDetails(
     id,
     name,
     description,
@@ -63,7 +63,7 @@ fun MovieDetailsDto.convert() = MovieDetails(
  * Если при форматировании дата меньше minDate, то возвращается minDate.
  * minDate устанавливаем на 2024-01-01.
  */
-fun SessionDto.convert(): Session {
+fun SessionDto.toDomain(): Session {
     val dateFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
     val minDate = dateFormat.parse("2024-01-01")
     val currentDate = Date()
@@ -85,18 +85,19 @@ fun SessionDto.convert(): Session {
 
     return Session(
         id = id,
-        users = users.map { it.convert() },
+        users = users.map { it.toDomain() },
         numberOfMatchedMovies = numberOfMatchedMovies,
         date = timestamp,
-        status = status.convert(),
+        status = status.toDomain(),
         imgUrl = imgUrl
     )
 }
 
-fun SessionStatusDto.convert(): SessionStatus {
+fun SessionStatusDto.toDomain(): SessionStatus {
     return when (this) {
         SessionStatusDto.WAITING -> SessionStatus.WAITING
         SessionStatusDto.VOTING -> SessionStatus.VOTING
         SessionStatusDto.CLOSED -> SessionStatus.CLOSED
+        SessionStatusDto.ROULETTE -> SessionStatus.ROULETTE
     }
 }
