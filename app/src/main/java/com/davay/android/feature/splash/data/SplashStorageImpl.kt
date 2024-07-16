@@ -7,14 +7,14 @@ class SplashStorageImpl(
     private val sharedPreferences: SharedPreferences
 ) : FirstTimeFlagStorage {
     override fun isFirstTimeLaunch(): Boolean {
-        return sharedPreferences.getBoolean(FIRST_TIME_LAUNCH_KEY, true)
+        return sharedPreferences.getBoolean(FIRST_TIME_FLAG_FOR_SPLASH_KEY, true)
     }
 
     override fun markFirstTimeLaunch() {
-        sharedPreferences.edit().putBoolean(FIRST_TIME_LAUNCH_KEY, false).apply()
+        sharedPreferences.edit().putBoolean(FIRST_TIME_FLAG_FOR_SPLASH_KEY, false).apply()
     }
 
     private companion object {
-        const val FIRST_TIME_LAUNCH_KEY = "isFirstTimeLaunchKey"
+        const val FIRST_TIME_FLAG_FOR_SPLASH_KEY = "isFirstTimeSplashIntroduction"
     }
 }

@@ -19,6 +19,6 @@ class WaitSessionStorageImpl(
     }
 
     private companion object {
-        const val FIRST_TIME_FLAG_FOR_WAIT_SESSION_KEY = "firstTimeFlagForWaitSessionKey"
+        const val FIRST_TIME_FLAG_FOR_WAIT_SESSION_KEY = "isFirstTimeWaitSessionIntroduction"
     }
 }
