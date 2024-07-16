@@ -145,5 +145,4 @@
         android:name="com.davay.android.feature.matchedsession.presentation.MatchedSessionFragment"
         android:label="MatchedSessionFragment"
         tools:layout="@layout/fragment_matched_session"/>
-
 </navigation>
