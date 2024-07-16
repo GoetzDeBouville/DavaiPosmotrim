@@ -95,6 +95,7 @@ class MatchedSessionFragment :
 
             is UiState.Error -> {
                 Toast.makeText(requireContext(), "Error occurred!", Toast.LENGTH_SHORT).show()
+                updateVisibility(errorMessageVisible = true)
             }
         }
     }
@@ -102,11 +103,13 @@ class MatchedSessionFragment :
     private fun updateVisibility(
         progressBarIsVisible: Boolean = false,
         coincidencesListIsVisible: Boolean = false,
-        emptyMessageIsVisible: Boolean = false
+        emptyMessageIsVisible: Boolean = false,
+        errorMessageVisible: Boolean = false
     ) = with(binding) {
         progressBar.isVisible = progressBarIsVisible
         coincidencesList.isVisible = coincidencesListIsVisible
         emptyPlaceholder.root.isVisible = emptyMessageIsVisible
+        errorMessage.root.isVisible = errorMessageVisible
     }
 
 //        Конец -> Взято из совпадений, чисто для демонстрации
