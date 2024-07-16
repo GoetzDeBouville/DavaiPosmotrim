@@ -11,7 +11,7 @@ class SplashViewModel @Inject constructor(
         return splashOnBoardingInteractror.isFirstTimeLaunch()
     }
 
-    fun setFirstTimeLaunch() {
-        splashOnBoardingInteractror.setFirstTimeLaunch()
+    fun markFirstTimeLaunch() {
+        splashOnBoardingInteractror.markFirstTimeLaunch()
     }
 }

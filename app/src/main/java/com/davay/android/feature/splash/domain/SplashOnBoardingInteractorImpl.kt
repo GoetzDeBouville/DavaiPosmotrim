@@ -4,8 +4,8 @@ package com.davay.android.feature.splash.domain
 class SplashOnBoardingInteractorImpl(
     private val repository: SplashOnBoardingRepository
 ) : SplashOnBoardingInteractror {
-    override fun setFirstTimeLaunch() {
-        repository.setFirstTimeLaunch()
+    override fun markFirstTimeLaunch() {
+        repository.markFirstTimeLaunch()
     }
 
     override fun isFirstTimeLaunch(): Boolean {

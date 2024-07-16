@@ -10,7 +10,7 @@ class FirstTimeFlagForWaitSessionStorageImpl(
         return sharedPreferences.getBoolean(FIRST_TIME_FLAG_FOR_WAIT_SESSION_KEY, true)
     }
 
-    override fun setFirstTimeLaunch() {
+    override fun markFirstTimeLaunch() {
         sharedPreferences.edit().putBoolean(
             FIRST_TIME_FLAG_FOR_WAIT_SESSION_KEY,
             false

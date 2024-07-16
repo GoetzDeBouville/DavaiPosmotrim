@@ -44,7 +44,7 @@ class SplashFragment :
             addTextViewsWithDelay()
             delay(DELAY_4000_MS)
             if (viewModel.isFirstTimeLaunch()) {
-                viewModel.setFirstTimeLaunch()
+                viewModel.markFirstTimeLaunch()
                 viewModel.navigate(R.id.action_splashFragment_to_onboardingFragment, bundle)
             } else {
                 viewModel.navigate(R.id.action_splashFragment_to_mainFragment)

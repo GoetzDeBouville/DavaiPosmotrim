@@ -11,7 +11,7 @@ class WaitSessionViewModel @Inject constructor(
         return waitSessionOnBoardingInteractror.isFirstTimeLaunch()
     }
 
-    fun setFirstTimeLaunch() {
-        waitSessionOnBoardingInteractror.setFirstTimeLaunch()
+    fun markFirstTimeLaunch() {
+        waitSessionOnBoardingInteractror.markFirstTimeLaunch()
     }
 }

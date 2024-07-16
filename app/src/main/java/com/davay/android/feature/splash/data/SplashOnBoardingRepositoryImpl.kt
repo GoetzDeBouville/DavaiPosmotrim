@@ -10,7 +10,7 @@ class SplashOnBoardingRepositoryImpl(
         return firstTimeFlagStorage.isFirstTimeLaunch()
     }
 
-    override fun setFirstTimeLaunch() {
-        firstTimeFlagStorage.setFirstTimeLaunch()
+    override fun markFirstTimeLaunch() {
+        firstTimeFlagStorage.markFirstTimeLaunch()
     }
 }

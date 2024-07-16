@@ -10,7 +10,7 @@ class FirstTimeFlagStorageImpl(
         return sharedPreferences.getBoolean(FIRST_TIME_LAUNCH_KEY, true)
     }
 
-    override fun setFirstTimeLaunch() {
+    override fun markFirstTimeLaunch() {
         sharedPreferences.edit().putBoolean(FIRST_TIME_LAUNCH_KEY, false).apply()
     }
 

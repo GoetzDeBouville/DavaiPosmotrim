@@ -2,5 +2,5 @@ package com.davay.android.feature.splash.domain
 
 interface FirstTimeFlagStorage {
     fun isFirstTimeLaunch(): Boolean
-    fun setFirstTimeLaunch()
+    fun markFirstTimeLaunch()
 }

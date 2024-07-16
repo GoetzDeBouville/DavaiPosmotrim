@@ -157,7 +157,7 @@ class WaitSessionFragment : BaseFragment<FragmentWaitSessionBinding, WaitSession
         }
         binding.startSessionButton.setOnClickListener {
             if (viewModel.isFirstTimeLaunch()) {
-                viewModel.setFirstTimeLaunch()
+                viewModel.markFirstTimeLaunch()
                 val bundle = Bundle().apply {
                     putInt(OnboardingFragment.ONBOARDING_KEY, OnboardingFragment.ONBOARDING_INSTRUCTION_SET)
                 }

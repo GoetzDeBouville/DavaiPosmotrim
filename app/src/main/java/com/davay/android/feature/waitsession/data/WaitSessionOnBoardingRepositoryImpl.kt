@@ -10,7 +10,7 @@ class WaitSessionOnBoardingRepositoryImpl(
         return firstTimeFlagForWaitSessionStorage.isFirstTimeLaunch()
     }
 
-    override fun setFirstTimeLaunch() {
-        firstTimeFlagForWaitSessionStorage.setFirstTimeLaunch()
+    override fun markFirstTimeLaunch() {
+        firstTimeFlagForWaitSessionStorage.markFirstTimeLaunch()
     }
 }
