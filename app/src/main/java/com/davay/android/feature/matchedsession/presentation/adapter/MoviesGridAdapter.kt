@@ -1,7 +1,7 @@
 package com.davay.android.feature.matchedsession.presentation.adapter
 
+import android.annotation.SuppressLint
 import android.view.ViewGroup
-import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.davay.android.domain.models.MovieDetails
 
@@ -24,11 +24,10 @@ class MoviesGridAdapter(
         bind(movies[position])
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     fun setData(data: List<MovieDetails>) {
-        val callback = MoviesGridDiffCallback(oldItems = movies, newItems = data)
-        val diff = DiffUtil.calculateDiff(callback)
         movies.clear()
         movies.addAll(data)
-        diff.dispatchUpdatesTo(this)
+        notifyDataSetChanged()
     }
 }
