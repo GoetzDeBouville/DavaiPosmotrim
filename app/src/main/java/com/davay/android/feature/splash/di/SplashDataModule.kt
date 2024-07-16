@@ -28,8 +28,9 @@ class SplashDataModule {
         FirstTimeFlagStorageImpl(sharedPreferences)
 
     @Provides
-    fun provideSharedPreferences(context: Context): SharedPreferences = context.getSharedPreferences(
-        "sharedPreferences",
-        Context.MODE_PRIVATE
-    )
+    fun provideSharedPreferences(context: Context): SharedPreferences =
+        context.getSharedPreferences(
+            FirstTimeFlagStorage.STORAGE_NAME,
+            Context.MODE_PRIVATE
+        )
 }

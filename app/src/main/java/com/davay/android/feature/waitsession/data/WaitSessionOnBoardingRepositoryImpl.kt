@@ -1,16 +1,16 @@
 package com.davay.android.feature.waitsession.data
 
-import com.davay.android.feature.waitsession.domain.FirstTimeFlagForWaitSessionStorage
+import com.davay.android.feature.splash.domain.FirstTimeFlagStorage
 import com.davay.android.feature.waitsession.domain.WaitSessionOnBoardingRepository
 
 class WaitSessionOnBoardingRepositoryImpl(
-    private val firstTimeFlagForWaitSessionStorage: FirstTimeFlagForWaitSessionStorage
+    private val firstTimeFlagStorage: FirstTimeFlagStorage
 ) : WaitSessionOnBoardingRepository {
     override fun isFirstTimeLaunch(): Boolean {
-        return firstTimeFlagForWaitSessionStorage.isFirstTimeLaunch()
+        return firstTimeFlagStorage.isFirstTimeLaunch()
     }
 
     override fun markFirstTimeLaunch() {
-        firstTimeFlagForWaitSessionStorage.markFirstTimeLaunch()
+        firstTimeFlagStorage.markFirstTimeLaunch()
     }
 }

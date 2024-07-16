@@ -1,11 +1,11 @@
 package com.davay.android.feature.waitsession.data
 
 import android.content.SharedPreferences
-import com.davay.android.feature.waitsession.domain.FirstTimeFlagForWaitSessionStorage
+import com.davay.android.feature.splash.domain.FirstTimeFlagStorage
 
-class FirstTimeFlagForWaitSessionStorageImpl(
+class WaitSessionStorageImpl(
     private val sharedPreferences: SharedPreferences
-) : FirstTimeFlagForWaitSessionStorage {
+) : FirstTimeFlagStorage {
     override fun isFirstTimeLaunch(): Boolean {
         return sharedPreferences.getBoolean(FIRST_TIME_FLAG_FOR_WAIT_SESSION_KEY, true)
     }

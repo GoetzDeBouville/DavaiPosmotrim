@@ -2,9 +2,9 @@ package com.davay.android.feature.waitsession.di
 
 import android.content.Context
 import android.content.SharedPreferences
-import com.davay.android.feature.waitsession.data.FirstTimeFlagForWaitSessionStorageImpl
+import com.davay.android.feature.splash.domain.FirstTimeFlagStorage
 import com.davay.android.feature.waitsession.data.WaitSessionOnBoardingRepositoryImpl
-import com.davay.android.feature.waitsession.domain.FirstTimeFlagForWaitSessionStorage
+import com.davay.android.feature.waitsession.data.WaitSessionStorageImpl
 import com.davay.android.feature.waitsession.domain.WaitSessionOnBoardingInteractor
 import com.davay.android.feature.waitsession.domain.WaitSessionOnBoardingInteractorImpl
 import com.davay.android.feature.waitsession.domain.WaitSessionOnBoardingRepository
@@ -15,8 +15,8 @@ import dagger.Provides
 class WaitSessionDataModule {
     @Provides
     fun provideWaitSessionOnBoardingRepository(
-        isNotFirstTimeStorage: FirstTimeFlagForWaitSessionStorage
-    ): WaitSessionOnBoardingRepository = WaitSessionOnBoardingRepositoryImpl(isNotFirstTimeStorage)
+        firstTimeFlagStorage: FirstTimeFlagStorage
+    ): WaitSessionOnBoardingRepository = WaitSessionOnBoardingRepositoryImpl(firstTimeFlagStorage)
 
     @Provides
     fun provideWaitSessionOnBoardingInteractor(
@@ -26,11 +26,11 @@ class WaitSessionDataModule {
     @Provides
     fun provideIsFirstTimeStorage(
         sharedPreferences: SharedPreferences
-    ): FirstTimeFlagForWaitSessionStorage = FirstTimeFlagForWaitSessionStorageImpl(sharedPreferences)
+    ): FirstTimeFlagStorage = WaitSessionStorageImpl(sharedPreferences)
 
     @Provides
     fun provideSharedPreferences(context: Context): SharedPreferences = context.getSharedPreferences(
-        "sharedPreferences",
+        FirstTimeFlagStorage.STORAGE_NAME,
         Context.MODE_PRIVATE
     )
 }
