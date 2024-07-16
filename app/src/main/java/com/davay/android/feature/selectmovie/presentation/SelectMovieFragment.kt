@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.widget.TextView
 import androidx.recyclerview.widget.ItemTouchHelper
+import com.davai.extensions.dpToPx
 import com.davay.android.R
 import com.davay.android.app.AppComponentHolder
 import com.davay.android.base.BaseFragment
@@ -12,7 +13,6 @@ import com.davay.android.databinding.FragmentSelectMovieBinding
 import com.davay.android.di.ScreenComponent
 import com.davay.android.domain.models.MovieDetails
 import com.davay.android.extensions.SwipeDirection
-import com.davay.android.extensions.dpToPx
 import com.davay.android.feature.match.presentation.MatchBottomSheetFragment
 import com.davay.android.feature.selectmovie.di.DaggerSelectMovieFragmentComponent
 import com.davay.android.feature.selectmovie.presentation.adapters.MovieCardAdapter
@@ -97,7 +97,7 @@ class SelectMovieFragment :
     private fun setBottomSheet() = with(binding) {
         BottomSheetBehavior.from(clDetailsBottomSheet).apply {
             state = BottomSheetBehavior.STATE_COLLAPSED
-            peekHeight = BOTTOMSHEET_PEEK_HEIGHT_112_DP.dpToPx().toInt()
+            peekHeight = BOTTOMSHEET_PEEK_HEIGHT_112_DP.dpToPx()
 
             clDetailsBottomSheet.post {
                 val cardLocation = IntArray(2)
@@ -105,7 +105,7 @@ class SelectMovieFragment :
                 val cardTop = cardLocation[1]
 
                 val screenHeight = activity?.resources?.displayMetrics?.heightPixels ?: 0
-                val maxHeight = screenHeight - (cardTop + MARGIN_TOP_16_DP.dpToPx().toInt())
+                val maxHeight = screenHeight - (cardTop + MARGIN_TOP_16_DP.dpToPx())
 
                 clDetailsBottomSheet.layoutParams.height = maxHeight
                 clDetailsBottomSheet.requestLayout()
