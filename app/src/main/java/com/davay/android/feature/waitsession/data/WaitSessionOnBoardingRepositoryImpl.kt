@@ -1,11 +1,11 @@
 package com.davay.android.feature.waitsession.data
 
-import com.davay.android.feature.splash.domain.FirstTimeFlagStorage
-import com.davay.android.feature.waitsession.domain.WaitSessionOnBoardingRepository
+import com.davay.android.app.core.feature.introduction.domain.FirstTimeFlagRepository
+import com.davay.android.app.core.feature.introduction.domain.FirstTimeFlagStorage
 
 class WaitSessionOnBoardingRepositoryImpl(
     private val firstTimeFlagStorage: FirstTimeFlagStorage
-) : WaitSessionOnBoardingRepository {
+) : FirstTimeFlagRepository {
     override fun isFirstTimeLaunch(): Boolean {
         return firstTimeFlagStorage.isFirstTimeLaunch()
     }

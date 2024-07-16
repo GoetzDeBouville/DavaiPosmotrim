@@ -1,4 +1,4 @@
-package com.davay.android.feature.splash.domain
+package com.davay.android.app.core.feature.introduction.domain
 
 interface FirstTimeFlagStorage {
 

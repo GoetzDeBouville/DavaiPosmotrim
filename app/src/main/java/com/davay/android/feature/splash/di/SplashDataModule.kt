@@ -2,12 +2,12 @@ package com.davay.android.feature.splash.di
 
 import android.content.Context
 import android.content.SharedPreferences
-import com.davay.android.feature.splash.data.FirstTimeFlagStorageImpl
+import com.davay.android.app.core.feature.introduction.domain.FirstTimeFlagRepository
+import com.davay.android.app.core.feature.introduction.domain.FirstTimeFlagStorage
 import com.davay.android.feature.splash.data.SplashOnBoardingRepositoryImpl
-import com.davay.android.feature.splash.domain.FirstTimeFlagStorage
+import com.davay.android.feature.splash.data.SplashStorageImpl
 import com.davay.android.feature.splash.domain.SplashOnBoardingInteractorImpl
 import com.davay.android.feature.splash.domain.SplashOnBoardingInteractror
-import com.davay.android.feature.splash.domain.SplashOnBoardingRepository
 import dagger.Module
 import dagger.Provides
 
@@ -16,16 +16,16 @@ class SplashDataModule {
     @Provides
     fun provideSplashOnBoardingRepository(
         firstTimeFlagStorage: FirstTimeFlagStorage
-    ): SplashOnBoardingRepository = SplashOnBoardingRepositoryImpl(firstTimeFlagStorage)
+    ): FirstTimeFlagRepository = SplashOnBoardingRepositoryImpl(firstTimeFlagStorage)
 
     @Provides
     fun provideSplashOnBoardingInteractor(
-        repository: SplashOnBoardingRepository
+        repository: FirstTimeFlagRepository
     ): SplashOnBoardingInteractror = SplashOnBoardingInteractorImpl(repository)
 
     @Provides
     fun provideIsFirstTimeStorage(sharedPreferences: SharedPreferences): FirstTimeFlagStorage =
-        FirstTimeFlagStorageImpl(sharedPreferences)
+        SplashStorageImpl(sharedPreferences)
 
     @Provides
     fun provideSharedPreferences(context: Context): SharedPreferences =

@@ -1,9 +1,9 @@
 package com.davay.android.feature.splash.data
 
 import android.content.SharedPreferences
-import com.davay.android.feature.splash.domain.FirstTimeFlagStorage
+import com.davay.android.app.core.feature.introduction.domain.FirstTimeFlagStorage
 
-class FirstTimeFlagStorageImpl(
+class SplashStorageImpl(
     private val sharedPreferences: SharedPreferences
 ) : FirstTimeFlagStorage {
     override fun isFirstTimeLaunch(): Boolean {

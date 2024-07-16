@@ -1,7 +1,7 @@
 package com.davay.android.feature.waitsession.data
 
 import android.content.SharedPreferences
-import com.davay.android.feature.splash.domain.FirstTimeFlagStorage
+import com.davay.android.app.core.feature.introduction.domain.FirstTimeFlagStorage
 
 class WaitSessionStorageImpl(
     private val sharedPreferences: SharedPreferences
