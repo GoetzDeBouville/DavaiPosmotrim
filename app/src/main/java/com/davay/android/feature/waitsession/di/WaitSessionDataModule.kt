@@ -5,8 +5,8 @@ import android.content.SharedPreferences
 import com.davay.android.feature.waitsession.data.FirstTimeFlagForWaitSessionStorageImpl
 import com.davay.android.feature.waitsession.data.WaitSessionOnBoardingRepositoryImpl
 import com.davay.android.feature.waitsession.domain.FirstTimeFlagForWaitSessionStorage
+import com.davay.android.feature.waitsession.domain.WaitSessionOnBoardingInteractor
 import com.davay.android.feature.waitsession.domain.WaitSessionOnBoardingInteractorImpl
-import com.davay.android.feature.waitsession.domain.WaitSessionOnBoardingInteractror
 import com.davay.android.feature.waitsession.domain.WaitSessionOnBoardingRepository
 import dagger.Module
 import dagger.Provides
@@ -21,7 +21,7 @@ class WaitSessionDataModule {
     @Provides
     fun provideWaitSessionOnBoardingInteractor(
         repository: WaitSessionOnBoardingRepository
-    ): WaitSessionOnBoardingInteractror = WaitSessionOnBoardingInteractorImpl(repository)
+    ): WaitSessionOnBoardingInteractor = WaitSessionOnBoardingInteractorImpl(repository)
 
     @Provides
     fun provideIsFirstTimeStorage(

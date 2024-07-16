@@ -1,6 +1,6 @@
 package com.davay.android.feature.waitsession.domain
 
-interface WaitSessionOnBoardingInteractror {
+interface WaitSessionOnBoardingInteractor {
     fun markFirstTimeLaunch()
     fun isFirstTimeLaunch(): Boolean
 }
