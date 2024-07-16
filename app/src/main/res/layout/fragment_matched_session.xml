@@ -95,7 +95,7 @@
                     layout="@layout/item_empty_placeholder"
                     android:visibility="visible" />
 
-                <ProgressBar
+                <com.davai.uikit.ProgressBarView
                     android:id="@+id/progress_bar"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
