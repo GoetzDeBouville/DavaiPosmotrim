@@ -113,6 +113,10 @@
     <string name="coincidences_screen_coincidences">Совпадения</string>
     <string name="coincidences_screen_empty_coincidences">Пока ничего нет</string>
 
+    <!--  matched sessions  -->
+    <string name="matched_sessions_empty_list_error">Здесь будут фильмы,\nкоторые вам понравились</string>
+    <string name="matched_sessions_you"> (Вы)</string>
+
     <!--  roulette  -->
     <string name="roulette_magic">Начнём магию, когда подключатся все участники</string>
     <string name="roulette_wait">Ждём участников...</string>
