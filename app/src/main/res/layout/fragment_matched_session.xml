@@ -19,19 +19,20 @@
     <androidx.core.widget.NestedScrollView
         android:id="@+id/scrollView"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:fillViewport="true">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="wrap_content">
 
             <View
                 android:id="@+id/v_container"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/zero"
                 android:background="@drawable/round_bottom_background"
-                app:layout_constraintBottom_toTopOf="@id/coincidences_container"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toTopOf="@id/coincidences_container" />
 
             <TextView
                 android:id="@+id/users_title"
@@ -48,27 +49,25 @@
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rv_user"
-                android:layout_width="@dimen/zero"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:paddingHorizontal="@dimen/padding_16"
                 android:paddingTop="@dimen/padding_16"
                 android:paddingBottom="@dimen/padding_16"
-                app:layout_constraintBottom_toBottomOf="@id/v_container"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/users_title"
+                app:layout_constraintBottom_toBottomOf="@id/v_container"
                 tools:listitem="@layout/tag_view" />
 
             <FrameLayout
                 android:id="@+id/coincidences_container"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constrainedHeight="true"
                 android:layout_marginTop="@dimen/margin_16"
-                android:layout_weight="1"
                 android:background="@drawable/main_screen_menu_background"
                 android:paddingHorizontal="@dimen/padding_16"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/v_container">
+                app:layout_constraintTop_toBottomOf="@+id/v_container"
+                app:layout_constraintBottom_toBottomOf="parent">
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/coincidences_list"
@@ -88,10 +87,10 @@
 
                 <com.davai.uikit.ProgressBarView
                     android:id="@+id/progress_bar"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="@dimen/dimen_80"
+                    android:layout_height="match_parent"
                     android:layout_gravity="center"
-                    android:visibility="gone" />
+                    android:visibility="visible" />
             </FrameLayout>
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.core.widget.NestedScrollView>
