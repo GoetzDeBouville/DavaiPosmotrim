@@ -148,7 +148,11 @@
         android:id="@+id/coincidencesFragment"
         android:name="com.davay.android.feature.coincidences.presentation.CoincidencesFragment"
         android:label="fragment_coincidences"
-        tools:layout="@layout/fragment_coincidences" />
+        tools:layout="@layout/fragment_coincidences" >
+        <action
+            android:id="@+id/action_coincidencesFragment_to_rouletteFragment"
+            app:destination="@id/rouletteFragment" />
+    </fragment>
     <fragment
         android:id="@+id/matchedSessionListFragment"
         android:name="com.davay.android.feature.sessionsmatched.presentation.MatchedSessionListFragment"
