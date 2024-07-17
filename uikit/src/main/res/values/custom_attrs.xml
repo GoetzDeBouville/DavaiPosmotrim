@@ -43,6 +43,7 @@
         <attr name="end_icon" format="reference" />
         <attr name="end_icon_is_visible" format="boolean" />
         <attr name="start_icon_is_visible" format="boolean" />
+        <attr name="add_status_bar_spacer" format="boolean" />
         <attr name="start_icon" format="reference" />
     </declare-styleable>
 
