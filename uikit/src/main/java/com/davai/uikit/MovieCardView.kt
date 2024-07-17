@@ -9,6 +9,7 @@ import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.annotation.AttrRes
 import androidx.annotation.StyleRes
+import androidx.core.content.ContextCompat
 import androidx.core.view.isGone
 import coil.load
 import coil.size.Scale
@@ -83,5 +84,29 @@ class MovieCardView @JvmOverloads constructor(
 
     fun setMovieTitle(title: String) {
         tvMovieTitle.text = title
+    }
+
+    fun setMovieCoverForMatchedSession(url: String) {
+        ivMovieCover.load(url) {
+            listener(
+                onStart = {
+                    progressBar.isGone = false
+                },
+                onSuccess = { _, result ->
+                    progressBar.isGone = true
+                    ivMovieCover.setImageDrawable(result.drawable)
+                    scale(Scale.FIT)
+                },
+                onError = { _, _ ->
+                    progressBar.isGone = true
+                    ivMovieCover.setImageResource(R.drawable.placeholder_general_w163)
+                    tvMovieTitle.background = null
+                    tvMovieTitle.setTextColor(ContextCompat.getColor(context, R.color.text_headings))
+                }
+            ).scale(Scale.FIT)
+            transformations(
+                RoundedCornersTransformation()
+            ).crossfade(true)
+        }
     }
 }

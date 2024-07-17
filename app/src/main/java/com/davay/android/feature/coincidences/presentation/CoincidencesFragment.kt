@@ -133,7 +133,6 @@ class CoincidencesFragment : BaseFragment<FragmentCoincidencesBinding, Coinciden
                 updateVisibility(coincidencesListIsVisible = true)
                 moviesGridAdapter.setData(state.data)
             }
-
             is UiState.Error -> {
                 Toast.makeText(requireContext(), "Error occurred!", Toast.LENGTH_SHORT).show()
             }
