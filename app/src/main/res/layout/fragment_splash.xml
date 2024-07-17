@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/background_base"
-    tools:context=".feature.splash.fragment.SplashFragment">
+    tools:context=".feature.splash.presentation.SplashFragment">
 
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/mcv_cardview"

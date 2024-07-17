@@ -101,15 +101,21 @@
             app:destination="@id/mainFragment"
             app:enterAnim="@anim/nav_default_pop_enter_anim"
             app:exitAnim="@anim/nav_default_pop_exit_anim" />
+        <action
+            android:id="@+id/action_onboardingFragment_to_selectMovieFragment"
+            app:destination="@id/selectMovieFragment" />
     </fragment>
     <fragment
         android:id="@+id/splashFragment"
-        android:name="com.davay.android.feature.splash.fragment.SplashFragment"
+        android:name="com.davay.android.feature.splash.presentation.SplashFragment"
         android:label="fragment_splash"
         tools:layout="@layout/fragment_splash" >
         <action
             android:id="@+id/action_splashFragment_to_onboardingFragment"
             app:destination="@id/onboardingFragment" />
+        <action
+            android:id="@+id/action_splashFragment_to_mainFragment"
+            app:destination="@id/mainFragment" />
     </fragment>
     <fragment
         android:id="@+id/selectMovieFragment"
@@ -129,7 +135,15 @@
         android:id="@+id/waitSessionFragment"
         android:name="com.davay.android.feature.waitsession.presentation.WaitSessionFragment"
         android:label="fragment_wait_session"
-        tools:layout="@layout/fragment_wait_session" />
+        tools:layout="@layout/fragment_wait_session">
+        <action
+            android:id="@+id/action_waitSessionFragment_to_onboardingFragment"
+            app:destination="@id/onboardingFragment" />
+        <action
+            android:id="@+id/action_waitSessionFragment_to_selectMovieFragment"
+            app:destination="@id/selectMovieFragment" />
+    </fragment>
+
     <fragment
         android:id="@+id/coincidencesFragment"
         android:name="com.davay.android.feature.coincidences.presentation.CoincidencesFragment"
