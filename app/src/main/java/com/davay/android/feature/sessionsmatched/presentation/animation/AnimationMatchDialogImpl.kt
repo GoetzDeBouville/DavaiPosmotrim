@@ -4,7 +4,6 @@ import android.animation.Animator
 import android.animation.AnimatorListenerAdapter
 import android.animation.AnimatorSet
 import android.animation.ObjectAnimator
-import android.content.res.Resources
 import android.view.View
 import com.davai.extensions.dpToPx
 
@@ -16,7 +15,7 @@ class AnimationMatchDialogImpl : AnimationMatchDialog {
         val width = bottomSheet.width
         val height = bottomSheet.height
 
-        val screenWidth = Resources.getSystem().displayMetrics.widthPixels
+        val screenWidth = bottomSheet.context.resources.displayMetrics.widthPixels
 
         val translationX =
             screenWidth - width.toFloat() / 2 - bottomSheet.paddingEnd - EXTERNAL_SPACING_24_DP.dpToPx()
