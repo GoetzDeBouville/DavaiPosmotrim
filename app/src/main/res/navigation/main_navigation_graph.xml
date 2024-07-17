@@ -52,6 +52,9 @@
         <action
             android:id="@+id/action_mainFragment_to_createSessionFragment"
             app:destination="@id/createSessionFragment" />
+        <action
+            android:id="@+id/action_mainFragment_to_matchedSessionListFragment"
+            app:destination="@id/matchedSessionListFragment" />
     </fragment>
     <fragment
         android:id="@+id/registrationFragment"
@@ -141,4 +144,9 @@
         android:name="com.davay.android.feature.coincidences.presentation.CoincidencesFragment"
         android:label="fragment_coincidences"
         tools:layout="@layout/fragment_coincidences" />
+    <fragment
+        android:id="@+id/matchedSessionListFragment"
+        android:name="com.davay.android.feature.sessionsmatched.presentation.MatchedSessionListFragment"
+        android:label="fragment_matched_session_list"
+        tools:layout="@layout/fragment_matched_session_list" />
 </navigation>
