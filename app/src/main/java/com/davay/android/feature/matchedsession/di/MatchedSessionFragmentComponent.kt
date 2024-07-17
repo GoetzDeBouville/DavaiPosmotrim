@@ -1,4 +1,4 @@
-package com.davay.android.feature.splash.di
+package com.davay.android.feature.matchedsession.di
 
 import com.davay.android.app.AppComponent
 import com.davay.android.di.ScreenComponent
@@ -6,13 +6,13 @@ import dagger.Component
 
 @Component(
     dependencies = [AppComponent::class],
-    modules = [SplashFragmentModule::class, SplashDataModule::class]
+    modules = [MatchedSessionFragmentModule::class, MatchedSessionsDataModule::class]
 )
-interface SplashFragmentComponent : ScreenComponent {
+interface MatchedSessionFragmentComponent : ScreenComponent {
 
     @Component.Builder
     interface Builder {
         fun appComponent(appComponent: AppComponent): Builder
-        fun build(): SplashFragmentComponent
+        fun build(): MatchedSessionFragmentComponent
     }
 }

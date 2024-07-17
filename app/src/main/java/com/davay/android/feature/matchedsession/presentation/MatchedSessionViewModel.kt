@@ -1,4 +1,4 @@
-package com.davay.android.feature.coincidences.presentation
+package com.davay.android.feature.matchedsession.presentation
 
 import androidx.lifecycle.viewModelScope
 import com.davay.android.base.BaseViewModel
@@ -6,6 +6,7 @@ import com.davay.android.base.usecases.GetData
 import com.davay.android.domain.models.ErrorType
 import com.davay.android.domain.models.MovieDetails
 import com.davay.android.feature.coincidences.di.GET_TEST_MOVIE_USE_CASE
+import com.davay.android.feature.coincidences.presentation.UiState
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -13,7 +14,9 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 import javax.inject.Named
 
-class CoincidencesViewModel @Inject constructor(
+// Скопировано из совпадений, чисто для отображения. Потом сменить на правильное
+
+class MatchedSessionViewModel @Inject constructor(
     @Named(GET_TEST_MOVIE_USE_CASE)
     private val getData: GetData<MovieDetails, ErrorType>
 ) : BaseViewModel() {
@@ -25,7 +28,7 @@ class CoincidencesViewModel @Inject constructor(
         getCoincidences()
     }
 
-    fun getCoincidences() {
+    private fun getCoincidences() {
         viewModelScope.launch(Dispatchers.IO) {
             _state.emit(UiState.Loading)
 
@@ -38,18 +41,6 @@ class CoincidencesViewModel @Inject constructor(
                     _state.value = UiState.Error(errorType)
                 }
             )
-        }
-    }
-
-    @Suppress("Detekt.FunctionOnlyReturningConstant")
-    fun isHintShown(): Boolean = false // Запровайдить префы
-
-    fun getCoincidencesCount(): Int {
-        val currentState = _state.value
-        return if (currentState is UiState.Data) {
-            currentState.data.size
-        } else {
-            0
         }
     }
 }
