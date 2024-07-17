@@ -9,8 +9,6 @@ import com.davay.android.di.ContextModule
 import com.davay.android.di.DIComponent
 import com.davay.android.di.DataBasedComponentHolder
 import com.davay.android.di.EncryptedSharedPreferencesModule
-import com.davay.android.network.NetworkModule
-import com.davay.android.utils.ConnectionChecker
 import dagger.BindsInstance
 import dagger.Component
 import retrofit2.Retrofit
