@@ -3,6 +3,7 @@ package com.davay.android.app
 import android.app.Application
 import android.content.Context
 import android.content.SharedPreferences
+import com.davay.android.data.di.NetworkModule
 import com.davay.android.di.ComponentHolderMode
 import com.davay.android.di.ContextModule
 import com.davay.android.di.DIComponent
@@ -21,7 +22,6 @@ interface AppComponent : DIComponent {
     val retrofit: Retrofit
     val context: Context
     val encryptedSharedPreferences: SharedPreferences
-    val connectionChecker: ConnectionChecker
 
     @Component.Builder
     interface Builder {
