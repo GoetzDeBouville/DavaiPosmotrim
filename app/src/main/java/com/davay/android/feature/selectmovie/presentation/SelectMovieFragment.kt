@@ -1,16 +1,11 @@
 package com.davay.android.feature.selectmovie.presentation
 
-import android.animation.Animator
-import android.animation.AnimatorListenerAdapter
-import android.animation.AnimatorSet
-import android.animation.ObjectAnimator
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.TextView
 import androidx.recyclerview.widget.ItemTouchHelper
 import com.davai.extensions.dpToPx
-import com.davai.extensions.dpToPxFloat
 import com.davay.android.R
 import com.davay.android.app.AppComponentHolder
 import com.davay.android.base.BaseFragment
@@ -18,12 +13,13 @@ import com.davay.android.databinding.FragmentSelectMovieBinding
 import com.davay.android.di.ScreenComponent
 import com.davay.android.domain.models.MovieDetails
 import com.davay.android.extensions.SwipeDirection
-import com.davay.android.extensions.toggleSign
 import com.davay.android.feature.match.presentation.MatchBottomSheetFragment
 import com.davay.android.feature.selectmovie.di.DaggerSelectMovieFragmentComponent
 import com.davay.android.feature.selectmovie.presentation.adapters.MovieCardAdapter
 import com.davay.android.feature.selectmovie.presentation.adapters.SwipeCallback
 import com.davay.android.feature.selectmovie.presentation.adapters.SwipeableLayoutManager
+import com.davay.android.feature.selectmovie.presentation.animation.IncrementAnimation
+import com.davay.android.feature.selectmovie.presentation.animation.IncrementAnimationImpl
 import com.google.android.flexbox.FlexboxLayout
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.gson.Gson
@@ -40,6 +36,7 @@ class SelectMovieFragment :
         inflateMovieDetails = { movie -> inflateMovieDetails(movie) }
     )
     private val swipeCardLayoutManager = SwipeableLayoutManager()
+    private val incrementAnimation: IncrementAnimation = IncrementAnimationImpl()
     private var currentPosition = 0
 
     override fun diComponent(): ScreenComponent =
@@ -191,51 +188,15 @@ class SelectMovieFragment :
         val bottomSheetFragment = MatchBottomSheetFragment.newInstance(
             movieDetails,
             action = {
-                animateTextView()
+                incrementAnimation.animate(binding.tvMotionedIncrement) {
+                    binding.toolbarviewHeader.incrementMatchesDisplay()
+                }
             }
         )
         bottomSheetFragment.show(parentFragmentManager, bottomSheetFragment.tag)
     }
 
-    private fun animateTextView() = with(binding) {
-        val translationY = ICNREMENT_Y_TRANSLATION_24_DP.toggleSign().dpToPxFloat()
-
-        val translateY =
-            ObjectAnimator.ofFloat(tvMotionedIncrement, View.TRANSLATION_Y, translationY)
-        val alpha = ObjectAnimator.ofFloat(tvMotionedIncrement, View.ALPHA, 1f, 0f)
-
-        translateY.duration = INCREMENT_ANIMATION_1000_MS
-        alpha.duration = INCREMENT_ANIMATION_1000_MS
-
-        val animatorSet = AnimatorSet().apply {
-            playTogether(translateY, alpha)
-            addListener(
-                object : AnimatorListenerAdapter() {
-                    override fun onAnimationEnd(animation: Animator) {
-                        tvMotionedIncrement.apply {
-                            this.translationY = 0f
-                            this.alpha = 1f
-                            visibility = View.INVISIBLE
-                        }
-                    }
-                }
-            )
-        }
-
-        tvMotionedIncrement.visibility = View.VISIBLE
-        animatorSet.apply {
-            addListener(object : AnimatorListenerAdapter() {
-                override fun onAnimationEnd(animation: Animator) {
-                    toolbarviewHeader.incrementMatchesDisplay()
-                }
-            })
-            start()
-        }
-    }
-
     private companion object {
-        const val INCREMENT_ANIMATION_1000_MS = 1000L
-        const val ICNREMENT_Y_TRANSLATION_24_DP = 40
         const val BOTTOMSHEET_PEEK_HEIGHT_112_DP = 112
         const val MARGIN_TOP_16_DP = 16
         const val MAX_CAST_NUMBER_4 = 4
