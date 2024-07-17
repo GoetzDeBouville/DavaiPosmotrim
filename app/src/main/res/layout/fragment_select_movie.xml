@@ -16,6 +16,7 @@
             android:id="@+id/toolbarview_header"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            app:add_status_bar_spacer="true"
             app:end_icon="@drawable/ic_heart"
             app:end_icon_is_visible="true"
             app:layout_constraintTop_toTopOf="parent"

@@ -116,7 +116,6 @@ class MatchedSessionFragment :
 
     private fun setupToolbar(subTitle: String, date: String) {
         binding.toolbar.apply {
-            addStatusBarSpacer()
             setTitleText(date)
             setSubtitleText(subTitle)
             setStartIconClickListener {

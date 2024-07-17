@@ -127,7 +127,6 @@ class SelectMovieFragment :
     private fun setToolbar() {
         binding.toolbarviewHeader.apply {
             updateMatchesDisplay(matchesCounter)
-            addStatusBarSpacer()
         }
     }
 
