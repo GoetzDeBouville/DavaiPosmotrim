@@ -20,6 +20,7 @@ import com.davay.android.app.AppComponentHolder
 import com.davay.android.base.BaseFragment
 import com.davay.android.databinding.FragmentWaitSessionBinding
 import com.davay.android.di.ScreenComponent
+import com.davay.android.feature.onboarding.presentation.OnboardingFragment
 import com.davay.android.feature.waitsession.di.DaggerWaitSessionFragmentComponent
 import com.davay.android.feature.waitsession.presentation.adapter.CustomItemDecorator
 import com.davay.android.feature.waitsession.presentation.adapter.UserAdapter
@@ -76,13 +77,10 @@ class WaitSessionFragment : BaseFragment<FragmentWaitSessionBinding, WaitSession
         )
         binding.toolbar.addStatusBarSpacer()
 
-        subscribe()
-
         binding.llButtonContainer.setOnClickListener {
             val code = binding.tvCode.text.toString()
             copyTextToClipboard(code)
         }
-
 
         sendButton?.setOnClickListener {
             val code = binding.tvCode.text.toString()
@@ -101,7 +99,7 @@ class WaitSessionFragment : BaseFragment<FragmentWaitSessionBinding, WaitSession
         )
     }
 
-    private fun subscribe() {
+    override fun subscribe() {
         setButtonClickListeners()
     }
 
@@ -156,6 +154,17 @@ class WaitSessionFragment : BaseFragment<FragmentWaitSessionBinding, WaitSession
     private fun setButtonClickListeners() {
         binding.cancelButton.setOnClickListener {
             dialog?.show(parentFragmentManager, CUSTOM_DIALOG_TAG)
+        }
+        binding.startSessionButton.setOnClickListener {
+            if (viewModel.isFirstTimeLaunch()) {
+                viewModel.markFirstTimeLaunch()
+                val bundle = Bundle().apply {
+                    putInt(OnboardingFragment.ONBOARDING_KEY, OnboardingFragment.ONBOARDING_INSTRUCTION_SET)
+                }
+                viewModel.navigate(R.id.action_waitSessionFragment_to_onboardingFragment, bundle)
+            } else {
+                viewModel.navigate(R.id.action_waitSessionFragment_to_selectMovieFragment)
+            }
         }
     }
 

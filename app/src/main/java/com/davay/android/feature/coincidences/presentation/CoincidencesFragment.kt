@@ -68,7 +68,6 @@ class CoincidencesFragment : BaseFragment<FragmentCoincidencesBinding, Coinciden
         super.onViewCreated(view, savedInstanceState)
         setupToolbar()
         setupMoviesGrid()
-        subscribe()
 
         // При смене конфигурации не нужно показывать подсказку
         if (savedInstanceState == null) {
@@ -133,7 +132,7 @@ class CoincidencesFragment : BaseFragment<FragmentCoincidencesBinding, Coinciden
         }
     }
 
-    private fun subscribe() {
+    override fun subscribe() {
         viewLifecycleOwner.lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.state.collectLatest {
@@ -151,7 +150,6 @@ class CoincidencesFragment : BaseFragment<FragmentCoincidencesBinding, Coinciden
                 updateVisibility(coincidencesListIsVisible = true)
                 moviesGridAdapter.setData(state.data)
             }
-
             is UiState.Error -> {
                 Toast.makeText(requireContext(), "Error occurred!", Toast.LENGTH_SHORT).show()
             }

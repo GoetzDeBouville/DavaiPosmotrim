@@ -2,7 +2,7 @@ package com.davay.android.feature.roulette.presentation.carouselrecycler
 
 import androidx.recyclerview.widget.RecyclerView
 import com.davay.android.databinding.ItemSwipeableMovieCardBinding
-import com.davay.android.feature.selectmovie.domain.models.MovieDetailsDemo
+import com.davay.android.domain.models.MovieDetails
 import com.davay.android.utils.MovieDetailsHelper
 import com.davay.android.utils.MovieDetailsHelperImpl
 import kotlin.math.roundToInt
@@ -19,16 +19,16 @@ class FilmViewHolder(private val binding: ItemSwipeableMovieCardBinding, parentW
         )
     }
 
-    fun bind(film: MovieDetailsDemo) {
-        binding.tvFilmTitle.text = film.movieName
-        binding.tvOriginalTitle.text = film.englishName
+    fun bind(film: MovieDetails) {
+        binding.tvFilmTitle.text = film.name
+        binding.tvOriginalTitle.text = film.alternativeName
         binding.tvYearCountryRuntime.text =
             movieDetailsHelper.buildStringYearCountriesRuntime(
                 film.copy(countries = emptyList()),
                 binding.root.context
             )
 
-        movieDetailsHelper.setImage(binding.ivSelectMovieCover, film.posterUrl)
+        movieDetailsHelper.setImage(binding.ivSelectMovieCover, film.imgUrl)
         movieDetailsHelper.setRateText(
             binding.tvMarkValue,
             film.ratingKinopoisk,
