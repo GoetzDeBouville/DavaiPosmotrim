@@ -7,9 +7,7 @@ class GetUserIdRepositoryImpl(
     private val storage: SharedPreferences
 ) : GetUserIdRepository {
     override fun getUserId(): String {
-        var value = String()
-        storage.getString(USER_ID, String())?.let { value = it }
-        return value
+        return storage.getString(USER_ID, "") ?: ""
     }
     companion object {
         const val USER_ID = "userId"

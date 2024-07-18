@@ -7,9 +7,7 @@ class GetUserNameRepositoryImpl(
     private val storage: SharedPreferences
 ) : GetUserNameRepository {
     override fun getUserName(): String {
-        var value = String()
-        storage.getString(USER_NAME, String())?.let { value = it }
-        return value
+        return storage.getString(USER_NAME, "") ?: ""
     }
     companion object {
         const val USER_NAME = "userName"
