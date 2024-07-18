@@ -1,20 +1,21 @@
 package com.davay.android.feature.coincidences.data
 
+import android.content.Context
 import com.davay.android.base.usecases.GetData
-import com.davay.android.feature.coincidences.ErrorType
-import com.davay.android.feature.selectmovie.domain.models.MovieDetailsDemo
-import com.davay.android.utils.ConnectionChecker
+import com.davay.android.domain.models.ErrorType
+import com.davay.android.domain.models.MovieDetails
+import com.davay.android.extensions.isInternetReachable
 import com.davay.android.utils.Result
 
 class TestMovieRepository(
-    private val connectionChecker: ConnectionChecker
-) : GetData<MovieDetailsDemo, ErrorType> {
+    private val context: Context
+) : GetData<MovieDetails, ErrorType> {
 
-    override suspend fun getData(): Result<List<MovieDetailsDemo>, ErrorType> =
-        if (connectionChecker.isConnected) {
+    override suspend fun getData(): Result<List<MovieDetails>, ErrorType> =
+        if (context.isInternetReachable()) {
             Result.Success(mockTestMovieList)
         } else {
-            Result.Error(ErrorType.NO_INTERNET)
+            Result.Error(ErrorType.NO_CONNECTION)
         }
 
     companion object {
@@ -36,10 +37,22 @@ class TestMovieRepository(
         )
 
         private val mockTestMovieList = List(10) {
-            MovieDetailsDemo(
-                kinopoiskId = it,
-                movieName = films[it % 5].first,
-                posterUrl = films[it % 5].second
+            MovieDetails(
+                id = it,
+                name = films[it % 5].first,
+                imgUrl = films[it % 5].second,
+                description = null,
+                year = null,
+                countries = listOf(),
+                alternativeName = null,
+                ratingKinopoisk = null,
+                ratingImdb = null,
+                numOfMarksKinopoisk = null,
+                numOfMarksImdb = null,
+                duration = null,
+                genres = listOf(),
+                directors = listOf(),
+                actors = listOf(),
             )
         }
     }

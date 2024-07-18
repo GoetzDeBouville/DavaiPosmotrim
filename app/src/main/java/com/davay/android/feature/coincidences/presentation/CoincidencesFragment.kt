@@ -12,13 +12,17 @@ import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import com.davai.uikit.BannerView
+import com.davay.android.R
 import com.davay.android.app.AppComponentHolder
+import com.davay.android.app.MainActivity
 import com.davay.android.base.BaseFragment
 import com.davay.android.databinding.FragmentCoincidencesBinding
 import com.davay.android.di.ScreenComponent
 import com.davay.android.feature.coincidences.bottomsheetdialog.RouletteBottomSheetDialogFragment
 import com.davay.android.feature.coincidences.di.DaggerCoincidencesFragmentComponent
 import com.davay.android.feature.coincidences.presentation.adapter.MoviesGridAdapter
+import com.davay.android.feature.roulette.presentation.RouletteFragment.Companion.ROULETTE_INITIATOR
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
@@ -64,7 +68,6 @@ class CoincidencesFragment : BaseFragment<FragmentCoincidencesBinding, Coinciden
         super.onViewCreated(view, savedInstanceState)
         setupToolbar()
         setupMoviesGrid()
-        subscribe()
 
         // При смене конфигурации не нужно показывать подсказку
         if (savedInstanceState == null) {
@@ -106,9 +109,21 @@ class CoincidencesFragment : BaseFragment<FragmentCoincidencesBinding, Coinciden
 
     private fun setupToolbar() {
         binding.toolbarView.apply {
-            addStatusBarSpacer()
             setEndIconClickListener {
-                Toast.makeText(requireContext(), "Navigate to random.", Toast.LENGTH_SHORT).show()
+                val coincidences = viewModel.getCoincidencesCount()
+                if (coincidences >= MIN_COINCIDENCES_FOR_NAVIGATION_3) {
+                    val bundle = Bundle().apply {
+                        putBoolean(ROULETTE_INITIATOR, true)
+                    }
+                    viewModel.navigate(R.id.action_coincidencesFragment_to_rouletteFragment, bundle)
+                } else {
+                    val activity = requireActivity() as MainActivity
+                    activity.updateBanner(
+                        getString(R.string.coincidences_screen_start_roulette),
+                        BannerView.ATTENTION
+                    )
+                    activity.showBanner()
+                }
             }
             setStartIconClickListener {
                 viewModel.navigateBack()
@@ -116,7 +131,7 @@ class CoincidencesFragment : BaseFragment<FragmentCoincidencesBinding, Coinciden
         }
     }
 
-    private fun subscribe() {
+    override fun subscribe() {
         viewLifecycleOwner.lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.state.collectLatest {
@@ -134,7 +149,6 @@ class CoincidencesFragment : BaseFragment<FragmentCoincidencesBinding, Coinciden
                 updateVisibility(coincidencesListIsVisible = true)
                 moviesGridAdapter.setData(state.data)
             }
-
             is UiState.Error -> {
                 Toast.makeText(requireContext(), "Error occurred!", Toast.LENGTH_SHORT).show()
             }
@@ -199,5 +213,9 @@ class CoincidencesFragment : BaseFragment<FragmentCoincidencesBinding, Coinciden
             }
             ivDices.visibility = View.VISIBLE
         }
+    }
+
+    companion object {
+        private const val MIN_COINCIDENCES_FOR_NAVIGATION_3 = 3
     }
 }

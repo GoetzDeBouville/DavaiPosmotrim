@@ -4,7 +4,6 @@ import android.content.Context.MODE_PRIVATE
 import android.os.Bundle
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.updateLayoutParams
@@ -42,7 +41,7 @@ class MainFragment :
             createSession()
         }
         binding.favorite.setOnClickListener {
-            Toast.makeText(requireContext(), "Favorite", Toast.LENGTH_SHORT).show()
+            viewModel.navigate(R.id.action_mainFragment_to_matchedSessionListFragment)
         }
         binding.joinSession.setOnClickListener {
             joinSession()
