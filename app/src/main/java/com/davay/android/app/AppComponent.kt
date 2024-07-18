@@ -2,12 +2,11 @@ package com.davay.android.app
 
 import android.app.Application
 import android.content.Context
+import com.davay.android.data.di.NetworkModule
 import com.davay.android.di.ComponentHolderMode
 import com.davay.android.di.ContextModule
 import com.davay.android.di.DIComponent
 import com.davay.android.di.DataBasedComponentHolder
-import com.davay.android.network.NetworkModule
-import com.davay.android.utils.ConnectionChecker
 import dagger.BindsInstance
 import dagger.Component
 import retrofit2.Retrofit
@@ -18,7 +17,6 @@ import retrofit2.Retrofit
 interface AppComponent : DIComponent {
     val retrofit: Retrofit
     val context: Context
-    val connectionChecker: ConnectionChecker
 
     @Component.Builder
     interface Builder {

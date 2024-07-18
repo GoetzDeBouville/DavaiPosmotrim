@@ -88,7 +88,7 @@
     </fragment>
     <fragment
         android:id="@+id/splashFragment"
-        android:name="com.davay.android.feature.splash.fragment.SplashFragment"
+        android:name="com.davay.android.feature.splash.presentation.SplashFragment"
         android:label="fragment_splash"
         tools:layout="@layout/fragment_splash">
         <action
@@ -156,5 +156,14 @@
             app:enterAnim="@anim/nav_default_pop_enter_anim"
             app:exitAnim="@anim/nav_default_pop_exit_anim" />
     </fragment>
-
+    <fragment
+        android:id="@+id/matchedSessionListFragment"
+        android:name="com.davay.android.feature.sessionsmatched.presentation.MatchedSessionListFragment"
+        android:label="fragment_matched_session_list"
+        tools:layout="@layout/fragment_matched_session_list" />
+    <fragment
+        android:id="@+id/matchedSessionFragment"
+        android:name="com.davay.android.feature.matchedsession.presentation.MatchedSessionFragment"
+        android:label="MatchedSessionFragment"
+        tools:layout="@layout/fragment_matched_session" />
 </navigation>

@@ -11,6 +11,12 @@
         <item name="android:fontFamily">@font/inter</item>
     </style>
 
+    <style name="Text.Headline.ErrorTitle">
+        <item name="android:textSize">16sp</item>
+        <item name="android:lineSpacingExtra">0sp</item>
+        <item name="android:textStyle">normal</item>
+    </style>
+
     <style name="Text.Headline.Title">
         <item name="android:textSize">24sp</item>
         <item name="android:lineSpacingExtra">28sp</item>
@@ -90,6 +96,10 @@
     <style name="Text.Base.Big">
         <item name="android:textSize">16sp</item>
         <item name="android:lineSpacingExtra">18sp</item>
+    </style>
+
+    <style name="Text.Base.Big.Bold">
+        <item name="fontWeight">700</item>
     </style>
 
     <style name="Text.Base.Small.Regular">
