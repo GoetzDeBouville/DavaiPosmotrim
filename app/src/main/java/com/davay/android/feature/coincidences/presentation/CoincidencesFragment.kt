@@ -109,7 +109,6 @@ class CoincidencesFragment : BaseFragment<FragmentCoincidencesBinding, Coinciden
 
     private fun setupToolbar() {
         binding.toolbarView.apply {
-            addStatusBarSpacer()
             setEndIconClickListener {
                 val coincidences = viewModel.getCoincidencesCount()
                 if (coincidences >= MIN_COINCIDENCES_FOR_NAVIGATION_3) {

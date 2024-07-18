@@ -68,14 +68,12 @@ class WaitSessionFragment : BaseFragment<FragmentWaitSessionBinding, WaitSession
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.toolbar.addStatusBarSpacer()
         sendButton = binding.sendButton
 
         initRecycler()
         userAdapter.setItems(
             listOf("Артем", "Руслан", "Константин", "Виктория")
         )
-        binding.toolbar.addStatusBarSpacer()
 
         binding.llButtonContainer.setOnClickListener {
             val code = binding.tvCode.text.toString()
