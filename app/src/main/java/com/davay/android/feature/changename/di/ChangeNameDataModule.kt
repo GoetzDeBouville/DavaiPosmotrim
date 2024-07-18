@@ -1,14 +1,12 @@
 package com.davay.android.feature.changename.di
 
 import android.content.SharedPreferences
-import com.davay.android.data.impl.GetUserNameRepositoryImpl
-import com.davay.android.data.impl.SetUserNameRepositoryImpl
-import com.davay.android.domain.impl.GetUserNameUseCaseImpl
-import com.davay.android.domain.impl.SetUserNameUseCaseImpl
-import com.davay.android.domain.repositories.GetUserNameRepository
-import com.davay.android.domain.repositories.SetUserNameRepository
-import com.davay.android.domain.usecases.GetSingleDataUseCase
-import com.davay.android.domain.usecases.SetSingleDataUseCase
+import com.davay.android.data.impl.UserDataRepositoryImpl
+import com.davay.android.domain.impl.GetUserDataUseCaseImpl
+import com.davay.android.domain.impl.SetUserDataUseCaseImpl
+import com.davay.android.domain.repositories.UserDataRepository
+import com.davay.android.domain.usecases.GetUserDataUseCase
+import com.davay.android.domain.usecases.SetUserDataUseCase
 import dagger.Module
 import dagger.Provides
 
@@ -16,23 +14,18 @@ import dagger.Provides
 interface ChangeNameDataModule {
     companion object {
         @Provides
-        fun provideSetUserNameRepository(
+        fun provideUserDataRepository(
             storage: SharedPreferences
-        ): SetUserNameRepository = SetUserNameRepositoryImpl(storage)
+        ): UserDataRepository = UserDataRepositoryImpl(storage)
 
         @Provides
-        fun provideSetUserNameUseCase(
-            repository: SetUserNameRepository
-        ): SetSingleDataUseCase<String> = SetUserNameUseCaseImpl(repository)
+        fun provideSetUserDataUseCase(
+            repository: UserDataRepository
+        ): SetUserDataUseCase = SetUserDataUseCaseImpl(repository)
 
         @Provides
-        fun provideGetUserNameRepository(
-            storage: SharedPreferences
-        ): GetUserNameRepository = GetUserNameRepositoryImpl(storage)
-
-        @Provides
-        fun provideGetUserNameUseCase(
-            repository: GetUserNameRepository
-        ): GetSingleDataUseCase<String> = GetUserNameUseCaseImpl(repository)
+        fun provideGetUserDataUseCase(
+            repository: UserDataRepository
+        ): GetUserDataUseCase = GetUserDataUseCaseImpl(repository)
     }
 }

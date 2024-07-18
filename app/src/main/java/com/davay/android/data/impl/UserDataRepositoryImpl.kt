@@ -2,6 +2,7 @@ package com.davay.android.data.impl
 
 import android.content.SharedPreferences
 import com.davay.android.domain.repositories.UserDataRepository
+import java.util.UUID.randomUUID
 
 class UserDataRepositoryImpl(
     private val userDataStorage: SharedPreferences
@@ -13,7 +14,11 @@ class UserDataRepositoryImpl(
             .apply()
     }
 
-    override fun setUserId(userId: String) {
+    override fun setUserId() {
+        val userId = randomUUID()
+            .toString()
+            .plus(USER_ID_POSTFIX)
+            .plus(System.currentTimeMillis())
         userDataStorage
             .edit()
             .putString(USER_ID, userId)
@@ -31,5 +36,6 @@ class UserDataRepositoryImpl(
     companion object {
         const val USER_ID = "userId"
         const val USER_NAME = "userName"
+        private const val USER_ID_POSTFIX = "_android_"
     }
 }

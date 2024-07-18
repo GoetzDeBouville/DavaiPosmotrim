@@ -1,21 +1,15 @@
 package com.davay.android.feature.registration.presentation
 
 import android.text.Editable
-import android.util.Log
 import com.davay.android.base.BaseViewModel
-import com.davay.android.domain.usecases.SetSingleDataUseCase
-import com.davay.android.feature.registration.di.DataType
-import com.davay.android.feature.registration.di.Type
+import com.davay.android.domain.models.UserDataFields
+import com.davay.android.domain.usecases.SetUserDataUseCase
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
-import java.util.UUID.randomUUID
 import javax.inject.Inject
 
 class RegistrationViewModel @Inject constructor(
-    @Type(DataType.USER_ID)
-    private val setUserId: SetSingleDataUseCase<String>,
-    @Type(DataType.USER_NAME)
-    private val setUserName: SetSingleDataUseCase<String>
+    private val setUserData: SetUserDataUseCase
 ) : BaseViewModel() {
 
     private val _state = MutableStateFlow(RegistrationState.DEFAULT)
@@ -25,13 +19,8 @@ class RegistrationViewModel @Inject constructor(
     fun buttonClicked(text: Editable?) {
         textCheck(text)
         if (state.value == RegistrationState.SUCCESS) {
-            setUserName.setSingleData(text.toString())
-            val userId = randomUUID()
-                .toString()
-                .plus(USER_ID_POSTFIX)
-                .plus(System.currentTimeMillis())
-            Log.d("TAG", userId)
-            setUserId.setSingleData(userId)
+            setUserData.setUserData(UserDataFields.UserName(text.toString()))
+            setUserData.setUserData(UserDataFields.UserId())
         }
     }
 
@@ -49,6 +38,5 @@ class RegistrationViewModel @Inject constructor(
     companion object {
         private const val TEXT_LENGTH_MIN = 2
         private const val TEXT_LENGTH_MAX = 16
-        private const val USER_ID_POSTFIX = "_android_"
     }
 }

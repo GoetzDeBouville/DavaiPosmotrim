@@ -1,13 +1,14 @@
 package com.davay.android.feature.main.presentation
 
 import com.davay.android.base.BaseViewModel
-import com.davay.android.domain.usecases.GetSingleDataUseCase
+import com.davay.android.domain.models.UserDataFields
+import com.davay.android.domain.usecases.GetUserDataUseCase
 import javax.inject.Inject
 
 class MainViewModel @Inject constructor(
-    private val getUserName: GetSingleDataUseCase<String>
+    private val getUserData: GetUserDataUseCase
 ) : BaseViewModel() {
-    fun getNameOfUser(): String {
-        return getUserName.getSingleData()
+    fun getUserName(): String {
+        return getUserData.getUserData(UserDataFields.UserName())
     }
 }

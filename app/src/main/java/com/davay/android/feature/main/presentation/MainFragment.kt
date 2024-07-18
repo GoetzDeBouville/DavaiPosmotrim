@@ -36,7 +36,7 @@ class MainFragment :
         binding.favorite.setState(MainScreenButtonView.FAVORITE)
         binding.joinSession.setState(MainScreenButtonView.JOIN)
 
-        binding.userName.text = viewModel.getNameOfUser()
+        binding.userName.text = viewModel.getUserName()
         binding.createSession.setOnClickListener {
             createSession()
         }

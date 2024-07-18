@@ -1,46 +1,24 @@
 package com.davay.android.feature.registration.di
 
 import android.content.SharedPreferences
-import com.davay.android.data.impl.SetUserIdRepositoryImpl
-import com.davay.android.data.impl.SetUserNameRepositoryImpl
-import com.davay.android.domain.impl.SetUserIdUseCaseImpl
-import com.davay.android.domain.impl.SetUserNameUseCaseImpl
-import com.davay.android.domain.repositories.SetUserIdRepository
-import com.davay.android.domain.repositories.SetUserNameRepository
-import com.davay.android.domain.usecases.SetSingleDataUseCase
+import com.davay.android.data.impl.UserDataRepositoryImpl
+import com.davay.android.domain.impl.SetUserDataUseCaseImpl
+import com.davay.android.domain.repositories.UserDataRepository
+import com.davay.android.domain.usecases.SetUserDataUseCase
 import dagger.Module
 import dagger.Provides
-import javax.inject.Qualifier
-
-enum class DataType {
-    USER_NAME, USER_ID
-}
-@Qualifier
-annotation class Type(val type: DataType)
 
 @Module
 interface RegistrationDataModule {
     companion object {
         @Provides
-        fun provideSetUserIdRepository(
+        fun provideUserDataRepository(
             storage: SharedPreferences
-        ): SetUserIdRepository = SetUserIdRepositoryImpl(storage)
-
-        @Type(DataType.USER_ID)
-        @Provides
-        fun provideSetUserIdUseCase(
-            repository: SetUserIdRepository
-        ): SetSingleDataUseCase<String> = SetUserIdUseCaseImpl(repository)
+        ): UserDataRepository = UserDataRepositoryImpl(storage)
 
         @Provides
-        fun provideSetUserNameRepository(
-            storage: SharedPreferences
-        ): SetUserNameRepository = SetUserNameRepositoryImpl(storage)
-
-        @Type(DataType.USER_NAME)
-        @Provides
-        fun provideSetUserNameUseCase(
-            repository: SetUserNameRepository
-        ): SetSingleDataUseCase<String> = SetUserNameUseCaseImpl(repository)
+        fun provideSetUserUserDataUseCase(
+            repository: UserDataRepository
+        ): SetUserDataUseCase = SetUserDataUseCaseImpl(repository)
     }
 }
