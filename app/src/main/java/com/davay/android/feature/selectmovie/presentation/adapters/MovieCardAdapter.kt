@@ -4,7 +4,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.davay.android.databinding.ItemSwipeableMovieCardBinding
-import com.davay.android.feature.selectmovie.domain.models.MovieDetailsDemo
+import com.davay.android.domain.models.MovieDetails
 import com.davay.android.utils.MovieDetailsHelper
 import com.davay.android.utils.MovieDetailsHelperImpl
 
@@ -12,14 +12,14 @@ class MovieCardAdapter(
     private val swipeLeft: () -> Unit,
     private val swipeRight: () -> Unit,
     private val revert: () -> Unit,
-    private val inflateMovieDetails: (MovieDetailsDemo) -> Unit
+    private val inflateMovieDetails: (MovieDetails) -> Unit
 ) : RecyclerView.Adapter<MovieCardAdapter.MovieCardVH>() {
     inner class MovieCardVH(
         private val binding: ItemSwipeableMovieCardBinding,
         private val swipeLeft: () -> Unit,
         private val swipeRight: () -> Unit,
         private val revert: () -> Unit,
-        private val inflateMovieDetails: (MovieDetailsDemo) -> Unit
+        private val inflateMovieDetails: (MovieDetails) -> Unit
     ) : RecyclerView.ViewHolder(binding.root) {
         init {
             onItemsClicklisteners()
@@ -27,13 +27,13 @@ class MovieCardAdapter(
 
         private val movieDetailsHelper: MovieDetailsHelper = MovieDetailsHelperImpl()
 
-        fun bind(data: MovieDetailsDemo) = with(binding) {
+        fun bind(data: MovieDetails) = with(binding) {
             inflateMovieDetails.invoke(data)
-            movieDetailsHelper.setImage(ivSelectMovieCover, data.posterUrl)
+            movieDetailsHelper.setImage(ivSelectMovieCover, data.imgUrl)
             movieDetailsHelper.addGenreList(fblGenreList, data.genres)
             movieDetailsHelper.setRateText(tvMarkValue, data.ratingKinopoisk)
-            tvFilmTitle.text = data.movieName
-            tvOriginalTitle.text = data.alternativeName ?: data.englishName ?: ""
+            tvFilmTitle.text = data.name
+            tvOriginalTitle.text = data.alternativeName ?: ""
             tvYearCountryRuntime.text = movieDetailsHelper.buildStringYearCountriesRuntime(
                 data,
                 binding.root.context
@@ -61,7 +61,7 @@ class MovieCardAdapter(
         }
     }
 
-    private val datalist = arrayListOf<MovieDetailsDemo>()
+    private val datalist = arrayListOf<MovieDetails>()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MovieCardVH {
         val layoutInflater = LayoutInflater.from(parent.context)
@@ -86,7 +86,7 @@ class MovieCardAdapter(
     }
 
 
-    fun setData(list: List<MovieDetailsDemo>) {
+    fun setData(list: List<MovieDetails>) {
         datalist.clear()
         datalist.addAll(list)
         notifyItemChanged(0)

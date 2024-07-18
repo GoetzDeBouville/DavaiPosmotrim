@@ -9,7 +9,9 @@ import android.view.ViewGroup
 import android.widget.FrameLayout
 import androidx.lifecycle.lifecycleScope
 import com.davay.android.databinding.FragmentMatchBottomSheetBinding
-import com.davay.android.feature.selectmovie.domain.models.MovieDetailsDemo
+import com.davay.android.domain.models.MovieDetails
+import com.davay.android.feature.sessionsmatched.presentation.animation.AnimationMatchDialog
+import com.davay.android.feature.sessionsmatched.presentation.animation.AnimationMatchDialogImpl
 import com.davay.android.utils.MovieDetailsHelper
 import com.davay.android.utils.MovieDetailsHelperImpl
 import com.google.android.material.bottomsheet.BottomSheetBehavior
@@ -18,19 +20,21 @@ import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.google.gson.Gson
 import kotlinx.coroutines.launch
 
-class MatchBottomSheetFragment : BottomSheetDialogFragment() {
+class MatchBottomSheetFragment(private val action: (() -> Unit)? = null) :
+    BottomSheetDialogFragment() {
     private var _binding: FragmentMatchBottomSheetBinding? = null
     private val binding: FragmentMatchBottomSheetBinding
         get() = _binding!!
-
     private val movieDetailsHelper: MovieDetailsHelper = MovieDetailsHelperImpl()
-    private var movieDetails: MovieDetailsDemo? = null
+    private val animationMatchDialog: AnimationMatchDialog = AnimationMatchDialogImpl()
+    private var movieDetails: MovieDetails? = null
     private var buttonText: String? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
             movieDetails =
-                Gson().fromJson(it.getString(ARG_MOVIE_DETAILS), MovieDetailsDemo::class.java)
+                Gson().fromJson(it.getString(ARG_MOVIE_DETAILS), MovieDetails::class.java)
             buttonText = it.getString(ARG_BUTTON_TEXT)
         }
     }
@@ -61,6 +65,11 @@ class MatchBottomSheetFragment : BottomSheetDialogFragment() {
                     findViewById<View>(com.google.android.material.R.id.design_bottom_sheet) as FrameLayout
                 bottomSheet.layoutParams?.height = ViewGroup.LayoutParams.MATCH_PARENT
             }
+
+            override fun onBackPressed() {
+                action?.invoke()
+                super.onBackPressed()
+            }
         }
     }
 
@@ -79,7 +88,7 @@ class MatchBottomSheetFragment : BottomSheetDialogFragment() {
 
     private fun subscribe() {
         binding.progressButtonItem.root.setOnClickListener {
-            dismiss()
+            animateDialogDismiss()
         }
     }
 
@@ -88,11 +97,27 @@ class MatchBottomSheetFragment : BottomSheetDialogFragment() {
             val bottomSheet =
                 (dialog as BottomSheetDialog)
                     .findViewById<View>(com.google.android.material.R.id.design_bottom_sheet) as FrameLayout
-            val behavior = BottomSheetBehavior.from(bottomSheet)
-            behavior.state = BottomSheetBehavior.STATE_EXPANDED
-            behavior.peekHeight = Resources.getSystem().displayMetrics.heightPixels
-            bottomSheet.layoutParams.height = ViewGroup.LayoutParams.MATCH_PARENT
+            BottomSheetBehavior.from(bottomSheet).apply {
+                state = BottomSheetBehavior.STATE_EXPANDED
+                peekHeight = Resources.getSystem().displayMetrics.heightPixels
+
+                addBottomSheetCallback(object : BottomSheetBehavior.BottomSheetCallback() {
+                    override fun onStateChanged(bottomSheet: View, newState: Int) {
+                        if (newState == BottomSheetBehavior.STATE_EXPANDED) {
+                            animationMatchDialog.animateBannerDrop(binding.tvBannerMatchWatch)
+                        }
+                    }
+
+                    override fun onSlide(bottomSheet: View, slideOffset: Float) {
+                        // Do nothing
+                    }
+                })
+            }.also {
+                bottomSheet.layoutParams.height = ViewGroup.LayoutParams.MATCH_PARENT
+            }
+
             launchProgressButtonAnimation()
+            animationMatchDialog.animateBannerDrop(binding.tvBannerMatchWatch)
         }
     }
 
@@ -100,7 +125,7 @@ class MatchBottomSheetFragment : BottomSheetDialogFragment() {
         binding.progressButtonItem.progressButton.also {
             lifecycleScope.launch {
                 it.animateProgress(this) {
-                    dismiss()
+                    animateDialogDismiss()
                 }
             }
         }
@@ -114,12 +139,12 @@ class MatchBottomSheetFragment : BottomSheetDialogFragment() {
         }
     }
 
-    private fun fillData(data: MovieDetailsDemo) {
+    private fun fillData(data: MovieDetails) {
         binding.matchMovieCard.apply {
-            movieDetailsHelper.setImage(ivSelectMovieCover, data.posterUrl)
+            movieDetailsHelper.setImage(ivSelectMovieCover, data.imgUrl)
             movieDetailsHelper.addGenreList(fblGenreList, data.genres)
-            tvFilmTitle.text = data.movieName
-            tvOriginalTitle.text = data.alternativeName ?: data.englishName ?: ""
+            tvFilmTitle.text = data.name
+            tvOriginalTitle.text = data.alternativeName ?: ""
             tvYearCountryRuntime.text =
                 movieDetailsHelper.buildStringYearCountriesRuntime(data, requireContext())
             movieDetailsHelper.setRateText(tvMarkValue, data.ratingKinopoisk)
@@ -130,15 +155,28 @@ class MatchBottomSheetFragment : BottomSheetDialogFragment() {
         binding.progressButtonItem.progressButton.text = text
     }
 
+    private fun animateDialogDismiss() {
+        val bottomSheet =
+            dialog?.findViewById<View>(com.google.android.material.R.id.design_bottom_sheet) as? FrameLayout
+                ?: return
+        animationMatchDialog.animateDialogDismiss(
+            bottomSheet
+        ) {
+            dismiss()
+            action?.invoke()
+        }
+    }
+
     companion object {
         private const val ARG_MOVIE_DETAILS = "movie_details"
         private const val ARG_BUTTON_TEXT = "button_text"
 
         fun newInstance(
             movieDetails: String,
-            buttonText: String? = null
+            buttonText: String? = null,
+            action: (() -> Unit)? = null
         ): MatchBottomSheetFragment {
-            val fragment = MatchBottomSheetFragment()
+            val fragment = MatchBottomSheetFragment(action = action)
             val args = Bundle().apply {
                 putString(ARG_MOVIE_DETAILS, movieDetails)
                 if (buttonText != null) putString(ARG_BUTTON_TEXT, buttonText)

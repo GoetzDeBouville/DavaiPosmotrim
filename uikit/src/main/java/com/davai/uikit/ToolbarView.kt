@@ -1,6 +1,8 @@
 package com.davai.uikit
 
 import android.content.Context
+import android.os.Parcel
+import android.os.Parcelable
 import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.view.View
@@ -47,6 +49,8 @@ class ToolbarView @JvmOverloads constructor(
         findViewById(R.id.top_space)
     }
 
+    private var matchesCounter: Int = 0
+
     init {
         inflateView()
         applyAttributes(
@@ -73,6 +77,8 @@ class ToolbarView @JvmOverloads constructor(
             val titleText = getString(R.styleable.ToolbarView_title) ?: ""
             val startIconResId = getResourceId(R.styleable.ToolbarView_start_icon, 0)
             val endIconResId = getResourceId(R.styleable.ToolbarView_end_icon, 0)
+            val addStatusBarSpacer =
+                getBoolean(R.styleable.ToolbarView_add_status_bar_spacer, false)
 
             ivEndIcon.isVisible = getBoolean(R.styleable.ToolbarView_end_icon_is_visible, false)
             ivStartIcon.isVisible =
@@ -82,6 +88,9 @@ class ToolbarView @JvmOverloads constructor(
             setSubtitleText(subTitleText)
             setStartIcon(startIconResId)
             setEndIcon(endIconResId)
+            if (addStatusBarSpacer) {
+                addStatusBarSpacer()
+            }
         }
     }
 
@@ -93,7 +102,17 @@ class ToolbarView @JvmOverloads constructor(
      * Назначает текст счетчика совпадений и управляет видимостью
      */
     fun updateMatchesDisplay(numberOfMatches: Int) {
+        matchesCounter = numberOfMatches
         tvMatchesCounter.text = numberOfMatches.toString()
+    }
+
+
+    /**
+     * Инкрементирует на один значение мэтчей в иконке
+     */
+    fun incrementMatchesDisplay() {
+        matchesCounter++
+        tvMatchesCounter.text = tvMatchesCounter.text.toString().toInt().plus(1).toString()
     }
 
     /**
@@ -211,5 +230,55 @@ class ToolbarView @JvmOverloads constructor(
      */
     fun removeSpacerOnStatusBar() {
         topSpace.visibility = View.GONE
+    }
+
+    override fun onSaveInstanceState(): Parcelable? {
+        val superState = super.onSaveInstanceState()
+        val savedState = SavedState(superState)
+        savedState.matchesCounter = matchesCounter
+        return savedState
+    }
+
+    override fun onRestoreInstanceState(state: Parcelable?) {
+        if (state is SavedState) {
+            super.onRestoreInstanceState(state.superState)
+            matchesCounter = state.matchesCounter
+            tvMatchesCounter.text = matchesCounter.toString()
+        } else {
+            super.onRestoreInstanceState(state)
+        }
+    }
+
+    /**
+     * Реализация сохранения состояния с помощью BaseSavedState.
+     * Пример реализации по ссылке:
+     * https://www.netguru.com/blog/how-to-correctly-save-the-state-of-a-custom-view-in-android
+     */
+    private class SavedState : BaseSavedState {
+        var matchesCounter: Int = 0
+
+        constructor(superState: Parcelable?) : super(superState)
+
+        constructor(parcel: Parcel) : super(parcel) {
+            matchesCounter = parcel.readInt()
+        }
+
+        override fun writeToParcel(parcel: Parcel, flags: Int) {
+            super.writeToParcel(parcel, flags)
+            parcel.writeInt(matchesCounter)
+        }
+
+        companion object {
+            @JvmField
+            val CREATOR: Parcelable.Creator<SavedState> = object : Parcelable.Creator<SavedState> {
+                override fun createFromParcel(parcel: Parcel): SavedState {
+                    return SavedState(parcel)
+                }
+
+                override fun newArray(size: Int): Array<SavedState?> {
+                    return arrayOfNulls(size)
+                }
+            }
+        }
     }
 }
