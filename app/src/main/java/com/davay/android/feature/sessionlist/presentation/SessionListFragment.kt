@@ -64,7 +64,6 @@ class SessionListFragment : BaseFragment<FragmentSessionListBinding, SessionList
         initRecycler()
 
         userAdapter.setItems(listOf("Артем", "Руслан", "Константин", "Виктория"))
-        binding.toolbar.addStatusBarSpacer()
     }
 
     override fun subscribe() {

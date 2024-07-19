@@ -12,6 +12,7 @@
         android:id="@+id/toolbar_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        app:add_status_bar_spacer="true"
         app:end_icon="@drawable/ic_random"
         app:end_icon_is_visible="true"
         app:layout_constraintTop_toTopOf="parent"
