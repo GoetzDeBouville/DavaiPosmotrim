@@ -26,6 +26,8 @@
     <string name="waiting_all_participants">Ожидаем подключения всех участников</string>
     <string name="waiting_all_participants_hint">Сеанс начнётся, когда подключатся\n все самые нужные люди.</string>
     <string name="leave_session_title">Покинуть сеанс?</string>
+    <string name="leave_session_title_session_complited">Сеанс завершён</string>
+    <string name="leave_session_dialog_message_session_complited">Участник покинул сеанс.\n\nВсе совпавшие фильмы вы найдёте в разделе «Понравившиеся фильмы».</string>
     <string name="leave_session_dialog_message">До того, как начнётся этот сеанс, вы\nсможете подключиться повторно.</string>
     <string name="leave_session_dialog_positive">ДА</string>
     <string name="leave_session_dialog_negative">НЕТ</string>
