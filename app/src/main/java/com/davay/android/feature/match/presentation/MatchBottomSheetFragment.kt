@@ -105,6 +105,9 @@ class MatchBottomSheetFragment(private val action: (() -> Unit)? = null) :
                     override fun onStateChanged(bottomSheet: View, newState: Int) {
                         if (newState == BottomSheetBehavior.STATE_EXPANDED) {
                             animationMatchDialog.animateBannerDrop(binding.tvBannerMatchWatch)
+                        } else if (newState == BottomSheetBehavior.STATE_HIDDEN) {
+                            action?.invoke()
+                            dismiss()
                         }
                     }
 
