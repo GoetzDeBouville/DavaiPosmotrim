@@ -6,6 +6,7 @@ import android.view.View
 import android.widget.TextView
 import androidx.recyclerview.widget.ItemTouchHelper
 import com.davai.extensions.dpToPx
+import com.davai.uikit.MainDialogFragment
 import com.davay.android.R
 import com.davay.android.app.AppComponentHolder
 import com.davay.android.base.BaseFragment
@@ -48,11 +49,6 @@ class SelectMovieFragment :
         getSavedPositionAndUpdateStartPosition(savedInstanceState)
     }
 
-    override fun onDestroyView() {
-        binding.rvFilmCard.adapter = null
-        super.onDestroyView()
-    }
-
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
         currentPosition = swipeCardLayoutManager.getCurrentPosition()
@@ -78,9 +74,25 @@ class SelectMovieFragment :
     }
 
     override fun subscribe() {
-        binding.toolbarviewHeader.setEndIconClickListener {
-            viewModel.navigate(R.id.action_selectMovieFragment_to_coincidencesFragment)
+        binding.toolbarviewHeader.apply {
+            setEndIconClickListener {
+                viewModel.navigate(R.id.action_selectMovieFragment_to_coincidencesFragment)
+            }
+            setStartIconClickListener {
+                showDialogAndNavigateToHistorySessions()
+            }
         }
+    }
+
+    private fun showDialogAndNavigateToHistorySessions() {
+        val dialog = MainDialogFragment.newInstance(
+            title = getString(R.string.leave_session_title),
+            message = getString(R.string.select_movies_leave_session_dialog_message),
+            yesAction = {
+                viewModel.navigate(R.id.action_selectMovieFragment_to_matchedSessionListFragment)
+            }
+        )
+        dialog.show(parentFragmentManager, null)
     }
 
     private fun buildRecyclerView() {
@@ -188,6 +200,7 @@ class SelectMovieFragment :
         }
     }
 
+    @Suppress("Detekt.UnusedPrivateMember")
     private fun showBottomSheetFragment(movie: MovieDetails) {
         val movieDetails = Gson().toJson(movie)
         val bottomSheetFragment = MatchBottomSheetFragment.newInstance(

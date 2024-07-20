@@ -47,6 +47,7 @@
     <string name="select_movies_hours">%d ч</string>
     <string name="select_movies_minutes">%d мин</string>
     <string name="select_movies_increment_1">+1</string>
+    <string name="select_movies_leave_session_dialog_message">Сеанс будет завершён у всех участников.\n\nВсе совпавшие фильмы вы найдёте в разделе «Понравившиеся фильмы».</string>
 
     <!--onboarding screen-->
     <string name="onboarding_continue_view">продолжить</string>
@@ -114,9 +115,12 @@
     <string name="coincidences_screen_empty_coincidences">Пока ничего нет</string>
     <string name="coincidences_screen_start_roulette">Рулетка может быть запущена\n для трёх и более совпадений</string>
 
-    <!--  matched sessions  -->
+    <!--  matched session list  -->
     <string name="matched_sessions_empty_list_error">Здесь будут фильмы,\nкоторые вам понравились</string>
     <string name="matched_sessions_you"> (Вы)</string>
+
+    <!--  matched session  -->
+    <string name="matched_session_session">Сеанс %s</string>
 
     <!--  roulette  -->
     <string name="roulette_magic">Начнём магию, когда подключатся все участники</string>
