@@ -119,11 +119,6 @@
             app:destination="@id/coincidencesFragment"
             app:enterAnim="@anim/nav_default_pop_enter_anim"
             app:exitAnim="@anim/nav_default_pop_exit_anim" />
-        <action
-            android:id="@+id/action_selectMovieFragment_to_matchedSessionListFragment"
-            app:destination="@id/matchedSessionListFragment"
-            app:enterAnim="@anim/nav_default_pop_enter_anim"
-            app:exitAnim="@anim/nav_default_pop_exit_anim" />
     </fragment>
     <fragment
         android:id="@+id/createSessionFragment"

@@ -89,7 +89,24 @@ class SelectMovieFragment :
             title = getString(R.string.leave_session_title),
             message = getString(R.string.select_movies_leave_session_dialog_message),
             yesAction = {
-                viewModel.navigate(R.id.action_selectMovieFragment_to_matchedSessionListFragment)
+                viewModel.clearBackStackToMainAndNavigate(R.id.action_mainFragment_to_matchedSessionListFragment)
+            }
+        )
+        dialog.show(parentFragmentManager, null)
+    }
+
+    /**
+     * Метод вызывается у юзеров, у которых из сессии вышел участник
+     * !добавить сохранение сессии в БД тут и в showDialogAndNavigateToHistorySessions()
+     */
+    @Suppress("Detekt.UnusedPrivateMember")
+    private fun showConfirmDialogAndNavigateToHistorySessions() {
+        val dialog = MainDialogFragment.newInstance(
+            title = getString(R.string.leave_session_title),
+            message = getString(R.string.leave_session_dialog_message_session_complited),
+            showConfirmBlock = true,
+            yesAction = {
+                viewModel.clearBackStackToMainAndNavigate(R.id.action_mainFragment_to_matchedSessionListFragment)
             }
         )
         dialog.show(parentFragmentManager, null)
