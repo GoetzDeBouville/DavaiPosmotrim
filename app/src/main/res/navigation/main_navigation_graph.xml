@@ -12,7 +12,9 @@
         tools:layout="@layout/fragment_main">
         <action
             android:id="@+id/action_mainFragment_to_sessionConnectionFragment"
-            app:destination="@id/sessionConnectionFragment" />
+            app:destination="@id/sessionConnectionFragment"
+            app:enterAnim="@anim/nav_default_pop_enter_anim"
+            app:exitAnim="@anim/nav_default_pop_exit_anim" />
         <action
             android:id="@+id/action_mainFragment_to_changeNameFragment"
             app:destination="@id/changeNameFragment"
@@ -21,6 +23,11 @@
         <action
             android:id="@+id/action_mainFragment_to_createSessionFragment"
             app:destination="@id/createSessionFragment"
+            app:enterAnim="@anim/nav_default_pop_enter_anim"
+            app:exitAnim="@anim/nav_default_pop_exit_anim" />
+        <action
+            android:id="@+id/action_mainFragment_to_matchedSessionListFragment"
+            app:destination="@id/matchedSessionListFragment"
             app:enterAnim="@anim/nav_default_pop_enter_anim"
             app:exitAnim="@anim/nav_default_pop_exit_anim" />
     </fragment>
@@ -112,6 +119,11 @@
             app:destination="@id/coincidencesFragment"
             app:enterAnim="@anim/nav_default_pop_enter_anim"
             app:exitAnim="@anim/nav_default_pop_exit_anim" />
+        <action
+            android:id="@+id/action_selectMovieFragment_to_matchedSessionListFragment"
+            app:destination="@id/matchedSessionListFragment"
+            app:enterAnim="@anim/nav_default_pop_enter_anim"
+            app:exitAnim="@anim/nav_default_pop_exit_anim" />
     </fragment>
     <fragment
         android:id="@+id/createSessionFragment"
@@ -160,7 +172,13 @@
         android:id="@+id/matchedSessionListFragment"
         android:name="com.davay.android.feature.sessionsmatched.presentation.MatchedSessionListFragment"
         android:label="fragment_matched_session_list"
-        tools:layout="@layout/fragment_matched_session_list" />
+        tools:layout="@layout/fragment_matched_session_list">
+        <action
+            android:id="@+id/action_matchedSessionListFragment_to_matchedSessionFragment"
+            app:destination="@id/matchedSessionFragment"
+            app:enterAnim="@anim/nav_default_pop_enter_anim"
+            app:exitAnim="@anim/nav_default_pop_exit_anim" />
+    </fragment>
     <fragment
         android:id="@+id/matchedSessionFragment"
         android:name="com.davay.android.feature.matchedsession.presentation.MatchedSessionFragment"
