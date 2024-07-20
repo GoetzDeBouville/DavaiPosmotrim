@@ -85,7 +85,7 @@ fun SessionDto.toDomain(): Session {
 
     return Session(
         id = id,
-        users = users.map { it.toDomain() },
+        users = users.map { it.name },
         numberOfMatchedMovies = numberOfMatchedMovies,
         date = timestamp,
         status = status.toDomain(),

@@ -20,13 +20,12 @@ class SessionListAdapter(
         RecyclerView.ViewHolder(binding.root) {
         fun bind(session: Session) {
             val userList = session.users.toMutableList()
-            userList[0] = userList[0].copy(name = userList[0].name + " (Вы)")
-            val userNames = userList.map { it.name }
+            userList[0] = userList[0] + " (Вы)"
             val formatedDate = formatDate(session.date)
             binding.root.apply {
                 setDate(formatedDate)
                 setNamesList(
-                    userNames.joinToString(", ")
+                    userList.joinToString(", ")
                 )
                 setCover(session.imgUrl)
                 setCoincidences(session.numberOfMatchedMovies ?: 0)
