@@ -193,7 +193,8 @@ class RouletteFragment :
         val movieDetails = Gson().toJson(state.film)
         val matchBottomSheetFragment = MatchBottomSheetFragment.newInstance(
             movieDetails = movieDetails,
-            buttonText = getString(R.string.roulette_to_film_list)
+            buttonText = getString(R.string.roulette_to_film_list),
+            showDismisAnimation = false
         )
         matchBottomSheetFragment.show(parentFragmentManager, matchBottomSheetFragment.tag)
     }
