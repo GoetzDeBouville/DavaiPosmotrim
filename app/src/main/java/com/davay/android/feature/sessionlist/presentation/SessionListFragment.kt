@@ -52,10 +52,7 @@ class SessionListFragment : BaseFragment<FragmentSessionListBinding, SessionList
 
         dialog = MainDialogFragment.newInstance(
             title = getString(R.string.leave_session_title),
-            message = getString(R.string.leave_session_dialog_message),
-            yesAction = {
-                findNavController().popBackStack()
-            }
+            message = getString(R.string.leave_session_dialog_message)
         )
     }
 

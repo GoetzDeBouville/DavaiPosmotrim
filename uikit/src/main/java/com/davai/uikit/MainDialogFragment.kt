@@ -24,7 +24,7 @@ class MainDialogFragment : DialogFragment() {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         dialog?.window?.setBackgroundDrawableResource(R.drawable.session_card_background)
         _binding = LayoutCustomDialogBinding.inflate(inflater, container, false)
         activity?.window?.decorView?.applyBlurEffect()
@@ -45,7 +45,7 @@ class MainDialogFragment : DialogFragment() {
     private fun subscribe() {
         with(binding) {
             btnYes.setOnClickListener {
-                yesAction?.invoke()
+                parentFragmentManager.popBackStack()
                 dialog?.dismiss()
                 activity?.window?.decorView?.clearBlurEffect()
             }
