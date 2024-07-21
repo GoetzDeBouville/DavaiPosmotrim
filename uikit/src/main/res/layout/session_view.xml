@@ -50,14 +50,26 @@
         android:textColor="@color/text_headings"
         tools:text="[Артём (вы), Анна, Константин, Руслан, Никита, Игорь]" />
 
-    <com.google.android.material.imageview.ShapeableImageView
-        android:id="@+id/iv_session_cover"
+    <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
-        android:background="@color/icon_light"
-        android:paddingHorizontal="@dimen/padding_8"
-        app:shapeAppearanceOverlay="@style/RoundedImageView.SessionView"
-        tools:src="@drawable/placeholder_error_theme_112" />
+        android:paddingHorizontal="@dimen/padding_8">
+
+        <com.google.android.material.imageview.ShapeableImageView
+            android:id="@+id/iv_session_cover"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/icon_light"
+            app:shapeAppearanceOverlay="@style/RoundedImageView.SessionView"
+            tools:src="@drawable/placeholder_error_theme_112" />
+
+        <ProgressBar
+            android:id="@+id/progress_bar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:visibility="gone" />
+    </FrameLayout>
 </LinearLayout>
 

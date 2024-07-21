@@ -5,10 +5,13 @@ import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.widget.ImageView
 import android.widget.LinearLayout
+import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.annotation.AttrRes
 import androidx.annotation.StyleRes
+import androidx.core.view.isGone
 import coil.load
+import coil.size.Scale
 import coil.transform.RoundedCornersTransformation
 
 class SessionView @JvmOverloads constructor(
@@ -28,6 +31,9 @@ class SessionView @JvmOverloads constructor(
     }
     private val ivCover: ImageView by lazy {
         findViewById(R.id.iv_session_cover)
+    }
+    private val progressBar: ProgressBar by lazy {
+        findViewById(R.id.progress_bar)
     }
 
     init {
@@ -49,11 +55,19 @@ class SessionView @JvmOverloads constructor(
 
     fun setCover(url: String) {
         ivCover.load(url) {
-            error(R.drawable.placeholder_error_theme_112)
-                .scale(coil.size.Scale.FIT)
-            placeholder(R.drawable.placeholder_general_80)
-                .scale(coil.size.Scale.FIT)
-
+            listener(
+                onStart = {
+                    progressBar.isGone = false
+                },
+                onSuccess = { _, result ->
+                    progressBar.isGone = true
+                    ivCover.setImageDrawable(result.drawable)
+                },
+                onError = { _, _ ->
+                    progressBar.isGone = true
+                    ivCover.setImageResource(R.drawable.placeholder_error_theme_112)
+                }
+            ).scale(Scale.FIT)
             transformations(
                 RoundedCornersTransformation()
             ).crossfade(true)
