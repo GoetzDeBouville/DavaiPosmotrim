@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.widget.TextView
 import androidx.recyclerview.widget.ItemTouchHelper
+import com.davai.extensions.dpToPx
 import com.davay.android.R
 import com.davay.android.app.AppComponentHolder
 import com.davay.android.base.BaseFragment
@@ -12,12 +13,13 @@ import com.davay.android.databinding.FragmentSelectMovieBinding
 import com.davay.android.di.ScreenComponent
 import com.davay.android.domain.models.MovieDetails
 import com.davay.android.extensions.SwipeDirection
-import com.davay.android.extensions.dpToPx
 import com.davay.android.feature.match.presentation.MatchBottomSheetFragment
 import com.davay.android.feature.selectmovie.di.DaggerSelectMovieFragmentComponent
 import com.davay.android.feature.selectmovie.presentation.adapters.MovieCardAdapter
 import com.davay.android.feature.selectmovie.presentation.adapters.SwipeCallback
 import com.davay.android.feature.selectmovie.presentation.adapters.SwipeableLayoutManager
+import com.davay.android.feature.selectmovie.presentation.animation.IncrementAnimation
+import com.davay.android.feature.selectmovie.presentation.animation.IncrementAnimationImpl
 import com.google.android.flexbox.FlexboxLayout
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.gson.Gson
@@ -34,6 +36,7 @@ class SelectMovieFragment :
         inflateMovieDetails = { movie -> inflateMovieDetails(movie) }
     )
     private val swipeCardLayoutManager = SwipeableLayoutManager()
+    private val incrementAnimation: IncrementAnimation = IncrementAnimationImpl()
     private var currentPosition = 0
 
     override fun diComponent(): ScreenComponent =
@@ -43,6 +46,11 @@ class SelectMovieFragment :
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         getSavedPositionAndUpdateStartPosition(savedInstanceState)
+    }
+
+    override fun onDestroyView() {
+        binding.rvFilmCard.adapter = null
+        super.onDestroyView()
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
@@ -75,7 +83,7 @@ class SelectMovieFragment :
         binding.rvFilmCard.apply {
             layoutManager = swipeCardLayoutManager
             adapter = cardAdapter
-            // помимо установки позици на layputmanger дополнительно скролим до необходимой позиции
+            // помимо установки позици на layputmanger дополни тельно скролим до необходимой позиции
             scrollToPosition(currentPosition)
         }
 
@@ -97,7 +105,7 @@ class SelectMovieFragment :
     private fun setBottomSheet() = with(binding) {
         BottomSheetBehavior.from(clDetailsBottomSheet).apply {
             state = BottomSheetBehavior.STATE_COLLAPSED
-            peekHeight = BOTTOMSHEET_PEEK_HEIGHT_112_DP.dpToPx().toInt()
+            peekHeight = BOTTOMSHEET_PEEK_HEIGHT_112_DP.dpToPx()
 
             clDetailsBottomSheet.post {
                 val cardLocation = IntArray(2)
@@ -105,7 +113,7 @@ class SelectMovieFragment :
                 val cardTop = cardLocation[1]
 
                 val screenHeight = activity?.resources?.displayMetrics?.heightPixels ?: 0
-                val maxHeight = screenHeight - (cardTop + MARGIN_TOP_16_DP.dpToPx().toInt())
+                val maxHeight = screenHeight - cardTop + MARGIN_TOP_16_DP.dpToPx()
 
                 clDetailsBottomSheet.layoutParams.height = maxHeight
                 clDetailsBottomSheet.requestLayout()
@@ -116,7 +124,6 @@ class SelectMovieFragment :
     private fun setToolbar() {
         binding.toolbarviewHeader.apply {
             updateMatchesDisplay(matchesCounter)
-            addStatusBarSpacer()
         }
     }
 
@@ -178,7 +185,14 @@ class SelectMovieFragment :
 
     private fun showBottomSheetFragment(movie: MovieDetails) {
         val movieDetails = Gson().toJson(movie)
-        val bottomSheetFragment = MatchBottomSheetFragment.newInstance(movieDetails)
+        val bottomSheetFragment = MatchBottomSheetFragment.newInstance(
+            movieDetails,
+            action = {
+                incrementAnimation.animate(binding.tvMotionedIncrement) {
+                    binding.toolbarviewHeader.incrementMatchesDisplay()
+                }
+            }
+        )
         bottomSheetFragment.show(parentFragmentManager, bottomSheetFragment.tag)
     }
 

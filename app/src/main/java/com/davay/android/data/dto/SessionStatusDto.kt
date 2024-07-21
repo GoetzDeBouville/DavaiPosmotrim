@@ -10,5 +10,8 @@ enum class SessionStatusDto {
     VOTING,
 
     @SerializedName("closed")
-    CLOSED
+    CLOSED,
+
+    @SerializedName("roulette")
+    ROULETTE
 }
