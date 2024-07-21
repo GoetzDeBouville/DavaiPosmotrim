@@ -18,7 +18,7 @@ interface HistoryDao {
 
     // Получение по sessionId сессии с её списком фильмов. Если такой сессии нет, то null
     @Transaction
-    @Query("SELECT * FROM sessions WHERE sessionId = :sessionId")
+    @Query("SELECT * FROM sessions WHERE session_id = :sessionId")
     suspend fun getSessionWithMovies(sessionId: String): SessionWithMovies?
 
     // Сохранение сессии (без фильмов)

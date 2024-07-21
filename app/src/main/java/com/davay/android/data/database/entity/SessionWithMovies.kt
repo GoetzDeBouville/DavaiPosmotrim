@@ -7,8 +7,8 @@ import androidx.room.Relation
 data class SessionWithMovies(
     @Embedded val session: SessionEntity,
     @Relation(
-        parentColumn = "sessionId",
-        entityColumn = "movieId",
+        parentColumn = "session_id",
+        entityColumn = "movie_id",
         associateBy = Junction(SessionMovieCrossRef::class)
     )
     val movies: List<MovieDetailsEntity>
