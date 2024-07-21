@@ -24,33 +24,20 @@ class MainFragment :
         .appComponent(AppComponentHolder.getComponent())
         .build()
 
+    private var userName = ""
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
-        outState.putString(USER_NAME_KEY, binding.userName.text.toString())
+        outState.putString(USER_NAME_KEY, userName)
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        userName = savedInstanceState?.getString(USER_NAME_KEY) ?: "Артём"
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.createSession.setState(MainScreenButtonView.CREATE)
-        binding.favorite.setState(MainScreenButtonView.FAVORITE)
-        binding.joinSession.setState(MainScreenButtonView.JOIN)
-
-        binding.userName.text = savedInstanceState?.getString(USER_NAME_KEY) ?: "Артём"
-        binding.createSession.setOnClickListener {
-            createSession()
-        }
-        binding.favorite.setOnClickListener {
-            viewModel.navigate(R.id.action_mainFragment_to_matchedSessionListFragment)
-        }
-        binding.joinSession.setOnClickListener {
-            joinSession()
-        }
-        binding.editUserName.setOnClickListener {
-            val currentName = binding.userName.text.toString()
-            changeName(currentName)
-        }
-        updateMarginLogo()
         parentFragmentManager.setFragmentResultListener(
             ChangeNameBottomSheetFragment.REQUEST_KEY,
             viewLifecycleOwner
@@ -62,8 +49,37 @@ class MainFragment :
         }
     }
 
+    override fun initViews() {
+        super.initViews()
+        updateMarginLogo()
+        with(binding) {
+            msbCreateSession.setState(MainScreenButtonView.CREATE)
+            msbFavorite.setState(MainScreenButtonView.FAVORITE)
+            msbJoinSession.setState(MainScreenButtonView.JOIN)
+
+            tvUserName.text = userName
+        }
+    }
+
+    override fun subscribe() {
+        with(binding) {
+            msbFavorite.setOnClickListener {
+                viewModel.navigate(R.id.action_mainFragment_to_matchedSessionListFragment)
+            }
+            msbJoinSession.setOnClickListener {
+                joinSession()
+            }
+            ivEditUserName.setOnClickListener {
+                changeName(userName)
+            }
+            msbCreateSession.setOnClickListener {
+                createSession()
+            }
+        }
+    }
+
     private fun updateMarginLogo() {
-        ViewCompat.setOnApplyWindowInsetsListener(binding.logo) { v, windowInsets ->
+        ViewCompat.setOnApplyWindowInsetsListener(binding.ivLogo) { v, windowInsets ->
             val insets = windowInsets.getInsets(WindowInsetsCompat.Type.statusBars())
             v.updateLayoutParams<ViewGroup.MarginLayoutParams> {
                 topMargin = insets.top
@@ -87,7 +103,7 @@ class MainFragment :
 
     private fun updateUserName(newName: String?) {
         if (newName != null) {
-            binding.userName.text = newName
+            binding.tvUserName.text = newName
         }
     }
 
