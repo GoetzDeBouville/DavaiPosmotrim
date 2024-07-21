@@ -11,7 +11,6 @@ import com.davay.android.data.database.entity.SessionMovieCrossRef
     entities = [SessionEntity::class, MovieDetailsEntity::class, SessionMovieCrossRef::class],
     version = 1
 )
-@TypeConverters(Converters::class)
 abstract class AppDatabase : RoomDatabase() {
     abstract fun historyDao(): HistoryDao
 }

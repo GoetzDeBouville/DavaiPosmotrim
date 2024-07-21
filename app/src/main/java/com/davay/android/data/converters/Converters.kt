@@ -111,7 +111,7 @@ fun MovieDetailsEntity.toDomain(): MovieDetails {
         name = name,
         description = description,
         year = year,
-        countries = countries,
+        countries = countries?.toListData(),
         imgUrl = imgUrl,
         alternativeName = alternativeName,
         ratingKinopoisk = ratingKinopoisk,
@@ -119,16 +119,16 @@ fun MovieDetailsEntity.toDomain(): MovieDetails {
         numOfMarksKinopoisk = numOfMarksKinopoisk,
         numOfMarksImdb = numOfMarksImdb,
         duration = duration,
-        genres = genres,
-        actors = actors,
-        directors = directors
+        genres = genres.toListData(),
+        actors = actors?.toListData(),
+        directors = directors?.toListData()
     )
 }
 
 fun SessionEntity.toDomain(): Session {
     return Session(
         id = sessionId,
-        users = users.mapIndexed { index, name -> User(index.toString(), name) },
+        users = users.toListData().mapIndexed { index, name -> User(index.toString(), name) },
         numberOfMatchedMovies = numberOfMatchedMovies,
         date = date,
         status = SessionStatus.CLOSED,
@@ -150,7 +150,7 @@ fun MovieDetails.toDbEntity(): MovieDetailsEntity {
         name = name,
         description = description,
         year = year,
-        countries = countries ?: emptyList(),
+        countries = countries?.toStringData(),
         imgUrl = imgUrl,
         alternativeName = alternativeName,
         ratingKinopoisk = ratingKinopoisk,
@@ -158,18 +158,26 @@ fun MovieDetails.toDbEntity(): MovieDetailsEntity {
         numOfMarksKinopoisk = numOfMarksKinopoisk,
         numOfMarksImdb = numOfMarksImdb,
         duration = duration,
-        genres = genres,
-        actors = actors ?: emptyList(),
-        directors = directors ?: emptyList(),
+        genres = genres.toStringData(),
+        actors = actors?.toStringData(),
+        directors = directors?.toStringData(),
     )
 }
 
 fun Session.toDbEntity(): SessionEntity {
     return SessionEntity(
         sessionId = id,
-        users = users.map { it.name },
+        users = users.map { it.name }.toStringData(),
         numberOfMatchedMovies = numberOfMatchedMovies ?: 0,
         date = date,
         imgUrl = imgUrl
     )
+}
+
+fun List<String>.toStringData(): String {
+    return joinToString(separator = ";")
+}
+
+fun String.toListData(): List<String> {
+    return split(";")
 }
