@@ -15,15 +15,17 @@ import com.davay.android.base.BaseFragment
 import com.davay.android.databinding.FragmentMatchedSessionBinding
 import com.davay.android.di.ScreenComponent
 import com.davay.android.domain.models.timeStamp
+import com.davay.android.feature.coincidences.presentation.adapter.MoviesGridAdapter
 import com.davay.android.feature.matchedsession.di.DaggerMatchedSessionFragmentComponent
 import com.davay.android.feature.matchedsession.presentation.adapter.CustomItemDecorator
-import com.davay.android.feature.matchedsession.presentation.adapter.MoviesGridAdapter
 import com.davay.android.feature.matchedsession.presentation.adapter.UserAdapter
+import com.davay.android.feature.moviecard.presentation.MovieCardFragment
 import com.google.android.flexbox.AlignItems
 import com.google.android.flexbox.FlexDirection
 import com.google.android.flexbox.FlexWrap
 import com.google.android.flexbox.FlexboxLayoutManager
 import com.google.android.flexbox.JustifyContent
+import com.google.gson.Gson
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import java.util.Calendar
@@ -36,8 +38,12 @@ class MatchedSessionFragment :
     ) {
 
     override val viewModel: MatchedSessionViewModel by injectViewModel<MatchedSessionViewModel>()
-    private val moviesGridAdapter = MoviesGridAdapter { movieId ->
-        Toast.makeText(requireContext(), "Clicked!", Toast.LENGTH_SHORT).show()
+    private val moviesGridAdapter = MoviesGridAdapter { movieDetails ->
+        val movie = Gson().toJson(movieDetails)
+        val bundle = Bundle().apply {
+            putString(MovieCardFragment.MOVIE_DETAILS_KEY, movie)
+        }
+        viewModel.navigate(R.id.action_matchedSessionFragment_to_movieCardFragment, bundle)
     }
     private val userAdapter = UserAdapter()
     private var sessionId = ""
