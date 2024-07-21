@@ -1,20 +1,24 @@
 package com.davay.android.utils
 
 import android.content.Context
+import android.view.LayoutInflater
+import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
 import coil.load
 import coil.size.Scale
 import coil.transform.RoundedCornersTransformation
+import com.davai.uikit.MovieEvaluationView
 import com.davai.uikit.TagView
 import com.davay.android.R
 import com.davay.android.domain.models.MovieDetails
+import com.davay.android.feature.selectmovie.presentation.AdditionalInfoInflater
 import com.google.android.flexbox.FlexboxLayout
 
 /**
  * Добавляем класс для избегания дублирования логики
  */
-open class MovieDetailsHelperImpl : MovieDetailsHelper {
+open class MovieDetailsHelperImpl : MovieDetailsHelper, AdditionalInfoInflater {
     override fun setImage(img: ImageView, url: String?) {
         if (url.isNullOrEmpty()) {
             img.load(R.drawable.ic_movie_selection_error_332) {
@@ -67,6 +71,31 @@ open class MovieDetailsHelperImpl : MovieDetailsHelper {
         year?.let {
             str.append(it)
             str.append(DOT_DELIMETER)
+        }
+    }
+
+    override fun inflateCastList(fbl: FlexboxLayout, list: List<String>) {
+        fbl.removeAllViews()
+        val castList = list.take(MAX_CAST_NUMBER_4)
+        castList.forEach {
+            val castView = LayoutInflater.from(fbl.context).inflate(
+                R.layout.item_top_cast,
+                fbl,
+                false
+            ) as TextView
+            castView.text = it
+            fbl.addView(castView)
+        }
+    }
+
+    override fun setRate(rateNum: Float?, numberOfRates: Int?, view: MovieEvaluationView) {
+        if (rateNum == null) {
+            view.visibility = View.GONE
+        } else {
+            view.apply {
+                setRateNum(rateNum)
+                setNumberOfRatesString(numberOfRates!!)
+            }
         }
     }
 
@@ -133,5 +162,6 @@ open class MovieDetailsHelperImpl : MovieDetailsHelper {
         const val MULTIPOINT = "..."
         const val MAX_COUNTRY_NUMBER = 3
         const val GOOD_RATE_7 = 7.0f
+        const val MAX_CAST_NUMBER_4 = 4
     }
 }

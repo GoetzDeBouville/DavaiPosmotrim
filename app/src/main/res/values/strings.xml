@@ -124,6 +124,9 @@
     <!--  matched session  -->
     <string name="matched_session_session">Сеанс %s</string>
 
+    <!--  movie card fragment  -->
+    <string name="movie_card_toolbar_title">Понравившийся фильм</string>
+
     <!--  roulette  -->
     <string name="roulette_magic">Начнём магию, когда подключатся все участники</string>
     <string name="roulette_wait">Ждём участников...</string>

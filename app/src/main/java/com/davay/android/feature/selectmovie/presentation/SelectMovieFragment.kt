@@ -1,9 +1,7 @@
 package com.davay.android.feature.selectmovie.presentation
 
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.widget.TextView
 import androidx.activity.OnBackPressedCallback
 import androidx.recyclerview.widget.ItemTouchHelper
 import com.davai.extensions.dpToPx
@@ -22,7 +20,7 @@ import com.davay.android.feature.selectmovie.presentation.adapters.SwipeCallback
 import com.davay.android.feature.selectmovie.presentation.adapters.SwipeableLayoutManager
 import com.davay.android.feature.selectmovie.presentation.animation.IncrementAnimation
 import com.davay.android.feature.selectmovie.presentation.animation.IncrementAnimationImpl
-import com.google.android.flexbox.FlexboxLayout
+import com.davay.android.utils.MovieDetailsHelperImpl
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.gson.Gson
 
@@ -39,6 +37,7 @@ class SelectMovieFragment :
     )
     private val swipeCardLayoutManager = SwipeableLayoutManager()
     private val incrementAnimation: IncrementAnimation = IncrementAnimationImpl()
+    private val additionalInfoInflater: AdditionalInfoInflater = MovieDetailsHelperImpl()
     private var currentPosition = 0
 
     override fun diComponent(): ScreenComponent =
@@ -191,43 +190,29 @@ class SelectMovieFragment :
 
     private fun inflateMovieDetails(movie: MovieDetails) = with(binding) {
         tvDetailsDescription.text = movie.description
-        setRates(movie)
-        inflateCastList(fblDetailsTopCastList, movie.actors.orEmpty())
-        inflateCastList(fblDetailsDirectorList, movie.directors.orEmpty())
+        fillInfo(movie)
+        additionalInfoInflater.setRate(
+            movie.ratingImdb,
+            movie.numOfMarksImdb,
+            mevDetailsImdbRate
+        )
+        additionalInfoInflater.setRate(
+            movie.ratingKinopoisk,
+            movie.numOfMarksKinopoisk,
+            mevDetailsKinopoiskRate
+        )
     }
 
-    private fun setRates(movie: MovieDetails) = with(binding) {
-        if (movie.ratingImdb == null) {
-            mevDetailsImdbRate.visibility = View.GONE
-        } else {
-            mevDetailsImdbRate.apply {
-                setRateNum(movie.ratingImdb)
-                setNumberOfRatesString(movie.numOfMarksImdb ?: 0)
-            }
-        }
-
-        if (movie.ratingKinopoisk == null) {
-            mevDetailsKinopoiskRate.visibility = View.GONE
-        } else {
-            mevDetailsKinopoiskRate.apply {
-                setRateNum(movie.ratingKinopoisk)
-                setNumberOfRatesString(movie.numOfMarksKinopoisk ?: 0)
-            }
-        }
-    }
-
-    private fun inflateCastList(fbl: FlexboxLayout, list: List<String>) {
-        fbl.removeAllViews()
-        val castList = list.take(MAX_CAST_NUMBER_4)
-        castList.forEach {
-            val castView = LayoutInflater.from(requireContext()).inflate(
-                R.layout.item_top_cast,
-                fbl,
-                false
-            ) as TextView
-            castView.text = it
-            fbl.addView(castView)
-        }
+    private fun fillInfo(data: MovieDetails) = with(binding) {
+        tvDetailsDescription.text = data.description
+        additionalInfoInflater.inflateCastList(
+            fblDetailsTopCastList,
+            data.actors ?: emptyList()
+        )
+        additionalInfoInflater.inflateCastList(
+            fblDetailsDirectorList,
+            data.directors ?: emptyList()
+        )
     }
 
     @Suppress("Detekt.UnusedPrivateMember")
@@ -247,7 +232,6 @@ class SelectMovieFragment :
     private companion object {
         const val BOTTOMSHEET_PEEK_HEIGHT_112_DP = 112
         const val MARGIN_TOP_16_DP = 16
-        const val MAX_CAST_NUMBER_4 = 4
         const val CURRENT_POSITION_KEY = "currentPosition"
     }
 }
@@ -279,7 +263,7 @@ private val mockMovies = listOf(
         actors = listOf("Кристофер Нолан")
     ), MovieDetails(
         id = 8509,
-        name = "Dorothea Tanner",
+        name = "Тёмный рыцарь",
         description = "Бэтмен поднимает ставки в войне с криминалом. С помощью лейтенанта Джима Гордона и прокурора Харви Дента он намерен очистить улицы Готэма от преступности. Сотрудничество оказывается эффективным, но скоро они обнаружат себя посреди хаоса, развязанного восходящим криминальным гением, известным напуганным горожанам под именем Джокер.",
         year = "2008",
         countries = listOf(),
