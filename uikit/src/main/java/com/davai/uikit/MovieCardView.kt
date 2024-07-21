@@ -87,26 +87,38 @@ class MovieCardView @JvmOverloads constructor(
     }
 
     fun setMovieCoverForMatchedSession(url: String) {
-        ivMovieCover.load(url) {
-            listener(
-                onStart = {
-                    progressBar.isGone = false
-                },
-                onSuccess = { _, result ->
-                    progressBar.isGone = true
-                    ivMovieCover.setImageDrawable(result.drawable)
-                    scale(Scale.FIT)
-                },
-                onError = { _, _ ->
-                    progressBar.isGone = true
-                    ivMovieCover.setImageResource(R.drawable.placeholder_general_w163)
-                    tvMovieTitle.background = null
-                    tvMovieTitle.setTextColor(ContextCompat.getColor(context, R.color.text_headings))
-                }
-            ).scale(Scale.FIT)
-            transformations(
-                RoundedCornersTransformation()
-            ).crossfade(true)
+        if (url.isEmpty()) {
+            ivMovieCover.load(R.drawable.placeholder_error_theme_112) {
+                transformations(RoundedCornersTransformation())
+                    .crossfade(true)
+            }
+        } else {
+            ivMovieCover.load(url) {
+                listener(
+                    onStart = {
+                        progressBar.isGone = false
+                    },
+                    onSuccess = { _, result ->
+                        progressBar.isGone = true
+                        ivMovieCover.setImageDrawable(result.drawable)
+                        scale(Scale.FIT)
+                    },
+                    onError = { _, _ ->
+                        progressBar.isGone = true
+                        ivMovieCover.setImageResource(R.drawable.placeholder_general_w163)
+                        tvMovieTitle.background = null
+                        tvMovieTitle.setTextColor(
+                            ContextCompat.getColor(
+                                context,
+                                R.color.text_headings
+                            )
+                        )
+                    }
+                ).scale(Scale.FIT)
+                transformations(
+                    RoundedCornersTransformation()
+                ).crossfade(true)
+            }
         }
     }
 }

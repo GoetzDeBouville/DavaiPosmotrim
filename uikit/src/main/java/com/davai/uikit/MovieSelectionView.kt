@@ -77,23 +77,30 @@ class MovieSelectionView @JvmOverloads constructor(
     }
 
     fun setThemeCover(url: String) {
-        ivThemeCover.load(url) {
-            listener(
-                onStart = {
-                    progressBar.isGone = false
-                },
-                onSuccess = { _, result ->
-                    progressBar.isGone = true
-                    ivThemeCover.setImageDrawable(result.drawable)
-                },
-                onError = {_, _ ->
-                    progressBar.isGone = true
-                    ivThemeCover.setImageResource(R.drawable.placeholder_error_theme_112)
-                }
-            ).scale(Scale.FIT)
-            transformations(
-                RoundedCornersTransformation()
-            ).crossfade(true)
+        if (url.isEmpty()) {
+            ivThemeCover.load(R.drawable.placeholder_error_theme_112) {
+                transformations(RoundedCornersTransformation())
+                    .crossfade(true)
+            }
+        } else {
+            ivThemeCover.load(url) {
+                listener(
+                    onStart = {
+                        progressBar.isGone = false
+                    },
+                    onSuccess = { _, result ->
+                        progressBar.isGone = true
+                        ivThemeCover.setImageDrawable(result.drawable)
+                    },
+                    onError = { _, _ ->
+                        progressBar.isGone = true
+                        ivThemeCover.setImageResource(R.drawable.placeholder_error_theme_112)
+                    }
+                ).scale(Scale.FIT)
+                transformations(
+                    RoundedCornersTransformation()
+                ).crossfade(true)
+            }
         }
     }
 

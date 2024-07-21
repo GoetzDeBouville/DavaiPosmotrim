@@ -33,7 +33,7 @@ open class MovieDetailsHelperImpl : MovieDetailsHelper {
                         progressBar.isGone = true
                         img.setImageDrawable(result.drawable)
                     },
-                    onError = {_, _ ->
+                    onError = { _, _ ->
                         progressBar.isGone = true
                         img.setImageResource(com.davai.uikit.R.drawable.placeholder_error_theme_112)
                     }

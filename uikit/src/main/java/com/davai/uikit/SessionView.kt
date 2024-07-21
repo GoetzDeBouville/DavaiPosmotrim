@@ -55,22 +55,29 @@ class SessionView @JvmOverloads constructor(
 
     fun setCover(url: String) {
         ivCover.load(url) {
-            listener(
-                onStart = {
-                    progressBar.isGone = false
-                },
-                onSuccess = { _, result ->
-                    progressBar.isGone = true
-                    ivCover.setImageDrawable(result.drawable)
-                },
-                onError = { _, _ ->
-                    progressBar.isGone = true
-                    ivCover.setImageResource(R.drawable.placeholder_error_theme_112)
+            if (url.isEmpty()) {
+                ivCover.load(R.drawable.placeholder_error_theme_112) {
+                    transformations(RoundedCornersTransformation())
+                        .crossfade(true)
                 }
-            ).scale(Scale.FIT)
-            transformations(
-                RoundedCornersTransformation()
-            ).crossfade(true)
+            } else {
+                listener(
+                    onStart = {
+                        progressBar.isGone = false
+                    },
+                    onSuccess = { _, result ->
+                        progressBar.isGone = true
+                        ivCover.setImageDrawable(result.drawable)
+                    },
+                    onError = { _, _ ->
+                        progressBar.isGone = true
+                        ivCover.setImageResource(R.drawable.placeholder_error_theme_112)
+                    }
+                ).scale(Scale.FIT)
+                transformations(
+                    RoundedCornersTransformation()
+                ).crossfade(true)
+            }
         }
     }
 }
