@@ -105,7 +105,7 @@ fun SessionStatusDto.toDomain(): SessionStatus {
     }
 }
 
-fun MovieDetailsEntity.convert(): MovieDetails {
+fun MovieDetailsEntity.toDomain(): MovieDetails {
     return MovieDetails(
         id = movieId,
         name = name,
@@ -125,7 +125,7 @@ fun MovieDetailsEntity.convert(): MovieDetails {
     )
 }
 
-fun SessionEntity.convert(): Session {
+fun SessionEntity.toDomain(): Session {
     return Session(
         id = sessionId,
         users = users.mapIndexed { index, name -> User(index.toString(), name) },
@@ -136,15 +136,15 @@ fun SessionEntity.convert(): Session {
     )
 }
 
-fun SessionWithMovies.getSession(): Session {
-    return session.convert()
+fun SessionWithMovies.getDomainSession(): Session {
+    return session.toDomain()
 }
 
-fun SessionWithMovies.getMovies(): List<MovieDetails> {
-    return movies.map { it.convert() }
+fun SessionWithMovies.getDomainMovies(): List<MovieDetails> {
+    return movies.map { it.toDomain() }
 }
 
-fun MovieDetails.toEntity(): MovieDetailsEntity {
+fun MovieDetails.toDbEntity(): MovieDetailsEntity {
     return MovieDetailsEntity(
         movieId = id,
         name = name,
@@ -164,7 +164,7 @@ fun MovieDetails.toEntity(): MovieDetailsEntity {
     )
 }
 
-fun Session.toEntity(): SessionEntity {
+fun Session.toDbEntity(): SessionEntity {
     return SessionEntity(
         sessionId = id,
         users = users.map { it.name },
