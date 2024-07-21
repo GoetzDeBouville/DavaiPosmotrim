@@ -2,7 +2,9 @@ package com.davay.android.utils
 
 import android.content.Context
 import android.widget.ImageView
+import android.widget.ProgressBar
 import android.widget.TextView
+import androidx.core.view.isGone
 import coil.load
 import coil.size.Scale
 import coil.transform.RoundedCornersTransformation
@@ -15,7 +17,7 @@ import com.google.android.flexbox.FlexboxLayout
  * Добавляем класс для избегания дублирования логики
  */
 open class MovieDetailsHelperImpl : MovieDetailsHelper {
-    override fun setImage(img: ImageView, url: String?) {
+    override fun setImage(img: ImageView, progressBar: ProgressBar, url: String?) {
         if (url.isNullOrEmpty()) {
             img.load(R.drawable.ic_movie_selection_error_332) {
                 transformations(RoundedCornersTransformation())
@@ -23,12 +25,22 @@ open class MovieDetailsHelperImpl : MovieDetailsHelper {
             }
         } else {
             img.load(url) {
-                placeholder(com.davai.uikit.R.drawable.placeholder_general_80)
-                    .scale(Scale.FIT)
-                error(R.drawable.ic_movie_selection_error_332)
-                    .scale(Scale.FIT)
-                transformations(RoundedCornersTransformation())
-                    .crossfade(true)
+                listener(
+                    onStart = {
+                        progressBar.isGone = false
+                    },
+                    onSuccess = { _, result ->
+                        progressBar.isGone = true
+                        img.setImageDrawable(result.drawable)
+                    },
+                    onError = {_, _ ->
+                        progressBar.isGone = true
+                        img.setImageResource(com.davai.uikit.R.drawable.placeholder_error_theme_112)
+                    }
+                ).scale(Scale.FIT)
+                transformations(
+                    RoundedCornersTransformation()
+                ).crossfade(true)
             }
         }
     }
