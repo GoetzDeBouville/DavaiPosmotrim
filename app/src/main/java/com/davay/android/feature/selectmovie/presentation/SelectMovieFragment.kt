@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.TextView
+import androidx.activity.OnBackPressedCallback
 import androidx.recyclerview.widget.ItemTouchHelper
 import com.davai.extensions.dpToPx
 import com.davai.uikit.MainDialogFragment
@@ -74,6 +75,7 @@ class SelectMovieFragment :
     }
 
     override fun subscribe() {
+        backPressedDispatcher()
         binding.toolbarviewHeader.apply {
             setEndIconClickListener {
                 viewModel.navigate(R.id.action_selectMovieFragment_to_coincidencesFragment)
@@ -82,6 +84,17 @@ class SelectMovieFragment :
                 showDialogAndNavigateToHistorySessions()
             }
         }
+    }
+
+    private fun backPressedDispatcher() {
+        requireActivity().onBackPressedDispatcher.addCallback(
+            this,
+            object : OnBackPressedCallback(true) {
+                override fun handleOnBackPressed() {
+                    showDialogAndNavigateToHistorySessions()
+                }
+            }
+        )
     }
 
     private fun showDialogAndNavigateToHistorySessions() {
