@@ -23,6 +23,17 @@
         app:shapeAppearanceOverlay="@style/RoundedImageView"
         tools:src="@tools:sample/backgrounds/scenic[1]" />
 
+    <ProgressBar
+        android:id="@+id/progress_bar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="@id/iv_theme_cover"
+        app:layout_constraintEnd_toEndOf="@id/iv_theme_cover"
+        app:layout_constraintStart_toStartOf="@id/iv_theme_cover"
+        app:layout_constraintTop_toTopOf="@id/iv_theme_cover" />
+
     <View
         android:layout_width="0dp"
         android:layout_height="80dp"

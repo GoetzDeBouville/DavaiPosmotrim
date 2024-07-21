@@ -5,11 +5,13 @@ import android.content.res.ColorStateList
 import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.widget.ImageView
+import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.annotation.AttrRes
 import androidx.annotation.StyleRes
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
+import androidx.core.view.isGone
 import androidx.core.view.isVisible
 import coil.load
 import coil.size.Scale
@@ -37,6 +39,9 @@ class MovieSelectionView @JvmOverloads constructor(
     }
     private val body: ConstraintLayout by lazy {
         findViewById(R.id.cl_evaluation_body)
+    }
+    private val progressBar: ProgressBar by lazy {
+        findViewById(R.id.progress_bar)
     }
     private var isSelected = false
     private var backgroundColor = -1
@@ -73,10 +78,19 @@ class MovieSelectionView @JvmOverloads constructor(
 
     fun setThemeCover(url: String) {
         ivThemeCover.load(url) {
-            error(R.drawable.placeholder_error_theme_112)
-                .scale(Scale.FIT)
-            placeholder(R.drawable.placeholder_general_80)
-                .scale(Scale.FIT)
+            listener(
+                onStart = {
+                    progressBar.isGone = false
+                },
+                onSuccess = { _, result ->
+                    progressBar.isGone = true
+                    ivThemeCover.setImageDrawable(result.drawable)
+                },
+                onError = {_, _ ->
+                    progressBar.isGone = true
+                    ivThemeCover.setImageResource(R.drawable.placeholder_error_theme_112)
+                }
+            ).scale(Scale.FIT)
             transformations(
                 RoundedCornersTransformation()
             ).crossfade(true)
