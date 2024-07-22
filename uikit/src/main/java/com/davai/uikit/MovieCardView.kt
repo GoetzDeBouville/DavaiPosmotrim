@@ -9,7 +9,6 @@ import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.annotation.AttrRes
 import androidx.annotation.StyleRes
-import androidx.core.content.ContextCompat
 import androidx.core.view.isGone
 import coil.load
 import coil.size.Scale
@@ -62,57 +61,28 @@ class MovieCardView @JvmOverloads constructor(
     }
 
     fun setMovieCover(url: String) {
-        ivMovieCover.load(url) {
-            listener(
-                onStart = {
-                    progressBar.isGone = false
-                },
-                onSuccess = { _, result ->
-                    progressBar.isGone = true
-                    ivMovieCover.setImageDrawable(result.drawable)
-                },
-                onError = { _, _ ->
-                    progressBar.isGone = true
-                    ivMovieCover.setImageResource(R.drawable.placeholder_error_film_138)
-                }
-            ).scale(Scale.FIT)
-            transformations(
-                RoundedCornersTransformation()
-            ).crossfade(true)
-        }
-    }
-
-    fun setMovieTitle(title: String) {
-        tvMovieTitle.text = title
-    }
-
-    fun setMovieCoverForMatchedSession(url: String) {
         if (url.isEmpty()) {
-            ivMovieCover.load(R.drawable.placeholder_error_theme_112) {
+            ivMovieCover.load(R.drawable.placeholder_error_film_138) {
                 transformations(RoundedCornersTransformation())
                     .crossfade(true)
             }
+            tvMovieTitle.isGone = true
         } else {
             ivMovieCover.load(url) {
                 listener(
                     onStart = {
                         progressBar.isGone = false
+                        tvMovieTitle.isGone = true
                     },
                     onSuccess = { _, result ->
                         progressBar.isGone = true
+                        tvMovieTitle.isGone = false
                         ivMovieCover.setImageDrawable(result.drawable)
-                        scale(Scale.FIT)
                     },
                     onError = { _, _ ->
+                        tvMovieTitle.isGone = true
                         progressBar.isGone = true
-                        ivMovieCover.setImageResource(R.drawable.placeholder_general_w163)
-                        tvMovieTitle.background = null
-                        tvMovieTitle.setTextColor(
-                            ContextCompat.getColor(
-                                context,
-                                R.color.text_headings
-                            )
-                        )
+                        ivMovieCover.setImageResource(R.drawable.placeholder_error_film_138)
                     }
                 ).scale(Scale.FIT)
                 transformations(
@@ -120,5 +90,9 @@ class MovieCardView @JvmOverloads constructor(
                 ).crossfade(true)
             }
         }
+    }
+
+    fun setMovieTitle(title: String) {
+        tvMovieTitle.text = title
     }
 }
