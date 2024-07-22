@@ -5,7 +5,6 @@ import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.widget.ImageView
 import android.widget.LinearLayout
-import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.annotation.AttrRes
 import androidx.annotation.StyleRes
@@ -32,7 +31,7 @@ class SessionView @JvmOverloads constructor(
     private val ivCover: ImageView by lazy {
         findViewById(R.id.iv_session_cover)
     }
-    private val progressBar: ProgressBar by lazy {
+    private val progressBar: ProgressBarView by lazy {
         findViewById(R.id.progress_bar)
     }
 

@@ -6,7 +6,6 @@ import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.ImageView
-import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.annotation.AttrRes
 import androidx.annotation.StyleRes
@@ -41,7 +40,7 @@ class MovieSelectionView @JvmOverloads constructor(
     private val body: ConstraintLayout by lazy {
         findViewById(R.id.cl_evaluation_body)
     }
-    private val progressBar: ProgressBar by lazy {
+    private val progressBar: ProgressBarView by lazy {
         findViewById(R.id.progress_bar)
     }
     private val gradient: View by lazy {

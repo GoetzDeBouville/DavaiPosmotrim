@@ -28,10 +28,10 @@
                 app:layout_constraintTop_toTopOf="parent"
                 tools:src="@tools:sample/backgrounds/scenic[8]" />
 
-            <ProgressBar
+            <com.davai.uikit.ProgressBarView
                 android:id="@+id/progress_bar"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="@dimen/progressbar_48"
+                android:layout_height="@dimen/progressbar_48"
                 android:layout_gravity="center"
                 android:visibility="gone"
                 app:layout_constraintBottom_toBottomOf="@id/iv_select_movie_cover"

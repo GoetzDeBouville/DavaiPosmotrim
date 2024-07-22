@@ -2,12 +2,12 @@ package com.davay.android.utils
 
 import android.content.Context
 import android.widget.ImageView
-import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.core.view.isGone
 import coil.load
 import coil.size.Scale
 import coil.transform.RoundedCornersTransformation
+import com.davai.uikit.ProgressBarView
 import com.davai.uikit.TagView
 import com.davay.android.R
 import com.davay.android.domain.models.MovieDetails
@@ -17,7 +17,7 @@ import com.google.android.flexbox.FlexboxLayout
  * Добавляем класс для избегания дублирования логики
  */
 open class MovieDetailsHelperImpl : MovieDetailsHelper {
-    override fun setImage(img: ImageView, progressBar: ProgressBar, url: String?) {
+    override fun setImage(img: ImageView, progressBar: ProgressBarView, url: String?) {
         if (url.isNullOrEmpty()) {
             img.load(com.davai.uikit.R.drawable.placeholder_error_332dp) {
                 transformations(RoundedCornersTransformation())

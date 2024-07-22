@@ -5,7 +5,6 @@ import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.widget.FrameLayout
 import android.widget.ImageView
-import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.annotation.AttrRes
 import androidx.annotation.StyleRes
@@ -26,7 +25,7 @@ class MovieCardView @JvmOverloads constructor(
     private val ivMovieCover: ImageView by lazy {
         findViewById(R.id.iv_movie_cover)
     }
-    private val progressBar: ProgressBar by lazy {
+    private val progressBar: ProgressBarView by lazy {
         findViewById(R.id.progress_bar)
     }
 
