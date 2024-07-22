@@ -62,7 +62,7 @@
             android:layout_height="match_parent"
             android:background="@color/icon_light"
             app:shapeAppearanceOverlay="@style/RoundedImageView.SessionView"
-            tools:src="@drawable/placeholder_error_theme_112" />
+            tools:src="@drawable/placeholder_error_80dp" />
 
         <ProgressBar
             android:id="@+id/progress_bar"

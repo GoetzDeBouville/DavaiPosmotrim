@@ -35,6 +35,7 @@
         app:layout_constraintTop_toTopOf="@id/iv_theme_cover" />
 
     <View
+        android:id="@+id/view_gradient"
         android:layout_width="0dp"
         android:layout_height="80dp"
         android:background="@drawable/background_gradient_transparent_to_black"

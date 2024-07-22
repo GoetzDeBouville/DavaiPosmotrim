@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.res.ColorStateList
 import android.util.AttributeSet
 import android.view.LayoutInflater
+import android.view.View
 import android.widget.ImageView
 import android.widget.ProgressBar
 import android.widget.TextView
@@ -43,6 +44,9 @@ class MovieSelectionView @JvmOverloads constructor(
     private val progressBar: ProgressBar by lazy {
         findViewById(R.id.progress_bar)
     }
+    private val gradient: View by lazy {
+        findViewById(R.id.view_gradient)
+    }
     private var isSelected = false
     private var backgroundColor = -1
 
@@ -78,7 +82,7 @@ class MovieSelectionView @JvmOverloads constructor(
 
     fun setThemeCover(url: String) {
         if (url.isEmpty()) {
-            ivThemeCover.load(R.drawable.placeholder_error_theme_112) {
+            ivThemeCover.load(R.drawable.placeholder_error_332dp) {
                 transformations(RoundedCornersTransformation())
                     .crossfade(true)
             }
@@ -87,14 +91,17 @@ class MovieSelectionView @JvmOverloads constructor(
                 listener(
                     onStart = {
                         progressBar.isGone = false
+                        gradient.isGone = true
                     },
                     onSuccess = { _, result ->
                         progressBar.isGone = true
+                        gradient.isGone = false
                         ivThemeCover.setImageDrawable(result.drawable)
                     },
                     onError = { _, _ ->
                         progressBar.isGone = true
-                        ivThemeCover.setImageResource(R.drawable.placeholder_error_theme_112)
+                        gradient.isGone = false
+                        ivThemeCover.setImageResource(R.drawable.placeholder_error_332dp)
                     }
                 ).scale(Scale.FIT)
                 transformations(

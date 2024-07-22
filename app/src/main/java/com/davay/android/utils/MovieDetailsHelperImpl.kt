@@ -19,7 +19,7 @@ import com.google.android.flexbox.FlexboxLayout
 open class MovieDetailsHelperImpl : MovieDetailsHelper {
     override fun setImage(img: ImageView, progressBar: ProgressBar, url: String?) {
         if (url.isNullOrEmpty()) {
-            img.load(R.drawable.ic_movie_selection_error_332) {
+            img.load(com.davai.uikit.R.drawable.placeholder_error_332dp) {
                 transformations(RoundedCornersTransformation())
                     .crossfade(true)
             }
@@ -35,7 +35,7 @@ open class MovieDetailsHelperImpl : MovieDetailsHelper {
                     },
                     onError = { _, _ ->
                         progressBar.isGone = true
-                        img.setImageResource(com.davai.uikit.R.drawable.placeholder_error_theme_112)
+                        img.setImageResource(com.davai.uikit.R.drawable.placeholder_error_332dp)
                     }
                 ).scale(Scale.FIT)
                 transformations(
