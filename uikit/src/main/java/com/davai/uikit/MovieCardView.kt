@@ -80,7 +80,7 @@ class MovieCardView @JvmOverloads constructor(
                         ivMovieCover.setImageDrawable(result.drawable)
                     },
                     onError = { _, _ ->
-                        tvMovieTitle.isGone = true
+                        tvMovieTitle.isGone = false
                         progressBar.isGone = true
                         ivMovieCover.setImageResource(R.drawable.placeholder_error_film_138)
                     }
