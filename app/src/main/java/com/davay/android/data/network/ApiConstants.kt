@@ -1,7 +1,7 @@
 package com.davay.android.data.network
 
 object ApiConstants {
-    const val BASE_URL = "https://10.0.2.2:8888/"
+    const val BASE_URL = "http://80.87.108.90/"
 
     const val SUCCESS_CODE = 200
     const val NO_INTERNET_CONNECTION_CODE = -1
