@@ -2,7 +2,6 @@ package com.davay.android.utils.network
 
 import com.davay.android.data.network.ApiConstants
 import com.davay.android.domain.models.ErrorType
-import retrofit2.HttpException
 
 class ErrorHandlerImpl : ErrorHandler {
     override fun handleErrorCode(resultCode: Int) = Resource.Error(
@@ -12,6 +11,4 @@ class ErrorHandlerImpl : ErrorHandler {
             else -> ErrorType.UNEXPECTED
         }
     )
-
-    override fun handleHttpException(exception: HttpException) = handleErrorCode(exception.code())
 }
