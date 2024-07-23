@@ -11,7 +11,6 @@ import com.davay.android.base.BaseFragment
 import com.davay.android.databinding.FragmentCompilationsBinding
 import com.davay.android.di.ScreenComponent
 import com.davay.android.feature.createsession.di.DaggerCreateSessionFragmentComponent
-import com.davay.android.feature.createsession.domain.model.Compilation
 import com.davay.android.feature.createsession.presentation.compilations.adapter.CompilationsAdapter
 import com.davay.android.utils.presentation.UiErrorHandler
 import com.davay.android.utils.presentation.UiErrorHandlerImpl
@@ -96,27 +95,3 @@ class CompilationsFragment : BaseFragment<FragmentCompilationsBinding, Compilati
         fun newInstance() = CompilationsFragment()
     }
 }
-
-private val mockList = listOf(
-    Compilation(
-        "1",
-        "Ужасы",
-        "https://pikuco.ru/upload/test_stable/6f1/6f1bd5d0f587f12f4a1bd9bd107beb56.webp"
-    ),
-    Compilation(
-        "2",
-        "Комедия",
-        "https://ss.sport-express.ru/userfiles/materials/197/1974960/volga.jpg"
-    ),
-    Compilation(
-        "3",
-        "Боевик",
-        "https://s1.afisha.ru/mediastorage/93/da/603bb317d0284ddbb61501aeda93.jpg"
-    ),
-    Compilation("1", "Ужасы", ""),
-    Compilation("2", "Фантастика", ""),
-    Compilation("3", "Детектив", ""),
-    Compilation("4", "Триллер", ""),
-    Compilation("5", "Боевик", "")
-)
-
