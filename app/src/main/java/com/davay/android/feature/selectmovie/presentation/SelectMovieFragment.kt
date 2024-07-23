@@ -22,7 +22,8 @@ import com.davay.android.feature.selectmovie.presentation.animation.IncrementAni
 import com.davay.android.feature.selectmovie.presentation.animation.IncrementAnimationImpl
 import com.google.android.flexbox.FlexboxLayout
 import com.google.android.material.bottomsheet.BottomSheetBehavior
-import com.google.gson.Gson
+import kotlinx.serialization.encodeToString
+import kotlinx.serialization.json.Json
 
 class SelectMovieFragment :
     BaseFragment<FragmentSelectMovieBinding, SelectMovieViewModel>(FragmentSelectMovieBinding::inflate) {
@@ -184,7 +185,7 @@ class SelectMovieFragment :
     }
 
     private fun showBottomSheetFragment(movie: MovieDetails) {
-        val movieDetails = Gson().toJson(movie)
+        val movieDetails = Json.encodeToString(movie)
         val bottomSheetFragment = MatchBottomSheetFragment.newInstance(
             movieDetails,
             action = {

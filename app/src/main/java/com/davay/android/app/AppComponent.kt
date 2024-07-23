@@ -9,13 +9,16 @@ import com.davay.android.di.DIComponent
 import com.davay.android.di.DataBasedComponentHolder
 import dagger.BindsInstance
 import dagger.Component
-import retrofit2.Retrofit
+import io.ktor.client.HttpClient
 
 @Component(
-    modules = [NetworkModule::class, ContextModule::class]
+    modules = [
+        NetworkModule::class,
+        ContextModule::class
+    ]
 )
 interface AppComponent : DIComponent {
-    val retrofit: Retrofit
+    val client: HttpClient
     val context: Context
 
     @Component.Builder
@@ -33,5 +36,5 @@ interface AppComponent : DIComponent {
 object AppComponentHolder : DataBasedComponentHolder<AppComponent, Application>() {
     override val mode: ComponentHolderMode = ComponentHolderMode.GLOBAL_SINGLETON
     override fun buildComponent(data: Application): AppComponent =
-        DaggerAppComponent.builder().contextModule(ContextModule(data)).app(data).build()
+        DaggerAppComponent.builder().app(data).build()
 }

@@ -7,7 +7,7 @@ import com.davay.android.data.dto.MovieDto
 import com.davay.android.data.dto.SessionDto
 import com.davay.android.data.dto.SessionStatusDto
 import com.davay.android.data.dto.UserDto
-import com.davay.android.domain.models.Collection
+import com.davay.android.domain.models.CompilationFilms
 import com.davay.android.domain.models.Genre
 import com.davay.android.domain.models.Movie
 import com.davay.android.domain.models.MovieDetails
@@ -19,7 +19,7 @@ import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
 
-fun CollectionDto.toDomain() = Collection(
+fun CollectionDto.toDomain() = CompilationFilms(
     id,
     name,
     imgUrl

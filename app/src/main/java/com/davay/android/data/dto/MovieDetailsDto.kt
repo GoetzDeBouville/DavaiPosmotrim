@@ -1,21 +1,23 @@
 package com.davay.android.data.dto
 
-import com.google.gson.annotations.SerializedName
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 
+@Serializable
 data class MovieDetailsDto(
-    @SerializedName("id") val id: Int,
-    @SerializedName("name") val name: String,
-    @SerializedName("description") val description: String?,
-    @SerializedName("year") val year: String?,
-    @SerializedName("countries") val countries: List<String>?,
-    @SerializedName("poster") val imgUrl: String?,
-    @SerializedName("alternative_name") val alternativeName: String?,
-    @SerializedName("rating_kp") val ratingKinopoisk: Float?,
-    @SerializedName("rating_imdb") val ratingImdb: Float?,
-    @SerializedName("votes_kp") val numOfMarksKinopoisk: Int?,
-    @SerializedName("votes_imdb") val numOfMarksImdb: Int?,
-    @SerializedName("movie_length") val duration: Int?,
-    @SerializedName("genres") val genres: List<GenreDto>,
-    @SerializedName("directors") val directors: List<String>?,
-    @SerializedName("actors") val actors: List<String>?
+    @SerialName("id") val id: Int,
+    @SerialName("name") val name: String,
+    @SerialName("description") val description: String?,
+    @SerialName("year") val year: String?,
+    @SerialName("countries") val countries: List<String>?,
+    @SerialName("poster") val imgUrl: String?,
+    @SerialName("alternative_name") val alternativeName: String?,
+    @SerialName("rating_kp") val ratingKinopoisk: Float?,
+    @SerialName("rating_imdb") val ratingImdb: Float?,
+    @SerialName("votes_kp") val numOfMarksKinopoisk: Int?,
+    @SerialName("votes_imdb") val numOfMarksImdb: Int?,
+    @SerialName("movie_length") val duration: Int?,
+    @SerialName("genres") val genres: List<GenreDto>,
+    @SerialName("directors") val directors: List<String>?,
+    @SerialName("actors") val actors: List<String>?
 )
