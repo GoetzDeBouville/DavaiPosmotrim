@@ -74,11 +74,4 @@
         <attr name="progress_stroke_color" format="color" />
         <attr name="progress_stroke_width" format="dimension" />
     </declare-styleable>
-
-    <declare-styleable name="ErrorScreenView">
-        <attr name="error_title" format="string" />
-        <attr name="error_description" format="string" />
-        <attr name="error_button_text" format="string" />
-        <attr name="error_image_id" format="reference" />
-    </declare-styleable>
 </resources>

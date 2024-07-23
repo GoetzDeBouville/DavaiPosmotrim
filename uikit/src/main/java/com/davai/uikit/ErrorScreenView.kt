@@ -9,6 +9,10 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import com.google.android.material.button.MaterialButton
 
+/**
+ * ErrorScreenView необходима только для того чтобы избежать дублирования кода в логике обработки
+ * отображения ошибок в UI
+ */
 class ErrorScreenView @JvmOverloads constructor(
     context: Context,
     attrs: AttributeSet? = null,
@@ -21,41 +25,8 @@ class ErrorScreenView @JvmOverloads constructor(
     private val button: MaterialButton by lazy { findViewById(R.id.mbtn_error_button) }
 
     init {
-        inflateView()
-        applyAttributes(
-            context,
-            attrs,
-            defStyleAttr,
-            defStyleRes
-        )
-    }
-
-    private fun inflateView() {
         LayoutInflater.from(context)
             .inflate(R.layout.layout_error_message, this, true)
-    }
-
-    private fun applyAttributes(
-        context: Context,
-        attrs: AttributeSet?,
-        defStyleAttr: Int,
-        defStyleRes: Int
-    ) {
-        context.theme.obtainStyledAttributes(
-            attrs,
-            R.styleable.MovieCardView,
-            defStyleAttr,
-            defStyleRes
-        ).apply {
-            try {
-                setErrorTitle(getString(R.styleable.ErrorScreenView_error_title) ?: "")
-                setErrorDescription(getString(R.styleable.ErrorScreenView_error_description) ?: "")
-                setButtonText(getString(R.styleable.ErrorScreenView_error_button_text) ?: "")
-                setErrorImage(R.styleable.ErrorScreenView_error_image_id)
-            } finally {
-                recycle()
-            }
-        }
     }
 
     fun setErrorImage(resId: Int) {
