@@ -5,4 +5,5 @@ enum class ErrorType {
     NOT_FOUND,
     BAD_REQUEST,
     UNEXPECTED,
+    APP_VERSION_ERROR
 }
