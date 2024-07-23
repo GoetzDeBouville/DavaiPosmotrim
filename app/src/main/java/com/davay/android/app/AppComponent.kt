@@ -36,5 +36,8 @@ interface AppComponent : DIComponent {
 object AppComponentHolder : DataBasedComponentHolder<AppComponent, Application>() {
     override val mode: ComponentHolderMode = ComponentHolderMode.GLOBAL_SINGLETON
     override fun buildComponent(data: Application): AppComponent =
-        DaggerAppComponent.builder().app(data).build()
+        DaggerAppComponent.builder()
+            .app(data)
+            .contextModule(ContextModule(data))
+            .build()
 }
