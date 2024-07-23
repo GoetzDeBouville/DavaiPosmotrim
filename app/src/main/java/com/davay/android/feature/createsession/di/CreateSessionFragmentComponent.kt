@@ -6,7 +6,11 @@ import dagger.Component
 
 @Component(
     dependencies = [AppComponent::class],
-    modules = [CreateSessionFragmentModule::class]
+    modules = [
+        CreateSessionFragmentModule::class,
+        CreateSessionRepositoryModule::class,
+        CreateSessionUseCaseModule::class
+    ]
 )
 interface CreateSessionFragmentComponent : ScreenComponent {
 
