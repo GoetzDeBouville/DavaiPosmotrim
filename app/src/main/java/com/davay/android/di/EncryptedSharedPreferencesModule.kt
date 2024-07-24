@@ -16,12 +16,15 @@ class EncryptedSharedPreferencesModule {
     fun encryptedSharedPreferences(context: Context): SharedPreferences {
         val masterKeyAlias = MasterKeys.getOrCreate(MasterKeys.AES256_GCM_SPEC)
         val encryptedSharedPreferences = EncryptedSharedPreferences.create(
-            "UserInfo",
+            USER_PREFS,
             masterKeyAlias,
             context,
             EncryptedSharedPreferences.PrefKeyEncryptionScheme.AES256_SIV,
             EncryptedSharedPreferences.PrefValueEncryptionScheme.AES256_GCM
         )
         return encryptedSharedPreferences
+    }
+    companion object {
+        private const val USER_PREFS = "UserInfoStorage"
     }
 }
