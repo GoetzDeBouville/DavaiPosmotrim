@@ -12,4 +12,7 @@ class DatabaseModule {
     fun provideDatabase(applicationContext: Context): AppDatabase =
         Room.databaseBuilder(applicationContext, AppDatabase::class.java, "davay")
             .build()
+
+    @Provides
+    fun provideHistoryDao(appDatabase: AppDatabase) = appDatabase.historyDao()
 }
