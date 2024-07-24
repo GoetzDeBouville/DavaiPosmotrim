@@ -26,7 +26,7 @@ class MainFragment :
 
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
-        outState.putString(USER_NAME_KEY, binding.userName.text.toString())
+        outState.putString(USER_NAME_KEY, viewModel.getUserName())
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
