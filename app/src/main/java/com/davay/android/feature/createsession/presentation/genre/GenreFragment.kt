@@ -56,6 +56,11 @@ class GenreFragment : BaseFragment<FragmentGenreBinding, GenreViewModel>(
         )
     }
 
+    fun buttonContinueClicked(): Boolean {
+        viewModel.buttonContinueClicked()
+        return viewModel.hasSelectedGenres()
+    }
+
     companion object {
         fun newInstance() = GenreFragment()
     }

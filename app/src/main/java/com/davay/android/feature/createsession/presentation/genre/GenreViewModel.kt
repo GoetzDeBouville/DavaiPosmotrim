@@ -20,4 +20,9 @@ class GenreViewModel @Inject constructor() : BaseViewModel() {
     fun buttonContinueClicked() {
         Log.d("MyTag", selectedGenreList.toString())
     }
+
+    // Метод для проверки, выбран ли хотя бы один жанр
+    fun hasSelectedGenres(): Boolean {
+        return selectedGenreList.isNotEmpty()
+    }
 }

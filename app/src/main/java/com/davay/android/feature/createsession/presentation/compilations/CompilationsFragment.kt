@@ -59,6 +59,11 @@ class CompilationsFragment : BaseFragment<FragmentCompilationsBinding, Compilati
         )
     }
 
+    fun buttonContinueClicked(): Boolean {
+        viewModel.buttonContinueClicked()
+        return viewModel.hasSelectedCompilations()
+    }
+
     companion object {
         fun newInstance() = CompilationsFragment()
     }
