@@ -46,6 +46,7 @@ class CreateSessionFragment : BaseFragment<FragmentCreateSessionBinding, CreateS
             getString(R.string.create_session_choose_compilations_one),
             BannerView.ATTENTION
         )
+        showBanner()
     }
 
     private fun initTabs() {
@@ -93,6 +94,11 @@ class CreateSessionFragment : BaseFragment<FragmentCreateSessionBinding, CreateS
 
     private fun updateBanner(text: String, type: Int) {
         (requireActivity() as MainActivity).updateBanner(text, type)
+    }
+
+    private fun showBanner(){
+        val activity = requireActivity() as? MainActivity
+        activity?.showBanner()
     }
 
     override fun onDestroyView() {
