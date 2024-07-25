@@ -22,8 +22,8 @@ class MatchedSessionsViewModel @Inject constructor(
     }
 
     private fun getMatchedSessions() {
+        _state.value = MatchedSessionsState.Loading
         viewModelScope.launch {
-            _state.value = MatchedSessionsState.Loading
             val list = getSessionsHistoryRepository.getSessionsHistory()
             if (list.isNullOrEmpty()) {
                 _state.value = MatchedSessionsState.Empty
