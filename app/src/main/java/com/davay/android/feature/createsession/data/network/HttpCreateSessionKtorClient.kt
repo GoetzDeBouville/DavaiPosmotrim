@@ -29,11 +29,11 @@ class HttpCreateSessionKtorClient @Inject constructor(
     ): CreateSessionResponse {
         return when (requestType) {
             is CreateSessionRequest.CollectionList -> {
-                httpResponse.body<CreateSessionResponse.CollectionList>()
+                CreateSessionResponse.CollectionList(httpResponse.body())
             }
 
             is CreateSessionRequest.GenreList -> {
-                httpResponse.body<CreateSessionResponse.GenreList>()
+                CreateSessionResponse.GenreList(httpResponse.body())
             }
         }
     }

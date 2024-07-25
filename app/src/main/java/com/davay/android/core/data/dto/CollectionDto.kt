@@ -7,5 +7,5 @@ import kotlinx.serialization.Serializable
 data class CollectionDto(
     @SerialName("slug") val id: String,
     @SerialName("name") val name: String,
-    @SerialName("cover") val imgUrl: String
+    @SerialName("cover") val imgUrl: String?
 )

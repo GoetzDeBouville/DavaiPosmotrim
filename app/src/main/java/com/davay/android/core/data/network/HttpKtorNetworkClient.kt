@@ -9,7 +9,8 @@ import com.davay.android.extensions.isInternetReachable
 import io.ktor.client.statement.HttpResponse
 import io.ktor.client.statement.bodyAsText
 import io.ktor.http.isSuccess
-import java.text.ParseException
+import io.ktor.utils.io.errors.IOException
+import kotlinx.serialization.SerializationException
 
 abstract class HttpKtorNetworkClient<SealedRequest, SealedResponse>(
     private val context: Context
@@ -52,9 +53,14 @@ abstract class HttpKtorNetworkClient<SealedRequest, SealedResponse>(
                     resultCode = StatusCode(httpResponse.status.value),
                     body = getResponseBodyByRequestType(requestType, httpResponse)
                 )
-            } catch (e: Exception) {
-                Log.v(TAG, "Exception while parsing response body: ${e.localizedMessage}")
-                e.printStackTrace()
+            } catch (e: SerializationException) {
+                Log.v(TAG, e.localizedMessage.toString())
+                Response(
+                    isSuccess = false,
+                    resultCode = StatusCode(httpResponse.status.value)
+                )
+            } catch (e: IOException) {
+                Log.v(TAG, e.localizedMessage.toString())
                 Response(
                     isSuccess = false,
                     resultCode = StatusCode(httpResponse.status.value)

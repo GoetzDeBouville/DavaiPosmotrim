@@ -100,7 +100,7 @@ class CompilationsViewModel @Inject constructor(
     fun CompilationFilms.toCompilation() = CompilationSelect(
         id = this.id,
         name = this.name,
-        cover = this.imgUrl,
+        cover = this.imgUrl ?: "",
         isSelected = false
     )
 
