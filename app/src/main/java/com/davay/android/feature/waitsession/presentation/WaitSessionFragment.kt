@@ -157,16 +157,31 @@ class WaitSessionFragment : BaseFragment<FragmentWaitSessionBinding, WaitSession
             dialog?.show(parentFragmentManager, CUSTOM_DIALOG_TAG)
         }
         binding.startSessionButton.setOnClickListener {
-            if (viewModel.isFirstTimeLaunch()) {
-                viewModel.markFirstTimeLaunch()
-                val bundle = Bundle().apply {
-                    putInt(OnboardingFragment.ONBOARDING_KEY, OnboardingFragment.ONBOARDING_INSTRUCTION_SET)
-                }
-                viewModel.navigate(R.id.action_waitSessionFragment_to_onboardingFragment, bundle)
+            if (userAdapter.itemCount < MIN_USER_TO_START_2) {
+                showAttentionBanner()
             } else {
-                viewModel.navigate(R.id.action_waitSessionFragment_to_selectMovieFragment)
+                if (viewModel.isFirstTimeLaunch()) {
+                    viewModel.markFirstTimeLaunch()
+                    val bundle = Bundle().apply {
+                        putInt(
+                            OnboardingFragment.ONBOARDING_KEY,
+                            OnboardingFragment.ONBOARDING_INSTRUCTION_SET
+                        )
+                    }
+                    viewModel.navigate(
+                        R.id.action_waitSessionFragment_to_onboardingFragment,
+                        bundle
+                    )
+                } else {
+                    viewModel.navigate(R.id.action_waitSessionFragment_to_selectMovieFragment)
+                }
             }
         }
+    }
+
+    private fun showAttentionBanner() {
+        updateBanner(getString(R.string.wait_session_min_two_user), BannerView.ATTENTION)
+        showBanner()
     }
 
     private fun updateBanner(text: String, type: Int) {
@@ -181,5 +196,6 @@ class WaitSessionFragment : BaseFragment<FragmentWaitSessionBinding, WaitSession
     companion object {
         private const val SPACING_BETWEEN_RV_ITEMS_8_DP = 8
         private const val CUSTOM_DIALOG_TAG = "customDialog"
+        private const val MIN_USER_TO_START_2 = 2
     }
 }
