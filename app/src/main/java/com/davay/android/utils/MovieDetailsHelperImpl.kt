@@ -8,7 +8,7 @@ import coil.size.Scale
 import coil.transform.RoundedCornersTransformation
 import com.davai.uikit.TagView
 import com.davay.android.R
-import com.davay.android.domain.models.MovieDetails
+import com.davay.android.core.domain.models.MovieDetails
 import com.google.android.flexbox.FlexboxLayout
 
 /**

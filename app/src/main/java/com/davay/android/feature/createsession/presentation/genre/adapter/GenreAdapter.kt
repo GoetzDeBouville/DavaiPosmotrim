@@ -4,12 +4,12 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.davay.android.databinding.GenreItemBinding
-import com.davay.android.feature.createsession.domain.model.Genre
+import com.davay.android.feature.createsession.domain.model.GenreSelect
 
 class GenreAdapter(private val clickListener: ItemClickListener) :
     RecyclerView.Adapter<GenreViewHolder>() {
 
-    private val itemList: MutableList<Genre> = mutableListOf()
+    private val itemList: MutableList<GenreSelect> = mutableListOf()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): GenreViewHolder {
         val inflater = LayoutInflater.from(parent.context)
@@ -25,11 +25,11 @@ class GenreAdapter(private val clickListener: ItemClickListener) :
         holder.bind(itemList[position])
     }
 
-    fun addItemList(list: List<Genre>) {
+    fun addItemList(list: List<GenreSelect>) {
         itemList.addAll(list)
     }
 
     fun interface ItemClickListener {
-        fun onClick(genre: Genre)
+        fun onClick(genre: GenreSelect)
     }
 }

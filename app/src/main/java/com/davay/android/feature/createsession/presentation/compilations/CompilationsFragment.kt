@@ -6,9 +6,9 @@ import androidx.core.view.isVisible
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.davay.android.app.AppComponentHolder
 import com.davay.android.base.BaseFragment
 import com.davay.android.databinding.FragmentCompilationsBinding
+import com.davay.android.di.AppComponentHolder
 import com.davay.android.di.ScreenComponent
 import com.davay.android.feature.createsession.di.DaggerCreateSessionFragmentComponent
 import com.davay.android.feature.createsession.presentation.compilations.adapter.CompilationsAdapter
@@ -28,7 +28,6 @@ class CompilationsFragment : BaseFragment<FragmentCompilationsBinding, Compilati
     override fun diComponent(): ScreenComponent = DaggerCreateSessionFragmentComponent.builder()
         .appComponent(AppComponentHolder.getComponent())
         .build()
-
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

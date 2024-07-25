@@ -5,12 +5,12 @@ import androidx.core.view.isVisible
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.davai.extensions.dpToPx
-import com.davay.android.app.AppComponentHolder
 import com.davay.android.base.BaseFragment
+import com.davay.android.core.domain.models.ErrorType
+import com.davay.android.core.domain.models.Session
 import com.davay.android.databinding.FragmentMatchedSessionListBinding
+import com.davay.android.di.AppComponentHolder
 import com.davay.android.di.ScreenComponent
-import com.davay.android.domain.models.ErrorType
-import com.davay.android.domain.models.Session
 import com.davay.android.feature.sessionsmatched.di.DaggerMatchedSessionListFragmentComponent
 import com.davay.android.feature.sessionsmatched.presentation.adapters.SessionListAdapter
 import com.davay.android.feature.sessionsmatched.presentation.adapters.TopSpacingItemDecoration

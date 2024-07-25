@@ -1,7 +1,7 @@
 package com.davay.android.utils.presentation
 
 import com.davai.uikit.ErrorScreenView
-import com.davay.android.domain.models.ErrorScreenState
+import com.davay.android.core.domain.models.ErrorScreenState
 
 /**
  * UiErrorHandler необходим для обработки отображения ошибок, чтобы не дублировать код в каждом фрагменте.

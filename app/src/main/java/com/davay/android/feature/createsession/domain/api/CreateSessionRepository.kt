@@ -1,10 +1,12 @@
 package com.davay.android.feature.createsession.domain.api
 
-import com.davay.android.domain.models.CompilationFilms
-import com.davay.android.domain.models.Genre
-import com.davay.android.utils.network.Resource
+import com.davay.android.core.domain.models.CompilationFilms
+import com.davay.android.core.domain.models.ErrorType
+import com.davay.android.core.domain.models.Genre
+import com.davay.android.core.domain.models.Result
+import kotlinx.coroutines.flow.Flow
 
 interface CreateSessionRepository {
-    suspend fun getGenres(): Resource<List<Genre>>
-    suspend fun getCollections(): Resource<List<CompilationFilms>>
+    fun getCollections(): Flow<Result<List<CompilationFilms>, ErrorType>>
+    fun getGenres(): Flow<Result<List<Genre>, ErrorType>>
 }

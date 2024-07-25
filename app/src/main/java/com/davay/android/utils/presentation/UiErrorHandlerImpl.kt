@@ -6,7 +6,7 @@ import android.content.Intent
 import android.net.Uri
 import android.util.Log
 import com.davai.uikit.ErrorScreenView
-import com.davay.android.domain.models.ErrorScreenState
+import com.davay.android.core.domain.models.ErrorScreenState
 
 class UiErrorHandlerImpl : UiErrorHandler {
     override fun handleError(

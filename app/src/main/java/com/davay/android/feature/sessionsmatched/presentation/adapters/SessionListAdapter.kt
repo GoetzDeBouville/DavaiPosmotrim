@@ -4,9 +4,9 @@ import android.icu.text.SimpleDateFormat
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.davay.android.core.domain.models.Session
+import com.davay.android.core.domain.models.timeStamp
 import com.davay.android.databinding.ItemSessionBinding
-import com.davay.android.domain.models.Session
-import com.davay.android.domain.models.timeStamp
 import java.util.Date
 import java.util.Locale
 

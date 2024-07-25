@@ -4,8 +4,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.davay.android.core.domain.models.MovieDetails
 import com.davay.android.databinding.ItemSwipeableMovieCardBinding
-import com.davay.android.domain.models.MovieDetails
 
 class CarouselAdapter :
     RecyclerView.Adapter<FilmViewHolder>() {

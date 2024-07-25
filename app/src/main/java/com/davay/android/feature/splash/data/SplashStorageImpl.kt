@@ -1,7 +1,7 @@
 package com.davay.android.feature.splash.data
 
 import android.content.SharedPreferences
-import com.davay.android.app.core.feature.introduction.domain.FirstTimeFlagStorage
+import com.davay.android.core.domain.lounchcontrol.api.FirstTimeFlagStorage
 
 class SplashStorageImpl(
     private val sharedPreferences: SharedPreferences

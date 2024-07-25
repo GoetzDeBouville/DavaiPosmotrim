@@ -3,7 +3,7 @@ package com.davay.android.feature.matchedsession.presentation.adapter
 import android.annotation.SuppressLint
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.davay.android.domain.models.MovieDetails
+import com.davay.android.core.domain.models.MovieDetails
 
 class MoviesGridAdapter(
     private val onItemClicked: (Int) -> Unit,

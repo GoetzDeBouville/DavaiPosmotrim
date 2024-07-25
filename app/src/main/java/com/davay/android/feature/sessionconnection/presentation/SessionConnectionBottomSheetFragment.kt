@@ -11,9 +11,9 @@ import androidx.core.widget.doAfterTextChanged
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.davay.android.R
-import com.davay.android.app.AppComponentHolder
 import com.davay.android.base.BaseBottomSheetFragment
 import com.davay.android.databinding.FragmentSessionConnectionBinding
+import com.davay.android.di.AppComponentHolder
 import com.davay.android.di.ScreenComponent
 import com.davay.android.feature.sessionconnection.di.DaggerSessionConnectionFragmentComponent
 import com.google.android.material.bottomsheet.BottomSheetBehavior

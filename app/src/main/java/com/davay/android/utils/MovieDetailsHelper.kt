@@ -3,7 +3,7 @@ package com.davay.android.utils
 import android.content.Context
 import android.widget.ImageView
 import android.widget.TextView
-import com.davay.android.domain.models.MovieDetails
+import com.davay.android.core.domain.models.MovieDetails
 import com.google.android.flexbox.FlexboxLayout
 
 interface MovieDetailsHelper {

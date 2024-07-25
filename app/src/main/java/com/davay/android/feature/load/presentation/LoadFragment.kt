@@ -6,13 +6,13 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.davay.android.R
-import com.davay.android.app.AppComponentHolder
 import com.davay.android.base.BaseFragment
+import com.davay.android.core.domain.models.Session
+import com.davay.android.core.domain.models.SessionStatus
+import com.davay.android.core.domain.models.User
 import com.davay.android.databinding.FragmentLoadBinding
+import com.davay.android.di.AppComponentHolder
 import com.davay.android.di.ScreenComponent
-import com.davay.android.domain.models.Session
-import com.davay.android.domain.models.SessionStatus
-import com.davay.android.domain.models.User
 import com.davay.android.feature.load.di.DaggerLoadFragmentComponent
 import com.davay.android.feature.matchedsession.presentation.MatchedSessionFragment
 import com.davay.android.feature.onboarding.presentation.OnboardingFragment

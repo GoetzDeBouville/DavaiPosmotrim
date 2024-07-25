@@ -6,10 +6,10 @@ import androidx.navigation.fragment.findNavController
 import androidx.viewpager2.widget.ViewPager2.OnPageChangeCallback
 import com.davai.uikit.BannerView
 import com.davay.android.R
-import com.davay.android.app.AppComponentHolder
-import com.davay.android.app.MainActivity
 import com.davay.android.base.BaseFragment
+import com.davay.android.core.presentation.MainActivity
 import com.davay.android.databinding.FragmentCreateSessionBinding
+import com.davay.android.di.AppComponentHolder
 import com.davay.android.di.ScreenComponent
 import com.davay.android.feature.createsession.di.DaggerCreateSessionFragmentComponent
 import com.davay.android.feature.createsession.presentation.compilations.CompilationsFragment

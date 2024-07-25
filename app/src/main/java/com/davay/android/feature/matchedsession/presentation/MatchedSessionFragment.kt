@@ -8,9 +8,9 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import com.davai.extensions.dpToPx
-import com.davay.android.app.AppComponentHolder
 import com.davay.android.base.BaseFragment
 import com.davay.android.databinding.FragmentMatchedSessionBinding
+import com.davay.android.di.AppComponentHolder
 import com.davay.android.di.ScreenComponent
 import com.davay.android.feature.coincidences.presentation.UiState
 import com.davay.android.feature.matchedsession.di.DaggerMatchedSessionFragmentComponent
@@ -26,7 +26,9 @@ import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
 class MatchedSessionFragment :
-    BaseFragment<FragmentMatchedSessionBinding, MatchedSessionViewModel>(FragmentMatchedSessionBinding::inflate) {
+    BaseFragment<FragmentMatchedSessionBinding, MatchedSessionViewModel>(
+        FragmentMatchedSessionBinding::inflate
+    ) {
 
     override val viewModel: MatchedSessionViewModel by injectViewModel<MatchedSessionViewModel>()
     private val moviesGridAdapter = MoviesGridAdapter { movieId ->

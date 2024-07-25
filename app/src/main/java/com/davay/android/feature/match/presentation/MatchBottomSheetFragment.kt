@@ -8,8 +8,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.FrameLayout
 import androidx.lifecycle.lifecycleScope
+import com.davay.android.core.domain.models.MovieDetails
 import com.davay.android.databinding.FragmentMatchBottomSheetBinding
-import com.davay.android.domain.models.MovieDetails
 import com.davay.android.feature.sessionsmatched.presentation.animation.AnimationMatchDialog
 import com.davay.android.feature.sessionsmatched.presentation.animation.AnimationMatchDialogImpl
 import com.davay.android.utils.MovieDetailsHelper
