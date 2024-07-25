@@ -85,8 +85,8 @@ class CompilationsFragment : BaseFragment<FragmentCompilationsBinding, Compilati
     }
 
     private fun showProgressBar() = with(binding) {
-        errorMessage.isVisible = true
-        progressBar.isVisible = false
+        errorMessage.isVisible = false
+        progressBar.isVisible = true
         rvCompilations.isVisible = false
     }
 
