@@ -5,11 +5,9 @@ import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.widget.FrameLayout
 import android.widget.ImageView
-import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.annotation.AttrRes
 import androidx.annotation.StyleRes
-import androidx.core.content.ContextCompat
 import androidx.core.view.isGone
 import coil.load
 import coil.size.Scale
@@ -27,7 +25,7 @@ class MovieCardView @JvmOverloads constructor(
     private val ivMovieCover: ImageView by lazy {
         findViewById(R.id.iv_movie_cover)
     }
-    private val progressBar: ProgressBar by lazy {
+    private val progressBar: ProgressBarView by lazy {
         findViewById(R.id.progress_bar)
     }
 
@@ -62,51 +60,38 @@ class MovieCardView @JvmOverloads constructor(
     }
 
     fun setMovieCover(url: String) {
-        ivMovieCover.load(url) {
-            listener(
-                onStart = {
-                    progressBar.isGone = false
-                },
-                onSuccess = { _, result ->
-                    progressBar.isGone = true
-                    ivMovieCover.setImageDrawable(result.drawable)
-                },
-                onError = { _, _ ->
-                    progressBar.isGone = true
-                    ivMovieCover.setImageResource(R.drawable.placeholder_error_film_138)
-                }
-            ).scale(Scale.FIT)
-            transformations(
-                RoundedCornersTransformation()
-            ).crossfade(true)
+        if (url.isEmpty()) {
+            ivMovieCover.load(R.drawable.placeholder_error_80dp) {
+                transformations(RoundedCornersTransformation())
+                    .crossfade(true)
+            }
+            tvMovieTitle.isGone = true
+        } else {
+            ivMovieCover.load(url) {
+                listener(
+                    onStart = {
+                        progressBar.isGone = false
+                        tvMovieTitle.isGone = true
+                    },
+                    onSuccess = { _, result ->
+                        progressBar.isGone = true
+                        tvMovieTitle.isGone = false
+                        ivMovieCover.setImageDrawable(result.drawable)
+                    },
+                    onError = { _, _ ->
+                        tvMovieTitle.isGone = false
+                        progressBar.isGone = true
+                        ivMovieCover.setImageResource(R.drawable.placeholder_error_80dp)
+                    }
+                ).scale(Scale.FIT)
+                transformations(
+                    RoundedCornersTransformation()
+                ).crossfade(true)
+            }
         }
     }
 
     fun setMovieTitle(title: String) {
         tvMovieTitle.text = title
-    }
-
-    fun setMovieCoverForMatchedSession(url: String) {
-        ivMovieCover.load(url) {
-            listener(
-                onStart = {
-                    progressBar.isGone = false
-                },
-                onSuccess = { _, result ->
-                    progressBar.isGone = true
-                    ivMovieCover.setImageDrawable(result.drawable)
-                    scale(Scale.FIT)
-                },
-                onError = { _, _ ->
-                    progressBar.isGone = true
-                    ivMovieCover.setImageResource(R.drawable.placeholder_general_w163)
-                    tvMovieTitle.background = null
-                    tvMovieTitle.setTextColor(ContextCompat.getColor(context, R.color.text_headings))
-                }
-            ).scale(Scale.FIT)
-            transformations(
-                RoundedCornersTransformation()
-            ).crossfade(true)
-        }
     }
 }
