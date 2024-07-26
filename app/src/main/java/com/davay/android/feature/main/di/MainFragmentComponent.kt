@@ -6,7 +6,7 @@ import dagger.Component
 
 @Component(
     dependencies = [AppComponent::class],
-    modules = [MainFragmentModule::class]
+    modules = [MainFragmentModule::class, MainDataModule::class]
 )
 interface MainFragmentComponent : ScreenComponent {
 

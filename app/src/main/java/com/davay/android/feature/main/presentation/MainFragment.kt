@@ -26,7 +26,7 @@ class MainFragment :
 
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
-        outState.putString(USER_NAME_KEY, binding.userName.text.toString())
+        outState.putString(USER_NAME_KEY, viewModel.getUserName())
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -36,7 +36,7 @@ class MainFragment :
         binding.favorite.setState(MainScreenButtonView.FAVORITE)
         binding.joinSession.setState(MainScreenButtonView.JOIN)
 
-        binding.userName.text = savedInstanceState?.getString(USER_NAME_KEY) ?: "Артём"
+        binding.userName.text = viewModel.getUserName()
         binding.createSession.setOnClickListener {
             createSession()
         }
