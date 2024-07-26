@@ -1,9 +1,9 @@
 package com.davay.android.feature.matchedsession.di
 
 import android.content.Context
-import com.davay.android.base.usecases.GetData
 import com.davay.android.domain.models.ErrorType
 import com.davay.android.domain.models.MovieDetails
+import com.davay.android.domain.usecases.GetData
 import com.davay.android.feature.coincidences.data.TestMovieRepository
 import dagger.Module
 import dagger.Provides

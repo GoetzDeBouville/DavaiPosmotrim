@@ -1,4 +1,4 @@
-package com.davay.android.base.usecases
+package com.davay.android.domain.usecases
 
 import com.davay.android.utils.Result
 

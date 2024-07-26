@@ -63,6 +63,7 @@ dependencies {
     implementation(libs.room.runtime)
     ksp(libs.room.compiler)
     implementation(libs.room.ktx)
+    implementation(libs.encrypted.sharedpreferences)
 
     implementation(project(":uikit"))
 }
