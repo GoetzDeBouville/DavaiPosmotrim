@@ -60,6 +60,9 @@ dependencies {
     implementation(libs.flexbox)
     implementation(libs.circle.indicator)
     implementation(libs.physicslayout)
+    implementation(libs.room.runtime)
+    ksp(libs.room.compiler)
+    implementation(libs.room.ktx)
     implementation(libs.encrypted.sharedpreferences)
 
     implementation(project(":uikit"))

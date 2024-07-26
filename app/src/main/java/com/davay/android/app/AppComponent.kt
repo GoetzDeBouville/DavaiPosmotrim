@@ -5,6 +5,8 @@ import android.content.Context
 import android.content.SharedPreferences
 import com.davay.android.core.di.storage.marker.StorageMarker
 import com.davay.android.core.di.storage.model.PreferencesStorage
+import com.davay.android.data.database.AppDatabase
+import com.davay.android.data.di.DatabaseModule
 import com.davay.android.data.di.NetworkModule
 import com.davay.android.di.ComponentHolderMode
 import com.davay.android.di.ContextModule
@@ -16,11 +18,12 @@ import dagger.Component
 import retrofit2.Retrofit
 
 @Component(
-    modules = [NetworkModule::class, ContextModule::class, EncryptedSharedPreferencesModule::class]
+    modules = [NetworkModule::class, ContextModule::class, DatabaseModule::class, EncryptedSharedPreferencesModule::class]
 )
 interface AppComponent : DIComponent {
     val retrofit: Retrofit
     val context: Context
+    val dataBase: AppDatabase
     @StorageMarker(PreferencesStorage.USER)
     fun encryptedSharedPreferences(): SharedPreferences
 
