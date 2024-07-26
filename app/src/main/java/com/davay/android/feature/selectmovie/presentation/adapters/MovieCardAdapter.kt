@@ -29,7 +29,7 @@ class MovieCardAdapter(
 
         fun bind(data: MovieDetails) = with(binding) {
             inflateMovieDetails.invoke(data)
-            movieDetailsHelper.setImage(ivSelectMovieCover, data.imgUrl)
+            movieDetailsHelper.setImage(ivSelectMovieCover, progressBar, data.imgUrl)
             movieDetailsHelper.addGenreList(fblGenreList, data.genres)
             movieDetailsHelper.setRateText(tvMarkValue, data.ratingKinopoisk)
             tvFilmTitle.text = data.name

@@ -28,7 +28,7 @@ class FilmViewHolder(private val binding: ItemSwipeableMovieCardBinding, parentW
                 binding.root.context
             )
 
-        movieDetailsHelper.setImage(binding.ivSelectMovieCover, film.imgUrl)
+        movieDetailsHelper.setImage(binding.ivSelectMovieCover, binding.progressBar, film.imgUrl)
         movieDetailsHelper.setRateText(
             binding.tvMarkValue,
             film.ratingKinopoisk,
