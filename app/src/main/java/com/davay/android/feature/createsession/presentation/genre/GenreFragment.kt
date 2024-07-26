@@ -56,20 +56,6 @@ class GenreFragment : BaseFragment<FragmentGenreBinding, GenreViewModel>(
             alignItems = AlignItems.FLEX_START
         }
         binding.rvGenre.layoutManager = layoutManager
-
-        // временно для теста
-//        genreAdapter.addItemList(
-//            listOf(
-//                GenreSelect(1, "Ужасы"),
-//                GenreSelect(1, "Комедия"),
-//                GenreSelect(1, "Боевик"),
-//                GenreSelect(1, "Ужасы2"),
-//                GenreSelect(1, "Ужасы3"),
-//                GenreSelect(1, "Боевик2"),
-//                GenreSelect(1, "Ужасы4"),
-//                GenreSelect(1, "Комедия2")
-//            )
-//        )
     }
 
     private fun renderState(state: GenreState) {
@@ -112,6 +98,7 @@ class GenreFragment : BaseFragment<FragmentGenreBinding, GenreViewModel>(
         progressBar.isVisible = true
         rvGenre.isVisible = false
     }
+
     companion object {
         fun newInstance() = GenreFragment()
     }

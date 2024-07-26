@@ -30,9 +30,9 @@ class GenreViewModel @Inject constructor(
         getGenreList()
     }
 
-   private fun getGenreList() {
+    private fun getGenreList() {
         _state.update { GenreState.Loading }
-       runSafelyUseCase(
+        runSafelyUseCase(
             useCaseFlow = getGenresUseCase.execute(),
             onSuccess = { genres ->
                 if (genres.isEmpty()) {
@@ -99,8 +99,8 @@ class GenreViewModel @Inject constructor(
 
     private fun Genre.toGenre() = GenreSelect(
         name = this.name,
-       isSelected = false
-        )
+        isSelected = false
+    )
 
     private companion object {
         val TAG = GenreViewModel::class.simpleName
