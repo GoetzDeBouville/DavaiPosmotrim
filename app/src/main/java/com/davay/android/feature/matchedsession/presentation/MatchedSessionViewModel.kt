@@ -3,44 +3,29 @@ package com.davay.android.feature.matchedsession.presentation
 import androidx.lifecycle.viewModelScope
 import com.davay.android.base.BaseViewModel
 import com.davay.android.domain.models.ErrorType
-import com.davay.android.domain.models.MovieDetails
-import com.davay.android.domain.usecases.GetData
-import com.davay.android.feature.coincidences.di.GET_TEST_MOVIE_USE_CASE
-import com.davay.android.feature.coincidences.presentation.UiState
-import kotlinx.coroutines.Dispatchers
+import com.davay.android.feature.matchedsession.domain.SessionWithMoviesRepository
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
-import javax.inject.Named
-
-// Скопировано из совпадений, чисто для отображения. Потом сменить на правильное
 
 class MatchedSessionViewModel @Inject constructor(
-    @Named(GET_TEST_MOVIE_USE_CASE)
-    private val getData: GetData<MovieDetails, ErrorType>
+    private val sessionWithMoviesRepository: SessionWithMoviesRepository
 ) : BaseViewModel() {
 
-    private val _state: MutableStateFlow<UiState> = MutableStateFlow(UiState.Empty)
+    private val _state: MutableStateFlow<MatchedSessionState> =
+        MutableStateFlow(MatchedSessionState.Loading)
     val state = _state.asStateFlow()
 
-    init {
-        getCoincidences()
-    }
-
-    private fun getCoincidences() {
-        viewModelScope.launch(Dispatchers.IO) {
-            _state.emit(UiState.Loading)
-
-            getData.getData().fold(
-                onSuccess = { movies ->
-                    _state.value =
-                        if (movies.isEmpty()) UiState.Empty else UiState.Data(data = movies)
-                },
-                onError = { errorType ->
-                    _state.value = UiState.Error(errorType)
-                }
-            )
+    fun getSessionData(sessionId: String) {
+        _state.value = MatchedSessionState.Loading
+        viewModelScope.launch {
+            val pair = sessionWithMoviesRepository.getSessionWithMovies(sessionId)
+            if (pair == null) {
+                _state.value = MatchedSessionState.Error(ErrorType.NOT_FOUND)
+            } else {
+                _state.value = MatchedSessionState.Data(session = pair.first, movies = pair.second)
+            }
         }
     }
 }

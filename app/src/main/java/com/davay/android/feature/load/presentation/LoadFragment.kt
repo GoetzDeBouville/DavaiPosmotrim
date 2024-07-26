@@ -86,13 +86,9 @@ class LoadFragment : BaseFragment<FragmentLoadBinding, LoadViewModel>(
         val bundle =
             Bundle().apply {
                 putString(
-                    MatchedSessionFragment.SUBTITLE,
-                    "${getString(R.string.session_list_name)} ${session.id}"
+                    MatchedSessionFragment.SESSION_ID,
+                    "qwer123"
                 )
-                val users = session.users.map { it.name }.toTypedArray()
-                putStringArray(MatchedSessionFragment.USERS, users)
-                val formater = SimpleDateFormat("dd MMMM", Locale.getDefault())
-                putString(MatchedSessionFragment.DATE, formater.format(session.date))
             }
         viewModel.navigate(
             R.id.action_loadFragment_to_matchedSessionFragment,
