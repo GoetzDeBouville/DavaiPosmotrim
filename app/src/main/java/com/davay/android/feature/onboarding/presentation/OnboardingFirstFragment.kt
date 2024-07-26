@@ -9,7 +9,17 @@ import android.widget.TextView
 import androidx.fragment.app.Fragment
 import com.davay.android.R
 
-class OnboardingFirstFragment(private val contentIds: IntArray) : Fragment() {
+class OnboardingFirstFragment : Fragment() {
+
+    private var contentIds: IntArray? = null
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        arguments?.let {
+            contentIds = it.getIntArray(ARG_CONTENT_IDS)
+        }
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -24,8 +34,22 @@ class OnboardingFirstFragment(private val contentIds: IntArray) : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        view.findViewById<TextView>(R.id.tv_top_title).setText(contentIds[0])
-        view.findViewById<ImageView>(R.id.iv_main_image).setImageResource(contentIds[1])
-        view.findViewById<TextView>(R.id.tv_bottom_title).setText(contentIds[2])
+        contentIds?.let {
+            view.findViewById<TextView>(R.id.tv_top_title).setText(it[0])
+            view.findViewById<ImageView>(R.id.iv_main_image).setImageResource(it[1])
+            view.findViewById<TextView>(R.id.tv_bottom_title).setText(it[2])
+        }
+    }
+
+    companion object {
+        private const val ARG_CONTENT_IDS = "content_ids"
+
+        @JvmStatic
+        fun newInstance(contentIds: IntArray) =
+            OnboardingFirstFragment().apply {
+                arguments = Bundle().apply {
+                    putIntArray(ARG_CONTENT_IDS, contentIds)
+                }
+            }
     }
 }
