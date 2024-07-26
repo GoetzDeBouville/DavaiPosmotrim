@@ -11,8 +11,11 @@ class CompilationsViewHolder(
     fun bind(compilation: CompilationSelect) = with(binding.root) {
         setThemeTitle(compilation.name)
         setThemeCover(compilation.cover)
+        setSelectedState(compilation.isSelected)
+
         setOnClickListener {
-            compilation.isSelected = switchSelection()
+            compilation.isSelected = !compilation.isSelected
+            setSelectedState(compilation.isSelected)
             clickListener.onClick(compilation)
         }
     }
