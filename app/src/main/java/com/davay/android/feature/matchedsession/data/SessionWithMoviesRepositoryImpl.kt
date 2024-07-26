@@ -6,16 +6,20 @@ import com.davay.android.data.database.HistoryDao
 import com.davay.android.domain.models.MovieDetails
 import com.davay.android.domain.models.Session
 import com.davay.android.feature.matchedsession.domain.SessionWithMoviesRepository
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 class SessionWithMoviesRepositoryImpl @Inject constructor(
     private val historyDao: HistoryDao
 ) : SessionWithMoviesRepository {
     override suspend fun getSessionWithMovies(sessionId: String): Pair<Session, List<MovieDetails>>? =
-        historyDao.getSessionWithMovies(sessionId)?.let {
-            Pair(
-                it.getDomainSession(),
-                it.getDomainMovies()
-            )
+        withContext(Dispatchers.IO) {
+            historyDao.getSessionWithMovies(sessionId)?.let {
+                Pair(
+                    it.getDomainSession(),
+                    it.getDomainMovies()
+                )
+            }
         }
 }
