@@ -32,7 +32,9 @@ class UiErrorHandlerImpl : UiErrorHandler {
             if (action == null) {
                 openAppInPlayStore(errorLayout.context)
             } else {
-                action.invoke()
+                setButtonClickListener {
+                    action.invoke()
+                }
             }
         }
     }
