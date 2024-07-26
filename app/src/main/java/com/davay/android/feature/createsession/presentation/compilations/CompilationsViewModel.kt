@@ -20,4 +20,9 @@ class CompilationsViewModel @Inject constructor() : BaseViewModel() {
     fun buttonContinueClicked() {
         Log.d("MyTag", selectedCompilations.toString())
     }
+
+    // Метод для проверки, выбрана ли хотя бы одна подборка
+    fun hasSelectedCompilations(): Boolean {
+        return selectedCompilations.isNotEmpty()
+    }
 }

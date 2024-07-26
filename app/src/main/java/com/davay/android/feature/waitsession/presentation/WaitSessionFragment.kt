@@ -6,17 +6,17 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
-import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
-import androidx.navigation.fragment.findNavController
 import com.davai.extensions.dpToPx
+import com.davai.uikit.BannerView
 import com.davai.uikit.ButtonView
 import com.davai.uikit.MainDialogFragment
 import com.davay.android.R
 import com.davay.android.app.AppComponentHolder
+import com.davay.android.app.MainActivity
 import com.davay.android.base.BaseFragment
 import com.davay.android.databinding.FragmentWaitSessionBinding
 import com.davay.android.di.ScreenComponent
@@ -92,7 +92,7 @@ class WaitSessionFragment : BaseFragment<FragmentWaitSessionBinding, WaitSession
             title = getString(R.string.leave_wait_session_title),
             message = getString(R.string.leave_wait_session_dialog_message),
             yesAction = {
-                findNavController().popBackStack()
+                viewModel.navigate(R.id.action_waitSessionFragment_to_mainFragment)
             }
         )
     }
@@ -110,13 +110,16 @@ class WaitSessionFragment : BaseFragment<FragmentWaitSessionBinding, WaitSession
         val clipboard =
             requireContext().getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
         val clip = ClipData.newPlainText(
-            ContextCompat.getString(requireContext(), R.string.wait_session_copy_button_label),
+            ContextCompat.getString(requireContext(), R.string.wait_session_copy_button_toast_text),
             text
         )
         clipboard.setPrimaryClip(clip)
 
-        Toast.makeText(context, R.string.wait_session_copy_button_toast_text, Toast.LENGTH_SHORT)
-            .show()
+        updateBanner(
+            getString(R.string.wait_session_copy_button_text),
+            BannerView.SUCCESS
+        )
+        showBanner()
     }
 
     private fun sendCode(text: String) {
@@ -154,20 +157,45 @@ class WaitSessionFragment : BaseFragment<FragmentWaitSessionBinding, WaitSession
             dialog?.show(parentFragmentManager, CUSTOM_DIALOG_TAG)
         }
         binding.startSessionButton.setOnClickListener {
-            if (viewModel.isFirstTimeLaunch()) {
-                viewModel.markFirstTimeLaunch()
-                val bundle = Bundle().apply {
-                    putInt(OnboardingFragment.ONBOARDING_KEY, OnboardingFragment.ONBOARDING_INSTRUCTION_SET)
-                }
-                viewModel.navigate(R.id.action_waitSessionFragment_to_onboardingFragment, bundle)
+            if (userAdapter.itemCount < MIN_USER_TO_START_2) {
+                showAttentionBanner()
             } else {
-                viewModel.navigate(R.id.action_waitSessionFragment_to_selectMovieFragment)
+                if (viewModel.isFirstTimeLaunch()) {
+                    viewModel.markFirstTimeLaunch()
+                    val bundle = Bundle().apply {
+                        putInt(
+                            OnboardingFragment.ONBOARDING_KEY,
+                            OnboardingFragment.ONBOARDING_INSTRUCTION_SET
+                        )
+                    }
+                    viewModel.navigate(
+                        R.id.action_waitSessionFragment_to_onboardingFragment,
+                        bundle
+                    )
+                } else {
+                    viewModel.navigate(R.id.action_waitSessionFragment_to_selectMovieFragment)
+                }
             }
         }
+    }
+
+    private fun showAttentionBanner() {
+        updateBanner(getString(R.string.wait_session_min_two_user), BannerView.ATTENTION)
+        showBanner()
+    }
+
+    private fun updateBanner(text: String, type: Int) {
+        (requireActivity() as MainActivity).updateBanner(text, type)
+    }
+
+    private fun showBanner() {
+        val activity = requireActivity() as? MainActivity
+        activity?.showBanner()
     }
 
     companion object {
         private const val SPACING_BETWEEN_RV_ITEMS_8_DP = 8
         private const val CUSTOM_DIALOG_TAG = "customDialog"
+        private const val MIN_USER_TO_START_2 = 2
     }
 }
