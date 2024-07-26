@@ -8,7 +8,7 @@ import com.davay.android.domain.models.MovieDetails
 class MoviesGridViewHolder(private val view: MovieCardView) : RecyclerView.ViewHolder(view) {
 
     fun bind(movie: MovieDetails) = with(view) {
-        setMovieCoverForMatchedSession(movie.imgUrl ?: "")
+        setMovieCover(movie.imgUrl ?: "")
         setMovieTitle(movie.name)
     }
 

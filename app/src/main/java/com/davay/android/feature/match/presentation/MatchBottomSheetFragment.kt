@@ -141,7 +141,7 @@ class MatchBottomSheetFragment(private val action: (() -> Unit)? = null) :
 
     private fun fillData(data: MovieDetails) {
         binding.matchMovieCard.apply {
-            movieDetailsHelper.setImage(ivSelectMovieCover, data.imgUrl)
+            movieDetailsHelper.setImage(ivSelectMovieCover, progressBar, data.imgUrl)
             movieDetailsHelper.addGenreList(fblGenreList, data.genres)
             tvFilmTitle.text = data.name
             tvOriginalTitle.text = data.alternativeName ?: ""

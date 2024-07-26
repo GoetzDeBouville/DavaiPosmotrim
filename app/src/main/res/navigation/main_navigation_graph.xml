@@ -126,7 +126,11 @@
         android:id="@+id/createSessionFragment"
         android:name="com.davay.android.feature.createsession.presentation.createsession.CreateSessionFragment"
         android:label="fragment_create_session"
-        tools:layout="@layout/fragment_create_session" />
+        tools:layout="@layout/fragment_create_session" >
+        <action
+            android:id="@+id/action_createSessionFragment_to_waitSessionFragment"
+            app:destination="@id/waitSessionFragment" />
+    </fragment>
     <fragment
         android:id="@+id/rouletteFragment"
         android:name="com.davay.android.feature.roulette.presentation.RouletteFragment"
@@ -142,6 +146,9 @@
         <action
             android:id="@+id/action_waitSessionFragment_to_selectMovieFragment"
             app:destination="@id/selectMovieFragment" />
+        <action
+            android:id="@+id/action_waitSessionFragment_to_mainFragment"
+            app:destination="@id/mainFragment" />
     </fragment>
 
     <fragment
