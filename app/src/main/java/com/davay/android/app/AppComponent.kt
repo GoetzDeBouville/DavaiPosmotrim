@@ -2,6 +2,8 @@ package com.davay.android.app
 
 import android.app.Application
 import android.content.Context
+import com.davay.android.data.database.AppDatabase
+import com.davay.android.data.di.DatabaseModule
 import com.davay.android.data.di.NetworkModule
 import com.davay.android.di.ComponentHolderMode
 import com.davay.android.di.ContextModule
@@ -12,11 +14,12 @@ import dagger.Component
 import retrofit2.Retrofit
 
 @Component(
-    modules = [NetworkModule::class, ContextModule::class]
+    modules = [NetworkModule::class, ContextModule::class, DatabaseModule::class]
 )
 interface AppComponent : DIComponent {
     val retrofit: Retrofit
     val context: Context
+    val dataBase: AppDatabase
 
     @Component.Builder
     interface Builder {
