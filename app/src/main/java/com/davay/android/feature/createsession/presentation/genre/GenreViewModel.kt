@@ -30,7 +30,7 @@ class GenreViewModel @Inject constructor(
         getGenreList()
     }
 
-    private fun getGenreList() {
+    fun getGenreList() {
         _state.update { GenreState.Loading }
         runSafelyUseCase(
             useCaseFlow = getGenresUseCase.execute(),
@@ -38,8 +38,8 @@ class GenreViewModel @Inject constructor(
                 if (genres.isEmpty()) {
                     _state.update { GenreState.Error(ErrorScreenState.EMPTY) }
                 } else {
-                    val genre = genres.map { it.toGenre() }
-                    _state.update { GenreState.Content(genre) }
+                    val genres = genres.map { it.toGenre() }
+                    _state.update { GenreState.Content(genres) }
                 }
             },
             onFailure = { error ->
