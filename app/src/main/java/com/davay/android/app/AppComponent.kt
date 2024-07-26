@@ -18,12 +18,18 @@ import dagger.Component
 import retrofit2.Retrofit
 
 @Component(
-    modules = [NetworkModule::class, ContextModule::class, DatabaseModule::class, EncryptedSharedPreferencesModule::class]
+    modules = [
+        NetworkModule::class,
+        ContextModule::class,
+        DatabaseModule::class,
+        EncryptedSharedPreferencesModule::class
+    ]
 )
 interface AppComponent : DIComponent {
     val retrofit: Retrofit
     val context: Context
     val dataBase: AppDatabase
+
     @StorageMarker(PreferencesStorage.USER)
     fun encryptedSharedPreferences(): SharedPreferences
 
