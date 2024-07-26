@@ -21,6 +21,7 @@ retrofit = "2.11.0"
 ksp = "1.9.22-1.0.17"
 dagger = "2.50"
 nav_version = "2.7.7"
+room_version = "2.6.1"
 
 detekt = "1.23.3"
 
@@ -29,6 +30,8 @@ flexbox = "3.0.0"
 circle_indicator = "2.1.6"
 
 physicslayout = "3.0.2"
+
+encrypted_sharedpreferences = "1.0.0"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -48,8 +51,13 @@ navigation-ui = { group = "androidx.navigation", name = "navigation-ui-ktx", ver
 coil = { group = "io.coil-kt", name = "coil", version.ref = "coil" }
 flexbox = { group = "com.google.android.flexbox", name = "flexbox", version.ref = "flexbox" }
 circle-indicator = { group = "me.relex", name = "circleindicator", version.ref = "circle_indicator" }
+room-runtime = { group = "androidx.room", name = "room-runtime", version.ref = "room_version" }
+room-compiler = { group = "androidx.room", name = "room-compiler", version.ref = "room_version" }
+room-ktx = { group = "androidx.room", name = "room-ktx", version.ref = "room_version" }
 
 physicslayout = { module = "com.jawnnypoo:physicslayout", version.ref = "physicslayout" }
+
+encrypted-sharedpreferences = { group = "androidx.security", name = "security-crypto", version.ref = "encrypted_sharedpreferences" }
 
 # Detekt
 staticAnalysis-detektCli = { module = "io.gitlab.arturbosch.detekt:detekt-cli", version.ref = "detekt" }

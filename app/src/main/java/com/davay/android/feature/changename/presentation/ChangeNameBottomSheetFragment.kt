@@ -26,7 +26,6 @@ class ChangeNameBottomSheetFragment :
     ) {
 
     private var bottomSheetBehavior: BottomSheetBehavior<View>? = null
-    private var name: String? = null
 
     override val viewModel: ChangeNameViewModel by injectViewModel<ChangeNameViewModel>()
 
@@ -34,25 +33,13 @@ class ChangeNameBottomSheetFragment :
         .appComponent(AppComponentHolder.getComponent())
         .build()
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        arguments?.let {
-            name = it.getString(ARG_NAME)
-        }
-        savedInstanceState?.let {
-            name = it.getString(ARG_NAME)
-        }
-    }
-
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog =
         makeDialogWithKeyboard(savedInstanceState)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        name?.let {
-            binding.etName.setText(it)
-        }
+        binding.etName.setText(viewModel.getNameofUser())
 
         lifecycleScope.launch {
             viewModel.state.collect { stateHandle(it) }
