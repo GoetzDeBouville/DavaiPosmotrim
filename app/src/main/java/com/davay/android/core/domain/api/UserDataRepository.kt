@@ -1,4 +1,4 @@
-package com.davay.android.domain.repositories
+package com.davay.android.core.domain.api
 
 interface UserDataRepository {
     fun setUserName(userName: String)

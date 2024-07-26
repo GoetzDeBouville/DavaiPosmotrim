@@ -1,4 +1,4 @@
-package com.davay.android.data.database.entity
+package com.davay.android.core.data.database.entity
 
 import androidx.room.Embedded
 import androidx.room.Junction

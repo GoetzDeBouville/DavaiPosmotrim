@@ -1,13 +1,13 @@
-package com.davay.android.data.database
+package com.davay.android.core.data.database
 
 import androidx.room.Dao
 import androidx.room.Query
 import androidx.room.Transaction
 import androidx.room.Upsert
-import com.davay.android.data.database.entity.MovieDetailsEntity
-import com.davay.android.data.database.entity.SessionEntity
-import com.davay.android.data.database.entity.SessionMovieCrossRef
-import com.davay.android.data.database.entity.SessionWithMovies
+import com.davay.android.core.data.database.entity.MovieDetailsEntity
+import com.davay.android.core.data.database.entity.SessionEntity
+import com.davay.android.core.data.database.entity.SessionMovieCrossRef
+import com.davay.android.core.data.database.entity.SessionWithMovies
 
 @Dao
 interface HistoryDao {

@@ -1,8 +1,8 @@
-package com.davay.android.domain.impl
+package com.davay.android.core.domain.impl
 
-import com.davay.android.domain.models.UserDataFields
-import com.davay.android.domain.repositories.UserDataRepository
-import com.davay.android.domain.usecases.GetUserDataUseCase
+import com.davay.android.core.domain.api.UserDataRepository
+import com.davay.android.core.domain.models.UserDataFields
+import com.davay.android.core.domain.usecases.GetUserDataUseCase
 
 class GetUserDataUseCaseImpl(
     private val repository: UserDataRepository

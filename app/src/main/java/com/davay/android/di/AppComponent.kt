@@ -3,16 +3,11 @@ package com.davay.android.di
 import android.app.Application
 import android.content.Context
 import android.content.SharedPreferences
-import com.davay.android.core.di.storage.marker.StorageMarker
-import com.davay.android.core.di.storage.model.PreferencesStorage
-import com.davay.android.data.database.AppDatabase
-import com.davay.android.data.di.DatabaseModule
-import com.davay.android.data.di.NetworkModule
-import com.davay.android.di.ComponentHolderMode
-import com.davay.android.di.ContextModule
-import com.davay.android.di.DIComponent
-import com.davay.android.di.DataBasedComponentHolder
-import com.davay.android.di.EncryptedSharedPreferencesModule
+import com.davay.android.core.data.database.AppDatabase
+import com.davay.android.core.data.database.di.DatabaseModule
+import com.davay.android.core.data.di.NetworkModule
+import com.davay.android.di.prefs.marker.StorageMarker
+import com.davay.android.di.prefs.model.PreferencesStorage
 import dagger.BindsInstance
 import dagger.Component
 import io.ktor.client.HttpClient
@@ -26,7 +21,7 @@ import io.ktor.client.HttpClient
     ]
 )
 interface AppComponent : DIComponent {
-    val retrofit: Retrofit
+    val retrofit: HttpClient
     val context: Context
     val dataBase: AppDatabase
 

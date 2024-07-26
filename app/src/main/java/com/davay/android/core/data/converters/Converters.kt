@@ -1,5 +1,8 @@
 package com.davay.android.core.data.converters
 
+import com.davay.android.core.data.database.entity.MovieDetailsEntity
+import com.davay.android.core.data.database.entity.SessionEntity
+import com.davay.android.core.data.database.entity.SessionWithMovies
 import com.davay.android.core.data.dto.CollectionDto
 import com.davay.android.core.data.dto.GenreDto
 import com.davay.android.core.data.dto.MovieDetailsDto
@@ -14,9 +17,6 @@ import com.davay.android.core.domain.models.MovieDetails
 import com.davay.android.core.domain.models.Session
 import com.davay.android.core.domain.models.SessionStatus
 import com.davay.android.core.domain.models.User
-import com.davay.android.data.database.entity.MovieDetailsEntity
-import com.davay.android.data.database.entity.SessionEntity
-import com.davay.android.data.database.entity.SessionWithMovies
 import java.text.ParseException
 import java.text.SimpleDateFormat
 import java.util.Date

@@ -52,8 +52,8 @@ flexbox = { group = "com.google.android.flexbox", name = "flexbox", version.ref 
 circle-indicator = { group = "me.relex", name = "circleindicator", version.ref = "circle_indicator" }
 
 # DB
-room-runtime = { group = "androidx.room", name = "room-runtime", version.ref = "room_version" }
 room-compiler = { group = "androidx.room", name = "room-compiler", version.ref = "room_version" }
+room-runtime = { group = "androidx.room", name = "room-runtime", version.ref = "room_version" }
 room-ktx = { group = "androidx.room", name = "room-ktx", version.ref = "room_version" }
 
 physicslayout = { module = "com.jawnnypoo:physicslayout", version.ref = "physicslayout" }
@@ -87,6 +87,11 @@ ktor = [
     "ktor-serialization-kotlinx-json",
     "ktor-client-content-negotiation",
     "ktor-client-logging"
+]
+
+room = [
+    "room-runtime",
+    "room-ktx"
 ]
 
 [plugins]

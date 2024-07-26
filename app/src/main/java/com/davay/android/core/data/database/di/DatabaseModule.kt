@@ -1,8 +1,8 @@
-package com.davay.android.data.di
+package com.davay.android.core.data.database.di
 
 import android.content.Context
 import androidx.room.Room
-import com.davay.android.data.database.AppDatabase
+import com.davay.android.core.data.database.AppDatabase
 import dagger.Module
 import dagger.Provides
 

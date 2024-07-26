@@ -1,4 +1,4 @@
-package com.davay.android.domain.models
+package com.davay.android.core.domain.models
 
 sealed interface UserDataFields {
     data class UserId(val userId: String = "") : UserDataFields

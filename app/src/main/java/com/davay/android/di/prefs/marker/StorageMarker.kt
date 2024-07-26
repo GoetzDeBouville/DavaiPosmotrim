@@ -1,6 +1,6 @@
-package com.davay.android.core.di.storage.marker
+package com.davay.android.di.prefs.marker
 
-import com.davay.android.core.di.storage.model.PreferencesStorage
+import com.davay.android.di.prefs.model.PreferencesStorage
 import javax.inject.Qualifier
 
 @Target(

@@ -2,9 +2,9 @@ package com.davay.android.feature.changename.presentation
 
 import android.text.Editable
 import com.davay.android.base.BaseViewModel
-import com.davay.android.domain.models.UserDataFields
-import com.davay.android.domain.usecases.GetUserDataUseCase
-import com.davay.android.domain.usecases.SetUserDataUseCase
+import com.davay.android.core.domain.models.UserDataFields
+import com.davay.android.core.domain.usecases.GetUserDataUseCase
+import com.davay.android.core.domain.usecases.SetUserDataUseCase
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import javax.inject.Inject
