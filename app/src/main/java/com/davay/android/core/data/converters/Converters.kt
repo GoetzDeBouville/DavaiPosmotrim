@@ -1,4 +1,4 @@
-package com.davay.android.core.data.converters
+package com.davay.android.data.converters
 
 import com.davay.android.core.data.dto.CollectionDto
 import com.davay.android.core.data.dto.GenreDto
@@ -14,6 +14,13 @@ import com.davay.android.core.domain.models.MovieDetails
 import com.davay.android.core.domain.models.Session
 import com.davay.android.core.domain.models.SessionStatus
 import com.davay.android.core.domain.models.User
+import com.davay.android.data.database.entity.MovieDetailsEntity
+import com.davay.android.data.database.entity.SessionEntity
+import com.davay.android.data.database.entity.SessionWithMovies
+import com.davay.android.domain.models.MovieDetails
+import com.davay.android.domain.models.Session
+import com.davay.android.domain.models.SessionStatus
+import com.davay.android.domain.models.User
 import java.text.ParseException
 import java.text.SimpleDateFormat
 import java.util.Date
@@ -100,4 +107,81 @@ fun SessionStatusDto.toDomain(): SessionStatus {
         SessionStatusDto.CLOSED -> SessionStatus.CLOSED
         SessionStatusDto.ROULETTE -> SessionStatus.ROULETTE
     }
+}
+
+fun MovieDetailsEntity.toDomain(): MovieDetails {
+    return MovieDetails(
+        id = movieId,
+        name = name,
+        description = description,
+        year = year,
+        countries = countries?.toListData(),
+        imgUrl = imgUrl,
+        alternativeName = alternativeName,
+        ratingKinopoisk = ratingKinopoisk,
+        ratingImdb = ratingImdb,
+        numOfMarksKinopoisk = numOfMarksKinopoisk,
+        numOfMarksImdb = numOfMarksImdb,
+        duration = duration,
+        genres = genres.toListData(),
+        actors = actors?.toListData(),
+        directors = directors?.toListData()
+    )
+}
+
+fun SessionEntity.toDomain(): Session {
+    return Session(
+        id = sessionId,
+        users = users.toListData().mapIndexed { index, name -> User(index.toString(), name) },
+        numberOfMatchedMovies = numberOfMatchedMovies,
+        date = date,
+        status = SessionStatus.CLOSED,
+        imgUrl = imgUrl
+    )
+}
+
+fun SessionWithMovies.getDomainSession(): Session {
+    return session.toDomain()
+}
+
+fun SessionWithMovies.getDomainMovies(): List<MovieDetails> {
+    return movies.map { it.toDomain() }
+}
+
+fun MovieDetails.toDbEntity(): MovieDetailsEntity {
+    return MovieDetailsEntity(
+        movieId = id,
+        name = name,
+        description = description,
+        year = year,
+        countries = countries?.toStringData(),
+        imgUrl = imgUrl,
+        alternativeName = alternativeName,
+        ratingKinopoisk = ratingKinopoisk,
+        ratingImdb = ratingImdb,
+        numOfMarksKinopoisk = numOfMarksKinopoisk,
+        numOfMarksImdb = numOfMarksImdb,
+        duration = duration,
+        genres = genres.toStringData(),
+        actors = actors?.toStringData(),
+        directors = directors?.toStringData(),
+    )
+}
+
+fun Session.toDbEntity(): SessionEntity {
+    return SessionEntity(
+        sessionId = id,
+        users = users.map { it.name }.toStringData(),
+        numberOfMatchedMovies = numberOfMatchedMovies ?: 0,
+        date = date,
+        imgUrl = imgUrl
+    )
+}
+
+fun List<String>.toStringData(): String {
+    return joinToString(separator = ";")
+}
+
+fun String.toListData(): List<String> {
+    return split(";")
 }
