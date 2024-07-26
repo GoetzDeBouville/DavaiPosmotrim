@@ -3,8 +3,8 @@ package com.davay.android.feature.sessionsmatched.presentation.adapters
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.davay.android.core.domain.models.Session
 import com.davay.android.databinding.ItemSessionBinding
-import com.davay.android.domain.models.Session
 import com.davay.android.extensions.formatDate
 
 class SessionListAdapter(

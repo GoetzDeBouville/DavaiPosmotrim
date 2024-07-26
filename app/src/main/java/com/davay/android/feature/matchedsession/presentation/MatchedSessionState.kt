@@ -1,7 +1,7 @@
 package com.davay.android.feature.matchedsession.presentation
 
-import com.davay.android.domain.models.ErrorType
-import com.davay.android.domain.models.SessionWithMovies
+import com.davay.android.core.domain.models.ErrorType
+import com.davay.android.core.domain.models.SessionWithMovies
 
 sealed class MatchedSessionState {
 

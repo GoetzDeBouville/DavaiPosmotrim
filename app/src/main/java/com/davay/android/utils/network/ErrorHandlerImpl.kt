@@ -1,7 +1,7 @@
 package com.davay.android.utils.network
 
-import com.davay.android.data.network.ApiConstants
-import com.davay.android.domain.models.ErrorType
+import com.davay.android.core.data.network.ApiConstants
+import com.davay.android.core.domain.models.ErrorType
 import retrofit2.HttpException
 
 class ErrorHandlerImpl : ErrorHandler {

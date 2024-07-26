@@ -7,9 +7,9 @@ import com.davay.android.R
 import com.davay.android.app.AppComponentHolder
 import com.davay.android.base.BaseFragment
 import com.davay.android.base.BaseViewModel
+import com.davay.android.core.domain.models.MovieDetails
 import com.davay.android.databinding.FragmentSelectMovieBinding
 import com.davay.android.di.ScreenComponent
-import com.davay.android.domain.models.MovieDetails
 import com.davay.android.feature.moviecard.di.DaggerMovieCardFragmentComponent
 import com.davay.android.feature.selectmovie.presentation.AdditionalInfoInflater
 import com.davay.android.utils.MovieDetailsHelper
@@ -77,7 +77,7 @@ class MovieCardFragment :
 
     private fun fillCardData(data: MovieDetails) {
         binding.movieCard.apply {
-            movieDetailsHelper.setImage(ivSelectMovieCover, data.imgUrl)
+            movieDetailsHelper.setImage(ivSelectMovieCover, progressBar, data.imgUrl)
             movieDetailsHelper.addGenreList(fblGenreList, data.genres)
             tvFilmTitle.text = data.name
             tvOriginalTitle.text = data.alternativeName ?: ""

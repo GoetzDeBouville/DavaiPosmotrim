@@ -11,9 +11,9 @@ import androidx.recyclerview.widget.RecyclerView
 import com.davay.android.R
 import com.davay.android.app.AppComponentHolder
 import com.davay.android.base.BaseFragment
+import com.davay.android.core.domain.models.MovieDetails
 import com.davay.android.databinding.FragmentRouletteBinding
 import com.davay.android.di.ScreenComponent
-import com.davay.android.domain.models.MovieDetails
 import com.davay.android.feature.match.presentation.MatchBottomSheetFragment
 import com.davay.android.feature.roulette.di.DaggerRouletteFragmentComponent
 import com.davay.android.feature.roulette.presentation.carouselrecycler.CarouselAdapter

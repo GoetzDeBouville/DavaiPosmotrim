@@ -1,7 +1,7 @@
 package com.davay.android.feature.coincidences.presentation
 
-import com.davay.android.domain.models.ErrorType
-import com.davay.android.domain.models.MovieDetails
+import com.davay.android.core.domain.models.ErrorType
+import com.davay.android.core.domain.models.MovieDetails
 
 sealed class UiState {
 

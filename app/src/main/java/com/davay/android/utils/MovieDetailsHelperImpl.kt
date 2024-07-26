@@ -13,7 +13,7 @@ import com.davai.uikit.MovieEvaluationView
 import com.davai.uikit.ProgressBarView
 import com.davai.uikit.TagView
 import com.davay.android.R
-import com.davay.android.domain.models.MovieDetails
+import com.davay.android.core.domain.models.MovieDetails
 import com.davay.android.feature.selectmovie.presentation.AdditionalInfoInflater
 import com.google.android.flexbox.FlexboxLayout
 

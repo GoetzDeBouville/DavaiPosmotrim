@@ -1,6 +1,6 @@
 package com.davay.android.utils.network
 
-import com.davay.android.domain.models.ErrorType
+import com.davay.android.core.domain.models.ErrorType
 
 sealed class Resource<out T> {
 

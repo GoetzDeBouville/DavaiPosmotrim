@@ -1,8 +1,8 @@
 package com.davay.android.feature.roulette.presentation.carouselrecycler
 
 import androidx.recyclerview.widget.RecyclerView
+import com.davay.android.core.domain.models.MovieDetails
 import com.davay.android.databinding.ItemSwipeableMovieCardBinding
-import com.davay.android.domain.models.MovieDetails
 import com.davay.android.utils.MovieDetailsHelper
 import com.davay.android.utils.MovieDetailsHelperImpl
 import kotlin.math.roundToInt

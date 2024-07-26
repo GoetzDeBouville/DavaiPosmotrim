@@ -2,8 +2,8 @@ package com.davay.android.feature.sessionsmatched.presentation
 
 import androidx.lifecycle.viewModelScope
 import com.davay.android.base.BaseViewModel
-import com.davay.android.domain.models.Session
-import com.davay.android.domain.models.SessionStatus
+import com.davay.android.core.domain.models.Session
+import com.davay.android.core.domain.models.SessionStatus
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch

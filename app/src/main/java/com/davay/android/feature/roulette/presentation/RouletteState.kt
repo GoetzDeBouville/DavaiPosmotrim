@@ -1,6 +1,6 @@
 package com.davay.android.feature.roulette.presentation
 
-import com.davay.android.domain.models.MovieDetails
+import com.davay.android.core.domain.models.MovieDetails
 import com.davay.android.feature.roulette.presentation.model.UserRouletteModel
 
 sealed interface RouletteState {

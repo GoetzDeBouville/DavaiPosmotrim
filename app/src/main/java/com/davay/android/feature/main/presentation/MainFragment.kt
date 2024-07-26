@@ -24,39 +24,13 @@ class MainFragment :
         .appComponent(AppComponentHolder.getComponent())
         .build()
 
-    private var userName = ""
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
         outState.putString(USER_NAME_KEY, viewModel.getUserName())
-        outState.putString(USER_NAME_KEY, userName)
-    }
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        userName = savedInstanceState?.getString(USER_NAME_KEY) ?: "Артём"
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        binding.createSession.setState(MainScreenButtonView.CREATE)
-        binding.favorite.setState(MainScreenButtonView.FAVORITE)
-        binding.joinSession.setState(MainScreenButtonView.JOIN)
-
-        binding.userName.text = viewModel.getUserName()
-        binding.createSession.setOnClickListener {
-            createSession()
-        }
-        binding.favorite.setOnClickListener {
-            viewModel.navigate(R.id.action_mainFragment_to_matchedSessionListFragment)
-        }
-        binding.joinSession.setOnClickListener {
-            joinSession()
-        }
-        binding.editUserName.setOnClickListener {
-            val currentName = binding.userName.text.toString()
-            changeName(currentName)
-        }
         updateMarginLogo()
         parentFragmentManager.setFragmentResultListener(
             ChangeNameBottomSheetFragment.REQUEST_KEY,
@@ -76,8 +50,7 @@ class MainFragment :
             msbCreateSession.setState(MainScreenButtonView.CREATE)
             msbFavorite.setState(MainScreenButtonView.FAVORITE)
             msbJoinSession.setState(MainScreenButtonView.JOIN)
-
-            tvUserName.text = userName
+            tvUserName.text = viewModel.getUserName()
         }
     }
 
@@ -89,11 +62,12 @@ class MainFragment :
             msbJoinSession.setOnClickListener {
                 joinSession()
             }
-            ivEditUserName.setOnClickListener {
-                changeName(userName)
-            }
             msbCreateSession.setOnClickListener {
                 createSession()
+            }
+            binding.ivEditUserName.setOnClickListener {
+                val currentName = binding.tvUserName.text.toString()
+                changeName(currentName)
             }
         }
     }

@@ -2,7 +2,7 @@ package com.davay.android.feature.coincidences.presentation.adapter
 
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.davay.android.domain.models.MovieDetails
+import com.davay.android.core.domain.models.MovieDetails
 
 class MoviesGridAdapter(
     private val onItemClicked: (MovieDetails) -> Unit,

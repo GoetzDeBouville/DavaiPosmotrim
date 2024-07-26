@@ -2,12 +2,12 @@ package com.davay.android.feature.matchedsession.presentation
 
 import androidx.lifecycle.viewModelScope
 import com.davay.android.base.BaseViewModel
-import com.davay.android.base.usecases.GetData
-import com.davay.android.domain.models.ErrorType
-import com.davay.android.domain.models.MovieDetails
-import com.davay.android.domain.models.Session
-import com.davay.android.domain.models.SessionStatus
-import com.davay.android.domain.models.SessionWithMovies
+import com.davay.android.core.domain.models.ErrorType
+import com.davay.android.core.domain.models.MovieDetails
+import com.davay.android.core.domain.models.Session
+import com.davay.android.core.domain.models.SessionStatus
+import com.davay.android.core.domain.models.SessionWithMovies
+import com.davay.android.core.domain.usecases.GetData
 import com.davay.android.feature.coincidences.di.GET_TEST_MOVIE_USE_CASE
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
