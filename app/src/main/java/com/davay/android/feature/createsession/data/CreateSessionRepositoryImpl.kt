@@ -1,13 +1,13 @@
 package com.davay.android.feature.createsession.data
 
 import android.util.Log
-import com.davay.android.core.data.converters.toDomain
 import com.davay.android.core.data.network.HttpNetworkClient
 import com.davay.android.core.data.network.model.mapToErrorType
 import com.davay.android.core.domain.models.CompilationFilms
 import com.davay.android.core.domain.models.ErrorType
 import com.davay.android.core.domain.models.Genre
 import com.davay.android.core.domain.models.Result
+import com.davay.android.data.converters.toDomain
 import com.davay.android.feature.createsession.data.network.CreateSessionRequest
 import com.davay.android.feature.createsession.data.network.CreateSessionResponse
 import com.davay.android.feature.createsession.domain.api.CreateSessionRepository

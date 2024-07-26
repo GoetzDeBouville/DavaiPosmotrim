@@ -5,11 +5,6 @@ import android.content.Context
 import com.davay.android.core.data.di.NetworkModule
 import com.davay.android.data.database.AppDatabase
 import com.davay.android.data.di.DatabaseModule
-import com.davay.android.data.di.NetworkModule
-import com.davay.android.di.ComponentHolderMode
-import com.davay.android.di.ContextModule
-import com.davay.android.di.DIComponent
-import com.davay.android.di.DataBasedComponentHolder
 import dagger.BindsInstance
 import dagger.Component
 import io.ktor.client.HttpClient
