@@ -66,11 +66,12 @@
     <include
         android:id="@+id/progress_button_item"
         layout="@layout/item_progress_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginHorizontal="@dimen/margin_16"
+        android:layout_marginTop="@dimen/margin_32"
+        android:layout_marginBottom="@dimen/margin_16"
         android:visibility="gone" />
 
-    <Space
-        android:id="@+id/bottom_spacer"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/margin_16"
-        android:visibility="gone" />
 </LinearLayout>

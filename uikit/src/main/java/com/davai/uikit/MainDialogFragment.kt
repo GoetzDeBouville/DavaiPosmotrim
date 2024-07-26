@@ -11,7 +11,6 @@ import androidx.lifecycle.lifecycleScope
 import com.davai.uikit.databinding.LayoutCustomDialogBinding
 import com.davai.uikit.extensions.applyBlurEffect
 import com.davai.uikit.extensions.clearBlurEffect
-import kotlinx.coroutines.launch
 
 class MainDialogFragment : DialogFragment() {
 
@@ -51,7 +50,6 @@ class MainDialogFragment : DialogFragment() {
         llTwoButtonsBlock.isVisible = showConfirmBlock.not()
 
         topSpacer.isVisible = showConfirmBlock
-        bottomSpacer.isVisible = showConfirmBlock
         progressButtonItem.root.isVisible = showConfirmBlock
 
         progressButtonItem.progressButton.text = getString(R.string.dialog_confirm_text_ok)
@@ -70,6 +68,12 @@ class MainDialogFragment : DialogFragment() {
             dialog?.dismiss()
             activity?.window?.decorView?.clearBlurEffect()
         }
+
+        progressButtonItem.root.setOnClickListener {
+            yesAction?.invoke()
+            dialog?.dismiss()
+            activity?.window?.decorView?.clearBlurEffect()
+        }
     }
 
     override fun onStart() {
@@ -80,11 +84,9 @@ class MainDialogFragment : DialogFragment() {
 
     private fun launchProgressButtonAnimation() {
         binding.progressButtonItem.progressButton.also {
-            lifecycleScope.launch {
-                it.animateProgress(this) {
-                    dismiss()
-                    yesAction?.invoke()
-                }
+            it.animateProgress(lifecycleScope) {
+                dismiss()
+                yesAction?.invoke()
             }
         }
     }

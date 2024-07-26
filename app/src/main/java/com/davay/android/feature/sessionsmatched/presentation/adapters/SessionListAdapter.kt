@@ -1,14 +1,11 @@
 package com.davay.android.feature.sessionsmatched.presentation.adapters
 
-import android.icu.text.SimpleDateFormat
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.davay.android.databinding.ItemSessionBinding
 import com.davay.android.domain.models.Session
-import com.davay.android.domain.models.timeStamp
-import java.util.Date
-import java.util.Locale
+import com.davay.android.extensions.formatDate
 
 class SessionListAdapter(
     private val onSessionClickListener: ((id: String) -> Unit)?
@@ -21,7 +18,7 @@ class SessionListAdapter(
         fun bind(session: Session) {
             val userList = session.users.toMutableList()
             userList[0] = userList[0] + " (Вы)"
-            val formatedDate = formatDate(session.date)
+            val formatedDate = session.date.formatDate()
             binding.root.apply {
                 setDate(formatedDate)
                 setNamesList(
@@ -30,12 +27,6 @@ class SessionListAdapter(
                 setCover(session.imgUrl)
                 setCoincidences(session.numberOfMatchedMovies ?: 0)
             }
-        }
-
-        private fun formatDate(timestamp: timeStamp): String {
-            val date = Date(timestamp)
-            val dateFormat = SimpleDateFormat("dd MMMM yyyy", Locale("ru"))
-            return dateFormat.format(date)
         }
     }
 

@@ -95,6 +95,5 @@ class MatchedSessionListFragment :
             putString(MatchedSessionFragment.SESSION_ID, id)
         }
         viewModel.navigate(R.id.action_matchedSessionListFragment_to_matchedSessionFragment, bundle)
-//        Toast.makeText(requireContext(), "Navigate to movie id $id", Toast.LENGTH_SHORT).show()
     }
 }

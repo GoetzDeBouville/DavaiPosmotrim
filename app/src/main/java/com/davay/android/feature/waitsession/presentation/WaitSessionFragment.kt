@@ -153,13 +153,13 @@ class WaitSessionFragment : BaseFragment<FragmentWaitSessionBinding, WaitSession
             dialog?.show(parentFragmentManager, CUSTOM_DIALOG_TAG)
         }
         startSessionButton.setOnClickListener {
-            viewModel.navigate(R.id.action_waitSessionFragment_to_onboardingFragment)
-        }
-        startSessionButton.setOnClickListener {
             if (viewModel.isFirstTimeLaunch()) {
                 viewModel.markFirstTimeLaunch()
                 val bundle = Bundle().apply {
-                    putInt(OnboardingFragment.ONBOARDING_KEY, OnboardingFragment.ONBOARDING_INSTRUCTION_SET)
+                    putInt(
+                        OnboardingFragment.ONBOARDING_KEY,
+                        OnboardingFragment.ONBOARDING_INSTRUCTION_SET
+                    )
                 }
                 viewModel.navigate(R.id.action_waitSessionFragment_to_onboardingFragment, bundle)
             } else {

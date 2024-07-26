@@ -1,6 +1,5 @@
 package com.davay.android.feature.matchedsession.presentation
 
-import android.icu.text.SimpleDateFormat
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
@@ -14,7 +13,8 @@ import com.davay.android.app.AppComponentHolder
 import com.davay.android.base.BaseFragment
 import com.davay.android.databinding.FragmentMatchedSessionBinding
 import com.davay.android.di.ScreenComponent
-import com.davay.android.domain.models.timeStamp
+import com.davay.android.extensions.formatDateWithoutCurrentYear
+import com.davay.android.extensions.timeStamp
 import com.davay.android.feature.coincidences.presentation.adapter.MoviesGridAdapter
 import com.davay.android.feature.matchedsession.di.DaggerMatchedSessionFragmentComponent
 import com.davay.android.feature.matchedsession.presentation.adapter.CustomItemDecorator
@@ -28,9 +28,6 @@ import com.google.android.flexbox.JustifyContent
 import com.google.gson.Gson
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
-import java.util.Calendar
-import java.util.Date
-import java.util.Locale
 
 class MatchedSessionFragment :
     BaseFragment<FragmentMatchedSessionBinding, MatchedSessionViewModel>(
@@ -126,29 +123,14 @@ class MatchedSessionFragment :
         errorMessage.root.isVisible = errorMessageVisible
     }
 
-
     private fun setupToolbar(subTitle: String, date: timeStamp) {
         binding.toolbar.apply {
-            setTitleText(formatDate(date))
+            setTitleText(date.formatDateWithoutCurrentYear())
             setSubtitleText(subTitle)
             setStartIconClickListener {
                 viewModel.navigateBack()
             }
         }
-    }
-
-    private fun formatDate(date: timeStamp): String {
-        val currentYear = Calendar.getInstance().get(Calendar.YEAR)
-        val calendar = Calendar.getInstance().apply { time = Date(date) }
-        val year = calendar.get(Calendar.YEAR)
-
-        val dateFormat = if (year < currentYear) {
-            SimpleDateFormat("dd MMMM yyyy", Locale("ru"))
-        } else {
-            SimpleDateFormat("dd MMMM", Locale("ru"))
-        }
-
-        return dateFormat.format(date)
     }
 
     companion object {

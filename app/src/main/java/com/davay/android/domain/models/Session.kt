@@ -1,6 +1,7 @@
 package com.davay.android.domain.models
 
-typealias timeStamp = Long
+import com.davay.android.extensions.timeStamp
+
 typealias userName = String
 
 data class Session(
