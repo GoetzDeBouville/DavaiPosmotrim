@@ -105,6 +105,7 @@
     <string name="wait_session_invite_button">Пригласить</string>
     <string name="wait_session_copy_button_label">Пригласить</string>
     <string name="wait_session_copy_button_toast_text">Код скопирован</string>
+    <string name="wait_session_copy_button_text">Код сеанса успешно скопирован</string>
     <string name="wait_session_tag_owner">%s (вы)</string>
     <string name="leave_wait_session_title">Отменить?</string>
     <string name="leave_wait_session_dialog_message">Вы действительно хотите отменить уже созданный сеанс?</string>

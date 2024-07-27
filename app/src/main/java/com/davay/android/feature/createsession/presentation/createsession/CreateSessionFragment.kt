@@ -31,16 +31,21 @@ class CreateSessionFragment : BaseFragment<FragmentCreateSessionBinding, CreateS
         setupToolbar()
         binding.btnContinue.setOnClickListener {
             val fragmentPosition = binding.viewPager.currentItem
+            var shouldNavigate = false
             when (val fragment = childFragmentManager.findFragmentByTag("f$fragmentPosition")) {
                 is CompilationsFragment -> {
-                    fragment.viewModel.buttonContinueClicked()
+                    shouldNavigate = fragment.buttonContinueClicked()
                 }
 
                 is GenreFragment -> {
-                    fragment.viewModel.buttonContinueClicked()
+                    shouldNavigate = fragment.buttonContinueClicked()
                 }
             }
-            viewModel.navigate(R.id.action_createSessionFragment_to_waitSessionFragment)
+            if (shouldNavigate) {
+                viewModel.navigate(R.id.action_createSessionFragment_to_waitSessionFragment)
+            } else {
+                showBanner()
+            }
         }
         updateBanner(
             getString(R.string.create_session_choose_compilations_one),
@@ -93,6 +98,11 @@ class CreateSessionFragment : BaseFragment<FragmentCreateSessionBinding, CreateS
 
     private fun updateBanner(text: String, type: Int) {
         (requireActivity() as MainActivity).updateBanner(text, type)
+    }
+
+    private fun showBanner() {
+        val activity = requireActivity() as? MainActivity
+        activity?.showBanner()
     }
 
     override fun onDestroyView() {
