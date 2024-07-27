@@ -29,6 +29,7 @@ class MatchBottomSheetFragment(private val action: (() -> Unit)? = null) :
     private val animationMatchDialog: AnimationMatchDialog = AnimationMatchDialogImpl()
     private var movieDetails: MovieDetails? = null
     private var buttonText: String? = null
+    private var showDismisAnimation = true
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -104,6 +105,9 @@ class MatchBottomSheetFragment(private val action: (() -> Unit)? = null) :
                     override fun onStateChanged(bottomSheet: View, newState: Int) {
                         if (newState == BottomSheetBehavior.STATE_EXPANDED) {
                             animationMatchDialog.animateBannerDrop(binding.tvBannerMatchWatch)
+                        } else if (newState == BottomSheetBehavior.STATE_HIDDEN) {
+                            action?.invoke()
+                            dismiss()
                         }
                     }
 
@@ -158,11 +162,15 @@ class MatchBottomSheetFragment(private val action: (() -> Unit)? = null) :
         val bottomSheet =
             dialog?.findViewById<View>(com.google.android.material.R.id.design_bottom_sheet) as? FrameLayout
                 ?: return
-        animationMatchDialog.animateDialogDismiss(
-            bottomSheet
-        ) {
+        if (showDismisAnimation == true) {
+            animationMatchDialog.animateDialogDismiss(
+                bottomSheet
+            ) {
+                dismiss()
+                action?.invoke()
+            }
+        } else {
             dismiss()
-            action?.invoke()
         }
     }
 
@@ -173,9 +181,11 @@ class MatchBottomSheetFragment(private val action: (() -> Unit)? = null) :
         fun newInstance(
             movieDetails: String,
             buttonText: String? = null,
+            showDismisAnimation: Boolean = true,
             action: (() -> Unit)? = null
         ): MatchBottomSheetFragment {
             val fragment = MatchBottomSheetFragment(action = action)
+            fragment.showDismisAnimation = showDismisAnimation
             val args = Bundle().apply {
                 putString(ARG_MOVIE_DETAILS, movieDetails)
                 if (buttonText != null) putString(ARG_BUTTON_TEXT, buttonText)

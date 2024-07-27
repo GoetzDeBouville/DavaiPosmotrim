@@ -16,6 +16,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:paddingEnd="@dimen/padding_16"
+        android:textColor="@color/text_headings"
         tools:text="[7.1]" />
 
     <LinearLayout
@@ -28,6 +29,7 @@
             style="@style/Text.Base.Small"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:textColor="@color/text_headings"
             tools:text="[Рейтинг IMDb]" />
 
         <TextView
@@ -35,6 +37,7 @@
             style="@style/Text.Base.Small"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:textColor="@color/text_headings"
             tools:text="[1 244 оценки]" />
     </LinearLayout>
 

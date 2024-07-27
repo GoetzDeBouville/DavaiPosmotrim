@@ -21,7 +21,7 @@ import io.ktor.client.HttpClient
     ]
 )
 interface AppComponent : DIComponent {
-    val retrofit: HttpClient
+    val httpClient: HttpClient
     val context: Context
     val dataBase: AppDatabase
 
