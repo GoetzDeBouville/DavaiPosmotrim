@@ -21,6 +21,7 @@
                 android:id="@+id/iv_select_movie_cover"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
+                android:layout_margin="@dimen/margin_1"
                 android:contentDescription="@string/select_movies_cover_image_description"
                 app:layout_constraintBottom_toTopOf="@id/gl_image_info_border"
                 app:layout_constraintEnd_toEndOf="parent"
