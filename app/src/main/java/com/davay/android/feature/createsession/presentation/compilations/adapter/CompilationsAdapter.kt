@@ -4,12 +4,12 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.davay.android.databinding.CompilationsItemBinding
-import com.davay.android.feature.createsession.domain.model.Compilation
+import com.davay.android.feature.createsession.domain.model.CompilationSelect
 
 class CompilationsAdapter(private val clickListener: ItemClickListener) :
     RecyclerView.Adapter<CompilationsViewHolder>() {
 
-    private val itemList: MutableList<Compilation> = mutableListOf()
+    private val itemList: MutableList<CompilationSelect> = mutableListOf()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CompilationsViewHolder {
         val inflater = LayoutInflater.from(parent.context)
@@ -25,11 +25,11 @@ class CompilationsAdapter(private val clickListener: ItemClickListener) :
         holder.bind(itemList[position])
     }
 
-    fun addItemList(list: List<Compilation>) {
+    fun addItemList(list: List<CompilationSelect>) {
         itemList.addAll(list)
     }
 
     fun interface ItemClickListener {
-        fun onClick(compilation: Compilation)
+        fun onClick(compilation: CompilationSelect)
     }
 }

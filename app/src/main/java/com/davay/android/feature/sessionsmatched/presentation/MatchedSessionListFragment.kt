@@ -7,11 +7,11 @@ import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.davai.extensions.dpToPx
 import com.davay.android.R
-import com.davay.android.app.AppComponentHolder
 import com.davay.android.base.BaseFragment
 import com.davay.android.core.domain.models.ErrorType
 import com.davay.android.core.domain.models.Session
 import com.davay.android.databinding.FragmentMatchedSessionListBinding
+import com.davay.android.di.AppComponentHolder
 import com.davay.android.di.ScreenComponent
 import com.davay.android.feature.matchedsession.presentation.MatchedSessionFragment
 import com.davay.android.feature.sessionsmatched.di.DaggerMatchedSessionListFragmentComponent

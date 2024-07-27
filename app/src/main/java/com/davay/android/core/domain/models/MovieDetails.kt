@@ -1,5 +1,8 @@
 package com.davay.android.core.domain.models
 
+import kotlinx.serialization.Serializable
+
+@Serializable
 data class MovieDetails(
     val id: Int,
     val name: String,

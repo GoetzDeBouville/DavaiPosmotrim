@@ -12,9 +12,9 @@ import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.setFragmentResult
 import androidx.lifecycle.lifecycleScope
 import com.davay.android.R
-import com.davay.android.app.AppComponentHolder
 import com.davay.android.base.BaseBottomSheetFragment
 import com.davay.android.databinding.FragmentNameChangeBinding
+import com.davay.android.di.AppComponentHolder
 import com.davay.android.di.ScreenComponent
 import com.davay.android.feature.changename.di.DaggerChangeNameFragmentComponent
 import com.google.android.material.bottomsheet.BottomSheetBehavior

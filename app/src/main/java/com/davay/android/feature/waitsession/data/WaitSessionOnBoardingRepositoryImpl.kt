@@ -1,7 +1,7 @@
 package com.davay.android.feature.waitsession.data
 
-import com.davay.android.app.core.feature.introduction.domain.FirstTimeFlagRepository
-import com.davay.android.app.core.feature.introduction.domain.FirstTimeFlagStorage
+import com.davay.android.core.domain.lounchcontrol.api.FirstTimeFlagRepository
+import com.davay.android.core.domain.lounchcontrol.api.FirstTimeFlagStorage
 
 class WaitSessionOnBoardingRepositoryImpl(
     private val firstTimeFlagStorage: FirstTimeFlagStorage

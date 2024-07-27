@@ -1,6 +1,6 @@
 package com.davay.android.feature.splash.domain
 
-import com.davay.android.app.core.feature.introduction.domain.FirstTimeFlagRepository
+import com.davay.android.core.domain.lounchcontrol.api.FirstTimeFlagRepository
 
 class SplashOnBoardingInteractorImpl(
     private val repository: FirstTimeFlagRepository

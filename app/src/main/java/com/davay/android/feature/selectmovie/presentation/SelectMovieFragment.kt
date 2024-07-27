@@ -7,10 +7,10 @@ import androidx.recyclerview.widget.ItemTouchHelper
 import com.davai.extensions.dpToPx
 import com.davai.uikit.MainDialogFragment
 import com.davay.android.R
-import com.davay.android.app.AppComponentHolder
 import com.davay.android.base.BaseFragment
 import com.davay.android.core.domain.models.MovieDetails
 import com.davay.android.databinding.FragmentSelectMovieBinding
+import com.davay.android.di.AppComponentHolder
 import com.davay.android.di.ScreenComponent
 import com.davay.android.extensions.SwipeDirection
 import com.davay.android.feature.match.presentation.MatchBottomSheetFragment
@@ -22,7 +22,8 @@ import com.davay.android.feature.selectmovie.presentation.animation.IncrementAni
 import com.davay.android.feature.selectmovie.presentation.animation.IncrementAnimationImpl
 import com.davay.android.utils.MovieDetailsHelperImpl
 import com.google.android.material.bottomsheet.BottomSheetBehavior
-import com.google.gson.Gson
+import kotlinx.serialization.encodeToString
+import kotlinx.serialization.json.Json
 
 class SelectMovieFragment :
     BaseFragment<FragmentSelectMovieBinding, SelectMovieViewModel>(FragmentSelectMovieBinding::inflate) {
@@ -217,7 +218,7 @@ class SelectMovieFragment :
 
     @Suppress("Detekt.UnusedPrivateMember")
     private fun showBottomSheetFragment(movie: MovieDetails) {
-        val movieDetails = Gson().toJson(movie)
+        val movieDetails = Json.encodeToString(movie)
         val bottomSheetFragment = MatchBottomSheetFragment.newInstance(
             movieDetails,
             action = {

@@ -1,7 +1,7 @@
 package com.davay.android.core.data.impl
 
 import android.content.SharedPreferences
-import com.davay.android.core.domain.repositories.UserDataRepository
+import com.davay.android.core.domain.api.UserDataRepository
 import java.util.UUID.randomUUID
 
 class UserDataRepositoryImpl(

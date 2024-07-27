@@ -6,11 +6,24 @@
     android:background="@color/background_base"
     tools:context=".feature.createsession.presentation.compilations.CompilationsFragment">
 
+    <com.davai.uikit.ProgressBarView
+        android:id="@+id/progress_bar"
+        android:layout_width="@dimen/dimen_80"
+        android:layout_height="@dimen/dimen_80"
+        android:layout_gravity="center"
+        android:visibility="gone" />
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_compilations"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
+        tools:itemCount="3"
         tools:listitem="@layout/movie_selection_view" />
 
+    <com.davai.uikit.ErrorScreenView
+        android:id="@+id/error_message"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone" />
 </FrameLayout>

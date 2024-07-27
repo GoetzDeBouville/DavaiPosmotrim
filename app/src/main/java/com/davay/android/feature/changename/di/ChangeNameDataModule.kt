@@ -2,13 +2,13 @@ package com.davay.android.feature.changename.di
 
 import android.content.SharedPreferences
 import com.davay.android.core.data.impl.UserDataRepositoryImpl
+import com.davay.android.core.domain.api.UserDataRepository
 import com.davay.android.core.domain.impl.GetUserDataUseCaseImpl
 import com.davay.android.core.domain.impl.SetUserDataUseCaseImpl
-import com.davay.android.core.domain.repositories.UserDataRepository
 import com.davay.android.core.domain.usecases.GetUserDataUseCase
 import com.davay.android.core.domain.usecases.SetUserDataUseCase
-import com.davay.android.di.storage.marker.StorageMarker
-import com.davay.android.di.storage.model.PreferencesStorage
+import com.davay.android.di.prefs.marker.StorageMarker
+import com.davay.android.di.prefs.model.PreferencesStorage
 import dagger.Module
 import dagger.Provides
 

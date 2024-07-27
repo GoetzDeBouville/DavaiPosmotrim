@@ -4,18 +4,18 @@ import android.os.Bundle
 import androidx.core.view.isVisible
 import com.davai.extensions.dpToPx
 import com.davay.android.R
-import com.davay.android.app.AppComponentHolder
 import com.davay.android.base.BaseFragment
 import com.davay.android.base.BaseViewModel
 import com.davay.android.core.domain.models.MovieDetails
 import com.davay.android.databinding.FragmentSelectMovieBinding
+import com.davay.android.di.AppComponentHolder
 import com.davay.android.di.ScreenComponent
 import com.davay.android.feature.moviecard.di.DaggerMovieCardFragmentComponent
 import com.davay.android.feature.selectmovie.presentation.AdditionalInfoInflater
 import com.davay.android.utils.MovieDetailsHelper
 import com.davay.android.utils.MovieDetailsHelperImpl
 import com.google.android.material.bottomsheet.BottomSheetBehavior
-import com.google.gson.Gson
+import kotlinx.serialization.json.Json
 
 class MovieCardFragment :
     BaseFragment<FragmentSelectMovieBinding, BaseViewModel>(FragmentSelectMovieBinding::inflate) {
@@ -33,8 +33,7 @@ class MovieCardFragment :
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
-            movieDetails =
-                Gson().fromJson(it.getString(MOVIE_DETAILS_KEY), MovieDetails::class.java)
+            movieDetails = Json.decodeFromString(it.getString(MOVIE_DETAILS_KEY) ?: "")
         }
     }
 

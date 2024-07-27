@@ -1,12 +1,14 @@
 package com.davay.android.core.data.dto
 
-import com.google.gson.annotations.SerializedName
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 
+@Serializable
 data class SessionDto(
-    @SerializedName("id") val id: String,
-    @SerializedName("users") val users: List<UserDto>,
-    @SerializedName("matched_movies") val numberOfMatchedMovies: Int?,
-    @SerializedName("date") val date: String,
-    @SerializedName("status") val status: SessionStatusDto,
-    @SerializedName("session_img") val imgUrl: String
+    @SerialName("id") val id: String,
+    @SerialName("users") val users: List<UserDto>,
+    @SerialName("matched_movies") val numberOfMatchedMovies: Int?,
+    @SerialName("date") val date: String,
+    @SerialName("status") val status: SessionStatusDto,
+    @SerialName("session_img") val imgUrl: String
 )

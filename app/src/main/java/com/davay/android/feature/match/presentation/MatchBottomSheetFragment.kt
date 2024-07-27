@@ -17,8 +17,8 @@ import com.davay.android.utils.MovieDetailsHelperImpl
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
-import com.google.gson.Gson
 import kotlinx.coroutines.launch
+import kotlinx.serialization.json.Json
 
 class MatchBottomSheetFragment(private val action: (() -> Unit)? = null) :
     BottomSheetDialogFragment() {
@@ -34,8 +34,7 @@ class MatchBottomSheetFragment(private val action: (() -> Unit)? = null) :
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
-            movieDetails =
-                Gson().fromJson(it.getString(ARG_MOVIE_DETAILS), MovieDetails::class.java)
+            movieDetails = Json.decodeFromString(it.getString(ARG_MOVIE_DETAILS) ?: "")
             buttonText = it.getString(ARG_BUTTON_TEXT)
         }
     }
