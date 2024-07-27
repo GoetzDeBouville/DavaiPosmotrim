@@ -7,7 +7,6 @@ import android.view.inputmethod.InputMethodManager
 import androidx.core.content.ContextCompat.getSystemService
 import androidx.core.widget.doAfterTextChanged
 import androidx.lifecycle.lifecycleScope
-import androidx.navigation.fragment.findNavController
 import com.davay.android.R
 import com.davay.android.base.BaseFragment
 import com.davay.android.core.presentation.MainActivity
@@ -62,7 +61,7 @@ class RegistrationFragment :
             }
         }
         binding.etName.buttonBackHandler = {
-            findNavController().navigateUp()
+            viewModel.navigateBack()
         }
     }
 

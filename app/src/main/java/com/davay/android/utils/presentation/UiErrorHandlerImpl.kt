@@ -29,12 +29,13 @@ class UiErrorHandlerImpl : UiErrorHandler {
             setErrorDescription(description)
             setButtonText(buttonText)
 
-            if (action == null) {
-                openAppInPlayStore(errorLayout.context)
-            } else {
+            if (errorScreenState == ErrorScreenState.APP_VERSION_ERROR) {
                 setButtonClickListener {
-                    action.invoke()
+                    action?.invoke()
+                    openAppInPlayStore(errorLayout.context)
                 }
+            } else if (action != null) {
+                setButtonClickListener { action.invoke() }
             }
         }
     }
@@ -45,14 +46,14 @@ class UiErrorHandlerImpl : UiErrorHandler {
      */
     private fun openAppInPlayStore(context: Context) = try {
         context.startActivity(
-            Intent(Intent.ACTION_VIEW, Uri.parse(WEB_ADDRESS + APP_ID))
+            Intent(Intent.ACTION_VIEW, Uri.parse(WEB_ADDRESS_INTENT + APP_ID))
         )
     } catch (e: ActivityNotFoundException) {
         Log.v(TAG, "Play Store not found, opening web link. ${e.localizedMessage}")
         context.startActivity(
             Intent(
                 Intent.ACTION_VIEW,
-                Uri.parse(WEB_ADDRESS_INTENT + APP_ID)
+                Uri.parse(WEB_ADDRESS + APP_ID)
             )
         )
     }

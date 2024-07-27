@@ -1,11 +1,11 @@
 package com.davay.android.feature.selectmovie.presentation
 
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.widget.TextView
+import androidx.activity.OnBackPressedCallback
 import androidx.recyclerview.widget.ItemTouchHelper
 import com.davai.extensions.dpToPx
+import com.davai.uikit.MainDialogFragment
 import com.davay.android.R
 import com.davay.android.base.BaseFragment
 import com.davay.android.core.domain.models.MovieDetails
@@ -20,7 +20,7 @@ import com.davay.android.feature.selectmovie.presentation.adapters.SwipeCallback
 import com.davay.android.feature.selectmovie.presentation.adapters.SwipeableLayoutManager
 import com.davay.android.feature.selectmovie.presentation.animation.IncrementAnimation
 import com.davay.android.feature.selectmovie.presentation.animation.IncrementAnimationImpl
-import com.google.android.flexbox.FlexboxLayout
+import com.davay.android.utils.MovieDetailsHelperImpl
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
@@ -38,6 +38,7 @@ class SelectMovieFragment :
     )
     private val swipeCardLayoutManager = SwipeableLayoutManager()
     private val incrementAnimation: IncrementAnimation = IncrementAnimationImpl()
+    private val additionalInfoInflater: AdditionalInfoInflater = MovieDetailsHelperImpl()
     private var currentPosition = 0
 
     override fun diComponent(): ScreenComponent =
@@ -49,15 +50,15 @@ class SelectMovieFragment :
         getSavedPositionAndUpdateStartPosition(savedInstanceState)
     }
 
-    override fun onDestroyView() {
-        binding.rvFilmCard.adapter = null
-        super.onDestroyView()
-    }
-
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
         currentPosition = swipeCardLayoutManager.getCurrentPosition()
         outState.putInt(CURRENT_POSITION_KEY, currentPosition)
+    }
+
+    override fun onDestroyView() {
+        binding.rvFilmCard.layoutManager = null
+        super.onDestroyView()
     }
 
     private fun getSavedPositionAndUpdateStartPosition(savedInstanceState: Bundle?) {
@@ -74,9 +75,54 @@ class SelectMovieFragment :
     }
 
     override fun subscribe() {
-        binding.toolbarviewHeader.setEndIconClickListener {
-            showBottomSheetFragment(mockMovies[0])
+        backPressedDispatcher()
+        binding.toolbarviewHeader.apply {
+            setEndIconClickListener {
+                viewModel.navigate(R.id.action_selectMovieFragment_to_coincidencesFragment)
+            }
+            setStartIconClickListener {
+                showDialogAndNavigateToHistorySessions()
+            }
         }
+    }
+
+    private fun backPressedDispatcher() {
+        requireActivity().onBackPressedDispatcher.addCallback(
+            this,
+            object : OnBackPressedCallback(true) {
+                override fun handleOnBackPressed() {
+                    showDialogAndNavigateToHistorySessions()
+                }
+            }
+        )
+    }
+
+    private fun showDialogAndNavigateToHistorySessions() {
+        val dialog = MainDialogFragment.newInstance(
+            title = getString(R.string.leave_session_title),
+            message = getString(R.string.select_movies_leave_session_dialog_message),
+            yesAction = {
+                viewModel.clearBackStackToMainAndNavigate(R.id.action_mainFragment_to_matchedSessionListFragment)
+            }
+        )
+        dialog.show(parentFragmentManager, null)
+    }
+
+    /**
+     * Метод вызывается у юзеров, у которых из сессии вышел участник
+     * !добавить сохранение сессии в БД тут и в showDialogAndNavigateToHistorySessions()
+     */
+    @Suppress("Detekt.UnusedPrivateMember")
+    private fun showConfirmDialogAndNavigateToHistorySessions() {
+        val dialog = MainDialogFragment.newInstance(
+            title = getString(R.string.leave_session_title),
+            message = getString(R.string.leave_session_dialog_message_session_complited),
+            showConfirmBlock = true,
+            yesAction = {
+                viewModel.clearBackStackToMainAndNavigate(R.id.action_mainFragment_to_matchedSessionListFragment)
+            }
+        )
+        dialog.show(parentFragmentManager, null)
     }
 
     private fun buildRecyclerView() {
@@ -145,45 +191,32 @@ class SelectMovieFragment :
 
     private fun inflateMovieDetails(movie: MovieDetails) = with(binding) {
         tvDetailsDescription.text = movie.description
-        setRates(movie)
-        inflateCastList(fblDetailsTopCastList, movie.actors.orEmpty())
-        inflateCastList(fblDetailsDirectorList, movie.directors.orEmpty())
+        fillInfo(movie)
+        additionalInfoInflater.setRate(
+            movie.ratingImdb,
+            movie.numOfMarksImdb,
+            mevDetailsImdbRate
+        )
+        additionalInfoInflater.setRate(
+            movie.ratingKinopoisk,
+            movie.numOfMarksKinopoisk,
+            mevDetailsKinopoiskRate
+        )
     }
 
-    private fun setRates(movie: MovieDetails) = with(binding) {
-        if (movie.ratingImdb == null) {
-            mevDetailsImdbRate.visibility = View.GONE
-        } else {
-            mevDetailsImdbRate.apply {
-                setRateNum(movie.ratingImdb)
-                setNumberOfRatesString(movie.numOfMarksImdb ?: 0)
-            }
-        }
-
-        if (movie.ratingKinopoisk == null) {
-            mevDetailsKinopoiskRate.visibility = View.GONE
-        } else {
-            mevDetailsKinopoiskRate.apply {
-                setRateNum(movie.ratingKinopoisk)
-                setNumberOfRatesString(movie.numOfMarksKinopoisk ?: 0)
-            }
-        }
+    private fun fillInfo(data: MovieDetails) = with(binding) {
+        tvDetailsDescription.text = data.description
+        additionalInfoInflater.inflateCastList(
+            fblDetailsTopCastList,
+            data.actors ?: emptyList()
+        )
+        additionalInfoInflater.inflateCastList(
+            fblDetailsDirectorList,
+            data.directors ?: emptyList()
+        )
     }
 
-    private fun inflateCastList(fbl: FlexboxLayout, list: List<String>) {
-        fbl.removeAllViews()
-        val castList = list.take(MAX_CAST_NUMBER_4)
-        castList.forEach {
-            val castView = LayoutInflater.from(requireContext()).inflate(
-                R.layout.item_top_cast,
-                fbl,
-                false
-            ) as TextView
-            castView.text = it
-            fbl.addView(castView)
-        }
-    }
-
+    @Suppress("Detekt.UnusedPrivateMember")
     private fun showBottomSheetFragment(movie: MovieDetails) {
         val movieDetails = Json.encodeToString(movie)
         val bottomSheetFragment = MatchBottomSheetFragment.newInstance(
@@ -200,7 +233,6 @@ class SelectMovieFragment :
     private companion object {
         const val BOTTOMSHEET_PEEK_HEIGHT_112_DP = 112
         const val MARGIN_TOP_16_DP = 16
-        const val MAX_CAST_NUMBER_4 = 4
         const val CURRENT_POSITION_KEY = "currentPosition"
     }
 }
@@ -219,7 +251,7 @@ private val mockMovies = listOf(
         name = "Интерстеллар",
         description = "Когда засуха, пыльные бури и вымирание растений приводят человечество к продовольственному кризису, коллектив исследователей и учёных отправляется сквозь червоточину (которая предположительно соединяет области пространства-времени через большое расстояние) в путешествие, чтобы превзойти прежние ограничения для космических путешествий человека и найти планету с подходящими для человечества условиями.",
         year = "2014",
-        countries = listOf(),
+        countries = listOf("США", "Великобритания", "Австралия"),
         imgUrl = "https://avatars.mds.yandex.net/get-kinopoisk-image/1946459/7ae40b66-ebda-4570-8676-980344d81bc1/3840x",
         alternativeName = "Interstellar",
         ratingKinopoisk = 8.6f,
@@ -232,10 +264,10 @@ private val mockMovies = listOf(
         actors = listOf("Кристофер Нолан")
     ), MovieDetails(
         id = 8509,
-        name = "Dorothea Tanner",
+        name = "Тёмный рыцарь",
         description = "Бэтмен поднимает ставки в войне с криминалом. С помощью лейтенанта Джима Гордона и прокурора Харви Дента он намерен очистить улицы Готэма от преступности. Сотрудничество оказывается эффективным, но скоро они обнаружат себя посреди хаоса, развязанного восходящим криминальным гением, известным напуганным горожанам под именем Джокер.",
         year = "2008",
-        countries = listOf(),
+        countries = listOf("США", "Австралия"),
         imgUrl = "https://kinopoisk-ru.clstorage.net/30H4PS317/fc80630l6W4j/PCNvS_zGy0YMHp7no0AsGkQRD5F3GbGxVVkAfX4LQFrQ2bnuw6YEelehkDaD0ct6S5LEFcsAhqMFiXQJwV2qBmgDGrrdc46T6NorlwYFCJ6RcXtAE5yF8IRsBZiM-ELZ8k6bjTEkBrxDxbTX9mR-Hk-SVJGrlALXUqrFWuOaftAMACwryuRb55hPn2RQI3881LF8VVVJModFOsL-vWiyOGEOGexB9RSdkHY10iYmjX5vsIUCeWGTlCLLc5lj-jxzbAJMCDrFKIYITY200TA9PAVjD5VnKUDnBPjBv-9rYBuQ7wpOAUZGnZM1ZxJEVB6cbhJXMvgSQ2VCeVBo4bmfke9wTQoqNKs1690sBkJT_TyWsT2GlgiQByfLYE8923HqQF47HUNl5JxD9UdgdAfvvC7hlCIbE2PGYynw21I47zHu4O85yuVJtQot_DVxMg6c5fF8xRYJ0ceUS8Le7zsSScAdW98xpAbeIvZ3MldUbO89wjbR2gIAdvILQylzWW7DXTNuWuhVGmV4jF-kI5K9jzbAL9ek6GF1tzqzzM-LABjzLdk9kMZVjPJGtLGk9bwd7TE00ClCcJbQWbB5ghkPs30APJh5t0pFeN8-lXHQTX2mAx_nxysQ1XW60gytqVLYge8KHjCWVD3zNBVxlfR_vGwhtRIbg2EkoEuyOWBJjZMe8bz6CES59apcf4XxIs1cx2MddoRakLfUqXI93mly66MNCV4xB3TMc4VU0beUHJ-t0cbyGHJD5XBpIalRSZ8jPCB8q2qU-oV7r2wGIfJNfQaAbLSW-IPElUqDzS374UlDLTlNkPc1v7PlZNAk5Cx97hBUggowwcZhCaH5wdsuAG0gLop7Fwl2SX1-JcOTHz704Tx09yhh15R7cA-fuXIIoX3rzjHndkyQxaSRtHdujF7jJMGrQMGHYkthuPO7DhON4C4ZmoTJ95rdbCTTUsyetqM8VoYIYqe1qMHMnDviGPPPW-yxxhet0GWEwfZ2f9z8UYSCKKPi9SEoEAuQuNziTaO-GniWegVp_0x3YZFdb8WCPifkWbPFVZsCfc_LIWsiz_sMQBUkrmKnlpKElL3vzGJWkltw8QSCaXMIkjptMD7CTTmbtboXqr_v5wAyDJ2m4-7F1vqDxTWawx6veTI7sg4ZXlKUJGyTJHVxVKeubu3SVkLL0ZJmovuSKFPJX6P9k-9KSmTopFpMfEYgYz8s1XGsZ1d5YpcUatJvPjlx27H8WywDpJbPwaeVcyYFzZ7-YkQwWcLwZDGKMBsTmA8x_QFtKfl0qbfJnGylokK9LcRBH0WXidA21Wiyr_47AvuAPlteAicWnrBX5DJ1dq_fHDHEwklwY5dAegAIQTkuwVxAPlmrJCqF2d1OdQKSvywV4MyGtuhwRoTqgT79-iFJIt747XMVRp0yVodDZ-SeLkxQdWCpADGlA_khukNYT6MNkE8YO0ZJpBoPL6YRos9thWLdR6bpk2V0icH_Djjzq0AcOx8SNgT-EaXnM-f0zmxuIiZyaqBDNqO6UGkDm01j7iAcWeqk65cI3p3n8KIdP-SB3KQnifOl1MjQz_6ZoEsQvvm9QCdmjFH1lDKGdq4-rOJEQOoC0QeSGZD7IIruMGwyDVrptSnmSFyOVuKS7c71gNzGBdmx9dUbos_t-iJLQ14JP0P1NPxgF5VStKStzv4zNyKLY0NEEepAGOPJPDOOMd6LqPSIRZt97WWwYf0_9IAftKeKgtcVWJJcrVsCa5APOb1gN-b9sBZ18CQlnn7MckQyiLNgZWIqEhsQiS3B_BFOKts1GYUp3e50ImFvXtXi3YWnqsPktnjiLN1oMGuhDQkPEUfXb4D0pbE2N3w-z5LWEGoywVeBq1D64wmMAQ3w38pJNthkap_cZEJDbb0kwWz0pusghQbJ4i9ciwG5Y27Kb3DF5v4DtJVQNkQMHAzyNFJIM5NHI9oASvM7D5HPAz7Y6JZbNmp-LqfjYoyeRrPuBUZJs2f2isL8L_qQWKKNq_wjpNT8wTfXQ2WEDIxOcwZS60CxN3JrEHmAaGxgTnI82-ikCVaojj53oFKdfyQwXFalyPDntHowj_854plSnkvcI9fmvtJFVsIEl8x-7wPm46uBYZQQO6Ga8Uk-UVxRv-n4lgommg3ct4JhTT5lYy53V6ihtKX6oAz_iNAr800oD3Fk9v4iFmfyZdaenpwSdRCocALVkinh2KNaTMO8cQ4JWKY7FXleDpUwkC88JDEMBIbLctQlGQDNLfsQOKDs6c0AhpWu8EW10-d1T55OgddQucABFhOL0Dtzea1hjdAc6mpGi7a77z7H48INXpYA_gd1mpLG5ngwfP4q8huynmlewhQXHoIlRfKFt71t3dDWoOqw0reC-iH7gistwi3xHvlptFtVeE_MlhPCXv6Xk-4H9akyd5RLMY8MGoC78O-YHkK0Vm6RlFfQRJY9n46CZBLIovOmsiozGuAIHwANcw0ritbqRpgfLmfiUj38NWGeh6UZ0-Wk2yG_b8tBWmPtCQ9zNsS-0qZFk_dHbF4MIEZAGiDSVJA4c3rAOh9iH8Bf-AhmKxf5Xy1Xk8I__uVjfGclq8Lltalj3e46MpjyrhmewKZGvyOnpeJUV86Pz9C0QKtgoKbwCAOJIShOE_5TXNhpdPvmaWxMpWABPf2GA6yGlMmBtIapoEy_ihD443xaP1EHF3wzFNVQJKTcrz6B1iL6YMPWg2vCGTIqXmM_sc97iabpdpjP_efyEB6cN5Pe59f68hWlWwB_vdoiW5DfeBxSp0ZNAnSU4ZZ0H14tw-SCq6NCtFFqQviRSV5xr8ENKphESYZpbI1mQmHvTEYhzObFyqGndVuCHRw6o6nCfDovYBS0HJGGV4PH9oyeLsDU4bvzg1UTSnIY47jf451R_upI1um3eFwuhhESPw-V0CxFRSsg1RebUr9uatOIww3pbYClVlzyZgWBdiWdji8zl2GachHWs",
         alternativeName = "The Dark Knight",
         ratingKinopoisk = 8.5f,
@@ -258,15 +290,15 @@ private val mockMovies = listOf(
         ratingImdb = 9.0f,
         numOfMarksKinopoisk = 52434,
         numOfMarksImdb = 231223,
-        duration = null,
+        duration = 143,
         genres = listOf("Фэнтези", "Приключения", "Драма"),
         directors = listOf("Питер Джексон", "Кристофер Нолан"),
         actors = listOf("Элайджа Вуд", "Вигго Мортенсен", "Иэн Маккеллен")
     ), MovieDetails(
         id = 3457,
         name = "Доктор Стрейнджлав, или Как я научился не волноваться и полюбил атомную бомбу",
-        description = null,
-        year = null,
+        description = "Доктор Стрейнджлав, или Как я научился не волноваться и полюбил атомную бомбу",
+        year = "1961",
         imgUrl = "https://avatars.mds.yandex.net/get-kinopoisk-image/1777765/cb430f00-1734-4078-abd2-6688a94749a5/3840x",
         countries = listOf("США", "Великобритания", "Австралия"),
         alternativeName = "Dr. Strangelove or: How I Learned to Stop Worrying and Love the Bomb",

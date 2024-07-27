@@ -90,6 +90,11 @@ class CompilationsFragment : BaseFragment<FragmentCompilationsBinding, Compilati
         rvCompilations.isVisible = false
     }
 
+    fun buttonContinueClicked(): Boolean {
+        viewModel.buttonContinueClicked()
+        return viewModel.hasSelectedCompilations()
+    }
+
     companion object {
         fun newInstance() = CompilationsFragment()
     }

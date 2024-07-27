@@ -53,6 +53,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:paddingHorizontal="@dimen/padding_16"
+                tools:itemCount="2"
                 android:paddingVertical="@dimen/padding_16"
                 app:layout_constraintBottom_toTopOf="@id/coincidences_container"
                 app:layout_constraintTop_toBottomOf="@+id/users_title"
