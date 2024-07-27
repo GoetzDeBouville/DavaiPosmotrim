@@ -2,7 +2,7 @@ package com.davay.android.feature.roulette.presentation
 
 import androidx.lifecycle.viewModelScope
 import com.davay.android.base.BaseViewModel
-import com.davay.android.domain.models.MovieDetails
+import com.davay.android.core.domain.models.MovieDetails
 import com.davay.android.feature.roulette.presentation.model.UserRouletteModel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow

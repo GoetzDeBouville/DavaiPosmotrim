@@ -92,7 +92,7 @@ class WaitSessionFragment : BaseFragment<FragmentWaitSessionBinding, WaitSession
             title = getString(R.string.leave_wait_session_title),
             message = getString(R.string.leave_wait_session_dialog_message),
             yesAction = {
-                viewModel.navigate(R.id.action_waitSessionFragment_to_mainFragment)
+                viewModel.navigateBack()
             }
         )
     }
@@ -144,7 +144,6 @@ class WaitSessionFragment : BaseFragment<FragmentWaitSessionBinding, WaitSession
             alignItems = AlignItems.FLEX_START
         }
         val spaceBetweenItems = SPACING_BETWEEN_RV_ITEMS_8_DP.dpToPx()
-
         binding.rvUser.apply {
             adapter = userAdapter
             layoutManager = flexboxLayoutManager
@@ -152,11 +151,11 @@ class WaitSessionFragment : BaseFragment<FragmentWaitSessionBinding, WaitSession
         }
     }
 
-    private fun setButtonClickListeners() {
-        binding.cancelButton.setOnClickListener {
+    private fun setButtonClickListeners() = with(binding) {
+        cancelButton.setOnClickListener {
             dialog?.show(parentFragmentManager, CUSTOM_DIALOG_TAG)
         }
-        binding.startSessionButton.setOnClickListener {
+        startSessionButton.setOnClickListener {
             if (userAdapter.itemCount < MIN_USER_TO_START_2) {
                 showAttentionBanner()
             } else {

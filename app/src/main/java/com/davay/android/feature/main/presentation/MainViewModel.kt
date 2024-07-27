@@ -1,8 +1,8 @@
 package com.davay.android.feature.main.presentation
 
 import com.davay.android.base.BaseViewModel
-import com.davay.android.domain.models.UserDataFields
-import com.davay.android.domain.usecases.GetUserDataUseCase
+import com.davay.android.core.domain.models.UserDataFields
+import com.davay.android.core.domain.usecases.GetUserDataUseCase
 import javax.inject.Inject
 
 class MainViewModel @Inject constructor(

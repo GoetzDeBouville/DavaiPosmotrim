@@ -1,11 +1,12 @@
 package com.davay.android.feature.matchedsession.presentation
 
-import com.davay.android.domain.models.ErrorType
-import com.davay.android.domain.models.MovieDetails
-import com.davay.android.domain.models.Session
+import com.davay.android.core.domain.models.ErrorType
+import com.davay.android.core.domain.models.SessionWithMovies
 
-sealed interface MatchedSessionState {
-    object Loading : MatchedSessionState
-    class Data(val session: Session, val movies: List<MovieDetails>) : MatchedSessionState
-    class Error(val errorType: ErrorType) : MatchedSessionState
+sealed class MatchedSessionState {
+
+    data object Empty : MatchedSessionState()
+    data object Loading : MatchedSessionState()
+    class Data(val data: SessionWithMovies) : MatchedSessionState()
+    class Error(val errorType: ErrorType) : MatchedSessionState()
 }

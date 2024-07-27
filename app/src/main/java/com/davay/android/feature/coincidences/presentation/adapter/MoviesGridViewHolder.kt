@@ -3,7 +3,7 @@ package com.davay.android.feature.coincidences.presentation.adapter
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.davai.uikit.MovieCardView
-import com.davay.android.domain.models.MovieDetails
+import com.davay.android.core.domain.models.MovieDetails
 
 class MoviesGridViewHolder(private val view: MovieCardView) : RecyclerView.ViewHolder(view) {
 

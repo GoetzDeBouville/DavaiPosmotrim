@@ -4,8 +4,8 @@ import android.content.Context
 import android.content.SharedPreferences
 import androidx.security.crypto.EncryptedSharedPreferences
 import androidx.security.crypto.MasterKeys
-import com.davay.android.core.di.storage.marker.StorageMarker
-import com.davay.android.core.di.storage.model.PreferencesStorage
+import com.davay.android.di.storage.marker.StorageMarker
+import com.davay.android.di.storage.model.PreferencesStorage
 import dagger.Module
 import dagger.Provides
 

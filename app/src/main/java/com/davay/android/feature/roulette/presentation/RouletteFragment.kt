@@ -6,15 +6,14 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.lifecycleScope
-import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearSnapHelper
 import androidx.recyclerview.widget.RecyclerView
 import com.davay.android.R
 import com.davay.android.app.AppComponentHolder
 import com.davay.android.base.BaseFragment
+import com.davay.android.core.domain.models.MovieDetails
 import com.davay.android.databinding.FragmentRouletteBinding
 import com.davay.android.di.ScreenComponent
-import com.davay.android.domain.models.MovieDetails
 import com.davay.android.feature.match.presentation.MatchBottomSheetFragment
 import com.davay.android.feature.roulette.di.DaggerRouletteFragmentComponent
 import com.davay.android.feature.roulette.presentation.carouselrecycler.CarouselAdapter
@@ -43,7 +42,7 @@ class RouletteFragment :
         override fun onFragmentDetached(fm: FragmentManager, f: Fragment) {
             super.onFragmentDetached(fm, f)
             if (f is MatchBottomSheetFragment) {
-                findNavController().navigateUp()
+                viewModel.navigateBack()
             }
         }
     }
@@ -99,7 +98,7 @@ class RouletteFragment :
         bottomSheetBehaviorIntro.state = BottomSheetBehavior.STATE_EXPANDED
         bottomSheetBehaviorIntro.isHideable = false
         binding.btnCancel.setOnClickListener {
-            findNavController().navigateUp()
+            viewModel.navigateBack()
         }
         binding.btnContinue.setOnClickListener {
             bottomSheetBehaviorIntro.isHideable = true
@@ -194,7 +193,8 @@ class RouletteFragment :
         val movieDetails = Gson().toJson(state.film)
         val matchBottomSheetFragment = MatchBottomSheetFragment.newInstance(
             movieDetails = movieDetails,
-            buttonText = getString(R.string.roulette_to_film_list)
+            buttonText = getString(R.string.roulette_to_film_list),
+            showDismisAnimation = false
         )
         matchBottomSheetFragment.show(parentFragmentManager, matchBottomSheetFragment.tag)
     }

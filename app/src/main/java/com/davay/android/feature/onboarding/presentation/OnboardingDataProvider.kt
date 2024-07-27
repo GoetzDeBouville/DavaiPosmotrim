@@ -21,7 +21,7 @@ class OnboardingDataProvider {
                 R.string.onboarding_only_favorite_genres
             ),
             intArrayOf(
-                R.id.action_onboardingFragment_to_mainFragment
+                R.id.action_onboardingFragment_to_registrationFragment
             )
         )
 
@@ -44,6 +44,6 @@ class OnboardingDataProvider {
             ),
             intArrayOf(
                 R.id.action_onboardingFragment_to_selectMovieFragment
-            )
+            ) // После влива фрагмента выбора заменить action id
         )
 }

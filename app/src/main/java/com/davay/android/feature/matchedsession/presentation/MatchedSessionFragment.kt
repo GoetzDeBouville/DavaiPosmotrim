@@ -4,25 +4,30 @@ import android.os.Bundle
 import android.view.View
 import android.widget.Toast
 import androidx.core.view.isVisible
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import com.davai.extensions.dpToPx
+import com.davay.android.R
 import com.davay.android.app.AppComponentHolder
 import com.davay.android.base.BaseFragment
 import com.davay.android.databinding.FragmentMatchedSessionBinding
 import com.davay.android.di.ScreenComponent
+import com.davay.android.extensions.formatDateWithoutCurrentYear
+import com.davay.android.extensions.timeStamp
+import com.davay.android.feature.coincidences.presentation.adapter.MoviesGridAdapter
 import com.davay.android.feature.matchedsession.di.DaggerMatchedSessionFragmentComponent
 import com.davay.android.feature.matchedsession.presentation.adapter.CustomItemDecorator
-import com.davay.android.feature.matchedsession.presentation.adapter.MoviesGridAdapter
 import com.davay.android.feature.matchedsession.presentation.adapter.UserAdapter
+import com.davay.android.feature.moviecard.presentation.MovieCardFragment
 import com.google.android.flexbox.AlignItems
 import com.google.android.flexbox.FlexDirection
 import com.google.android.flexbox.FlexWrap
 import com.google.android.flexbox.FlexboxLayoutManager
 import com.google.android.flexbox.JustifyContent
+import com.google.gson.Gson
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
-import java.text.SimpleDateFormat
-import java.util.Date
-import java.util.Locale
 
 class MatchedSessionFragment :
     BaseFragment<FragmentMatchedSessionBinding, MatchedSessionViewModel>(
@@ -30,10 +35,15 @@ class MatchedSessionFragment :
     ) {
 
     override val viewModel: MatchedSessionViewModel by injectViewModel<MatchedSessionViewModel>()
-    private val moviesGridAdapter = MoviesGridAdapter { movieId ->
-        Toast.makeText(requireContext(), "Clicked!", Toast.LENGTH_SHORT).show()
+    private val moviesGridAdapter = MoviesGridAdapter { movieDetails ->
+        val movie = Gson().toJson(movieDetails)
+        val bundle = Bundle().apply {
+            putString(MovieCardFragment.MOVIE_DETAILS_KEY, movie)
+        }
+        viewModel.navigate(R.id.action_matchedSessionFragment_to_movieCardFragment, bundle)
     }
     private val userAdapter = UserAdapter()
+    private var sessionId = ""
 
     override fun diComponent(): ScreenComponent = DaggerMatchedSessionFragmentComponent.builder()
         .appComponent(AppComponentHolder.getComponent())
@@ -41,11 +51,12 @@ class MatchedSessionFragment :
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        arguments?.let {
+            sessionId = it.getString(SESSION_ID, "")
+        }
         initUsersRecycler()
         setupMoviesGrid()
-        arguments?.let {
-            viewModel.getSessionData(it.getString(SESSION_ID) ?: "")
-        }
     }
 
     private fun initUsersRecycler() {
@@ -64,34 +75,33 @@ class MatchedSessionFragment :
         }
     }
 
-    private fun setupMoviesGrid() = with(binding.coincidencesList) {
-        adapter = moviesGridAdapter
+    private fun setupMoviesGrid() {
+        binding.coincidencesList.adapter = moviesGridAdapter
     }
 
     override fun subscribe() {
+        viewModel.getSessionData(sessionId)
         viewLifecycleOwner.lifecycleScope.launch {
-            viewModel.state.collect { state ->
-                handleState(state)
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.state.collectLatest {
+                    handleState(it)
+                }
             }
         }
     }
 
     private fun handleState(state: MatchedSessionState) {
         when (state) {
+            is MatchedSessionState.Empty -> updateVisibility(emptyMessageIsVisible = true)
             is MatchedSessionState.Loading -> updateVisibility(progressBarIsVisible = true)
             is MatchedSessionState.Data -> {
-                userAdapter.setItems(state.session.users.map { it.name })
-                val dateFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
-                setupToolbar(
-                    subTitle = state.session.id.toString(),
-                    date = dateFormat.format(Date(state.session.date))
-                )
-                if (state.movies.isEmpty()) {
-                    updateVisibility(emptyMessageIsVisible = true)
-                } else {
-                    updateVisibility(coincidencesListIsVisible = true)
-                    moviesGridAdapter.setData(state.movies)
-                }
+                val date = state.data.session.date
+                val subTitle =
+                    resources.getString(R.string.matched_session_session, state.data.session.id)
+                setupToolbar(subTitle, date)
+                userAdapter.setItems(state.data.session.users)
+                updateVisibility(coincidencesListIsVisible = true)
+                moviesGridAdapter.setData(state.data.movies)
             }
 
             is MatchedSessionState.Error -> {
@@ -113,9 +123,9 @@ class MatchedSessionFragment :
         errorMessage.root.isVisible = errorMessageVisible
     }
 
-    private fun setupToolbar(subTitle: String, date: String) {
+    private fun setupToolbar(subTitle: String, date: timeStamp) {
         binding.toolbar.apply {
-            setTitleText(date)
+            setTitleText(date.formatDateWithoutCurrentYear())
             setSubtitleText(subTitle)
             setStartIconClickListener {
                 viewModel.navigateBack()

@@ -22,7 +22,9 @@ import com.davay.android.di.ScreenComponent
 import com.davay.android.feature.coincidences.bottomsheetdialog.RouletteBottomSheetDialogFragment
 import com.davay.android.feature.coincidences.di.DaggerCoincidencesFragmentComponent
 import com.davay.android.feature.coincidences.presentation.adapter.MoviesGridAdapter
+import com.davay.android.feature.moviecard.presentation.MovieCardFragment
 import com.davay.android.feature.roulette.presentation.RouletteFragment.Companion.ROULETTE_INITIATOR
+import com.google.gson.Gson
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
@@ -32,8 +34,12 @@ class CoincidencesFragment : BaseFragment<FragmentCoincidencesBinding, Coinciden
 
     override val viewModel: CoincidencesViewModel by injectViewModel<CoincidencesViewModel>()
 
-    private val moviesGridAdapter = MoviesGridAdapter { movieId ->
-        Toast.makeText(requireContext(), "Clicked!", Toast.LENGTH_SHORT).show()
+    private val moviesGridAdapter = MoviesGridAdapter { movieDetails ->
+        val movie = Gson().toJson(movieDetails)
+        val bundle = Bundle().apply {
+            putString(MovieCardFragment.MOVIE_DETAILS_KEY, movie)
+        }
+        viewModel.navigate(R.id.action_coincidencesFragment_to_movieCardFragment, bundle)
     }
 
     private val bottomSheetFragmentLifecycleCallbacks =
@@ -109,6 +115,7 @@ class CoincidencesFragment : BaseFragment<FragmentCoincidencesBinding, Coinciden
 
     private fun setupToolbar() {
         binding.toolbarView.apply {
+            hideMatchesCounter()
             setEndIconClickListener {
                 val coincidences = viewModel.getCoincidencesCount()
                 if (coincidences >= MIN_COINCIDENCES_FOR_NAVIGATION_3) {
@@ -149,6 +156,7 @@ class CoincidencesFragment : BaseFragment<FragmentCoincidencesBinding, Coinciden
                 updateVisibility(coincidencesListIsVisible = true)
                 moviesGridAdapter.setData(state.data)
             }
+
             is UiState.Error -> {
                 Toast.makeText(requireContext(), "Error occurred!", Toast.LENGTH_SHORT).show()
             }
