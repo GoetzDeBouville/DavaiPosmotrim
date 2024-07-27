@@ -49,7 +49,6 @@ class MainDialogFragment : DialogFragment() {
     private fun showConfirmButton() = with(binding) {
         llTwoButtonsBlock.isVisible = showConfirmBlock.not()
 
-        topSpacer.isVisible = showConfirmBlock
         progressButtonItem.root.isVisible = showConfirmBlock
 
         progressButtonItem.progressButton.text = getString(R.string.dialog_confirm_text_ok)
