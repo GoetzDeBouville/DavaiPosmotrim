@@ -26,6 +26,8 @@
     <string name="waiting_all_participants">Ожидаем подключения всех участников</string>
     <string name="waiting_all_participants_hint">Сеанс начнётся, когда подключатся\n все самые нужные люди.</string>
     <string name="leave_session_title">Покинуть сеанс?</string>
+    <string name="leave_session_title_session_complited">Сеанс завершён</string>
+    <string name="leave_session_dialog_message_session_complited">Участник покинул сеанс.\n\nВсе совпавшие фильмы вы найдёте в разделе «Понравившиеся фильмы».</string>
     <string name="leave_session_dialog_message">До того, как начнётся этот сеанс, вы\nсможете подключиться повторно.</string>
     <string name="leave_session_dialog_positive">ДА</string>
     <string name="leave_session_dialog_negative">НЕТ</string>
@@ -47,6 +49,7 @@
     <string name="select_movies_hours">%d ч</string>
     <string name="select_movies_minutes">%d мин</string>
     <string name="select_movies_increment_1">+1</string>
+    <string name="select_movies_leave_session_dialog_message">Сеанс будет завершён у всех участников.\n\nВсе совпавшие фильмы вы найдёте в разделе «Понравившиеся фильмы».</string>
 
     <!--onboarding screen-->
     <string name="onboarding_continue_view">продолжить</string>
@@ -115,9 +118,15 @@
     <string name="coincidences_screen_empty_coincidences">Пока ничего нет</string>
     <string name="coincidences_screen_start_roulette">Рулетка может быть запущена\n для трёх и более совпадений</string>
 
-    <!--  matched sessions  -->
+    <!--  matched session list  -->
     <string name="matched_sessions_empty_list_error">Здесь будут фильмы,\nкоторые вам понравились</string>
     <string name="matched_sessions_you"> (Вы)</string>
+
+    <!--  matched session  -->
+    <string name="matched_session_session">Сеанс %s</string>
+
+    <!--  movie card fragment  -->
+    <string name="movie_card_toolbar_title">Понравившийся фильм</string>
 
     <!--  roulette  -->
     <string name="roulette_magic">Начнём магию, когда подключатся все участники</string>

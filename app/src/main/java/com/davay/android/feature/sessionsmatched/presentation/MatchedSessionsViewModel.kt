@@ -2,9 +2,8 @@ package com.davay.android.feature.sessionsmatched.presentation
 
 import androidx.lifecycle.viewModelScope
 import com.davay.android.base.BaseViewModel
-import com.davay.android.domain.models.Session
-import com.davay.android.domain.models.SessionStatus
-import com.davay.android.domain.models.User
+import com.davay.android.core.domain.models.Session
+import com.davay.android.core.domain.models.SessionStatus
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
@@ -25,16 +24,20 @@ class MatchedSessionsViewModel @Inject constructor() : BaseViewModel() {
     }
 }
 
-@Suppress("Detekt.MagicNumber", "Detekt.StringLiteralDuplication", "Detekt.UnderscoresInNumericLiterals")
+@Suppress(
+    "Detekt.MagicNumber",
+    "Detekt.StringLiteralDuplication",
+    "Detekt.UnderscoresInNumericLiterals"
+)
 private val matchedSessions = listOf(
     Session(
         id = "11Sq21",
         users = listOf(
-            User(userId = "dqwdqw123dad", name = "Riley Bryan"),
-            User(userId = "mandamus", name = "Adolfo Burks"),
-            User(userId = "molestie", name = "Kate Griffin"),
-            User(userId = "ponderum", name = "Earl England"),
-            User(userId = "senserit", name = "Maribel Daniel")
+            "Riley Bryan",
+            "Adolfo Burks",
+            "Kate Griffin",
+            "Earl England",
+            "Maribel Daniel"
         ),
         numberOfMatchedMovies = 1,
         date = 1707350400000L,
@@ -43,12 +46,7 @@ private val matchedSessions = listOf(
     ),
     Session(
         id = "223q21",
-        users = listOf(
-            User(userId = "dqwdqw123dad", name = "Riley Bryan"),
-            User(userId = "convallis", name = "Liza Cotton"),
-            User(userId = "mandamus", name = "Adolfo Burks"),
-            User(userId = "consectetuer", name = "Lavonne Beasley")
-        ),
+        users = listOf("Riley Bryan", "Liza Cotton", "Adolfo Burks", "Lavonne Beasley"),
         numberOfMatchedMovies = 6,
         date = 1716249600000L,
         status = SessionStatus.CLOSED,
@@ -56,12 +54,7 @@ private val matchedSessions = listOf(
     ),
     Session(
         id = "curae",
-        users = listOf(
-            User(userId = "dqwdqw123dad", name = "Riley Bryan"),
-            User(userId = "mandamus", name = "Adolfo Burks"),
-            User(userId = "senserit", name = "Maribel Daniel"),
-            User(userId = "convallis", name = "Liza Cotton")
-        ),
+        users = listOf("Riley Bryan", "Liza Cotton", "Adolfo Burks", "Lavonne Beasley"),
         numberOfMatchedMovies = 4,
         date = 1718150400000L,
         status = SessionStatus.WAITING,
@@ -69,14 +62,7 @@ private val matchedSessions = listOf(
     ),
     Session(
         id = "risus",
-        users = listOf(
-            User(userId = "dqwdqw123dad", name = "Riley Bryan"),
-            User(userId = "contentiones", name = "Forest Summers"),
-            User(userId = "molestiae", name = "Sherri Saunders"),
-            User(userId = "molestie", name = "Kate Griffin"),
-            User(userId = "ponderum", name = "Earl England"),
-            User(userId = "senserit", name = "Maribel Daniel")
-        ),
+        users = listOf("Riley Bryan", "Liza Cotton", "Adolfo Burks", "Lavonne Beasley"),
         numberOfMatchedMovies = 3,
         date = 1719964800000L,
         status = SessionStatus.CLOSED,
@@ -85,12 +71,11 @@ private val matchedSessions = listOf(
     Session(
         id = "i1243hr36w",
         users = listOf(
-            User(userId = "dqwdqw123dad", name = "Riley Bryan"),
-            User(userId = "contentiones", name = "Forest Summers"),
-            User(userId = "molestiae", name = "Sherri Saunders"),
-            User(userId = "molestie", name = "Kate Griffin"),
-            User(userId = "ponderum", name = "Earl England"),
-            User(userId = "senserit", name = "Maribel Daniel")
+            "Riley Bryan",
+            "Adolfo Burks",
+            "Kate Griffin",
+            "Earl England",
+            "Maribel Daniel"
         ),
         numberOfMatchedMovies = 3,
         date = 1718236800000L,

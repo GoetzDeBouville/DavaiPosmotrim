@@ -1,12 +1,12 @@
 package com.davay.android.feature.registration.di
 
 import android.content.SharedPreferences
-import com.davay.android.core.di.storage.marker.StorageMarker
-import com.davay.android.core.di.storage.model.PreferencesStorage
-import com.davay.android.data.impl.UserDataRepositoryImpl
-import com.davay.android.domain.impl.SetUserDataUseCaseImpl
-import com.davay.android.domain.repositories.UserDataRepository
-import com.davay.android.domain.usecases.SetUserDataUseCase
+import com.davay.android.core.data.impl.UserDataRepositoryImpl
+import com.davay.android.core.domain.impl.SetUserDataUseCaseImpl
+import com.davay.android.core.domain.repositories.UserDataRepository
+import com.davay.android.core.domain.usecases.SetUserDataUseCase
+import com.davay.android.di.storage.marker.StorageMarker
+import com.davay.android.di.storage.model.PreferencesStorage
 import dagger.Module
 import dagger.Provides
 

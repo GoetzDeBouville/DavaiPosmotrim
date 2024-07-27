@@ -1,9 +1,9 @@
 package com.davay.android.feature.coincidences.data
 
 import android.content.Context
-import com.davay.android.domain.models.ErrorType
-import com.davay.android.domain.models.MovieDetails
-import com.davay.android.domain.usecases.GetData
+import com.davay.android.core.domain.models.ErrorType
+import com.davay.android.core.domain.models.MovieDetails
+import com.davay.android.core.domain.usecases.GetData
 import com.davay.android.extensions.isInternetReachable
 import com.davay.android.utils.Result
 
@@ -41,18 +41,18 @@ class TestMovieRepository(
                 id = it,
                 name = films[it % 5].first,
                 imgUrl = films[it % 5].second,
-                description = null,
-                year = null,
-                countries = listOf(),
-                alternativeName = null,
-                ratingKinopoisk = null,
-                ratingImdb = null,
-                numOfMarksKinopoisk = null,
-                numOfMarksImdb = null,
-                duration = null,
-                genres = listOf(),
-                directors = listOf(),
-                actors = listOf(),
+                description = "Description",
+                year = "2021",
+                countries = listOf("Канада, Австрия, США"),
+                alternativeName = films[it % 5].first,
+                ratingKinopoisk = 7.5f,
+                ratingImdb = 6.7f,
+                numOfMarksKinopoisk = 281_123,
+                numOfMarksImdb = 992_231,
+                duration = 143,
+                genres = listOf("Комедия", "Триллер", "Драмма"),
+                directors = listOf("Фриц Ланг", "Семён Подорожник"),
+                actors = listOf("Кевин Спэйси", "Вася Пупкин", "Степан Петрунин", "Билли Джо"),
             )
         }
     }
