@@ -5,5 +5,5 @@ data class CompilationSelect(
     val name: String,
     val cover: String,
     @Suppress("DataClassShouldBeImmutable")
-    var isSelected: Boolean = false,
+    val isSelected: Boolean = false,
 )
