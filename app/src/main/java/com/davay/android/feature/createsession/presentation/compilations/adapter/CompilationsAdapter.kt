@@ -11,12 +11,19 @@ class CompilationsAdapter(private val clickListener: ItemClickListener) :
 
     private val itemList: MutableList<CompilationSelect> = mutableListOf()
 
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CompilationsViewHolder {
         val inflater = LayoutInflater.from(parent.context)
         return CompilationsViewHolder(
             CompilationsItemBinding.inflate(inflater, parent, false),
-            clickListener
-        )
+        ).apply {
+            itemView.setOnClickListener {
+                val item = itemList[adapterPosition]
+                itemList[adapterPosition] = item.copy(isSelected = !item.isSelected)
+                notifyItemChanged(adapterPosition)
+                clickListener.onClick(itemList[adapterPosition])
+            }
+        }
     }
 
     override fun getItemCount(): Int = itemList.count()
