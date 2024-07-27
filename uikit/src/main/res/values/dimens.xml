@@ -45,7 +45,7 @@
     <dimen name="margin_72">72dp</dimen>
     <dimen name="margin_112">112dp</dimen>
     <dimen name="margin_128">128dp</dimen>
-
+    <dimen name="margin_1">1dp</dimen>
 
     <dimen name="progress_bar">20dp</dimen>
     <dimen name="frame">4dp</dimen>

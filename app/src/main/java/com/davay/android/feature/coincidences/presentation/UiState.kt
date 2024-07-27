@@ -7,6 +7,6 @@ sealed class UiState {
 
     data object Empty : UiState()
     data object Loading : UiState()
-    data class Data(val data: List<MovieDetails> = emptyList()) : UiState()
-    data class Error(val errorType: ErrorType) : UiState()
+    class Data(val data: List<MovieDetails> = emptyList()) : UiState()
+    class Error(val errorType: ErrorType) : UiState()
 }

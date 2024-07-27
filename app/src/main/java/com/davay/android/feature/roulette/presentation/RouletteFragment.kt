@@ -6,7 +6,6 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.lifecycleScope
-import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearSnapHelper
 import androidx.recyclerview.widget.RecyclerView
 import com.davay.android.R
@@ -44,7 +43,7 @@ class RouletteFragment :
         override fun onFragmentDetached(fm: FragmentManager, f: Fragment) {
             super.onFragmentDetached(fm, f)
             if (f is MatchBottomSheetFragment) {
-                findNavController().navigateUp()
+                viewModel.navigateBack()
             }
         }
     }
@@ -100,7 +99,7 @@ class RouletteFragment :
         bottomSheetBehaviorIntro.state = BottomSheetBehavior.STATE_EXPANDED
         bottomSheetBehaviorIntro.isHideable = false
         binding.btnCancel.setOnClickListener {
-            findNavController().navigateUp()
+            viewModel.navigateBack()
         }
         binding.btnContinue.setOnClickListener {
             bottomSheetBehaviorIntro.isHideable = true
@@ -195,7 +194,8 @@ class RouletteFragment :
         val movieDetails = Json.encodeToString(state.film)
         val matchBottomSheetFragment = MatchBottomSheetFragment.newInstance(
             movieDetails = movieDetails,
-            buttonText = getString(R.string.roulette_to_film_list)
+            buttonText = getString(R.string.roulette_to_film_list),
+            showDismisAnimation = false
         )
         matchBottomSheetFragment.show(parentFragmentManager, matchBottomSheetFragment.tag)
     }

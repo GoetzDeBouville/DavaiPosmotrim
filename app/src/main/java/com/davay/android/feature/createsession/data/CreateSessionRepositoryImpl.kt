@@ -1,6 +1,5 @@
 package com.davay.android.feature.createsession.data
 
-import android.util.Log
 import com.davay.android.core.data.converters.toDomain
 import com.davay.android.core.data.network.HttpNetworkClient
 import com.davay.android.core.data.network.model.mapToErrorType
@@ -20,8 +19,6 @@ class CreateSessionRepositoryImpl @Inject constructor(
 ) : CreateSessionRepository {
     override fun getCollections(): Flow<Result<List<CompilationFilms>, ErrorType>> = flow {
         val response = httpNetworkClient.getResponse(CreateSessionRequest.CollectionList)
-        Log.i(TAG, "response = ${response.resultCode}")
-        Log.i(TAG, "response body = ${response.body}")
         when (val body = response.body) {
             is CreateSessionResponse.CollectionList -> {
                 emit(Result.Success(body.value.map { it.toDomain() }))

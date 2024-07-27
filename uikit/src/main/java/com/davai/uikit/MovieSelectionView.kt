@@ -122,6 +122,7 @@ class MovieSelectionView @JvmOverloads constructor(
         backgroundColor = ContextCompat.getColor(
             context, if (isSelected) R.color.secondary_base else R.color.background_white
         )
+        setBodyTint()
     }
 
     private fun setBodyTint() {
@@ -134,5 +135,11 @@ class MovieSelectionView @JvmOverloads constructor(
 
     fun setThemeTitle(title: String) {
         tvTitle.text = title
+    }
+
+    fun setSelectedState(selected: Boolean) {
+        isSelected = selected
+        setBackgroundColor()
+        setSelectorIconVisibility()
     }
 }
