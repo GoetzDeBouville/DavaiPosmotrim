@@ -3,7 +3,6 @@ package com.davay.android.feature.createsession.presentation.genre
 import android.util.Log
 import com.davay.android.base.BaseViewModel
 import com.davay.android.core.domain.models.ErrorScreenState
-import com.davay.android.core.domain.models.ErrorType
 import com.davay.android.core.domain.models.Genre
 import com.davay.android.feature.createsession.domain.model.GenreSelect
 import com.davay.android.feature.createsession.domain.usecase.GetGenresUseCase
@@ -38,19 +37,9 @@ class GenreViewModel @Inject constructor(
                 }
             },
             onFailure = { error ->
-                _state.update { GenreState.Error(renderError(error)) }
+                _state.update { GenreState.Error(mapErrorToUiState(error)) }
             }
         )
-    }
-
-    private fun renderError(errorType: ErrorType): ErrorScreenState {
-        return when (errorType) {
-            ErrorType.NO_CONNECTION -> ErrorScreenState.NO_INTERNET
-            ErrorType.NOT_FOUND -> ErrorScreenState.SERVER_ERROR
-            ErrorType.BAD_REQUEST -> ErrorScreenState.SERVER_ERROR
-            ErrorType.APP_VERSION_ERROR -> ErrorScreenState.APP_VERSION_ERROR
-            else -> ErrorScreenState.SERVER_ERROR
-        }
     }
 
     fun genreClicked(genre: GenreSelect) {
