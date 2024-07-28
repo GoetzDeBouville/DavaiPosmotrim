@@ -3,9 +3,11 @@ package com.davay.android.feature.sessionlist.presentation
 import android.os.Bundle
 import android.view.View
 import androidx.activity.OnBackPressedCallback
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.davai.extensions.dpToPx
 import com.davai.uikit.MainDialogFragment
+import com.davai.uikit.MainDialogViewModel
 import com.davay.android.R
 import com.davay.android.app.AppComponentHolder
 import com.davay.android.base.BaseFragment
@@ -50,13 +52,16 @@ class SessionListFragment : BaseFragment<FragmentSessionListBinding, SessionList
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        dialog = MainDialogFragment.newInstance(
-            title = getString(R.string.leave_session_title),
-            message = getString(R.string.leave_session_dialog_message),
-            yesAction = {
-                findNavController().popBackStack()
-            }
-        )
+        val dialogViewModel = ViewModelProvider(requireActivity())[MainDialogViewModel::class.java]
+        dialogViewModel.title = getString(R.string.leave_session_title)
+        dialogViewModel.message = getString(R.string.leave_session_dialog_message)
+        dialogViewModel.yesAction = {
+            findNavController().popBackStack()
+        }
+        dialogViewModel.noAction = {
+        }
+        dialog = MainDialogFragment()
+
     }
 
     override fun initViews() {

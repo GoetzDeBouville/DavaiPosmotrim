@@ -6,28 +6,26 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.DialogFragment
+import androidx.lifecycle.ViewModelProvider
 import com.davai.uikit.databinding.LayoutCustomDialogBinding
 import com.davai.uikit.extensions.applyBlurEffect
 import com.davai.uikit.extensions.clearBlurEffect
 
 class MainDialogFragment : DialogFragment() {
 
-    private var title: String? = null
-    private var message: String? = null
-    private var yesAction: (() -> Unit)? = null
-    private var noAction: (() -> Unit)? = null
-
     private var _binding: LayoutCustomDialogBinding? = null
     private val binding get() = _binding!!
+    private var viewModel: MainDialogViewModel? = null
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         dialog?.window?.setBackgroundDrawableResource(R.drawable.session_card_background)
         _binding = LayoutCustomDialogBinding.inflate(inflater, container, false)
         activity?.window?.decorView?.applyBlurEffect()
+        viewModel = ViewModelProvider(requireActivity())[MainDialogViewModel::class.java]
 
         initViews()
         subscribe()
@@ -37,21 +35,21 @@ class MainDialogFragment : DialogFragment() {
 
     private fun initViews() {
         with(binding) {
-            tvDialogTitle.text = title
-            tvDialogMessage.text = message
+            tvDialogTitle.text = viewModel?.title
+            tvDialogMessage.text = viewModel?.message
         }
     }
 
     private fun subscribe() {
         with(binding) {
             btnYes.setOnClickListener {
-                yesAction?.invoke()
+                viewModel?.yesAction?.invoke()
                 dialog?.dismiss()
                 activity?.window?.decorView?.clearBlurEffect()
             }
 
             btnNo.setOnClickListener {
-                noAction?.invoke()
+                viewModel?.noAction?.invoke()
                 dialog?.dismiss()
                 activity?.window?.decorView?.clearBlurEffect()
             }
@@ -67,7 +65,7 @@ class MainDialogFragment : DialogFragment() {
     override fun onCancel(dialog: DialogInterface) {
         super.onCancel(dialog)
         activity?.window?.decorView?.clearBlurEffect()
-        noAction?.invoke()
+        viewModel?.noAction?.invoke()
     }
 
     override fun onDismiss(dialog: DialogInterface) {
@@ -79,16 +77,16 @@ class MainDialogFragment : DialogFragment() {
     override fun onViewStateRestored(savedInstanceState: Bundle?) {
         super.onViewStateRestored(savedInstanceState)
         if (savedInstanceState != null) {
-            title = savedInstanceState.getString(KEY_TITLE)
-            message = savedInstanceState.getString(KEY_MESSAGE)
+            viewModel?.title = savedInstanceState.getString(KEY_TITLE)
+            viewModel?.message = savedInstanceState.getString(KEY_MESSAGE)
             initViews()
         }
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
-        outState.putString(KEY_TITLE, title)
-        outState.putString(KEY_MESSAGE, message)
+        outState.putString(KEY_TITLE, viewModel?.title)
+        outState.putString(KEY_MESSAGE, viewModel?.message)
     }
 
     companion object {
@@ -103,10 +101,12 @@ class MainDialogFragment : DialogFragment() {
             noAction: (() -> Unit)? = null
         ): MainDialogFragment {
             val dialog = MainDialogFragment()
-            dialog.title = title
-            dialog.message = message
-            dialog.yesAction = yesAction
-            dialog.noAction = noAction
+            val viewModel =
+                ViewModelProvider(dialog.requireActivity())[MainDialogViewModel::class.java]
+            viewModel.title = title
+            viewModel.message = message
+            viewModel.yesAction = yesAction
+            viewModel.noAction = noAction
             return dialog
         }
     }
