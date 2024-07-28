@@ -1,17 +1,19 @@
 package com.davay.android.core.data.dto
 
-import com.google.gson.annotations.SerializedName
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 
+@Serializable
 enum class SessionStatusDto {
-    @SerializedName("waiting")
+    @SerialName("waiting")
     WAITING,
 
-    @SerializedName("voting")
+    @SerialName("voting")
     VOTING,
 
-    @SerializedName("closed")
+    @SerialName("closed")
     CLOSED,
 
-    @SerializedName("roulette")
+    @SerialName("roulette")
     ROULETTE
 }

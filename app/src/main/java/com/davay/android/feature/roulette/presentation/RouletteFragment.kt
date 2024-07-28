@@ -9,10 +9,10 @@ import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearSnapHelper
 import androidx.recyclerview.widget.RecyclerView
 import com.davay.android.R
-import com.davay.android.app.AppComponentHolder
 import com.davay.android.base.BaseFragment
 import com.davay.android.core.domain.models.MovieDetails
 import com.davay.android.databinding.FragmentRouletteBinding
+import com.davay.android.di.AppComponentHolder
 import com.davay.android.di.ScreenComponent
 import com.davay.android.feature.match.presentation.MatchBottomSheetFragment
 import com.davay.android.feature.roulette.di.DaggerRouletteFragmentComponent
@@ -28,9 +28,10 @@ import com.google.android.flexbox.FlexWrap
 import com.google.android.flexbox.FlexboxLayoutManager
 import com.google.android.flexbox.JustifyContent
 import com.google.android.material.bottomsheet.BottomSheetBehavior
-import com.google.gson.Gson
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import kotlinx.serialization.encodeToString
+import kotlinx.serialization.json.Json
 
 class RouletteFragment :
     BaseFragment<FragmentRouletteBinding, RouletteViewModel>(FragmentRouletteBinding::inflate) {
@@ -190,7 +191,7 @@ class RouletteFragment :
     }
 
     private fun handleMatchState(state: RouletteState.Match) {
-        val movieDetails = Gson().toJson(state.film)
+        val movieDetails = Json.encodeToString(state.film)
         val matchBottomSheetFragment = MatchBottomSheetFragment.newInstance(
             movieDetails = movieDetails,
             buttonText = getString(R.string.roulette_to_film_list),

@@ -1,6 +1,7 @@
 plugins {
     alias(libs.plugins.androidApplication)
     alias(libs.plugins.jetbrainsKotlinAndroid)
+    alias(libs.plugins.serialization)
     alias(libs.plugins.ksp)
 }
 
@@ -50,8 +51,6 @@ dependencies {
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
-    implementation(libs.retrofit.impl)
-    implementation(libs.retrofit.converter)
     implementation(libs.dagger.impl)
     ksp(libs.dagger.compiler)
     implementation(libs.navigation.fragment)
@@ -60,10 +59,12 @@ dependencies {
     implementation(libs.flexbox)
     implementation(libs.circle.indicator)
     implementation(libs.physicslayout)
-    implementation(libs.room.runtime)
+
     ksp(libs.room.compiler)
-    implementation(libs.room.ktx)
+    implementation(libs.bundles.room)
     implementation(libs.encrypted.sharedpreferences)
+
+    implementation(libs.bundles.ktor)
 
     implementation(project(":uikit"))
 }

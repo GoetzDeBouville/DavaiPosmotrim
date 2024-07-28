@@ -12,9 +12,9 @@ import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.lifecycleScope
 import com.davay.android.R
-import com.davay.android.app.AppComponentHolder
 import com.davay.android.base.BaseFragment
 import com.davay.android.databinding.FragmentSplashBinding
+import com.davay.android.di.AppComponentHolder
 import com.davay.android.di.ScreenComponent
 import com.davay.android.extensions.setSplashTextViewStyle
 import com.davay.android.feature.onboarding.presentation.OnboardingFragment

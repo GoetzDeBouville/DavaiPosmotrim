@@ -1,7 +1,7 @@
 package com.davay.android.core.domain.impl
 
+import com.davay.android.core.domain.api.UserDataRepository
 import com.davay.android.core.domain.models.UserDataFields
-import com.davay.android.core.domain.repositories.UserDataRepository
 import com.davay.android.core.domain.usecases.SetUserDataUseCase
 
 class SetUserDataUseCaseImpl(

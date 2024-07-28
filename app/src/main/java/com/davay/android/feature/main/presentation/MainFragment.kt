@@ -8,9 +8,9 @@ import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.updateLayoutParams
 import com.davai.uikit.MainScreenButtonView
 import com.davay.android.R
-import com.davay.android.app.AppComponentHolder
 import com.davay.android.base.BaseFragment
 import com.davay.android.databinding.FragmentMainBinding
+import com.davay.android.di.AppComponentHolder
 import com.davay.android.di.ScreenComponent
 import com.davay.android.feature.changename.presentation.ChangeNameBottomSheetFragment
 import com.davay.android.feature.main.di.DaggerMainFragmentComponent

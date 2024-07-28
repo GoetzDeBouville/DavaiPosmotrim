@@ -9,9 +9,9 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import com.davai.extensions.dpToPx
 import com.davay.android.R
-import com.davay.android.app.AppComponentHolder
 import com.davay.android.base.BaseFragment
 import com.davay.android.databinding.FragmentMatchedSessionBinding
+import com.davay.android.di.AppComponentHolder
 import com.davay.android.di.ScreenComponent
 import com.davay.android.extensions.formatDateWithoutCurrentYear
 import com.davay.android.extensions.timeStamp
@@ -25,9 +25,10 @@ import com.google.android.flexbox.FlexDirection
 import com.google.android.flexbox.FlexWrap
 import com.google.android.flexbox.FlexboxLayoutManager
 import com.google.android.flexbox.JustifyContent
-import com.google.gson.Gson
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
+import kotlinx.serialization.encodeToString
+import kotlinx.serialization.json.Json
 
 class MatchedSessionFragment :
     BaseFragment<FragmentMatchedSessionBinding, MatchedSessionViewModel>(
@@ -36,7 +37,7 @@ class MatchedSessionFragment :
 
     override val viewModel: MatchedSessionViewModel by injectViewModel<MatchedSessionViewModel>()
     private val moviesGridAdapter = MoviesGridAdapter { movieDetails ->
-        val movie = Gson().toJson(movieDetails)
+        val movie = Json.encodeToString(movieDetails)
         val bundle = Bundle().apply {
             putString(MovieCardFragment.MOVIE_DETAILS_KEY, movie)
         }
