@@ -66,4 +66,15 @@ class CompilationsViewModel @Inject constructor(
     fun hasSelectedCompilations(): Boolean {
         return selectedCompilations.isNotEmpty()
     }
+
+    fun resetSelections() {
+        selectedCompilations.clear()
+        _state.update { currentState ->
+            if (currentState is CompilationsState.Content) {
+                CompilationsState.Content(currentState.compilationList.map { it.copy(isSelected = false) })
+            } else {
+                currentState
+            }
+        }
+    }
 }

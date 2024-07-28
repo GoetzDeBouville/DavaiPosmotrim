@@ -31,8 +31,19 @@ class GenreAdapter(private val clickListener: ItemClickListener) :
         holder.bind(itemList[position])
     }
 
-    fun addItemList(list: List<GenreSelect>) {
+    fun updateItemList(list: List<GenreSelect>) {
+        itemList.clear()
         itemList.addAll(list)
+        notifyDataSetChanged()
+    }
+
+    fun clearSelections() {
+        itemList.forEachIndexed { index, genreSelect ->
+            if (genreSelect.isSelected) {
+                itemList[index] = genreSelect.copy(isSelected = false)
+            }
+        }
+        notifyDataSetChanged()
     }
 
     fun interface ItemClickListener {

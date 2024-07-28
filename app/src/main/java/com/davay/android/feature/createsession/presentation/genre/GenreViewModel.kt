@@ -52,7 +52,7 @@ class GenreViewModel @Inject constructor(
 
     fun buttonContinueClicked() {
         if (BuildConfig.DEBUG) {
-            Log.d(TAG, selectedGenre.toString())
+            Log.d("MyTagGenre", selectedGenre.toString())
         }
     }
 
@@ -66,7 +66,15 @@ class GenreViewModel @Inject constructor(
         return selectedGenre.isNotEmpty()
     }
 
-    private companion object {
-        val TAG = GenreViewModel::class.simpleName
+    fun resetSelections() {
+        selectedGenre.clear()
+        _state.update { currentState ->
+            if (currentState is GenreState.Content) {
+                val resetGenres = currentState.genreList.map { it.copy(isSelected = false) }
+                GenreState.Content(resetGenres)
+            } else {
+                currentState
+            }
+        }
     }
 }

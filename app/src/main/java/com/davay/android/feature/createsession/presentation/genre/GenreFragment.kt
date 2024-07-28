@@ -36,6 +36,7 @@ class GenreFragment : BaseFragment<FragmentGenreBinding, GenreViewModel>(
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initRecycler()
+        subscribe()
     }
 
     override fun subscribe() {
@@ -83,7 +84,7 @@ class GenreFragment : BaseFragment<FragmentGenreBinding, GenreViewModel>(
     }
 
     private fun handleContent(state: GenreState.Content) {
-        genreAdapter.addItemList(state.genreList)
+        genreAdapter.updateItemList(state.genreList)
         showContent()
     }
 
@@ -102,6 +103,11 @@ class GenreFragment : BaseFragment<FragmentGenreBinding, GenreViewModel>(
     fun buttonContinueClicked(): Boolean {
         viewModel.buttonContinueClicked()
         return viewModel.hasSelectedGenres()
+    }
+
+    fun resetSelections() {
+        viewModel.resetSelections()
+        genreAdapter.clearSelections()
     }
 
     companion object {

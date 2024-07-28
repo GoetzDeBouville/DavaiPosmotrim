@@ -110,4 +110,18 @@ class CreateSessionFragment : BaseFragment<FragmentCreateSessionBinding, CreateS
         tabMediator = null
         super.onDestroyView()
     }
+
+    override fun onResume() {
+        super.onResume()
+        resetSelections()
+    }
+
+    private fun resetSelections() {
+        val genreFragment = childFragmentManager.findFragmentByTag("f1") as? GenreFragment
+        val compilationsFragment =
+            childFragmentManager.findFragmentByTag("f0") as? CompilationsFragment
+
+        genreFragment?.resetSelections()
+        compilationsFragment?.resetSelections()
+    }
 }
