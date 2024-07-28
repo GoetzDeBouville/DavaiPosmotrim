@@ -10,6 +10,7 @@ import com.davay.android.feature.createsession.domain.usecase.GetGenresUseCase
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
+import me.relex.circleindicator.BuildConfig
 import javax.inject.Inject
 
 class GenreViewModel @Inject constructor(
@@ -32,7 +33,7 @@ class GenreViewModel @Inject constructor(
                 if (genres.isEmpty()) {
                     _state.update { GenreState.Error(ErrorScreenState.EMPTY) }
                 } else {
-                    val uiGenres = genres.map { it.toGenre() }
+                    val uiGenres = genres.map { it.toUiModel() }
                     _state.update { GenreState.Content(uiGenres) }
                 }
             },
@@ -61,10 +62,12 @@ class GenreViewModel @Inject constructor(
     }
 
     fun buttonContinueClicked() {
-        Log.d(TAG, selectedGenre.toString())
+        if (BuildConfig.DEBUG) {
+            Log.d(TAG, selectedGenre.toString())
+        }
     }
 
-    private fun Genre.toGenre() = GenreSelect(
+    private fun Genre.toUiModel() = GenreSelect(
         name = this.name,
         isSelected = false
     )

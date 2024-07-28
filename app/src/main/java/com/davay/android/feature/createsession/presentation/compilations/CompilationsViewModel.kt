@@ -10,6 +10,7 @@ import com.davay.android.feature.createsession.domain.usecase.GetCollectionsUseC
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
+import me.relex.circleindicator.BuildConfig
 import javax.inject.Inject
 
 class CompilationsViewModel @Inject constructor(
@@ -32,7 +33,7 @@ class CompilationsViewModel @Inject constructor(
                 if (collections.isEmpty()) {
                     _state.update { CompilationsState.Error(ErrorScreenState.EMPTY) }
                 } else {
-                    val compilations = collections.map { it.toCompilation() }
+                    val compilations = collections.map { it.toUiModel() }
                     _state.update { CompilationsState.Content(compilations) }
                 }
             },
@@ -61,10 +62,12 @@ class CompilationsViewModel @Inject constructor(
     }
 
     fun buttonContinueClicked() {
-        Log.d("MyTag", selectedCompilations.toString())
+        if (BuildConfig.DEBUG) {
+            Log.d("MyTag", selectedCompilations.toString())
+        }
     }
 
-    fun CompilationFilms.toCompilation() = CompilationSelect(
+    private fun CompilationFilms.toUiModel() = CompilationSelect(
         id = this.id,
         name = this.name,
         cover = this.imgUrl ?: "",
