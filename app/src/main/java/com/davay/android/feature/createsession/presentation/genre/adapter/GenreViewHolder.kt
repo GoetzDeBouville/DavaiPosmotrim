@@ -11,8 +11,13 @@ class GenreViewHolder(
 ) : RecyclerView.ViewHolder(binding.root) {
     fun bind(genre: GenreSelect) = with(binding.root) {
         setText(genre.name)
-        setStyle(if (genre.isSelected) (STYLE_SECONDARY_GREEN)
-        else (STYLE_SECONDARY_GRAY))
+        setStyle(
+            if (genre.isSelected) {
+                STYLE_SECONDARY_GREEN
+            } else {
+                STYLE_SECONDARY_GRAY
+            }
+        )
     }
 }
 
