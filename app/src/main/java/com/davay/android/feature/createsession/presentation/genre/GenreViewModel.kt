@@ -1,21 +1,15 @@
 package com.davay.android.feature.createsession.presentation.genre
 
 import android.util.Log
-import androidx.lifecycle.viewModelScope
-import com.commit451.translationviewdraghelper.BuildConfig
 import com.davay.android.base.BaseViewModel
 import com.davay.android.core.domain.models.ErrorScreenState
 import com.davay.android.core.domain.models.ErrorType
 import com.davay.android.core.domain.models.Genre
-import com.davay.android.core.domain.models.Result
 import com.davay.android.feature.createsession.domain.model.GenreSelect
 import com.davay.android.feature.createsession.domain.usecase.GetGenresUseCase
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
-import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class GenreViewModel @Inject constructor(
@@ -38,8 +32,8 @@ class GenreViewModel @Inject constructor(
                 if (genres.isEmpty()) {
                     _state.update { GenreState.Error(ErrorScreenState.EMPTY) }
                 } else {
-                    val genres = genres.map { it.toGenre() }
-                    _state.update { GenreState.Content(genres) }
+                    val uiGenres = genres.map { it.toGenre() }
+                    _state.update { GenreState.Content(uiGenres) }
                 }
             },
             onFailure = { error ->
@@ -67,34 +61,7 @@ class GenreViewModel @Inject constructor(
     }
 
     fun buttonContinueClicked() {
-        Log.d("MyTag", selectedGenre.toString())
-    }
-
-    private inline fun <reified D> runSafelyUseCase(
-        useCaseFlow: Flow<Result<D, ErrorType>>,
-        noinline onFailure: ((ErrorType) -> Unit)? = null,
-        crossinline onSuccess: (D) -> Unit,
-    ) {
-        viewModelScope.launch(Dispatchers.IO) {
-            runCatching {
-                useCaseFlow.collect { result ->
-                    when (result) {
-                        is Result.Success -> onSuccess(result.data)
-                        is Result.Error -> {
-                            onFailure?.invoke(result.error)
-                                ?: _state.update { GenreState.Error(renderError(result.error)) }
-                        }
-                    }
-                }
-            }.onFailure { error ->
-                if (BuildConfig.DEBUG) {
-                    Log.v(TAG, "error -> ${error.localizedMessage}")
-                    error.printStackTrace()
-                }
-                onFailure?.invoke(ErrorType.UNKNOWN_ERROR)
-                    ?: _state.update { GenreState.Error(renderError(ErrorType.UNKNOWN_ERROR)) }
-            }
-        }
+        Log.d(TAG, selectedGenre.toString())
     }
 
     private fun Genre.toGenre() = GenreSelect(
@@ -102,12 +69,12 @@ class GenreViewModel @Inject constructor(
         isSelected = false
     )
 
-    private companion object {
-        val TAG = GenreViewModel::class.simpleName
-    }
-
     // Метод для проверки, выбран ли хотя бы один жанр
     fun hasSelectedGenres(): Boolean {
-        return selectedGenreList.isNotEmpty()
+        return selectedGenre.isNotEmpty()
+    }
+
+    private companion object {
+        val TAG = GenreViewModel::class.simpleName
     }
 }
