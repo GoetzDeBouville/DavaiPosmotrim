@@ -13,10 +13,20 @@ class GenreAdapter(private val clickListener: ItemClickListener) :
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): GenreViewHolder {
         val inflater = LayoutInflater.from(parent.context)
+//        return GenreViewHolder(
+//            GenreItemBinding.inflate(inflater, parent, false),
+//            clickListener
+//        )
         return GenreViewHolder(
             GenreItemBinding.inflate(inflater, parent, false),
-            clickListener
-        )
+        ).apply {
+            itemView.setOnClickListener {
+                val item = itemList[adapterPosition]
+                itemList[adapterPosition] = item.copy(isSelected = !item.isSelected)
+                notifyItemChanged(adapterPosition)
+                clickListener.onClick(itemList[adapterPosition])
+            }
+        }
     }
 
     override fun getItemCount(): Int = itemList.count()

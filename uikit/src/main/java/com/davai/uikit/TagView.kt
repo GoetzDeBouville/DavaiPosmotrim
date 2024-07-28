@@ -7,6 +7,7 @@ import android.widget.FrameLayout
 import android.widget.TextView
 import androidx.annotation.AttrRes
 import androidx.annotation.StyleRes
+import androidx.core.content.ContextCompat
 
 class TagView @JvmOverloads constructor(
     context: Context,
@@ -17,6 +18,8 @@ class TagView @JvmOverloads constructor(
 
     private var tvTagText: TextView? = null
     private var tagType: Int = 1
+    private var isSelected = false
+    private var backgroundColor = -1
 
     init {
         initViews()
@@ -53,6 +56,18 @@ class TagView @JvmOverloads constructor(
     fun setText(text: String) {
         tvTagText?.text = text
     }
+
+    fun setSelectedState(selected: Boolean) {
+        isSelected = selected
+        setBackgroundColor()
+    }
+
+    private fun setBackgroundColor() {
+        backgroundColor = ContextCompat.getColor(
+            context, if (isSelected) R.color.secondary_base else R.color.background_white
+        )
+    }
+
 
     fun changeStyle(style: Style) {
         when (style) {
