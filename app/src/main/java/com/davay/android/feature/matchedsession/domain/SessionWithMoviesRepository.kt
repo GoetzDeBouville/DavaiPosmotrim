@@ -1,8 +1,7 @@
 package com.davay.android.feature.matchedsession.domain
 
-import com.davay.android.domain.models.MovieDetails
-import com.davay.android.domain.models.Session
+import com.davay.android.core.domain.models.SessionWithMovies
 
 interface SessionWithMoviesRepository {
-    suspend fun getSessionWithMovies(sessionId: String): Pair<Session, List<MovieDetails>>?
+    suspend fun getSessionWithMovies(sessionId: String): SessionWithMovies?
 }

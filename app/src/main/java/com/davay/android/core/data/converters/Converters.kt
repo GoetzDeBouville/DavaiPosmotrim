@@ -136,14 +136,6 @@ fun SessionEntity.toDomain(): Session {
     )
 }
 
-fun SessionWithMovies.getDomainSession(): Session {
-    return session.toDomain()
-}
-
-fun SessionWithMovies.getDomainMovies(): List<MovieDetails> {
-    return movies.map { it.toDomain() }
-}
-
 fun MovieDetails.toDbEntity(): MovieDetailsEntity {
     return MovieDetailsEntity(
         movieId = id,
@@ -180,4 +172,11 @@ fun List<String>.toStringData(): String {
 
 fun String.toListData(): List<String> {
     return split(";")
+}
+
+fun SessionWithMovies.toDomain(): com.davay.android.core.domain.models.SessionWithMovies {
+    return com.davay.android.core.domain.models.SessionWithMovies(
+        session = session.toDomain(),
+        movies = movies.map { it.toDomain() }
+    )
 }

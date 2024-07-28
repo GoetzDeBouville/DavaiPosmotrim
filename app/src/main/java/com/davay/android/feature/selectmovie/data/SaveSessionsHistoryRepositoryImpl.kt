@@ -1,10 +1,10 @@
 package com.davay.android.feature.selectmovie.data
 
-import com.davay.android.data.converters.toDbEntity
-import com.davay.android.data.database.HistoryDao
-import com.davay.android.data.database.entity.SessionMovieCrossRef
-import com.davay.android.domain.models.MovieDetails
-import com.davay.android.domain.models.Session
+import com.davay.android.core.data.converters.toDbEntity
+import com.davay.android.core.data.database.HistoryDao
+import com.davay.android.core.data.database.entity.SessionMovieCrossRef
+import com.davay.android.core.domain.models.MovieDetails
+import com.davay.android.core.domain.models.Session
 import com.davay.android.feature.selectmovie.domain.SaveSessionsHistoryRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext

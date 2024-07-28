@@ -50,11 +50,11 @@ class MatchedSessionFragment :
         .build()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-
         arguments?.let {
             sessionId = it.getString(SESSION_ID, "")
         }
+        super.onViewCreated(view, savedInstanceState)
+
         initUsersRecycler()
         setupMoviesGrid()
     }

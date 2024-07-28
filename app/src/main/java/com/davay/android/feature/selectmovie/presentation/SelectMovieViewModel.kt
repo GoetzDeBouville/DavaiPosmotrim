@@ -2,10 +2,9 @@ package com.davay.android.feature.selectmovie.presentation
 
 import androidx.lifecycle.viewModelScope
 import com.davay.android.base.BaseViewModel
-import com.davay.android.domain.models.MovieDetails
-import com.davay.android.domain.models.Session
-import com.davay.android.domain.models.SessionStatus
-import com.davay.android.domain.models.User
+import com.davay.android.core.domain.models.MovieDetails
+import com.davay.android.core.domain.models.Session
+import com.davay.android.core.domain.models.SessionStatus
 import com.davay.android.feature.selectmovie.domain.SaveSessionsHistoryRepository
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -19,9 +18,9 @@ class SelectMovieViewModel @Inject constructor(
     val state = _state.asStateFlow()
     private val session = Session(
         id = "qwer123",
-        users = listOf(User("abs", "Dima"), User("absas", "Sasha")),
+        users = listOf("Dima", "Sasha"),
         numberOfMatchedMovies = 4,
-        date = 1707350400000L,
+        date = 1_707_350_400_000L,
         status = SessionStatus.VOTING,
         imgUrl = "https://avatars.mds.yandex.net/get-kinopoisk-image/4303601/119d3aad-a479-4532-aadf-b428eb330337/3840x"
     )
@@ -36,7 +35,8 @@ class SelectMovieViewModel @Inject constructor(
         "Detekt.StringLiteralDuplication",
         "Detekt.ArgumentListWrapping",
         "Detekt.Wrapping",
-        "Detekt.UnderscoresInNumericLiterals"
+        "Detekt.UnderscoresInNumericLiterals",
+        "Detekt.LongMethod"
     )
     private fun getFilms() {
         val movies = listOf(
