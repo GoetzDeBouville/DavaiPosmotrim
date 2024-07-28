@@ -13,10 +13,6 @@ class GenreAdapter(private val clickListener: ItemClickListener) :
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): GenreViewHolder {
         val inflater = LayoutInflater.from(parent.context)
-//        return GenreViewHolder(
-//            GenreItemBinding.inflate(inflater, parent, false),
-//            clickListener
-//        )
         return GenreViewHolder(
             GenreItemBinding.inflate(inflater, parent, false),
         ).apply {
