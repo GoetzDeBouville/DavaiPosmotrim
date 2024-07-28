@@ -7,7 +7,6 @@ import android.widget.FrameLayout
 import android.widget.TextView
 import androidx.annotation.AttrRes
 import androidx.annotation.StyleRes
-import androidx.core.content.ContextCompat
 
 class TagView @JvmOverloads constructor(
     context: Context,
@@ -18,8 +17,6 @@ class TagView @JvmOverloads constructor(
 
     private var tvTagText: TextView? = null
     private var tagType: Int = 1
-    private var isSelected = false
-    private var backgroundColor = -1
 
     init {
         initViews()
@@ -57,17 +54,6 @@ class TagView @JvmOverloads constructor(
         tvTagText?.text = text
     }
 
-    fun setSelectedState(selected: Boolean) {
-        isSelected = selected
-        setBackgroundColor()
-    }
-
-    private fun setBackgroundColor() {
-        backgroundColor = ContextCompat.getColor(
-            context, if (isSelected) R.color.secondary_base else R.color.background_white
-        )
-    }
-
 
     fun changeStyle(style: Style) {
         when (style) {
@@ -81,7 +67,7 @@ class TagView @JvmOverloads constructor(
     }
 
     @Suppress("Detekt.LongMethod")
-    private fun setStyle(type: Int) {
+    fun setStyle(type: Int) {
         when (type) {
             STYLE_PRIMARY_VIOLET -> {
                 tvTagText?.let {
@@ -90,6 +76,7 @@ class TagView @JvmOverloads constructor(
                 }
                 setPaddings(PADDING_HORIZONTAL_12_DP, PADDING_VERTICAL_4_DP)
             }
+
             STYLE_PRIMARY_GRAY -> {
                 tvTagText?.let {
                     it.setBackgroundResource(R.drawable.tag_primary_gray_background)
@@ -97,6 +84,7 @@ class TagView @JvmOverloads constructor(
                 }
                 setPaddings(PADDING_HORIZONTAL_12_DP, PADDING_VERTICAL_4_DP)
             }
+
             STYLE_SECONDARY_GREEN -> {
                 tvTagText?.let {
                     it.setBackgroundResource(R.drawable.tag_secodary_green_background)
@@ -104,6 +92,7 @@ class TagView @JvmOverloads constructor(
                 }
                 setPaddings(PADDING_HORIZONTAL_20_DP, PADDING_VERTICAL_8_DP)
             }
+
             STYLE_SECONDARY_GRAY -> {
                 tvTagText?.let {
                     it.setBackgroundResource(R.drawable.tag_secondary_gray_background)
@@ -111,6 +100,7 @@ class TagView @JvmOverloads constructor(
                 }
                 setPaddings(PADDING_HORIZONTAL_20_DP, PADDING_VERTICAL_8_DP)
             }
+
             STYLE_ONBOARDING_YELLOW -> {
                 tvTagText?.let {
                     it.setBackgroundResource(R.drawable.tag_onboadring_yellow_background)
@@ -119,6 +109,7 @@ class TagView @JvmOverloads constructor(
                 }
                 setPaddings(PADDING_HORIZONTAL_20_DP, PADDING_VERTICAL_8_DP)
             }
+
             STYLE_ONBOARDING_VIOLET -> {
                 tvTagText?.let {
                     it.setBackgroundResource(R.drawable.tag_onboarding_violet_background)
@@ -145,12 +136,12 @@ class TagView @JvmOverloads constructor(
         private const val PADDING_VERTICAL_4_DP = 4
         private const val PADDING_VERTICAL_8_DP = 8
 
-        private const val STYLE_PRIMARY_VIOLET = 1
-        private const val STYLE_PRIMARY_GRAY = 2
-        private const val STYLE_SECONDARY_GREEN = 3
-        private const val STYLE_SECONDARY_GRAY = 4
-        private const val STYLE_ONBOARDING_YELLOW = 5
-        private const val STYLE_ONBOARDING_VIOLET = 6
+        const val STYLE_PRIMARY_VIOLET = 1
+        const val STYLE_PRIMARY_GRAY = 2
+        const val STYLE_SECONDARY_GREEN = 3
+        const val STYLE_SECONDARY_GRAY = 4
+        const val STYLE_ONBOARDING_YELLOW = 5
+        const val STYLE_ONBOARDING_VIOLET = 6
 
         enum class Style {
             PRIMARY_VIOLET,
