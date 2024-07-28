@@ -88,7 +88,7 @@ fun SessionDto.toDomain(): Session {
 
     return Session(
         id = id,
-        users = users.map { it.toDomain() },
+        users = users.map { it.name },
         numberOfMatchedMovies = numberOfMatchedMovies,
         date = timestamp,
         status = status.toDomain(),
@@ -128,7 +128,7 @@ fun MovieDetailsEntity.toDomain(): MovieDetails {
 fun SessionEntity.toDomain(): Session {
     return Session(
         id = sessionId,
-        users = users.toListData().mapIndexed { index, name -> User(index.toString(), name) },
+        users = users.toListData(),
         numberOfMatchedMovies = numberOfMatchedMovies,
         date = date,
         status = SessionStatus.CLOSED,
@@ -167,7 +167,7 @@ fun MovieDetails.toDbEntity(): MovieDetailsEntity {
 fun Session.toDbEntity(): SessionEntity {
     return SessionEntity(
         sessionId = id,
-        users = users.map { it.name }.toStringData(),
+        users = users.map { it }.toStringData(),
         numberOfMatchedMovies = numberOfMatchedMovies ?: 0,
         date = date,
         imgUrl = imgUrl

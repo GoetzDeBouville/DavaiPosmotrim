@@ -105,4 +105,9 @@ class GenreViewModel @Inject constructor(
     private companion object {
         val TAG = GenreViewModel::class.simpleName
     }
+
+    // Метод для проверки, выбран ли хотя бы один жанр
+    fun hasSelectedGenres(): Boolean {
+        return selectedGenreList.isNotEmpty()
+    }
 }

@@ -89,7 +89,7 @@ class MovieEvaluationView @JvmOverloads constructor(
             context,
             when {
                 rate < BAD_RATE -> R.color.error
-                rate >= GOOD_RATE -> R.color.done
+                rate >= GOOD_RATE -> R.color.secondary_base
                 else -> R.color.attention
             }
         )

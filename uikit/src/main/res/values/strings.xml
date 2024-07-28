@@ -16,6 +16,9 @@
     <string name="dialog_message">Текст диалога</string>
     <string name="dialog_yes">ДА</string>
     <string name="dialog_no">НЕТ</string>
+    <string name="dialog_confirm_text_ok">Хорошо</string>
+
+    <string name="match_bottom_sheet_dialog_continue_session">Продолжить сеанс</string>
 
     <string name="error_message_no_internet_title">Нет соединения с интернетом</string>
     <string name="error_message_no_internet_description">Интернет не бом-бом,\nпроверьте соединение</string>

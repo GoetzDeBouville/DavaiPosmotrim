@@ -1,4 +1,4 @@
-package com.davay.android.feature.load.di
+package com.davay.android.feature.moviecard.di
 
 import com.davay.android.di.AppComponent
 import com.davay.android.di.ScreenComponent
@@ -6,13 +6,12 @@ import dagger.Component
 
 @Component(
     dependencies = [AppComponent::class],
-    modules = [LoadFragmentModule::class]
+    modules = [MovieCardFragmentModule::class]
 )
-interface LoadFragmentComponent : ScreenComponent {
-
+interface MovieCardFragmentComponent : ScreenComponent {
     @Component.Builder
     interface Builder {
         fun appComponent(appComponent: AppComponent): Builder
-        fun build(): LoadFragmentComponent
+        fun build(): MovieCardFragmentComponent
     }
 }

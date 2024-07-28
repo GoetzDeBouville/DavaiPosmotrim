@@ -49,9 +49,9 @@ class OnboardingFragment : BaseFragment<FragmentOnboardingBinding, OnboardingVie
     override fun initViews() = with(binding) {
         fragmentList.addAll(
             listOf(
-                OnboardingFirstFragment(arrayOfIds[0]),
-                OnboardingFirstFragment(arrayOfIds[1]),
-                OnboardingFirstFragment(arrayOfIds[2])
+                OnboardingFirstFragment.newInstance(arrayOfIds[0]),
+                OnboardingFirstFragment.newInstance(arrayOfIds[1]),
+                OnboardingFirstFragment.newInstance(arrayOfIds[2])
             )
         )
         viewpager.adapter = OnboardingViewPagerAdapter(

@@ -1,21 +1,15 @@
 package com.davay.android.feature.createsession.presentation.compilations
 
 import android.util.Log
-import androidx.lifecycle.viewModelScope
-import com.commit451.translationviewdraghelper.BuildConfig
 import com.davay.android.base.BaseViewModel
 import com.davay.android.core.domain.models.CompilationFilms
 import com.davay.android.core.domain.models.ErrorScreenState
 import com.davay.android.core.domain.models.ErrorType
-import com.davay.android.core.domain.models.Result
 import com.davay.android.feature.createsession.domain.model.CompilationSelect
 import com.davay.android.feature.createsession.domain.usecase.GetCollectionsUseCase
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
-import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class CompilationsViewModel @Inject constructor(
@@ -70,33 +64,6 @@ class CompilationsViewModel @Inject constructor(
         Log.d("MyTag", selectedCompilations.toString())
     }
 
-    private inline fun <reified D> runSafelyUseCase(
-        useCaseFlow: Flow<Result<D, ErrorType>>,
-        noinline onFailure: ((ErrorType) -> Unit)? = null,
-        crossinline onSuccess: (D) -> Unit,
-    ) {
-        viewModelScope.launch(Dispatchers.IO) {
-            runCatching {
-                useCaseFlow.collect { result ->
-                    when (result) {
-                        is Result.Success -> onSuccess(result.data)
-                        is Result.Error -> {
-                            onFailure?.invoke(result.error)
-                                ?: _state.update { CompilationsState.Error(renderError(result.error)) }
-                        }
-                    }
-                }
-            }.onFailure { error ->
-                if (BuildConfig.DEBUG) {
-                    Log.v(TAG, "error -> ${error.localizedMessage}")
-                    error.printStackTrace()
-                }
-                onFailure?.invoke(ErrorType.UNKNOWN_ERROR)
-                    ?: _state.update { CompilationsState.Error(renderError(ErrorType.UNKNOWN_ERROR)) }
-            }
-        }
-    }
-
     fun CompilationFilms.toCompilation() = CompilationSelect(
         id = this.id,
         name = this.name,
@@ -104,7 +71,7 @@ class CompilationsViewModel @Inject constructor(
         isSelected = false
     )
 
-    private companion object {
-        val TAG = CompilationsViewModel::class.simpleName
+    fun hasSelectedCompilations(): Boolean {
+        return selectedCompilations.isNotEmpty()
     }
 }
