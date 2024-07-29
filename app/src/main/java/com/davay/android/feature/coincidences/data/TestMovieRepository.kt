@@ -1,11 +1,11 @@
 package com.davay.android.feature.coincidences.data
 
 import android.content.Context
-import com.davay.android.base.usecases.GetData
-import com.davay.android.domain.models.ErrorType
-import com.davay.android.domain.models.MovieDetails
+import com.davay.android.core.domain.mockdata.api.GetData
+import com.davay.android.core.domain.models.ErrorType
+import com.davay.android.core.domain.models.MovieDetails
+import com.davay.android.core.domain.models.Result
 import com.davay.android.extensions.isInternetReachable
-import com.davay.android.utils.Result
 
 class TestMovieRepository(
     private val context: Context
@@ -19,9 +19,10 @@ class TestMovieRepository(
         }
 
     companion object {
+        @Suppress("Detekt.ParameterListWrapping", "Detekt.Indentation")
         private val urls = listOf(
             "https://images.squarespace-cdn.com/content/v1/57488e28746fb940f103c64e/" +
-                "1626726014496-MF7OB9OBHLB21UR0LJV0/Fellowship+for+Trailer.jpg",
+                    "1626726014496-MF7OB9OBHLB21UR0LJV0/Fellowship+for+Trailer.jpg",
             "https://i.pinimg.com/originals/b8/79/e4/b879e41af44317004f6e765cb215b41c.jpg",
             "https://ruskino.ru/media/gallery/624/uxpmUNTVnFXMiVWIWSebd4l03TI.jpg",
             "https://i.pinimg.com/736x/5e/14/c7/5e14c743d3afd01c80f12e3a5171cada.jWind",
@@ -41,18 +42,18 @@ class TestMovieRepository(
                 id = it,
                 name = films[it % 5].first,
                 imgUrl = films[it % 5].second,
-                description = null,
-                year = null,
-                countries = listOf(),
-                alternativeName = null,
-                ratingKinopoisk = null,
-                ratingImdb = null,
-                numOfMarksKinopoisk = null,
-                numOfMarksImdb = null,
-                duration = null,
-                genres = listOf(),
-                directors = listOf(),
-                actors = listOf(),
+                description = "Description",
+                year = "2021",
+                countries = listOf("Канада, Австрия, США"),
+                alternativeName = films[it % 5].first,
+                ratingKinopoisk = 7.5f,
+                ratingImdb = 6.7f,
+                numOfMarksKinopoisk = 281_123,
+                numOfMarksImdb = 992_231,
+                duration = 143,
+                genres = listOf("Комедия", "Триллер", "Драмма"),
+                directors = listOf("Фриц Ланг", "Семён Подорожник"),
+                actors = listOf("Кевин Спэйси", "Вася Пупкин", "Степан Петрунин", "Билли Джо"),
             )
         }
     }

@@ -2,11 +2,17 @@ package com.davay.android.feature.changename.presentation
 
 import android.text.Editable
 import com.davay.android.base.BaseViewModel
+import com.davay.android.core.domain.models.UserDataFields
+import com.davay.android.core.domain.usecases.GetUserDataUseCase
+import com.davay.android.core.domain.usecases.SetUserDataUseCase
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import javax.inject.Inject
 
-class ChangeNameViewModel @Inject constructor() : BaseViewModel() {
+class ChangeNameViewModel @Inject constructor(
+    private val setUserData: SetUserDataUseCase,
+    private val getUserData: GetUserDataUseCase,
+) : BaseViewModel() {
 
     private val _state = MutableStateFlow(ChangeNameState.DEFAULT)
     val state: StateFlow<ChangeNameState>
@@ -14,6 +20,9 @@ class ChangeNameViewModel @Inject constructor() : BaseViewModel() {
 
     fun buttonClicked(text: Editable?) {
         textCheck(text)
+        if (state.value == ChangeNameState.SUCCESS) {
+            setUserData.setUserData(UserDataFields.UserName(text.toString()))
+        }
     }
 
     fun textCheck(text: Editable?) {
@@ -24,6 +33,10 @@ class ChangeNameViewModel @Inject constructor() : BaseViewModel() {
             text.any { !it.isLetter() } -> _state.value = ChangeNameState.NUMBERS
             else -> _state.value = ChangeNameState.SUCCESS
         }
+    }
+
+    fun getNameofUser(): String {
+        return getUserData.getUserData(UserDataFields.UserName())
     }
 
     companion object {

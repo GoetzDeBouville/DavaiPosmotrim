@@ -5,9 +5,9 @@ import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.viewpager2.widget.ViewPager2
 import com.davay.android.R
-import com.davay.android.app.AppComponentHolder
 import com.davay.android.base.BaseFragment
 import com.davay.android.databinding.FragmentOnboardingBinding
+import com.davay.android.di.AppComponentHolder
 import com.davay.android.di.ScreenComponent
 import com.davay.android.feature.onboarding.adapter.OnboardingViewPagerAdapter
 import com.davay.android.feature.onboarding.di.DaggerOnBoardingFragmentComponent
@@ -49,9 +49,9 @@ class OnboardingFragment : BaseFragment<FragmentOnboardingBinding, OnboardingVie
     override fun initViews() = with(binding) {
         fragmentList.addAll(
             listOf(
-                OnboardingFirstFragment(arrayOfIds[0]),
-                OnboardingFirstFragment(arrayOfIds[1]),
-                OnboardingFirstFragment(arrayOfIds[2])
+                OnboardingFirstFragment.newInstance(arrayOfIds[0]),
+                OnboardingFirstFragment.newInstance(arrayOfIds[1]),
+                OnboardingFirstFragment.newInstance(arrayOfIds[2])
             )
         )
         viewpager.adapter = OnboardingViewPagerAdapter(

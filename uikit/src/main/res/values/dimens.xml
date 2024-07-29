@@ -10,6 +10,7 @@
     <dimen name="static_view_height_36">36dp</dimen>
     <dimen name="small_icon_size_40">40dp</dimen>
     <dimen name="button_height_48">48dp</dimen>
+    <dimen name="progressbar_48">48dp</dimen>
     <dimen name="default_icon_size_52">52dp</dimen>
     <dimen name="toolbar_height_64">64dp</dimen>
     <dimen name="top_gradient_height_80">80dp</dimen>
@@ -44,7 +45,7 @@
     <dimen name="margin_72">72dp</dimen>
     <dimen name="margin_112">112dp</dimen>
     <dimen name="margin_128">128dp</dimen>
-
+    <dimen name="margin_1">1dp</dimen>
 
     <dimen name="progress_bar">20dp</dimen>
     <dimen name="frame">4dp</dimen>

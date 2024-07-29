@@ -1,7 +1,7 @@
 package com.davay.android.feature.sessionsmatched.presentation
 
-import com.davay.android.domain.models.ErrorType
-import com.davay.android.domain.models.Session
+import com.davay.android.core.domain.models.ErrorType
+import com.davay.android.core.domain.models.Session
 
 sealed class MatchedSessionsState {
     data object Loading : MatchedSessionsState()

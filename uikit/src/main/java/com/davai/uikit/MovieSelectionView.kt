@@ -4,12 +4,14 @@ import android.content.Context
 import android.content.res.ColorStateList
 import android.util.AttributeSet
 import android.view.LayoutInflater
+import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.annotation.AttrRes
 import androidx.annotation.StyleRes
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
+import androidx.core.view.isGone
 import androidx.core.view.isVisible
 import coil.load
 import coil.size.Scale
@@ -37,6 +39,12 @@ class MovieSelectionView @JvmOverloads constructor(
     }
     private val body: ConstraintLayout by lazy {
         findViewById(R.id.cl_evaluation_body)
+    }
+    private val progressBar: ProgressBarView by lazy {
+        findViewById(R.id.progress_bar)
+    }
+    private val gradient: View by lazy {
+        findViewById(R.id.view_gradient)
     }
     private var isSelected = false
     private var backgroundColor = -1
@@ -72,14 +80,33 @@ class MovieSelectionView @JvmOverloads constructor(
     }
 
     fun setThemeCover(url: String) {
-        ivThemeCover.load(url) {
-            error(R.drawable.placeholder_error_theme_112)
-                .scale(Scale.FIT)
-            placeholder(R.drawable.placeholder_general_80)
-                .scale(Scale.FIT)
-            transformations(
-                RoundedCornersTransformation()
-            ).crossfade(true)
+        if (url.isEmpty()) {
+            ivThemeCover.load(R.drawable.placeholder_error_332dp) {
+                transformations(RoundedCornersTransformation())
+                    .crossfade(true)
+            }
+        } else {
+            ivThemeCover.load(url) {
+                listener(
+                    onStart = {
+                        progressBar.isGone = false
+                        gradient.isGone = true
+                    },
+                    onSuccess = { _, result ->
+                        progressBar.isGone = true
+                        gradient.isGone = false
+                        ivThemeCover.setImageDrawable(result.drawable)
+                    },
+                    onError = { _, _ ->
+                        progressBar.isGone = true
+                        gradient.isGone = false
+                        ivThemeCover.setImageResource(R.drawable.placeholder_error_332dp)
+                    }
+                ).scale(Scale.FIT)
+                transformations(
+                    RoundedCornersTransformation()
+                ).crossfade(true)
+            }
         }
     }
 
@@ -95,6 +122,7 @@ class MovieSelectionView @JvmOverloads constructor(
         backgroundColor = ContextCompat.getColor(
             context, if (isSelected) R.color.secondary_base else R.color.background_white
         )
+        setBodyTint()
     }
 
     private fun setBodyTint() {
@@ -107,5 +135,11 @@ class MovieSelectionView @JvmOverloads constructor(
 
     fun setThemeTitle(title: String) {
         tvTitle.text = title
+    }
+
+    fun setSelectedState(selected: Boolean) {
+        isSelected = selected
+        setBackgroundColor()
+        setSelectorIconVisibility()
     }
 }

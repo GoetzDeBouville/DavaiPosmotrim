@@ -14,17 +14,20 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import com.davai.uikit.BannerView
 import com.davay.android.R
-import com.davay.android.app.AppComponentHolder
-import com.davay.android.app.MainActivity
 import com.davay.android.base.BaseFragment
+import com.davay.android.core.presentation.MainActivity
 import com.davay.android.databinding.FragmentCoincidencesBinding
+import com.davay.android.di.AppComponentHolder
 import com.davay.android.di.ScreenComponent
 import com.davay.android.feature.coincidences.bottomsheetdialog.RouletteBottomSheetDialogFragment
 import com.davay.android.feature.coincidences.di.DaggerCoincidencesFragmentComponent
 import com.davay.android.feature.coincidences.presentation.adapter.MoviesGridAdapter
+import com.davay.android.feature.moviecard.presentation.MovieCardFragment
 import com.davay.android.feature.roulette.presentation.RouletteFragment.Companion.ROULETTE_INITIATOR
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
+import kotlinx.serialization.encodeToString
+import kotlinx.serialization.json.Json
 
 class CoincidencesFragment : BaseFragment<FragmentCoincidencesBinding, CoincidencesViewModel>(
     FragmentCoincidencesBinding::inflate
@@ -32,8 +35,12 @@ class CoincidencesFragment : BaseFragment<FragmentCoincidencesBinding, Coinciden
 
     override val viewModel: CoincidencesViewModel by injectViewModel<CoincidencesViewModel>()
 
-    private val moviesGridAdapter = MoviesGridAdapter { movieId ->
-        Toast.makeText(requireContext(), "Clicked!", Toast.LENGTH_SHORT).show()
+    private val moviesGridAdapter = MoviesGridAdapter { movieDetails ->
+        val movie = Json.encodeToString(movieDetails)
+        val bundle = Bundle().apply {
+            putString(MovieCardFragment.MOVIE_DETAILS_KEY, movie)
+        }
+        viewModel.navigate(R.id.action_coincidencesFragment_to_movieCardFragment, bundle)
     }
 
     private val bottomSheetFragmentLifecycleCallbacks =
@@ -109,6 +116,7 @@ class CoincidencesFragment : BaseFragment<FragmentCoincidencesBinding, Coinciden
 
     private fun setupToolbar() {
         binding.toolbarView.apply {
+            hideMatchesCounter()
             setEndIconClickListener {
                 val coincidences = viewModel.getCoincidencesCount()
                 if (coincidences >= MIN_COINCIDENCES_FOR_NAVIGATION_3) {
@@ -149,6 +157,7 @@ class CoincidencesFragment : BaseFragment<FragmentCoincidencesBinding, Coinciden
                 updateVisibility(coincidencesListIsVisible = true)
                 moviesGridAdapter.setData(state.data)
             }
+
             is UiState.Error -> {
                 Toast.makeText(requireContext(), "Error occurred!", Toast.LENGTH_SHORT).show()
             }

@@ -2,14 +2,14 @@ package com.davay.android.feature.createsession.presentation.genre
 
 import android.util.Log
 import com.davay.android.base.BaseViewModel
-import com.davay.android.feature.createsession.domain.model.Genre
+import com.davay.android.feature.createsession.domain.model.GenreSelect
 import javax.inject.Inject
 
 class GenreViewModel @Inject constructor() : BaseViewModel() {
 
-    private val selectedGenreList = mutableListOf<Genre>()
+    private val selectedGenreList = mutableListOf<GenreSelect>()
 
-    fun genreClicked(genre: Genre) {
+    fun genreClicked(genre: GenreSelect) {
         if (genre.isSelected) {
             selectedGenreList.add(genre)
         } else {
@@ -19,5 +19,10 @@ class GenreViewModel @Inject constructor() : BaseViewModel() {
 
     fun buttonContinueClicked() {
         Log.d("MyTag", selectedGenreList.toString())
+    }
+
+    // Метод для проверки, выбран ли хотя бы один жанр
+    fun hasSelectedGenres(): Boolean {
+        return selectedGenreList.isNotEmpty()
     }
 }

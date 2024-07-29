@@ -9,11 +9,10 @@ import android.view.inputmethod.InputMethodManager
 import androidx.core.content.ContextCompat
 import androidx.core.widget.doAfterTextChanged
 import androidx.lifecycle.lifecycleScope
-import androidx.navigation.fragment.findNavController
 import com.davay.android.R
-import com.davay.android.app.AppComponentHolder
 import com.davay.android.base.BaseBottomSheetFragment
 import com.davay.android.databinding.FragmentSessionConnectionBinding
+import com.davay.android.di.AppComponentHolder
 import com.davay.android.di.ScreenComponent
 import com.davay.android.feature.sessionconnection.di.DaggerSessionConnectionFragmentComponent
 import com.google.android.material.bottomsheet.BottomSheetBehavior
@@ -144,7 +143,7 @@ class SessionConnectionBottomSheetFragment :
         }
         viewModel.buttonClicked(binding.etCode.text)
         if (viewModel.state.value == SessionConnectionState.SUCCESS) {
-            findNavController().navigate(
+            viewModel.navigate(
                 R.id.action_sessionConnectionFragment_to_sessionListFragment,
                 bundle
             )

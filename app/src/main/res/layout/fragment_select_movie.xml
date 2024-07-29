@@ -30,7 +30,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="@dimen/margin_8"
-            android:text="@string/select_movies_increment_1"
             android:textColor="@color/primary_hover"
             android:visibility="invisible"
             app:layout_constraintBottom_toBottomOf="@id/toolbarview_header"
@@ -47,6 +46,16 @@
             tools:itemCount="1"
             tools:layout_height="match_parent"
             tools:listitem="@layout/item_swipeable_movie_card" />
+
+        <include
+            android:id="@+id/movie_card"
+            layout="@layout/item_swipeable_movie_card"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginBottom="@dimen/margin_112"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/toolbarview_header" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.constraintlayout.widget.ConstraintLayout

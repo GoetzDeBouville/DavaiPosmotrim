@@ -2,8 +2,8 @@ package com.davay.android.feature.splash.di
 
 import android.content.Context
 import android.content.SharedPreferences
-import com.davay.android.app.core.feature.introduction.domain.FirstTimeFlagRepository
-import com.davay.android.app.core.feature.introduction.domain.FirstTimeFlagStorage
+import com.davay.android.core.domain.lounchcontrol.api.FirstTimeFlagRepository
+import com.davay.android.core.domain.lounchcontrol.api.FirstTimeFlagStorage
 import com.davay.android.feature.splash.data.SplashOnBoardingRepositoryImpl
 import com.davay.android.feature.splash.data.SplashStorageImpl
 import com.davay.android.feature.splash.domain.SplashOnBoardingInteractorImpl

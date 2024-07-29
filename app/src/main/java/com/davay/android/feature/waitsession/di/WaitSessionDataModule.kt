@@ -2,8 +2,8 @@ package com.davay.android.feature.waitsession.di
 
 import android.content.Context
 import android.content.SharedPreferences
-import com.davay.android.app.core.feature.introduction.domain.FirstTimeFlagRepository
-import com.davay.android.app.core.feature.introduction.domain.FirstTimeFlagStorage
+import com.davay.android.core.domain.lounchcontrol.api.FirstTimeFlagRepository
+import com.davay.android.core.domain.lounchcontrol.api.FirstTimeFlagStorage
 import com.davay.android.feature.waitsession.data.WaitSessionOnBoardingRepositoryImpl
 import com.davay.android.feature.waitsession.data.WaitSessionStorageImpl
 import com.davay.android.feature.waitsession.domain.WaitSessionOnBoardingInteractor

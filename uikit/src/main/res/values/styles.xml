@@ -59,11 +59,9 @@
 
     <style name="Text.Base.Medium">
         <item name="android:textSize">14sp</item>
-        <item name="android:lineSpacingExtra">20sp</item>
     </style>
 
     <style name="Text.Base.Medium.NoLineSpacing">
-        <item name="android:lineSpacingExtra">0sp</item>
         <item name="android:textColor">@color/text_base</item>
     </style>
 

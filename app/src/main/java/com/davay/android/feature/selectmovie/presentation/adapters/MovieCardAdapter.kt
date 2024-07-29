@@ -3,8 +3,8 @@ package com.davay.android.feature.selectmovie.presentation.adapters
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.davay.android.core.domain.models.MovieDetails
 import com.davay.android.databinding.ItemSwipeableMovieCardBinding
-import com.davay.android.domain.models.MovieDetails
 import com.davay.android.utils.MovieDetailsHelper
 import com.davay.android.utils.MovieDetailsHelperImpl
 
@@ -29,7 +29,7 @@ class MovieCardAdapter(
 
         fun bind(data: MovieDetails) = with(binding) {
             inflateMovieDetails.invoke(data)
-            movieDetailsHelper.setImage(ivSelectMovieCover, data.imgUrl)
+            movieDetailsHelper.setImage(ivSelectMovieCover, progressBar, data.imgUrl)
             movieDetailsHelper.addGenreList(fblGenreList, data.genres)
             movieDetailsHelper.setRateText(tvMarkValue, data.ratingKinopoisk)
             tvFilmTitle.text = data.name

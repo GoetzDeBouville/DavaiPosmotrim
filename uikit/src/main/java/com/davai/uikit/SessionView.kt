@@ -8,7 +8,9 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.annotation.AttrRes
 import androidx.annotation.StyleRes
+import androidx.core.view.isGone
 import coil.load
+import coil.size.Scale
 import coil.transform.RoundedCornersTransformation
 
 class SessionView @JvmOverloads constructor(
@@ -29,6 +31,9 @@ class SessionView @JvmOverloads constructor(
     private val ivCover: ImageView by lazy {
         findViewById(R.id.iv_session_cover)
     }
+    private val progressBar: ProgressBarView by lazy {
+        findViewById(R.id.progress_bar)
+    }
 
     init {
         LayoutInflater.from(context).inflate(R.layout.session_view, this, true)
@@ -48,15 +53,30 @@ class SessionView @JvmOverloads constructor(
     }
 
     fun setCover(url: String) {
-        ivCover.load(url) {
-            error(R.drawable.placeholder_error_theme_112)
-                .scale(coil.size.Scale.FIT)
-            placeholder(R.drawable.placeholder_general_80)
-                .scale(coil.size.Scale.FIT)
-
-            transformations(
-                RoundedCornersTransformation()
-            ).crossfade(true)
+        if (url.isEmpty()) {
+            ivCover.load(R.drawable.placeholder_error_332dp) {
+                transformations(RoundedCornersTransformation())
+                    .crossfade(true)
+            }
+        } else {
+            ivCover.load(url) {
+                listener(
+                    onStart = {
+                        progressBar.isGone = false
+                    },
+                    onSuccess = { _, result ->
+                        progressBar.isGone = true
+                        ivCover.setImageDrawable(result.drawable)
+                    },
+                    onError = { _, _ ->
+                        progressBar.isGone = true
+                        ivCover.setImageResource(R.drawable.placeholder_error_332dp)
+                    }
+                ).scale(Scale.FIT)
+                transformations(
+                    RoundedCornersTransformation()
+                ).crossfade(true)
+            }
         }
     }
 }

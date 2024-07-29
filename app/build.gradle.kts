@@ -1,6 +1,7 @@
 plugins {
     alias(libs.plugins.androidApplication)
     alias(libs.plugins.jetbrainsKotlinAndroid)
+    alias(libs.plugins.serialization)
     alias(libs.plugins.ksp)
 }
 
@@ -28,8 +29,8 @@ android {
         }
     }
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_17
-        targetCompatibility = JavaVersion.VERSION_17
+        sourceCompatibility = JavaVersion.valueOf(libs.versions.java.get())
+        targetCompatibility = JavaVersion.valueOf(libs.versions.java.get())
     }
     kotlinOptions {
         jvmTarget = JavaVersion.valueOf(libs.versions.java.get()).toString()
@@ -50,8 +51,6 @@ dependencies {
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
-    implementation(libs.retrofit.impl)
-    implementation(libs.retrofit.converter)
     implementation(libs.dagger.impl)
     ksp(libs.dagger.compiler)
     implementation(libs.navigation.fragment)
@@ -60,6 +59,12 @@ dependencies {
     implementation(libs.flexbox)
     implementation(libs.circle.indicator)
     implementation(libs.physicslayout)
+
+    ksp(libs.room.compiler)
+    implementation(libs.bundles.room)
+    implementation(libs.encrypted.sharedpreferences)
+
+    implementation(libs.bundles.ktor)
 
     implementation(project(":uikit"))
 }
