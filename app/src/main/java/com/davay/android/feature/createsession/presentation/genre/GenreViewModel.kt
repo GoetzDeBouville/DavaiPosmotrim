@@ -46,7 +46,7 @@ class GenreViewModel @Inject constructor(
         if (genre.isSelected) {
             selectedGenre.add(genre)
         } else {
-            selectedGenre.remove(genre.copy(isSelected = true))
+            selectedGenre.remove(genre)
         }
     }
 

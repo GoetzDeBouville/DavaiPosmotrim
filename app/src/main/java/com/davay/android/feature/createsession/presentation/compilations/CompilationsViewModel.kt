@@ -46,7 +46,7 @@ class CompilationsViewModel @Inject constructor(
         if (compilation.isSelected) {
             selectedCompilations.add(compilation)
         } else {
-            selectedCompilations.remove(compilation.copy(isSelected = true))
+            selectedCompilations.remove(compilation)
         }
     }
 

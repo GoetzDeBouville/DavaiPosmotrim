@@ -10,15 +10,10 @@ data class GenreSelect(
 
         other as GenreSelect
 
-        if (name != other.name) return false
-        if (isSelected != other.isSelected) return false
-
-        return true
+        return name == other.name
     }
 
     override fun hashCode(): Int {
-        var result = name.hashCode()
-        result = 31 * result + isSelected.hashCode()
-        return result
+        return name.hashCode()
     }
 }
