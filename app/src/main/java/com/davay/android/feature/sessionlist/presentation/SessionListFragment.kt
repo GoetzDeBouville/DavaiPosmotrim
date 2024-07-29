@@ -52,15 +52,13 @@ class SessionListFragment : BaseFragment<FragmentSessionListBinding, SessionList
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val dialogViewModel = ViewModelProvider(requireActivity())[MainDialogViewModel::class.java]
-        dialogViewModel.title = getString(R.string.leave_session_title)
-        dialogViewModel.message = getString(R.string.leave_session_dialog_message)
-        dialogViewModel.yesAction = {
-            findNavController().popBackStack()
-        }
-        dialogViewModel.noAction = {
-        }
-        dialog = MainDialogFragment()
+        dialog = MainDialogFragment.newInstance(
+            title = getString(R.string.leave_session_title),
+            message = getString(R.string.leave_session_dialog_message),
+            yesAction = {
+                viewModel.navigateBack()
+            }
+        )
 
     }
 

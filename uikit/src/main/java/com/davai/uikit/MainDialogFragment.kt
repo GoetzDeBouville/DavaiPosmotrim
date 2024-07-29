@@ -15,7 +15,15 @@ class MainDialogFragment : DialogFragment() {
 
     private var _binding: LayoutCustomDialogBinding? = null
     private val binding get() = _binding!!
-    private var viewModel: MainDialogViewModel? = null
+    private val viewModel: MainDialogViewModel by lazy {
+        ViewModelProvider(requireActivity())[MainDialogViewModel::class.java]
+    }
+    private var title: String? = null
+    private var message: String? = null
+    private var yesAction: (() -> Unit)? = null
+    private var noAction: (() -> Unit)? = null
+
+
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -25,31 +33,40 @@ class MainDialogFragment : DialogFragment() {
         dialog?.window?.setBackgroundDrawableResource(R.drawable.session_card_background)
         _binding = LayoutCustomDialogBinding.inflate(inflater, container, false)
         activity?.window?.decorView?.applyBlurEffect()
-        viewModel = ViewModelProvider(requireActivity())[MainDialogViewModel::class.java]
+        return binding.root
+    }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        viewModel.title = title
+        viewModel.message = message
+        if (yesAction != null) {
+            viewModel.yesAction = yesAction
+        }
+        if (noAction != null) {
+            viewModel.noAction = noAction
+        }
         initViews()
         subscribe()
-
-        return binding.root
     }
 
     private fun initViews() {
         with(binding) {
-            tvDialogTitle.text = viewModel?.title
-            tvDialogMessage.text = viewModel?.message
+            tvDialogTitle.text = viewModel.title
+            tvDialogMessage.text = viewModel.message
         }
     }
 
     private fun subscribe() {
         with(binding) {
             btnYes.setOnClickListener {
-                viewModel?.yesAction?.invoke()
+                viewModel.yesAction?.invoke()
                 dialog?.dismiss()
                 activity?.window?.decorView?.clearBlurEffect()
             }
 
             btnNo.setOnClickListener {
-                viewModel?.noAction?.invoke()
+                viewModel.noAction?.invoke()
                 dialog?.dismiss()
                 activity?.window?.decorView?.clearBlurEffect()
             }
@@ -77,16 +94,16 @@ class MainDialogFragment : DialogFragment() {
     override fun onViewStateRestored(savedInstanceState: Bundle?) {
         super.onViewStateRestored(savedInstanceState)
         if (savedInstanceState != null) {
-            viewModel?.title = savedInstanceState.getString(KEY_TITLE)
-            viewModel?.message = savedInstanceState.getString(KEY_MESSAGE)
+            viewModel.title = savedInstanceState.getString(KEY_TITLE)
+            viewModel.message = savedInstanceState.getString(KEY_MESSAGE)
             initViews()
         }
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
-        outState.putString(KEY_TITLE, viewModel?.title)
-        outState.putString(KEY_MESSAGE, viewModel?.message)
+        outState.putString(KEY_TITLE, viewModel.title)
+        outState.putString(KEY_MESSAGE, viewModel.message)
     }
 
     companion object {
@@ -98,15 +115,13 @@ class MainDialogFragment : DialogFragment() {
             title: String,
             message: String,
             yesAction: (() -> Unit)? = null,
-            noAction: (() -> Unit)? = null
+            noAction: (() -> Unit)? = null,
         ): MainDialogFragment {
             val dialog = MainDialogFragment()
-            val viewModel =
-                ViewModelProvider(dialog.requireActivity())[MainDialogViewModel::class.java]
-            viewModel.title = title
-            viewModel.message = message
-            viewModel.yesAction = yesAction
-            viewModel.noAction = noAction
+            dialog.title = title
+            dialog.message = message
+            dialog.yesAction = yesAction
+            dialog.noAction = noAction
             return dialog
         }
     }
