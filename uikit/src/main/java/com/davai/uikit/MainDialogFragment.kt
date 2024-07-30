@@ -37,12 +37,8 @@ class MainDialogFragment : DialogFragment() {
         activity?.window?.decorView?.applyBlurEffect()
         viewModel.title = title
         viewModel.message = message
-        if (yesAction != null) {
-            viewModel.yesAction = yesAction
-        }
-        if (noAction != null) {
-            viewModel.noAction = noAction
-        }
+        viewModel.yesAction = yesAction ?: viewModel.yesAction
+        viewModel.noAction = noAction ?: viewModel.noAction
 
         initViews()
         subscribe()
