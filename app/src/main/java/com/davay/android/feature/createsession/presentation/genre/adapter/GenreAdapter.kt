@@ -15,8 +15,14 @@ class GenreAdapter(private val clickListener: ItemClickListener) :
         val inflater = LayoutInflater.from(parent.context)
         return GenreViewHolder(
             GenreItemBinding.inflate(inflater, parent, false),
-            clickListener
-        )
+        ).apply {
+            itemView.setOnClickListener {
+                val item = itemList[adapterPosition]
+                itemList[adapterPosition] = item.copy(isSelected = !item.isSelected)
+                notifyItemChanged(adapterPosition)
+                clickListener.onClick(itemList[adapterPosition])
+            }
+        }
     }
 
     override fun getItemCount(): Int = itemList.count()
@@ -25,8 +31,19 @@ class GenreAdapter(private val clickListener: ItemClickListener) :
         holder.bind(itemList[position])
     }
 
-    fun addItemList(list: List<GenreSelect>) {
+    fun updateItemList(list: List<GenreSelect>) {
+        itemList.clear()
         itemList.addAll(list)
+        notifyDataSetChanged()
+    }
+
+    fun clearSelections() {
+        itemList.forEachIndexed { index, genreSelect ->
+            if (genreSelect.isSelected) {
+                itemList[index] = genreSelect.copy(isSelected = false)
+            }
+        }
+        notifyDataSetChanged()
     }
 
     fun interface ItemClickListener {
