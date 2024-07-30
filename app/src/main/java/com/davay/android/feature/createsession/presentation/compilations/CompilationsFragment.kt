@@ -32,6 +32,7 @@ class CompilationsFragment : BaseFragment<FragmentCompilationsBinding, Compilati
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initRecycler()
+        subscribe()
     }
 
     override fun subscribe() {
@@ -74,7 +75,7 @@ class CompilationsFragment : BaseFragment<FragmentCompilationsBinding, Compilati
     }
 
     private fun handleContent(state: CompilationsState.Content) {
-        compilationAdapter.addItemList(state.compilationList)
+        compilationAdapter.updateItemList(state.compilationList)
         showContent()
     }
 
@@ -93,6 +94,11 @@ class CompilationsFragment : BaseFragment<FragmentCompilationsBinding, Compilati
     fun buttonContinueClicked(): Boolean {
         viewModel.buttonContinueClicked()
         return viewModel.hasSelectedCompilations()
+    }
+
+    fun resetSelections() {
+        viewModel.resetSelections()
+        compilationAdapter.clearSelections()
     }
 
     companion object {

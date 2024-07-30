@@ -4,12 +4,12 @@ import android.util.Log
 import com.davay.android.base.BaseViewModel
 import com.davay.android.core.domain.models.CompilationFilms
 import com.davay.android.core.domain.models.ErrorScreenState
-import com.davay.android.core.domain.models.ErrorType
 import com.davay.android.feature.createsession.domain.model.CompilationSelect
 import com.davay.android.feature.createsession.domain.usecase.GetCollectionsUseCase
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
+import me.relex.circleindicator.BuildConfig
 import javax.inject.Inject
 
 class CompilationsViewModel @Inject constructor(
@@ -32,24 +32,14 @@ class CompilationsViewModel @Inject constructor(
                 if (collections.isEmpty()) {
                     _state.update { CompilationsState.Error(ErrorScreenState.EMPTY) }
                 } else {
-                    val compilations = collections.map { it.toCompilation() }
+                    val compilations = collections.map { it.toUiModel() }
                     _state.update { CompilationsState.Content(compilations) }
                 }
             },
             onFailure = { error ->
-                _state.update { CompilationsState.Error(renderError(error)) }
+                _state.update { CompilationsState.Error(mapErrorToUiState(error)) }
             }
         )
-    }
-
-    private fun renderError(errorType: ErrorType): ErrorScreenState {
-        return when (errorType) {
-            ErrorType.NO_CONNECTION -> ErrorScreenState.NO_INTERNET
-            ErrorType.NOT_FOUND -> ErrorScreenState.SERVER_ERROR
-            ErrorType.BAD_REQUEST -> ErrorScreenState.SERVER_ERROR
-            ErrorType.APP_VERSION_ERROR -> ErrorScreenState.APP_VERSION_ERROR
-            else -> ErrorScreenState.SERVER_ERROR
-        }
     }
 
     fun compilationClicked(compilation: CompilationSelect) {
@@ -61,10 +51,12 @@ class CompilationsViewModel @Inject constructor(
     }
 
     fun buttonContinueClicked() {
-        Log.d("MyTag", selectedCompilations.toString())
+        if (BuildConfig.DEBUG) {
+            Log.d("MyTag", selectedCompilations.toString())
+        }
     }
 
-    fun CompilationFilms.toCompilation() = CompilationSelect(
+    private fun CompilationFilms.toUiModel() = CompilationSelect(
         id = this.id,
         name = this.name,
         cover = this.imgUrl ?: "",
@@ -73,5 +65,16 @@ class CompilationsViewModel @Inject constructor(
 
     fun hasSelectedCompilations(): Boolean {
         return selectedCompilations.isNotEmpty()
+    }
+
+    fun resetSelections() {
+        selectedCompilations.clear()
+        _state.update { currentState ->
+            if (currentState is CompilationsState.Content) {
+                CompilationsState.Content(currentState.compilationList.map { it.copy(isSelected = false) })
+            } else {
+                currentState
+            }
+        }
     }
 }

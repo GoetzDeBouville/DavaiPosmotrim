@@ -1,25 +1,23 @@
 package com.davay.android.feature.createsession.presentation.genre.adapter
 
 import androidx.recyclerview.widget.RecyclerView
-import com.davai.uikit.TagView
+import com.davai.uikit.TagView.Companion.STYLE_SECONDARY_GRAY
+import com.davai.uikit.TagView.Companion.STYLE_SECONDARY_GREEN
 import com.davay.android.databinding.GenreItemBinding
 import com.davay.android.feature.createsession.domain.model.GenreSelect
 
 class GenreViewHolder(
     private val binding: GenreItemBinding,
-    private val clickListener: GenreAdapter.ItemClickListener
 ) : RecyclerView.ViewHolder(binding.root) {
     fun bind(genre: GenreSelect) = with(binding.root) {
         setText(genre.name)
-        setOnClickListener {
+        setStyle(
             if (genre.isSelected) {
-                binding.root.changeStyle(TagView.Companion.Style.SECONDARY_GRAY)
-                genre.isSelected = false
+                STYLE_SECONDARY_GREEN
             } else {
-                binding.root.changeStyle(TagView.Companion.Style.SECONDARY_GREEN)
-                genre.isSelected = true
+                STYLE_SECONDARY_GRAY
             }
-            clickListener.onClick(genre)
-        }
+        )
     }
 }
+

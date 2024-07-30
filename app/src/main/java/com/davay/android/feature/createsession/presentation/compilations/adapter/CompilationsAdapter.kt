@@ -32,8 +32,19 @@ class CompilationsAdapter(private val clickListener: ItemClickListener) :
         holder.bind(itemList[position])
     }
 
-    fun addItemList(list: List<CompilationSelect>) {
+    fun updateItemList(list: List<CompilationSelect>) {
+        itemList.clear()
         itemList.addAll(list)
+        notifyDataSetChanged()
+    }
+
+    fun clearSelections() {
+        itemList.forEachIndexed { index, compilationSelect ->
+            if (compilationSelect.isSelected) {
+                itemList[index] = compilationSelect.copy(isSelected = false)
+            }
+        }
+        notifyDataSetChanged()
     }
 
     fun interface ItemClickListener {
