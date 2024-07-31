@@ -7,7 +7,7 @@ import androidx.room.Upsert
 import com.davay.android.core.data.database.entity.MovieDetailsEntity
 import com.davay.android.core.data.database.entity.SessionEntity
 import com.davay.android.core.data.database.entity.SessionMovieCrossRef
-import com.davay.android.core.data.database.entity.SessionWithMovies
+import com.davay.android.core.data.database.entity.SessionWithMoviesDb
 
 @Dao
 interface HistoryDao {
@@ -19,7 +19,7 @@ interface HistoryDao {
     // Получение по sessionId сессии с её списком фильмов. Если такой сессии нет, то null
     @Transaction
     @Query("SELECT * FROM sessions WHERE session_id = :sessionId")
-    suspend fun getSessionWithMovies(sessionId: String): SessionWithMovies?
+    suspend fun getSessionWithMovies(sessionId: String): SessionWithMoviesDb?
 
     // Сохранение сессии (без фильмов)
     @Upsert

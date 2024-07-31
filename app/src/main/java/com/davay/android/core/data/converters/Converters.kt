@@ -2,7 +2,7 @@ package com.davay.android.core.data.converters
 
 import com.davay.android.core.data.database.entity.MovieDetailsEntity
 import com.davay.android.core.data.database.entity.SessionEntity
-import com.davay.android.core.data.database.entity.SessionWithMovies
+import com.davay.android.core.data.database.entity.SessionWithMoviesDb
 import com.davay.android.core.data.dto.CollectionDto
 import com.davay.android.core.data.dto.GenreDto
 import com.davay.android.core.data.dto.MovieDetailsDto
@@ -16,6 +16,7 @@ import com.davay.android.core.domain.models.Movie
 import com.davay.android.core.domain.models.MovieDetails
 import com.davay.android.core.domain.models.Session
 import com.davay.android.core.domain.models.SessionStatus
+import com.davay.android.core.domain.models.SessionWithMovies
 import com.davay.android.core.domain.models.User
 import java.text.ParseException
 import java.text.SimpleDateFormat
@@ -174,8 +175,8 @@ fun String.toListData(): List<String> {
     return split(";")
 }
 
-fun SessionWithMovies.toDomain(): com.davay.android.core.domain.models.SessionWithMovies {
-    return com.davay.android.core.domain.models.SessionWithMovies(
+fun SessionWithMoviesDb.toDomain(): SessionWithMovies {
+    return SessionWithMovies(
         session = session.toDomain(),
         movies = movies.map { it.toDomain() }
     )
