@@ -15,15 +15,19 @@ class SaveSessionsHistoryRepositoryImpl @Inject constructor(
 ) : SaveSessionsHistoryRepository {
     override suspend fun saveSessionsHistory(session: Session, movies: List<MovieDetails>) =
         withContext(Dispatchers.IO) {
-            historyDao.insertSession(session.toDbEntity())
-            movies.forEach {
-                historyDao.insertMovie(it.toDbEntity())
-                historyDao.insertSessionMovieReference(
-                    SessionMovieCrossRef(
-                        sessionId = session.id,
-                        movieId = it.id
+            try {
+                historyDao.insertSession(session.toDbEntity())
+                movies.forEach {
+                    historyDao.insertMovie(it.toDbEntity())
+                    historyDao.insertSessionMovieReference(
+                        SessionMovieCrossRef(
+                            sessionId = session.id,
+                            movieId = it.id
+                        )
                     )
-                )
+                }
+            } catch (e: Exception) {
+                e.printStackTrace()
             }
         }
 }

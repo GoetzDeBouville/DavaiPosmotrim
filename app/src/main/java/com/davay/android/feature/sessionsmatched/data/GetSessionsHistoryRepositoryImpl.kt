@@ -12,8 +12,13 @@ class GetSessionsHistoryRepositoryImpl @Inject constructor(
     private val historyDao: HistoryDao
 ) : GetSessionsHistoryRepository {
 
-    override suspend fun getSessionsHistory(): List<Session> =
+    override suspend fun getSessionsHistory(): List<Session>? =
         withContext(Dispatchers.IO) {
-            historyDao.getSessions().map { it.toDomain() }
+            try {
+                historyDao.getSessions().map { it.toDomain() }
+            } catch (e: Exception) {
+                e.printStackTrace()
+                null
+            }
         }
 }

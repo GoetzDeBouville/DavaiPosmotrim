@@ -13,6 +13,11 @@ class SessionWithMoviesRepositoryImpl @Inject constructor(
 ) : SessionWithMoviesRepository {
     override suspend fun getSessionWithMovies(sessionId: String): SessionWithMovies? =
         withContext(Dispatchers.IO) {
-            historyDao.getSessionWithMovies(sessionId)?.toDomain()
+            try {
+                historyDao.getSessionWithMovies(sessionId).toDomain()
+            } catch (e: Exception) {
+                e.printStackTrace()
+                null
+            }
         }
 }

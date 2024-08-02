@@ -16,10 +16,10 @@ interface HistoryDao {
     @Query("SELECT * FROM sessions")
     suspend fun getSessions(): List<SessionEntity>
 
-    // Получение по sessionId сессии с её списком фильмов. Если такой сессии нет, то null
+    // Получение по sessionId сессии с её списком фильмов.
     @Transaction
     @Query("SELECT * FROM sessions WHERE session_id = :sessionId")
-    suspend fun getSessionWithMovies(sessionId: String): SessionWithMoviesDb?
+    suspend fun getSessionWithMovies(sessionId: String): SessionWithMoviesDb
 
     // Сохранение сессии (без фильмов)
     @Upsert
