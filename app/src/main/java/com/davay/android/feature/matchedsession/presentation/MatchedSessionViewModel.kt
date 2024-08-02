@@ -3,14 +3,14 @@ package com.davay.android.feature.matchedsession.presentation
 import androidx.lifecycle.viewModelScope
 import com.davay.android.base.BaseViewModel
 import com.davay.android.core.domain.models.ErrorScreenState
-import com.davay.android.feature.matchedsession.domain.SessionWithMoviesRepository
+import com.davay.android.feature.matchedsession.domain.SessionWithMoviesUseCase
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class MatchedSessionViewModel @Inject constructor(
-    private val sessionWithMoviesRepository: SessionWithMoviesRepository
+    private val sessionWithMoviesUseCase: SessionWithMoviesUseCase
 ) : BaseViewModel() {
 
     private val _state: MutableStateFlow<MatchedSessionState> =
@@ -20,7 +20,7 @@ class MatchedSessionViewModel @Inject constructor(
     fun getSessionData(sessionId: String) {
         _state.value = MatchedSessionState.Loading
         viewModelScope.launch {
-            val sessionWithMovies = sessionWithMoviesRepository.getSessionWithMovies(sessionId)
+            val sessionWithMovies = sessionWithMoviesUseCase.execute(sessionId)
             when {
                 sessionWithMovies == null -> _state.value =
                     MatchedSessionState.Error(ErrorScreenState.EMPTY)
