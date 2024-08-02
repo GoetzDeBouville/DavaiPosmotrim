@@ -1,15 +1,20 @@
 package com.davay.android.feature.registration.presentation
 
 import android.text.Editable
+import android.util.Log
 import com.davay.android.base.BaseViewModel
+import com.davay.android.core.data.dto.UserDto
 import com.davay.android.core.domain.models.UserDataFields
 import com.davay.android.core.domain.usecases.SetUserDataUseCase
+import com.davay.android.feature.registration.domain.usecase.SetToNetworkUserDataUseCase
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import java.util.UUID
 import javax.inject.Inject
 
 class RegistrationViewModel @Inject constructor(
-    private val setUserData: SetUserDataUseCase
+    private val setUserData: SetUserDataUseCase,
+    private val setToNetworkUserDataUseCase: SetToNetworkUserDataUseCase
 ) : BaseViewModel() {
 
     private val _state = MutableStateFlow(RegistrationState.DEFAULT)
@@ -21,6 +26,20 @@ class RegistrationViewModel @Inject constructor(
         if (state.value == RegistrationState.SUCCESS) {
             setUserData.setUserData(UserDataFields.UserName(text.toString()))
             setUserData.setUserData(UserDataFields.UserId())
+            runSafelyUseCase(
+                useCaseFlow = setToNetworkUserDataUseCase.setUserData(
+                    UserDto(
+                        userId = UUID.randomUUID().toString(),
+                        name = text.toString()
+                    )
+                ),
+                onSuccess = { userdata ->
+                    Log.d("TAG", userdata.toString())
+                },
+                onFailure = { error ->
+                    Log.d("TAG", error.toString())
+                }
+            )
         }
     }
 
