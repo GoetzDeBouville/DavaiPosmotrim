@@ -1,6 +1,5 @@
 package com.davay.android.feature.sessionsmatched.presentation
 
-import com.davay.android.core.domain.models.ErrorScreenState
 import com.davay.android.core.domain.models.Session
 
 sealed class MatchedSessionsState {

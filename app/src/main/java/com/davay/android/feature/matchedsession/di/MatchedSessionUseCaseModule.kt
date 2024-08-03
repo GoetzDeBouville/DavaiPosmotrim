@@ -9,5 +9,5 @@ import dagger.Provides
 class MatchedSessionUseCaseModule {
     @Provides
     fun provideSessionWithMoviesUseCase(sessionWithMoviesRepository: SessionWithMoviesRepository):
-            SessionWithMoviesUseCase = SessionWithMoviesUseCase(sessionWithMoviesRepository)
+        SessionWithMoviesUseCase = SessionWithMoviesUseCase(sessionWithMoviesRepository)
 }

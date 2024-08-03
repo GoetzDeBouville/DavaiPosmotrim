@@ -2,8 +2,6 @@ package com.davay.android.feature.selectmovie.presentation
 
 import com.davay.android.base.BaseViewModel
 import com.davay.android.core.domain.models.MovieDetails
-import com.davay.android.core.domain.models.Session
-import com.davay.android.core.domain.models.SessionStatus
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import javax.inject.Inject
@@ -11,15 +9,6 @@ import javax.inject.Inject
 class SelectMovieViewModel @Inject constructor() : BaseViewModel() {
     private val _state = MutableStateFlow<List<MovieDetails>>(emptyList())
     val state = _state.asStateFlow()
-    private val session = Session(
-        id = "qwer123",
-        users = listOf("Dima", "Sasha"),
-        numberOfMatchedMovies = 4,
-        date = 1_707_350_400_000L,
-        status = SessionStatus.VOTING,
-        imgUrl = "https://avatars.mds.yandex.net/get-kinopoisk-image/4303601/119d3aad-a479-4532-aadf-b428eb330337/3840x"
-    )
-    private val matchedMovies: MutableList<MovieDetails> = mutableListOf()
 
     init {
         getFilms()
@@ -118,6 +107,5 @@ class SelectMovieViewModel @Inject constructor() : BaseViewModel() {
             )
         )
         _state.value = movies
-        matchedMovies.addAll(movies)
     }
 }

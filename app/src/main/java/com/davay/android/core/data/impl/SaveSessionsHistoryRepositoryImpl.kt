@@ -15,6 +15,7 @@ class SaveSessionsHistoryRepositoryImpl @Inject constructor(
 ) : SaveSessionsHistoryRepository {
     override suspend fun saveSessionsHistory(session: Session, movies: List<MovieDetails>) =
         withContext(Dispatchers.IO) {
+            @Suppress("TooGenericExceptionCaught")
             try {
                 historyDao.insertSession(session.toDbEntity())
                 movies.forEach {

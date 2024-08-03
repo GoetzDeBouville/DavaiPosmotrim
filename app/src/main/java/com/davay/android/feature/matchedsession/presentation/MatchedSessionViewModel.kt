@@ -22,13 +22,19 @@ class MatchedSessionViewModel @Inject constructor(
         viewModelScope.launch {
             val sessionWithMovies = sessionWithMoviesUseCase.execute(sessionId)
             when {
-                sessionWithMovies == null -> _state.value =
-                    MatchedSessionState.Error(ErrorScreenState.EMPTY)
+                sessionWithMovies == null -> {
+                    _state.value =
+                        MatchedSessionState.Error(ErrorScreenState.EMPTY)
+                }
 
-                sessionWithMovies.movies.isEmpty() -> _state.value =
-                    MatchedSessionState.Empty(sessionWithMovies)
+                sessionWithMovies.movies.isEmpty() -> {
+                    _state.value =
+                        MatchedSessionState.Empty(sessionWithMovies)
+                }
 
-                else -> _state.value = MatchedSessionState.Data(sessionWithMovies)
+                else -> {
+                    _state.value = MatchedSessionState.Data(sessionWithMovies)
+                }
             }
         }
     }

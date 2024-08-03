@@ -13,6 +13,7 @@ class SessionWithMoviesRepositoryImpl @Inject constructor(
 ) : SessionWithMoviesRepository {
     override suspend fun getSessionWithMovies(sessionId: String): SessionWithMovies? =
         withContext(Dispatchers.IO) {
+            @Suppress("TooGenericExceptionCaught")
             try {
                 historyDao.getSessionWithMovies(sessionId).toDomain()
             } catch (e: Exception) {

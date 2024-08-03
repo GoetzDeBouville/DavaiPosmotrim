@@ -9,5 +9,5 @@ import dagger.Provides
 class MatchedSessionListUseCaseModule {
     @Provides
     fun provideGetSessionsHistoryUseCase(getSessionsHistoryRepository: GetSessionsHistoryRepository):
-            GetSessionsHistoryUseCase = GetSessionsHistoryUseCase(getSessionsHistoryRepository)
+        GetSessionsHistoryUseCase = GetSessionsHistoryUseCase(getSessionsHistoryRepository)
 }

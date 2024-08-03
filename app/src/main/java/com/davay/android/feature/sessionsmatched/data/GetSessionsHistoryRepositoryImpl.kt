@@ -14,6 +14,7 @@ class GetSessionsHistoryRepositoryImpl @Inject constructor(
 
     override suspend fun getSessionsHistory(): List<Session>? =
         withContext(Dispatchers.IO) {
+            @Suppress("TooGenericExceptionCaught")
             try {
                 historyDao.getSessions().map { it.toDomain() }
             } catch (e: Exception) {
