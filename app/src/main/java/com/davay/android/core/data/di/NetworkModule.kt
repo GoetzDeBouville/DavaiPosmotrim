@@ -49,13 +49,14 @@ class NetworkModule {
         }
 
         install(Logging) {
-//TODO uncomment            if (BuildConfig.DEBUG) {
-                logger = object : Logger {
-                    override fun log(message: String) {
-                        Log.v("Logger Ktor =>", message)
-                    }
+            @Suppress("detekt:ForbiddenComment")
+// TODO uncomment            if (BuildConfig.DEBUG) {
+            logger = object : Logger {
+                override fun log(message: String) {
+                    Log.v("Logger Ktor =>", message)
                 }
-                level = LogLevel.ALL
+            }
+            level = LogLevel.ALL
 //            }
         }
 
