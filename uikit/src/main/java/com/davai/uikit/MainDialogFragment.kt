@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.isVisible
 import androidx.fragment.app.DialogFragment
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import com.davai.uikit.databinding.LayoutCustomDialogBinding
 import com.davai.uikit.extensions.applyBlurEffect
@@ -18,10 +19,13 @@ class MainDialogFragment : DialogFragment() {
     private var message: String? = null
     private var yesAction: (() -> Unit)? = null
     private var noAction: (() -> Unit)? = null
-    private var showConfirmBlock = false
+    private var showConfirmBlock: Boolean? = null
 
     private var _binding: LayoutCustomDialogBinding? = null
     private val binding get() = _binding!!
+    private val viewModel: MainDialogViewModel by lazy {
+        ViewModelProvider(requireActivity())[MainDialogViewModel::class.java]
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -31,6 +35,11 @@ class MainDialogFragment : DialogFragment() {
         dialog?.window?.setBackgroundDrawableResource(R.drawable.session_card_background)
         _binding = LayoutCustomDialogBinding.inflate(inflater, container, false)
         activity?.window?.decorView?.applyBlurEffect()
+        viewModel.title = title
+        viewModel.message = message
+        viewModel.yesAction = yesAction ?: viewModel.yesAction
+        viewModel.noAction = noAction ?: viewModel.noAction
+        showConfirmBlock?.let { viewModel.showConfirmBlock = it }
 
         initViews()
         subscribe()
@@ -39,17 +48,17 @@ class MainDialogFragment : DialogFragment() {
     }
 
     private fun initViews() = with(binding) {
-        tvDialogTitle.text = title
-        tvDialogMessage.text = message
-        if (showConfirmBlock) {
+        tvDialogTitle.text = viewModel.title
+        tvDialogMessage.text = viewModel.message
+        if (viewModel.showConfirmBlock) {
             showConfirmButton()
         }
     }
 
     private fun showConfirmButton() = with(binding) {
-        llTwoButtonsBlock.isVisible = showConfirmBlock.not()
+        llTwoButtonsBlock.isVisible = viewModel.showConfirmBlock.not()
 
-        progressButtonItem.root.isVisible = showConfirmBlock
+        progressButtonItem.root.isVisible = viewModel.showConfirmBlock
 
         progressButtonItem.progressButton.text = getString(R.string.dialog_confirm_text_ok)
         launchProgressButtonAnimation()
@@ -57,19 +66,19 @@ class MainDialogFragment : DialogFragment() {
 
     private fun subscribe() = with(binding) {
         btnYes.setOnClickListener {
-            yesAction?.invoke()
+            viewModel.yesAction?.invoke()
             dialog?.dismiss()
             activity?.window?.decorView?.clearBlurEffect()
         }
 
         btnNo.setOnClickListener {
-            noAction?.invoke()
+            viewModel.noAction?.invoke()
             dialog?.dismiss()
             activity?.window?.decorView?.clearBlurEffect()
         }
 
         progressButtonItem.root.setOnClickListener {
-            yesAction?.invoke()
+            viewModel.yesAction?.invoke()
             dialog?.dismiss()
             activity?.window?.decorView?.clearBlurEffect()
         }
@@ -85,7 +94,7 @@ class MainDialogFragment : DialogFragment() {
         binding.progressButtonItem.progressButton.also {
             it.animateProgress(lifecycleScope) {
                 dismiss()
-                yesAction?.invoke()
+                viewModel.yesAction?.invoke()
             }
         }
     }
@@ -93,7 +102,7 @@ class MainDialogFragment : DialogFragment() {
     override fun onCancel(dialog: DialogInterface) {
         super.onCancel(dialog)
         activity?.window?.decorView?.clearBlurEffect()
-        noAction?.invoke()
+        viewModel.noAction?.invoke()
     }
 
     override fun onDismiss(dialog: DialogInterface) {
@@ -102,8 +111,25 @@ class MainDialogFragment : DialogFragment() {
         _binding = null
     }
 
+    override fun onViewStateRestored(savedInstanceState: Bundle?) {
+        super.onViewStateRestored(savedInstanceState)
+        if (savedInstanceState != null) {
+            viewModel.title = savedInstanceState.getString(KEY_TITLE)
+            viewModel.message = savedInstanceState.getString(KEY_MESSAGE)
+            initViews()
+        }
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        outState.putString(KEY_TITLE, viewModel.title)
+        outState.putString(KEY_MESSAGE, viewModel.message)
+    }
+
     companion object {
         private const val SCREEN_WIDTH = 0.9
+        private const val KEY_TITLE = "KEY_TITLE"
+        private const val KEY_MESSAGE = "KEY_MESSAGE"
 
         fun newInstance(
             title: String,
