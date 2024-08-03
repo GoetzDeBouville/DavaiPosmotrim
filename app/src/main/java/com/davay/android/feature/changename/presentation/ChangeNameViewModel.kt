@@ -7,7 +7,7 @@ import com.davay.android.core.domain.models.User
 import com.davay.android.core.domain.models.UserDataFields
 import com.davay.android.core.domain.usecases.GetUserDataUseCase
 import com.davay.android.core.domain.usecases.SetUserDataUseCase
-import com.davay.android.feature.changename.domain.api.usecase.SetToNetworkUsernameUseCase
+import com.davay.android.feature.changename.domain.usecase.SetToNetworkUsernameUseCase
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import javax.inject.Inject

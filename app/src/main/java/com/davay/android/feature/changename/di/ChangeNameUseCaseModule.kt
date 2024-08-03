@@ -6,7 +6,7 @@ import com.davay.android.core.domain.impl.SetUserDataUseCaseImpl
 import com.davay.android.core.domain.usecases.GetUserDataUseCase
 import com.davay.android.core.domain.usecases.SetUserDataUseCase
 import com.davay.android.feature.changename.domain.api.ChangeNameRepository
-import com.davay.android.feature.changename.domain.api.usecase.SetToNetworkUsernameUseCase
+import com.davay.android.feature.changename.domain.usecase.SetToNetworkUsernameUseCase
 import dagger.Module
 import dagger.Provides
 

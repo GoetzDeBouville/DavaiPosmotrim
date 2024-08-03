@@ -1,4 +1,4 @@
-package com.davay.android.feature.changename.domain.api.usecase
+package com.davay.android.feature.changename.domain.usecase
 
 import com.davay.android.core.data.dto.UserDto
 import com.davay.android.core.domain.models.ErrorType
