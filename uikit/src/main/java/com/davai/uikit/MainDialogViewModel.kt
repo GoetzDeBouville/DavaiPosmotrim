@@ -7,4 +7,5 @@ class MainDialogViewModel : ViewModel() {
     var message: String? = null
     var yesAction: (() -> Unit)? = null
     var noAction: (() -> Unit)? = null
+    var showConfirmBlock: Boolean = false
 }

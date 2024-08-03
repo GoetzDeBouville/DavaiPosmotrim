@@ -19,7 +19,7 @@ class MainDialogFragment : DialogFragment() {
     private var message: String? = null
     private var yesAction: (() -> Unit)? = null
     private var noAction: (() -> Unit)? = null
-    private var showConfirmBlock = false
+    private var showConfirmBlock: Boolean? = null
 
     private var _binding: LayoutCustomDialogBinding? = null
     private val binding get() = _binding!!
@@ -39,6 +39,7 @@ class MainDialogFragment : DialogFragment() {
         viewModel.message = message
         viewModel.yesAction = yesAction ?: viewModel.yesAction
         viewModel.noAction = noAction ?: viewModel.noAction
+        showConfirmBlock?.let { viewModel.showConfirmBlock = it }
 
         initViews()
         subscribe()
@@ -49,15 +50,15 @@ class MainDialogFragment : DialogFragment() {
     private fun initViews() = with(binding) {
         tvDialogTitle.text = viewModel.title
         tvDialogMessage.text = viewModel.message
-        if (showConfirmBlock) {
+        if (viewModel.showConfirmBlock) {
             showConfirmButton()
         }
     }
 
     private fun showConfirmButton() = with(binding) {
-        llTwoButtonsBlock.isVisible = showConfirmBlock.not()
+        llTwoButtonsBlock.isVisible = viewModel.showConfirmBlock.not()
 
-        progressButtonItem.root.isVisible = showConfirmBlock
+        progressButtonItem.root.isVisible = viewModel.showConfirmBlock
 
         progressButtonItem.progressButton.text = getString(R.string.dialog_confirm_text_ok)
         launchProgressButtonAnimation()
