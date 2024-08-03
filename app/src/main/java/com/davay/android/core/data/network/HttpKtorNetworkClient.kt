@@ -23,6 +23,7 @@ abstract class HttpKtorNetworkClient<SealedRequest, SealedResponse>(
                     httpResponse = sendResponseByType(sealedRequest)
                 )
             }.onFailure { error ->
+                Log.v(TAG, "error -> ${error.localizedMessage}") //TODO delete
                 if (BuildConfig.DEBUG) {
                     Log.v(TAG, "error -> ${error.localizedMessage}")
                     error.printStackTrace()

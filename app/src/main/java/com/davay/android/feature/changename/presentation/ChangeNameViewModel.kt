@@ -1,10 +1,13 @@
 package com.davay.android.feature.changename.presentation
 
 import android.text.Editable
+import android.util.Log
 import com.davay.android.base.BaseViewModel
+import com.davay.android.core.domain.models.User
 import com.davay.android.core.domain.models.UserDataFields
 import com.davay.android.core.domain.usecases.GetUserDataUseCase
 import com.davay.android.core.domain.usecases.SetUserDataUseCase
+import com.davay.android.feature.changename.domain.api.usecase.SetToNetworkUsernameUseCase
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import javax.inject.Inject
@@ -12,6 +15,7 @@ import javax.inject.Inject
 class ChangeNameViewModel @Inject constructor(
     private val setUserData: SetUserDataUseCase,
     private val getUserData: GetUserDataUseCase,
+    private val setToNetworkUserName: SetToNetworkUsernameUseCase
 ) : BaseViewModel() {
 
     private val _state = MutableStateFlow(ChangeNameState.DEFAULT)
@@ -20,8 +24,19 @@ class ChangeNameViewModel @Inject constructor(
 
     fun buttonClicked(text: Editable?) {
         textCheck(text)
-        if (state.value == ChangeNameState.SUCCESS) {
+        if (state.value == ChangeNameState.SUCCESS && text.toString() != getNameofUser()) {
             setUserData.setUserData(UserDataFields.UserName(text.toString()))
+            runSafelyUseCase(
+                useCaseFlow = setToNetworkUserName.setUserName(
+                    User(
+                        userId = getUserId(),
+                        name = getNameofUser()
+                    )
+                ),
+                onSuccess = { result ->
+                    Log.d("TAG_CHANGE_NAME", result.toString())
+                }
+            )
         }
     }
 
@@ -37,6 +52,10 @@ class ChangeNameViewModel @Inject constructor(
 
     fun getNameofUser(): String {
         return getUserData.getUserData(UserDataFields.UserName())
+    }
+
+    private fun getUserId(): String {
+        return getUserData.getUserData(UserDataFields.UserId())
     }
 
     companion object {

@@ -1,10 +1,12 @@
 package com.davay.android.feature.registration.data
 
+import com.davay.android.core.data.converters.toData
 import com.davay.android.core.data.dto.UserDto
 import com.davay.android.core.data.network.HttpNetworkClient
 import com.davay.android.core.data.network.model.mapToErrorType
 import com.davay.android.core.domain.models.ErrorType
 import com.davay.android.core.domain.models.Result
+import com.davay.android.core.domain.models.User
 import com.davay.android.feature.registration.data.network.RegistrationRequest
 import com.davay.android.feature.registration.data.network.RegistrationResponse
 import com.davay.android.feature.registration.domain.api.RegistrationRepository
@@ -15,8 +17,8 @@ class RegistrationRepositoryImpl(
     private val httpNetworkClient: HttpNetworkClient<RegistrationRequest, RegistrationResponse>
 ) : RegistrationRepository {
 
-    override fun setUserData(userData: UserDto): Flow<Result<UserDto, ErrorType>> = flow {
-        val response = httpNetworkClient.getResponse(RegistrationRequest(userData = userData))
+    override fun setUserData(userData: User): Flow<Result<UserDto, ErrorType>> = flow {
+        val response = httpNetworkClient.getResponse(RegistrationRequest(userData = userData.toData()))
         when (val body = response.body) {
             is RegistrationResponse -> {
                 emit(Result.Success(body.userData))

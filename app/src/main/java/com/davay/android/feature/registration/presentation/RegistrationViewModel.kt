@@ -1,8 +1,9 @@
 package com.davay.android.feature.registration.presentation
 
 import android.text.Editable
+import android.util.Log
 import com.davay.android.base.BaseViewModel
-import com.davay.android.core.data.dto.UserDto
+import com.davay.android.core.domain.models.User
 import com.davay.android.core.domain.models.UserDataFields
 import com.davay.android.core.domain.usecases.SetUserDataUseCase
 import com.davay.android.feature.registration.domain.usecase.SetToNetworkUserDataUseCase
@@ -29,13 +30,13 @@ class RegistrationViewModel @Inject constructor(
             setUserData.setUserData(UserDataFields.UserId(userId = userId))
             runSafelyUseCase(
                 useCaseFlow = setToNetworkUserDataUseCase.setUserData(
-                    UserDto(
+                    User(
                         userId = userId,
                         name = userName
                     )
                 ),
-                onSuccess = { _ ->
-                    Unit
+                onSuccess = { result ->
+                    Log.d("TAG_CHANGE_NAME", result.toString())
                 }
             )
         }
