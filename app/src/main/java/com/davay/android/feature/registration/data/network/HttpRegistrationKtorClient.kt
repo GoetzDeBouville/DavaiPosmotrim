@@ -25,7 +25,7 @@ class HttpRegistrationKtorClient @Inject constructor(
                 parameter("format", "json")
             }
             headers {
-                append("Device-id", request.userData.userId)
+                append(DEVICE_ID, request.userData.userId)
             }
 
             contentType(ContentType.Application.Json)
@@ -38,5 +38,8 @@ class HttpRegistrationKtorClient @Inject constructor(
         httpResponse: HttpResponse
     ): RegistrationResponse {
         return RegistrationResponse(httpResponse.body())
+    }
+    companion object {
+        private const val DEVICE_ID = "Device-id"
     }
 }

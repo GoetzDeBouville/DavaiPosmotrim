@@ -25,11 +25,11 @@ class HttpChangeNameKtorClient @Inject constructor(
                 parameter("format", "json")
             }
             headers {
-                append("Device-id", request.userData.userId)
+                append(DEVICE_ID, request.userData.userId)
             }
 
             contentType(ContentType.Application.Json)
-            setBody(mapOf("name" to request.userData.name))
+            setBody(mapOf(NAME to request.userData.name))
         }
     }
 
@@ -38,5 +38,10 @@ class HttpChangeNameKtorClient @Inject constructor(
         httpResponse: HttpResponse
     ): ChangeNameResponse {
         return ChangeNameResponse(httpResponse.body())
+    }
+
+    companion object {
+        private const val DEVICE_ID = "Device-id"
+        private const val NAME = "name"
     }
 }
