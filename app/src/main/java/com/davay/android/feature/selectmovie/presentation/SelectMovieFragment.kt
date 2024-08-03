@@ -58,11 +58,6 @@ class SelectMovieFragment :
         outState.putInt(CURRENT_POSITION_KEY, currentPosition)
     }
 
-    override fun onStop() {
-        super.onStop()
-        viewModel.saveHistory()
-    }
-
     override fun onDestroyView() {
         binding.rvFilmCard.layoutManager = null
         super.onDestroyView()

@@ -1,19 +1,14 @@
 package com.davay.android.feature.selectmovie.presentation
 
-import androidx.lifecycle.viewModelScope
 import com.davay.android.base.BaseViewModel
 import com.davay.android.core.domain.models.MovieDetails
 import com.davay.android.core.domain.models.Session
 import com.davay.android.core.domain.models.SessionStatus
-import com.davay.android.feature.selectmovie.domain.SaveSessionsHistoryRepository
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-class SelectMovieViewModel @Inject constructor(
-    private val saveSessionsHistoryRepository: SaveSessionsHistoryRepository
-) : BaseViewModel() {
+class SelectMovieViewModel @Inject constructor() : BaseViewModel() {
     private val _state = MutableStateFlow<List<MovieDetails>>(emptyList())
     val state = _state.asStateFlow()
     private val session = Session(
@@ -124,11 +119,5 @@ class SelectMovieViewModel @Inject constructor(
         )
         _state.value = movies
         matchedMovies.addAll(movies)
-    }
-
-    fun saveHistory() {
-        viewModelScope.launch {
-            saveSessionsHistoryRepository.saveSessionsHistory(session, state.value)
-        }
     }
 }

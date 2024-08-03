@@ -8,7 +8,6 @@ import dagger.Component
     dependencies = [AppComponent::class],
     modules = [
         SelectMovieFragmentModule::class,
-        SelectMovieDataModule::class
     ]
 )
 interface SelectMovieFragmentComponent : ScreenComponent {
