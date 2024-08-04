@@ -47,6 +47,7 @@ class OnboardingFragment : BaseFragment<FragmentOnboardingBinding, OnboardingVie
     }
 
     override fun initViews() = with(binding) {
+        fragmentList.clear()
         fragmentList.addAll(
             listOf(
                 OnboardingFirstFragment.newInstance(arrayOfIds[0]),
