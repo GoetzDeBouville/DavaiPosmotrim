@@ -10,6 +10,7 @@ import androidx.lifecycle.viewModelScope
 import androidx.navigation.NavOptions
 import com.commit451.translationviewdraghelper.BuildConfig
 import com.davay.android.R
+import com.davay.android.core.domain.models.ErrorScreenState
 import com.davay.android.core.domain.models.ErrorType
 import com.davay.android.core.domain.models.Result
 import kotlinx.coroutines.Dispatchers
@@ -55,6 +56,16 @@ abstract class BaseViewModel : ViewModel() {
     fun clearBackStackToMainAndNavigate(@IdRes navDirections: Int) {
         clearBackStackToMain()
         navigate(navDirections)
+    }
+
+    protected fun mapErrorToUiState(errorType: ErrorType): ErrorScreenState {
+        return when (errorType) {
+            ErrorType.NO_CONNECTION -> ErrorScreenState.NO_INTERNET
+            ErrorType.NOT_FOUND -> ErrorScreenState.SERVER_ERROR
+            ErrorType.BAD_REQUEST -> ErrorScreenState.SERVER_ERROR
+            ErrorType.APP_VERSION_ERROR -> ErrorScreenState.APP_VERSION_ERROR
+            else -> ErrorScreenState.SERVER_ERROR
+        }
     }
 
     protected inline fun <reified D> runSafelyUseCase(
