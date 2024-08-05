@@ -32,7 +32,6 @@ circle_indicator = "2.1.6"
 physicslayout = "3.0.2"
 
 encrypted_sharedpreferences = "1.0.0"
-roomCommon = "2.6.1"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
