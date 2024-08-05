@@ -21,6 +21,7 @@ class ChangeNameViewModel @Inject constructor(
     fun buttonClicked(text: Editable?) {
         textCheck(text)
         if (state.value == ChangeNameState.CORRECT && text.toString() != getUserName()) {
+            _state.value = ChangeNameState.LOADING
             runSafelyUseCase(
                 useCaseFlow = changeName.setUserName(text.toString()),
                 onSuccess = { _ ->

@@ -49,13 +49,14 @@ class NetworkModule {
             }
         }
 
-        install(Logging) { if (BuildConfig.DEBUG) {
-            logger = object : Logger {
-                override fun log(message: String) {
-                    Log.v("Logger Ktor =>", message)
+        install(Logging) {
+            if (BuildConfig.DEBUG) {
+                logger = object : Logger {
+                    override fun log(message: String) {
+                        Log.v("Logger Ktor =>", message)
+                    }
                 }
-            }
-            level = LogLevel.ALL
+                level = LogLevel.ALL
             }
         }
 
