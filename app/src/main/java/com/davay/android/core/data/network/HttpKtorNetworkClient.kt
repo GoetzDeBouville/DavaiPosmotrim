@@ -23,9 +23,6 @@ abstract class HttpKtorNetworkClient<SealedRequest, SealedResponse>(
                     httpResponse = sendResponseByType(sealedRequest)
                 )
             }.onFailure { error ->
-                @Suppress("detekt:ForbiddenComment")
-                // TODO delete
-                Log.v(TAG, "error -> ${error.localizedMessage}")
                 if (BuildConfig.DEBUG) {
                     Log.v(TAG, "error -> ${error.localizedMessage}")
                     error.printStackTrace()
