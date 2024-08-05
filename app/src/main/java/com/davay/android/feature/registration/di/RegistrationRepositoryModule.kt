@@ -29,9 +29,13 @@ interface RegistrationRepositoryModule {
 
         @Provides
         fun provideRegistrationRepository(
-            httpNetworkClient: HttpKtorNetworkClient<RegistrationRequest, RegistrationResponse>
+            httpNetworkClient: HttpKtorNetworkClient<RegistrationRequest, RegistrationResponse>,
+            userDataRepository: UserDataRepository
         ): RegistrationRepository {
-            return RegistrationRepositoryImpl(httpNetworkClient)
+            return RegistrationRepositoryImpl(
+                httpNetworkClient = httpNetworkClient,
+                userDataRepository = userDataRepository
+            )
         }
 
         @Provides

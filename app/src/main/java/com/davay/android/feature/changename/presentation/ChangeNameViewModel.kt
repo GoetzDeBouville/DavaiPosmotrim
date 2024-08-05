@@ -35,6 +35,9 @@ class ChangeNameViewModel @Inject constructor(
                 ),
                 onSuccess = { result ->
                     Log.d("TAG_CHANGE_NAME", result.toString())
+                },
+                onFailure = {
+                    Log.d("TAG", "ERROR")
                 }
             )
         }

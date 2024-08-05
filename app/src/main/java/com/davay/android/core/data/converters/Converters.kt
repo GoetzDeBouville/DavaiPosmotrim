@@ -41,11 +41,6 @@ fun UserDto.toDomain() = User(
     name = name
 )
 
-fun User.toData() = UserDto(
-    userId = userId,
-    name = name
-)
-
 fun MovieDetailsDto.toDomain() = MovieDetails(
     id,
     name,

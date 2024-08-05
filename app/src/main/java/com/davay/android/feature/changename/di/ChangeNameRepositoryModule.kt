@@ -29,9 +29,13 @@ interface ChangeNameRepositoryModule {
 
         @Provides
         fun provideChangeNameRepository(
-            httpNetworkClient: HttpKtorNetworkClient<ChangeNameRequest, ChangeNameResponse>
+            httpNetworkClient: HttpKtorNetworkClient<ChangeNameRequest, ChangeNameResponse>,
+            userDataRepository: UserDataRepository
         ): ChangeNameRepository {
-            return ChangeNameRepositoryImpl(httpNetworkClient)
+            return ChangeNameRepositoryImpl(
+                httpNetworkClient = httpNetworkClient,
+                userDataRepository = userDataRepository
+            )
         }
 
         @Provides

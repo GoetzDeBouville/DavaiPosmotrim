@@ -3,18 +3,13 @@ package com.davay.android.feature.registration.presentation
 import android.text.Editable
 import android.util.Log
 import com.davay.android.base.BaseViewModel
-import com.davay.android.core.domain.models.User
-import com.davay.android.core.domain.models.UserDataFields
-import com.davay.android.core.domain.usecases.SetUserDataUseCase
-import com.davay.android.feature.registration.domain.usecase.SetToNetworkUserDataUseCase
+import com.davay.android.feature.registration.domain.usecase.RegistrationUseCase
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
-import java.util.UUID.randomUUID
 import javax.inject.Inject
 
 class RegistrationViewModel @Inject constructor(
-    private val setUserData: SetUserDataUseCase,
-    private val setToNetworkUserDataUseCase: SetToNetworkUserDataUseCase
+    private val registration: RegistrationUseCase
 ) : BaseViewModel() {
 
     private val _state = MutableStateFlow(RegistrationState.DEFAULT)
@@ -24,17 +19,8 @@ class RegistrationViewModel @Inject constructor(
     fun buttonClicked(text: Editable?) {
         textCheck(text)
         if (state.value == RegistrationState.SUCCESS) {
-            val userId = randomUUID().toString()
-            val userName = text.toString()
-            setUserData.setUserData(UserDataFields.UserName(userName = userName))
-            setUserData.setUserData(UserDataFields.UserId(userId = userId))
             runSafelyUseCase(
-                useCaseFlow = setToNetworkUserDataUseCase.setUserData(
-                    User(
-                        userId = userId,
-                        name = userName
-                    )
-                ),
+                useCaseFlow = registration.setUserData(text.toString()),
                 onSuccess = { result ->
                     Log.d("TAG_CHANGE_NAME", result.toString())
                 }
