@@ -1,7 +1,6 @@
 package com.davay.android.feature.registration.presentation
 
 import android.text.Editable
-import android.util.Log
 import com.davay.android.base.BaseViewModel
 import com.davay.android.feature.registration.domain.usecase.RegistrationUseCase
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -18,11 +17,14 @@ class RegistrationViewModel @Inject constructor(
 
     fun buttonClicked(text: Editable?) {
         textCheck(text)
-        if (state.value == RegistrationState.SUCCESS) {
+        if (state.value == RegistrationState.CORRECT) {
             runSafelyUseCase(
                 useCaseFlow = registration.setUserData(text.toString()),
-                onSuccess = { result ->
-                    Log.d("TAG_CHANGE_NAME", result.toString())
+                onSuccess = { _ ->
+                    _state.value = RegistrationState.SUCCESS
+                },
+                onFailure = {
+                    _state.value = RegistrationState.NETWORK_ERROR
                 }
             )
         }
@@ -35,7 +37,7 @@ class RegistrationViewModel @Inject constructor(
             inputText.length < TEXT_LENGTH_MIN -> _state.value = RegistrationState.MINIMUM_LETTERS
             inputText.length > TEXT_LENGTH_MAX -> _state.value = RegistrationState.MAXIMUM_LETTERS
             inputText.any { !it.isLetter() } -> _state.value = RegistrationState.NUMBERS
-            else -> _state.value = RegistrationState.SUCCESS
+            else -> _state.value = RegistrationState.CORRECT
         }
     }
 

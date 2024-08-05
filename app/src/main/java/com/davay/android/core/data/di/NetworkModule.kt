@@ -1,6 +1,7 @@
 package com.davay.android.core.data.di
 
 import android.util.Log
+import com.commit451.translationviewdraghelper.BuildConfig
 import dagger.Module
 import dagger.Provides
 import io.ktor.client.HttpClient
@@ -48,16 +49,14 @@ class NetworkModule {
             }
         }
 
-        install(Logging) {
-            @Suppress("detekt:ForbiddenComment")
-// TODO uncomment            if (BuildConfig.DEBUG) {
+        install(Logging) { if (BuildConfig.DEBUG) {
             logger = object : Logger {
                 override fun log(message: String) {
                     Log.v("Logger Ktor =>", message)
                 }
             }
             level = LogLevel.ALL
-//            }
+            }
         }
 
         install(ResponseObserver) {

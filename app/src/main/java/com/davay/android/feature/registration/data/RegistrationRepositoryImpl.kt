@@ -30,7 +30,7 @@ class RegistrationRepositoryImpl(
         )
         when (val body = response.body) {
             is RegistrationResponse -> {
-                with (userDataRepository) {
+                with(userDataRepository) {
                     setUserId(body.userData.userId)
                     setUserName(body.userData.name)
                 }

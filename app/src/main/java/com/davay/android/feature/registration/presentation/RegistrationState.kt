@@ -7,4 +7,6 @@ enum class RegistrationState {
     DEFAULT,
     SUCCESS,
     MAXIMUM_LETTERS,
+    CORRECT,
+    NETWORK_ERROR
 }

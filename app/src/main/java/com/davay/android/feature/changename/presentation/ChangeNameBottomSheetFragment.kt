@@ -39,7 +39,7 @@ class ChangeNameBottomSheetFragment :
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.etName.setText(viewModel.getNameofUser())
+        binding.etName.setText(viewModel.getUserName())
 
         lifecycleScope.launch {
             viewModel.state.collect { stateHandle(it) }
@@ -123,8 +123,14 @@ class ChangeNameBottomSheetFragment :
             ChangeNameState.FIELD_EMPTY -> resources.getString(R.string.registration_enter_name)
             ChangeNameState.MINIMUM_LETTERS -> resources.getString(R.string.registration_two_letters_minimum)
             ChangeNameState.NUMBERS -> resources.getString(R.string.registration_just_letters)
-            ChangeNameState.SUCCESS, ChangeNameState.DEFAULT, null -> ""
+            ChangeNameState.SUCCESS, ChangeNameState.DEFAULT, ChangeNameState.CORRECT, null -> ""
             ChangeNameState.MAXIMUM_LETTERS -> resources.getString(R.string.registration_not_more_letters)
+            ChangeNameState.NETWORK_ERROR -> resources.getString(R.string.registration_network_problem)
+        }
+        if (viewModel.state.value == ChangeNameState.SUCCESS) {
+            val newName = binding.etName.text.toString()
+            setFragmentResult(REQUEST_KEY, bundleOf(BUNDLE_KEY_NAME to newName))
+            bottomSheetBehavior!!.state = BottomSheetBehavior.STATE_HIDDEN
         }
     }
 
@@ -144,11 +150,11 @@ class ChangeNameBottomSheetFragment :
 
     private fun buttonClicked() {
         viewModel.buttonClicked(binding.etName.text)
-        if (viewModel.state.value == ChangeNameState.SUCCESS) {
-            val newName = binding.etName.text.toString()
-            setFragmentResult(REQUEST_KEY, bundleOf(BUNDLE_KEY_NAME to newName))
-            bottomSheetBehavior!!.state = BottomSheetBehavior.STATE_HIDDEN
-        }
+//        if (viewModel.state.value == ChangeNameState.SUCCESS) {
+//            val newName = binding.etName.text.toString()
+//            setFragmentResult(REQUEST_KEY, bundleOf(BUNDLE_KEY_NAME to newName))
+//            bottomSheetBehavior!!.state = BottomSheetBehavior.STATE_HIDDEN
+//        }
     }
 
     companion object {

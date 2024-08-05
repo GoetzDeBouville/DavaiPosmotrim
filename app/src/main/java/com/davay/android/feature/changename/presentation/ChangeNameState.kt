@@ -7,4 +7,6 @@ enum class ChangeNameState {
     DEFAULT,
     SUCCESS,
     MAXIMUM_LETTERS,
+    CORRECT,
+    NETWORK_ERROR
 }

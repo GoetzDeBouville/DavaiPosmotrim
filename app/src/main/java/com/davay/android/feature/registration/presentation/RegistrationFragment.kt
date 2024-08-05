@@ -77,8 +77,12 @@ class RegistrationFragment :
             RegistrationState.FIELD_EMPTY -> resources.getString(R.string.registration_enter_name)
             RegistrationState.MINIMUM_LETTERS -> resources.getString(R.string.registration_two_letters_minimum)
             RegistrationState.NUMBERS -> resources.getString(R.string.registration_just_letters)
-            RegistrationState.SUCCESS, RegistrationState.DEFAULT, null -> ""
+            RegistrationState.DEFAULT, RegistrationState.CORRECT, RegistrationState.SUCCESS, null -> ""
             RegistrationState.MAXIMUM_LETTERS -> resources.getString(R.string.registration_not_more_letters)
+            RegistrationState.NETWORK_ERROR -> resources.getString(R.string.registration_network_problem)
+        }
+        if (state == RegistrationState.SUCCESS) {
+            viewModel.navigate(R.id.action_registrationFragment_to_mainFragment)
         }
     }
 
@@ -98,9 +102,6 @@ class RegistrationFragment :
 
     private fun buttonClicked() {
         viewModel.buttonClicked(binding.etName.text)
-        if (viewModel.state.value == RegistrationState.SUCCESS) {
-            viewModel.navigate(R.id.action_registrationFragment_to_mainFragment)
-        }
     }
 
     companion object {

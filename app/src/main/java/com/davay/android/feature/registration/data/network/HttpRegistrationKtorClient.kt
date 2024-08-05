@@ -37,6 +37,7 @@ class HttpRegistrationKtorClient @Inject constructor(
     ): RegistrationResponse {
         return RegistrationResponse(httpResponse.body())
     }
+
     companion object {
         private const val DEVICE_ID = "Device-id"
     }
