@@ -6,7 +6,7 @@ import android.content.SharedPreferences
 import com.davay.android.core.data.database.AppDatabase
 import com.davay.android.core.data.database.di.DatabaseModule
 import com.davay.android.core.data.di.NetworkModule
-import com.davay.android.core.domain.api.SaveSessionsHistoryRepository
+import com.davay.android.core.domain.api.SessionsHistoryRepository
 import com.davay.android.di.prefs.marker.StorageMarker
 import com.davay.android.di.prefs.model.PreferencesStorage
 import dagger.BindsInstance
@@ -19,14 +19,14 @@ import io.ktor.client.HttpClient
         ContextModule::class,
         DatabaseModule::class,
         EncryptedSharedPreferencesModule::class,
-        SaveSessionsHistoryModule::class
+        SessionsHistoryModule::class
     ]
 )
 interface AppComponent : DIComponent {
     val httpClient: HttpClient
     val context: Context
     val dataBase: AppDatabase
-    val saveSessionsHistoryRepository: SaveSessionsHistoryRepository
+    val sessionsHistoryRepository: SessionsHistoryRepository
 
     @StorageMarker(PreferencesStorage.USER)
     fun encryptedSharedPreferences(): SharedPreferences

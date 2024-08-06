@@ -2,7 +2,10 @@ package com.davay.android.core.domain.api
 
 import com.davay.android.core.domain.models.MovieDetails
 import com.davay.android.core.domain.models.Session
+import com.davay.android.core.domain.models.SessionWithMovies
 
-interface SaveSessionsHistoryRepository {
+interface SessionsHistoryRepository {
     suspend fun saveSessionsHistory(session: Session, movies: List<MovieDetails>)
+    suspend fun getSessionsHistory(): List<Session>?
+    suspend fun getSessionWithMovies(sessionId: String): SessionWithMovies?
 }

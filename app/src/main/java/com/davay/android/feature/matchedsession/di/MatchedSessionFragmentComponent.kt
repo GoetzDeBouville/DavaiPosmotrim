@@ -8,7 +8,6 @@ import dagger.Component
     dependencies = [AppComponent::class],
     modules = [
         MatchedSessionFragmentModule::class,
-        MatchedSessionDataModule::class,
         MatchedSessionUseCaseModule::class
     ]
 )
