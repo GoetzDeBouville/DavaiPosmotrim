@@ -78,7 +78,7 @@ class RegistrationFragment :
         val isLoading = state == UserNameState.LOADING
         binding.progressBar.isVisible = isLoading
         binding.etName.isEnabled = !isLoading
-        binding.tvErrorHint.text = state?.message ?: ""
+        binding.tvErrorHint.text = state?.getMessage(requireContext()) ?: ""
         if (state == UserNameState.SUCCESS) {
             viewModel.navigate(R.id.action_registrationFragment_to_mainFragment)
         }

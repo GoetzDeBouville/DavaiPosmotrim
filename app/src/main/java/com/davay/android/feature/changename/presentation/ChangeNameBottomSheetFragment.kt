@@ -123,7 +123,7 @@ class ChangeNameBottomSheetFragment :
         val isLoading = state == UserNameState.LOADING
         binding.progressBar.isVisible = isLoading
         binding.etName.isEnabled = !isLoading
-        binding.tvErrorHint.text = state?.message ?: ""
+        binding.tvErrorHint.text = state?.getMessage(requireContext()) ?: ""
         if (state == UserNameState.SUCCESS) {
             val newName = binding.etName.text.toString()
             setFragmentResult(REQUEST_KEY, bundleOf(BUNDLE_KEY_NAME to newName))
