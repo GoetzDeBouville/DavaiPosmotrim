@@ -1,12 +1,16 @@
 package com.davay.android.feature.changename.presentation
 
 import android.text.Editable
+import androidx.lifecycle.viewModelScope
 import com.davay.android.base.BaseViewModel
 import com.davay.android.core.domain.models.UserDataFields
 import com.davay.android.core.domain.usecases.GetUserDataUseCase
 import com.davay.android.feature.changename.domain.usecase.ChangeNameUseCase
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class ChangeNameViewModel @Inject constructor(
@@ -15,6 +19,7 @@ class ChangeNameViewModel @Inject constructor(
 ) : BaseViewModel() {
 
     private val _state = MutableStateFlow(ChangeNameState.DEFAULT)
+    private var registrationProcess: Job? = null
     val state: StateFlow<ChangeNameState>
         get() = _state
 
@@ -22,16 +27,22 @@ class ChangeNameViewModel @Inject constructor(
         textCheck(text)
         if (state.value == ChangeNameState.CORRECT && text.toString() != getUserName()) {
             _state.value = ChangeNameState.LOADING
-            runSafelyUseCase(
-                useCaseFlow = changeName.setUserName(text.toString()),
-                onSuccess = { _ ->
-                    _state.value = ChangeNameState.SUCCESS
-                },
-                onFailure = {
-                    _state.value = ChangeNameState.NETWORK_ERROR
-                }
-            )
+            registrationProcess = viewModelScope.launch(Dispatchers.IO) {
+                runSafelyUseCase(
+                    useCaseFlow = changeName.setUserName(text.toString()),
+                    onSuccess = { _ ->
+                        _state.value = ChangeNameState.SUCCESS
+                    },
+                    onFailure = {
+                        _state.value = ChangeNameState.NETWORK_ERROR
+                    }
+                )
+            }
         }
+    }
+
+    fun cancelRegistration() {
+        registrationProcess?.cancel()
     }
 
     fun textCheck(text: Editable?) {

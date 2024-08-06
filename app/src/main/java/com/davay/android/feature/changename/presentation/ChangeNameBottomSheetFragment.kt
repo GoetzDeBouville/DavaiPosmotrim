@@ -145,6 +145,11 @@ class ChangeNameBottomSheetFragment :
         }
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
+        viewModel.cancelRegistration()
+    }
+
     companion object {
         private const val TYPE_SMALL_BORDER = 12
         private const val BOTTOM_SHEET_HIDE_PERCENT_60 = 0.6f
