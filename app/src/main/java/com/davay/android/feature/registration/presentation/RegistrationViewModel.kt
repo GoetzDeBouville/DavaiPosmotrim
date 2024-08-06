@@ -18,6 +18,7 @@ class RegistrationViewModel @Inject constructor(
     fun buttonClicked(text: Editable?) {
         textCheck(text)
         if (state.value == RegistrationState.CORRECT) {
+            _state.value = RegistrationState.LOADING
             runSafelyUseCase(
                 useCaseFlow = registration.setUserData(text.toString()),
                 onSuccess = { _ ->

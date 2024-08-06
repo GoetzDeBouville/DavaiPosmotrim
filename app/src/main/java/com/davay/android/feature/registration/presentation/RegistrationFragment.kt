@@ -5,6 +5,7 @@ import android.view.View
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
 import androidx.core.content.ContextCompat.getSystemService
+import androidx.core.view.isVisible
 import androidx.core.widget.doAfterTextChanged
 import androidx.lifecycle.lifecycleScope
 import com.davay.android.R
@@ -73,14 +74,10 @@ class RegistrationFragment :
     }
 
     private fun stateHandle(state: RegistrationState?) {
-        binding.tvErrorHint.text = when (state) {
-            RegistrationState.FIELD_EMPTY -> resources.getString(R.string.registration_enter_name)
-            RegistrationState.MINIMUM_LETTERS -> resources.getString(R.string.registration_two_letters_minimum)
-            RegistrationState.NUMBERS -> resources.getString(R.string.registration_just_letters)
-            RegistrationState.DEFAULT, RegistrationState.CORRECT, RegistrationState.SUCCESS, null -> ""
-            RegistrationState.MAXIMUM_LETTERS -> resources.getString(R.string.registration_not_more_letters)
-            RegistrationState.NETWORK_ERROR -> resources.getString(R.string.registration_network_problem)
-        }
+        val isLoading = state == RegistrationState.LOADING
+        binding.progressBar.isVisible = isLoading
+        binding.etName.isEnabled = !isLoading
+        binding.tvErrorHint.text = state?.message ?: ""
         if (state == RegistrationState.SUCCESS) {
             viewModel.navigate(R.id.action_registrationFragment_to_mainFragment)
         }
@@ -88,20 +85,16 @@ class RegistrationFragment :
 
     private fun setButtonClickListeners() {
         binding.btnEnter.setOnClickListener {
-            buttonClicked()
+            viewModel.buttonClicked(binding.etName.text)
         }
         binding.etName.setOnEditorActionListener { _, actionId, _ ->
             if (actionId == EditorInfo.IME_ACTION_DONE) {
-                buttonClicked()
+                viewModel.buttonClicked(binding.etName.text)
                 true
             } else {
                 false
             }
         }
-    }
-
-    private fun buttonClicked() {
-        viewModel.buttonClicked(binding.etName.text)
     }
 
     companion object {
