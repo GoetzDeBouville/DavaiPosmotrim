@@ -10,6 +10,7 @@ import androidx.core.widget.doAfterTextChanged
 import androidx.lifecycle.lifecycleScope
 import com.davay.android.R
 import com.davay.android.base.BaseFragment
+import com.davay.android.core.domain.models.UserNameState
 import com.davay.android.core.presentation.MainActivity
 import com.davay.android.databinding.FragmentRegistrationBinding
 import com.davay.android.di.AppComponentHolder
@@ -73,12 +74,12 @@ class RegistrationFragment :
         }
     }
 
-    private fun stateHandle(state: RegistrationState?) {
-        val isLoading = state == RegistrationState.LOADING
+    private fun stateHandle(state: UserNameState?) {
+        val isLoading = state == UserNameState.LOADING
         binding.progressBar.isVisible = isLoading
         binding.etName.isEnabled = !isLoading
         binding.tvErrorHint.text = state?.message ?: ""
-        if (state == RegistrationState.SUCCESS) {
+        if (state == UserNameState.SUCCESS) {
             viewModel.navigate(R.id.action_registrationFragment_to_mainFragment)
         }
     }

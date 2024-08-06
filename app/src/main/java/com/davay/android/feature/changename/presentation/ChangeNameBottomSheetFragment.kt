@@ -13,6 +13,7 @@ import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.setFragmentResult
 import androidx.lifecycle.lifecycleScope
 import com.davay.android.base.BaseBottomSheetFragment
+import com.davay.android.core.domain.models.UserNameState
 import com.davay.android.databinding.FragmentNameChangeBinding
 import com.davay.android.di.AppComponentHolder
 import com.davay.android.di.ScreenComponent
@@ -118,12 +119,12 @@ class ChangeNameBottomSheetFragment :
         imm?.hideSoftInputFromWindow(view.windowToken, 0)
     }
 
-    private fun stateHandle(state: ChangeNameState?) {
-        val isLoading = state == ChangeNameState.LOADING
+    private fun stateHandle(state: UserNameState?) {
+        val isLoading = state == UserNameState.LOADING
         binding.progressBar.isVisible = isLoading
         binding.etName.isEnabled = !isLoading
         binding.tvErrorHint.text = state?.message ?: ""
-        if (state == ChangeNameState.SUCCESS) {
+        if (state == UserNameState.SUCCESS) {
             val newName = binding.etName.text.toString()
             setFragmentResult(REQUEST_KEY, bundleOf(BUNDLE_KEY_NAME to newName))
             bottomSheetBehavior!!.state = BottomSheetBehavior.STATE_HIDDEN

@@ -1,6 +1,6 @@
-package com.davay.android.feature.registration.presentation
+package com.davay.android.core.domain.models
 
-enum class RegistrationState(val message: String) {
+enum class UserNameState(val message: String) {
     LOADING(""),
     FIELD_EMPTY("Введите имя"),
     MINIMUM_LETTERS("Минимум две буквы"),
