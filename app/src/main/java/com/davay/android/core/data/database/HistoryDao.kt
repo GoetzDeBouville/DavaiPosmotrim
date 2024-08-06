@@ -32,4 +32,22 @@ interface HistoryDao {
     // Сохранение связи сессии и фильма с помощью sessionId и movieId
     @Upsert
     suspend fun insertSessionMovieReference(sessionMovieCrossRef: SessionMovieCrossRef)
+
+    // Транзакция сохранения сессии с фильмами
+    @Transaction
+    suspend fun saveSessionWithFilms(
+        session: SessionEntity,
+        movies: List<MovieDetailsEntity>
+    ) {
+        insertSession(session)
+        movies.forEach {
+            insertMovie(it)
+            insertSessionMovieReference(
+                SessionMovieCrossRef(
+                    sessionId = session.sessionId,
+                    movieId = it.movieId,
+                )
+            )
+        }
+    }
 }

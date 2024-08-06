@@ -1,11 +1,13 @@
 package com.davay.android.core.data.impl
 
+import android.util.Log
 import com.davay.android.core.data.converters.toDbEntity
 import com.davay.android.core.data.converters.toDomain
 import com.davay.android.core.data.database.HistoryDao
-import com.davay.android.core.data.database.entity.SessionMovieCrossRef
 import com.davay.android.core.domain.api.SessionsHistoryRepository
+import com.davay.android.core.domain.models.ErrorType
 import com.davay.android.core.domain.models.MovieDetails
+import com.davay.android.core.domain.models.Result
 import com.davay.android.core.domain.models.Session
 import com.davay.android.core.domain.models.SessionWithMovies
 import kotlinx.coroutines.Dispatchers
@@ -16,22 +18,21 @@ class SessionsHistoryRepositoryImpl @Inject constructor(
     private val historyDao: HistoryDao
 ) : SessionsHistoryRepository {
 
-    override suspend fun saveSessionsHistory(session: Session, movies: List<MovieDetails>) =
+    override suspend fun saveSessionsHistory(
+        session: Session,
+        movies: List<MovieDetails>
+    ): Result<Unit, ErrorType> =
         withContext(Dispatchers.IO) {
             @Suppress("TooGenericExceptionCaught")
             try {
-                historyDao.insertSession(session.toDbEntity())
-                movies.forEach {
-                    historyDao.insertMovie(it.toDbEntity())
-                    historyDao.insertSessionMovieReference(
-                        SessionMovieCrossRef(
-                            sessionId = session.id,
-                            movieId = it.id
-                        )
-                    )
-                }
+                historyDao.saveSessionWithFilms(
+                    session.toDbEntity(),
+                    movies.map { it.toDbEntity() })
+                Result.Success(Unit)
             } catch (e: Exception) {
                 e.printStackTrace()
+                Log.w("MyTag", "SessionsHistoryRepositoryImpl " + e.stackTraceToString())
+                Result.Error(ErrorType.UNKNOWN_ERROR)
             }
         }
 
