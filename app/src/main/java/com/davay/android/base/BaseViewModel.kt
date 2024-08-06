@@ -8,7 +8,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.NavOptions
-import com.commit451.translationviewdraghelper.BuildConfig
+import com.davay.android.BuildConfig
 import com.davay.android.R
 import com.davay.android.core.domain.models.ErrorScreenState
 import com.davay.android.core.domain.models.ErrorType
