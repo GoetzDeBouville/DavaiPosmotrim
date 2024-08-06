@@ -3,6 +3,7 @@ package com.davay.android.feature.sessionsmatched.presentation
 import androidx.lifecycle.viewModelScope
 import com.davay.android.base.BaseViewModel
 import com.davay.android.feature.sessionsmatched.domain.GetSessionsHistoryUseCase
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
@@ -20,7 +21,7 @@ class MatchedSessionsViewModel @Inject constructor(
 
     private fun getMatchedSessions() {
         _state.value = MatchedSessionsState.Loading
-        viewModelScope.launch {
+        viewModelScope.launch(Dispatchers.IO) {
             val session = getSessionsHistoryUseCase.execute()
             when {
                 session.isNullOrEmpty() -> _state.value = MatchedSessionsState.Empty

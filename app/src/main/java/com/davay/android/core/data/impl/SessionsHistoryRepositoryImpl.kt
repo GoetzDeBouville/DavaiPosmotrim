@@ -22,44 +22,38 @@ class SessionsHistoryRepositoryImpl @Inject constructor(
         session: Session,
         movies: List<MovieDetails>
     ): Result<Unit, ErrorType> =
-        withContext(Dispatchers.IO) {
-            @Suppress("TooGenericExceptionCaught")
-            try {
-                historyDao.saveSessionWithFilms(
-                    session.toDbEntity(),
-                    movies.map { it.toDbEntity() })
-                Result.Success(Unit)
-            } catch (e: Exception) {
-                if (BuildConfig.DEBUG) {
-                    e.printStackTrace()
-                }
-                Result.Error(ErrorType.UNKNOWN_ERROR)
+        @Suppress("TooGenericExceptionCaught")
+        try {
+            historyDao.saveSessionWithFilms(
+                session.toDbEntity(),
+                movies.map { it.toDbEntity() })
+            Result.Success(Unit)
+        } catch (e: Exception) {
+            if (BuildConfig.DEBUG) {
+                e.printStackTrace()
             }
+            Result.Error(ErrorType.UNKNOWN_ERROR)
         }
 
     override suspend fun getSessionWithMovies(sessionId: String): SessionWithMovies? =
-        withContext(Dispatchers.IO) {
-            @Suppress("TooGenericExceptionCaught")
-            try {
-                historyDao.getSessionWithMovies(sessionId).toDomain()
-            } catch (e: Exception) {
-                if (BuildConfig.DEBUG) {
-                    e.printStackTrace()
-                }
-                null
+        @Suppress("TooGenericExceptionCaught")
+        try {
+            historyDao.getSessionWithMovies(sessionId).toDomain()
+        } catch (e: Exception) {
+            if (BuildConfig.DEBUG) {
+                e.printStackTrace()
             }
+            null
         }
 
     override suspend fun getSessionsHistory(): List<Session>? =
-        withContext(Dispatchers.IO) {
-            @Suppress("TooGenericExceptionCaught")
-            try {
-                historyDao.getSessions().map { it.toDomain() }
-            } catch (e: Exception) {
-                if (BuildConfig.DEBUG) {
-                    e.printStackTrace()
-                }
-                null
+        @Suppress("TooGenericExceptionCaught")
+        try {
+            historyDao.getSessions().map { it.toDomain() }
+        } catch (e: Exception) {
+            if (BuildConfig.DEBUG) {
+                e.printStackTrace()
             }
+            null
         }
 }
