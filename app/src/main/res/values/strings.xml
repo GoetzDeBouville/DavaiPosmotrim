@@ -10,7 +10,9 @@
     <string name="registration_two_letters_minimum">Минимум две буквы</string>
     <string name="registration_just_letters">Только буквы</string>
     <string name="registration_not_more_letters">Не более 16 символов</string>
-    <string name="registration_network_problem">Проблемы с сетью, попробуйте позже</string>
+    <string name="registration_error_no_connection">Проверьте ваше подключение к Интернет</string>
+    <string name="registration_error_server_error">Что-то пошло не так, попробуйте позже</string>
+    <string name="registration_error_update_app">Пожалуйста, обновите приложение</string>
 
     <!--change name screen-->
     <string name="change_name_enter">Сохранить</string>

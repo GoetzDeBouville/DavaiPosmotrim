@@ -12,7 +12,9 @@ enum class UserNameState(private val message: Int) {
     SUCCESS(R.string.empty_string),
     MAXIMUM_LETTERS(R.string.registration_not_more_letters),
     CORRECT(R.string.empty_string),
-    NETWORK_ERROR(R.string.registration_network_problem);
+    NO_CONNECTION(R.string.registration_error_no_connection),
+    SERVER_ERROR(R.string.registration_error_server_error),
+    APP_VERSION_ERROR(R.string.registration_error_update_app);
 
     fun getMessage(context: Context) =
         context.getString(message)

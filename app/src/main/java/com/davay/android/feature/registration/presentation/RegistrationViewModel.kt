@@ -25,8 +25,8 @@ class RegistrationViewModel @Inject constructor(
                 onSuccess = { _ ->
                     _state.value = UserNameState.SUCCESS
                 },
-                onFailure = {
-                    _state.value = UserNameState.NETWORK_ERROR
+                onFailure = { error ->
+                    _state.value = mapErrorToUserNameState(error)
                 }
             )
         }
