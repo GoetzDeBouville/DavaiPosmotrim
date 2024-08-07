@@ -1,11 +1,13 @@
 package com.davay.android.feature.registration.data
 
+import com.davay.android.core.data.converters.toDomain
 import com.davay.android.core.data.dto.UserDto
 import com.davay.android.core.data.network.HttpNetworkClient
 import com.davay.android.core.data.network.model.mapToErrorType
 import com.davay.android.core.domain.api.UserDataRepository
 import com.davay.android.core.domain.models.ErrorType
 import com.davay.android.core.domain.models.Result
+import com.davay.android.core.domain.models.User
 import com.davay.android.feature.registration.data.network.RegistrationRequest
 import com.davay.android.feature.registration.data.network.RegistrationResponse
 import com.davay.android.feature.registration.domain.api.RegistrationRepository
@@ -18,7 +20,7 @@ class RegistrationRepositoryImpl(
     private val userDataRepository: UserDataRepository
 ) : RegistrationRepository {
 
-    override fun setUserData(userName: String): Flow<Result<UserDto, ErrorType>> = flow {
+    override fun setUserData(userName: String): Flow<Result<User, ErrorType>> = flow {
         val userId = randomUUID().toString()
         val response = httpNetworkClient.getResponse(
             RegistrationRequest(
@@ -34,7 +36,7 @@ class RegistrationRepositoryImpl(
                     setUserId(body.userData.userId)
                     setUserName(body.userData.name)
                 }
-                emit(Result.Success(body.userData))
+                emit(Result.Success(body.userData.toDomain()))
             }
             else -> {
                 emit(Result.Error(response.resultCode.mapToErrorType()))
