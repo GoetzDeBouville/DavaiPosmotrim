@@ -6,10 +6,8 @@ import dagger.Module
 import dagger.Provides
 
 @Module
-interface RegistrationUseCaseModule {
-    companion object {
-        @Provides
-        fun provideRegistrationUseCase(repository: RegistrationRepository) =
-            RegistrationUseCase(repository)
-    }
+class RegistrationUseCaseModule {
+    @Provides
+    fun provideRegistrationUseCase(repository: RegistrationRepository) =
+        RegistrationUseCase(repository)
 }

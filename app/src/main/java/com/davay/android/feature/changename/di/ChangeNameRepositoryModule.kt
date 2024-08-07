@@ -17,31 +17,29 @@ import dagger.Provides
 import io.ktor.client.HttpClient
 
 @Module
-interface ChangeNameRepositoryModule {
-    companion object {
-        @Provides
-        fun provideChangeNameHttpNetworkClient(
-            context: Context,
-            httpClient: HttpClient
-        ): HttpKtorNetworkClient<ChangeNameRequest, ChangeNameResponse> {
-            return HttpChangeNameKtorClient(context, httpClient)
-        }
-
-        @Provides
-        fun provideChangeNameRepository(
-            httpNetworkClient: HttpKtorNetworkClient<ChangeNameRequest, ChangeNameResponse>,
-            userDataRepository: UserDataRepository
-        ): ChangeNameRepository {
-            return ChangeNameRepositoryImpl(
-                httpNetworkClient = httpNetworkClient,
-                userDataRepository = userDataRepository
-            )
-        }
-
-        @Provides
-        fun provideUserDataRepository(
-            @StorageMarker(PreferencesStorage.USER)
-            storage: SharedPreferences
-        ): UserDataRepository = UserDataRepositoryImpl(storage)
+class ChangeNameRepositoryModule {
+    @Provides
+    fun provideChangeNameHttpNetworkClient(
+        context: Context,
+        httpClient: HttpClient
+    ): HttpKtorNetworkClient<ChangeNameRequest, ChangeNameResponse> {
+        return HttpChangeNameKtorClient(context, httpClient)
     }
+
+    @Provides
+    fun provideChangeNameRepository(
+        httpNetworkClient: HttpKtorNetworkClient<ChangeNameRequest, ChangeNameResponse>,
+        userDataRepository: UserDataRepository
+    ): ChangeNameRepository {
+        return ChangeNameRepositoryImpl(
+            httpNetworkClient = httpNetworkClient,
+            userDataRepository = userDataRepository
+        )
+    }
+
+    @Provides
+    fun provideUserDataRepository(
+        @StorageMarker(PreferencesStorage.USER)
+        storage: SharedPreferences
+    ): UserDataRepository = UserDataRepositoryImpl(storage)
 }

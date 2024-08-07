@@ -9,16 +9,14 @@ import dagger.Module
 import dagger.Provides
 
 @Module
-interface ChangeNameUseCaseModule {
-    companion object {
-        @Provides
-        fun provideGetUserDataUseCase(
-            repository: UserDataRepository
-        ): GetUserDataUseCase = GetUserDataUseCaseImpl(repository)
+class ChangeNameUseCaseModule {
+    @Provides
+    fun provideGetUserDataUseCase(
+        repository: UserDataRepository
+    ): GetUserDataUseCase = GetUserDataUseCaseImpl(repository)
 
-        @Provides
-        fun provideSetToNetworkUserNameUseCase(
-            repository: ChangeNameRepository
-        ) = ChangeNameUseCase(repository)
-    }
+    @Provides
+    fun provideSetToNetworkUserNameUseCase(
+        repository: ChangeNameRepository
+    ) = ChangeNameUseCase(repository)
 }
