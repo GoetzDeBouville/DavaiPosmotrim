@@ -20,11 +20,12 @@ class SessionsHistoryRepositoryImpl @Inject constructor(
         session: Session,
         movies: List<MovieDetails>
     ): Result<Unit, ErrorType> =
-        @Suppress("TooGenericExceptionCaught")
+        @Suppress("TooGenericExceptionCaught", "PrintStackTrace")
         try {
             historyDao.saveSessionWithFilms(
                 session.toDbEntity(),
-                movies.map { it.toDbEntity() })
+                movies.map { it.toDbEntity() }
+            )
             Result.Success(Unit)
         } catch (e: Exception) {
             if (BuildConfig.DEBUG) {
@@ -34,7 +35,7 @@ class SessionsHistoryRepositoryImpl @Inject constructor(
         }
 
     override suspend fun getSessionWithMovies(sessionId: String): SessionWithMovies? =
-        @Suppress("TooGenericExceptionCaught")
+        @Suppress("TooGenericExceptionCaught", "PrintStackTrace")
         try {
             historyDao.getSessionWithMovies(sessionId).toDomain()
         } catch (e: Exception) {
@@ -45,7 +46,7 @@ class SessionsHistoryRepositoryImpl @Inject constructor(
         }
 
     override suspend fun getSessionsHistory(): List<Session>? =
-        @Suppress("TooGenericExceptionCaught")
+        @Suppress("TooGenericExceptionCaught", "PrintStackTrace")
         try {
             historyDao.getSessions().map { it.toDomain() }
         } catch (e: Exception) {
