@@ -8,9 +8,9 @@ import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
 class ChangeNameUseCase @Inject constructor(
-    private val registrationRepository: ChangeNameRepository
+    private val repository: ChangeNameRepository
 ) {
     fun setUserName(userName: String): Flow<Result<User, ErrorType>> {
-        return registrationRepository.setUserName(userName)
+        return repository.setUserName(userName)
     }
 }
