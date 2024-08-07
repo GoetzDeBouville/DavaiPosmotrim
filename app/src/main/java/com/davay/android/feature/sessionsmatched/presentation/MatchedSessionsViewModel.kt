@@ -22,10 +22,14 @@ class MatchedSessionsViewModel @Inject constructor(
     private fun getMatchedSessions() {
         _state.value = MatchedSessionsState.Loading
         viewModelScope.launch(Dispatchers.IO) {
-            val session = getSessionsHistoryUseCase.execute()
-            when {
-                session.isNullOrEmpty() -> _state.value = MatchedSessionsState.Empty
-                else -> _state.value = MatchedSessionsState.Content(session)
+            runCatching {
+                val session = getSessionsHistoryUseCase.execute()
+                when {
+                    session.isNullOrEmpty() -> _state.value = MatchedSessionsState.Empty
+                    else -> _state.value = MatchedSessionsState.Content(session)
+                }
+            }.onFailure {
+                _state.value = MatchedSessionsState.Empty
             }
         }
     }
