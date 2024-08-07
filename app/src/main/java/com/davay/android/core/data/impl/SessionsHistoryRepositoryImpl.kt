@@ -1,5 +1,6 @@
 package com.davay.android.core.data.impl
 
+import com.davay.android.BuildConfig
 import com.davay.android.core.data.converters.toDbEntity
 import com.davay.android.core.data.converters.toDomain
 import com.davay.android.core.data.database.HistoryDao
@@ -9,9 +10,6 @@ import com.davay.android.core.domain.models.MovieDetails
 import com.davay.android.core.domain.models.Result
 import com.davay.android.core.domain.models.Session
 import com.davay.android.core.domain.models.SessionWithMovies
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.withContext
-import me.relex.circleindicator.BuildConfig
 import javax.inject.Inject
 
 class SessionsHistoryRepositoryImpl @Inject constructor(
