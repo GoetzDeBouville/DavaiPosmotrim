@@ -110,7 +110,11 @@ class MatchedSessionFragment :
                 )
             }
 
-            is MatchedSessionState.Loading -> updateVisibility(progressBarIsVisible = true)
+            is MatchedSessionState.Loading -> {
+                setupToolbar()
+                updateVisibility(progressBarIsVisible = true)
+            }
+
             is MatchedSessionState.Data -> {
                 val date = state.data.session.date
                 val subTitle =
@@ -122,6 +126,7 @@ class MatchedSessionFragment :
             }
 
             is MatchedSessionState.Error -> {
+                setupToolbar()
                 updateVisibility(coincidencesListIsVisible = false, errorMessageVisible = true)
                 errorHandler.handleError(
                     state.errorType,
@@ -142,7 +147,10 @@ class MatchedSessionFragment :
         errorMessage.isVisible = errorMessageVisible
     }
 
-    private fun setupToolbar(subTitle: String, date: timeStamp) {
+    private fun setupToolbar(
+        subTitle: String = resources.getString(com.davai.uikit.R.string.empty_text),
+        date: timeStamp = System.currentTimeMillis(),
+    ) {
         binding.toolbar.apply {
             setTitleText(date.formatDateWithoutCurrentYear())
             setSubtitleText(subTitle)
