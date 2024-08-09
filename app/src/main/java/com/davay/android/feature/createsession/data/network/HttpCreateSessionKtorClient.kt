@@ -50,10 +50,6 @@ class HttpCreateSessionKtorClient @Inject constructor(
                         path(request.path)
                         parameter("format", "json")
                     }
-
-                    headers {
-                        append(DEVICE_ID, userDataRepository.getUserId())
-                    }
                 }
             }
         }
