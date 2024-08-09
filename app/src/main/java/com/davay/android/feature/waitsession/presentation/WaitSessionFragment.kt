@@ -42,6 +42,7 @@ class WaitSessionFragment : BaseFragment<FragmentWaitSessionBinding, WaitSession
     private var dialog: MainDialogFragment? = null
     private var launcher: ActivityResultLauncher<Intent>? = null
     private var session : Session? = null
+    private val movieIdList = mutableListOf<Int>()
 
     override fun diComponent(): ScreenComponent = DaggerWaitSessionFragmentComponent.builder()
         .appComponent(AppComponentHolder.getComponent())
@@ -51,6 +52,9 @@ class WaitSessionFragment : BaseFragment<FragmentWaitSessionBinding, WaitSession
         super.onCreate(savedInstanceState)
         arguments?.let {
             session = Json.decodeFromString(it.getString(CreateSessionViewModel.SESSION_DATA) ?: "")
+        }
+        session?.let {
+            movieIdList.addAll(session!!.movieIdList)
         }
         requireActivity().onBackPressedDispatcher.addCallback(
             this,
