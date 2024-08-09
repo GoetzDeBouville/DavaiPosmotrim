@@ -10,4 +10,11 @@ sealed interface CreateSessionRequest {
     data object GenreList : CreateSessionRequest {
         override val path: String = "api/genres/"
     }
+
+    class Session(
+        val parameter: String,
+        val requestBody: List<String>
+    ) : CreateSessionRequest {
+        override val path: String = "api/sessions/"
+    }
 }
