@@ -1,6 +1,7 @@
 package com.davay.android.core.data.impl
 
 import android.content.SharedPreferences
+import android.util.Log
 import com.davay.android.core.domain.api.UserDataRepository
 import java.util.UUID.randomUUID
 
@@ -19,6 +20,7 @@ class UserDataRepositoryImpl(
             .toString()
             .plus(USER_ID_POSTFIX)
             .plus(System.currentTimeMillis())
+        Log.i(TAG, userId)
         userDataStorage
             .edit()
             .putString(USER_ID, userId)
@@ -37,5 +39,6 @@ class UserDataRepositoryImpl(
         const val USER_ID = "userId"
         const val USER_NAME = "userName"
         private const val USER_ID_POSTFIX = "_android_"
+        val TAG = UserDataRepositoryImpl::class.simpleName
     }
 }

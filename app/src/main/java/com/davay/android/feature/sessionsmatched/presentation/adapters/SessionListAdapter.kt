@@ -25,7 +25,7 @@ class SessionListAdapter(
                     userList.joinToString(", ")
                 )
                 setCover(session.imgUrl)
-                setCoincidences(session.numberOfMatchedMovies ?: 0)
+                setCoincidences(session.matchedMovieIdList.size)
             }
         }
     }
