@@ -1,6 +1,7 @@
 package com.davay.android.core.data.converters
 
 import com.davay.android.core.data.database.entity.MovieDetailsEntity
+import com.davay.android.core.data.database.entity.MovieIdEntity
 import com.davay.android.core.data.database.entity.SessionEntity
 import com.davay.android.core.data.database.entity.SessionWithMoviesDb
 import com.davay.android.core.data.dto.CollectionDto
@@ -183,3 +184,5 @@ fun SessionWithMoviesDb.toDomain(): SessionWithMovies {
         movies = movies.map { it.toDomain() }
     )
 }
+
+fun MovieIdEntity.toDomain(): Int = this.movieId

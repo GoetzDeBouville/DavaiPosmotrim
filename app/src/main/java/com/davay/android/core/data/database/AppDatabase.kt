@@ -3,6 +3,7 @@ package com.davay.android.core.data.database
 import androidx.room.Database
 import androidx.room.RoomDatabase
 import com.davay.android.core.data.database.entity.MovieDetailsEntity
+import com.davay.android.core.data.database.entity.MovieIdEntity
 import com.davay.android.core.data.database.entity.SessionEntity
 import com.davay.android.core.data.database.entity.SessionMovieCrossRef
 
@@ -10,11 +11,13 @@ import com.davay.android.core.data.database.entity.SessionMovieCrossRef
     entities = [
         SessionEntity::class,
         MovieDetailsEntity::class,
-        SessionMovieCrossRef::class
+        SessionMovieCrossRef::class,
+        MovieIdEntity::class
     ],
-    version = 1,
+    version = 2,
     exportSchema = false
 )
 abstract class AppDatabase : RoomDatabase() {
     abstract fun historyDao(): HistoryDao
+    abstract fun movieIdDao(): MovieIdDao
 }
