@@ -7,6 +7,7 @@ import com.davay.android.core.domain.models.CompilationFilms
 import com.davay.android.core.domain.models.ErrorType
 import com.davay.android.core.domain.models.Genre
 import com.davay.android.core.domain.models.Result
+import com.davay.android.core.domain.models.Session
 import com.davay.android.feature.createsession.data.network.CreateSessionRequest
 import com.davay.android.feature.createsession.data.network.CreateSessionResponse
 import com.davay.android.feature.createsession.domain.api.CreateSessionRepository
@@ -35,6 +36,19 @@ class CreateSessionRepositoryImpl @Inject constructor(
         when (val body = response.body) {
             is CreateSessionResponse.GenreList -> {
                 emit(Result.Success(body.value.map { it.toDomain() }))
+            }
+
+            else -> {
+                emit(Result.Error(response.resultCode.mapToErrorType()))
+            }
+        }
+    }
+
+    override fun createSession(parameter: String, requestBody: List<String>): Flow<Result<Session, ErrorType>> = flow {
+        val response = httpNetworkClient.getResponse(CreateSessionRequest.Session(parameter, requestBody))
+        when (val body = response.body) {
+            is CreateSessionResponse.Session -> {
+                emit(Result.Success(body.value.toDomain()))
             }
 
             else -> {
