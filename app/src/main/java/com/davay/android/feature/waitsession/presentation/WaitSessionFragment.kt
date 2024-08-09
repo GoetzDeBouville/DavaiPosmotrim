@@ -16,10 +16,12 @@ import com.davai.uikit.ButtonView
 import com.davai.uikit.MainDialogFragment
 import com.davay.android.R
 import com.davay.android.base.BaseFragment
+import com.davay.android.core.domain.models.Session
 import com.davay.android.core.presentation.MainActivity
 import com.davay.android.databinding.FragmentWaitSessionBinding
 import com.davay.android.di.AppComponentHolder
 import com.davay.android.di.ScreenComponent
+import com.davay.android.feature.createsession.presentation.createsession.CreateSessionViewModel
 import com.davay.android.feature.onboarding.presentation.OnboardingFragment
 import com.davay.android.feature.waitsession.di.DaggerWaitSessionFragmentComponent
 import com.davay.android.feature.waitsession.presentation.adapter.CustomItemDecorator
@@ -29,6 +31,7 @@ import com.google.android.flexbox.FlexDirection
 import com.google.android.flexbox.FlexWrap
 import com.google.android.flexbox.FlexboxLayoutManager
 import com.google.android.flexbox.JustifyContent
+import kotlinx.serialization.json.Json
 
 class WaitSessionFragment : BaseFragment<FragmentWaitSessionBinding, WaitSessionViewModel>(
     FragmentWaitSessionBinding::inflate
@@ -38,6 +41,7 @@ class WaitSessionFragment : BaseFragment<FragmentWaitSessionBinding, WaitSession
     private var sendButton: ButtonView? = null
     private var dialog: MainDialogFragment? = null
     private var launcher: ActivityResultLauncher<Intent>? = null
+    private var session : Session? = null
 
     override fun diComponent(): ScreenComponent = DaggerWaitSessionFragmentComponent.builder()
         .appComponent(AppComponentHolder.getComponent())
@@ -45,6 +49,9 @@ class WaitSessionFragment : BaseFragment<FragmentWaitSessionBinding, WaitSession
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        arguments?.let {
+            session = Json.decodeFromString(it.getString(CreateSessionViewModel.SESSION_DATA) ?: "")
+        }
         requireActivity().onBackPressedDispatcher.addCallback(
             this,
             object : OnBackPressedCallback(true) {
