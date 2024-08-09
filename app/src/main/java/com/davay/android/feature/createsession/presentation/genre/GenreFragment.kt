@@ -4,7 +4,10 @@ import android.os.Bundle
 import android.view.View
 import androidx.core.view.isVisible
 import androidx.lifecycle.lifecycleScope
+import com.davai.uikit.BannerView
+import com.davay.android.R
 import com.davay.android.base.BaseFragment
+import com.davay.android.core.presentation.MainActivity
 import com.davay.android.databinding.FragmentGenreBinding
 import com.davay.android.di.AppComponentHolder
 import com.davay.android.di.ScreenComponent
@@ -33,10 +36,9 @@ class GenreFragment : BaseFragment<FragmentGenreBinding, GenreViewModel>(
         .appComponent(AppComponentHolder.getComponent())
         .build()
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
+    override fun initViews() {
+        super.initViews()
         initRecycler()
-        subscribe()
     }
 
     override fun subscribe() {
@@ -64,6 +66,8 @@ class GenreFragment : BaseFragment<FragmentGenreBinding, GenreViewModel>(
             is GenreState.Loading -> showProgressBar()
             is GenreState.Content -> handleContent(state)
             is GenreState.Error -> handleError(state)
+            is GenreState.CreateSessionLoading -> showForegroundProgressBar()
+            is GenreState.SessionCreated -> Unit // Выполняет работу на viewmodel
         }
     }
 
@@ -100,11 +104,37 @@ class GenreFragment : BaseFragment<FragmentGenreBinding, GenreViewModel>(
         rvGenre.isVisible = false
     }
 
-    fun buttonContinueClicked(): Boolean {
-        viewModel.buttonContinueClicked()
-        return viewModel.hasSelectedGenres()
+    /**
+     * Отображает прогресс бар поверх контента.
+     * Используется при обновлении статуса при создании сессии.
+     */
+    private fun showForegroundProgressBar() = with(binding) {
+        errorMessage.isVisible = false
+        progressBar.isVisible = true
+        rvGenre.isVisible = true
     }
 
+    /**
+     * Метод вызывается на CreateSessionFragment по клику на кнопку "Продолжить"
+     */
+    fun buttonContinueClicked() {
+        updateBanner()
+        viewModel.createSessionAndNavigateToWaitSessionScreen {
+            (requireActivity() as MainActivity).showBanner()
+        }
+    }
+
+    private fun updateBanner() {
+        (requireActivity() as MainActivity).updateBanner(
+            getString(R.string.create_session_choose_genre_one),
+            BannerView.ATTENTION
+        )
+    }
+
+    /**
+     * Сбрасывает список выбранных жанров
+     * Используется при обновлении статуса при создании сессии.
+     */
     fun resetSelections() {
         viewModel.resetSelections()
         genreAdapter.clearSelections()

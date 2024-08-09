@@ -1,12 +1,13 @@
 package com.davay.android.feature.createsession.presentation.compilations
 
-import android.os.Bundle
-import android.view.View
 import androidx.core.view.isVisible
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.davai.uikit.BannerView
+import com.davay.android.R
 import com.davay.android.base.BaseFragment
+import com.davay.android.core.presentation.MainActivity
 import com.davay.android.databinding.FragmentCompilationsBinding
 import com.davay.android.di.AppComponentHolder
 import com.davay.android.di.ScreenComponent
@@ -29,12 +30,6 @@ class CompilationsFragment : BaseFragment<FragmentCompilationsBinding, Compilati
         .appComponent(AppComponentHolder.getComponent())
         .build()
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        initRecycler()
-        subscribe()
-    }
-
     override fun subscribe() {
         super.subscribe()
         viewLifecycleOwner.lifecycleScope.launch {
@@ -42,6 +37,11 @@ class CompilationsFragment : BaseFragment<FragmentCompilationsBinding, Compilati
                 renderState(state)
             }
         }
+    }
+
+    override fun initViews() {
+        super.initViews()
+        initRecycler()
     }
 
     private fun initRecycler() {
@@ -55,6 +55,8 @@ class CompilationsFragment : BaseFragment<FragmentCompilationsBinding, Compilati
             is CompilationsState.Loading -> showProgressBar()
             is CompilationsState.Content -> handleContent(state)
             is CompilationsState.Error -> handleError(state)
+            is CompilationsState.CreateSessionLoading -> showForegroundProgressBar()
+            is CompilationsState.SessionCreated -> Unit // Выполняет работу на viewmodel
         }
     }
 
@@ -91,11 +93,34 @@ class CompilationsFragment : BaseFragment<FragmentCompilationsBinding, Compilati
         rvCompilations.isVisible = false
     }
 
-    fun buttonContinueClicked(): Boolean {
-        viewModel.buttonContinueClicked()
-        return viewModel.hasSelectedCompilations()
+    /**
+     * Отображает прогресс бар поверх контента.
+     * Используется при обновлении статуса при создании сессии.
+     */
+    private fun showForegroundProgressBar() = with(binding) {
+        errorMessage.isVisible = false
+        progressBar.isVisible = true
+        rvCompilations.isVisible = true
     }
 
+    fun buttonContinueClicked() {
+        updateBanner()
+        viewModel.createSessionAndNavigateToWaitSessionScreen {
+            (requireActivity() as MainActivity).showBanner()
+        }
+    }
+
+    private fun updateBanner() {
+        (requireActivity() as MainActivity).updateBanner(
+            getString(R.string.create_session_choose_compilations_one),
+            BannerView.ATTENTION
+        )
+    }
+
+    /**
+     * Сбрасывает список выбранных коллекций
+     * Используется при обновлении статуса при создании сессии.
+     */
     fun resetSelections() {
         viewModel.resetSelections()
         compilationAdapter.clearSelections()

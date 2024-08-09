@@ -58,6 +58,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:add_status_bar_spacer="true"
+        app:start_icon="@drawable/ic_arrow_back"
+        app:start_icon_is_visible="true"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
