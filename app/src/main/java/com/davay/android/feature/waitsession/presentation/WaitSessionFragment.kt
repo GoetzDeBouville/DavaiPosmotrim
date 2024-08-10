@@ -5,7 +5,6 @@ import android.content.ClipboardManager
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.view.View
 import androidx.activity.OnBackPressedCallback
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
@@ -22,7 +21,6 @@ import com.davay.android.databinding.FragmentWaitSessionBinding
 import com.davay.android.di.AppComponentHolder
 import com.davay.android.di.ScreenComponent
 import com.davay.android.feature.createsession.presentation.createsession.CreateSessionViewModel
-import com.davay.android.feature.onboarding.presentation.OnboardingFragment
 import com.davay.android.feature.waitsession.di.DaggerWaitSessionFragmentComponent
 import com.davay.android.feature.waitsession.presentation.adapter.CustomItemDecorator
 import com.davay.android.feature.waitsession.presentation.adapter.UserAdapter
@@ -39,10 +37,18 @@ class WaitSessionFragment : BaseFragment<FragmentWaitSessionBinding, WaitSession
     override val viewModel: WaitSessionViewModel by injectViewModel<WaitSessionViewModel>()
     private val userAdapter = UserAdapter()
     private var sendButton: ButtonView? = null
-    private var dialog: MainDialogFragment? = null
     private var launcher: ActivityResultLauncher<Intent>? = null
-    private var session : Session? = null
+    private var session: Session? = null
     private val movieIdList = mutableListOf<Int>()
+    private val dialog: MainDialogFragment by lazy {
+        MainDialogFragment.newInstance(
+            title = getString(R.string.leave_wait_session_title),
+            message = getString(R.string.leave_wait_session_dialog_message),
+            yesAction = {
+                viewModel.navigateBack()
+            }
+        )
+    }
 
     override fun diComponent(): ScreenComponent = DaggerWaitSessionFragmentComponent.builder()
         .appComponent(AppComponentHolder.getComponent())
@@ -56,14 +62,7 @@ class WaitSessionFragment : BaseFragment<FragmentWaitSessionBinding, WaitSession
         session?.let {
             movieIdList.addAll(session!!.movieIdList)
         }
-        requireActivity().onBackPressedDispatcher.addCallback(
-            this,
-            object : OnBackPressedCallback(true) {
-                override fun handleOnBackPressed() {
-                    dialog?.show(parentFragmentManager, CUSTOM_DIALOG_TAG)
-                }
-            }
-        )
+        viewModel.saveIdListToDb(movieIdList)
     }
 
     override fun onAttach(context: Context) {
@@ -76,40 +75,42 @@ class WaitSessionFragment : BaseFragment<FragmentWaitSessionBinding, WaitSession
         }
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-
+    override fun initViews() {
+        super.initViews()
         sendButton = binding.sendButton
 
-        initRecycler()
         userAdapter.setItems(
             listOf("Артем", "Руслан", "Константин", "Виктория")
         )
-
-        binding.llButtonContainer.setOnClickListener {
-            val code = binding.tvCode.text.toString()
-            copyTextToClipboard(code)
-        }
-
-        sendButton?.setOnClickListener {
-            val code = binding.tvCode.text.toString()
-            if (it.isEnabled) {
-                sendCode(code)
-                sendButton?.setButtonEnabled(false)
-            }
-        }
-
-        dialog = MainDialogFragment.newInstance(
-            title = getString(R.string.leave_wait_session_title),
-            message = getString(R.string.leave_wait_session_dialog_message),
-            yesAction = {
-                viewModel.navigateBack()
-            }
-        )
+        initRecycler()
     }
 
     override fun subscribe() {
         setButtonClickListeners()
+        setBackPressedCallback()
+
+        val sessionId = session?.id ?: ""
+        binding.llButtonContainer.setOnClickListener {
+            copyTextToClipboard(sessionId)
+        }
+
+        sendButton?.setOnClickListener {
+            if (it.isEnabled) {
+                sendCode(sessionId)
+                sendButton?.setButtonEnabled(false)
+            }
+        }
+    }
+
+    private fun setBackPressedCallback() {
+        requireActivity().onBackPressedDispatcher.addCallback(
+            this,
+            object : OnBackPressedCallback(true) {
+                override fun handleOnBackPressed() {
+                    dialog.show(parentFragmentManager, CUSTOM_DIALOG_TAG)
+                }
+            }
+        )
     }
 
     override fun onDetach() {
@@ -126,11 +127,10 @@ class WaitSessionFragment : BaseFragment<FragmentWaitSessionBinding, WaitSession
         )
         clipboard.setPrimaryClip(clip)
 
-        updateBanner(
+        updateAndShowBanner(
             getString(R.string.wait_session_copy_button_text),
             BannerView.SUCCESS
         )
-        showBanner()
     }
 
     private fun sendCode(text: String) {
@@ -164,48 +164,36 @@ class WaitSessionFragment : BaseFragment<FragmentWaitSessionBinding, WaitSession
 
     private fun setButtonClickListeners() = with(binding) {
         cancelButton.setOnClickListener {
-            dialog?.show(parentFragmentManager, CUSTOM_DIALOG_TAG)
+            dialog.show(parentFragmentManager, CUSTOM_DIALOG_TAG)
         }
         startSessionButton.setOnClickListener {
             if (userAdapter.itemCount < MIN_USER_TO_START_2) {
-                showAttentionBanner()
+                updateAndShowBanner(
+                    getString(R.string.wait_session_min_two_user),
+                    BannerView.ATTENTION
+                )
             } else {
-                if (viewModel.isFirstTimeLaunch()) {
-                    viewModel.markFirstTimeLaunch()
-                    val bundle = Bundle().apply {
-                        putInt(
-                            OnboardingFragment.ONBOARDING_KEY,
-                            OnboardingFragment.ONBOARDING_INSTRUCTION_SET
-                        )
-                    }
-                    viewModel.navigate(
-                        R.id.action_waitSessionFragment_to_onboardingFragment,
-                        bundle
-                    )
+                if (viewModel.isDbPrepared()) {
+                    viewModel.navigateToNextScreen()
                 } else {
-                    viewModel.navigate(R.id.action_waitSessionFragment_to_selectMovieFragment)
+                    updateAndShowBanner(
+                        getString(R.string.wait_session_banner_message),
+                        BannerView.ATTENTION
+                    )
                 }
             }
         }
     }
 
-    private fun showAttentionBanner() {
-        updateBanner(getString(R.string.wait_session_min_two_user), BannerView.ATTENTION)
-        showBanner()
+    private fun updateAndShowBanner(text: String, type: Int) {
+        val activity = requireActivity() as MainActivity
+        activity.updateBanner(text, type)
+        activity.showBanner()
     }
 
-    private fun updateBanner(text: String, type: Int) {
-        (requireActivity() as MainActivity).updateBanner(text, type)
-    }
-
-    private fun showBanner() {
-        val activity = requireActivity() as? MainActivity
-        activity?.showBanner()
-    }
-
-    companion object {
-        private const val SPACING_BETWEEN_RV_ITEMS_8_DP = 8
-        private const val CUSTOM_DIALOG_TAG = "customDialog"
-        private const val MIN_USER_TO_START_2 = 2
+    private companion object {
+        const val SPACING_BETWEEN_RV_ITEMS_8_DP = 8
+        const val CUSTOM_DIALOG_TAG = "customDialog"
+        const val MIN_USER_TO_START_2 = 2
     }
 }
