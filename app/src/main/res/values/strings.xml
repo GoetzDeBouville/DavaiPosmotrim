@@ -61,12 +61,12 @@
     <string name="onboarding_movie_library">Библиотека\nфильмов <font color="#8B55FF">на\nлюбой вкус</font></string>
     <string name="onboarding_only_favorite_genres">Только самые любимые жанры\nили готовые подборки.</string>
 
-    <string name="onboarding_instructions_as_you_got_used">Все как вы <font color="#8B55FF">\nпривыкли</font></string>
+    <string name="onboarding_instructions_as_you_got_used">Всё как вы <font color="#8B55FF">\nпривыкли</font></string>
     <string name="onboarding_instructions_swipes_description">Свайп вправо - нравится.\nСвайп влево - не нравится.\nДа, да, сделали очень оригинально.</string>
     <string name="onboarding_instructions_choose_from_common_matches">Выбирайте\nиз <font color="#8B55FF">\nобщих\nсовпадений</font></string>
     <string name="onboarding_instructions_saving_matches_history">Храним историю всех совпадений\nво время и после сеансов.</string>
     <string name="onboarding_instructions_one_moment">Ещё<font color="#8B55FF">\nсекундочку</font></string>
-    <string name="onboarding_instructions_session_finishing">Сеанс закончится, когда один из участников его покинет.</string>
+    <string name="onboarding_instructions_session_finishing">Сеанс закончится, когда один из \nучастников его покинет.</string>
 
     <!--  splash screen  -->
     <string name="splash_watch">Посмотрим?</string>
