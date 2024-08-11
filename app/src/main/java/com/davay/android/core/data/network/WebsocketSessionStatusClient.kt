@@ -6,7 +6,7 @@ import io.ktor.websocket.readText
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 
-class WebsocketSessionStatusClient() :
+class WebsocketSessionStatusClient :
     WebsocketKtorNetworkClient<SessionStatusDto, SessionStatusDto>() {
 
     override fun mapIncomingMessage(message: Frame.Text, converter: Json): SessionStatusDto {

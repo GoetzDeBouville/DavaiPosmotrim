@@ -27,6 +27,7 @@ class WaitSessionViewModel @Inject constructor(
         waitSessionOnBoardingInteractor.markFirstTimeLaunch()
     }
 
+    @Suppress("UnusedPrivateMember")
     private fun subscribeToSessionStatusWebsocket() {
         viewModelScope.launch(Dispatchers.IO) {
             runCatching {

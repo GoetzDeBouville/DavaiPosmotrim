@@ -15,8 +15,7 @@ class CommonWebsocketModule {
 
     @Provides
     @Named(SESSION_STATUS_CLIENT)
-    fun provideWebsocketSessionStatusClient():
-            WebsocketNetworkClient<SessionStatusDto, SessionStatusDto> {
+    fun provideWebsocketSessionStatusClient(): WebsocketNetworkClient<SessionStatusDto, SessionStatusDto> {
         return WebsocketSessionStatusClient()
     }
 

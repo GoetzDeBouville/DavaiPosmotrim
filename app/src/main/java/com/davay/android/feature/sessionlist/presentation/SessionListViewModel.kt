@@ -16,6 +16,7 @@ class SessionListViewModel @Inject constructor(
 ) : BaseViewModel() {
     private val sessionId = "asdf123"
 
+    @Suppress("UnusedPrivateMember")
     private fun subscribeToSessionStatusWebsocket() {
         viewModelScope.launch(Dispatchers.IO) {
             runCatching {
