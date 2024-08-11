@@ -22,15 +22,13 @@ abstract class WebsocketKtorNetworkClient<O, M> : WebsocketNetworkClient<O, M> {
         }
     }
     private var session: WebSocketSession? = null
-    abstract val baseUrl: String
-    abstract val path: String
 
     override suspend fun close() {
         session?.close()
         session = null
     }
 
-    override fun subscribe(): Flow<O> = flow {
+    override fun subscribe(baseUrl: String, path: String): Flow<O> = flow {
         session = httpClient.webSocketSession(host = baseUrl, path = path)
         session?.let {
             val incomingMessageFlow = it.incoming.consumeAsFlow()

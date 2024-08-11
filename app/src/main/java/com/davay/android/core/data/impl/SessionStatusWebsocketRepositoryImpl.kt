@@ -18,8 +18,8 @@ class SessionStatusWebsocketRepositoryImpl @Inject constructor(
     private val websocketSessionStatusClient: WebsocketNetworkClient<SessionStatusDto, SessionStatusDto>
 ) : SessionStatusWebsocketRepository {
 
-    override fun subscribe(): Flow<SessionStatus> {
-        return websocketSessionStatusClient.subscribe().map { it.toDomain() }
+    override fun subscribe(baseUrl: String, path: String): Flow<SessionStatus> {
+        return websocketSessionStatusClient.subscribe(baseUrl, path).map { it.toDomain() }
     }
 
     override suspend fun sendMessage(message: SessionStatus) {
@@ -34,7 +34,7 @@ class SessionStatusWebsocketRepositoryImpl @Inject constructor(
 
     override suspend fun unsubscribe() {
         runCatching {
-            websocketSessionStatusClient.close()
+            websocketSessionStatusClient?.close()
         }.onFailure { error ->
             if (BuildConfig.DEBUG) {
                 error.printStackTrace()

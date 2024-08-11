@@ -15,12 +15,9 @@ class CommonWebsocketModule {
 
     @Provides
     @Named(SESSION_STATUS_CLIENT)
-    fun provideWebsocketSessionStatusClient(sessionId: String):
+    fun provideWebsocketSessionStatusClient():
             WebsocketNetworkClient<SessionStatusDto, SessionStatusDto> {
-        return WebsocketSessionStatusClient(
-            baseUrl = BASE_URL,
-            path = "$sessionId$PATH_SESSION_STATUS"
-        )
+        return WebsocketSessionStatusClient()
     }
 
     @Provides
@@ -38,8 +35,6 @@ class CommonWebsocketModule {
     }
 
     companion object {
-        const val BASE_URL = "ws://80.87.108.90/ws/session"
-        const val PATH_SESSION_STATUS = "/session_status/"
         const val SESSION_STATUS_CLIENT = "SESSION_STATUS_CLIENT"
     }
 }

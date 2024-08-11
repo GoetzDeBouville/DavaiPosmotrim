@@ -9,8 +9,8 @@ class CommonWebsocketInteractor @Inject constructor(
     private val sessionStatusWebsocketRepository: SessionStatusWebsocketRepository,
     // Другие репозитории
 ) {
-    fun subscribeSessionStatus(): Flow<SessionStatus> {
-        return sessionStatusWebsocketRepository.subscribe()
+    fun subscribeSessionStatus(baseUrl: String, path: String): Flow<SessionStatus> {
+        return sessionStatusWebsocketRepository.subscribe(baseUrl, path)
     }
 
     suspend fun sendMessageSessionStatus(message: SessionStatus) {
@@ -19,5 +19,10 @@ class CommonWebsocketInteractor @Inject constructor(
 
     suspend fun unsubscribeSessionStatus() {
         sessionStatusWebsocketRepository.unsubscribe()
+    }
+
+    companion object {
+        const val BASE_URL = "ws://80.87.108.90/ws/session"
+        const val PATH_SESSION_STATUS = "/session_status/"
     }
 }
