@@ -105,6 +105,15 @@ fun SessionStatusDto.toDomain(): SessionStatus {
     }
 }
 
+fun SessionStatus.toDto(): SessionStatusDto {
+    return when (this) {
+        SessionStatus.WAITING -> SessionStatusDto.WAITING
+        SessionStatus.VOTING -> SessionStatusDto.VOTING
+        SessionStatus.CLOSED -> SessionStatusDto.CLOSED
+        SessionStatus.ROULETTE -> SessionStatusDto.ROULETTE
+    }
+}
+
 fun MovieDetailsEntity.toDomain(): MovieDetails {
     return MovieDetails(
         id = movieId,
