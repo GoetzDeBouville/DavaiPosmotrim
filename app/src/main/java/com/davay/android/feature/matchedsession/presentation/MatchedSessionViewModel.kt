@@ -15,7 +15,7 @@ class MatchedSessionViewModel @Inject constructor(
 ) : BaseViewModel() {
 
     private val _state: MutableStateFlow<MatchedSessionState> =
-        MutableStateFlow(MatchedSessionState.Error(ErrorScreenState.EMPTY))
+        MutableStateFlow(MatchedSessionState.Loading)
     val state = _state.asStateFlow()
 
     fun getSessionData(sessionId: String) {
