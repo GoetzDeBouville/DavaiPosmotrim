@@ -14,6 +14,7 @@ import com.davay.android.di.AppComponentHolder
 import com.davay.android.di.ScreenComponent
 import com.davay.android.feature.changename.presentation.ChangeNameBottomSheetFragment
 import com.davay.android.feature.main.di.DaggerMainFragmentComponent
+import com.davay.android.utils.DebounceUtil
 import com.davay.android.utils.DebounceUtil.setDebouncedOnClickListener
 
 class MainFragment :
@@ -57,14 +58,20 @@ class MainFragment :
 
     override fun subscribe() {
         with(binding) {
+            msbCreateSession.setOnClickListener {
+                DebounceUtil.setDebouncedNavigation {
+                    viewModel.navigate(R.id.action_mainFragment_to_createSessionFragment)
+                }
+            }
             msbFavorite.setOnClickListener {
-                viewModel.navigate(R.id.action_mainFragment_to_matchedSessionListFragment)
+                DebounceUtil.setDebouncedNavigation {
+                    viewModel.navigate(R.id.action_mainFragment_to_matchedSessionListFragment)
+                }
             }
             msbJoinSession.setOnClickListener {
-                joinSession()
-            }
-            msbCreateSession.setOnClickListener {
-                createSession()
+                DebounceUtil.setDebouncedNavigation {
+                    viewModel.navigate(R.id.action_mainFragment_to_sessionConnectionFragment)
+                }
             }
             binding.ivEditUserName.setDebouncedOnClickListener {
                 val currentName = binding.tvUserName.text.toString()
@@ -83,17 +90,9 @@ class MainFragment :
         }
     }
 
-    private fun joinSession() {
-        viewModel.navigate(R.id.action_mainFragment_to_sessionConnectionFragment)
-    }
-
     private fun changeName(oldName: String) {
         val bottomSheetFragment = ChangeNameBottomSheetFragment.newInstance(oldName)
         bottomSheetFragment.show(parentFragmentManager, "tag")
-    }
-
-    private fun createSession() {
-        viewModel.navigate(R.id.action_mainFragment_to_createSessionFragment)
     }
 
     private fun updateUserName(newName: String?) {
