@@ -2,11 +2,14 @@ package com.davay.android.feature.selectmovie.presentation
 
 import com.davay.android.base.BaseViewModel
 import com.davay.android.core.domain.models.MovieDetails
+import com.davay.android.feature.selectmovie.domain.GetMovieDetailsUseCase
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import javax.inject.Inject
 
-class SelectMovieViewModel @Inject constructor() : BaseViewModel() {
+class SelectMovieViewModel @Inject constructor(
+    private val useCase: GetMovieDetailsUseCase
+) : BaseViewModel() {
     private val _state = MutableStateFlow<List<MovieDetails>>(emptyList())
     val state = _state.asStateFlow()
 
