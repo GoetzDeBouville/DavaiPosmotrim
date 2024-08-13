@@ -2,6 +2,7 @@ package com.davay.android.core.data.database
 
 import androidx.room.Dao
 import androidx.room.Query
+import androidx.room.Transaction
 import androidx.room.Upsert
 import com.davay.android.core.data.database.entity.MovieIdEntity
 
@@ -16,4 +17,19 @@ interface MovieIdDao {
 
     @Query("DELETE FROM movie_ids")
     suspend fun clearMovieIdsTable()
+
+    /**
+     * Сброс автогенерируемых id
+     */
+    @Query("DELETE FROM sqlite_sequence WHERE name='movie_ids'")
+    suspend fun resetAutoIncrement()
+
+    @Transaction
+    suspend fun clearAndResetTable() {
+        clearMovieIdsTable()
+        resetAutoIncrement()
+    }
+
+    @Query("SELECT * FROM movie_ids LIMIT 1 OFFSET :position")
+    suspend fun getMovieIdByPosition(position: Int): MovieIdEntity?
 }
