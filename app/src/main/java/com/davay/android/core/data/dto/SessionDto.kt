@@ -11,5 +11,5 @@ data class SessionDto(
     @SerialName("matched_movies") val matchedMovieIdList: List<Int>,
     @SerialName("date") val date: String,
     @SerialName("status") val status: SessionStatusDto,
-    @SerialName("image") val imgUrl: String
+    @SerialName("image") val imgUrl: String?
 )
