@@ -6,6 +6,6 @@ sealed interface GetMovieRequest {
     class Movie(
         val id: Int
     ) : GetMovieRequest {
-        override val path: String = "api/movie/$id"
+        override val path: String = "api/movies/$id"
     }
 }
