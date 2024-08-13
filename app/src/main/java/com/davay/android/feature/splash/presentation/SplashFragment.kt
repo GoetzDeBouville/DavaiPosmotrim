@@ -43,7 +43,7 @@ class SplashFragment :
         lifecycleScope.launch {
             addTextViewsWithDelay()
             delay(DELAY_4000_MS)
-            if (viewModel.isFirstTimeLaunch()) {
+            if (viewModel.isFirstTimeLaunch() || viewModel.isNotRegistered()) {
                 viewModel.markFirstTimeLaunch()
                 viewModel.navigate(R.id.action_splashFragment_to_onboardingFragment, bundle)
             } else {
