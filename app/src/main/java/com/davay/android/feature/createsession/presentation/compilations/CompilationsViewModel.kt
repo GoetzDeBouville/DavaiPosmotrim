@@ -1,6 +1,7 @@
 package com.davay.android.feature.createsession.presentation.compilations
 
 import android.util.Log
+import androidx.lifecycle.viewModelScope
 import com.davay.android.BuildConfig
 import com.davay.android.core.domain.models.CompilationFilms
 import com.davay.android.core.domain.models.ErrorScreenState
@@ -8,9 +9,11 @@ import com.davay.android.feature.createsession.domain.model.CompilationSelect
 import com.davay.android.feature.createsession.domain.usecase.CreateSessionUseCase
 import com.davay.android.feature.createsession.domain.usecase.GetCollectionsUseCase
 import com.davay.android.feature.createsession.presentation.createsession.CreateSessionViewModel
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class CompilationsViewModel @Inject constructor(
@@ -91,14 +94,22 @@ class CompilationsViewModel @Inject constructor(
                     if (BuildConfig.DEBUG) {
                         Log.v(TAG, "session = $session")
                     }
-                    _state.update { CompilationsState.SessionCreated(session) }
-                    navigateToWaitSession(session)
+                    viewModelScope.launch(Dispatchers.Main) {
+                        _state.update { CompilationsState.SessionCreated(session) }
+                        navigateToWaitSession(session)
+                    }
                 },
                 onFailure = { error ->
                     if (BuildConfig.DEBUG) {
                         Log.v(TAG, "error -> $error")
                     }
-                    _state.update { CompilationsState.Error(mapErrorToUiState(error)) }
+                    viewModelScope.launch(Dispatchers.Main) {
+                        var handledError = mapErrorToUiState(error)
+                        if (handledError == ErrorScreenState.SERVER_ERROR) {
+                            handledError = ErrorScreenState.ERROR_BUILD_SESSEION_COLLECTIONS
+                        }
+                        _state.update { CompilationsState.Error(handledError) }
+                    }
                 }
             )
         }

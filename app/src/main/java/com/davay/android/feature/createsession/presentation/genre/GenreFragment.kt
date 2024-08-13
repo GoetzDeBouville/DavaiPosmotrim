@@ -1,7 +1,5 @@
 package com.davay.android.feature.createsession.presentation.genre
 
-import android.os.Bundle
-import android.view.View
 import androidx.core.view.isVisible
 import androidx.lifecycle.lifecycleScope
 import com.davai.uikit.BannerView
