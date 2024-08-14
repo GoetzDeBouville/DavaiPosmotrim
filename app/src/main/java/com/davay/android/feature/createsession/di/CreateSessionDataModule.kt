@@ -13,21 +13,21 @@ import dagger.Provides
 import io.ktor.client.HttpClient
 
 @Module
-class CreateSessionRepositoryModule {
+class CreateSessionDataModule {
 
     @Provides
     fun provideCreateSessionHttpNetworkClient(
         context: Context,
-        httpClient: HttpClient,
-        userDataRepository: UserDataRepository
+        httpClient: HttpClient
     ): HttpKtorNetworkClient<CreateSessionRequest, CreateSessionResponse> {
-        return HttpCreateSessionKtorClient(context, httpClient, userDataRepository)
+        return HttpCreateSessionKtorClient(context, httpClient)
     }
 
     @Provides
     fun provideCreateSessionRepository(
-        httpNetworkClient: HttpKtorNetworkClient<CreateSessionRequest, CreateSessionResponse>
+        httpNetworkClient: HttpKtorNetworkClient<CreateSessionRequest, CreateSessionResponse>,
+        userDataRepository: UserDataRepository
     ): CreateSessionRepository {
-        return CreateSessionRepositoryImpl(httpNetworkClient)
+        return CreateSessionRepositoryImpl(httpNetworkClient, userDataRepository)
     }
 }

@@ -13,7 +13,8 @@ sealed interface CreateSessionRequest {
 
     class Session(
         val parameter: String,
-        val requestBody: List<String>
+        val requestBody: List<String>,
+        val userId: String
     ) : CreateSessionRequest {
         override val path: String = "api/sessions/"
     }
