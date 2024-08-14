@@ -3,6 +3,7 @@ package com.davay.android.feature.createsession.data
 import com.davay.android.core.data.converters.toDomain
 import com.davay.android.core.data.network.HttpNetworkClient
 import com.davay.android.core.data.network.model.mapToErrorType
+import com.davay.android.core.domain.api.UserDataRepository
 import com.davay.android.core.domain.models.CompilationFilms
 import com.davay.android.core.domain.models.ErrorType
 import com.davay.android.core.domain.models.Genre
@@ -16,7 +17,8 @@ import kotlinx.coroutines.flow.flow
 import javax.inject.Inject
 
 class CreateSessionRepositoryImpl @Inject constructor(
-    private val httpNetworkClient: HttpNetworkClient<CreateSessionRequest, CreateSessionResponse>
+    private val httpNetworkClient: HttpNetworkClient<CreateSessionRequest, CreateSessionResponse>,
+    private val userDataRepository: UserDataRepository
 ) : CreateSessionRepository {
     override fun getCollections(): Flow<Result<List<CompilationFilms>, ErrorType>> = flow {
         val response = httpNetworkClient.getResponse(CreateSessionRequest.CollectionList)
@@ -45,7 +47,8 @@ class CreateSessionRepositoryImpl @Inject constructor(
     }
 
     override fun createSession(parameter: String, requestBody: List<String>): Flow<Result<Session, ErrorType>> = flow {
-        val response = httpNetworkClient.getResponse(CreateSessionRequest.Session(parameter, requestBody))
+        val userId = userDataRepository.getUserId()
+        val response = httpNetworkClient.getResponse(CreateSessionRequest.Session(parameter, requestBody, userId))
         when (val body = response.body) {
             is CreateSessionResponse.Session -> {
                 emit(Result.Success(body.value.toDomain()))

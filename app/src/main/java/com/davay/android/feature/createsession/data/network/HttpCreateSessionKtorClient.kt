@@ -4,7 +4,6 @@ import android.content.Context
 import android.util.Log
 import com.davay.android.BuildConfig
 import com.davay.android.core.data.network.HttpKtorNetworkClient
-import com.davay.android.core.domain.api.UserDataRepository
 import io.ktor.client.HttpClient
 import io.ktor.client.call.body
 import io.ktor.client.request.get
@@ -18,8 +17,7 @@ import javax.inject.Inject
 
 class HttpCreateSessionKtorClient @Inject constructor(
     context: Context,
-    private val httpClient: HttpClient,
-    private val userDataRepository: UserDataRepository
+    private val httpClient: HttpClient
 ) : HttpKtorNetworkClient<CreateSessionRequest, CreateSessionResponse>(context) {
     override suspend fun sendResponseByType(request: CreateSessionRequest): HttpResponse {
         return when (request) {
@@ -37,7 +35,7 @@ class HttpCreateSessionKtorClient @Inject constructor(
                     }
 
                     headers {
-                        append(DEVICE_ID, userDataRepository.getUserId())
+                        append(DEVICE_ID, request.userId)
                     }
 
                     setBody(mapOf(request.parameter to request.requestBody))

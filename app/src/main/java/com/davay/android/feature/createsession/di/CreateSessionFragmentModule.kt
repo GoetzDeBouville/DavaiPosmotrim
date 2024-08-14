@@ -18,7 +18,11 @@ import dagger.Provides
 import dagger.multibindings.IntoMap
 import io.ktor.client.HttpClient
 
-@Module(includes = [CreateSessionFragmentModule.CreateSessionApiModule::class])
+@Module(
+    includes = [
+        CreateSessionFragmentModule.CreateSessionApiModule::class
+    ]
+)
 interface CreateSessionFragmentModule {
 
     @IntoMap
@@ -47,8 +51,7 @@ interface CreateSessionFragmentModule {
         @Provides
         fun provideCreateSessionKtorClient(
             context: Context,
-            httpClient: HttpClient,
-            userDataRepository: UserDataRepository
-        ) = HttpCreateSessionKtorClient(context, httpClient, userDataRepository)
+            httpClient: HttpClient
+        ) = HttpCreateSessionKtorClient(context, httpClient)
     }
 }
