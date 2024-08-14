@@ -20,7 +20,6 @@ class MatchedSessionsViewModel @Inject constructor(
     }
 
     private fun getMatchedSessions() {
-        _state.value = MatchedSessionsState.Loading
         viewModelScope.launch(Dispatchers.IO) {
             runCatching {
                 val session = getSessionsHistoryUseCase.execute()

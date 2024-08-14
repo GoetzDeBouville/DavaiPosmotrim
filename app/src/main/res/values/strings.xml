@@ -36,6 +36,7 @@
     <string name="leave_session_dialog_positive">ДА</string>
     <string name="leave_session_dialog_negative">НЕТ</string>
     <string name="session_list_you">(вы)</string>
+    <string name="session_list_you_user">%s (Вы)</string>
 
     <!--    select_movies screen -->
     <string name="select_movies_select_film">Выберите фильм</string>

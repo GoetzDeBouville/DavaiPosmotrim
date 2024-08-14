@@ -95,7 +95,7 @@ fun SessionDto.toDomain(): Session {
         matchedMovieIdList = matchedMovieIdList,
         date = timestamp,
         status = status.toDomain(),
-        imgUrl = imgUrl
+        imgUrl = imgUrl ?: ""
     )
 }
 

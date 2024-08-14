@@ -5,6 +5,8 @@ import android.content.ClipboardManager
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
+import android.view.View
 import androidx.activity.OnBackPressedCallback
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
@@ -13,6 +15,7 @@ import com.davai.extensions.dpToPx
 import com.davai.uikit.BannerView
 import com.davai.uikit.ButtonView
 import com.davai.uikit.MainDialogFragment
+import com.davay.android.BuildConfig
 import com.davay.android.R
 import com.davay.android.base.BaseFragment
 import com.davay.android.core.domain.models.Session
@@ -57,6 +60,9 @@ class WaitSessionFragment : BaseFragment<FragmentWaitSessionBinding, WaitSession
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
+            if (BuildConfig.DEBUG) {
+                Log.i(TAG, "${it.getString(CreateSessionViewModel.SESSION_DATA)}")
+            }
             session = Json.decodeFromString(it.getString(CreateSessionViewModel.SESSION_DATA) ?: "")
         }
         session?.let {
@@ -195,5 +201,6 @@ class WaitSessionFragment : BaseFragment<FragmentWaitSessionBinding, WaitSession
         const val SPACING_BETWEEN_RV_ITEMS_8_DP = 8
         const val CUSTOM_DIALOG_TAG = "customDialog"
         const val MIN_USER_TO_START_2 = 2
+        val TAG = WaitSessionFragment::class.simpleName
     }
 }

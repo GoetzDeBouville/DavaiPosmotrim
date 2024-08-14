@@ -3,6 +3,7 @@ package com.davay.android.feature.sessionsmatched.presentation.adapters
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.davay.android.R
 import com.davay.android.core.domain.models.Session
 import com.davay.android.databinding.ItemSessionBinding
 import com.davay.android.extensions.formatDate
@@ -17,7 +18,8 @@ class SessionListAdapter(
         RecyclerView.ViewHolder(binding.root) {
         fun bind(session: Session) {
             val userList = session.users.toMutableList()
-            userList[0] = userList[0] + " (Вы)"
+            userList[0] =
+                binding.root.resources.getString(R.string.session_list_you_user, userList[0])
             val formatedDate = session.date.formatDate()
             binding.root.apply {
                 setDate(formatedDate)
