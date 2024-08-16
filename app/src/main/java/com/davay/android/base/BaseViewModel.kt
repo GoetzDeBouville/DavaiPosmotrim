@@ -13,6 +13,7 @@ import com.davay.android.R
 import com.davay.android.core.domain.models.ErrorScreenState
 import com.davay.android.core.domain.models.ErrorType
 import com.davay.android.core.domain.models.Result
+import com.davay.android.utils.DEFAULT_DELAY_600
 import com.davay.android.utils.debounceUnitFun
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
@@ -23,7 +24,11 @@ abstract class BaseViewModel : ViewModel() {
     private val _navigation = MutableLiveData<Event<NavigationCommand>>()
     val navigation: LiveData<Event<NavigationCommand>> get() = _navigation
 
-    private val debounceNavigate = debounceUnitFun<NavigationCommand>(viewModelScope)
+    private val debounceNavigate = debounceUnitFun<NavigationCommand>(
+        coroutineScope = viewModelScope,
+        delayMillis = DEFAULT_DELAY_600,
+        useLastParam = false
+    )
 
     fun navigate(@IdRes navDirections: Int) {
         debounceNavigate(NavigationCommand.ToDirection(navDirections)) { command ->

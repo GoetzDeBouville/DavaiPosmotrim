@@ -6,6 +6,7 @@ import android.view.ViewGroup
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.updateLayoutParams
+import androidx.lifecycle.lifecycleScope
 import com.davai.uikit.MainScreenButtonView
 import com.davay.android.R
 import com.davay.android.base.BaseFragment
@@ -14,6 +15,8 @@ import com.davay.android.di.AppComponentHolder
 import com.davay.android.di.ScreenComponent
 import com.davay.android.feature.changename.presentation.ChangeNameBottomSheetFragment
 import com.davay.android.feature.main.di.DaggerMainFragmentComponent
+import com.davay.android.utils.DEFAULT_DELAY_600
+import com.davay.android.utils.setOnDebouncedClickListener
 
 class MainFragment :
     BaseFragment<FragmentMainBinding, MainViewModel>(FragmentMainBinding::inflate) {
@@ -65,7 +68,11 @@ class MainFragment :
             msbCreateSession.setOnClickListener {
                 createSession()
             }
-            binding.ivEditUserName.setOnClickListener {
+            binding.ivEditUserName.setOnDebouncedClickListener(
+                coroutineScope = lifecycleScope,
+                delayMillis = DEFAULT_DELAY_600,
+                useLastParam = false
+            ) {
                 val currentName = binding.tvUserName.text.toString()
                 changeName(currentName)
             }

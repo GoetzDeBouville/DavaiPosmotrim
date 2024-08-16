@@ -8,7 +8,7 @@ import kotlinx.coroutines.launch
 
 fun <T> debounceUnitFun(
     coroutineScope: CoroutineScope,
-    delayMillis: Long = DEFAULT_DELAY_300,
+    delayMillis: Long = DEFAULT_DELAY_600,
     useLastParam: Boolean = false
 ): (T, (T) -> Unit) -> Unit {
     var debounceJob: Job? = null
@@ -32,7 +32,7 @@ fun <T> debounceUnitFun(
 
 fun View.setOnDebouncedClickListener(
     coroutineScope: CoroutineScope,
-    delayMillis: Long = DEFAULT_DELAY_300,
+    delayMillis: Long = DEFAULT_DELAY_600,
     useLastParam: Boolean = false,
     onClick: (View) -> Unit,
 ) {
@@ -56,5 +56,5 @@ fun View.setOnDebouncedClickListener(
     }
 }
 
-const val DEFAULT_DELAY_300 = 300L
+const val DEFAULT_DELAY_600 = 600L
 
