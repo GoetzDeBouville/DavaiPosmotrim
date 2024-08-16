@@ -13,6 +13,7 @@ import com.davay.android.R
 import com.davay.android.core.domain.models.ErrorScreenState
 import com.davay.android.core.domain.models.ErrorType
 import com.davay.android.core.domain.models.Result
+import com.davay.android.utils.debounceUnitFun
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
@@ -22,24 +23,36 @@ abstract class BaseViewModel : ViewModel() {
     private val _navigation = MutableLiveData<Event<NavigationCommand>>()
     val navigation: LiveData<Event<NavigationCommand>> get() = _navigation
 
+    private val debounceNavigate = debounceUnitFun<NavigationCommand>(viewModelScope)
+
     fun navigate(@IdRes navDirections: Int) {
-        _navigation.value = Event(NavigationCommand.ToDirection(navDirections))
+        debounceNavigate(NavigationCommand.ToDirection(navDirections)) { command ->
+            _navigation.value = Event(command)
+        }
     }
 
     fun navigate(@IdRes navDirections: Int, bundle: Bundle) {
-        _navigation.value = Event(NavigationCommand.ToDirection(navDirections, bundle))
+        debounceNavigate(NavigationCommand.ToDirection(navDirections, bundle)) { command ->
+            _navigation.value = Event(command)
+        }
     }
 
     fun navigate(@IdRes navDirections: Int, navOptions: NavOptions) {
-        _navigation.value = Event(NavigationCommand.ToDirection(navDirections, null, navOptions))
+        debounceNavigate(NavigationCommand.ToDirection(navDirections, null, navOptions)) { command ->
+            _navigation.value = Event(command)
+        }
     }
 
     fun navigate(@IdRes navDirections: Int, bundle: Bundle, navOptions: NavOptions) {
-        _navigation.value = Event(NavigationCommand.ToDirection(navDirections, bundle, navOptions))
+        debounceNavigate(NavigationCommand.ToDirection(navDirections, bundle, navOptions)) { command ->
+            _navigation.value = Event(command)
+        }
     }
 
     fun navigateBack() {
-        _navigation.value = Event(NavigationCommand.Back)
+        debounceNavigate(NavigationCommand.Back) { command ->
+            _navigation.value = Event(command)
+        }
     }
 
     /**
