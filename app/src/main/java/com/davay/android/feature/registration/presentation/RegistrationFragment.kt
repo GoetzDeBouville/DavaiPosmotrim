@@ -85,9 +85,6 @@ class RegistrationFragment :
     }
 
     private fun setButtonClickListeners() {
-//        binding.btnEnter.setOnClickListener {
-//            buttonClicked()
-//        }
         binding.btnEnter.setOnDebouncedClickListener(
             coroutineScope = lifecycleScope,
             delayMillis = DEFAULT_DELAY_600,
