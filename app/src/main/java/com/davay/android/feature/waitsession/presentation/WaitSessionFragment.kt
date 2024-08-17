@@ -10,6 +10,7 @@ import androidx.activity.OnBackPressedCallback
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
+import androidx.lifecycle.lifecycleScope
 import com.davai.extensions.dpToPx
 import com.davai.uikit.BannerView
 import com.davai.uikit.ButtonView
@@ -24,6 +25,8 @@ import com.davay.android.feature.onboarding.presentation.OnboardingFragment
 import com.davay.android.feature.waitsession.di.DaggerWaitSessionFragmentComponent
 import com.davay.android.feature.waitsession.presentation.adapter.CustomItemDecorator
 import com.davay.android.feature.waitsession.presentation.adapter.UserAdapter
+import com.davay.android.utils.DEFAULT_DELAY_600
+import com.davay.android.utils.setOnDebouncedClickListener
 import com.google.android.flexbox.AlignItems
 import com.google.android.flexbox.FlexDirection
 import com.google.android.flexbox.FlexWrap
@@ -155,26 +158,30 @@ class WaitSessionFragment : BaseFragment<FragmentWaitSessionBinding, WaitSession
         cancelButton.setOnClickListener {
             dialog?.show(parentFragmentManager, CUSTOM_DIALOG_TAG)
         }
-        startSessionButton.setOnClickListener {
-            if (userAdapter.itemCount < MIN_USER_TO_START_2) {
-                showAttentionBanner()
-            } else {
-                if (viewModel.isFirstTimeLaunch()) {
-                    viewModel.markFirstTimeLaunch()
-                    val bundle = Bundle().apply {
-                        putInt(
-                            OnboardingFragment.ONBOARDING_KEY,
-                            OnboardingFragment.ONBOARDING_INSTRUCTION_SET
-                        )
-                    }
-                    viewModel.navigate(
-                        R.id.action_waitSessionFragment_to_onboardingFragment,
-                        bundle
-                    )
+        startSessionButton.setOnDebouncedClickListener(
+            coroutineScope = lifecycleScope,
+            delayMillis = DEFAULT_DELAY_600,
+            useLastParam = false
+        ){
+                if (userAdapter.itemCount < MIN_USER_TO_START_2) {
+                    showAttentionBanner()
                 } else {
-                    viewModel.navigate(R.id.action_waitSessionFragment_to_selectMovieFragment)
+                    if (viewModel.isFirstTimeLaunch()) {
+                        viewModel.markFirstTimeLaunch()
+                        val bundle = Bundle().apply {
+                            putInt(
+                                OnboardingFragment.ONBOARDING_KEY,
+                                OnboardingFragment.ONBOARDING_INSTRUCTION_SET
+                            )
+                        }
+                        viewModel.navigate(
+                            R.id.action_waitSessionFragment_to_onboardingFragment,
+                            bundle
+                        )
+                    } else {
+                        viewModel.navigate(R.id.action_waitSessionFragment_to_selectMovieFragment)
+                    }
                 }
-            }
         }
     }
 

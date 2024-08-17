@@ -15,6 +15,8 @@ import com.davay.android.databinding.FragmentSessionConnectionBinding
 import com.davay.android.di.AppComponentHolder
 import com.davay.android.di.ScreenComponent
 import com.davay.android.feature.sessionconnection.di.DaggerSessionConnectionFragmentComponent
+import com.davay.android.utils.DEFAULT_DELAY_600
+import com.davay.android.utils.setOnDebouncedClickListener
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import kotlinx.coroutines.launch
 
@@ -131,7 +133,11 @@ class SessionConnectionBottomSheetFragment :
     }
 
     private fun setButtonClickListeners() {
-        binding.btnEnter.setOnClickListener {
+        binding.btnEnter.setOnDebouncedClickListener(
+            coroutineScope = lifecycleScope,
+            delayMillis = DEFAULT_DELAY_600,
+            useLastParam = false
+        ){
             buttonClicked()
         }
     }

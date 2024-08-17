@@ -2,6 +2,7 @@ package com.davay.android.feature.createsession.presentation.createsession
 
 import android.os.Bundle
 import android.view.View
+import androidx.lifecycle.lifecycleScope
 import androidx.viewpager2.widget.ViewPager2.OnPageChangeCallback
 import com.davai.uikit.BannerView
 import com.davay.android.R
@@ -13,6 +14,8 @@ import com.davay.android.di.ScreenComponent
 import com.davay.android.feature.createsession.di.DaggerCreateSessionFragmentComponent
 import com.davay.android.feature.createsession.presentation.compilations.CompilationsFragment
 import com.davay.android.feature.createsession.presentation.genre.GenreFragment
+import com.davay.android.utils.DEFAULT_DELAY_600
+import com.davay.android.utils.setOnDebouncedClickListener
 import com.google.android.material.tabs.TabLayoutMediator
 
 class CreateSessionFragment : BaseFragment<FragmentCreateSessionBinding, CreateSessionViewModel>(
@@ -29,7 +32,11 @@ class CreateSessionFragment : BaseFragment<FragmentCreateSessionBinding, CreateS
         super.onViewCreated(view, savedInstanceState)
         initTabs()
         setupToolbar()
-        binding.btnContinue.setOnClickListener {
+        binding.btnContinue.setOnDebouncedClickListener(
+            coroutineScope = lifecycleScope,
+            delayMillis = DEFAULT_DELAY_600,
+            useLastParam = false
+        ){
             val fragmentPosition = binding.viewPager.currentItem
             var shouldNavigate = false
             when (val fragment = childFragmentManager.findFragmentByTag("f$fragmentPosition")) {

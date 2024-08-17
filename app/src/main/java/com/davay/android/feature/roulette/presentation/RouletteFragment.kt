@@ -22,6 +22,8 @@ import com.davay.android.feature.roulette.presentation.carouselrecycler.LinearHo
 import com.davay.android.feature.roulette.presentation.model.UserRouletteModel
 import com.davay.android.feature.roulette.presentation.useradapter.UserAdapter
 import com.davay.android.feature.waitsession.presentation.adapter.CustomItemDecorator
+import com.davay.android.utils.DEFAULT_DELAY_600
+import com.davay.android.utils.setOnDebouncedClickListener
 import com.google.android.flexbox.AlignItems
 import com.google.android.flexbox.FlexDirection
 import com.google.android.flexbox.FlexWrap
@@ -101,7 +103,11 @@ class RouletteFragment :
         binding.btnCancel.setOnClickListener {
             viewModel.navigateBack()
         }
-        binding.btnContinue.setOnClickListener {
+        binding.btnContinue.setOnDebouncedClickListener(
+            coroutineScope = lifecycleScope,
+            delayMillis = DEFAULT_DELAY_600,
+            useLastParam = false
+        ){
             bottomSheetBehaviorIntro.isHideable = true
             bottomSheetBehaviorIntro.state = BottomSheetBehavior.STATE_HIDDEN
             viewModel.rouletteStart()
