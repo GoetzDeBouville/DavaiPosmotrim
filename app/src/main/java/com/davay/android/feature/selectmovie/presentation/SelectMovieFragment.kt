@@ -3,6 +3,7 @@ package com.davay.android.feature.selectmovie.presentation
 import android.os.Bundle
 import android.view.View
 import androidx.activity.OnBackPressedCallback
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.ItemTouchHelper
 import com.davai.extensions.dpToPx
 import com.davai.uikit.MainDialogFragment
@@ -31,6 +32,7 @@ class SelectMovieFragment :
     override val viewModel: SelectMovieViewModel by injectViewModel<SelectMovieViewModel>()
     private var matchesCounter = 0
     private val cardAdapter = MovieCardAdapter(
+        coroutineScope = lifecycleScope,
         swipeLeft = { autoSwipeLeft() },
         swipeRight = { autoSwipeRight() },
         revert = { revertSwipe() },
