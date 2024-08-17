@@ -137,7 +137,7 @@ class SessionConnectionBottomSheetFragment :
             coroutineScope = lifecycleScope,
             delayMillis = DEFAULT_DELAY_600,
             useLastParam = false
-        ){
+        ) {
             buttonClicked()
         }
     }

@@ -7,8 +7,11 @@ import com.davay.android.core.domain.models.MovieDetails
 import com.davay.android.databinding.ItemSwipeableMovieCardBinding
 import com.davay.android.utils.MovieDetailsHelper
 import com.davay.android.utils.MovieDetailsHelperImpl
+import com.davay.android.utils.setOnDebouncedClickListener
+import kotlinx.coroutines.CoroutineScope
 
 class MovieCardAdapter(
+    private val coroutineScope: CoroutineScope,
     private val swipeLeft: () -> Unit,
     private val swipeRight: () -> Unit,
     private val revert: () -> Unit,
@@ -46,15 +49,15 @@ class MovieCardAdapter(
         }
 
         private fun onItemsClicklisteners() = with(binding) {
-            civLike.setOnClickListener {
+            civLike.setOnDebouncedClickListener(coroutineScope) {
                 swipeRight.invoke()
                 notifyDataSetChanged()
             }
-            civSkip.setOnClickListener {
+            civSkip.setOnDebouncedClickListener(coroutineScope) {
                 swipeLeft.invoke()
                 notifyDataSetChanged()
             }
-            civRevert.setOnClickListener {
+            civRevert.setOnDebouncedClickListener(coroutineScope) {
                 revert.invoke()
                 notifyDataSetChanged()
             }

@@ -107,7 +107,7 @@ class RouletteFragment :
             coroutineScope = lifecycleScope,
             delayMillis = DEFAULT_DELAY_600,
             useLastParam = false
-        ){
+        ) {
             bottomSheetBehaviorIntro.isHideable = true
             bottomSheetBehaviorIntro.state = BottomSheetBehavior.STATE_HIDDEN
             viewModel.rouletteStart()

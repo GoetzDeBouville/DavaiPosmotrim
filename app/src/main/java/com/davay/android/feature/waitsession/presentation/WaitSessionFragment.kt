@@ -162,26 +162,26 @@ class WaitSessionFragment : BaseFragment<FragmentWaitSessionBinding, WaitSession
             coroutineScope = lifecycleScope,
             delayMillis = DEFAULT_DELAY_600,
             useLastParam = false
-        ){
-                if (userAdapter.itemCount < MIN_USER_TO_START_2) {
-                    showAttentionBanner()
-                } else {
-                    if (viewModel.isFirstTimeLaunch()) {
-                        viewModel.markFirstTimeLaunch()
-                        val bundle = Bundle().apply {
-                            putInt(
-                                OnboardingFragment.ONBOARDING_KEY,
-                                OnboardingFragment.ONBOARDING_INSTRUCTION_SET
-                            )
-                        }
-                        viewModel.navigate(
-                            R.id.action_waitSessionFragment_to_onboardingFragment,
-                            bundle
+        ) {
+            if (userAdapter.itemCount < MIN_USER_TO_START_2) {
+                showAttentionBanner()
+            } else {
+                if (viewModel.isFirstTimeLaunch()) {
+                    viewModel.markFirstTimeLaunch()
+                    val bundle = Bundle().apply {
+                        putInt(
+                            OnboardingFragment.ONBOARDING_KEY,
+                            OnboardingFragment.ONBOARDING_INSTRUCTION_SET
                         )
-                    } else {
-                        viewModel.navigate(R.id.action_waitSessionFragment_to_selectMovieFragment)
                     }
+                    viewModel.navigate(
+                        R.id.action_waitSessionFragment_to_onboardingFragment,
+                        bundle
+                    )
+                } else {
+                    viewModel.navigate(R.id.action_waitSessionFragment_to_selectMovieFragment)
                 }
+            }
         }
     }
 

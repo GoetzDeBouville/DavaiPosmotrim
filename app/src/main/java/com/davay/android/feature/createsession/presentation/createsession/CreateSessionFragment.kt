@@ -36,7 +36,7 @@ class CreateSessionFragment : BaseFragment<FragmentCreateSessionBinding, CreateS
             coroutineScope = lifecycleScope,
             delayMillis = DEFAULT_DELAY_600,
             useLastParam = false
-        ){
+        ) {
             val fragmentPosition = binding.viewPager.currentItem
             var shouldNavigate = false
             when (val fragment = childFragmentManager.findFragmentByTag("f$fragmentPosition")) {
