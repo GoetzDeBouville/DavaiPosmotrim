@@ -5,6 +5,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.davay.android.core.domain.models.MovieDetails
 import com.davay.android.databinding.ItemSwipeableMovieCardBinding
+import com.davay.android.utils.DEFAULT_DELAY_600
 import com.davay.android.utils.MovieDetailsHelper
 import com.davay.android.utils.MovieDetailsHelperImpl
 import com.davay.android.utils.setOnDebouncedClickListener
@@ -49,15 +50,27 @@ class MovieCardAdapter(
         }
 
         private fun onItemsClicklisteners() = with(binding) {
-            civLike.setOnDebouncedClickListener(coroutineScope) {
+            civLike.setOnDebouncedClickListener(
+                coroutineScope = coroutineScope,
+                delayMillis = DEFAULT_DELAY_600,
+                useLastParam = false
+            ) {
                 swipeRight.invoke()
                 notifyDataSetChanged()
             }
-            civSkip.setOnDebouncedClickListener(coroutineScope) {
+            civSkip.setOnDebouncedClickListener(
+                coroutineScope = coroutineScope,
+                delayMillis = DEFAULT_DELAY_600,
+                useLastParam = false
+            ) {
                 swipeLeft.invoke()
                 notifyDataSetChanged()
             }
-            civRevert.setOnDebouncedClickListener(coroutineScope) {
+            civRevert.setOnDebouncedClickListener(
+                coroutineScope = coroutineScope,
+                delayMillis = DEFAULT_DELAY_600,
+                useLastParam = false
+            ) {
                 revert.invoke()
                 notifyDataSetChanged()
             }
