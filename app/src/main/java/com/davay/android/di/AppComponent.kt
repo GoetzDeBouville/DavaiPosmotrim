@@ -20,7 +20,7 @@ import io.ktor.client.HttpClient
         ContextModule::class,
         DatabaseModule::class,
         EncryptedSharedPreferencesModule::class,
-        SessionsHistoryModule::class
+        SessionsHistoryModule::class,
         CommonWebsocketModule::class,
     ]
 )
