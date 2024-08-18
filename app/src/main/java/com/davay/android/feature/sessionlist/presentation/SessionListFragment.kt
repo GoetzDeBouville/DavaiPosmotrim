@@ -10,6 +10,7 @@ import com.davay.android.base.BaseFragment
 import com.davay.android.databinding.FragmentSessionListBinding
 import com.davay.android.di.AppComponentHolder
 import com.davay.android.di.ScreenComponent
+import com.davay.android.extensions.setBottomMargin
 import com.davay.android.feature.sessionlist.di.DaggerSessionListFragmentComponent
 import com.davay.android.feature.sessionlist.presentation.adapter.CustomItemDecorator
 import com.davay.android.feature.sessionlist.presentation.adapter.UserAdapter
@@ -48,7 +49,7 @@ class SessionListFragment : BaseFragment<FragmentSessionListBinding, SessionList
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
+        setBottomMargin(binding.btnExit)
         dialog = MainDialogFragment.newInstance(
             title = getString(R.string.leave_session_title),
             message = getString(R.string.leave_session_dialog_message),
