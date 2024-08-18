@@ -6,6 +6,7 @@ import android.content.SharedPreferences
 import com.davay.android.core.data.database.AppDatabase
 import com.davay.android.core.data.database.di.DatabaseModule
 import com.davay.android.core.data.di.NetworkModule
+import com.davay.android.core.domain.api.SessionsHistoryRepository
 import com.davay.android.core.domain.impl.CommonWebsocketInteractor
 import com.davay.android.di.prefs.marker.StorageMarker
 import com.davay.android.di.prefs.model.PreferencesStorage
@@ -19,6 +20,7 @@ import io.ktor.client.HttpClient
         ContextModule::class,
         DatabaseModule::class,
         EncryptedSharedPreferencesModule::class,
+        SessionsHistoryModule::class
         CommonWebsocketModule::class,
     ]
 )
@@ -26,6 +28,7 @@ interface AppComponent : DIComponent {
     val httpClient: HttpClient
     val context: Context
     val dataBase: AppDatabase
+    val sessionsHistoryRepository: SessionsHistoryRepository
     val commonWebsocketInteractor: CommonWebsocketInteractor
 
     @StorageMarker(PreferencesStorage.USER)
