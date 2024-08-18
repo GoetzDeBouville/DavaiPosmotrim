@@ -10,6 +10,7 @@ import com.davay.android.core.presentation.MainActivity
 import com.davay.android.databinding.FragmentCreateSessionBinding
 import com.davay.android.di.AppComponentHolder
 import com.davay.android.di.ScreenComponent
+import com.davay.android.extensions.setBottomMargin
 import com.davay.android.feature.createsession.di.DaggerCreateSessionFragmentComponent
 import com.davay.android.feature.createsession.presentation.compilations.CompilationsFragment
 import com.davay.android.feature.createsession.presentation.genre.GenreFragment
@@ -29,6 +30,7 @@ class CreateSessionFragment : BaseFragment<FragmentCreateSessionBinding, CreateS
         super.onViewCreated(view, savedInstanceState)
         initTabs()
         setupToolbar()
+        setBottomMargin(binding.btnContinue)
         binding.btnContinue.setOnClickListener {
             val fragmentPosition = binding.viewPager.currentItem
             var shouldNavigate = false
