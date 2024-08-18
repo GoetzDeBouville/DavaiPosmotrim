@@ -12,6 +12,7 @@ import androidx.lifecycle.repeatOnLifecycle
 import com.davai.extensions.dpToPx
 import com.davay.android.R
 import com.davay.android.base.BaseFragment
+import com.davay.android.core.domain.models.ErrorScreenState
 import com.davay.android.core.presentation.LastItemDecorator
 import com.davay.android.databinding.FragmentMatchedSessionBinding
 import com.davay.android.di.AppComponentHolder
@@ -23,6 +24,8 @@ import com.davay.android.feature.matchedsession.di.DaggerMatchedSessionFragmentC
 import com.davay.android.feature.matchedsession.presentation.adapter.CustomItemDecorator
 import com.davay.android.feature.matchedsession.presentation.adapter.UserAdapter
 import com.davay.android.feature.moviecard.presentation.MovieCardFragment
+import com.davay.android.utils.presentation.UiErrorHandler
+import com.davay.android.utils.presentation.UiErrorHandlerImpl
 import com.google.android.flexbox.AlignItems
 import com.google.android.flexbox.FlexDirection
 import com.google.android.flexbox.FlexWrap
@@ -48,17 +51,18 @@ class MatchedSessionFragment :
     }
     private val userAdapter = UserAdapter()
     private var sessionId = ""
+    private val errorHandler: UiErrorHandler = UiErrorHandlerImpl()
 
     override fun diComponent(): ScreenComponent = DaggerMatchedSessionFragmentComponent.builder()
         .appComponent(AppComponentHolder.getComponent())
         .build()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-
         arguments?.let {
             sessionId = it.getString(SESSION_ID, "")
         }
+        super.onViewCreated(view, savedInstanceState)
+
         initUsersRecycler()
         setupMoviesGrid()
     }
@@ -104,8 +108,25 @@ class MatchedSessionFragment :
 
     private fun handleState(state: MatchedSessionState) {
         when (state) {
-            is MatchedSessionState.Empty -> updateVisibility(emptyMessageIsVisible = true)
-            is MatchedSessionState.Loading -> updateVisibility(progressBarIsVisible = true)
+            is MatchedSessionState.Empty -> {
+                val date = state.data.session.date
+                val subTitle =
+                    resources.getString(R.string.matched_session_session, state.data.session.id)
+                setupToolbar(subTitle, date)
+                userAdapter.setItems(state.data.session.users)
+                updateVisibility(coincidencesListIsVisible = false, errorMessageVisible = true)
+                errorHandler.handleError(
+                    ErrorScreenState.EMPTY,
+                    binding.errorMessage,
+                    null
+                )
+            }
+
+            is MatchedSessionState.Loading -> {
+                setupToolbar()
+                updateVisibility(progressBarIsVisible = true)
+            }
+
             is MatchedSessionState.Data -> {
                 val date = state.data.session.date
                 val subTitle =
@@ -117,8 +138,13 @@ class MatchedSessionFragment :
             }
 
             is MatchedSessionState.Error -> {
-                Toast.makeText(requireContext(), "Error occurred!", Toast.LENGTH_SHORT).show()
-                updateVisibility(errorMessageVisible = true)
+                setupToolbar()
+                updateVisibility(coincidencesListIsVisible = false, errorMessageVisible = true)
+                errorHandler.handleError(
+                    state.errorType,
+                    binding.errorMessage,
+                    null
+                )
             }
         }
     }
@@ -126,16 +152,17 @@ class MatchedSessionFragment :
     private fun updateVisibility(
         progressBarIsVisible: Boolean = false,
         coincidencesListIsVisible: Boolean = false,
-        emptyMessageIsVisible: Boolean = false,
         errorMessageVisible: Boolean = false
     ) = with(binding) {
         progressBar.isVisible = progressBarIsVisible
         coincidencesList.isVisible = coincidencesListIsVisible
-        emptyPlaceholder.root.isVisible = emptyMessageIsVisible
-        errorMessage.root.isVisible = errorMessageVisible
+        errorMessage.isVisible = errorMessageVisible
     }
 
-    private fun setupToolbar(subTitle: String, date: timeStamp) {
+    private fun setupToolbar(
+        subTitle: String = resources.getString(com.davai.uikit.R.string.empty_text),
+        date: timeStamp = System.currentTimeMillis(),
+    ) {
         binding.toolbar.apply {
             setTitleText(date.formatDateWithoutCurrentYear())
             setSubtitleText(subTitle)
