@@ -3,6 +3,8 @@ package com.davay.android.feature.matchedsession.presentation
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.isVisible
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
@@ -10,6 +12,7 @@ import androidx.lifecycle.repeatOnLifecycle
 import com.davai.extensions.dpToPx
 import com.davay.android.R
 import com.davay.android.base.BaseFragment
+import com.davay.android.core.presentation.LastItemDecorator
 import com.davay.android.databinding.FragmentMatchedSessionBinding
 import com.davay.android.di.AppComponentHolder
 import com.davay.android.di.ScreenComponent
@@ -77,7 +80,15 @@ class MatchedSessionFragment :
     }
 
     private fun setupMoviesGrid() {
-        binding.coincidencesList.adapter = moviesGridAdapter
+        binding.coincidencesList.apply {
+            ViewCompat.getRootWindowInsets(binding.root)
+                ?.getInsets(WindowInsetsCompat.Type.navigationBars())
+                ?.bottom
+                ?.let {
+                    addItemDecoration(LastItemDecorator(it))
+                }
+            adapter = moviesGridAdapter
+        }
     }
 
     override fun subscribe() {
