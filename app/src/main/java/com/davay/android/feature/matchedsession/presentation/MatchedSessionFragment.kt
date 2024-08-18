@@ -2,7 +2,6 @@ package com.davay.android.feature.matchedsession.presentation
 
 import android.os.Bundle
 import android.view.View
-import android.widget.Toast
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.isVisible
