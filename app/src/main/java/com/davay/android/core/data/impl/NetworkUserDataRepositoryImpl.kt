@@ -4,7 +4,6 @@ import com.davay.android.core.data.dto.UserDto
 import com.davay.android.core.data.network.HttpNetworkClient
 import com.davay.android.core.data.network.model.Response
 import com.davay.android.core.data.network.model.UserDataRequest
-import com.davay.android.core.data.network.model.mapToErrorType
 import com.davay.android.core.domain.api.NetworkUserDataRepository
 import com.davay.android.core.domain.api.UserDataRepository
 import com.davay.android.core.domain.models.ErrorType

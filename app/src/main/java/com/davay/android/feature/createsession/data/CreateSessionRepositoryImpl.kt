@@ -2,7 +2,6 @@ package com.davay.android.feature.createsession.data
 
 import com.davay.android.core.data.converters.toDomain
 import com.davay.android.core.data.network.HttpNetworkClient
-import com.davay.android.core.data.network.model.mapToErrorType
 import com.davay.android.core.domain.models.CompilationFilms
 import com.davay.android.core.domain.models.ErrorType
 import com.davay.android.core.domain.models.Genre

@@ -1,6 +1,7 @@
 package com.davay.android.core.data.network
 
 import android.content.Context
+import com.davay.android.core.data.network.model.NetworkParams
 import com.davay.android.core.data.network.model.UserDataRequest
 import io.ktor.client.HttpClient
 import io.ktor.client.request.headers
@@ -23,10 +24,10 @@ class UserDataKtorNetworkClient @Inject constructor(
             is UserDataRequest.Registration -> {
                 return httpClient.post {
                     url {
-                        path(request.path)
+                        path(NetworkParams.API_USERS)
                     }
                     headers {
-                        append(DEVICE_ID, request.userData.userId)
+                        append(NetworkParams.DEVICE_ID, request.userData.userId)
                     }
 
                     contentType(ContentType.Application.Json)
@@ -37,14 +38,14 @@ class UserDataKtorNetworkClient @Inject constructor(
             is UserDataRequest.ChangeName -> {
                 return httpClient.put {
                     url {
-                        path(request.path)
+                        path(NetworkParams.API_USERS)
                     }
                     headers {
-                        append(DEVICE_ID, request.userData.userId)
+                        append(NetworkParams.DEVICE_ID, request.userData.userId)
                     }
 
                     contentType(ContentType.Application.Json)
-                    setBody(mapOf(NAME to request.userData.name))
+                    setBody(mapOf(NetworkParams.NAME to request.userData.name))
                 }
             }
         }
@@ -55,10 +56,5 @@ class UserDataKtorNetworkClient @Inject constructor(
         httpResponse: HttpResponse
     ): HttpResponse {
         return httpResponse
-    }
-
-    companion object {
-        private const val DEVICE_ID = "Device-id"
-        private const val NAME = "name"
     }
 }
