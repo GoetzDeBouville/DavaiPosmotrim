@@ -1,10 +1,10 @@
 package com.davay.android.feature.changename.di
 
+import com.davay.android.core.domain.api.NetworkUserDataRepository
 import com.davay.android.core.domain.api.UserDataRepository
 import com.davay.android.core.domain.impl.GetUserDataUseCaseImpl
 import com.davay.android.core.domain.usecases.GetUserDataUseCase
-import com.davay.android.feature.changename.domain.api.ChangeNameRepository
-import com.davay.android.feature.changename.domain.usecase.ChangeNameUseCase
+import com.davay.android.feature.changename.domain.usecase.SetUserNameUseCase
 import dagger.Module
 import dagger.Provides
 
@@ -16,7 +16,7 @@ class ChangeNameUseCaseModule {
     ): GetUserDataUseCase = GetUserDataUseCaseImpl(repository)
 
     @Provides
-    fun provideSetToNetworkUserNameUseCase(
-        repository: ChangeNameRepository
-    ) = ChangeNameUseCase(repository)
+    fun provideSetUserNameUseCase(
+        repository: NetworkUserDataRepository
+    ) = SetUserNameUseCase(repository)
 }
