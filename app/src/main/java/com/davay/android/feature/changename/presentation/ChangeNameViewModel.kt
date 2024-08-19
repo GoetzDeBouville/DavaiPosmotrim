@@ -39,11 +39,10 @@ class ChangeNameViewModel @Inject constructor(
                     }
                 )
             }
-        }
-    }
-
-    fun cancelRegistration() {
-        registrationProcess?.cancel()
+        } else
+            if (text.toString() == getUserName()) {
+                _state.value = UserNameState.SUCCESS
+            }
     }
 
     fun textCheck(text: Editable?) {
