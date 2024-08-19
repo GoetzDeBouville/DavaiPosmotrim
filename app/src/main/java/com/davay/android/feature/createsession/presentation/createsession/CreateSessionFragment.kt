@@ -14,7 +14,6 @@ import com.davay.android.di.ScreenComponent
 import com.davay.android.feature.createsession.di.DaggerCreateSessionFragmentComponent
 import com.davay.android.feature.createsession.presentation.compilations.CompilationsFragment
 import com.davay.android.feature.createsession.presentation.genre.GenreFragment
-import com.davay.android.utils.DEFAULT_DELAY_600
 import com.davay.android.utils.setOnDebouncedClickListener
 import com.google.android.material.tabs.TabLayoutMediator
 
@@ -33,9 +32,7 @@ class CreateSessionFragment : BaseFragment<FragmentCreateSessionBinding, CreateS
         initTabs()
         setupToolbar()
         binding.btnContinue.setOnDebouncedClickListener(
-            coroutineScope = lifecycleScope,
-            delayMillis = DEFAULT_DELAY_600,
-            useLastParam = false
+            coroutineScope = lifecycleScope
         ) {
             val fragmentPosition = binding.viewPager.currentItem
             var shouldNavigate = false

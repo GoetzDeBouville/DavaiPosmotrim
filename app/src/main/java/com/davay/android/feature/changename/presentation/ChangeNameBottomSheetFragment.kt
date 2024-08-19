@@ -17,7 +17,6 @@ import com.davay.android.databinding.FragmentNameChangeBinding
 import com.davay.android.di.AppComponentHolder
 import com.davay.android.di.ScreenComponent
 import com.davay.android.feature.changename.di.DaggerChangeNameFragmentComponent
-import com.davay.android.utils.DEFAULT_DELAY_600
 import com.davay.android.utils.setOnDebouncedClickListener
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import kotlinx.coroutines.launch
@@ -132,9 +131,7 @@ class ChangeNameBottomSheetFragment :
 
     private fun setButtonClickListeners() {
         binding.btnEnter.setOnDebouncedClickListener(
-            coroutineScope = lifecycleScope,
-            delayMillis = DEFAULT_DELAY_600,
-            useLastParam = false
+            coroutineScope = lifecycleScope
         ) {
             buttonClicked()
         }
@@ -147,6 +144,7 @@ class ChangeNameBottomSheetFragment :
             }
         }
     }
+
 
     private fun buttonClicked() {
         viewModel.buttonClicked(binding.etName.text)

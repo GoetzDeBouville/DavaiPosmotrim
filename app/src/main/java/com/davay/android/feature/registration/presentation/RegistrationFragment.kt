@@ -15,7 +15,6 @@ import com.davay.android.di.AppComponentHolder
 import com.davay.android.di.ScreenComponent
 import com.davay.android.extensions.animateBottom
 import com.davay.android.feature.registration.di.DaggerRegistrationFragmentComponent
-import com.davay.android.utils.DEFAULT_DELAY_600
 import com.davay.android.utils.setOnDebouncedClickListener
 import kotlinx.coroutines.launch
 
@@ -86,9 +85,7 @@ class RegistrationFragment :
 
     private fun setButtonClickListeners() {
         binding.btnEnter.setOnDebouncedClickListener(
-            coroutineScope = lifecycleScope,
-            delayMillis = DEFAULT_DELAY_600,
-            useLastParam = false
+            coroutineScope = lifecycleScope
         ) {
             buttonClicked()
         }

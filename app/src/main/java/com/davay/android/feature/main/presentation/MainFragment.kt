@@ -15,7 +15,6 @@ import com.davay.android.di.AppComponentHolder
 import com.davay.android.di.ScreenComponent
 import com.davay.android.feature.changename.presentation.ChangeNameBottomSheetFragment
 import com.davay.android.feature.main.di.DaggerMainFragmentComponent
-import com.davay.android.utils.DEFAULT_DELAY_600
 import com.davay.android.utils.setOnDebouncedClickListener
 
 class MainFragment :
@@ -69,9 +68,7 @@ class MainFragment :
                 createSession()
             }
             binding.ivEditUserName.setOnDebouncedClickListener(
-                coroutineScope = lifecycleScope,
-                delayMillis = DEFAULT_DELAY_600,
-                useLastParam = false
+                coroutineScope = lifecycleScope
             ) {
                 val currentName = binding.tvUserName.text.toString()
                 changeName(currentName)
