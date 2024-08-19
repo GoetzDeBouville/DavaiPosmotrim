@@ -56,5 +56,5 @@ fun View.setOnDebouncedClickListener(
     }
 }
 
-const val DEFAULT_DELAY_600 = 600L
+private const val DEFAULT_DELAY_600 = 600L
 

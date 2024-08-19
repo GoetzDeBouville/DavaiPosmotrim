@@ -25,7 +25,6 @@ import com.davay.android.feature.onboarding.presentation.OnboardingFragment
 import com.davay.android.feature.waitsession.di.DaggerWaitSessionFragmentComponent
 import com.davay.android.feature.waitsession.presentation.adapter.CustomItemDecorator
 import com.davay.android.feature.waitsession.presentation.adapter.UserAdapter
-import com.davay.android.utils.DEFAULT_DELAY_600
 import com.davay.android.utils.setOnDebouncedClickListener
 import com.google.android.flexbox.AlignItems
 import com.google.android.flexbox.FlexDirection
@@ -159,9 +158,7 @@ class WaitSessionFragment : BaseFragment<FragmentWaitSessionBinding, WaitSession
             dialog?.show(parentFragmentManager, CUSTOM_DIALOG_TAG)
         }
         startSessionButton.setOnDebouncedClickListener(
-            coroutineScope = lifecycleScope,
-            delayMillis = DEFAULT_DELAY_600,
-            useLastParam = false
+            coroutineScope = lifecycleScope
         ) {
             if (userAdapter.itemCount < MIN_USER_TO_START_2) {
                 showAttentionBanner()
