@@ -39,10 +39,9 @@ class ChangeNameViewModel @Inject constructor(
                     }
                 )
             }
-        } else
-            if (text.toString() == getUserName()) {
-                _state.value = UserNameState.SUCCESS
-            }
+        } else if (text.toString() == getUserName()) {
+            _state.value = UserNameState.SUCCESS
+        }
     }
 
     fun textCheck(text: Editable?) {
