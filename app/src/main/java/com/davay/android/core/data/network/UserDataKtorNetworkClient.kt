@@ -19,7 +19,7 @@ class UserDataKtorNetworkClient @Inject constructor(
     private val httpClient: HttpClient
 ) : HttpKtorNetworkClient<UserDataRequest, HttpResponse>(context) {
 
-    override suspend fun sendResponseByType(request: UserDataRequest): HttpResponse {
+    override suspend fun sendRequestByType(request: UserDataRequest): HttpResponse {
         when (request) {
             is UserDataRequest.Registration -> {
                 return httpClient.post {
