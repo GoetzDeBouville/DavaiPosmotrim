@@ -7,7 +7,6 @@ import com.davay.android.core.data.impl.UserDataRepositoryImpl
 import com.davay.android.core.data.network.HttpKtorNetworkClient
 import com.davay.android.core.data.network.UserDataKtorNetworkClient
 import com.davay.android.core.data.network.model.UserDataRequest
-import com.davay.android.core.data.network.model.UserDataResponse
 import com.davay.android.core.domain.api.NetworkUserDataRepository
 import com.davay.android.core.domain.api.UserDataRepository
 import com.davay.android.di.prefs.marker.StorageMarker
@@ -15,6 +14,7 @@ import com.davay.android.di.prefs.model.PreferencesStorage
 import dagger.Module
 import dagger.Provides
 import io.ktor.client.HttpClient
+import io.ktor.client.statement.HttpResponse
 
 @Module
 class RegistrationDataModule {
@@ -22,13 +22,13 @@ class RegistrationDataModule {
     fun provideUserDataKtorNetworkClient(
         context: Context,
         httpClient: HttpClient
-    ): HttpKtorNetworkClient<UserDataRequest, UserDataResponse> {
+    ): HttpKtorNetworkClient<UserDataRequest, HttpResponse> {
         return UserDataKtorNetworkClient(context, httpClient)
     }
 
     @Provides
     fun provideNetworkUserDataRepository(
-        httpNetworkClient: HttpKtorNetworkClient<UserDataRequest, UserDataResponse>,
+        httpNetworkClient: HttpKtorNetworkClient<UserDataRequest, HttpResponse>,
         userDataRepository: UserDataRepository
     ): NetworkUserDataRepository {
         return NetworkUserDataRepositoryImpl(

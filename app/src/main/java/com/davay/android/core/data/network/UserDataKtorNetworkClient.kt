@@ -2,9 +2,7 @@ package com.davay.android.core.data.network
 
 import android.content.Context
 import com.davay.android.core.data.network.model.UserDataRequest
-import com.davay.android.core.data.network.model.UserDataResponse
 import io.ktor.client.HttpClient
-import io.ktor.client.call.body
 import io.ktor.client.request.headers
 import io.ktor.client.request.post
 import io.ktor.client.request.put
@@ -18,7 +16,7 @@ import javax.inject.Inject
 class UserDataKtorNetworkClient @Inject constructor(
     context: Context,
     private val httpClient: HttpClient
-) : HttpKtorNetworkClient<UserDataRequest, UserDataResponse>(context) {
+) : HttpKtorNetworkClient<UserDataRequest, HttpResponse>(context) {
 
     override suspend fun sendResponseByType(request: UserDataRequest): HttpResponse {
         when (request) {
@@ -55,8 +53,8 @@ class UserDataKtorNetworkClient @Inject constructor(
     override suspend fun getResponseBodyByRequestType(
         requestType: UserDataRequest,
         httpResponse: HttpResponse
-    ): UserDataResponse {
-        return UserDataResponse(httpResponse.body())
+    ): HttpResponse {
+        return httpResponse
     }
 
     companion object {
