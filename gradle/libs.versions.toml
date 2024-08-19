@@ -103,3 +103,4 @@ androidLibrary = { id = "com.android.library", version.ref = "agp" }
 detekt = { id = "io.gitlab.arturbosch.detekt", version.ref = "detekt" }
 # SafeArgs
 navigationSafeArgs = { id = "androidx.navigation.safeargs.kotlin", version.ref = "nav_version" }
+kotlinParcelize = { id = "org.jetbrains.kotlin.plugin.parcelize", version.ref = "kotlin" }
