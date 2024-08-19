@@ -1,13 +1,11 @@
 package com.davay.android.feature.changename.data
 
-import com.davay.android.core.data.converters.toDomain
 import com.davay.android.core.data.dto.UserDto
 import com.davay.android.core.data.network.HttpNetworkClient
 import com.davay.android.core.data.network.model.mapToErrorType
 import com.davay.android.core.domain.api.UserDataRepository
 import com.davay.android.core.domain.models.ErrorType
 import com.davay.android.core.domain.models.Result
-import com.davay.android.core.domain.models.User
 import com.davay.android.feature.changename.data.network.ChangeNameRequest
 import com.davay.android.feature.changename.data.network.ChangeNameResponse
 import com.davay.android.feature.changename.domain.api.ChangeNameRepository
@@ -19,7 +17,7 @@ class ChangeNameRepositoryImpl(
     private val userDataRepository: UserDataRepository
 ) : ChangeNameRepository {
 
-    override fun setUserName(userName: String): Flow<Result<User, ErrorType>> = flow {
+    override fun setUserName(userName: String): Flow<Result<Unit, ErrorType>> = flow {
         val userId = userDataRepository.getUserId()
         val response = httpNetworkClient.getResponse(
             ChangeNameRequest(
@@ -32,7 +30,6 @@ class ChangeNameRepositoryImpl(
         when (val body = response.body) {
             is ChangeNameResponse -> {
                 userDataRepository.setUserName(body.userData.name)
-                emit(Result.Success(body.userData.toDomain()))
             }
             else -> {
                 emit(Result.Error(response.resultCode.mapToErrorType()))

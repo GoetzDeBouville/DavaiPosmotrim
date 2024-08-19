@@ -6,7 +6,7 @@ import com.davay.android.base.BaseViewModel
 import com.davay.android.core.domain.models.UserDataFields
 import com.davay.android.core.domain.models.UserNameState
 import com.davay.android.core.domain.usecases.GetUserDataUseCase
-import com.davay.android.feature.changename.domain.usecase.ChangeNameUseCase
+import com.davay.android.feature.changename.domain.usecase.SetUserNameUseCase
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -16,7 +16,7 @@ import javax.inject.Inject
 
 class ChangeNameViewModel @Inject constructor(
     private val getUserData: GetUserDataUseCase,
-    private val changeName: ChangeNameUseCase
+    private val changeName: SetUserNameUseCase
 ) : BaseViewModel() {
 
     private val _state = MutableStateFlow(UserNameState.DEFAULT)
@@ -30,7 +30,7 @@ class ChangeNameViewModel @Inject constructor(
             _state.value = UserNameState.LOADING
             registrationProcess = viewModelScope.launch(Dispatchers.IO) {
                 runSafelyUseCase(
-                    useCaseFlow = changeName.setUserName(text.toString()),
+                    useCaseFlow = changeName.execute(text.toString()),
                     onSuccess = { _ ->
                         _state.value = UserNameState.SUCCESS
                     },
