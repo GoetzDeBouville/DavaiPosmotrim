@@ -26,7 +26,7 @@ class MovieCardAdapter(
         private val inflateMovieDetails: (MovieDetails) -> Unit
     ) : RecyclerView.ViewHolder(binding.root) {
         init {
-            onItemsClicklisteners()
+            onItemsClickListeners()
         }
 
         private val movieDetailsHelper: MovieDetailsHelper = MovieDetailsHelperImpl()
@@ -49,7 +49,7 @@ class MovieCardAdapter(
             civSkip.updateDynamicAlphaNegative(dx)
         }
 
-        private fun onItemsClicklisteners() = with(binding) {
+        private fun onItemsClickListeners() = with(binding) {
             civLike.setOnDebouncedClickListener(
                 coroutineScope = coroutineScope,
                 delayMillis = DEFAULT_DELAY_600,
