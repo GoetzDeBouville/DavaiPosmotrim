@@ -46,9 +46,18 @@ class CreateSessionRepositoryImpl @Inject constructor(
         }
     }
 
-    override fun createSession(parameter: String, requestBody: List<String>): Flow<Result<Session, ErrorType>> = flow {
+    override fun createSession(
+        parameter: String,
+        requestBody: List<String>
+    ): Flow<Result<Session, ErrorType>> = flow {
         val userId = userDataRepository.getUserId()
-        val response = httpNetworkClient.getResponse(CreateSessionRequest.Session(parameter, requestBody, userId))
+        val response = httpNetworkClient.getResponse(
+            CreateSessionRequest.Session(
+                parameter,
+                requestBody,
+                userId
+            )
+        )
         when (val body = response.body) {
             is CreateSessionResponse.Session -> {
                 emit(Result.Success(body.value.toDomain()))
@@ -58,9 +67,5 @@ class CreateSessionRepositoryImpl @Inject constructor(
                 emit(Result.Error(response.resultCode.mapToErrorType()))
             }
         }
-    }
-
-    private companion object {
-        val TAG = CreateSessionRepositoryImpl::class.simpleName
     }
 }

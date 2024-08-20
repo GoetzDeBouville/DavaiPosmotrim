@@ -8,7 +8,7 @@ import dagger.Component
     dependencies = [AppComponent::class],
     modules = [
         RegistrationFragmentModule::class,
-        RegistrationRepositoryModule::class,
+        RegistrationDataModule::class,
         RegistrationUseCaseModule::class
     ]
 )

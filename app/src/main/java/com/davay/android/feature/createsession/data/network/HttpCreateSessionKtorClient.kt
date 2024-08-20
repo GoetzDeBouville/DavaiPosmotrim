@@ -19,7 +19,7 @@ class HttpCreateSessionKtorClient @Inject constructor(
     context: Context,
     private val httpClient: HttpClient
 ) : HttpKtorNetworkClient<CreateSessionRequest, CreateSessionResponse>(context) {
-    override suspend fun sendResponseByType(request: CreateSessionRequest): HttpResponse {
+    override suspend fun sendRequestByType(request: CreateSessionRequest): HttpResponse {
         return when (request) {
             is CreateSessionRequest.Session -> {
                 if (BuildConfig.DEBUG) {
