@@ -49,7 +49,10 @@ class SessionListFragment : BaseFragment<FragmentSessionListBinding, SessionList
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        setBottomMargin(binding.btnExit)
+        setBottomMargin(
+            binding.btnExit,
+            resources.getDimensionPixelSize(com.davai.uikit.R.dimen.margin_8)
+        )
         dialog = MainDialogFragment.newInstance(
             title = getString(R.string.leave_session_title),
             message = getString(R.string.leave_session_dialog_message),

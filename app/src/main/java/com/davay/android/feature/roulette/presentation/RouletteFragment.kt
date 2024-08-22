@@ -66,8 +66,14 @@ class RouletteFragment :
         } else {
             bottomSheetBehaviorIntro.state = BottomSheetBehavior.STATE_HIDDEN
         }
-        setBottomMargin(binding.btnCancel)
-        setBottomMargin(binding.tvBottomText)
+        setBottomMargin(
+            binding.btnCancel,
+            resources.getDimensionPixelSize(com.davai.uikit.R.dimen.margin_4)
+        )
+        setBottomMargin(
+            binding.tvBottomText,
+            resources.getDimensionPixelSize(com.davai.uikit.R.dimen.margin_8)
+        )
     }
 
     override fun onResume() {

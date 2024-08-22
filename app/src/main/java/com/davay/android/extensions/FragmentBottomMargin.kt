@@ -7,7 +7,7 @@ import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.updateLayoutParams
 import androidx.fragment.app.Fragment
 
-fun Fragment.setBottomMargin(view: View) {
+fun Fragment.setBottomMargin(view: View, marginPx: Int = 0) {
     ViewCompat.setOnApplyWindowInsetsListener(view) { v, windowInsets ->
         val insetNavigationBar =
             windowInsets.getInsets(WindowInsetsCompat.Type.navigationBars()).bottom
@@ -17,7 +17,7 @@ fun Fragment.setBottomMargin(view: View) {
             }
         } else {
             v.updateLayoutParams<ViewGroup.MarginLayoutParams> {
-                bottomMargin = insetNavigationBar
+                bottomMargin = insetNavigationBar + marginPx
             }
         }
         windowInsets

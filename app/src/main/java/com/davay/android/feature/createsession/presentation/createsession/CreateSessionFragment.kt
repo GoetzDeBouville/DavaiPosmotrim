@@ -30,7 +30,10 @@ class CreateSessionFragment : BaseFragment<FragmentCreateSessionBinding, CreateS
         super.onViewCreated(view, savedInstanceState)
         initTabs()
         setupToolbar()
-        setBottomMargin(binding.btnContinue)
+        setBottomMargin(
+            binding.btnContinue,
+            resources.getDimensionPixelSize(com.davai.uikit.R.dimen.margin_8)
+        )
         binding.btnContinue.setOnClickListener {
             val fragmentPosition = binding.viewPager.currentItem
             var shouldNavigate = false

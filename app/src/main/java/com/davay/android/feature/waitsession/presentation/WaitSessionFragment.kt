@@ -89,7 +89,10 @@ class WaitSessionFragment : BaseFragment<FragmentWaitSessionBinding, WaitSession
             }
         }
 
-        setBottomMargin(binding.cancelButton)
+        setBottomMargin(
+            binding.cancelButton,
+            resources.getDimensionPixelSize(com.davai.uikit.R.dimen.margin_4)
+        )
 
         dialog = MainDialogFragment.newInstance(
             title = getString(R.string.leave_wait_session_title),
