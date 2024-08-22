@@ -67,6 +67,7 @@ class RouletteFragment :
             bottomSheetBehaviorIntro.state = BottomSheetBehavior.STATE_HIDDEN
         }
         setBottomMargin(binding.btnCancel)
+        setBottomMargin(binding.tvBottomText)
     }
 
     override fun onResume() {
