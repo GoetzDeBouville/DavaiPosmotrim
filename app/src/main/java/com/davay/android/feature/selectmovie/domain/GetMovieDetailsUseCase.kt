@@ -8,7 +8,7 @@ import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
 class GetMovieDetailsUseCase @Inject constructor(
-    private val repository : SelectMovieRepository
+    private val repository: SelectMovieRepository
 ) {
     operator fun invoke(positionNumber: Int): Flow<Result<MovieDetails, ErrorType>> {
         return repository.getMovieByPositionId(positionNumber)

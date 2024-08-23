@@ -6,7 +6,6 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
-import android.view.View
 import androidx.activity.OnBackPressedCallback
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
@@ -18,7 +17,7 @@ import com.davai.uikit.MainDialogFragment
 import com.davay.android.BuildConfig
 import com.davay.android.R
 import com.davay.android.base.BaseFragment
-import com.davay.android.core.domain.models.Session
+import com.davay.android.core.domain.models.SessionShort
 import com.davay.android.core.presentation.MainActivity
 import com.davay.android.databinding.FragmentWaitSessionBinding
 import com.davay.android.di.AppComponentHolder
@@ -41,8 +40,7 @@ class WaitSessionFragment : BaseFragment<FragmentWaitSessionBinding, WaitSession
     private val userAdapter = UserAdapter()
     private var sendButton: ButtonView? = null
     private var launcher: ActivityResultLauncher<Intent>? = null
-    private var session: Session? = null
-    private val movieIdList = mutableListOf<Int>()
+    private var session: SessionShort? = null
     private val dialog: MainDialogFragment by lazy {
         MainDialogFragment.newInstance(
             title = getString(R.string.leave_wait_session_title),
@@ -65,10 +63,6 @@ class WaitSessionFragment : BaseFragment<FragmentWaitSessionBinding, WaitSession
             }
             session = Json.decodeFromString(it.getString(CreateSessionViewModel.SESSION_DATA) ?: "")
         }
-        session?.let {
-            movieIdList.addAll(session!!.movieIdList)
-        }
-        viewModel.saveIdListToDb(movieIdList)
     }
 
     override fun onAttach(context: Context) {
@@ -86,7 +80,12 @@ class WaitSessionFragment : BaseFragment<FragmentWaitSessionBinding, WaitSession
         sendButton = binding.sendButton
 
         userAdapter.setItems(
-            listOf("Артем", "Руслан", "Константин", "Виктория")
+            listOf(
+                "Артем",
+                "Руслан",
+                "Константин",
+                "Виктория"
+            ) // список юзеров нужно тяеуть из сокета
         )
         initRecycler()
     }
