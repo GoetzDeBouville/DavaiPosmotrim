@@ -1,6 +1,7 @@
 package com.davay.android.feature.createsession.di
 
 import android.content.Context
+import com.davay.android.core.data.database.AppDatabase
 import com.davay.android.core.data.network.HttpKtorNetworkClient
 import com.davay.android.core.domain.api.UserDataRepository
 import com.davay.android.feature.createsession.data.CreateSessionRepositoryImpl
@@ -26,8 +27,13 @@ class CreateSessionDataModule {
     @Provides
     fun provideCreateSessionRepository(
         httpNetworkClient: HttpKtorNetworkClient<CreateSessionRequest, CreateSessionResponse>,
-        userDataRepository: UserDataRepository
+        userDataRepository: UserDataRepository,
+        appDatabase: AppDatabase
     ): CreateSessionRepository {
-        return CreateSessionRepositoryImpl(httpNetworkClient, userDataRepository)
+        return CreateSessionRepositoryImpl(
+            httpNetworkClient,
+            userDataRepository,
+            appDatabase.movieIdDao()
+        )
     }
 }
