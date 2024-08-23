@@ -94,7 +94,7 @@ class GenreViewModel @Inject constructor(
                     viewModelScope.launch(Dispatchers.Main) {
                         var handledError = mapErrorToUiState(error)
                         if (handledError == ErrorScreenState.SERVER_ERROR) {
-                            handledError = ErrorScreenState.ERROR_BUILD_SESSEION_GENRES
+                            handledError = ErrorScreenState.ERROR_BUILD_SESSION_GENRES
                         }
                         _state.update { GenreState.Error(handledError) }
                     }
