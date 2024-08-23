@@ -1,6 +1,10 @@
 package com.davay.android.feature.createsession.data
 
+import android.util.Log
+import com.davay.android.BuildConfig
 import com.davay.android.core.data.converters.toDomain
+import com.davay.android.core.data.database.MovieIdDao
+import com.davay.android.core.data.database.entity.MovieIdEntity
 import com.davay.android.core.data.network.HttpNetworkClient
 import com.davay.android.core.data.network.model.mapToErrorType
 import com.davay.android.core.domain.api.UserDataRepository
@@ -18,7 +22,8 @@ import javax.inject.Inject
 
 class CreateSessionRepositoryImpl @Inject constructor(
     private val httpNetworkClient: HttpNetworkClient<CreateSessionRequest, CreateSessionResponse>,
-    private val userDataRepository: UserDataRepository
+    private val userDataRepository: UserDataRepository,
+    private val movieIdDao: MovieIdDao
 ) : CreateSessionRepository {
     override fun getCollections(): Flow<Result<List<CompilationFilms>, ErrorType>> = flow {
         val response = httpNetworkClient.getResponse(CreateSessionRequest.CollectionList)
@@ -60,6 +65,7 @@ class CreateSessionRepositoryImpl @Inject constructor(
         )
         when (val body = response.body) {
             is CreateSessionResponse.Session -> {
+                saveMovieIdListToDb(body.value.movieIdList)
                 emit(Result.Success(body.value.toDomain()))
             }
 
@@ -67,5 +73,28 @@ class CreateSessionRepositoryImpl @Inject constructor(
                 emit(Result.Error(response.resultCode.mapToErrorType()))
             }
         }
+    }
+
+    /**
+     * Метод производит очистку таблицы с id с последующей записью в нее списка обновленных id
+     */
+    override suspend fun saveMovieIdListToDb(idList: List<Int>) {
+        @Suppress("TooGenericExceptionCaught")
+        try {
+            if (movieIdDao.getMovieIdsCount() > 0) {
+                movieIdDao.clearAndResetTable()
+            }
+            idList.forEach { id ->
+                movieIdDao.insertMovieId(MovieIdEntity(movieId = id))
+            }
+        } catch (e: Exception) {
+            if (BuildConfig.DEBUG) {
+                Log.v(TAG, "exception -> $e")
+            }
+        }
+    }
+
+    private companion object {
+        val TAG = CreateSessionRepositoryImpl::class.simpleName
     }
 }

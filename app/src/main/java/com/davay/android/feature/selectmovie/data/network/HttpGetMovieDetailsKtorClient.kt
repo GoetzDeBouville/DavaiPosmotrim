@@ -12,8 +12,8 @@ import javax.inject.Inject
 class HttpGetMovieDetailsKtorClient @Inject constructor(
     context: Context,
     private val httpClient: HttpClient
-) : HttpKtorNetworkClient <GetMovieRequest, GetMovieResponse>(context) {
-    override suspend fun sendResponseByType(request: GetMovieRequest): HttpResponse {
+) : HttpKtorNetworkClient<GetMovieRequest, GetMovieResponse>(context) {
+    override suspend fun sendRequestByType(request: GetMovieRequest): HttpResponse {
         return httpClient.get {
             url {
                 path(request.path)

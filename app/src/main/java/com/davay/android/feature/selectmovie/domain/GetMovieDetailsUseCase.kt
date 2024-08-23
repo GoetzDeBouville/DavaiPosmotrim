@@ -10,7 +10,7 @@ import javax.inject.Inject
 class GetMovieDetailsUseCase @Inject constructor(
     private val repository : SelectMovieRepository
 ) {
-    fun execute(positionNumber: Int): Flow<Result<MovieDetails, ErrorType>> {
+    operator fun invoke(positionNumber: Int): Flow<Result<MovieDetails, ErrorType>> {
         return repository.getMovieByPositionId(positionNumber)
     }
 }
