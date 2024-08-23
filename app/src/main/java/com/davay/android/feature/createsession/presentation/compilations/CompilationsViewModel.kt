@@ -106,7 +106,7 @@ class CompilationsViewModel @Inject constructor(
                     viewModelScope.launch(Dispatchers.Main) {
                         var handledError = mapErrorToUiState(error)
                         if (handledError == ErrorScreenState.SERVER_ERROR) {
-                            handledError = ErrorScreenState.ERROR_BUILD_SESSEION_COLLECTIONS
+                            handledError = ErrorScreenState.ERROR_BUILD_SESSION_COLLECTIONS
                         }
                         _state.update { CompilationsState.Error(handledError) }
                     }
