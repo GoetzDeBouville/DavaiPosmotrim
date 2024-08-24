@@ -161,18 +161,13 @@ class WaitSessionFragment : BaseFragment<FragmentWaitSessionBinding, WaitSession
             } else {
                 if (viewModel.isFirstTimeLaunch()) {
                     viewModel.markFirstTimeLaunch()
-                    val bundle = Bundle().apply {
-                        putInt(
-                            OnboardingFragment.ONBOARDING_KEY,
-                            OnboardingFragment.ONBOARDING_INSTRUCTION_SET
-                        )
-                    }
-                    viewModel.navigate(
-                        R.id.action_waitSessionFragment_to_onboardingFragment,
-                        bundle
-                    )
+                    val action = WaitSessionFragmentDirections
+                        .actionWaitSessionFragmentToOnboardingFragment(OnboardingFragment.ONBOARDING_INSTRUCTION_SET)
+                    viewModel.navigate(action)
                 } else {
-                    viewModel.navigate(R.id.action_waitSessionFragment_to_selectMovieFragment)
+                    val action = WaitSessionFragmentDirections
+                        .actionWaitSessionFragmentToSelectMovieFragment()
+                    viewModel.navigate(action)
                 }
             }
         }

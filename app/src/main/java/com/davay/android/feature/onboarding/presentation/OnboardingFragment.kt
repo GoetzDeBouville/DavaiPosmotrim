@@ -88,14 +88,14 @@ class OnboardingFragment : BaseFragment<FragmentOnboardingBinding, OnboardingVie
                 binding.viewpager.setCurrentItem(nextFragment, true)
             } else {
                // viewModel.navigate(arrayOfIds.last()[0])
-                val action = OnboardingFragmentDirections.actionOnboardingFragmentToNextFragment(arrayOfIds.last()[0])
+//                val action = OnboardingFragmentDirections.actionOnboardingFragmentToNextFragment(arrayOfIds.last()[0])
+                val action = OnboardingFragmentDirections.actionOnboardingFragmentToRegistrationFragment()
                 viewModel.navigate(action)
             }
         }
     }
 
     companion object {
-        const val ONBOARDING_KEY = "onboarding_key"
         const val ONBOARDING_MAIN_SET = 0
         const val ONBOARDING_INSTRUCTION_SET = 1
     }
