@@ -33,8 +33,6 @@ class SessionListFragment : BaseFragment<FragmentSessionListBinding, SessionList
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        //val args: SessionListFragmentArgs by navArgs()
-        //val etCode = args.etCode
 
         requireActivity().onBackPressedDispatcher.addCallback(
             this,

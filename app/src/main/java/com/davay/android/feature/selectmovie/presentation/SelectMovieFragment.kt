@@ -110,7 +110,9 @@ class SelectMovieFragment :
             title = getString(R.string.leave_session_title),
             message = getString(R.string.select_movies_leave_session_dialog_message),
             yesAction = {
-                viewModel.clearBackStackToMainAndNavigate(MainFragmentDirections.actionMainFragmentToMatchedSessionListFragment())
+                viewModel.clearBackStackToMainAndNavigate(
+                    MainFragmentDirections.actionMainFragmentToMatchedSessionListFragment()
+                )
             }
         )
         dialog.show(parentFragmentManager, null)
@@ -127,7 +129,9 @@ class SelectMovieFragment :
             message = getString(R.string.leave_session_dialog_message_session_complited),
             showConfirmBlock = true,
             yesAction = {
-                viewModel.clearBackStackToMainAndNavigate(MainFragmentDirections.actionMainFragmentToMatchedSessionListFragment())
+                viewModel.clearBackStackToMainAndNavigate(
+                    MainFragmentDirections.actionMainFragmentToMatchedSessionListFragment()
+                )
             }
         )
         dialog.show(parentFragmentManager, null)

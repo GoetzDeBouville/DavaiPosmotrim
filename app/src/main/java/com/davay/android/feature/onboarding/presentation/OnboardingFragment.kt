@@ -29,9 +29,6 @@ class OnboardingFragment : BaseFragment<FragmentOnboardingBinding, OnboardingVie
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
-//            val setNumber = it.getInt(ONBOARDING_KEY, ONBOARDING_INSTRUCTION_SET)
-//            if (setNumber == ONBOARDING_MAIN_SET) {
-//                arrayOfIds = dataProvider.getMainOnboardingData()
             val args = OnboardingFragmentArgs.fromBundle(it)
             if (args.setNumber == ONBOARDING_MAIN_SET) {
                 arrayOfIds = dataProvider.getMainOnboardingData()
@@ -87,8 +84,6 @@ class OnboardingFragment : BaseFragment<FragmentOnboardingBinding, OnboardingVie
             if (nextFragment < fragmentList.size) {
                 binding.viewpager.setCurrentItem(nextFragment, true)
             } else {
-               // viewModel.navigate(arrayOfIds.last()[0])
-//                val action = OnboardingFragmentDirections.actionOnboardingFragmentToNextFragment(arrayOfIds.last()[0])
                 val action = OnboardingFragmentDirections.actionOnboardingFragmentToRegistrationFragment()
                 viewModel.navigate(action)
             }
