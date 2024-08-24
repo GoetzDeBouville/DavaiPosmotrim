@@ -84,9 +84,8 @@ class MatchedSessionListFragment :
     }
 
     private fun navigateToSessionMovies(id: String) {
-        val bundle = Bundle().apply {
-            putString(MatchedSessionFragment.SESSION_ID, id)
-        }
-        viewModel.navigate(R.id.action_matchedSessionListFragment_to_matchedSessionFragment, bundle)
+        val action = MatchedSessionListFragmentDirections
+            .actionMatchedSessionListFragmentToMatchedSessionFragment(id)
+        viewModel.navigate(action)
     }
 }

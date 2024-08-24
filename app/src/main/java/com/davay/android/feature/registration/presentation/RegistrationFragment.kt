@@ -99,7 +99,7 @@ class RegistrationFragment :
     private fun buttonClicked() {
         viewModel.buttonClicked(binding.etName.text)
         if (viewModel.state.value == RegistrationState.SUCCESS) {
-            viewModel.navigate(R.id.action_registrationFragment_to_mainFragment)
+            viewModel.navigate(RegistrationFragmentDirections.actionRegistrationFragmentToMainFragment())
         }
     }
 

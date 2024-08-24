@@ -33,9 +33,6 @@ class MovieCardFragment :
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-//        arguments?.let {
-//            movieDetails = Json.decodeFromString(it.getString(MOVIE_DETAILS_KEY) ?: "")
-//        }
         val args: MovieCardFragmentArgs by navArgs()
         movieDetails = Json.decodeFromString(args.movieDetails)
     }
@@ -127,7 +124,6 @@ class MovieCardFragment :
     }
 
     companion object {
-        const val MOVIE_DETAILS_KEY = "movie_details_key"
         private const val BOTTOMSHEET_PEEK_HEIGHT_112_DP = 112
         private const val MARGIN_TOP_16_DP = 16
     }

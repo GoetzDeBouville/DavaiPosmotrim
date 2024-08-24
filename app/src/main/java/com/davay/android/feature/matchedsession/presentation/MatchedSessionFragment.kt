@@ -19,7 +19,6 @@ import com.davay.android.feature.coincidences.presentation.adapter.MoviesGridAda
 import com.davay.android.feature.matchedsession.di.DaggerMatchedSessionFragmentComponent
 import com.davay.android.feature.matchedsession.presentation.adapter.CustomItemDecorator
 import com.davay.android.feature.matchedsession.presentation.adapter.UserAdapter
-import com.davay.android.feature.moviecard.presentation.MovieCardFragment
 import com.davay.android.utils.presentation.UiErrorHandler
 import com.davay.android.utils.presentation.UiErrorHandlerImpl
 import com.google.android.flexbox.AlignItems
@@ -38,13 +37,15 @@ class MatchedSessionFragment :
     ) {
 
     override val viewModel: MatchedSessionViewModel by injectViewModel<MatchedSessionViewModel>()
+
     private val moviesGridAdapter = MoviesGridAdapter { movieDetails ->
-        val movie = Json.encodeToString(movieDetails)
-        val bundle = Bundle().apply {
-            putString(MovieCardFragment.MOVIE_DETAILS_KEY, movie)
-        }
-        viewModel.navigate(R.id.action_matchedSessionFragment_to_movieCardFragment, bundle)
+        val movieJson = Json.encodeToString(movieDetails)
+        val action = MatchedSessionFragmentDirections
+            .actionMatchedSessionFragmentToMovieCardFragment(movieJson)
+        viewModel.navigate(action)
     }
+
+
     private val userAdapter = UserAdapter()
     private var sessionId = ""
     private val errorHandler: UiErrorHandler = UiErrorHandlerImpl()

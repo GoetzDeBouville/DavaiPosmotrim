@@ -101,6 +101,10 @@
         android:name="com.davay.android.feature.onboarding.presentation.OnboardingFragment"
         android:label="fragment_onboarding"
         tools:layout="@layout/fragment_onboarding">
+        <argument
+            android:name="setNumber"
+            app:argType="integer"
+            android:defaultValue="1" />
         <action
             android:id="@+id/action_onboardingFragment_to_registrationFragment"
             app:destination="@id/registrationFragment"
@@ -225,7 +229,11 @@
             app:enterAnim="@android:anim/fade_in"
             app:exitAnim="@android:anim/fade_out"
             app:popEnterAnim="@android:anim/fade_in"
-            app:popExitAnim="@android:anim/fade_out" />
+            app:popExitAnim="@android:anim/fade_out" >
+        <argument
+            android:name="sessionId"
+            app:argType="string" />
+        </action>
     </fragment>
     <fragment
         android:id="@+id/matchedSessionFragment"

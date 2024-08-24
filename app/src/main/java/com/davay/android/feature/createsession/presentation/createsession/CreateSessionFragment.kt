@@ -42,7 +42,8 @@ class CreateSessionFragment : BaseFragment<FragmentCreateSessionBinding, CreateS
                 }
             }
             if (shouldNavigate) {
-                viewModel.navigate(R.id.action_createSessionFragment_to_waitSessionFragment)
+                viewModel.navigate(CreateSessionFragmentDirections.actionCreateSessionFragmentToWaitSessionFragment())
+
             } else {
                 showBanner()
             }

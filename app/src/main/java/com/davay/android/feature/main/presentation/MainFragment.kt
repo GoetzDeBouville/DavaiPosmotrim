@@ -7,7 +7,6 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.updateLayoutParams
 import com.davai.uikit.MainScreenButtonView
-import com.davay.android.R
 import com.davay.android.base.BaseFragment
 import com.davay.android.databinding.FragmentMainBinding
 import com.davay.android.di.AppComponentHolder
@@ -57,7 +56,8 @@ class MainFragment :
     override fun subscribe() {
         with(binding) {
             msbFavorite.setOnClickListener {
-                viewModel.navigate(R.id.action_mainFragment_to_matchedSessionListFragment)
+                viewModel.navigate(MainFragmentDirections.actionMainFragmentToMatchedSessionListFragment())
+
             }
             msbJoinSession.setOnClickListener {
                 joinSession()
@@ -83,7 +83,7 @@ class MainFragment :
     }
 
     private fun joinSession() {
-        viewModel.navigate(R.id.action_mainFragment_to_sessionConnectionFragment)
+        viewModel.navigate(MainFragmentDirections.actionMainFragmentToSessionConnectionFragment())
     }
 
     private fun changeName(oldName: String) {
@@ -92,7 +92,7 @@ class MainFragment :
     }
 
     private fun createSession() {
-        viewModel.navigate(R.id.action_mainFragment_to_createSessionFragment)
+        viewModel.navigate(MainFragmentDirections.actionMainFragmentToCreateSessionFragment())
     }
 
     private fun updateUserName(newName: String?) {

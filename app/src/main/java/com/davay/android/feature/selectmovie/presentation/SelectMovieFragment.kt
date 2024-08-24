@@ -14,6 +14,7 @@ import com.davay.android.databinding.FragmentSelectMovieBinding
 import com.davay.android.di.AppComponentHolder
 import com.davay.android.di.ScreenComponent
 import com.davay.android.extensions.SwipeDirection
+import com.davay.android.feature.main.presentation.MainFragmentDirections
 import com.davay.android.feature.match.presentation.MatchBottomSheetFragment
 import com.davay.android.feature.selectmovie.di.DaggerSelectMovieFragmentComponent
 import com.davay.android.feature.selectmovie.presentation.adapters.MovieCardAdapter
@@ -80,7 +81,7 @@ class SelectMovieFragment :
         backPressedDispatcher()
         binding.toolbarviewHeader.apply {
             setEndIconClickListener {
-                viewModel.navigate(R.id.action_selectMovieFragment_to_coincidencesFragment)
+                viewModel.navigate(SelectMovieFragmentDirections.actionSelectMovieFragmentToCoincidencesFragment())
             }
             setStartIconClickListener {
                 showDialogAndNavigateToHistorySessions()
@@ -109,7 +110,7 @@ class SelectMovieFragment :
             title = getString(R.string.leave_session_title),
             message = getString(R.string.select_movies_leave_session_dialog_message),
             yesAction = {
-                viewModel.clearBackStackToMainAndNavigate(R.id.action_mainFragment_to_matchedSessionListFragment)
+                viewModel.clearBackStackToMainAndNavigate(MainFragmentDirections.actionMainFragmentToMatchedSessionListFragment())
             }
         )
         dialog.show(parentFragmentManager, null)
@@ -126,7 +127,7 @@ class SelectMovieFragment :
             message = getString(R.string.leave_session_dialog_message_session_complited),
             showConfirmBlock = true,
             yesAction = {
-                viewModel.clearBackStackToMainAndNavigate(R.id.action_mainFragment_to_matchedSessionListFragment)
+                viewModel.clearBackStackToMainAndNavigate(MainFragmentDirections.actionMainFragmentToMatchedSessionListFragment())
             }
         )
         dialog.show(parentFragmentManager, null)
