@@ -1,12 +1,11 @@
 package com.davay.android.base
 
-import android.os.Bundle
 import android.util.Log
-import androidx.annotation.IdRes
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import androidx.navigation.NavDirections
 import androidx.navigation.NavOptions
 import com.commit451.translationviewdraghelper.BuildConfig
 import com.davay.android.R
@@ -22,20 +21,12 @@ abstract class BaseViewModel : ViewModel() {
     private val _navigation = MutableLiveData<Event<NavigationCommand>>()
     val navigation: LiveData<Event<NavigationCommand>> get() = _navigation
 
-    fun navigate(@IdRes navDirections: Int) {
+    fun navigate(navDirections: NavDirections) {
         _navigation.value = Event(NavigationCommand.ToDirection(navDirections))
     }
 
-    fun navigate(@IdRes navDirections: Int, bundle: Bundle) {
-        _navigation.value = Event(NavigationCommand.ToDirection(navDirections, bundle))
-    }
-
-    fun navigate(@IdRes navDirections: Int, navOptions: NavOptions) {
-        _navigation.value = Event(NavigationCommand.ToDirection(navDirections, null, navOptions))
-    }
-
-    fun navigate(@IdRes navDirections: Int, bundle: Bundle, navOptions: NavOptions) {
-        _navigation.value = Event(NavigationCommand.ToDirection(navDirections, bundle, navOptions))
+    fun navigate(navDirections: NavDirections, navOptions: NavOptions) {
+        _navigation.value = Event(NavigationCommand.ToDirection(navDirections, navOptions))
     }
 
     fun navigateBack() {
@@ -45,17 +36,22 @@ abstract class BaseViewModel : ViewModel() {
     /**
      * Метод чистит backstack до MainFragment и делает сооветствующий переход
      */
-    fun clearBackStackToMain() {
+
+    private fun clearBackStackToMain(navDirections: NavDirections) {
         val navOptions = NavOptions.Builder()
             .setPopUpTo(R.id.main_navigation_graph, inclusive = true)
             .build()
 
-        navigate(R.id.mainFragment, navOptions)
+        _navigation.value = Event(
+            NavigationCommand.ToDirection(
+                navDirections,
+                navOptions
+            )
+        )
     }
 
-    fun clearBackStackToMainAndNavigate(@IdRes navDirections: Int) {
-        clearBackStackToMain()
-        navigate(navDirections)
+    fun clearBackStackToMainAndNavigate(navDirections: NavDirections) {
+        clearBackStackToMain(navDirections)
     }
 
     protected fun mapErrorToUiState(errorType: ErrorType): ErrorScreenState {
