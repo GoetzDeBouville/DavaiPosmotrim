@@ -22,8 +22,6 @@ import com.davay.android.di.ScreenComponent
 import com.davay.android.feature.coincidences.bottomsheetdialog.RouletteBottomSheetDialogFragment
 import com.davay.android.feature.coincidences.di.DaggerCoincidencesFragmentComponent
 import com.davay.android.feature.coincidences.presentation.adapter.MoviesGridAdapter
-import com.davay.android.feature.moviecard.presentation.MovieCardFragment
-import com.davay.android.feature.roulette.presentation.RouletteFragment.Companion.ROULETTE_INITIATOR
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import kotlinx.serialization.encodeToString
@@ -37,10 +35,9 @@ class CoincidencesFragment : BaseFragment<FragmentCoincidencesBinding, Coinciden
 
     private val moviesGridAdapter = MoviesGridAdapter { movieDetails ->
         val movie = Json.encodeToString(movieDetails)
-        val bundle = Bundle().apply {
-            putString(MovieCardFragment.MOVIE_DETAILS_KEY, movie)
-        }
-        viewModel.navigate(R.id.action_coincidencesFragment_to_movieCardFragment, bundle)
+        val action = CoincidencesFragmentDirections
+            .actionCoincidencesFragmentToMovieCardFragment(movie)
+        viewModel.navigate(action)
     }
 
     private val bottomSheetFragmentLifecycleCallbacks =
@@ -120,10 +117,9 @@ class CoincidencesFragment : BaseFragment<FragmentCoincidencesBinding, Coinciden
             setEndIconClickListener {
                 val coincidences = viewModel.getCoincidencesCount()
                 if (coincidences >= MIN_COINCIDENCES_FOR_NAVIGATION_3) {
-                    val bundle = Bundle().apply {
-                        putBoolean(ROULETTE_INITIATOR, true)
-                    }
-                    viewModel.navigate(R.id.action_coincidencesFragment_to_rouletteFragment, bundle)
+                    val action = CoincidencesFragmentDirections
+                        .actionCoincidencesFragmentToRouletteFragment(true)
+                    viewModel.navigate(action)
                 } else {
                     val activity = requireActivity() as MainActivity
                     activity.updateBanner(

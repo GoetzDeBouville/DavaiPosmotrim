@@ -6,6 +6,7 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearSnapHelper
 import androidx.recyclerview.widget.RecyclerView
 import com.davay.android.R
@@ -85,9 +86,10 @@ class RouletteFragment :
      *  Для остальных пусто или false.
      */
     private fun handleStartFragment() {
-        val isInitiator: Boolean? = arguments?.getBoolean(ROULETTE_INITIATOR)
-        if (isInitiator == true) {
-            arguments?.remove(ROULETTE_INITIATOR)
+        val args: RouletteFragmentArgs by navArgs()
+        val isInitiator = args.rouletteInitiator
+
+        if (isInitiator) {
             initBottomSheetIntro()
         } else {
             bottomSheetBehaviorIntro.state = BottomSheetBehavior.STATE_HIDDEN
@@ -243,6 +245,5 @@ class RouletteFragment :
     companion object {
         private const val DELAY_TIME_MS_1000 = 1000L
         private const val ROULETTE_SCROLL_COEFFICIENT = 4
-        const val ROULETTE_INITIATOR = "ROULETTE_INITIATOR"
     }
 }

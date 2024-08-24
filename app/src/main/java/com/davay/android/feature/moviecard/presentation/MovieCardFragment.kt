@@ -2,6 +2,7 @@ package com.davay.android.feature.moviecard.presentation
 
 import android.os.Bundle
 import androidx.core.view.isVisible
+import androidx.navigation.fragment.navArgs
 import com.davai.extensions.dpToPx
 import com.davay.android.R
 import com.davay.android.base.BaseFragment
@@ -32,9 +33,11 @@ class MovieCardFragment :
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        arguments?.let {
-            movieDetails = Json.decodeFromString(it.getString(MOVIE_DETAILS_KEY) ?: "")
-        }
+//        arguments?.let {
+//            movieDetails = Json.decodeFromString(it.getString(MOVIE_DETAILS_KEY) ?: "")
+//        }
+        val args: MovieCardFragmentArgs by navArgs()
+        movieDetails = Json.decodeFromString(args.movieDetails)
     }
 
     override fun initViews() {
