@@ -39,7 +39,7 @@ abstract class BaseViewModel : ViewModel() {
 
     private fun clearBackStackToMain(navDirections: NavDirections) {
         val navOptions = NavOptions.Builder()
-            .setPopUpTo(R.id.main_navigation_graph, inclusive = true)
+            .setPopUpTo(R.id.mainFragment, inclusive = false)
             .build()
 
         _navigation.value = Event(
