@@ -18,6 +18,7 @@ class NetworkUserDataRepositoryImpl(
     private val userDataRepository: UserDataRepository
 ) : NetworkUserDataRepository {
     private var isRegistration = false
+    private var userId = userDataRepository.getUserId()
 
     override fun setUserData(userName: String): Flow<Result<Unit, ErrorType>> = flow {
         val userData = UserDto(userId = getUserId(), name = userName)
@@ -32,15 +33,11 @@ class NetworkUserDataRepositoryImpl(
     }
 
     private fun getUserId() =
-        when (val userId = userDataRepository.getUserId()) {
-            "" -> {
-                val newUserId = randomUUID().toString()
-                userDataRepository.setUserId(newUserId)
-                isRegistration = true
-                newUserId
-            }
-
-            else -> userId
+        userId.ifEmpty {
+            isRegistration = true
+            userId = randomUUID().toString()
+            userDataRepository.setUserId(userId)
+            userId
         }
 
     private suspend fun getResponse(userData: UserDto) =
