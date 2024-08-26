@@ -11,12 +11,14 @@ import com.davay.android.R
 
 class OnboardingFirstFragment : Fragment() {
 
-    private var contentIds: IntArray? = null
+   // private var contentIds: IntArray? = null
+   private var onboardingItem: OnboardingDataProvider.OnboardingItem? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
-            contentIds = it.getIntArray(ARG_CONTENT_IDS)
+           // contentIds = it.getIntArray(ARG_CONTENT_IDS)
+            onboardingItem = OnboardingFirstFragmentArgs.fromBundle(it).onboardingItem
         }
     }
 
@@ -34,22 +36,31 @@ class OnboardingFirstFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        contentIds?.let {
-            view.findViewById<TextView>(R.id.tv_top_title).setText(it[0])
-            view.findViewById<ImageView>(R.id.iv_main_image).setImageResource(it[1])
-            view.findViewById<TextView>(R.id.tv_bottom_title).setText(it[2])
+       // contentIds?.let {
+//            view.findViewById<TextView>(R.id.tv_top_title).setText(it[0])
+//            view.findViewById<ImageView>(R.id.iv_main_image).setImageResource(it[1])
+//            view.findViewById<TextView>(R.id.tv_bottom_title).setText(it[2])
+//        }
+        onboardingItem?.let { item ->
+            item.textResId?.let { view.findViewById<TextView>(R.id.tv_top_title).setText(it) }
+            item.imageResId?.let { view.findViewById<ImageView>(R.id.iv_main_image).setImageResource(it) }
+            item.descriptionResId?.let { view.findViewById<TextView>(R.id.tv_bottom_title).setText(it) }
         }
     }
 
     companion object {
-        private const val ARG_CONTENT_IDS = "content_ids"
+        //private const val ARG_CONTENT_IDS = "content_ids"
 
         @JvmStatic
-        fun newInstance(contentIds: IntArray) =
+//        fun newInstance(contentIds: IntArray) =
+//            OnboardingFirstFragment().apply {
+//                arguments = Bundle().apply {
+//                    putIntArray(ARG_CONTENT_IDS, contentIds)
+//                }
+//            }
+        fun newInstance(onboardingItem: OnboardingDataProvider.OnboardingItem) =
             OnboardingFirstFragment().apply {
-                arguments = Bundle().apply {
-                    putIntArray(ARG_CONTENT_IDS, contentIds)
-                }
+                arguments = OnboardingFirstFragmentArgs.Builder(onboardingItem).build().toBundle()
             }
     }
 }

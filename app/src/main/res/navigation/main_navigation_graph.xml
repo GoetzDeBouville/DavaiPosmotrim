@@ -260,4 +260,13 @@
         android:name="movieDetails"
         app:argType="string" />
     </fragment>
+    <fragment
+        android:id="@+id/onboardingFirstFragment"
+        android:name="com.davay.android.feature.onboarding.presentation.OnboardingFirstFragment"
+        android:label="fragment_onboarding_first"
+        tools:layout="@layout/fragment_onboarding_first">
+        <argument
+            android:name="onboardingItem"
+            app:argType="com.example.OnboardingItem" />
+    </fragment>
 </navigation>
