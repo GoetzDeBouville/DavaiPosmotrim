@@ -9,7 +9,7 @@ import javax.inject.Inject
 class RegistrationUseCase @Inject constructor(
     private val registrationRepository: NetworkUserDataRepository
 ) {
-    fun setUserData(userName: String): Flow<Result<Unit, ErrorType>> {
+    fun execute(userName: String): Flow<Result<Unit, ErrorType>> {
         return registrationRepository.setUserData(userName)
     }
 }

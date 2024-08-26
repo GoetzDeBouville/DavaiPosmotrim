@@ -21,7 +21,7 @@ class RegistrationViewModel @Inject constructor(
         if (state.value == UserNameState.CORRECT) {
             _state.value = UserNameState.LOADING
             runSafelyUseCase(
-                useCaseFlow = registration.setUserData(text.toString()),
+                useCaseFlow = registration.execute(text.toString()),
                 onSuccess = { _ ->
                     _state.value = UserNameState.SUCCESS
                 },

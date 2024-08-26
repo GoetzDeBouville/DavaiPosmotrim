@@ -127,7 +127,7 @@ class ChangeNameBottomSheetFragment :
         if (state == UserNameState.SUCCESS) {
             val newName = binding.etName.text.toString()
             setFragmentResult(REQUEST_KEY, bundleOf(BUNDLE_KEY_NAME to newName))
-            bottomSheetBehavior!!.state = BottomSheetBehavior.STATE_HIDDEN
+            bottomSheetBehavior?.state = BottomSheetBehavior.STATE_HIDDEN
         }
     }
 
