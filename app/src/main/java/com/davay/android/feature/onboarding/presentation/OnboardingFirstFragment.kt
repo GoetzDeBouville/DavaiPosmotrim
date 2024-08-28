@@ -7,18 +7,17 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.navArgs
 import com.davay.android.R
 
 class OnboardingFirstFragment : Fragment() {
 
     private var onboardingItem: OnboardingItem? = null
+    private val args: OnboardingFirstFragmentArgs by navArgs()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        arguments?.let {
-            val args = OnboardingFirstFragmentArgs.fromBundle(it)
-            onboardingItem = args.onboardingItem
-        }
+        onboardingItem = args.onboardingItem
     }
 
     override fun onCreateView(
