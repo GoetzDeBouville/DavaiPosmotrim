@@ -3,6 +3,7 @@ package com.davay.android.feature.onboarding.presentation
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.navArgs
 import androidx.viewpager2.widget.ViewPager2
 import com.davay.android.R
 import com.davay.android.base.BaseFragment
@@ -28,11 +29,9 @@ class OnboardingFragment : BaseFragment<FragmentOnboardingBinding, OnboardingVie
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        arguments?.let {
-            val args = OnboardingFragmentArgs.fromBundle(it)
-            if (args.setNumber == ONBOARDING_MAIN_SET) {
-                onboardingItems = dataProvider.getMainOnboardingData()
-            }
+        val args: OnboardingFragmentArgs by navArgs()
+        if (args.setNumber == ONBOARDING_MAIN_SET) {
+            onboardingItems = dataProvider.getMainOnboardingData()
         }
     }
 
