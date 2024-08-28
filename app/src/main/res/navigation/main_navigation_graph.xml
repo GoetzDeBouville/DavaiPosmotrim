@@ -258,7 +258,7 @@
         tools:layout="@layout/fragment_select_movie" >
     <argument
         android:name="movieDetails"
-        app:argType="string" />
+        app:argType="com.davay.android.core.domain.models.MovieDetails" />
     </fragment>
     <fragment
         android:id="@+id/onboardingFirstFragment"

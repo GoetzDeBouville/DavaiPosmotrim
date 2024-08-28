@@ -16,7 +16,6 @@ import com.davay.android.feature.selectmovie.presentation.AdditionalInfoInflater
 import com.davay.android.utils.MovieDetailsHelper
 import com.davay.android.utils.MovieDetailsHelperImpl
 import com.google.android.material.bottomsheet.BottomSheetBehavior
-import kotlinx.serialization.json.Json
 
 class MovieCardFragment :
     BaseFragment<FragmentSelectMovieBinding, BaseViewModel>(FragmentSelectMovieBinding::inflate) {
@@ -34,7 +33,7 @@ class MovieCardFragment :
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val args: MovieCardFragmentArgs by navArgs()
-        movieDetails = Json.decodeFromString(args.movieDetails)
+        movieDetails = args.movieDetails
     }
 
     override fun initViews() {
