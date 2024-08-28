@@ -1,3 +1,5 @@
+@file:Suppress("DEPRECATION")
+
 package com.davay.android.feature.match.presentation
 
 import android.app.Dialog
@@ -66,6 +68,7 @@ class MatchBottomSheetFragment(private val action: (() -> Unit)? = null) :
                 bottomSheet.layoutParams?.height = ViewGroup.LayoutParams.MATCH_PARENT
             }
 
+            @Deprecated("Deprecated in Java")
             override fun onBackPressed() {
                 action?.invoke()
                 super.onBackPressed()
