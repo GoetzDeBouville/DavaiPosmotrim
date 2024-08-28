@@ -12,13 +12,16 @@ import com.davay.android.R
 class OnboardingFirstFragment : Fragment() {
 
    // private var contentIds: IntArray? = null
-   private var onboardingItem: OnboardingDataProvider.OnboardingItem? = null
+   private var onboardingItem: OnboardingItem? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
            // contentIds = it.getIntArray(ARG_CONTENT_IDS)
-            onboardingItem = OnboardingFirstFragmentArgs.fromBundle(it).onboardingItem
+           // onboardingItem = OnboardingFirstFragmentArgs.fromBundle(it).onboardingItem
+            //onboardingItem = OnboardingDataProvider.OnboardingItem()
+            val args = OnboardingFirstFragmentArgs.fromBundle(it)
+            onboardingItem = args.onboardingItem
         }
     }
 
@@ -58,9 +61,13 @@ class OnboardingFirstFragment : Fragment() {
 //                    putIntArray(ARG_CONTENT_IDS, contentIds)
 //                }
 //            }
-        fun newInstance(onboardingItem: OnboardingDataProvider.OnboardingItem) =
+//        fun newInstance(onboardingItem: OnboardingDataProvider.OnboardingItem) =
+//            OnboardingFirstFragment().apply {
+//                arguments = OnboardingFirstFragmentArgs(onboardingItem).toBundle()
+//            }
+        fun newInstance(onboardingItem: OnboardingItem) =
             OnboardingFirstFragment().apply {
-                arguments = OnboardingFirstFragmentArgs.Builder(onboardingItem).build().toBundle()
+                arguments = OnboardingFirstFragmentArgs(onboardingItem).toBundle()
             }
     }
 }

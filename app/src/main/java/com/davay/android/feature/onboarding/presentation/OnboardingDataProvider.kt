@@ -1,6 +1,5 @@
 package com.davay.android.feature.onboarding.presentation
 
-import androidx.navigation.NavDirections
 import com.davay.android.R
 
 //class OnboardingDataProvider {
@@ -93,11 +92,4 @@ class OnboardingDataProvider {
                 action = OnboardingFragmentDirections.actionOnboardingFragmentToSelectMovieFragment()
             )
         )
-
-    data class OnboardingItem(
-        val textResId: Int? = null,
-        val imageResId: Int? = null,
-        val descriptionResId: Int? = null,
-        val action: NavDirections? = null
-    )
 }

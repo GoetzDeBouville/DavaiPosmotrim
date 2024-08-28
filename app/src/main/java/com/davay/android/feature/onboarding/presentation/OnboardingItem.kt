@@ -5,7 +5,6 @@ import androidx.navigation.NavDirections
 import kotlinx.parcelize.Parcelize
 import kotlinx.parcelize.RawValue
 
-
 @Parcelize
 data class OnboardingItem (
     val textResId: Int? = null,

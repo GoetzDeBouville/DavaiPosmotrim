@@ -267,6 +267,6 @@
         tools:layout="@layout/fragment_onboarding_first">
         <argument
             android:name="onboardingItem"
-            app:argType="com.example.OnboardingItem" />
+            app:argType="com.davay.android.feature.onboarding.presentation.OnboardingItem" />
     </fragment>
 </navigation>
