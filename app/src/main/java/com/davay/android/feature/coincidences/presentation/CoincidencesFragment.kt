@@ -24,8 +24,6 @@ import com.davay.android.feature.coincidences.di.DaggerCoincidencesFragmentCompo
 import com.davay.android.feature.coincidences.presentation.adapter.MoviesGridAdapter
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
-import kotlinx.serialization.encodeToString
-import kotlinx.serialization.json.Json
 
 class CoincidencesFragment : BaseFragment<FragmentCoincidencesBinding, CoincidencesViewModel>(
     FragmentCoincidencesBinding::inflate
@@ -34,9 +32,8 @@ class CoincidencesFragment : BaseFragment<FragmentCoincidencesBinding, Coinciden
     override val viewModel: CoincidencesViewModel by injectViewModel<CoincidencesViewModel>()
 
     private val moviesGridAdapter = MoviesGridAdapter { movieDetails ->
-        val movie = Json.encodeToString(movieDetails)
         val action = CoincidencesFragmentDirections
-            .actionCoincidencesFragmentToMovieCardFragment(movie)
+            .actionCoincidencesFragmentToMovieCardFragment(movieDetails)
         viewModel.navigate(action)
     }
 

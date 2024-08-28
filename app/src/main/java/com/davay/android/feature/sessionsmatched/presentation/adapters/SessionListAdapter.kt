@@ -8,7 +8,7 @@ import com.davay.android.databinding.ItemSessionBinding
 import com.davay.android.extensions.formatDate
 
 class SessionListAdapter(
-    private val onSessionClickListener: ((id: String) -> Unit)?
+    private val onSessionClickListener: ((session: Session) -> Unit)?
 ) : RecyclerView.Adapter<SessionListAdapter.SessionListViewHolder>() {
 
     private val sessionList = mutableListOf<Session>()
@@ -40,7 +40,7 @@ class SessionListAdapter(
         viewHolder.itemView.setOnClickListener {
             val position = viewHolder.adapterPosition
             if (position != RecyclerView.NO_POSITION) {
-                onSessionClickListener?.invoke(sessionList[position].id)
+                onSessionClickListener?.invoke(sessionList[position])
             }
         }
         return viewHolder

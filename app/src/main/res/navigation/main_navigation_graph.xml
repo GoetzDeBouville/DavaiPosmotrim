@@ -234,8 +234,8 @@
             app:popEnterAnim="@android:anim/fade_in"
             app:popExitAnim="@android:anim/fade_out" >
         <argument
-            android:name="sessionId"
-            app:argType="string" />
+            android:name="session"
+            app:argType="com.davay.android.core.domain.models.Session" />
         </action>
     </fragment>
     <fragment
@@ -250,6 +250,9 @@
             app:exitAnim="@android:anim/fade_out"
             app:popEnterAnim="@android:anim/fade_in"
             app:popExitAnim="@android:anim/fade_out" />
+        <argument
+            android:name="session"
+            app:argType="com.davay.android.core.domain.models.Session" />
     </fragment>
     <fragment
         android:id="@+id/movieCardFragment"

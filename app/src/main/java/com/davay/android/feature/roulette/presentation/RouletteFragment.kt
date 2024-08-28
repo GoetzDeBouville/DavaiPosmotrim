@@ -31,8 +31,6 @@ import com.google.android.flexbox.JustifyContent
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import kotlinx.serialization.encodeToString
-import kotlinx.serialization.json.Json
 
 class RouletteFragment :
     BaseFragment<FragmentRouletteBinding, RouletteViewModel>(FragmentRouletteBinding::inflate) {
@@ -193,9 +191,8 @@ class RouletteFragment :
     }
 
     private fun handleMatchState(state: RouletteState.Match) {
-        val movieDetails = Json.encodeToString(state.film)
         val matchBottomSheetFragment = MatchBottomSheetFragment.newInstance(
-            movieDetails = movieDetails,
+            movieDetails = state.film,
             buttonText = getString(R.string.roulette_to_film_list),
             showDismisAnimation = false
         )

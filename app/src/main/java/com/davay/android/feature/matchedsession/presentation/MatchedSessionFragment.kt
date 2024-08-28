@@ -6,10 +6,12 @@ import androidx.core.view.isVisible
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import androidx.navigation.fragment.navArgs
 import com.davai.extensions.dpToPx
 import com.davay.android.R
 import com.davay.android.base.BaseFragment
 import com.davay.android.core.domain.models.ErrorScreenState
+import com.davay.android.core.domain.models.Session
 import com.davay.android.databinding.FragmentMatchedSessionBinding
 import com.davay.android.di.AppComponentHolder
 import com.davay.android.di.ScreenComponent
@@ -28,8 +30,6 @@ import com.google.android.flexbox.FlexboxLayoutManager
 import com.google.android.flexbox.JustifyContent
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
-import kotlinx.serialization.encodeToString
-import kotlinx.serialization.json.Json
 
 class MatchedSessionFragment :
     BaseFragment<FragmentMatchedSessionBinding, MatchedSessionViewModel>(
@@ -38,16 +38,15 @@ class MatchedSessionFragment :
 
     override val viewModel: MatchedSessionViewModel by injectViewModel<MatchedSessionViewModel>()
 
+    private val args: MatchedSessionFragmentArgs by navArgs()
     private val moviesGridAdapter = MoviesGridAdapter { movieDetails ->
-        val movieJson = Json.encodeToString(movieDetails)
         val action = MatchedSessionFragmentDirections
-            .actionMatchedSessionFragmentToMovieCardFragment(movieJson)
+            .actionMatchedSessionFragmentToMovieCardFragment(movieDetails)
         viewModel.navigate(action)
     }
 
 
     private val userAdapter = UserAdapter()
-    private var sessionId = ""
     private val errorHandler: UiErrorHandler = UiErrorHandlerImpl()
 
     override fun diComponent(): ScreenComponent = DaggerMatchedSessionFragmentComponent.builder()
@@ -55,13 +54,12 @@ class MatchedSessionFragment :
         .build()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        arguments?.let {
-            sessionId = it.getString(SESSION_ID, "")
-        }
         super.onViewCreated(view, savedInstanceState)
 
         initUsersRecycler()
         setupMoviesGrid()
+        val session = args.session
+        subscribe(session)
     }
 
     private fun initUsersRecycler() {
@@ -84,8 +82,8 @@ class MatchedSessionFragment :
         binding.coincidencesList.adapter = moviesGridAdapter
     }
 
-    override fun subscribe() {
-        viewModel.getSessionData(sessionId)
+    private fun subscribe(session: Session) {
+        viewModel.getSessionData(session)
         viewLifecycleOwner.lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.state.collectLatest {
@@ -163,6 +161,5 @@ class MatchedSessionFragment :
 
     companion object {
         private const val SPACING_BETWEEN_RV_ITEMS_8_DP = 8
-        const val SESSION_ID = "session_id"
     }
 }

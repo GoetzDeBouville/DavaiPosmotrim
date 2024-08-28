@@ -24,8 +24,6 @@ import com.davay.android.feature.selectmovie.presentation.animation.IncrementAni
 import com.davay.android.utils.MovieDetailsHelperImpl
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import kotlinx.coroutines.launch
-import kotlinx.serialization.encodeToString
-import kotlinx.serialization.json.Json
 
 class SelectMovieFragment :
     BaseFragment<FragmentSelectMovieBinding, SelectMovieViewModel>(FragmentSelectMovieBinding::inflate) {
@@ -228,9 +226,8 @@ class SelectMovieFragment :
 
     @Suppress("Detekt.UnusedPrivateMember")
     private fun showBottomSheetFragment(movie: MovieDetails) {
-        val movieDetails = Json.encodeToString(movie)
         val bottomSheetFragment = MatchBottomSheetFragment.newInstance(
-            movieDetails,
+            movie,
             action = {
                 incrementAnimation.animate(binding.tvMotionedIncrement) {
                     binding.toolbarviewHeader.incrementMatchesDisplay()

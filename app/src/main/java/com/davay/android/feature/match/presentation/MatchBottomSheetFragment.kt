@@ -18,7 +18,6 @@ import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import kotlinx.coroutines.launch
-import kotlinx.serialization.json.Json
 
 class MatchBottomSheetFragment(private val action: (() -> Unit)? = null) :
     BottomSheetDialogFragment() {
@@ -34,7 +33,8 @@ class MatchBottomSheetFragment(private val action: (() -> Unit)? = null) :
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
-            movieDetails = Json.decodeFromString(it.getString(ARG_MOVIE_DETAILS) ?: "")
+            movieDetails = it.getParcelable(ARG_MOVIE_DETAILS)
+                ?: throw IllegalArgumentException("Movie details not found")
             buttonText = it.getString(ARG_BUTTON_TEXT)
         }
     }
@@ -77,7 +77,7 @@ class MatchBottomSheetFragment(private val action: (() -> Unit)? = null) :
         super.onViewCreated(view, savedInstanceState)
         initViews()
         subscribe()
-        movieDetails?.let { fillData(movieDetails!!) }
+        movieDetails?.let { fillData(it) }
     }
 
     private fun initViews() {
@@ -179,7 +179,7 @@ class MatchBottomSheetFragment(private val action: (() -> Unit)? = null) :
         private const val ARG_BUTTON_TEXT = "button_text"
 
         fun newInstance(
-            movieDetails: String,
+            movieDetails: MovieDetails,
             buttonText: String? = null,
             showDismisAnimation: Boolean = true,
             action: (() -> Unit)? = null
@@ -187,7 +187,7 @@ class MatchBottomSheetFragment(private val action: (() -> Unit)? = null) :
             val fragment = MatchBottomSheetFragment(action = action)
             fragment.showDismisAnimation = showDismisAnimation
             val args = Bundle().apply {
-                putString(ARG_MOVIE_DETAILS, movieDetails)
+                putParcelable(ARG_MOVIE_DETAILS, movieDetails)
                 if (buttonText != null) putString(ARG_BUTTON_TEXT, buttonText)
             }
             fragment.arguments = args

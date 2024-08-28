@@ -24,8 +24,8 @@ class MatchedSessionListFragment :
             .appComponent(AppComponentHolder.getComponent())
             .build()
 
-    private val sessionsAdapter = SessionListAdapter { id ->
-        navigateToSessionMovies(id)
+    private val sessionsAdapter = SessionListAdapter { session ->
+        navigateToSessionMovies(session)
     }
 
     override fun subscribe() {
@@ -80,9 +80,9 @@ class MatchedSessionListFragment :
         progressBar.isVisible = true
     }
 
-    private fun navigateToSessionMovies(id: String) {
+    private fun navigateToSessionMovies(session: Session) {
         val action = MatchedSessionListFragmentDirections
-            .actionMatchedSessionListFragmentToMatchedSessionFragment(id)
+            .actionMatchedSessionListFragmentToMatchedSessionFragment(session)
         viewModel.navigate(action)
     }
 }
