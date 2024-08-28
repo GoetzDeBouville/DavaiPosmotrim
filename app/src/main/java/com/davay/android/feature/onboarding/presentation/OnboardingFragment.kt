@@ -23,8 +23,6 @@ class OnboardingFragment : BaseFragment<FragmentOnboardingBinding, OnboardingVie
     override val viewModel: OnboardingViewModel by injectViewModel<OnboardingViewModel>()
     private val dataProvider = OnboardingDataProvider()
 
-    //    private var arrayOfIds =
-//        dataProvider.getInstructionOnboardingData() // дефолтно устанавливаем контент онбординга с инструкциями
     private var onboardingItems = dataProvider.getInstructionOnboardingData()
     private val fragmentList = mutableListOf<Fragment>()
 
@@ -33,7 +31,6 @@ class OnboardingFragment : BaseFragment<FragmentOnboardingBinding, OnboardingVie
         arguments?.let {
             val args = OnboardingFragmentArgs.fromBundle(it)
             if (args.setNumber == ONBOARDING_MAIN_SET) {
-                //arrayOfIds = dataProvider.getMainOnboardingData()
                 onboardingItems = dataProvider.getMainOnboardingData()
             }
         }
@@ -49,23 +46,6 @@ class OnboardingFragment : BaseFragment<FragmentOnboardingBinding, OnboardingVie
         setUpButtonClickListener()
     }
 
-    //    override fun initViews() = with(binding) {
-//        fragmentList.clear()
-//        fragmentList.addAll(
-////            listOf(
-////                OnboardingFirstFragment.newInstance(arrayOfIds[0]),
-////                OnboardingFirstFragment.newInstance(arrayOfIds[1]),
-////                OnboardingFirstFragment.newInstance(arrayOfIds[2])
-////            )
-//            onboardingItems.map { item ->
-//                OnboardingFirstFragment.newInstance(item)
-//            }
-//        )
-//        viewpager.adapter = OnboardingViewPagerAdapter(
-//            fragmentList, viewLifecycleOwner.lifecycle, this@OnboardingFragment.childFragmentManager
-//        )
-//        ciIndicator.setViewPager(viewpager)
-//    }
     override fun initViews() = with(binding) {
         fragmentList.clear()
         fragmentList.addAll(
@@ -105,9 +85,6 @@ class OnboardingFragment : BaseFragment<FragmentOnboardingBinding, OnboardingVie
             if (nextFragment < fragmentList.size) {
                 binding.viewpager.setCurrentItem(nextFragment, true)
             } else {
-//                val action = OnboardingFragmentDirections.actionOnboardingFragmentToRegistrationFragment()
-//                viewModel.navigate(action)
-                // viewModel.navigate(arrayOfIds.last()[0])
                 val lastItem = onboardingItems.last()
                 lastItem.action?.let { action ->
                     viewModel.navigate(action)
