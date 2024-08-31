@@ -3,6 +3,7 @@ package com.davay.android.feature.selectmovie.presentation
 import android.os.Bundle
 import android.view.View
 import androidx.activity.OnBackPressedCallback
+import androidx.core.view.isVisible
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.ItemTouchHelper
 import com.davai.extensions.dpToPx
@@ -14,6 +15,8 @@ import com.davay.android.databinding.FragmentSelectMovieBinding
 import com.davay.android.di.AppComponentHolder
 import com.davay.android.di.ScreenComponent
 import com.davay.android.extensions.SwipeDirection
+import com.davay.android.feature.createsession.presentation.compilations.CompilationsState
+import com.davay.android.feature.createsession.presentation.genre.GenreState
 import com.davay.android.feature.match.presentation.MatchBottomSheetFragment
 import com.davay.android.feature.selectmovie.di.DaggerSelectMovieFragmentComponent
 import com.davay.android.feature.selectmovie.presentation.adapters.MovieCardAdapter
@@ -22,6 +25,8 @@ import com.davay.android.feature.selectmovie.presentation.adapters.SwipeableLayo
 import com.davay.android.feature.selectmovie.presentation.animation.IncrementAnimation
 import com.davay.android.feature.selectmovie.presentation.animation.IncrementAnimationImpl
 import com.davay.android.utils.MovieDetailsHelperImpl
+import com.davay.android.utils.presentation.UiErrorHandler
+import com.davay.android.utils.presentation.UiErrorHandlerImpl
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import kotlinx.coroutines.launch
 import kotlinx.serialization.encodeToString
@@ -41,7 +46,9 @@ class SelectMovieFragment :
     private val swipeCardLayoutManager = SwipeableLayoutManager()
     private val incrementAnimation: IncrementAnimation = IncrementAnimationImpl()
     private val additionalInfoInflater: AdditionalInfoInflater = MovieDetailsHelperImpl()
+    private val errorHandler: UiErrorHandler = UiErrorHandlerImpl()
     private var currentPosition = 0
+    private var listIsFinished = false
 
     override fun diComponent(): ScreenComponent =
         DaggerSelectMovieFragmentComponent.builder().appComponent(AppComponentHolder.getComponent())
@@ -87,10 +94,48 @@ class SelectMovieFragment :
             }
         }
         viewLifecycleOwner.lifecycleScope.launch {
-            viewModel.state.collect { movies ->
-                cardAdapter.setData(movies)
+            viewModel.state.collect { state ->
+                renderState(state)
             }
         }
+    }
+
+    private fun renderState(state: SelectMovieState) {
+        when(state) {
+            is SelectMovieState.Loading -> showProgressBar()
+            is SelectMovieState.Content -> showContent(state)
+            is SelectMovieState.Error -> handleError(state)
+            is SelectMovieState.ListIsFinished -> Unit
+        }
+    }
+
+    private fun handleError(state: SelectMovieState.Error) {
+        showErrorMessage()
+        errorHandler.handleError(
+            state.errorType,
+            binding.errorMessage
+        ) {
+            viewModel.onMovieSwiped(currentPosition)
+        }
+    }
+
+    private fun showErrorMessage() = with(binding) {
+        errorMessage.isVisible = true
+        progressBar.isVisible = false
+        rvFilmCard.isVisible = false
+    }
+
+    private fun showContent(state: SelectMovieState.Content) = with(binding) {
+        cardAdapter.setData(state.movieList)
+        errorMessage.isVisible = false
+        progressBar.isVisible = false
+        rvFilmCard.isVisible = true
+    }
+
+    private fun showProgressBar() = with(binding) {
+        errorMessage.isVisible = false
+        progressBar.isVisible = true
+        rvFilmCard.isVisible = false
     }
 
     private fun backPressedDispatcher() {
@@ -136,7 +181,7 @@ class SelectMovieFragment :
         binding.rvFilmCard.apply {
             layoutManager = swipeCardLayoutManager
             adapter = cardAdapter
-            // помимо установки позици на layputmanger дополни тельно скролим до необходимой позиции
+            // помимо установки позици на layputmanger дополнительно скролим до необходимой позиции
             scrollToPosition(currentPosition)
         }
 
@@ -145,9 +190,17 @@ class SelectMovieFragment :
                 swipeCardLayoutManager,
                 onSwipedLeft = {
                     // Add skip method
+                    if (swipeCardLayoutManager.isListIsFinished()) {
+                        viewModel.listIsFinished()
+                    }
+                    viewModel.onMovieSwiped(currentPosition)
                 },
                 onSwipedRight = {
                     // Add like method
+                    if (swipeCardLayoutManager.isListIsFinished()) {
+                        viewModel.listIsFinished()
+                    }
+                    viewModel.onMovieSwiped(currentPosition)
                 }
             )
         )
@@ -222,6 +275,9 @@ class SelectMovieFragment :
         )
     }
 
+    /**
+     * Использовать метод в событиях мэтча в вэбсокете
+     */
     @Suppress("Detekt.UnusedPrivateMember")
     private fun showBottomSheetFragment(movie: MovieDetails) {
         val movieDetails = Json.encodeToString(movie)
