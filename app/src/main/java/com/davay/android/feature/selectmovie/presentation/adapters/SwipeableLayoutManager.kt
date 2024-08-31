@@ -12,6 +12,7 @@ import com.davay.android.extensions.toggleSign
 
 class SwipeableLayoutManager : RecyclerView.LayoutManager() {
     private var currentPosition = 0
+    private var listIsFinished = false
     override fun generateDefaultLayoutParams(): RecyclerView.LayoutParams =
         RecyclerView.LayoutParams(
             ViewGroup.LayoutParams.MATCH_PARENT,
@@ -51,7 +52,10 @@ class SwipeableLayoutManager : RecyclerView.LayoutManager() {
     fun moveNextAndLayout() {
         if (currentPosition < itemCount) {
             currentPosition++
+            listIsFinished = false
             requestLayout()
+        } else {
+            listIsFinished = true
         }
     }
 
@@ -71,6 +75,7 @@ class SwipeableLayoutManager : RecyclerView.LayoutManager() {
         val previousView = getCurrentView()
         if (currentPosition > 0) {
             currentPosition--
+            listIsFinished = false
             requestLayout()
             previousView?.let { animateRevert(previousView) }
         }
@@ -163,6 +168,8 @@ class SwipeableLayoutManager : RecyclerView.LayoutManager() {
             start()
         }
     }
+
+    fun isListIsFinished() : Boolean = listIsFinished
 
     companion object {
         const val ANIMATION_DURATION_800_MS = 800L
