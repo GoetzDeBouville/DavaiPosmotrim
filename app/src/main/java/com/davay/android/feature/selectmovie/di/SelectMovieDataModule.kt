@@ -27,6 +27,10 @@ class SelectMovieDataModule {
         httpNetworkClient: HttpKtorNetworkClient<GetMovieRequest, GetMovieResponse>,
         appDatabase: AppDatabase
     ): SelectMovieRepository {
-        return SelectMovieRepositoryImpl(httpNetworkClient, appDatabase.movieIdDao())
+        return SelectMovieRepositoryImpl(
+            httpNetworkClient,
+            appDatabase.movieIdDao(),
+            appDatabase.historyDao()
+        )
     }
 }
