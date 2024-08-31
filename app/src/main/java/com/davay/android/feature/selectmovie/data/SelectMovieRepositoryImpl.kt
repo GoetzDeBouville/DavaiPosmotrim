@@ -1,10 +1,10 @@
 package com.davay.android.feature.selectmovie.data
 
-import android.util.Log
+import com.davay.android.core.data.converters.toDbEntity
 import com.davay.android.core.data.converters.toDomain
+import com.davay.android.core.data.database.HistoryDao
 import com.davay.android.core.data.database.MovieIdDao
 import com.davay.android.core.data.network.HttpNetworkClient
-import com.davay.android.core.data.network.model.mapToErrorType
 import com.davay.android.core.domain.models.ErrorType
 import com.davay.android.core.domain.models.MovieDetails
 import com.davay.android.core.domain.models.Result
@@ -19,33 +19,80 @@ import javax.inject.Inject
 
 class SelectMovieRepositoryImpl @Inject constructor(
     private val httpNetworkClient: HttpNetworkClient<GetMovieRequest, GetMovieResponse>,
-    private val movieIdDao: MovieIdDao
+    private val movieIdDao: MovieIdDao,
+    private val historyDao: HistoryDao
 ) : SelectMovieRepository {
     /**
-     * Метод принимает номер позиции и возвращает
+     * Метод принимает номер позиции и возвращает список MovieDetails
      */
-    override fun getMovieByPositionId(positionNumber: Int): Flow<Result<MovieDetails, ErrorType>> =
+    override fun getMovieByPositionId(positionNumber: Int): Flow<Result<List<MovieDetails>, ErrorType>> =
         flow {
-            val movieId = withContext(Dispatchers.IO) {
-                movieIdDao.getMovieIdByPosition(positionNumber)?.movieId ?: 0
+            val movies = mutableListOf<MovieDetails>()
+
+            val dbMovies = getMoviesFromDatabase(positionNumber, PAGINATION_SIZE)
+            movies.addAll(dbMovies)
+
+            if (dbMovies.size < PAGINATION_SIZE) {
+                val missingMovies = getMissingMoviesFromNetwork(
+                    positionNumber + dbMovies.size,
+                    PAGINATION_SIZE - dbMovies.size
+                )
+                movies.addAll(missingMovies)
             }
-            if (movieId == 0) {
-                Log.e(TAG, "Illegal movie position")
-                emit(Result.Error(ErrorType.NOT_FOUND))
-            } else {
-                val response = httpNetworkClient.getResponse(GetMovieRequest.Movie(movieId))
-                when (val body = response.body) {
-                    is GetMovieResponse.Movie -> {
-                        emit(Result.Success(body.value.toDomain()))
-                    }
-                    else -> {
-                        emit(Result.Error(response.resultCode.mapToErrorType()))
-                    }
-                }
+
+            emit(Result.Success(movies))
+        }
+
+    private suspend fun getMoviesFromDatabase(positionNumber: Int, limit: Int): List<MovieDetails> {
+        return withContext(Dispatchers.IO) {
+            movieIdDao.getMovieIdsByPositionRange(positionNumber, limit).map { movieId ->
+                historyDao.getMovieDetailsById(movieId).toDomain()
+            }
+        }
+    }
+
+    private suspend fun getMissingMoviesFromNetwork(startPosition: Int, limit: Int): List<MovieDetails> {
+        val movies = mutableListOf<MovieDetails>()
+        val movieIds = withContext(Dispatchers.IO) {
+            movieIdDao.getMovieIdsByPositionRange(startPosition, limit)
+        }
+
+        for (movieId in movieIds) {
+            val movieDetails = fetchMovieFromNetwork(movieId)
+            if (movieDetails != null) {
+                movies.add(movieDetails)
             }
         }
 
+        return movies
+    }
+
+    private suspend fun fetchMovieFromNetwork(movieId: Int): MovieDetails? {
+        val response = httpNetworkClient.getResponse(GetMovieRequest.Movie(movieId))
+        return when (val body = response.body) {
+            is GetMovieResponse.Movie -> {
+                val movieDetails = body.value.toDomain()
+                saveMovieToDatabase(movieDetails)
+                movieDetails
+            }
+            else -> {
+                null
+            }
+        }
+    }
+
+    private suspend fun saveMovieToDatabase(movieDetails: MovieDetails) {
+        withContext(Dispatchers.IO) {
+            historyDao.insertMovie(movieDetails.toDbEntity())
+        }
+    }
+
+    override suspend fun getMovieIdListSize(): Int {
+        return movieIdDao.getMovieIdsCount()
+    }
+
     private companion object {
         val TAG = SelectMovieRepositoryImpl::class.simpleName
+        const val PAGINATION_SIZE = 10
     }
 }

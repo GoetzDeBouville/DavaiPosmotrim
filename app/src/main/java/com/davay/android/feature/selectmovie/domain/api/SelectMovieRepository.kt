@@ -9,5 +9,7 @@ interface SelectMovieRepository {
     /**
      * Метод принимает номер позиции и возвращает детали о фильме
      */
-    fun getMovieByPositionId(positionNumner: Int): Flow<Result<MovieDetails, ErrorType>>
+    fun getMovieByPositionId(positionNumner: Int): Flow<Result<List<MovieDetails>, ErrorType>>
+
+    suspend fun getMovieIdListSize() : Int
 }
