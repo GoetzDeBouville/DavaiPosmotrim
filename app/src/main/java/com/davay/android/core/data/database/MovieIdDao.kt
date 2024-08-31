@@ -35,4 +35,7 @@ interface MovieIdDao {
 
     @Query("SELECT COUNT(*) FROM movie_ids")
     suspend fun getMovieIdsCount(): Int
+
+    @Query("SELECT movie_id FROM movie_ids LIMIT :limit OFFSET :offset")
+    suspend fun getMovieIdsByPositionRange(offset: Int, limit: Int): List<Int>
 }
