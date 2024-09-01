@@ -16,7 +16,6 @@ import com.davay.android.databinding.FragmentRegistrationBinding
 import com.davay.android.di.AppComponentHolder
 import com.davay.android.di.ScreenComponent
 import com.davay.android.extensions.animateBottom
-import com.davay.android.extensions.setBottomMargin
 import com.davay.android.feature.registration.di.DaggerRegistrationFragmentComponent
 import kotlinx.coroutines.launch
 
@@ -38,7 +37,6 @@ class RegistrationFragment :
             endBottomView = binding.btnEnter,
             animateView = binding.root
         )
-        setBottomMargin(binding.btnEnter)
         showSoftKeyboard(binding.etName)
         lifecycleScope.launch {
             viewModel.state.collect { stateHandle(it) }

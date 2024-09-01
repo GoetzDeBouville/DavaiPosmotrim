@@ -14,7 +14,6 @@ import com.davay.android.core.domain.models.MovieDetails
 import com.davay.android.databinding.FragmentRouletteBinding
 import com.davay.android.di.AppComponentHolder
 import com.davay.android.di.ScreenComponent
-import com.davay.android.extensions.setBottomMargin
 import com.davay.android.feature.match.presentation.MatchBottomSheetFragment
 import com.davay.android.feature.roulette.di.DaggerRouletteFragmentComponent
 import com.davay.android.feature.roulette.presentation.carouselrecycler.CarouselAdapter
@@ -66,14 +65,6 @@ class RouletteFragment :
         } else {
             bottomSheetBehaviorIntro.state = BottomSheetBehavior.STATE_HIDDEN
         }
-        setBottomMargin(
-            binding.btnCancel,
-            resources.getDimensionPixelSize(com.davai.uikit.R.dimen.margin_4)
-        )
-        setBottomMargin(
-            binding.tvBottomText,
-            resources.getDimensionPixelSize(com.davai.uikit.R.dimen.margin_8)
-        )
     }
 
     override fun onResume() {
