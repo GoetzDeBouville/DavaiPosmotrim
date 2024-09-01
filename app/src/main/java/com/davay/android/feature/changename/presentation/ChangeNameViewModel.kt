@@ -1,17 +1,13 @@
 package com.davay.android.feature.changename.presentation
 
 import android.text.Editable
-import androidx.lifecycle.viewModelScope
 import com.davay.android.base.BaseViewModel
 import com.davay.android.core.domain.models.UserDataFields
 import com.davay.android.core.domain.models.UserNameState
 import com.davay.android.core.domain.usecases.GetUserDataUseCase
 import com.davay.android.feature.changename.domain.usecase.SetUserNameUseCase
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class ChangeNameViewModel @Inject constructor(
@@ -20,7 +16,6 @@ class ChangeNameViewModel @Inject constructor(
 ) : BaseViewModel() {
 
     private val _state = MutableStateFlow(UserNameState.DEFAULT)
-    private var registrationProcess: Job? = null
     val state: StateFlow<UserNameState>
         get() = _state
 
@@ -28,17 +23,15 @@ class ChangeNameViewModel @Inject constructor(
         textCheck(text)
         if (state.value == UserNameState.CORRECT && text.toString() != getUserName()) {
             _state.value = UserNameState.LOADING
-            registrationProcess = viewModelScope.launch(Dispatchers.IO) {
-                runSafelyUseCase(
-                    useCaseFlow = changeName.execute(text.toString()),
-                    onSuccess = { _ ->
-                        _state.value = UserNameState.SUCCESS
-                    },
-                    onFailure = { error ->
-                        _state.value = mapErrorToUserNameState(error)
-                    }
-                )
-            }
+            runSafelyUseCase(
+                useCaseFlow = changeName.execute(text.toString()),
+                onSuccess = { _ ->
+                    _state.value = UserNameState.SUCCESS
+                },
+                onFailure = { error ->
+                    _state.value = mapErrorToUserNameState(error)
+                }
+            )
         } else if (text.toString() == getUserName()) {
             _state.value = UserNameState.SUCCESS
         }

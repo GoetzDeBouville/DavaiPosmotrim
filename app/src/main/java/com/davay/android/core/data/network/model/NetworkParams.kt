@@ -2,11 +2,11 @@ package com.davay.android.core.data.network.model
 
 object NetworkParams {
     //    Request params
-    const val DEVICE_ID = "Device-id"
-    const val NAME = "name"
+    const val DEVICE_ID_HEADER = "Device-id"
+    const val USER_NAME_BODY_FIELD = "name"
 
     //    API params
-    const val API_USERS = "api/users/"
+    const val USERS_API_PATH = "api/users/"
 
     //    Errors
     const val NO_CONNECTION_CODE = -1
