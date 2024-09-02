@@ -178,14 +178,7 @@ class WaitSessionFragment : BaseFragment<FragmentWaitSessionBinding, WaitSession
                     BannerView.ATTENTION
                 )
             } else {
-                if (viewModel.isDbPrepared()) {
-                    viewModel.navigateToNextScreen()
-                } else {
-                    updateAndShowBanner(
-                        getString(R.string.wait_session_banner_message),
-                        BannerView.ATTENTION
-                    )
-                }
+                viewModel.navigateToNextScreen()
             }
         }
     }

@@ -8,7 +8,6 @@ import javax.inject.Inject
 class WaitSessionViewModel @Inject constructor(
     private val waitSessionOnBoardingInteractor: WaitSessionOnBoardingInteractor
 ) : BaseViewModel() {
-    private var dbPrepared = false
     fun isFirstTimeLaunch(): Boolean {
         return waitSessionOnBoardingInteractor.isFirstTimeLaunch()
     }
@@ -29,6 +28,4 @@ class WaitSessionViewModel @Inject constructor(
     fun navigateToNextScreen() {
         navigate(R.id.action_waitSessionFragment_to_selectMovieFragment)
     }
-
-    fun isDbPrepared() = dbPrepared
 }
