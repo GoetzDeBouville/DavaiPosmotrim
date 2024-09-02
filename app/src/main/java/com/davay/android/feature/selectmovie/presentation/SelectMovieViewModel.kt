@@ -4,7 +4,7 @@ import androidx.lifecycle.viewModelScope
 import com.davay.android.base.BaseViewModel
 import com.davay.android.core.domain.models.MovieDetails
 import com.davay.android.feature.selectmovie.domain.FilterDislikedMovieListUseCase
-import com.davay.android.feature.selectmovie.domain.GetMovieDetailsUseCase
+import com.davay.android.feature.selectmovie.domain.GetMovieListUseCase
 import com.davay.android.feature.selectmovie.domain.GetMovieIdListSizeUseCase
 import com.davay.android.feature.selectmovie.domain.SwipeMovieUseCase
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -14,7 +14,7 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class SelectMovieViewModel @Inject constructor(
-    private val getMovieDetailsUseCase: GetMovieDetailsUseCase,
+    private val getMovieDetailsUseCase: GetMovieListUseCase,
     private val getMovieIdListSizeUseCase: GetMovieIdListSizeUseCase,
     private val filterDislikedMovieListUseCase: FilterDislikedMovieListUseCase,
     private val swipeMovieUseCase: SwipeMovieUseCase
@@ -30,14 +30,7 @@ class SelectMovieViewModel @Inject constructor(
         initializeMovieList()
     }
 
-    private fun loadMovies(startPosition: Int) {
-        val endPosition = minOf(startPosition + PRELOAD_SIZE, totalMovieIds)
-        for (position in startPosition until endPosition) {
-            loadSingleMovie(position)
-        }
-    }
-
-    private fun loadSingleMovie(position: Int) {
+    private fun loadMovies(position: Int) {
         runSafelyUseCase(
             useCaseFlow = getMovieDetailsUseCase(position),
             onSuccess = { movieList ->
@@ -87,6 +80,7 @@ class SelectMovieViewModel @Inject constructor(
         viewModelScope.launch {
             filterDislikedMovieListUseCase.invoke()
         }
+        loadMovies(0)
     }
 
     private companion object {
