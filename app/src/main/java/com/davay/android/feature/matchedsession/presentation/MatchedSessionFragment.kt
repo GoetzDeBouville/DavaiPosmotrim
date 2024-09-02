@@ -58,8 +58,7 @@ class MatchedSessionFragment :
 
         initUsersRecycler()
         setupMoviesGrid()
-        val session = args.session
-        subscribe(session)
+        subscribe(args.session)
     }
 
     private fun initUsersRecycler() {
