@@ -8,7 +8,6 @@ import androidx.core.content.ContextCompat.getSystemService
 import androidx.core.view.isVisible
 import androidx.core.widget.doAfterTextChanged
 import androidx.lifecycle.lifecycleScope
-import com.davay.android.R
 import com.davay.android.base.BaseFragment
 import com.davay.android.core.domain.models.UserNameState
 import com.davay.android.core.presentation.MainActivity
@@ -80,7 +79,7 @@ class RegistrationFragment :
         etName.isEnabled = isLoading.not()
         tvErrorHint.text = state?.getMessage(requireContext()) ?: ""
         if (state == UserNameState.SUCCESS) {
-            viewModel.navigate(R.id.action_registrationFragment_to_mainFragment)
+            viewModel.navigate(RegistrationFragmentDirections.actionRegistrationFragmentToMainFragment())
         }
     }
 
