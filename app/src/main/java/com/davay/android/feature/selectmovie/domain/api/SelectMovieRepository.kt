@@ -12,4 +12,8 @@ interface SelectMovieRepository {
     fun getMovieByPositionId(positionNumner: Int): Flow<Result<List<MovieDetails>, ErrorType>>
 
     suspend fun getMovieIdListSize() : Int
+
+    suspend fun leaveOnlyDislikedMovieIds()
+
+    suspend fun updateIsLikedByPosition(position: Int, isLiked: Boolean)
 }

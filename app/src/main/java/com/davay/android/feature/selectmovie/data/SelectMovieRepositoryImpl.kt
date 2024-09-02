@@ -91,6 +91,26 @@ class SelectMovieRepositoryImpl @Inject constructor(
         return movieIdDao.getMovieIdsCount()
     }
 
+    override suspend fun updateIsLikedByPosition(position: Int, isLiked: Boolean) {
+        val movieEntity = movieIdDao.getMovieIdByPosition(position)
+        movieEntity?.let {
+            if (it.isLiked == isLiked.not()) {
+                movieIdDao.updateIsLikedById(position, isLiked)
+            }
+        }
+    }
+
+    override suspend fun leaveOnlyDislikedMovieIds() {
+        val movieList = movieIdDao.getAllMovieIds()
+        val dislikedMovies = movieList.filter {
+            it.isLiked.not()
+        }
+        movieIdDao.clearAndResetTable()
+        dislikedMovies.forEach { movieIdEntity ->
+            movieIdDao.insertMovieId(movieIdEntity)
+        }
+    }
+
     private companion object {
         val TAG = SelectMovieRepositoryImpl::class.simpleName
         const val PAGINATION_SIZE = 10
