@@ -37,45 +37,21 @@ class SplashFragment :
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         getSensorAccelerometer()
-        val bundle = Bundle().apply {
-            putInt(OnboardingFragment.ONBOARDING_KEY, OnboardingFragment.ONBOARDING_MAIN_SET)
-        }
         lifecycleScope.launch {
             addTextViewsWithDelay()
             delay(DELAY_4000_MS)
             if (viewModel.isFirstTimeLaunch() || viewModel.isNotRegistered()) {
                 viewModel.markFirstTimeLaunch()
-                viewModel.navigate(R.id.action_splashFragment_to_onboardingFragment, bundle)
+                val action = SplashFragmentDirections
+                    .actionSplashFragmentToOnboardingFragment(OnboardingFragment.ONBOARDING_MAIN_SET)
+                viewModel.navigate(action)
             } else {
-                viewModel.navigate(R.id.action_splashFragment_to_mainFragment)
+                val action = SplashFragmentDirections
+                    .actionSplashFragmentToMainFragment()
+                viewModel.navigate(action)
             }
         }
     }
-//    lifecycleScope.launch {
-//        addTextViewsWithDelay()
-//        delay(DELAY_4000_MS)
-//        when (viewModel.isFirstTimeLaunch()) {
-//            true -> {
-//                viewModel.markFirstTimeLaunch()
-//                val action = SplashFragmentDirections
-//                    .actionSplashFragmentToOnboardingFragment(OnboardingFragment.ONBOARDING_MAIN_SET)
-//                viewModel.navigate(action)
-//            }
-//
-//            false -> {
-//                if (viewModel.isUserRegistered()) {
-//                    val action = SplashFragmentDirections
-//                        .actionSplashFragmentToMainFragment()
-//                    viewModel.navigate(action)
-//                } else {
-//                    val action = SplashFragmentDirections
-//                        .actionSplashFragmentToRegistrationFragment()
-//                    viewModel.navigate(action)
-//                }
-//            }
-//        }
-//    }
-//}
 
     private fun getSensorAccelerometer() {
         sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER)?.also {
