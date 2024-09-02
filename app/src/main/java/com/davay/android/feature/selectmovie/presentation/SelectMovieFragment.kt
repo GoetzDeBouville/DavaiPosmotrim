@@ -15,8 +15,6 @@ import com.davay.android.databinding.FragmentSelectMovieBinding
 import com.davay.android.di.AppComponentHolder
 import com.davay.android.di.ScreenComponent
 import com.davay.android.extensions.SwipeDirection
-import com.davay.android.feature.createsession.presentation.compilations.CompilationsState
-import com.davay.android.feature.createsession.presentation.genre.GenreState
 import com.davay.android.feature.match.presentation.MatchBottomSheetFragment
 import com.davay.android.feature.selectmovie.di.DaggerSelectMovieFragmentComponent
 import com.davay.android.feature.selectmovie.presentation.adapters.MovieCardAdapter
@@ -105,7 +103,7 @@ class SelectMovieFragment :
             is SelectMovieState.Loading -> showProgressBar()
             is SelectMovieState.Content -> showContent(state)
             is SelectMovieState.Error -> handleError(state)
-            is SelectMovieState.ListIsFinished -> Unit
+            is SelectMovieState.ListIsFinished -> showDialogAndRequestResetMovieList()
         }
     }
 
@@ -115,7 +113,7 @@ class SelectMovieFragment :
             state.errorType,
             binding.errorMessage
         ) {
-            viewModel.onMovieSwiped(currentPosition)
+            viewModel.onMovieSwiped(currentPosition, false)
         }
     }
 
@@ -136,6 +134,17 @@ class SelectMovieFragment :
         errorMessage.isVisible = false
         progressBar.isVisible = true
         rvFilmCard.isVisible = false
+    }
+
+    private fun showDialogAndRequestResetMovieList() {
+        val dialog = MainDialogFragment.newInstance(
+            title = getString(R.string.leave_session_title),
+            message = getString(R.string.select_movies_movie_list_is_finished),
+            yesAction = {
+                viewModel.filterMovieIdList()
+            }
+        )
+        dialog.show(parentFragmentManager, null)
     }
 
     private fun backPressedDispatcher() {
@@ -193,14 +202,14 @@ class SelectMovieFragment :
                     if (swipeCardLayoutManager.isListIsFinished()) {
                         viewModel.listIsFinished()
                     }
-                    viewModel.onMovieSwiped(currentPosition)
+                    viewModel.onMovieSwiped(currentPosition, false)
                 },
                 onSwipedRight = {
                     // Add like method
                     if (swipeCardLayoutManager.isListIsFinished()) {
                         viewModel.listIsFinished()
                     }
-                    viewModel.onMovieSwiped(currentPosition)
+                    viewModel.onMovieSwiped(currentPosition, true)
                 }
             )
         )
