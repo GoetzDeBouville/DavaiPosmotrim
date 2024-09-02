@@ -138,8 +138,9 @@ class SelectMovieFragment :
 
     private fun showDialogAndRequestResetMovieList() {
         val dialog = MainDialogFragment.newInstance(
-            title = getString(R.string.leave_session_title),
-            message = getString(R.string.select_movies_movie_list_is_finished),
+            title = getString(R.string.select_movies_movie_list_is_finished),
+            message = getString(R.string.select_movies_movie_show_disliked_movies),
+            showConfirmBlock = true,
             yesAction = {
                 viewModel.filterMovieIdList()
             }
