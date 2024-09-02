@@ -148,4 +148,8 @@
     <string name="roulette_bottomsheet_dialog_got_it">Понял, принял</string>
     <string name="roulette_bottomsheet_dialog_roulete_lounch_condition">Для запуска рулетки требуется <b>не менее трёх</b> совпадений.</string>
 
+    <!--  main exit dialog  -->
+    <string name="main_exit_title">Выход из приложения</string>
+    <string name="main_exit_message">Вы действительно хотите выйти из приложения?</string>
+
 </resources>
