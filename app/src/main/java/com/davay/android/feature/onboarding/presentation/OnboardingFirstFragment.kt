@@ -12,13 +12,8 @@ import com.davay.android.R
 
 class OnboardingFirstFragment : Fragment() {
 
-    private var onboardingItem: OnboardingItem? = null
     private val args: OnboardingFirstFragmentArgs by navArgs()
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        onboardingItem = args.onboardingItem
-    }
+    private val onboardingItem: OnboardingItem by lazy { args.onboardingItem }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -34,7 +29,7 @@ class OnboardingFirstFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        onboardingItem?.let { item ->
+        onboardingItem.let { item ->
             item.textResId?.let { view.findViewById<TextView>(R.id.tv_top_title).setText(it) }
             item.imageResId?.let {
                 view.findViewById<ImageView>(R.id.iv_main_image).setImageResource(it)
