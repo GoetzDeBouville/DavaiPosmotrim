@@ -14,13 +14,10 @@ import com.davay.android.databinding.FragmentSelectMovieBinding
 import com.davay.android.di.AppComponentHolder
 import com.davay.android.di.ScreenComponent
 import com.davay.android.extensions.SwipeDirection
-import com.davay.android.feature.match.presentation.MatchBottomSheetFragment
 import com.davay.android.feature.selectmovie.di.DaggerSelectMovieFragmentComponent
 import com.davay.android.feature.selectmovie.presentation.adapters.MovieCardAdapter
 import com.davay.android.feature.selectmovie.presentation.adapters.SwipeCallback
 import com.davay.android.feature.selectmovie.presentation.adapters.SwipeableLayoutManager
-import com.davay.android.feature.selectmovie.presentation.animation.IncrementAnimation
-import com.davay.android.feature.selectmovie.presentation.animation.IncrementAnimationImpl
 import com.davay.android.utils.MovieDetailsHelperImpl
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import kotlinx.coroutines.launch
@@ -37,8 +34,10 @@ class SelectMovieFragment :
         inflateMovieDetails = { movie -> inflateMovieDetails(movie) }
     )
     private val swipeCardLayoutManager = SwipeableLayoutManager()
-    private val incrementAnimation: IncrementAnimation = IncrementAnimationImpl()
+    // private val incrementAnimation: IncrementAnimation = IncrementAnimationImpl()
+
     private val additionalInfoInflater: AdditionalInfoInflater = MovieDetailsHelperImpl()
+
     private var currentPosition = 0
 
     override fun diComponent(): ScreenComponent =
