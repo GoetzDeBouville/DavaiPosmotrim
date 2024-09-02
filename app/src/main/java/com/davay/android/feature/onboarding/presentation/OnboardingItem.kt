@@ -6,7 +6,7 @@ import kotlinx.parcelize.Parcelize
 import kotlinx.parcelize.RawValue
 
 @Parcelize
-data class OnboardingItem(
+class OnboardingItem(
     val textResId: Int? = null,
     val imageResId: Int? = null,
     val descriptionResId: Int? = null,
