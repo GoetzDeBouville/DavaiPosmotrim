@@ -21,8 +21,7 @@ import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import kotlinx.coroutines.launch
 
-class MatchBottomSheetFragment(private val action: (() -> Unit)? = null) :
-    BottomSheetDialogFragment() {
+class MatchBottomSheetFragment : BottomSheetDialogFragment() {
     private var _binding: FragmentMatchBottomSheetBinding? = null
     private val binding: FragmentMatchBottomSheetBinding
         get() = _binding!!
@@ -70,7 +69,6 @@ class MatchBottomSheetFragment(private val action: (() -> Unit)? = null) :
 
             @Deprecated("Deprecated in Java")
             override fun onBackPressed() {
-                action?.invoke()
                 super.onBackPressed()
             }
         }
@@ -109,7 +107,6 @@ class MatchBottomSheetFragment(private val action: (() -> Unit)? = null) :
                         if (newState == BottomSheetBehavior.STATE_EXPANDED) {
                             animationMatchDialog.animateBannerDrop(binding.tvBannerMatchWatch)
                         } else if (newState == BottomSheetBehavior.STATE_HIDDEN) {
-                            action?.invoke()
                             dismiss()
                         }
                     }
@@ -170,7 +167,6 @@ class MatchBottomSheetFragment(private val action: (() -> Unit)? = null) :
                 bottomSheet
             ) {
                 dismiss()
-                action?.invoke()
             }
         } else {
             dismiss()
@@ -184,10 +180,9 @@ class MatchBottomSheetFragment(private val action: (() -> Unit)? = null) :
         fun newInstance(
             movieDetails: MovieDetails,
             buttonText: String? = null,
-            showDismisAnimation: Boolean = true,
-            action: (() -> Unit)? = null
+            showDismisAnimation: Boolean = true
         ): MatchBottomSheetFragment {
-            val fragment = MatchBottomSheetFragment(action = action)
+            val fragment = MatchBottomSheetFragment()
             fragment.showDismisAnimation = showDismisAnimation
             val args = Bundle().apply {
                 putParcelable(ARG_MOVIE_DETAILS, movieDetails)

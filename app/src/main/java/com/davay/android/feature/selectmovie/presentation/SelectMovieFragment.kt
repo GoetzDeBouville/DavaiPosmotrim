@@ -224,18 +224,18 @@ class SelectMovieFragment :
         )
     }
 
-    @Suppress("Detekt.UnusedPrivateMember")
-    private fun showBottomSheetFragment(movie: MovieDetails) {
-        val bottomSheetFragment = MatchBottomSheetFragment.newInstance(
-            movie,
-            action = {
-                incrementAnimation.animate(binding.tvMotionedIncrement) {
-                    binding.toolbarviewHeader.incrementMatchesDisplay()
-                }
-            }
-        )
-        bottomSheetFragment.show(parentFragmentManager, bottomSheetFragment.tag)
-    }
+//    @Suppress("Detekt.UnusedPrivateMember")
+//    private fun showBottomSheetFragment(movie: MovieDetails) {
+//        val bottomSheetFragment = MatchBottomSheetFragment.newInstance(
+//            movie,
+//            action = {
+//                incrementAnimation.animate(binding.tvMotionedIncrement) {
+//                    binding.toolbarviewHeader.incrementMatchesDisplay()
+//                }
+//            }
+//        )
+//        bottomSheetFragment.show(parentFragmentManager, bottomSheetFragment.tag)
+//    }
 
     private companion object {
         const val BOTTOMSHEET_PEEK_HEIGHT_112_DP = 112
