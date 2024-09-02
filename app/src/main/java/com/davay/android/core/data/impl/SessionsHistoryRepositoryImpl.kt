@@ -53,7 +53,6 @@ class SessionsHistoryRepositoryImpl @Inject constructor(
             if (BuildConfig.DEBUG) {
                 e.printStackTrace()
             }
-            // null
             emptyList()
         }
 }
