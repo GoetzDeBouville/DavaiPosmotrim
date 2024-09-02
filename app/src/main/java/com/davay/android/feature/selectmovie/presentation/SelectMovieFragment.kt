@@ -121,6 +121,7 @@ class SelectMovieFragment :
         errorMessage.isVisible = true
         progressBar.isVisible = false
         rvFilmCard.isVisible = false
+        clDetailsBottomSheet.isVisible = false
     }
 
     private fun showContent(state: SelectMovieState.Content) = with(binding) {
@@ -128,12 +129,14 @@ class SelectMovieFragment :
         errorMessage.isVisible = false
         progressBar.isVisible = false
         rvFilmCard.isVisible = true
+        clDetailsBottomSheet.isVisible = true
     }
 
     private fun showProgressBar() = with(binding) {
         errorMessage.isVisible = false
         progressBar.isVisible = true
         rvFilmCard.isVisible = false
+        clDetailsBottomSheet.isVisible = false
     }
 
     private fun showDialogAndRequestResetMovieList() {
