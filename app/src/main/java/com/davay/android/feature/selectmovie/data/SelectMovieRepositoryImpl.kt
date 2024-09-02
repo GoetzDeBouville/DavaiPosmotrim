@@ -5,6 +5,7 @@ import com.davay.android.core.data.converters.toDomain
 import com.davay.android.core.data.database.HistoryDao
 import com.davay.android.core.data.database.MovieIdDao
 import com.davay.android.core.data.network.HttpNetworkClient
+import com.davay.android.core.data.network.model.mapToErrorType
 import com.davay.android.core.domain.models.ErrorType
 import com.davay.android.core.domain.models.MovieDetails
 import com.davay.android.core.domain.models.Result
@@ -29,57 +30,43 @@ class SelectMovieRepositoryImpl @Inject constructor(
         flow {
             val movies = mutableListOf<MovieDetails>()
 
-            val dbMovies = getMoviesFromDatabase(positionNumber, PAGINATION_SIZE)
-            movies.addAll(dbMovies)
+            movieIdDao.getMovieIdsByPositionRange(positionNumber, PAGINATION_SIZE)
+                .forEach { movieId ->
+                    val movie = historyDao.getMovieDetailsById(movieId)?.toDomain()
+                    if (movie == null) {
+                        getMovieDetailsFromApiAndSaveToDb(movieId).collect { result ->
+                            when (result) {
+                                is Result.Success -> {
+                                    movies.add(result.data)
+                                }
 
-            if (dbMovies.size < PAGINATION_SIZE) {
-                val missingMovies = getMissingMoviesFromNetwork(
-                    positionNumber + dbMovies.size,
-                    PAGINATION_SIZE - dbMovies.size
-                )
-                movies.addAll(missingMovies)
-            }
+                                is Result.Error -> {
+                                    emit(Result.Error(result.error))
+                                    return@collect
+                                }
+                            }
+                        }
+                    } else {
+                        movies.add(movie)
+                    }
+                }
 
             emit(Result.Success(movies))
         }
 
-    private suspend fun getMoviesFromDatabase(positionNumber: Int, limit: Int): List<MovieDetails> {
-        return withContext(Dispatchers.IO) {
-            movieIdDao.getMovieIdsByPositionRange(positionNumber, limit).map { movieId ->
-                historyDao.getMovieDetailsById(movieId).toDomain()
+    private fun getMovieDetailsFromApiAndSaveToDb(movieId: Int): Flow<Result<MovieDetails, ErrorType>> =
+        flow {
+            val response = httpNetworkClient.getResponse(GetMovieRequest.Movie(movieId))
+            when (val body = response.body) {
+                is GetMovieResponse.Movie -> {
+                    val movieDetails = body.value.toDomain()
+                    saveMovieToDatabase(movieDetails)
+                    emit(Result.Success(movieDetails))
+                }
+
+                else -> emit(Result.Error(response.resultCode.mapToErrorType()))
             }
         }
-    }
-
-    private suspend fun getMissingMoviesFromNetwork(startPosition: Int, limit: Int): List<MovieDetails> {
-        val movies = mutableListOf<MovieDetails>()
-        val movieIds = withContext(Dispatchers.IO) {
-            movieIdDao.getMovieIdsByPositionRange(startPosition, limit)
-        }
-
-        for (movieId in movieIds) {
-            val movieDetails = fetchMovieFromNetwork(movieId)
-            if (movieDetails != null) {
-                movies.add(movieDetails)
-            }
-        }
-
-        return movies
-    }
-
-    private suspend fun fetchMovieFromNetwork(movieId: Int): MovieDetails? {
-        val response = httpNetworkClient.getResponse(GetMovieRequest.Movie(movieId))
-        return when (val body = response.body) {
-            is GetMovieResponse.Movie -> {
-                val movieDetails = body.value.toDomain()
-                saveMovieToDatabase(movieDetails)
-                movieDetails
-            }
-            else -> {
-                null
-            }
-        }
-    }
 
     private suspend fun saveMovieToDatabase(movieDetails: MovieDetails) {
         withContext(Dispatchers.IO) {
