@@ -30,7 +30,7 @@ interface HistoryDao {
     suspend fun insertMovie(movie: MovieDetailsEntity)
 
     @Query("SELECT * FROM movies where movie_id = :id")
-    suspend fun getMovieDetailsById(id: Int) : MovieDetailsEntity
+    suspend fun getMovieDetailsById(id: Int) : MovieDetailsEntity?
 
     // Сохранение связи сессии и фильма с помощью sessionId и movieId
     @Upsert
