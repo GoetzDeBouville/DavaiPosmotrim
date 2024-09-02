@@ -1,6 +1,5 @@
 package com.davay.android.feature.moviecard.presentation
 
-import android.os.Bundle
 import androidx.core.view.isVisible
 import androidx.navigation.fragment.navArgs
 import com.davai.extensions.dpToPx
@@ -25,15 +24,12 @@ class MovieCardFragment :
         .appComponent(AppComponentHolder.getComponent())
         .build()
 
-    private var movieDetails: MovieDetails? = null
     private val movieDetailsHelper: MovieDetailsHelper = MovieDetailsHelperImpl()
     private val additionalInfoInflater: AdditionalInfoInflater = MovieDetailsHelperImpl()
 
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
+    private val movieDetails: MovieDetails by lazy {
         val args: MovieCardFragmentArgs by navArgs()
-        movieDetails = args.movieDetails
+        args.movieDetails
     }
 
     override fun initViews() {
@@ -57,7 +53,7 @@ class MovieCardFragment :
     private fun setViewsAndInflate() = with(binding) {
         rvFilmCard.isVisible = false
         movieCard.root.isVisible = true
-        movieDetails?.let { movie ->
+        movieDetails.let { movie ->
             fillCardData(movie)
             fillInfo(movie)
             additionalInfoInflater.setRate(
