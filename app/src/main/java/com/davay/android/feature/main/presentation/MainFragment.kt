@@ -66,8 +66,7 @@ class MainFragment :
                 createSession()
             }
             binding.ivEditUserName.setOnClickListener {
-                val currentName = binding.tvUserName.text.toString()
-                changeName(currentName)
+                changeName()
             }
         }
     }
@@ -86,8 +85,8 @@ class MainFragment :
         viewModel.navigate(MainFragmentDirections.actionMainFragmentToSessionConnectionFragment())
     }
 
-    private fun changeName(oldName: String) {
-        val bottomSheetFragment = ChangeNameBottomSheetFragment.newInstance(oldName)
+    private fun changeName() {
+        val bottomSheetFragment = ChangeNameBottomSheetFragment.newInstance()
         bottomSheetFragment.show(parentFragmentManager, "tag")
     }
 
