@@ -89,9 +89,8 @@ abstract class BaseFragment<VB : ViewBinding, VM : BaseViewModel>(
     protected open fun subscribe() = Unit
 
     private fun setBottomInsets() {
-        when (this) {
-            is CreateSessionFragment, is RouletteFragment, is SessionListFragment,
-            is WaitSessionFragment, is RegistrationFragment, is OnboardingFragment -> {
+        when (this::class) {
+            in screensWithoutEdgeSupport -> {
                 ViewCompat.setOnApplyWindowInsetsListener(binding.root) { v, insets ->
                     val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
                     v.setPadding(systemBars.left, 0, systemBars.right, systemBars.bottom)
@@ -109,3 +108,12 @@ abstract class BaseFragment<VB : ViewBinding, VM : BaseViewModel>(
         }
     }
 }
+
+private val screensWithoutEdgeSupport = setOf(
+    CreateSessionFragment::class,
+    RouletteFragment::class,
+    SessionListFragment::class,
+    WaitSessionFragment::class,
+    RegistrationFragment::class,
+    OnboardingFragment::class,
+)
