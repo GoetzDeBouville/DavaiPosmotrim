@@ -12,8 +12,6 @@ interface SessionsHistoryRepository {
         movies: List<MovieDetails>
     ): Result<Unit, ErrorType>
 
-    suspend fun getSessionsHistory(): List<Session> {
-        return getSessionsHistory()
-    }
+    suspend fun getSessionsHistory(): List<Session>
     suspend fun getSessionWithMovies(session: Session): SessionWithMovies?
 }
