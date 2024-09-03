@@ -152,7 +152,5 @@ class ChangeNameBottomSheetFragment :
 
         const val REQUEST_KEY = "changeNameRequestKey"
         const val BUNDLE_KEY_NAME = "changedName"
-
-        fun newInstance() = ChangeNameBottomSheetFragment()
     }
 }

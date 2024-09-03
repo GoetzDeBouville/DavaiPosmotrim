@@ -86,8 +86,8 @@ class MainFragment :
     }
 
     private fun changeName() {
-        val bottomSheetFragment = ChangeNameBottomSheetFragment.newInstance()
-        bottomSheetFragment.show(parentFragmentManager, "tag")
+        val action = MainFragmentDirections.actionMainFragmentToChangeNameFragment()
+        viewModel.navigate(action)
     }
 
     private fun createSession() {
