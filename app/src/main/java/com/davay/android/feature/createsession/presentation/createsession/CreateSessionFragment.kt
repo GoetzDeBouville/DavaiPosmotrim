@@ -29,29 +29,25 @@ class CreateSessionFragment : BaseFragment<FragmentCreateSessionBinding, CreateS
         super.onViewCreated(view, savedInstanceState)
         initTabs()
         setupToolbar()
-//        binding.btnContinue.setOnClickListener {
-//            val fragmentPosition = binding.viewPager.currentItem
-//            var shouldNavigate = false
-//            when (val fragment = childFragmentManager.findFragmentByTag("f$fragmentPosition")) {
-//                is CompilationsFragment -> {
-//                    shouldNavigate = fragment.buttonContinueClicked()
-//                }
-//
-//                is GenreFragment -> {
-//                    shouldNavigate = fragment.buttonContinueClicked()
-//                }
-//            }
-//            if (shouldNavigate) {
-//                viewModel.navigate(CreateSessionFragmentDirections.actionCreateSessionFragmentToWaitSessionFragment())
-//
-//            } else {
-//                showBanner()
-//            }
-//        }
         binding.btnContinue.setOnClickListener {
-            viewModel.navigate(CreateSessionFragmentDirections.actionCreateSessionFragmentToWaitSessionFragment())
-        }
+            val fragmentPosition = binding.viewPager.currentItem
+            var shouldNavigate = false
+            when (val fragment = childFragmentManager.findFragmentByTag("f$fragmentPosition")) {
+                is CompilationsFragment -> {
+                    shouldNavigate = fragment.buttonContinueClicked()
+                }
 
+                is GenreFragment -> {
+                    shouldNavigate = fragment.buttonContinueClicked()
+                }
+            }
+            if (shouldNavigate) {
+                viewModel.navigate(CreateSessionFragmentDirections.actionCreateSessionFragmentToWaitSessionFragment())
+
+            } else {
+                showBanner()
+            }
+        }
         updateBanner(
             getString(R.string.create_session_choose_compilations_one),
             BannerView.ATTENTION
