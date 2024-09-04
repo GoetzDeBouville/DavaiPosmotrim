@@ -15,6 +15,7 @@ import com.davay.android.core.domain.models.MovieDetails
 import com.davay.android.databinding.FragmentRouletteBinding
 import com.davay.android.di.AppComponentHolder
 import com.davay.android.di.ScreenComponent
+import com.davay.android.feature.match.presentation.MatchBottomSheetArgs
 import com.davay.android.feature.match.presentation.MatchBottomSheetFragment
 import com.davay.android.feature.roulette.di.DaggerRouletteFragmentComponent
 import com.davay.android.feature.roulette.presentation.carouselrecycler.CarouselAdapter
@@ -190,14 +191,22 @@ class RouletteFragment :
         Toast.makeText(requireContext(), "Ошибка", Toast.LENGTH_SHORT).show()
     }
 
+
     private fun handleMatchState(state: RouletteState.Match) {
-        val matchBottomSheetFragment = MatchBottomSheetFragment.newInstance(
+//        val matchBottomSheetFragment = MatchBottomSheetFragment.newInstance(
+//            movieDetails = state.film,
+//            buttonText = getString(R.string.roulette_to_film_list),
+//            showDismisAnimation = false
+//        )
+//        matchBottomSheetFragment.show(parentFragmentManager, matchBottomSheetFragment.tag)
+        val matchArgs = MatchBottomSheetArgs(
             movieDetails = state.film,
             buttonText = getString(R.string.roulette_to_film_list),
             showDismisAnimation = false
         )
-        matchBottomSheetFragment.show(parentFragmentManager, matchBottomSheetFragment.tag)
+        viewModel.navigate(RouletteFragmentDirections.actionRouletteFragmentToMatchBottomSheetFragment(matchArgs))
     }
+
 
     private fun handleRouletteState(state: RouletteState.Roulette) {
         if (binding.recyclerViewRoulette.adapter == null) {
