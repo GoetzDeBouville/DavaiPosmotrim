@@ -1,5 +1,6 @@
 package com.davay.android.core.data.network
 
+import android.util.Log
 import io.ktor.client.HttpClient
 import io.ktor.client.plugins.websocket.WebSockets
 import io.ktor.client.plugins.websocket.webSocketSession
@@ -31,12 +32,14 @@ abstract class WebsocketKtorNetworkClient<O, M> : WebsocketNetworkClient<O, M> {
     }
 
     override fun subscribe(deviceId: String, path: String): Flow<O> = flow {
+        Log.d("MyTag", "WebsocketKtorNetworkClient.subscribe deviceId: $deviceId path: $path")
         session = httpClient.webSocketSession(host = BASE_URL, path = path) {
             request {
                 header(DEVICE_ID_KEY, deviceId)
                 header(ORIGIN_KEY, ORIGIN_VALUE)
             }
         }
+        Log.d("MyTag", session.toString())
         session?.let {
             val incomingMessageFlow = it.incoming.consumeAsFlow()
                 .filterIsInstance<Frame.Text>()

@@ -14,24 +14,30 @@ class CommonWebsocketInteractor @Inject constructor(
     private val usersWebsocketRepository: UsersWebsocketRepository,
     private val sessionResultWebsocketRepository: SessionResultWebsocketRepository,
 ) {
-    fun subscribeSessionStatus(deviceId: String, path: String): Flow<SessionStatus> {
-        return sessionStatusWebsocketRepository.subscribe(deviceId, path)
+    fun subscribeSessionStatus(deviceId: String, sessionId: String): Flow<SessionStatus> {
+        return sessionStatusWebsocketRepository.subscribe(
+            deviceId,
+            "$sessionId$PATH_SESSION_STATUS"
+        )
     }
 
     suspend fun unsubscribeSessionStatus() {
         sessionStatusWebsocketRepository.unsubscribe()
     }
 
-    fun subscribeUsers(deviceId: String, path: String): Flow<List<User>> {
-        return usersWebsocketRepository.subscribe(deviceId, path)
+    fun subscribeUsers(deviceId: String, sessionId: String): Flow<List<User>> {
+        return usersWebsocketRepository.subscribe(deviceId, "$sessionId$PATH_USERS")
     }
 
     suspend fun unsubscribeUsers() {
         usersWebsocketRepository.unsubscribe()
     }
 
-    fun subscribeSessionResult(deviceId: String, path: String): Flow<SessionWithMovies?> {
-        return sessionResultWebsocketRepository.subscribe(deviceId, path)
+    fun subscribeSessionResult(deviceId: String, sessionId: String): Flow<SessionWithMovies?> {
+        return sessionResultWebsocketRepository.subscribe(
+            deviceId,
+            "$sessionId$PATH_SESSION_RESULT"
+        )
     }
 
     suspend fun unsubscribeSessionResult() {
