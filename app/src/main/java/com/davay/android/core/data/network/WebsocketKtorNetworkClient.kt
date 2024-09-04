@@ -3,6 +3,8 @@ package com.davay.android.core.data.network
 import io.ktor.client.HttpClient
 import io.ktor.client.plugins.websocket.WebSockets
 import io.ktor.client.plugins.websocket.webSocketSession
+import io.ktor.client.request.header
+import io.ktor.client.request.request
 import io.ktor.websocket.Frame
 import io.ktor.websocket.WebSocketSession
 import io.ktor.websocket.close
@@ -28,8 +30,13 @@ abstract class WebsocketKtorNetworkClient<O, M> : WebsocketNetworkClient<O, M> {
         session = null
     }
 
-    override fun subscribe(baseUrl: String, path: String): Flow<O> = flow {
-        session = httpClient.webSocketSession(host = baseUrl, path = path)
+    override fun subscribe(deviceId: String, path: String): Flow<O> = flow {
+        session = httpClient.webSocketSession(host = BASE_URL, path = path) {
+            request {
+                header(DEVICE_ID_KEY, deviceId)
+                header(ORIGIN_KEY, ORIGIN_VALUE)
+            }
+        }
         session?.let {
             val incomingMessageFlow = it.incoming.consumeAsFlow()
                 .filterIsInstance<Frame.Text>()
@@ -47,5 +54,9 @@ abstract class WebsocketKtorNetworkClient<O, M> : WebsocketNetworkClient<O, M> {
 
     companion object {
         const val PING_INTERVAL = 20_000L
+        const val DEVICE_ID_KEY = "Device-ID"
+        const val ORIGIN_KEY = "Origin"
+        const val ORIGIN_VALUE = "http://80.87.108.90/"
+        const val BASE_URL = "ws://80.87.108.90/ws/session"
     }
 }

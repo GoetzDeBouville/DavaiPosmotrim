@@ -5,7 +5,6 @@ import androidx.lifecycle.viewModelScope
 import com.davay.android.BuildConfig
 import com.davay.android.base.BaseViewModel
 import com.davay.android.core.domain.impl.CommonWebsocketInteractor
-import com.davay.android.core.domain.impl.CommonWebsocketInteractor.Companion.BASE_URL
 import com.davay.android.core.domain.impl.CommonWebsocketInteractor.Companion.PATH_SESSION_STATUS
 import com.davay.android.feature.waitsession.domain.WaitSessionOnBoardingInteractor
 import kotlinx.coroutines.Dispatchers
@@ -18,6 +17,7 @@ class WaitSessionViewModel @Inject constructor(
 ) : BaseViewModel() {
 
     private val sessionId = "asdf123"
+    private val deviceId = "d3e22dcc-1393-4171-8123-468b1c9b3c23"
 
     fun isFirstTimeLaunch(): Boolean {
         return waitSessionOnBoardingInteractor.isFirstTimeLaunch()
@@ -32,7 +32,7 @@ class WaitSessionViewModel @Inject constructor(
         viewModelScope.launch(Dispatchers.IO) {
             runCatching {
                 commonWebsocketInteractor.subscribeSessionStatus(
-                    baseUrl = BASE_URL,
+                    deviceId = deviceId,
                     path = "$sessionId$PATH_SESSION_STATUS"
                 ).collect { sessionStatus ->
                     Log.d("WaitSessionViewModel", sessionStatus.toString())
