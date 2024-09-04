@@ -12,20 +12,18 @@ import com.davay.android.core.domain.api.UsersWebsocketRepository
 import com.davay.android.core.domain.impl.CommonWebsocketInteractor
 import dagger.Module
 import dagger.Provides
-import javax.inject.Named
 
 @Module
 class CommonWebsocketModule {
 
     @Provides
-    @Named(SESSION_STATUS_CLIENT)
-    fun provideWebsocketSessionStatusClient(): WebsocketNetworkClient<SessionStatusDto, SessionStatusDto> {
+    fun provideWebsocketSessionStatusClient(): WebsocketNetworkClient<SessionStatusDto, String> {
         return WebsocketSessionStatusClient()
     }
 
     @Provides
     fun provideSessionStatusWebsocketRepository(
-        @Named(SESSION_STATUS_CLIENT) client: WebsocketNetworkClient<SessionStatusDto, SessionStatusDto>
+        client: WebsocketNetworkClient<SessionStatusDto, String>
     ): SessionStatusWebsocketRepository {
         return SessionStatusWebsocketRepositoryImpl(client)
     }
@@ -51,9 +49,5 @@ class CommonWebsocketModule {
             sessionStatusWebsocketRepository,
             usersWebsocketRepository
         )
-    }
-
-    companion object {
-        const val SESSION_STATUS_CLIENT = "SESSION_STATUS_CLIENT"
     }
 }

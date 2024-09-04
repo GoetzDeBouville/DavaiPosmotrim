@@ -5,6 +5,5 @@ import kotlinx.coroutines.flow.Flow
 
 interface SessionStatusWebsocketRepository {
     fun subscribe(deviceId: String, path: String): Flow<SessionStatus>
-    suspend fun sendMessage(message: SessionStatus)
     suspend fun unsubscribe()
 }

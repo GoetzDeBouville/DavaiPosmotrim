@@ -15,10 +15,6 @@ class CommonWebsocketInteractor @Inject constructor(
         return sessionStatusWebsocketRepository.subscribe(deviceId, path)
     }
 
-    suspend fun sendMessageSessionStatus(message: SessionStatus) {
-        sessionStatusWebsocketRepository.sendMessage(message)
-    }
-
     suspend fun unsubscribeSessionStatus() {
         sessionStatusWebsocketRepository.unsubscribe()
     }
