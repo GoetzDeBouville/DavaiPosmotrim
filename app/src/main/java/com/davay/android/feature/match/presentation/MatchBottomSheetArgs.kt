@@ -7,6 +7,6 @@ import kotlinx.parcelize.Parcelize
 @Parcelize
 data class MatchBottomSheetArgs(
     val movieDetails: MovieDetails,
-    val buttonText: String?,
+    val buttonText: String,
     val showDismisAnimation: Boolean
 ) : Parcelable

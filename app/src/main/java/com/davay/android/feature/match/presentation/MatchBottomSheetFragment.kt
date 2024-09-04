@@ -28,22 +28,20 @@ class MatchBottomSheetFragment : BottomSheetDialogFragment() {
         get() = _binding!!
     private val movieDetailsHelper: MovieDetailsHelper = MovieDetailsHelperImpl()
     private val animationMatchDialog: AnimationMatchDialog = AnimationMatchDialogImpl()
+
+    private val args: MatchBottomSheetFragmentArgs by navArgs()
 //    private var movieDetails: MovieDetails? = null
 //    private var buttonText: String? = null
 //    private var showDismisAnimation = true
 
-    private val args: MatchBottomSheetFragmentArgs by navArgs()
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
 //        arguments?.let {
 //            movieDetails = it.getParcelable(ARG_MOVIE_DETAILS)
 //                ?: throw IllegalArgumentException("Movie details not found")
 //            buttonText = it.getString(ARG_BUTTON_TEXT)
 //        }
-        val movieDetails = args.movieDetails
-        val buttonText = args.buttonText
-        val showDismisAnimation = args.showDismisAnimation
     }
 
     override fun onCreateView(
@@ -86,7 +84,7 @@ class MatchBottomSheetFragment : BottomSheetDialogFragment() {
         subscribe()
         //movieDetails?.let { fillData(it) }
         //args.matchBottomSheetArgs.movieDetails?.let { fillData(it) }
-        fillData(args.movieDetails)
+        fillData(args.MatchBottomSheetArgs.movieDetails)
     }
 
     private fun initViews() {
@@ -94,7 +92,7 @@ class MatchBottomSheetFragment : BottomSheetDialogFragment() {
         hideUnusedItems()
        // buttonText?.let { setButtonText(it) }
         //args.matchBottomSheetArgs.buttonText?.let { setButtonText(it) }
-        setButtonText(args.buttonText)
+        setButtonText(args.MatchBottomSheetArgs.buttonText)
     }
 
     private fun subscribe() {
@@ -173,7 +171,7 @@ class MatchBottomSheetFragment : BottomSheetDialogFragment() {
             dialog?.findViewById<View>(com.google.android.material.R.id.design_bottom_sheet) as? FrameLayout
                 ?: return
        // if (showDismisAnimation == true) {
-        if (args.showDismisAnimation) {
+        if (args.MatchBottomSheetArgs.showDismisAnimation) {
             animationMatchDialog.animateDialogDismiss(
                 bottomSheet
             ) {
@@ -182,25 +180,5 @@ class MatchBottomSheetFragment : BottomSheetDialogFragment() {
         } else {
             dismiss()
         }
-    }
-
-    companion object {
-        private const val ARG_MOVIE_DETAILS = "movie_details"
-        private const val ARG_BUTTON_TEXT = "button_text"
-
-//        fun newInstance(
-//            movieDetails: MovieDetails,
-//            buttonText: String? = null,
-//            showDismisAnimation: Boolean = true
-//        ): MatchBottomSheetFragment {
-//            val fragment = MatchBottomSheetFragment()
-//            fragment.showDismisAnimation = showDismisAnimation
-//            val args = Bundle().apply {
-//                putParcelable(ARG_MOVIE_DETAILS, movieDetails)
-//                if (buttonText != null) putString(ARG_BUTTON_TEXT, buttonText)
-//            }
-//            fragment.arguments = args
-//            return fragment
-//        }
     }
 }
