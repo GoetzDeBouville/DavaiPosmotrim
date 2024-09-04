@@ -8,6 +8,7 @@ import com.davay.android.core.data.dto.GenreDto
 import com.davay.android.core.data.dto.MovieDetailsDto
 import com.davay.android.core.data.dto.MovieDto
 import com.davay.android.core.data.dto.SessionDto
+import com.davay.android.core.data.dto.SessionResultDto
 import com.davay.android.core.data.dto.SessionStatusDto
 import com.davay.android.core.data.dto.UserDto
 import com.davay.android.core.domain.models.CompilationFilms
@@ -188,5 +189,38 @@ fun SessionWithMoviesDb.toDomain(): SessionWithMovies {
     return SessionWithMovies(
         session = session.toDomain(),
         movies = movies.map { it.toDomain() }
+    )
+}
+
+fun SessionResultDto.toDomain(): SessionWithMovies {
+    val dateFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
+    val minDate = dateFormat.parse("2024-01-01")
+    val currentDate = Date()
+
+    val parsedDate = try {
+        dateFormat.parse(date)
+    } catch (e: ParseException) {
+        null
+    }
+
+    val validDate = when {
+        parsedDate == null -> minDate
+        parsedDate.before(minDate) -> minDate
+        parsedDate.after(currentDate) -> minDate
+        else -> parsedDate
+    }
+
+    val timestamp = validDate.time
+
+    return SessionWithMovies(
+        session = Session(
+            id = id,
+            users = users.map { it.name },
+            numberOfMatchedMovies = matchedMoviesCount,
+            date = timestamp,
+            status = SessionStatus.CLOSED,
+            imgUrl = imgUrl
+        ),
+        movies = matchedMovies.map { it.toDomain() }
     )
 }
