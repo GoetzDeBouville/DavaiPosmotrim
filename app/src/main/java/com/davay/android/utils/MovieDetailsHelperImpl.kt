@@ -120,13 +120,13 @@ open class MovieDetailsHelperImpl : MovieDetailsHelper, AdditionalInfoInflater {
                 if (it.size > MAX_COUNTRY_NUMBER) {
                     str.append(MULTIPOINT)
                 }
-                str.append(DOT_DELIMETER)
             }
         }
     }
 
     private fun appendDuration(duration: Int?, str: StringBuilder, context: Context) {
         duration?.let {
+            str.append(DOT_DELIMETER)
             str.append(it.formatMovieDuration(context))
         }
     }

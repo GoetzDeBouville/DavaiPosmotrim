@@ -264,11 +264,13 @@ class SelectMovieFragment :
     private fun inflateMovieDetails(movie: MovieDetails) = with(binding) {
         tvDetailsDescription.text = movie.description
         fillInfo(movie)
-        additionalInfoInflater.setRate(
-            movie.ratingImdb,
-            movie.numOfMarksImdb,
-            mevDetailsImdbRate
-        )
+        if(movie.ratingImdb > 1f) {
+            additionalInfoInflater.setRate(
+                movie.ratingImdb,
+                movie.numOfMarksImdb,
+                mevDetailsImdbRate
+            )
+        }
         additionalInfoInflater.setRate(
             movie.ratingKinopoisk,
             movie.numOfMarksKinopoisk,
