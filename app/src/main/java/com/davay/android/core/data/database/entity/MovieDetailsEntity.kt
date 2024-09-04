@@ -21,9 +21,9 @@ data class MovieDetailsEntity(
     @ColumnInfo(name = "alternative_name")
     val alternativeName: String? = null,
     @ColumnInfo(name = "rating_kinopoisk")
-    val ratingKinopoisk: Float? = null,
+    val ratingKinopoisk: Float = 0.0f,
     @ColumnInfo(name = "rating_imdb")
-    val ratingImdb: Float? = null,
+    val ratingImdb: Float = 0.0f,
     @ColumnInfo(name = "num_of_marks_kinopoisk")
     val numOfMarksKinopoisk: Int? = null,
     @ColumnInfo(name = "num_of_marks_imdb")

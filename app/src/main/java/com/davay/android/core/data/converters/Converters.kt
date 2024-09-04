@@ -19,10 +19,13 @@ import com.davay.android.core.domain.models.Session
 import com.davay.android.core.domain.models.SessionStatus
 import com.davay.android.core.domain.models.SessionWithMovies
 import com.davay.android.core.domain.models.User
+import java.net.URLDecoder
+import java.nio.charset.StandardCharsets
 import java.text.ParseException
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
+import kotlin.math.round
 
 fun CollectionDto.toDomain() = CompilationFilms(
     id,
@@ -43,15 +46,15 @@ fun UserDto.toDomain() = User(
     name = name
 )
 
-fun MovieDetailsDto.toDomain() = MovieDetails(
+fun MovieDetailsDto.toDomain(id: Int) = MovieDetails(
     id,
     name,
     description,
     year,
     countries,
-    imgUrl,
+    URLDecoder.decode(imgUrl?.removePrefix("/"), StandardCharsets.UTF_8.toString()),
     alternativeName,
-    ratingKinopoisk,
+    (round(ratingKinopoisk * 10) / 10),
     ratingImdb,
     numOfMarksKinopoisk,
     numOfMarksImdb,
@@ -60,6 +63,7 @@ fun MovieDetailsDto.toDomain() = MovieDetails(
     actors,
     directors
 )
+
 
 /**
  * Конвертирует строку с датой в timeStamp.
