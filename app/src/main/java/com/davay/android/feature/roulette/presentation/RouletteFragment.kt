@@ -193,18 +193,16 @@ class RouletteFragment :
 
 
     private fun handleMatchState(state: RouletteState.Match) {
-//        val matchBottomSheetFragment = MatchBottomSheetFragment.newInstance(
-//            movieDetails = state.film,
-//            buttonText = getString(R.string.roulette_to_film_list),
-//            showDismisAnimation = false
-//        )
-//        matchBottomSheetFragment.show(parentFragmentManager, matchBottomSheetFragment.tag)
         val matchArgs = MatchBottomSheetArgs(
             movieDetails = state.film,
             buttonText = getString(R.string.roulette_to_film_list),
             showDismisAnimation = false
         )
-        viewModel.navigate(RouletteFragmentDirections.actionRouletteFragmentToMatchBottomSheetFragment(matchArgs))
+        viewModel.navigate(
+            RouletteFragmentDirections.actionRouletteFragmentToMatchBottomSheetFragment(
+                matchArgs
+            )
+        )
     }
 
 
