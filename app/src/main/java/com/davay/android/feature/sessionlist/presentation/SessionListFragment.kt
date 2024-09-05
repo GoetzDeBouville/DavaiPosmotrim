@@ -46,7 +46,6 @@ class SessionListFragment : BaseFragment<FragmentSessionListBinding, SessionList
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         dialog = MainDialogFragment.newInstance(
             title = getString(R.string.leave_session_title),
             message = getString(R.string.leave_session_dialog_message),

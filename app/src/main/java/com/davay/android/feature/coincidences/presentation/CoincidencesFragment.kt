@@ -15,6 +15,7 @@ import androidx.lifecycle.repeatOnLifecycle
 import com.davai.uikit.BannerView
 import com.davay.android.R
 import com.davay.android.base.BaseFragment
+import com.davay.android.core.presentation.LastItemDecorator
 import com.davay.android.core.presentation.MainActivity
 import com.davay.android.databinding.FragmentCoincidencesBinding
 import com.davay.android.di.AppComponentHolder
@@ -106,6 +107,12 @@ class CoincidencesFragment : BaseFragment<FragmentCoincidencesBinding, Coinciden
     }
 
     private fun setupMoviesGrid() = with(binding.coincidencesList) {
+        ViewCompat.getRootWindowInsets(binding.root)
+            ?.getInsets(WindowInsetsCompat.Type.navigationBars())
+            ?.bottom
+            ?.let {
+                addItemDecoration(LastItemDecorator(it))
+            }
         adapter = moviesGridAdapter
     }
 
