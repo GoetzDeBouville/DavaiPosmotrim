@@ -17,6 +17,6 @@ data class MovieDetailsDto(
     @SerialName("votes_imdb") val numOfMarksImdb: Int?,
     @SerialName("movie_length") val duration: Int?,
     @SerialName("genres") val genres: List<GenreDto>,
-    @SerialName("directors") val directors: List<String>?,
-    @SerialName("actors") val actors: List<String>?
+    @SerialName("directors") val directors: List<String?>?,
+    @SerialName("actors") val actors: List<String?>?
 )
