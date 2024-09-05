@@ -26,7 +26,7 @@ class SelectMovieRepositoryImpl @Inject constructor(
     /**
      * Метод принимает номер позиции и возвращает список MovieDetails
      */
-    override fun getMovieByPositionId(positionNumber: Int): Flow<Result<List<MovieDetails>, ErrorType>> =
+    override fun getMovieListByPositionId(positionNumber: Int): Flow<Result<List<MovieDetails>, ErrorType>> =
         flow {
             val movies = mutableListOf<MovieDetails>()
 
@@ -100,6 +100,6 @@ class SelectMovieRepositoryImpl @Inject constructor(
 
     private companion object {
         val TAG = SelectMovieRepositoryImpl::class.simpleName
-        const val PAGINATION_SIZE = 10
+        const val PAGINATION_SIZE = 20
     }
 }
