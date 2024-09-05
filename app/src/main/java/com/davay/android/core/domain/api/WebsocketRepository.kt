@@ -12,4 +12,8 @@ interface WebsocketRepository {
     suspend fun unsubscribeSessionResult()
     fun subscribeSessionStatus(deviceId: String, path: String): Flow<SessionStatus>
     suspend fun unsubscribeSessionStatus()
+    fun subscribeRouletteId(deviceId: String, path: String): Flow<Int?>
+    suspend fun unsubscribeRouletteId()
+    fun subscribeMatchesId(deviceId: String, path: String): Flow<Int?>
+    suspend fun unsubscribeMatchesId()
 }

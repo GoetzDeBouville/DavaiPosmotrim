@@ -10,6 +10,8 @@ import com.davay.android.core.domain.api.WebsocketRepository
 import com.davay.android.core.domain.models.SessionStatus
 import com.davay.android.core.domain.models.SessionWithMovies
 import com.davay.android.core.domain.models.User
+import com.davay.android.di.MatchesIdClient
+import com.davay.android.di.RouletteIdClient
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject
@@ -18,6 +20,8 @@ class WebsocketRepositoryImpl @Inject constructor(
     private val websocketUsersClient: WebsocketNetworkClient<List<UserDto>, String>,
     private val websocketSessionResultClient: WebsocketNetworkClient<SessionResultDto?, String>,
     private val websocketSessionStatusClient: WebsocketNetworkClient<SessionStatusDto, String>,
+    @RouletteIdClient private val websocketRouletteIdClient: WebsocketNetworkClient<Int?, String>,
+    @MatchesIdClient private val websocketMatchesIdClient: WebsocketNetworkClient<Int?, String>,
 ) : WebsocketRepository {
 
     override fun subscribeUsers(deviceId: String, path: String): Flow<List<User>> {
@@ -55,6 +59,34 @@ class WebsocketRepositoryImpl @Inject constructor(
     override suspend fun unsubscribeSessionStatus() {
         runCatching {
             websocketSessionStatusClient.close()
+        }.onFailure { error ->
+            if (BuildConfig.DEBUG) {
+                error.printStackTrace()
+            }
+        }
+    }
+
+    override fun subscribeRouletteId(deviceId: String, path: String): Flow<Int?> {
+        return websocketRouletteIdClient.subscribe(deviceId, path)
+    }
+
+    override suspend fun unsubscribeRouletteId() {
+        runCatching {
+            websocketRouletteIdClient.close()
+        }.onFailure { error ->
+            if (BuildConfig.DEBUG) {
+                error.printStackTrace()
+            }
+        }
+    }
+
+    override fun subscribeMatchesId(deviceId: String, path: String): Flow<Int?> {
+        return websocketMatchesIdClient.subscribe(deviceId, path)
+    }
+
+    override suspend fun unsubscribeMatchesId() {
+        runCatching {
+            websocketMatchesIdClient.close()
         }.onFailure { error ->
             if (BuildConfig.DEBUG) {
                 error.printStackTrace()

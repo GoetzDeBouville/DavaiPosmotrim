@@ -40,9 +40,34 @@ class CommonWebsocketInteractor @Inject constructor(
         websocketRepository.unsubscribeSessionResult()
     }
 
+    fun subscribeRouletteId(deviceId: String, sessionId: String): Flow<Int?> {
+        return websocketRepository.subscribeRouletteId(
+            deviceId,
+            "$sessionId$PATH_ROULETTE"
+        )
+    }
+
+    suspend fun unsubscribeRouletteId() {
+        websocketRepository.unsubscribeRouletteId()
+    }
+
+    fun subscribeMatchesId(deviceId: String, sessionId: String): Flow<Int?> {
+        return websocketRepository.subscribeMatchesId(
+            deviceId,
+            "$sessionId$PATH_MATCHES"
+        )
+    }
+
+    suspend fun unsubscribeMatchesId() {
+        websocketRepository.unsubscribeMatchesId()
+    }
+
+
     companion object {
         const val PATH_SESSION_STATUS = "/session_status/"
         const val PATH_USERS = "/users/"
         const val PATH_SESSION_RESULT = "/session_result/"
+        const val PATH_ROULETTE = "/roulette/"
+        const val PATH_MATCHES = "/matches/"
     }
 }

@@ -15,7 +15,7 @@ class WaitSessionViewModel @Inject constructor(
     private val commonWebsocketInteractor: CommonWebsocketInteractor,
 ) : BaseViewModel() {
 
-    private val sessionId = "omQTAo8w"
+    private val sessionId = "lQzwL3PC"
     private val deviceId = "d3e22dcc-1393-4171-8123-468b1c9b3c23"
 
     init {
@@ -69,6 +69,36 @@ class WaitSessionViewModel @Inject constructor(
                     sessionId = sessionId
                 ).collect { sessionResult ->
                     Log.d("WaitSessionViewModel", sessionResult.toString())
+                }
+            }.onFailure { error ->
+                if (BuildConfig.DEBUG) {
+                    error.printStackTrace()
+                }
+            }
+        }
+
+        viewModelScope.launch(Dispatchers.IO) {
+            runCatching {
+                commonWebsocketInteractor.subscribeRouletteId(
+                    deviceId = deviceId,
+                    sessionId = sessionId
+                ).collect { id ->
+                    Log.d("WaitSessionViewModel", id.toString())
+                }
+            }.onFailure { error ->
+                if (BuildConfig.DEBUG) {
+                    error.printStackTrace()
+                }
+            }
+        }
+
+        viewModelScope.launch(Dispatchers.IO) {
+            runCatching {
+                commonWebsocketInteractor.subscribeMatchesId(
+                    deviceId = deviceId,
+                    sessionId = sessionId
+                ).collect { id ->
+                    Log.d("WaitSessionViewModel", id.toString())
                 }
             }.onFailure { error ->
                 if (BuildConfig.DEBUG) {

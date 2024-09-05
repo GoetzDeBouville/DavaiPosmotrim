@@ -4,6 +4,7 @@ import com.davay.android.core.data.dto.SessionResultDto
 import com.davay.android.core.data.dto.SessionStatusDto
 import com.davay.android.core.data.dto.UserDto
 import com.davay.android.core.data.impl.WebsocketRepositoryImpl
+import com.davay.android.core.data.network.WebsocketMovieIdClient
 import com.davay.android.core.data.network.WebsocketNetworkClient
 import com.davay.android.core.data.network.WebsocketSessionResultClient
 import com.davay.android.core.data.network.WebsocketSessionStatusClient
@@ -12,6 +13,10 @@ import com.davay.android.core.domain.api.WebsocketRepository
 import com.davay.android.core.domain.impl.CommonWebsocketInteractor
 import dagger.Module
 import dagger.Provides
+import java.lang.annotation.RetentionPolicy
+import javax.inject.Qualifier
+
+
 
 @Module
 class CommonWebsocketModule {
@@ -31,16 +36,32 @@ class CommonWebsocketModule {
         return WebsocketSessionStatusClient()
     }
 
+    @RouletteIdClient
+    @Provides
+    fun provideWebsocketRouletteIdClient(): WebsocketNetworkClient<Int?, String> {
+        return WebsocketMovieIdClient()
+    }
+
+    @MatchesIdClient
+    @Provides
+    fun provideWebsocketMatchesIdClient(): WebsocketNetworkClient<Int?, String> {
+        return WebsocketMovieIdClient()
+    }
+
     @Provides
     fun provideWebsocketRepository(
         websocketUsersClient: WebsocketNetworkClient<List<UserDto>, String>,
         websocketSessionResultClient: WebsocketNetworkClient<SessionResultDto?, String>,
         websocketSessionStatusClient: WebsocketNetworkClient<SessionStatusDto, String>,
+        @RouletteIdClient websocketRouletteIdClient: WebsocketNetworkClient<Int?, String>,
+        @MatchesIdClient websocketMatchesIdClient: WebsocketNetworkClient<Int?, String>,
     ): WebsocketRepository {
         return WebsocketRepositoryImpl(
             websocketUsersClient,
             websocketSessionResultClient,
-            websocketSessionStatusClient
+            websocketSessionStatusClient,
+            websocketRouletteIdClient,
+            websocketMatchesIdClient
         )
     }
 
@@ -53,3 +74,11 @@ class CommonWebsocketModule {
         )
     }
 }
+
+@Qualifier
+@Retention(AnnotationRetention.RUNTIME)
+annotation class RouletteIdClient
+
+@Qualifier
+@Retention(AnnotationRetention.RUNTIME)
+annotation class MatchesIdClient
