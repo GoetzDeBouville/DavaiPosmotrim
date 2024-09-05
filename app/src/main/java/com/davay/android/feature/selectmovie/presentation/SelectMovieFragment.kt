@@ -1,6 +1,7 @@
 package com.davay.android.feature.selectmovie.presentation
 
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.activity.OnBackPressedCallback
 import androidx.core.view.isVisible
@@ -99,7 +100,7 @@ class SelectMovieFragment :
     }
 
     private fun renderState(state: SelectMovieState) {
-        when(state) {
+        when (state) {
             is SelectMovieState.Loading -> showProgressBar()
             is SelectMovieState.Content -> showContent(state)
             is SelectMovieState.Error -> handleError(state)
@@ -206,14 +207,14 @@ class SelectMovieFragment :
                     if (swipeCardLayoutManager.isListIsFinished()) {
                         viewModel.listIsFinished()
                     }
-                    viewModel.onMovieSwiped(currentPosition, false)
+                    autoSwipeLeft()
                 },
                 onSwipedRight = {
                     // Add like method
                     if (swipeCardLayoutManager.isListIsFinished()) {
                         viewModel.listIsFinished()
                     }
-                    viewModel.onMovieSwiped(currentPosition, true)
+                    autoSwipeRight()
                 }
             )
         )
@@ -248,23 +249,32 @@ class SelectMovieFragment :
 
     private fun autoSwipeLeft() {
         swipeCardLayoutManager.moveNextWithSwipeAndLayout(SwipeDirection.LEFT)
+        currentPosition = swipeCardLayoutManager.getCurrentPosition()
+        viewModel.onMovieSwiped(currentPosition, false)
+        Log.v(TAG, "currentPosition = $currentPosition")
         cardAdapter.notifyDataSetChanged()
     }
 
     private fun autoSwipeRight() {
         swipeCardLayoutManager.moveNextWithSwipeAndLayout(SwipeDirection.RIGHT)
+        currentPosition = swipeCardLayoutManager.getCurrentPosition()
+        viewModel.onMovieSwiped(currentPosition, true)
+        Log.v(TAG, "currentPosition = $currentPosition")
         cardAdapter.notifyDataSetChanged()
     }
 
     private fun revertSwipe() {
         swipeCardLayoutManager.shiftLeftWithRevertAndLayout()
+        currentPosition = swipeCardLayoutManager.getCurrentPosition()
+        viewModel.onMovieSwiped(currentPosition, true)
+        Log.v(TAG, "currentPosition = $currentPosition")
         cardAdapter.notifyDataSetChanged()
     }
 
     private fun inflateMovieDetails(movie: MovieDetails) = with(binding) {
         tvDetailsDescription.text = movie.description
         fillInfo(movie)
-        if(movie.ratingImdb > 1f) {
+        if (movie.ratingImdb > 1f) {
             additionalInfoInflater.setRate(
                 movie.ratingImdb,
                 movie.numOfMarksImdb,
@@ -311,6 +321,7 @@ class SelectMovieFragment :
         const val BOTTOMSHEET_PEEK_HEIGHT_112_DP = 112
         const val MARGIN_TOP_16_DP = 16
         const val CURRENT_POSITION_KEY = "currentPosition"
+        val TAG = SelectMovieFragment::class.simpleName
     }
 }
 

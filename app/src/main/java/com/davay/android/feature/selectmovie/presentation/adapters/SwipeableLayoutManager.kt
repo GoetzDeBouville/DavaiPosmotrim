@@ -4,6 +4,7 @@ import android.animation.Animator
 import android.animation.AnimatorListenerAdapter
 import android.animation.AnimatorSet
 import android.animation.ObjectAnimator
+import android.util.Log
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
@@ -69,6 +70,7 @@ class SwipeableLayoutManager : RecyclerView.LayoutManager() {
                 }
             }
         }
+        Log.v(TAG, "currentPosition = $currentPosition")
     }
 
     fun shiftLeftWithRevertAndLayout() {
@@ -79,6 +81,7 @@ class SwipeableLayoutManager : RecyclerView.LayoutManager() {
             requestLayout()
             previousView?.let { animateRevert(previousView) }
         }
+        Log.v(TAG, "currentPosition = $currentPosition")
     }
 
     private fun getCurrentView(): View? {
@@ -169,7 +172,7 @@ class SwipeableLayoutManager : RecyclerView.LayoutManager() {
         }
     }
 
-    fun isListIsFinished() : Boolean = listIsFinished
+    fun isListIsFinished(): Boolean = listIsFinished
 
     companion object {
         const val ANIMATION_DURATION_800_MS = 800L
@@ -182,5 +185,6 @@ class SwipeableLayoutManager : RecyclerView.LayoutManager() {
         const val TRANSLATION_X = "translationX"
         const val TRANSLATION_Y = "translationY"
         const val ROTATION = "rotation"
+        private val TAG = SwipeableLayoutManager::class.simpleName
     }
 }

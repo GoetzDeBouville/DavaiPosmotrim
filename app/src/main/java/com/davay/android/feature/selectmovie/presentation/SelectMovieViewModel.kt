@@ -1,11 +1,12 @@
 package com.davay.android.feature.selectmovie.presentation
 
+import android.util.Log
 import androidx.lifecycle.viewModelScope
 import com.davay.android.base.BaseViewModel
 import com.davay.android.core.domain.models.MovieDetails
 import com.davay.android.feature.selectmovie.domain.FilterDislikedMovieListUseCase
-import com.davay.android.feature.selectmovie.domain.GetMovieListUseCase
 import com.davay.android.feature.selectmovie.domain.GetMovieIdListSizeUseCase
+import com.davay.android.feature.selectmovie.domain.GetMovieListUseCase
 import com.davay.android.feature.selectmovie.domain.SwipeMovieUseCase
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -22,9 +23,8 @@ class SelectMovieViewModel @Inject constructor(
     private val _state = MutableStateFlow<SelectMovieState>(SelectMovieState.Loading)
     val state = _state.asStateFlow()
 
-    private var currentPosition = 0
     private var totalMovieIds = 0
-    private val loadedMovies = mutableListOf<MovieDetails>()
+    private var loadedMovies = mutableListOf<MovieDetails>()
 
     init {
         initializeMovieList()
@@ -34,6 +34,8 @@ class SelectMovieViewModel @Inject constructor(
         runSafelyUseCase(
             useCaseFlow = getMovieDetailsUseCase(position),
             onSuccess = { movieList ->
+                loadedMovies =
+                    (state.value as? SelectMovieState.Content)?.movieList ?: mutableListOf()
                 loadedMovies.addAll(movieList)
                 _state.update {
                     SelectMovieState.Content(movieList = loadedMovies)
@@ -43,12 +45,13 @@ class SelectMovieViewModel @Inject constructor(
                 _state.update { SelectMovieState.Error(mapErrorToUiState(error)) }
             }
         )
+        Log.v(TAG, "state = ${state.value}")
     }
 
     private fun initializeMovieList() {
         viewModelScope.launch {
             totalMovieIds = getMovieIdListSizeUseCase()
-            loadMovies(currentPosition)
+            loadMovies(0)
         }
     }
 
@@ -58,9 +61,9 @@ class SelectMovieViewModel @Inject constructor(
      * списка id элементов, которые потребутются для загрузки данных о фильмах
      */
     fun onMovieSwiped(position: Int, isLiked: Boolean) {
-        currentPosition = position
-        if (currentPosition + PRELOAD_SIZE >= loadedMovies.size && loadedMovies.size < totalMovieIds) {
-            loadMovies(currentPosition)
+        Log.v(TAG, "currentPosition = $position")
+        if (position + PRELOAD_SIZE >= loadedMovies.size && loadedMovies.size < totalMovieIds) {
+            loadMovies(position)
         }
         viewModelScope.launch {
             swipeMovieUseCase(position, isLiked)
@@ -84,6 +87,7 @@ class SelectMovieViewModel @Inject constructor(
     }
 
     private companion object {
-        const val PRELOAD_SIZE = 10
+        const val PRELOAD_SIZE = 20
+        val TAG = SelectMovieViewModel::class.simpleName
     }
 }
