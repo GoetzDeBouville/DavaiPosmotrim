@@ -1,11 +1,14 @@
 package com.davay.android.core.data.network
 
 import android.util.Log
+import com.davay.android.BuildConfig
 import io.ktor.client.HttpClient
+import io.ktor.client.plugins.logging.LogLevel
+import io.ktor.client.plugins.logging.Logger
+import io.ktor.client.plugins.logging.Logging
 import io.ktor.client.plugins.websocket.WebSockets
 import io.ktor.client.plugins.websocket.webSocketSession
-import io.ktor.client.request.header
-import io.ktor.client.request.request
+import io.ktor.client.request.headers
 import io.ktor.websocket.Frame
 import io.ktor.websocket.WebSocketSession
 import io.ktor.websocket.close
@@ -23,6 +26,16 @@ abstract class WebsocketKtorNetworkClient<O, M> : WebsocketNetworkClient<O, M> {
         install(WebSockets) {
             pingInterval = PING_INTERVAL
         }
+        install(Logging) {
+            if (BuildConfig.DEBUG) {
+                logger = object : Logger {
+                    override fun log(message: String) {
+                        Log.v("Logger Ktor =>", message)
+                    }
+                }
+                level = LogLevel.ALL
+            }
+        }
     }
     private var session: WebSocketSession? = null
 
@@ -34,9 +47,9 @@ abstract class WebsocketKtorNetworkClient<O, M> : WebsocketNetworkClient<O, M> {
     override fun subscribe(deviceId: String, path: String): Flow<O> = flow {
         Log.d("MyTag", "WebsocketKtorNetworkClient.subscribe deviceId: $deviceId path: $path")
         session = httpClient.webSocketSession(host = BASE_URL, path = path) {
-            request {
-                header(DEVICE_ID_KEY, deviceId)
-                header(ORIGIN_KEY, ORIGIN_VALUE)
+            headers {
+                append(DEVICE_ID_KEY, deviceId)
+                append(ORIGIN_KEY, ORIGIN_VALUE)
             }
         }
         Log.d("MyTag", session.toString())
@@ -60,6 +73,6 @@ abstract class WebsocketKtorNetworkClient<O, M> : WebsocketNetworkClient<O, M> {
         const val DEVICE_ID_KEY = "Device-ID"
         const val ORIGIN_KEY = "Origin"
         const val ORIGIN_VALUE = "http://80.87.108.90/"
-        const val BASE_URL = "ws://80.87.108.90/ws/session"
+        const val BASE_URL = "80.87.108.90/ws/session"
     }
 }

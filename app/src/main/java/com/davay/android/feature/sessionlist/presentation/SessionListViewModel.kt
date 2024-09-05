@@ -46,6 +46,30 @@ class SessionListViewModel @Inject constructor(
                     error.printStackTrace()
                 }
             }
+            runCatching {
+                commonWebsocketInteractor.subscribeSessionStatus(
+                    deviceId = deviceId,
+                    sessionId = sessionId
+                ).collect { sessionStatus ->
+                    Log.d("SessionListViewModel", sessionStatus.toString())
+                }
+            }.onFailure { error ->
+                if (BuildConfig.DEBUG) {
+                    error.printStackTrace()
+                }
+            }
+            runCatching {
+                commonWebsocketInteractor.subscribeSessionResult(
+                    deviceId = deviceId,
+                    sessionId = sessionId
+                ).collect { sessionResult ->
+                    Log.d("SessionListViewModel", sessionResult.toString())
+                }
+            }.onFailure { error ->
+                if (BuildConfig.DEBUG) {
+                    error.printStackTrace()
+                }
+            }
         }
 
     }
