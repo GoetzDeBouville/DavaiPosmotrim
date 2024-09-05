@@ -13,8 +13,8 @@ import com.davai.extensions.dpToPx
 import com.davay.android.R
 import com.davay.android.base.BaseFragment
 import com.davay.android.core.domain.models.ErrorScreenState
-import com.davay.android.core.presentation.LastItemDecorator
 import com.davay.android.core.domain.models.Session
+import com.davay.android.core.presentation.LastItemDecorator
 import com.davay.android.databinding.FragmentMatchedSessionBinding
 import com.davay.android.di.AppComponentHolder
 import com.davay.android.di.ScreenComponent
