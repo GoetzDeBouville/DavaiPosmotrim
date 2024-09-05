@@ -52,7 +52,9 @@ fun MovieDetailsDto.toDomain(id: Int) = MovieDetails(
     description,
     year,
     countries,
-    URLDecoder.decode(imgUrl?.removePrefix("/"), StandardCharsets.UTF_8.toString()),
+    imgUrl?.let {
+        URLDecoder.decode(it.removePrefix("/"), StandardCharsets.UTF_8.toString())
+    } ?: "",
     alternativeName,
     (round(ratingKinopoisk * 10) / 10),
     ratingImdb,
@@ -60,9 +62,24 @@ fun MovieDetailsDto.toDomain(id: Int) = MovieDetails(
     numOfMarksImdb,
     duration,
     genres.map { it.name },
-    actors,
-    directors
+    personsArrFormatter(actors),
+    personsArrFormatter(directors)
 )
+
+private fun personsArrFormatter(strList: List<String?>?): List<String> {
+    return if (strList.isNullOrEmpty()) {
+        emptyList()
+    } else {
+        val newList = mutableListOf<String>()
+
+        strList.forEach { str ->
+            if (str.isNullOrEmpty().not()) {
+                newList.add(str!!)
+            }
+        }
+        newList
+    }
+}
 
 
 /**
