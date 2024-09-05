@@ -1,5 +1,6 @@
 package com.davay.android.core.data.network
 
+import com.davay.android.core.data.dto.MessageSessionResultDto
 import com.davay.android.core.data.dto.SessionResultDto
 import io.ktor.websocket.Frame
 import io.ktor.websocket.readText
@@ -9,7 +10,7 @@ class WebsocketSessionResultClient : WebsocketKtorNetworkClient<SessionResultDto
 
     override fun mapIncomingMessage(message: Frame.Text, converter: Json): SessionResultDto? {
         return runCatching {
-            converter.decodeFromString<SessionResultDto>(message.readText())
+            converter.decodeFromString<MessageSessionResultDto>(message.readText()).sessionResultDto
         }.getOrNull()
     }
 

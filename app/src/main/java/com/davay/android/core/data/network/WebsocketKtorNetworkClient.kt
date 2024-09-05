@@ -45,14 +45,12 @@ abstract class WebsocketKtorNetworkClient<O, M> : WebsocketNetworkClient<O, M> {
     }
 
     override fun subscribe(deviceId: String, path: String): Flow<O> = flow {
-        Log.d("MyTag", "WebsocketKtorNetworkClient.subscribe deviceId: $deviceId path: $path")
         session = httpClient.webSocketSession(host = BASE_URL, path = path) {
             headers {
                 append(DEVICE_ID_KEY, deviceId)
                 append(ORIGIN_KEY, ORIGIN_VALUE)
             }
         }
-        Log.d("MyTag", session.toString())
         session?.let {
             val incomingMessageFlow = it.incoming.consumeAsFlow()
                 .filterIsInstance<Frame.Text>()

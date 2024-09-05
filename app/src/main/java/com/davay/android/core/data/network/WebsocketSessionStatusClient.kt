@@ -1,5 +1,6 @@
 package com.davay.android.core.data.network
 
+import com.davay.android.core.data.dto.MessageSessionStatusDto
 import com.davay.android.core.data.dto.SessionStatusDto
 import io.ktor.websocket.Frame
 import io.ktor.websocket.readText
@@ -10,7 +11,7 @@ class WebsocketSessionStatusClient :
 
     override fun mapIncomingMessage(message: Frame.Text, converter: Json): SessionStatusDto {
         return runCatching {
-            converter.decodeFromString<SessionStatusDto>(message.readText())
+            converter.decodeFromString<MessageSessionStatusDto>(message.readText()).sessionStatusDto
         }.getOrNull() ?: SessionStatusDto.CLOSED
     }
 
