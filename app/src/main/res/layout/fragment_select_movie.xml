@@ -192,6 +192,9 @@
                             app:rate_service="@string/select_movies_kinopoisk_rate" />
                     </LinearLayout>
                 </HorizontalScrollView>
+            <Space
+                android:layout_width="0dp"
+                android:layout_height="@dimen/margin_16"/>
             </LinearLayout>
         </androidx.core.widget.NestedScrollView>
 
