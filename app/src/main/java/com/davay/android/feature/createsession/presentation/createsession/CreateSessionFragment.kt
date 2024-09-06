@@ -31,30 +31,25 @@ class CreateSessionFragment : BaseFragment<FragmentCreateSessionBinding, CreateS
         super.onViewCreated(view, savedInstanceState)
         initTabs()
         setupToolbar()
-//        binding.btnContinue.setOnDebouncedClickListener(
-//            coroutineScope = lifecycleScope
-//        ) {
-//            val fragmentPosition = binding.viewPager.currentItem
-//            var shouldNavigate = false
-//            when (val fragment = childFragmentManager.findFragmentByTag("f$fragmentPosition")) {
-//                is CompilationsFragment -> {
-//                    shouldNavigate = fragment.buttonContinueClicked()
-//                }
-//
-//                is GenreFragment -> {
-//                    shouldNavigate = fragment.buttonContinueClicked()
-//                }
-//            }
-//            if (shouldNavigate) {
-//                viewModel.navigate(R.id.action_createSessionFragment_to_waitSessionFragment)
-//            } else {
-//                showBanner()
-//            }
-//        }
         binding.btnContinue.setOnDebouncedClickListener(
             coroutineScope = lifecycleScope
         ) {
-            viewModel.navigate(R.id.action_createSessionFragment_to_waitSessionFragment)
+            val fragmentPosition = binding.viewPager.currentItem
+            var shouldNavigate = false
+            when (val fragment = childFragmentManager.findFragmentByTag("f$fragmentPosition")) {
+                is CompilationsFragment -> {
+                    shouldNavigate = fragment.buttonContinueClicked()
+                }
+
+                is GenreFragment -> {
+                    shouldNavigate = fragment.buttonContinueClicked()
+                }
+            }
+            if (shouldNavigate) {
+                viewModel.navigate(R.id.action_createSessionFragment_to_waitSessionFragment)
+            } else {
+                showBanner()
+            }
         }
         updateBanner(
             getString(R.string.create_session_choose_compilations_one),
