@@ -15,6 +15,7 @@ import com.davai.extensions.dpToPx
 import com.davai.uikit.BannerView
 import com.davai.uikit.ButtonView
 import com.davai.uikit.MainDialogFragment
+import com.davai.util.setOnDebouncedClickListener
 import com.davay.android.R
 import com.davay.android.base.BaseFragment
 import com.davay.android.core.presentation.MainActivity
@@ -25,7 +26,6 @@ import com.davay.android.feature.onboarding.presentation.OnboardingFragment
 import com.davay.android.feature.waitsession.di.DaggerWaitSessionFragmentComponent
 import com.davay.android.feature.waitsession.presentation.adapter.CustomItemDecorator
 import com.davay.android.feature.waitsession.presentation.adapter.UserAdapter
-import com.davay.android.utils.setOnDebouncedClickListener
 import com.google.android.flexbox.AlignItems
 import com.google.android.flexbox.FlexDirection
 import com.google.android.flexbox.FlexWrap

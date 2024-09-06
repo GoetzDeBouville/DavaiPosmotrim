@@ -10,6 +10,7 @@ import androidx.core.view.updateLayoutParams
 import androidx.lifecycle.lifecycleScope
 import com.davai.uikit.MainDialogFragment
 import com.davai.uikit.MainScreenButtonView
+import com.davai.util.setOnDebouncedClickListener
 import com.davay.android.R
 import com.davay.android.base.BaseFragment
 import com.davay.android.databinding.FragmentMainBinding
@@ -17,7 +18,6 @@ import com.davay.android.di.AppComponentHolder
 import com.davay.android.di.ScreenComponent
 import com.davay.android.feature.changename.presentation.ChangeNameBottomSheetFragment
 import com.davay.android.feature.main.di.DaggerMainFragmentComponent
-import com.davay.android.utils.setOnDebouncedClickListener
 
 class MainFragment :
     BaseFragment<FragmentMainBinding, MainViewModel>(FragmentMainBinding::inflate) {

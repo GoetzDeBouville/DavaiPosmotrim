@@ -3,11 +3,11 @@ package com.davay.android.feature.selectmovie.presentation.adapters
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.davai.util.setOnDebouncedClickListener
 import com.davay.android.core.domain.models.MovieDetails
 import com.davay.android.databinding.ItemSwipeableMovieCardBinding
 import com.davay.android.utils.MovieDetailsHelper
 import com.davay.android.utils.MovieDetailsHelperImpl
-import com.davay.android.utils.setOnDebouncedClickListener
 import kotlinx.coroutines.CoroutineScope
 
 class MovieCardAdapter(

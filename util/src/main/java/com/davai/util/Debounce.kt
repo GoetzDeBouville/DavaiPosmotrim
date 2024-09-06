@@ -1,4 +1,4 @@
-package com.davay.android.utils
+package com.davai.util
 
 import android.view.View
 import kotlinx.coroutines.CoroutineScope

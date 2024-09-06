@@ -8,6 +8,7 @@ import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearSnapHelper
 import androidx.recyclerview.widget.RecyclerView
+import com.davai.util.setOnDebouncedClickListener
 import com.davay.android.R
 import com.davay.android.base.BaseFragment
 import com.davay.android.core.domain.models.MovieDetails
@@ -22,7 +23,6 @@ import com.davay.android.feature.roulette.presentation.carouselrecycler.LinearHo
 import com.davay.android.feature.roulette.presentation.model.UserRouletteModel
 import com.davay.android.feature.roulette.presentation.useradapter.UserAdapter
 import com.davay.android.feature.waitsession.presentation.adapter.CustomItemDecorator
-import com.davay.android.utils.setOnDebouncedClickListener
 import com.google.android.flexbox.AlignItems
 import com.google.android.flexbox.FlexDirection
 import com.google.android.flexbox.FlexWrap

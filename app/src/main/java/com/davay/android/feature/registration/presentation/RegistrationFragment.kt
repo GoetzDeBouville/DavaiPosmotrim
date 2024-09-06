@@ -8,6 +8,7 @@ import androidx.core.content.ContextCompat.getSystemService
 import androidx.core.view.isVisible
 import androidx.core.widget.doAfterTextChanged
 import androidx.lifecycle.lifecycleScope
+import com.davai.util.setOnDebouncedClickListener
 import com.davay.android.R
 import com.davay.android.base.BaseFragment
 import com.davay.android.core.domain.models.UserNameState
@@ -17,7 +18,6 @@ import com.davay.android.di.AppComponentHolder
 import com.davay.android.di.ScreenComponent
 import com.davay.android.extensions.animateBottom
 import com.davay.android.feature.registration.di.DaggerRegistrationFragmentComponent
-import com.davay.android.utils.setOnDebouncedClickListener
 import kotlinx.coroutines.launch
 
 class RegistrationFragment :

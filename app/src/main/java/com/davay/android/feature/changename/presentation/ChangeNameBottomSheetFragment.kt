@@ -12,13 +12,13 @@ import androidx.core.view.isVisible
 import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.setFragmentResult
 import androidx.lifecycle.lifecycleScope
+import com.davai.util.setOnDebouncedClickListener
 import com.davay.android.base.BaseBottomSheetFragment
 import com.davay.android.core.domain.models.UserNameState
 import com.davay.android.databinding.FragmentNameChangeBinding
 import com.davay.android.di.AppComponentHolder
 import com.davay.android.di.ScreenComponent
 import com.davay.android.feature.changename.di.DaggerChangeNameFragmentComponent
-import com.davay.android.utils.setOnDebouncedClickListener
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import kotlinx.coroutines.launch
 
