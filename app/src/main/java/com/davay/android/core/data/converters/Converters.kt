@@ -62,8 +62,8 @@ fun MovieDetailsDto.toDomain(id: Int) = MovieDetails(
     numOfMarksImdb,
     duration,
     genres.map { it.name },
+    personsArrFormatter(directors),
     personsArrFormatter(actors),
-    personsArrFormatter(directors)
 )
 
 private fun personsArrFormatter(strList: List<String?>?): List<String> {
@@ -144,8 +144,8 @@ fun MovieDetailsEntity.toDomain(): MovieDetails {
         numOfMarksImdb = numOfMarksImdb,
         duration = duration,
         genres = genres.toListData(),
+        directors = directors?.toListData(),
         actors = actors?.toListData(),
-        directors = directors?.toListData()
     )
 }
 
