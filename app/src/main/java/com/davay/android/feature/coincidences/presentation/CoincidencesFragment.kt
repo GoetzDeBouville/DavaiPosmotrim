@@ -36,13 +36,16 @@ class CoincidencesFragment : BaseFragment<FragmentCoincidencesBinding, Coinciden
 
     override val viewModel: CoincidencesViewModel by injectViewModel<CoincidencesViewModel>()
 
-    private val moviesGridAdapter = MoviesGridAdapter { movieDetails ->
-        val movie = Json.encodeToString(movieDetails)
-        val bundle = Bundle().apply {
-            putString(MovieCardFragment.MOVIE_DETAILS_KEY, movie)
-        }
-        viewModel.navigate(R.id.action_coincidencesFragment_to_movieCardFragment, bundle)
-    }
+    private val moviesGridAdapter = MoviesGridAdapter(
+        onItemClicked = { movieDetails ->
+            val movie = Json.encodeToString(movieDetails)
+            val bundle = Bundle().apply {
+                putString(MovieCardFragment.MOVIE_DETAILS_KEY, movie)
+            }
+            viewModel.navigate(R.id.action_coincidencesFragment_to_movieCardFragment, bundle)
+        },
+        coroutineScope = lifecycleScope
+    )
 
     private val bottomSheetFragmentLifecycleCallbacks =
         object : FragmentManager.FragmentLifecycleCallbacks() {
