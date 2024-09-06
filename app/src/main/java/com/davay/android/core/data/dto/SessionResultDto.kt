@@ -7,7 +7,7 @@ import kotlinx.serialization.Serializable
 data class SessionResultDto(
     @SerialName("id") val id: String,
     @SerialName("users") val users: List<String>,
-    @SerialName("matched_movies") val matchedMovies: List<MovieDetailsDto>,
+    @SerialName("matched_movies") val matchedMovies: List<MovieDetailsSocketDto>,
     @SerialName("date") val date: String,
     @SerialName("image") val imgUrl: String,
     @SerialName("matched_movies_count") val matchedMoviesCount: Int,

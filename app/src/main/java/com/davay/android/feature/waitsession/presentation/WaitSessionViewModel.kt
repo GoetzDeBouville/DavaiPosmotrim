@@ -15,7 +15,7 @@ class WaitSessionViewModel @Inject constructor(
     private val commonWebsocketInteractor: CommonWebsocketInteractor,
 ) : BaseViewModel() {
 
-    private val sessionId = "F9ehJ7Xb"
+    private val sessionId = "nm7dnwS5"
     private val deviceId = "d3e22dcc-1393-4171-8123-468b1c9b3c23"
 
     init {

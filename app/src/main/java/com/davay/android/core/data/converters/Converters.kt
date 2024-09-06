@@ -6,6 +6,7 @@ import com.davay.android.core.data.database.entity.SessionWithMoviesDb
 import com.davay.android.core.data.dto.CollectionDto
 import com.davay.android.core.data.dto.GenreDto
 import com.davay.android.core.data.dto.MovieDetailsDto
+import com.davay.android.core.data.dto.MovieDetailsSocketDto
 import com.davay.android.core.data.dto.MovieDto
 import com.davay.android.core.data.dto.SessionDto
 import com.davay.android.core.data.dto.SessionResultDto
@@ -57,8 +58,8 @@ fun MovieDetailsDto.toDomain() = MovieDetails(
     numOfMarksImdb,
     duration,
     genres.map { it.name },
+    directors,
     actors,
-    directors
 )
 
 /**
@@ -191,6 +192,24 @@ fun SessionWithMoviesDb.toDomain(): SessionWithMovies {
         movies = movies.map { it.toDomain() }
     )
 }
+
+fun MovieDetailsSocketDto.toDomain() = MovieDetails(
+    id,
+    name,
+    description,
+    year.toString(),
+    countries,
+    imgUrl,
+    alternativeName,
+    ratingKinopoisk,
+    ratingImdb,
+    numOfMarksKinopoisk,
+    numOfMarksImdb,
+    duration,
+    genres.map { it.name },
+    directors?.filter { it != null }?.map { it!! },
+    actors?.filter { it != null }?.map { it!! },
+)
 
 fun SessionResultDto.toDomain(): SessionWithMovies {
     val dateFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
