@@ -3,9 +3,11 @@ package com.davay.android.feature.main.presentation
 import android.os.Bundle
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.OnBackPressedCallback
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.updateLayoutParams
+import com.davai.uikit.MainDialogFragment
 import androidx.lifecycle.lifecycleScope
 import com.davai.uikit.MainScreenButtonView
 import com.davay.android.R
@@ -43,6 +45,8 @@ class MainFragment :
                 updateUserName(changedName)
             }
         }
+
+        addBackPressedCallback()
     }
 
     override fun initViews() {
@@ -103,6 +107,27 @@ class MainFragment :
         if (newName != null) {
             binding.tvUserName.text = newName
         }
+    }
+
+    private fun addBackPressedCallback() {
+        requireActivity().onBackPressedDispatcher.addCallback(
+            viewLifecycleOwner,
+            object : OnBackPressedCallback(true) {
+                override fun handleOnBackPressed() {
+                    exit()
+                }
+            }
+        )
+    }
+
+    private fun exit() {
+        MainDialogFragment.newInstance(
+            title = getString(R.string.main_exit_title),
+            message = getString(R.string.main_exit_message),
+            yesAction = {
+                requireActivity().finishAndRemoveTask()
+            }
+        ).show(parentFragmentManager, null)
     }
 
     companion object {

@@ -8,11 +8,12 @@ import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
 import androidx.core.content.ContextCompat
 import androidx.core.os.bundleOf
+import androidx.core.view.isVisible
 import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.setFragmentResult
 import androidx.lifecycle.lifecycleScope
-import com.davay.android.R
 import com.davay.android.base.BaseBottomSheetFragment
+import com.davay.android.core.domain.models.UserNameState
 import com.davay.android.databinding.FragmentNameChangeBinding
 import com.davay.android.di.AppComponentHolder
 import com.davay.android.di.ScreenComponent
@@ -40,7 +41,7 @@ class ChangeNameBottomSheetFragment :
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.etName.setText(viewModel.getNameofUser())
+        binding.etName.setText(viewModel.getUserName())
 
         lifecycleScope.launch {
             viewModel.state.collect { stateHandle(it) }
@@ -119,13 +120,15 @@ class ChangeNameBottomSheetFragment :
         imm?.hideSoftInputFromWindow(view.windowToken, 0)
     }
 
-    private fun stateHandle(state: ChangeNameState?) {
-        binding.tvErrorHint.text = when (state) {
-            ChangeNameState.FIELD_EMPTY -> resources.getString(R.string.registration_enter_name)
-            ChangeNameState.MINIMUM_LETTERS -> resources.getString(R.string.registration_two_letters_minimum)
-            ChangeNameState.NUMBERS -> resources.getString(R.string.registration_just_letters)
-            ChangeNameState.SUCCESS, ChangeNameState.DEFAULT, null -> ""
-            ChangeNameState.MAXIMUM_LETTERS -> resources.getString(R.string.registration_not_more_letters)
+    private fun stateHandle(state: UserNameState?) {
+        val isLoading = state == UserNameState.LOADING
+        binding.progressBar.isVisible = isLoading
+        binding.etName.isEnabled = !isLoading
+        binding.tvErrorHint.text = state?.getMessage(requireContext()) ?: ""
+        if (state == UserNameState.SUCCESS) {
+            val newName = binding.etName.text.toString()
+            setFragmentResult(REQUEST_KEY, bundleOf(BUNDLE_KEY_NAME to newName))
+            bottomSheetBehavior?.state = BottomSheetBehavior.STATE_HIDDEN
         }
     }
 
@@ -133,11 +136,11 @@ class ChangeNameBottomSheetFragment :
         binding.btnEnter.setOnDebouncedClickListener(
             coroutineScope = lifecycleScope
         ) {
-            buttonClicked()
+            viewModel.buttonClicked(binding.etName.text)
         }
         binding.etName.setOnEditorActionListener { _, actionId, _ ->
             if (actionId == EditorInfo.IME_ACTION_DONE) {
-                buttonClicked()
+                viewModel.buttonClicked(binding.etName.text)
                 true
             } else {
                 false
@@ -145,15 +148,14 @@ class ChangeNameBottomSheetFragment :
         }
     }
 
-
-    private fun buttonClicked() {
-        viewModel.buttonClicked(binding.etName.text)
-        if (viewModel.state.value == ChangeNameState.SUCCESS) {
-            val newName = binding.etName.text.toString()
-            setFragmentResult(REQUEST_KEY, bundleOf(BUNDLE_KEY_NAME to newName))
-            bottomSheetBehavior!!.state = BottomSheetBehavior.STATE_HIDDEN
-        }
-    }
+//    private fun buttonClicked() {
+//        viewModel.buttonClicked(binding.etName.text)
+//        if (viewModel.state.value == ChangeNameState.SUCCESS) {
+//            val newName = binding.etName.text.toString()
+//            setFragmentResult(REQUEST_KEY, bundleOf(BUNDLE_KEY_NAME to newName))
+//            bottomSheetBehavior!!.state = BottomSheetBehavior.STATE_HIDDEN
+//        }
+//    }
 
     companion object {
         private const val TYPE_SMALL_BORDER = 12
