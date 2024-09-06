@@ -86,7 +86,7 @@ class MovieCardAdapter(
     }
 
 
-    fun setData(list: List<MovieDetails>) {
+    fun setData(list: Set<MovieDetails>) {
         datalist.clear()
         datalist.addAll(list)
         notifyItemChanged(0)

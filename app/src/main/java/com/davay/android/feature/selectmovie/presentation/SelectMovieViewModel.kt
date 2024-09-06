@@ -24,7 +24,7 @@ class SelectMovieViewModel @Inject constructor(
     val state = _state.asStateFlow()
 
     private var totalMovieIds = 0
-    private var loadedMovies = mutableListOf<MovieDetails>()
+    private var loadedMovies = mutableSetOf<MovieDetails>()
 
     init {
         initializeMovieList()
@@ -35,7 +35,7 @@ class SelectMovieViewModel @Inject constructor(
             useCaseFlow = getMovieDetailsUseCase(position),
             onSuccess = { movieList ->
                 loadedMovies =
-                    (state.value as? SelectMovieState.Content)?.movieList ?: mutableListOf()
+                    (state.value as? SelectMovieState.Content)?.movieList ?: mutableSetOf()
                 loadedMovies.addAll(movieList)
                 _state.update {
                     SelectMovieState.Content(movieList = loadedMovies)
@@ -45,7 +45,13 @@ class SelectMovieViewModel @Inject constructor(
                 _state.update { SelectMovieState.Error(mapErrorToUiState(error)) }
             }
         )
-        Log.v(TAG, "state = ${state.value}")
+
+        if (state.value is SelectMovieState.Content) {
+            Log.v(
+                TAG,
+                "state = ${(state.value as SelectMovieState.Content).movieList.map { it.id }}"
+            )
+        }
     }
 
     private fun initializeMovieList() {
@@ -71,7 +77,7 @@ class SelectMovieViewModel @Inject constructor(
     }
 
     fun listIsFinished() {
-        _state.update { SelectMovieState.ListIsFinished(movieList = mutableListOf()) }
+        _state.update { SelectMovieState.ListIsFinished }
     }
 
     /**
@@ -79,9 +85,9 @@ class SelectMovieViewModel @Inject constructor(
      * в случае когда юзер пролистал все фильмы и должен получить список фильмов которые были
      * свайпнуты влево
      */
-    fun filterMovieIdList() {
+    fun filterDislikedMovieList() {
         viewModelScope.launch {
-            filterDislikedMovieListUseCase.invoke()
+            filterDislikedMovieListUseCase()
         }
         loadMovies(0)
     }
