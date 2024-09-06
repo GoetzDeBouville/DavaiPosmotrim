@@ -148,15 +148,6 @@ class ChangeNameBottomSheetFragment :
         }
     }
 
-//    private fun buttonClicked() {
-//        viewModel.buttonClicked(binding.etName.text)
-//        if (viewModel.state.value == ChangeNameState.SUCCESS) {
-//            val newName = binding.etName.text.toString()
-//            setFragmentResult(REQUEST_KEY, bundleOf(BUNDLE_KEY_NAME to newName))
-//            bottomSheetBehavior!!.state = BottomSheetBehavior.STATE_HIDDEN
-//        }
-//    }
-
     companion object {
         private const val TYPE_SMALL_BORDER = 12
         private const val BOTTOM_SHEET_HIDE_PERCENT_60 = 0.6f

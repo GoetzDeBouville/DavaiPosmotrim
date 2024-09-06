@@ -100,6 +100,7 @@ class RegistrationFragment :
             }
         }
     }
+
     companion object {
         private const val TYPE_SMALL_BORDER = 12
     }
