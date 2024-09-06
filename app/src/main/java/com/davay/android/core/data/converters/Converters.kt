@@ -215,7 +215,7 @@ fun SessionResultDto.toDomain(): SessionWithMovies {
     return SessionWithMovies(
         session = Session(
             id = id,
-            users = users.map { it.name },
+            users = users,
             numberOfMatchedMovies = matchedMoviesCount,
             date = timestamp,
             status = SessionStatus.CLOSED,

@@ -4,7 +4,7 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
-class MessageMovieIdDto (
+class MessageMovieIdDto(
     @SerialName("message")
     val movieId: Int
 )

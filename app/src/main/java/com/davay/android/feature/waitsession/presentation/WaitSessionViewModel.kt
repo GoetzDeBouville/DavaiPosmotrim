@@ -15,7 +15,7 @@ class WaitSessionViewModel @Inject constructor(
     private val commonWebsocketInteractor: CommonWebsocketInteractor,
 ) : BaseViewModel() {
 
-    private val sessionId = "lQzwL3PC"
+    private val sessionId = "F9ehJ7Xb"
     private val deviceId = "d3e22dcc-1393-4171-8123-468b1c9b3c23"
 
     init {
@@ -30,7 +30,8 @@ class WaitSessionViewModel @Inject constructor(
         waitSessionOnBoardingInteractor.markFirstTimeLaunch()
     }
 
-    @Suppress("UnusedPrivateMember")
+    // для теста
+    @Suppress("LongMethod", "StringLiteralDuplication", "CognitiveComplexMethod")
     private fun subscribeToWebsockets() {
         viewModelScope.launch(Dispatchers.IO) {
             runCatching {

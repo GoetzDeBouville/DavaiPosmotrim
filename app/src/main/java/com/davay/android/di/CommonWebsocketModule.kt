@@ -13,10 +13,7 @@ import com.davay.android.core.domain.api.WebsocketRepository
 import com.davay.android.core.domain.impl.CommonWebsocketInteractor
 import dagger.Module
 import dagger.Provides
-import java.lang.annotation.RetentionPolicy
 import javax.inject.Qualifier
-
-
 
 @Module
 class CommonWebsocketModule {

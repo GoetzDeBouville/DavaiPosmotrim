@@ -6,7 +6,7 @@ import kotlinx.serialization.Serializable
 @Serializable
 data class SessionResultDto(
     @SerialName("id") val id: String,
-    @SerialName("users") val users: List<UserDto>,
+    @SerialName("users") val users: List<String>,
     @SerialName("matched_movies") val matchedMovies: List<MovieDetailsDto>,
     @SerialName("date") val date: String,
     @SerialName("image") val imgUrl: String,

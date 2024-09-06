@@ -19,7 +19,7 @@ class SessionListViewModel @Inject constructor(
         subscribeToWebsockets()
     }
 
-    @Suppress("UnusedPrivateMember")
+    @Suppress("LongMethod", "StringLiteralDuplication")
     private fun subscribeToWebsockets() {
         viewModelScope.launch(Dispatchers.IO) {
             runCatching {
