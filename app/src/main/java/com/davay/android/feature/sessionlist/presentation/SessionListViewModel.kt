@@ -15,11 +15,8 @@ class SessionListViewModel @Inject constructor(
     private val sessionId = "7CQOtxiB"
     private val deviceId = "d3e22dcc-1393-4171-8123-468b1c9b3c23"
 
-    init {
-        subscribeToWebsockets()
-    }
-
-    @Suppress("LongMethod", "StringLiteralDuplication")
+    // временно
+    @Suppress("UnusedPrivateMember")
     private fun subscribeToWebsockets() {
         viewModelScope.launch(Dispatchers.IO) {
             runCatching {
@@ -29,48 +26,11 @@ class SessionListViewModel @Inject constructor(
                 ).collect { list ->
                     Log.d("SessionListViewModel", list.toString())
                 }
-                commonWebsocketInteractor.subscribeSessionStatus(
-                    deviceId = deviceId,
-                    sessionId = sessionId
-                ).collect { sessionStatus ->
-                    Log.d("SessionListViewModel", sessionStatus.toString())
-                }
-                commonWebsocketInteractor.subscribeSessionResult(
-                    deviceId = deviceId,
-                    sessionId = sessionId
-                ).collect { sessionResult ->
-                    Log.d("SessionListViewModel", sessionResult.toString())
-                }
-            }.onFailure { error ->
-                if (BuildConfig.DEBUG) {
-                    error.printStackTrace()
-                }
-            }
-            runCatching {
-                commonWebsocketInteractor.subscribeSessionStatus(
-                    deviceId = deviceId,
-                    sessionId = sessionId
-                ).collect { sessionStatus ->
-                    Log.d("SessionListViewModel", sessionStatus.toString())
-                }
-            }.onFailure { error ->
-                if (BuildConfig.DEBUG) {
-                    error.printStackTrace()
-                }
-            }
-            runCatching {
-                commonWebsocketInteractor.subscribeSessionResult(
-                    deviceId = deviceId,
-                    sessionId = sessionId
-                ).collect { sessionResult ->
-                    Log.d("SessionListViewModel", sessionResult.toString())
-                }
             }.onFailure { error ->
                 if (BuildConfig.DEBUG) {
                     error.printStackTrace()
                 }
             }
         }
-
     }
 }
