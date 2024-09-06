@@ -77,12 +77,12 @@ class WaitSessionFragment : BaseFragment<FragmentWaitSessionBinding, WaitSession
             listOf("Артем", "Руслан", "Константин", "Виктория")
         )
 
-        binding.llButtonContainer.setOnClickListener {
+        binding.llButtonContainer.setOnDebouncedClickListener(coroutineScope = lifecycleScope) {
             val code = binding.tvCode.text.toString()
             copyTextToClipboard(code)
         }
 
-        sendButton?.setOnClickListener {
+        sendButton?.setOnDebouncedClickListener(coroutineScope = lifecycleScope) {
             val code = binding.tvCode.text.toString()
             if (it.isEnabled) {
                 sendCode(code)
@@ -154,7 +154,7 @@ class WaitSessionFragment : BaseFragment<FragmentWaitSessionBinding, WaitSession
     }
 
     private fun setButtonClickListeners() = with(binding) {
-        cancelButton.setOnClickListener {
+        cancelButton.setOnDebouncedClickListener(coroutineScope = lifecycleScope) {
             dialog?.show(parentFragmentManager, CUSTOM_DIALOG_TAG)
         }
         startSessionButton.setOnDebouncedClickListener(
