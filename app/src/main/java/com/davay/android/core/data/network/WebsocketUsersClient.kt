@@ -7,15 +7,11 @@ import io.ktor.websocket.readText
 import kotlinx.serialization.json.Json
 
 class WebsocketUsersClient :
-    WebsocketKtorNetworkClient<List<UserDto>, String>() {
+    WebsocketKtorNetworkClient<List<UserDto>>() {
 
     override fun mapIncomingMessage(message: Frame.Text, converter: Json): List<UserDto> {
         return runCatching {
             converter.decodeFromString<MessageUsersDto>(message.readText()).userList
         }.getOrNull() ?: emptyList()
-    }
-
-    override fun mapSentMessageToJson(message: String, converter: Json): String {
-        return message
     }
 }

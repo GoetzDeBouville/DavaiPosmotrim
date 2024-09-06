@@ -6,15 +6,11 @@ import io.ktor.websocket.Frame
 import io.ktor.websocket.readText
 import kotlinx.serialization.json.Json
 
-class WebsocketSessionResultClient : WebsocketKtorNetworkClient<SessionResultDto?, String>() {
+class WebsocketSessionResultClient : WebsocketKtorNetworkClient<SessionResultDto?>() {
 
     override fun mapIncomingMessage(message: Frame.Text, converter: Json): SessionResultDto? {
         return runCatching {
             converter.decodeFromString<MessageSessionResultDto>(message.readText()).sessionResultDto
         }.getOrNull()
-    }
-
-    override fun mapSentMessageToJson(message: String, converter: Json): String {
-        return message
     }
 }

@@ -17,11 +17,11 @@ import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
 class WebsocketRepositoryImpl @Inject constructor(
-    private val websocketUsersClient: WebsocketNetworkClient<List<UserDto>, String>,
-    private val websocketSessionResultClient: WebsocketNetworkClient<SessionResultDto?, String>,
-    private val websocketSessionStatusClient: WebsocketNetworkClient<SessionStatusDto, String>,
-    @RouletteIdClient private val websocketRouletteIdClient: WebsocketNetworkClient<Int?, String>,
-    @MatchesIdClient private val websocketMatchesIdClient: WebsocketNetworkClient<Int?, String>,
+    private val websocketUsersClient: WebsocketNetworkClient<List<UserDto>>,
+    private val websocketSessionResultClient: WebsocketNetworkClient<SessionResultDto?>,
+    private val websocketSessionStatusClient: WebsocketNetworkClient<SessionStatusDto>,
+    @RouletteIdClient private val websocketRouletteIdClient: WebsocketNetworkClient<Int?>,
+    @MatchesIdClient private val websocketMatchesIdClient: WebsocketNetworkClient<Int?>,
 ) : WebsocketRepository {
 
     override fun subscribeUsers(deviceId: String, path: String): Flow<List<User>> {

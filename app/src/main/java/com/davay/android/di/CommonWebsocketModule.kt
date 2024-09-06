@@ -19,39 +19,39 @@ import javax.inject.Qualifier
 class CommonWebsocketModule {
 
     @Provides
-    fun provideWebsocketUsersClient(): WebsocketNetworkClient<List<UserDto>, String> {
+    fun provideWebsocketUsersClient(): WebsocketNetworkClient<List<UserDto>> {
         return WebsocketUsersClient()
     }
 
     @Provides
-    fun provideWebsocketSessionResultClient(): WebsocketNetworkClient<SessionResultDto?, String> {
+    fun provideWebsocketSessionResultClient(): WebsocketNetworkClient<SessionResultDto?> {
         return WebsocketSessionResultClient()
     }
 
     @Provides
-    fun provideWebsocketSessionStatusClient(): WebsocketNetworkClient<SessionStatusDto, String> {
+    fun provideWebsocketSessionStatusClient(): WebsocketNetworkClient<SessionStatusDto> {
         return WebsocketSessionStatusClient()
     }
 
     @RouletteIdClient
     @Provides
-    fun provideWebsocketRouletteIdClient(): WebsocketNetworkClient<Int?, String> {
+    fun provideWebsocketRouletteIdClient(): WebsocketNetworkClient<Int?> {
         return WebsocketMovieIdClient()
     }
 
     @MatchesIdClient
     @Provides
-    fun provideWebsocketMatchesIdClient(): WebsocketNetworkClient<Int?, String> {
+    fun provideWebsocketMatchesIdClient(): WebsocketNetworkClient<Int?> {
         return WebsocketMovieIdClient()
     }
 
     @Provides
     fun provideWebsocketRepository(
-        websocketUsersClient: WebsocketNetworkClient<List<UserDto>, String>,
-        websocketSessionResultClient: WebsocketNetworkClient<SessionResultDto?, String>,
-        websocketSessionStatusClient: WebsocketNetworkClient<SessionStatusDto, String>,
-        @RouletteIdClient websocketRouletteIdClient: WebsocketNetworkClient<Int?, String>,
-        @MatchesIdClient websocketMatchesIdClient: WebsocketNetworkClient<Int?, String>,
+        websocketUsersClient: WebsocketNetworkClient<List<UserDto>>,
+        websocketSessionResultClient: WebsocketNetworkClient<SessionResultDto?>,
+        websocketSessionStatusClient: WebsocketNetworkClient<SessionStatusDto>,
+        @RouletteIdClient websocketRouletteIdClient: WebsocketNetworkClient<Int?>,
+        @MatchesIdClient websocketMatchesIdClient: WebsocketNetworkClient<Int?>,
     ): WebsocketRepository {
         return WebsocketRepositoryImpl(
             websocketUsersClient,

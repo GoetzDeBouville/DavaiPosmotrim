@@ -19,9 +19,10 @@ import kotlinx.coroutines.flow.emitAll
 import kotlinx.coroutines.flow.filterIsInstance
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.isActive
 import kotlinx.serialization.json.Json
 
-abstract class WebsocketKtorNetworkClient<O, M> : WebsocketNetworkClient<O, M> {
+abstract class WebsocketKtorNetworkClient<O> : WebsocketNetworkClient<O> {
     private val httpClient = HttpClient {
         install(WebSockets) {
             pingInterval = PING_INTERVAL
@@ -60,11 +61,6 @@ abstract class WebsocketKtorNetworkClient<O, M> : WebsocketNetworkClient<O, M> {
     }
 
     abstract fun mapIncomingMessage(message: Frame.Text, converter: Json): O
-    abstract fun mapSentMessageToJson(message: M, converter: Json): String
-
-    override suspend fun sendMessage(message: M) {
-        session?.send(mapSentMessageToJson(message, Json))
-    }
 
     companion object {
         const val PING_INTERVAL = 20_000L
