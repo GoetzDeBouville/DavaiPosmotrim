@@ -46,8 +46,7 @@ class SelectMovieFragment :
     private val incrementAnimation: IncrementAnimation = IncrementAnimationImpl()
     private val additionalInfoInflater: AdditionalInfoInflater = MovieDetailsHelperImpl()
     private val errorHandler: UiErrorHandler = UiErrorHandlerImpl()
-    private var currentPosition = 0
-    private var listIsFinished = false
+    private var currentPosition = swipeCardLayoutManager.getCurrentPosition()
 
     override fun diComponent(): ScreenComponent =
         DaggerSelectMovieFragmentComponent.builder().appComponent(AppComponentHolder.getComponent())
@@ -72,8 +71,9 @@ class SelectMovieFragment :
     private fun getSavedPositionAndUpdateStartPosition(savedInstanceState: Bundle?) {
         savedInstanceState?.let {
             currentPosition = it.getInt(CURRENT_POSITION_KEY, 0)
+            Log.v(TAG, "saved current position = $currentPosition")
+            swipeCardLayoutManager.updateCurrentPosition(currentPosition++)
         }
-        swipeCardLayoutManager.updateCurrentPosition(currentPosition)
     }
 
     override fun initViews() {
@@ -146,7 +146,9 @@ class SelectMovieFragment :
             message = getString(R.string.select_movies_movie_show_disliked_movies),
             showConfirmBlock = true,
             yesAction = {
-                viewModel.filterMovieIdList()
+                cardAdapter.setData(emptySet())
+                swipeCardLayoutManager.updateCurrentPosition(0)
+                viewModel.filterDislikedMovieList()
             }
         )
         dialog.show(parentFragmentManager, null)
@@ -203,18 +205,10 @@ class SelectMovieFragment :
             SwipeCallback(
                 swipeCardLayoutManager,
                 onSwipedLeft = {
-                    // Add skip method
-                    if (swipeCardLayoutManager.isListIsFinished()) {
-                        viewModel.listIsFinished()
-                    }
-                    autoSwipeLeft()
+                    swipeLeft()
                 },
                 onSwipedRight = {
-                    // Add like method
-                    if (swipeCardLayoutManager.isListIsFinished()) {
-                        viewModel.listIsFinished()
-                    }
-                    autoSwipeRight()
+                    swipeRight()
                 }
             )
         )
@@ -247,18 +241,41 @@ class SelectMovieFragment :
         }
     }
 
-    private fun autoSwipeLeft() {
+    private fun swipeLeft() {
+        swipe()
         swipeCardLayoutManager.moveNextWithSwipeAndLayout(SwipeDirection.LEFT)
-        currentPosition = swipeCardLayoutManager.getCurrentPosition()
         viewModel.onMovieSwiped(currentPosition, false)
-        Log.v(TAG, "currentPosition = $currentPosition")
-        cardAdapter.notifyDataSetChanged()
+    }
+
+    private fun swipeRight() {
+        swipe()
+        swipeCardLayoutManager.moveNextWithSwipeAndLayout(SwipeDirection.RIGHT)
+        viewModel.onMovieSwiped(currentPosition, true)
+    }
+
+    /**
+     * методы autoSwipeLeft и autoSwipeLeft используются для автоматического свайпа для cardAdapter
+     * и полностью дублируют swipeLeft и swipeRight за исключением обновления currentPosition,
+     * почему-то currentPosition при кликах на кнопки в адаптере не соответствует currentPosition
+     * при свайпе
+     */
+    private fun autoSwipeLeft() {
+        swipe()
+        swipeCardLayoutManager.moveNextWithSwipeAndLayout(SwipeDirection.LEFT)
+        viewModel.onMovieSwiped(++currentPosition, false)
     }
 
     private fun autoSwipeRight() {
+        swipe()
         swipeCardLayoutManager.moveNextWithSwipeAndLayout(SwipeDirection.RIGHT)
+        viewModel.onMovieSwiped(++currentPosition, true)
+    }
+
+    private fun swipe() {
+        if (swipeCardLayoutManager.isListIsFinished()) {
+            viewModel.listIsFinished()
+        }
         currentPosition = swipeCardLayoutManager.getCurrentPosition()
-        viewModel.onMovieSwiped(currentPosition, true)
         Log.v(TAG, "currentPosition = $currentPosition")
         cardAdapter.notifyDataSetChanged()
     }
@@ -266,7 +283,7 @@ class SelectMovieFragment :
     private fun revertSwipe() {
         swipeCardLayoutManager.shiftLeftWithRevertAndLayout()
         currentPosition = swipeCardLayoutManager.getCurrentPosition()
-        viewModel.onMovieSwiped(currentPosition, true)
+        viewModel.onMovieSwiped(currentPosition, false)
         Log.v(TAG, "currentPosition = $currentPosition")
         cardAdapter.notifyDataSetChanged()
     }
@@ -275,29 +292,51 @@ class SelectMovieFragment :
         tvDetailsDescription.text = movie.description
         fillInfo(movie)
         if (movie.ratingImdb > 1f) {
+            mevDetailsImdbRate.isVisible = true
             additionalInfoInflater.setRate(
                 movie.ratingImdb,
                 movie.numOfMarksImdb,
                 mevDetailsImdbRate
             )
+        } else {
+            mevDetailsImdbRate.isVisible = false
         }
-        additionalInfoInflater.setRate(
-            movie.ratingKinopoisk,
-            movie.numOfMarksKinopoisk,
-            mevDetailsKinopoiskRate
-        )
+        if (movie.ratingKinopoisk > 1f) {
+            mevDetailsKinopoiskRate.isVisible = true
+            additionalInfoInflater.setRate(
+                movie.ratingKinopoisk,
+                movie.numOfMarksKinopoisk,
+                mevDetailsKinopoiskRate
+            )
+        } else {
+            mevDetailsKinopoiskRate.isVisible = false
+        }
     }
 
     private fun fillInfo(data: MovieDetails) = with(binding) {
         tvDetailsDescription.text = data.description
-        additionalInfoInflater.inflateCastList(
-            fblDetailsTopCastList,
-            data.actors ?: emptyList()
-        )
-        additionalInfoInflater.inflateCastList(
-            fblDetailsDirectorList,
-            data.directors ?: emptyList()
-        )
+        if (data.actors.isNullOrEmpty()) {
+            tvDetailsTopCast.isVisible = false
+            fblDetailsTopCastList.isVisible = false
+        } else {
+            tvDetailsTopCast.isVisible = true
+            fblDetailsTopCastList.isVisible = true
+            additionalInfoInflater.inflateCastList(
+                fblDetailsTopCastList,
+                data.actors
+            )
+        }
+        if (data.directors.isNullOrEmpty()) {
+            tvDetailsDirector.isVisible = false
+            fblDetailsDirectorList.isVisible = false
+        } else {
+            tvDetailsDirector.isVisible = true
+            fblDetailsDirectorList.isVisible = true
+            additionalInfoInflater.inflateCastList(
+                fblDetailsDirectorList,
+                data.directors
+            )
+        }
     }
 
     /**
