@@ -1,7 +1,6 @@
 package com.davay.android.feature.selectmovie.presentation
 
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import androidx.activity.OnBackPressedCallback
 import androidx.core.view.isVisible
@@ -71,7 +70,6 @@ class SelectMovieFragment :
     private fun getSavedPositionAndUpdateStartPosition(savedInstanceState: Bundle?) {
         savedInstanceState?.let {
             currentPosition = it.getInt(CURRENT_POSITION_KEY, 0)
-            Log.v(TAG, "saved current position = $currentPosition")
             swipeCardLayoutManager.updateCurrentPosition(currentPosition++)
         }
     }
@@ -272,11 +270,7 @@ class SelectMovieFragment :
     }
 
     private fun swipe() {
-        if (swipeCardLayoutManager.isListIsFinished()) {
-            viewModel.listIsFinished()
-        }
         currentPosition = swipeCardLayoutManager.getCurrentPosition()
-        Log.v(TAG, "currentPosition = $currentPosition")
         cardAdapter.notifyDataSetChanged()
     }
 
@@ -284,7 +278,6 @@ class SelectMovieFragment :
         swipeCardLayoutManager.shiftLeftWithRevertAndLayout()
         currentPosition = swipeCardLayoutManager.getCurrentPosition()
         viewModel.onMovieSwiped(currentPosition, false)
-        Log.v(TAG, "currentPosition = $currentPosition")
         cardAdapter.notifyDataSetChanged()
     }
 
@@ -360,7 +353,6 @@ class SelectMovieFragment :
         const val BOTTOMSHEET_PEEK_HEIGHT_112_DP = 112
         const val MARGIN_TOP_16_DP = 16
         const val CURRENT_POSITION_KEY = "currentPosition"
-        val TAG = SelectMovieFragment::class.simpleName
     }
 }
 

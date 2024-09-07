@@ -101,7 +101,6 @@ class SelectMovieRepositoryImpl @Inject constructor(
     }
 
     private companion object {
-        val TAG = SelectMovieRepositoryImpl::class.simpleName
         /**
          * Размер подгрузки фильмов, при изменении так же учитывать значение в SelectMovieViewModel
          */

@@ -1,6 +1,5 @@
 package com.davay.android.feature.selectmovie.presentation
 
-import android.util.Log
 import androidx.lifecycle.viewModelScope
 import com.davay.android.base.BaseViewModel
 import com.davay.android.core.domain.models.MovieDetails
@@ -45,13 +44,6 @@ class SelectMovieViewModel @Inject constructor(
                 _state.update { SelectMovieState.Error(mapErrorToUiState(error)) }
             }
         )
-
-        if (state.value is SelectMovieState.Content) {
-            Log.v(
-                TAG,
-                "state = ${(state.value as SelectMovieState.Content).movieList.map { it.id }}"
-            )
-        }
     }
 
     private fun initializeMovieList() {
@@ -67,17 +59,16 @@ class SelectMovieViewModel @Inject constructor(
      * списка id элементов, которые потребутются для загрузки данных о фильмах
      */
     fun onMovieSwiped(position: Int, isLiked: Boolean) {
-        Log.v(TAG, "onMovieSwiped currentPosition = $position isLiked = $isLiked")
         if (position + PRELOAD_SIZE >= loadedMovies.size && loadedMovies.size < totalMovieIds) {
             loadMovies(position)
         }
         viewModelScope.launch {
             swipeMovieUseCase(position, isLiked)
         }
-    }
 
-    fun listIsFinished() {
-        _state.update { SelectMovieState.ListIsFinished }
+        if (position == totalMovieIds) {
+            _state.update { SelectMovieState.ListIsFinished }
+        }
     }
 
     /**
@@ -86,10 +77,15 @@ class SelectMovieViewModel @Inject constructor(
      * свайпнуты влево
      */
     fun filterDislikedMovieList() {
+        loadedMovies = mutableSetOf()
+        _state.update {
+            SelectMovieState.Content(movieList = loadedMovies)
+        }
+
         viewModelScope.launch {
             filterDislikedMovieListUseCase()
+            initializeMovieList()
         }
-        initializeMovieList()
     }
 
     private companion object {
@@ -97,6 +93,5 @@ class SelectMovieViewModel @Inject constructor(
          * Размер подгрузки фильмов, при изменении так же учитывать значение в SelectMovieRepositoryImpl
          */
         const val PRELOAD_SIZE = 20
-        val TAG = SelectMovieViewModel::class.simpleName
     }
 }
