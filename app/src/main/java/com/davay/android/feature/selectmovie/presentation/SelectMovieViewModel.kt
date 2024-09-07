@@ -2,6 +2,7 @@ package com.davay.android.feature.selectmovie.presentation
 
 import androidx.lifecycle.viewModelScope
 import com.davay.android.base.BaseViewModel
+import com.davay.android.core.domain.models.ErrorScreenState
 import com.davay.android.core.domain.models.MovieDetails
 import com.davay.android.feature.selectmovie.domain.FilterDislikedMovieListUseCase
 import com.davay.android.feature.selectmovie.domain.GetMovieIdListSizeUseCase
@@ -33,11 +34,17 @@ class SelectMovieViewModel @Inject constructor(
         runSafelyUseCase(
             useCaseFlow = getMovieDetailsUseCase(position),
             onSuccess = { movieList ->
-                loadedMovies =
-                    (state.value as? SelectMovieState.Content)?.movieList ?: mutableSetOf()
-                loadedMovies.addAll(movieList)
-                _state.update {
-                    SelectMovieState.Content(movieList = loadedMovies)
+                if (movieList.isEmpty()) {
+                    _state.update {
+                        SelectMovieState.Error(ErrorScreenState.MOVIE_LIST_FINISHED)
+                    }
+                } else {
+                    loadedMovies =
+                        (state.value as? SelectMovieState.Content)?.movieList ?: mutableSetOf()
+                    loadedMovies.addAll(movieList)
+                    _state.update {
+                        SelectMovieState.Content(movieList = loadedMovies)
+                    }
                 }
             },
             onFailure = { error ->
