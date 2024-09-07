@@ -6,6 +6,7 @@ import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.core.view.isGone
+import androidx.core.view.isVisible
 import coil.load
 import coil.size.Scale
 import coil.transform.RoundedCornersTransformation
@@ -51,14 +52,18 @@ open class MovieDetailsHelperImpl : MovieDetailsHelper, AdditionalInfoInflater {
 
     override fun setRateText(tvRate: TextView, ratingKinopoisk: Float?) {
         ratingKinopoisk?.let {
-            val textColor = if (ratingKinopoisk >= GOOD_RATE_7) {
-                tvRate.context.getColor(com.davai.uikit.R.color.done)
+            if (ratingKinopoisk > 1) { // Убираем оценку если ее нет. Минимальная оценка на кинопоиск это 1
+                val textColor = if (ratingKinopoisk >= GOOD_RATE_7) {
+                    tvRate.context.getColor(com.davai.uikit.R.color.done)
+                } else {
+                    tvRate.context.getColor(com.davai.uikit.R.color.attention)
+                }
+                tvRate.apply {
+                    text = ratingKinopoisk.toString()
+                    setTextColor(textColor)
+                }
             } else {
-                tvRate.context.getColor(com.davai.uikit.R.color.attention)
-            }
-            tvRate.apply {
-                text = ratingKinopoisk.toString()
-                setTextColor(textColor)
+                tvRate.text = ""
             }
         }
     }
