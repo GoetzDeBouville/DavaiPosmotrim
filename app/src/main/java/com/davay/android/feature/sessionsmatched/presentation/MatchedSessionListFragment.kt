@@ -27,9 +27,12 @@ class MatchedSessionListFragment :
             .appComponent(AppComponentHolder.getComponent())
             .build()
 
-    private val sessionsAdapter = SessionListAdapter { id ->
-        navigateToSessionMovies(id)
-    }
+    private val sessionsAdapter = SessionListAdapter(
+        onSessionClickListener = { id ->
+            navigateToSessionMovies(id)
+        },
+        coroutineScope = lifecycleScope
+    )
 
     override fun subscribe() {
         super.subscribe()
