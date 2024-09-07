@@ -78,11 +78,22 @@ class SelectMovieRepositoryImpl @Inject constructor(
         return movieIdDao.getMovieIdsCount()
     }
 
+    /**
+     * Метод учитывает условие когда запрашиваемая позиция выходит за пределы списка фильмов
+     */
     override suspend fun updateIsLikedByPosition(position: Int, isLiked: Boolean) {
-        val movieEntity = movieIdDao.getMovieIdByPosition(position)
-        movieEntity?.let {
-            if (it.isLiked == isLiked.not()) {
-                movieIdDao.updateIsLikedById(position, isLiked)
+        if (movieIdDao.getMovieIdByPosition(position) == null) {
+            val previousPosition = position - 1
+            movieIdDao.getMovieIdByPosition(previousPosition).let { movieIdEntity ->
+                if (movieIdEntity?.isLiked == isLiked.not()) {
+                    movieIdDao.updateIsLikedById(position, isLiked)
+                }
+            }
+        } else {
+            movieIdDao.getMovieIdByPosition(position).let { movieIdEntity ->
+                if (movieIdEntity?.isLiked == isLiked.not()) {
+                    movieIdDao.updateIsLikedById(position, isLiked)
+                }
             }
         }
     }
