@@ -93,13 +93,18 @@ class SelectMovieRepositoryImpl @Inject constructor(
             it.isLiked.not()
         }
         movieIdDao.clearAndResetTable()
+        var movieId = 1
         dislikedMovies.forEach { movieIdEntity ->
-            movieIdDao.insertMovieId(movieIdEntity)
+            movieIdDao.insertMovieId(movieIdEntity.copy(id = movieId))
+            movieId++
         }
     }
 
     private companion object {
         val TAG = SelectMovieRepositoryImpl::class.simpleName
+        /**
+         * Размер подгрузки фильмов, при изменении так же учитывать значение в SelectMovieViewModel
+         */
         const val PAGINATION_SIZE = 20
     }
 }

@@ -67,7 +67,7 @@ class SelectMovieViewModel @Inject constructor(
      * списка id элементов, которые потребутются для загрузки данных о фильмах
      */
     fun onMovieSwiped(position: Int, isLiked: Boolean) {
-        Log.v(TAG, "currentPosition = $position")
+        Log.v(TAG, "onMovieSwiped currentPosition = $position isLiked = $isLiked")
         if (position + PRELOAD_SIZE >= loadedMovies.size && loadedMovies.size < totalMovieIds) {
             loadMovies(position)
         }
@@ -89,10 +89,13 @@ class SelectMovieViewModel @Inject constructor(
         viewModelScope.launch {
             filterDislikedMovieListUseCase()
         }
-        loadMovies(0)
+        initializeMovieList()
     }
 
     private companion object {
+        /**
+         * Размер подгрузки фильмов, при изменении так же учитывать значение в SelectMovieRepositoryImpl
+         */
         const val PRELOAD_SIZE = 20
         val TAG = SelectMovieViewModel::class.simpleName
     }
