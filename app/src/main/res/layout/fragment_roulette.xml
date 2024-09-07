@@ -39,7 +39,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/bottom_sheet_waiting"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="@dimen/roulette_bottom_sheet"
         android:background="@drawable/bottom_sheet_background"
         android:orientation="vertical"
         app:behavior_hideable="false"
@@ -147,6 +147,7 @@
             android:layout_width="match_parent"
             android:layout_height="@dimen/button_height_48"
             android:layout_marginTop="@dimen/margin_16"
+            android:layout_marginBottom="@dimen/margin_32"
             android:backgroundTint="@color/background_white"
             android:insetTop="0dp"
             android:insetBottom="0dp"
