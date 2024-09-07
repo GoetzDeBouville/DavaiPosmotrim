@@ -46,6 +46,9 @@ fun UserDto.toDomain() = User(
     name = name
 )
 
+private const val RATING_MULTIPLIER = 10
+private const val ROUNDING_DIVIDER = 10
+
 fun MovieDetailsDto.toDomain(id: Int) = MovieDetails(
     id,
     name,
@@ -56,7 +59,7 @@ fun MovieDetailsDto.toDomain(id: Int) = MovieDetails(
         URLDecoder.decode(it.removePrefix("/"), StandardCharsets.UTF_8.toString())
     } ?: "",
     alternativeName,
-    (round(ratingKinopoisk * 10) / 10),
+    round(ratingKinopoisk * RATING_MULTIPLIER) / ROUNDING_DIVIDER,
     ratingImdb,
     numOfMarksKinopoisk,
     numOfMarksImdb,

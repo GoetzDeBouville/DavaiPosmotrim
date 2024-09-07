@@ -6,7 +6,7 @@ import javax.inject.Inject
 class SwipeMovieUseCase @Inject constructor(
     private val repository: SelectMovieRepository
 ) {
-    suspend operator fun invoke(position : Int, isLiked : Boolean) {
+    suspend operator fun invoke(position: Int, isLiked: Boolean) {
         return repository.updateIsLikedByPosition(position, isLiked)
     }
 }

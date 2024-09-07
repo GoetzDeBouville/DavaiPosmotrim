@@ -26,6 +26,7 @@ class SelectMovieRepositoryImpl @Inject constructor(
     /**
      * Метод принимает номер позиции и возвращает список MovieDetails
      */
+    @Suppress("LabeledExpression")
     override fun getMovieListByPositionId(positionNumber: Int): Flow<Result<List<MovieDetails>, ErrorType>> =
         flow {
             val movies = mutableListOf<MovieDetails>()

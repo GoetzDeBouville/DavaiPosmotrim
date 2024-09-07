@@ -11,7 +11,7 @@ interface SelectMovieRepository {
      */
     fun getMovieListByPositionId(positionNumber: Int): Flow<Result<List<MovieDetails>, ErrorType>>
 
-    suspend fun getMovieIdListSize() : Int
+    suspend fun getMovieIdListSize(): Int
 
     suspend fun leaveOnlyDislikedMovieIds()
 
