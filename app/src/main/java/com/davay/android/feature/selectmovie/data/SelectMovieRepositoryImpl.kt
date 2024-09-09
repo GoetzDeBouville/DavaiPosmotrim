@@ -15,6 +15,9 @@ import com.davay.android.feature.selectmovie.data.network.GetMovieResponse
 import com.davay.android.feature.selectmovie.domain.api.SelectMovieRepository
 import io.ktor.utils.io.errors.IOException
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.async
+import kotlinx.coroutines.awaitAll
+import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.withContext
@@ -34,20 +37,26 @@ class SelectMovieRepositoryImpl @Inject constructor(
             val movies = mutableListOf<MovieDetails>()
 
             movieIdDao.getMovieIdsByPositionRange(positionNumber, PAGINATION_SIZE)
-                .forEach { movieId ->
-                    val movie = historyDao.getMovieDetailsById(movieId)?.toDomain()
-                    if (movie == null) {
-                        when (val result = getMovieDetailsFromApiAndSaveToDb(movieId)) {
-                            is Result.Success -> {
-                                movies.add(result.data)
-                            }
-
-                            is Result.Error -> {
-                                emit(Result.Error(result.error))
+                .map { movieId ->
+                    coroutineScope {
+                        async(Dispatchers.IO) {
+                            val movie = historyDao.getMovieDetailsById(movieId)?.toDomain()
+                            if (movie != null) {
+                                Result.Success(movie)
+                            } else {
+                                getMovieDetailsFromApiAndSaveToDb(movieId)
                             }
                         }
-                    } else {
-                        movies.add(movie)
+                    }
+                }.awaitAll().forEach { result ->
+                    when (result) {
+                        is Result.Success -> {
+                            movies.add(result.data)
+                        }
+
+                        is Result.Error -> {
+                            emit(Result.Error(result.error))
+                        }
                     }
                 }
 
