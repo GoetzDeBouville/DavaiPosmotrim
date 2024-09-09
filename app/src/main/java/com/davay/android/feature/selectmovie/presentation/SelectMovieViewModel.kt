@@ -97,8 +97,9 @@ class SelectMovieViewModel @Inject constructor(
 
     private companion object {
         /**
-         * Размер подгрузки фильмов, при изменении так же учитывать значение в SelectMovieRepositoryImpl
+         * Размер подгрузки фильмов, при изменении так же учитывать значение в SelectMovieRepositoryImpl.
+         * PRELOAD_SIZE должен быть меньше либо равен PAGINATION_SIZE в SelectMovieRepositoryImpl.
          */
-        const val PRELOAD_SIZE = 20
+        const val PRELOAD_SIZE = 2
     }
 }

@@ -1,5 +1,6 @@
 package com.davay.android.feature.selectmovie.data
 
+import android.util.Log
 import com.davay.android.core.data.converters.toDbEntity
 import com.davay.android.core.data.converters.toDomain
 import com.davay.android.core.data.database.HistoryDao
@@ -39,6 +40,7 @@ class SelectMovieRepositoryImpl @Inject constructor(
                             when (result) {
                                 is Result.Success -> {
                                     movies.add(result.data)
+                                    Log.i("SelectMovieRepositoryImpl", result.data.name)
                                 }
 
                                 is Result.Error -> {
@@ -114,7 +116,8 @@ class SelectMovieRepositoryImpl @Inject constructor(
 
     private companion object {
         /**
-         * Размер подгрузки фильмов, при изменении так же учитывать значение в SelectMovieViewModel
+         * Размер подгрузки фильмов, при изменении так же учитывать значение в SelectMovieViewModel.
+         * PAGINATION_SIZE в репозитории должен быть больше либо равен PAGINATION_SIZE в SelectMovieViewModel
          */
         const val PAGINATION_SIZE = 20
     }
