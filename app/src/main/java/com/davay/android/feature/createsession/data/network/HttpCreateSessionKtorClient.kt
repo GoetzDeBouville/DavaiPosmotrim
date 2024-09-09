@@ -4,6 +4,7 @@ import android.content.Context
 import android.util.Log
 import com.davay.android.BuildConfig
 import com.davay.android.core.data.network.HttpKtorNetworkClient
+import com.davay.android.core.data.network.model.NetworkParams
 import io.ktor.client.HttpClient
 import io.ktor.client.call.body
 import io.ktor.client.request.get
@@ -35,7 +36,7 @@ class HttpCreateSessionKtorClient @Inject constructor(
                     }
 
                     headers {
-                        append(DEVICE_ID, request.userId)
+                        append(NetworkParams.DEVICE_ID_HEADER, request.userId)
                     }
 
                     setBody(mapOf(request.parameter to request.requestBody))
@@ -82,7 +83,6 @@ class HttpCreateSessionKtorClient @Inject constructor(
     }
 
     private companion object {
-        const val DEVICE_ID = "device-id"
         val TAG = HttpCreateSessionKtorClient::class.simpleName
     }
 }
