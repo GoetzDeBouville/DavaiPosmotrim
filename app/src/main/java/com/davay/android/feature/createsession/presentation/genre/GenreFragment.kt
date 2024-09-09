@@ -64,7 +64,7 @@ class GenreFragment : BaseFragment<FragmentGenreBinding, GenreViewModel>(
             is GenreState.Loading -> showProgressBar()
             is GenreState.Content -> handleContent(state)
             is GenreState.Error -> handleError(state)
-            is GenreState.CreateSessionLoading -> showForegroundProgressBar()
+            is GenreState.CreateSessionLoading -> showProgressBar()
         }
     }
 
@@ -96,16 +96,6 @@ class GenreFragment : BaseFragment<FragmentGenreBinding, GenreViewModel>(
     }
 
     private fun showProgressBar() = with(binding) {
-        errorMessage.isVisible = false
-        progressBar.isVisible = true
-        rvGenre.isVisible = false
-    }
-
-    /**
-     * Отображает прогресс бар поверх контента.
-     * Используется при обновлении статуса при создании сессии.
-     */
-    private fun showForegroundProgressBar() = with(binding) {
         errorMessage.isVisible = false
         progressBar.isVisible = true
         rvGenre.isVisible = true

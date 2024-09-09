@@ -54,6 +54,7 @@ class CreateSessionFragment : BaseFragment<FragmentCreateSessionBinding, CreateS
         viewPager.registerOnPageChangeCallback(object : OnPageChangeCallback() {
             override fun onPageSelected(position: Int) {
                 super.onPageSelected(position)
+                resetSelections()
                 when (position) {
                     0 -> toolBar.setSubtitleText(getString(R.string.create_session_choose_compilations))
                     1 -> toolBar.setSubtitleText(getString(R.string.create_session_choose_genre))
@@ -70,11 +71,6 @@ class CreateSessionFragment : BaseFragment<FragmentCreateSessionBinding, CreateS
         tabMediator?.detach()
         tabMediator = null
         super.onDestroyView()
-    }
-
-    override fun onResume() {
-        resetSelections()
-        super.onResume()
     }
 
     private fun resetSelections() {

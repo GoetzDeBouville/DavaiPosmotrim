@@ -5,7 +5,6 @@ import androidx.lifecycle.viewModelScope
 import com.davay.android.BuildConfig
 import com.davay.android.core.domain.models.ErrorScreenState
 import com.davay.android.core.domain.models.Genre
-import com.davay.android.core.domain.models.converter.toSessionShort
 import com.davay.android.feature.createsession.domain.model.GenreSelect
 import com.davay.android.feature.createsession.domain.usecase.CreateSessionUseCase
 import com.davay.android.feature.createsession.domain.usecase.GetGenresUseCase
@@ -71,35 +70,35 @@ class GenreViewModel @Inject constructor(
         if (selectedGenre.isEmpty()) {
             showBanner.invoke()
         } else {
-            val genreList = selectedGenre.map {
-                it.name
-            }
-            _state.update {
-                GenreState.CreateSessionLoading
-            }
-            runSafelyUseCase(
-                useCaseFlow = createSessionUseCase.execute(PARAMETER_NAME, genreList),
-                onSuccess = { session ->
-                    if (BuildConfig.DEBUG) {
-                        Log.v(TAG, "error -> $session")
-                    }
-                    viewModelScope.launch(Dispatchers.Main) {
-                        navigateToWaitSession(session.toSessionShort())
-                    }
-                },
-                onFailure = { error ->
-                    if (BuildConfig.DEBUG) {
-                        Log.v(TAG, "error -> $error")
-                    }
-                    viewModelScope.launch(Dispatchers.Main) {
+            viewModelScope.launch {
+                val genreList = selectedGenre.map {
+                    it.name
+                }
+                _state.update {
+                    GenreState.CreateSessionLoading
+                }
+                runSafelyUseCase(
+                    useCaseFlow = createSessionUseCase.execute(PARAMETER_NAME, genreList),
+                    onSuccess = { session ->
+                        if (BuildConfig.DEBUG) {
+                            Log.v(TAG, "error -> $session")
+                        }
+                        viewModelScope.launch(Dispatchers.Main) {
+                            navigateToWaitSession(session)
+                        }
+                    },
+                    onFailure = { error ->
+                        if (BuildConfig.DEBUG) {
+                            Log.v(TAG, "error -> $error")
+                        }
                         var handledError = mapErrorToUiState(error)
                         if (handledError == ErrorScreenState.SERVER_ERROR) {
                             handledError = ErrorScreenState.ERROR_BUILD_SESSION_GENRES
                         }
                         _state.update { GenreState.Error(handledError) }
                     }
-                }
-            )
+                )
+            }
         }
     }
 

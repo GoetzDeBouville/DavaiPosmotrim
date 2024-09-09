@@ -5,7 +5,6 @@ import androidx.lifecycle.viewModelScope
 import com.davay.android.BuildConfig
 import com.davay.android.core.domain.models.CompilationFilms
 import com.davay.android.core.domain.models.ErrorScreenState
-import com.davay.android.core.domain.models.converter.toSessionShort
 import com.davay.android.feature.createsession.domain.model.CompilationSelect
 import com.davay.android.feature.createsession.domain.usecase.CreateSessionUseCase
 import com.davay.android.feature.createsession.domain.usecase.GetCollectionsUseCase
@@ -83,35 +82,35 @@ class CompilationsViewModel @Inject constructor(
         if (selectedCompilations.isEmpty()) {
             showBanner.invoke()
         } else {
-            val collections = selectedCompilations.map {
-                it.id
-            }
-            _state.update {
-                CompilationsState.CreateSessionLoading
-            }
-            runSafelyUseCase(
-                useCaseFlow = createSessionUseCase.execute(PARAMETER_NAME, collections),
-                onSuccess = { session ->
-                    if (BuildConfig.DEBUG) {
-                        Log.v(TAG, "session = $session")
-                    }
-                    viewModelScope.launch(Dispatchers.Main) {
-                        navigateToWaitSession(session.toSessionShort())
-                    }
-                },
-                onFailure = { error ->
-                    if (BuildConfig.DEBUG) {
-                        Log.v(TAG, "error -> $error")
-                    }
-                    viewModelScope.launch(Dispatchers.Main) {
+            viewModelScope.launch {
+                val collections = selectedCompilations.map {
+                    it.id
+                }
+                _state.update {
+                    CompilationsState.CreateSessionLoading
+                }
+                runSafelyUseCase(
+                    useCaseFlow = createSessionUseCase.execute(PARAMETER_NAME, collections),
+                    onSuccess = { session ->
+                        if (BuildConfig.DEBUG) {
+                            Log.v(TAG, "session = $session")
+                        }
+                        viewModelScope.launch(Dispatchers.Main) {
+                            navigateToWaitSession(session)
+                        }
+                    },
+                    onFailure = { error ->
+                        if (BuildConfig.DEBUG) {
+                            Log.v(TAG, "error -> $error")
+                        }
                         var handledError = mapErrorToUiState(error)
                         if (handledError == ErrorScreenState.SERVER_ERROR) {
                             handledError = ErrorScreenState.ERROR_BUILD_SESSION_COLLECTIONS
                         }
                         _state.update { CompilationsState.Error(handledError) }
                     }
-                }
-            )
+                )
+            }
         }
     }
 
