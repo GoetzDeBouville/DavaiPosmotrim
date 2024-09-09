@@ -96,7 +96,6 @@ class CompilationsViewModel @Inject constructor(
                         Log.v(TAG, "session = $session")
                     }
                     viewModelScope.launch(Dispatchers.Main) {
-                        _state.update { CompilationsState.SessionCreated(session) }
                         navigateToWaitSession(session.toSessionShort())
                     }
                 },

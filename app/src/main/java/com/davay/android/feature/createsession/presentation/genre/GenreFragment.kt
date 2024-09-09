@@ -65,7 +65,6 @@ class GenreFragment : BaseFragment<FragmentGenreBinding, GenreViewModel>(
             is GenreState.Content -> handleContent(state)
             is GenreState.Error -> handleError(state)
             is GenreState.CreateSessionLoading -> showForegroundProgressBar()
-            is GenreState.SessionCreated -> Unit // Выполняет работу на viewmodel
         }
     }
 

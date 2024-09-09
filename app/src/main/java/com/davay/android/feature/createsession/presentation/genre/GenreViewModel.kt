@@ -84,7 +84,6 @@ class GenreViewModel @Inject constructor(
                         Log.v(TAG, "error -> $session")
                     }
                     viewModelScope.launch(Dispatchers.Main) {
-                        _state.update { GenreState.SessionCreated(session) }
                         navigateToWaitSession(session.toSessionShort())
                     }
                 },

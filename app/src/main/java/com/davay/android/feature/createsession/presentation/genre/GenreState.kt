@@ -9,5 +9,4 @@ sealed class GenreState {
     class Error(val errorType: ErrorScreenState) : GenreState()
     class Content(val genreList: List<GenreSelect>) : GenreState()
     data object CreateSessionLoading : GenreState()
-    class SessionCreated(val session: Session) : GenreState()
 }
