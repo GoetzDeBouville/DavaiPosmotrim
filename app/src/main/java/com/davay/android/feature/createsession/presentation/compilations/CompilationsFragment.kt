@@ -1,7 +1,5 @@
 package com.davay.android.feature.createsession.presentation.compilations
 
-import android.util.Log
-import androidx.core.view.forEach
 import androidx.core.view.isVisible
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -102,18 +100,6 @@ class CompilationsFragment : BaseFragment<FragmentCompilationsBinding, Compilati
         errorMessage.isVisible = false
         progressBar.isVisible = true
         rvCompilations.isVisible = true
-    }
-
-    private fun RecyclerView.disableChildClicks() {
-        Log.i("CompilationsFragment", "this.childCount = ${this.childCount}")
-        for (i in 0 until this.childCount) {
-            this.getChildAt(i)?.let { view ->
-                Log.i("CompilationsFragment", "view = ${view.id}")
-                view.isClickable = false
-                view.isFocusable = false
-                view.isEnabled = false
-            }
-        }
     }
 
     fun buttonContinueClicked() {

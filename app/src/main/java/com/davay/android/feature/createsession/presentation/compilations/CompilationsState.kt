@@ -1,7 +1,6 @@
 package com.davay.android.feature.createsession.presentation.compilations
 
 import com.davay.android.core.domain.models.ErrorScreenState
-import com.davay.android.core.domain.models.Session
 import com.davay.android.feature.createsession.domain.model.CompilationSelect
 
 sealed class CompilationsState {
