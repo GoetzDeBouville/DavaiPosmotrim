@@ -14,7 +14,7 @@ import com.davay.android.core.data.database.entity.SessionMovieCrossRef
         SessionMovieCrossRef::class,
         MovieIdEntity::class
     ],
-    version = 2,
+    version = 1,
     exportSchema = false
 )
 abstract class AppDatabase : RoomDatabase() {

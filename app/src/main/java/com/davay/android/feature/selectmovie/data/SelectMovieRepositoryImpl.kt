@@ -1,5 +1,6 @@
 package com.davay.android.feature.selectmovie.data
 
+import android.util.Log
 import com.davay.android.core.data.converters.toDbEntity
 import com.davay.android.core.data.converters.toDomain
 import com.davay.android.core.data.database.HistoryDao
@@ -12,6 +13,7 @@ import com.davay.android.core.domain.models.Result
 import com.davay.android.feature.selectmovie.data.network.GetMovieRequest
 import com.davay.android.feature.selectmovie.data.network.GetMovieResponse
 import com.davay.android.feature.selectmovie.domain.api.SelectMovieRepository
+import io.ktor.utils.io.errors.IOException
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
@@ -35,16 +37,13 @@ class SelectMovieRepositoryImpl @Inject constructor(
                 .forEach { movieId ->
                     val movie = historyDao.getMovieDetailsById(movieId)?.toDomain()
                     if (movie == null) {
-                        getMovieDetailsFromApiAndSaveToDb(movieId).collect { result ->
-                            when (result) {
-                                is Result.Success -> {
-                                    movies.add(result.data)
-                                }
+                        when (val result = getMovieDetailsFromApiAndSaveToDb(movieId)) {
+                            is Result.Success -> {
+                                movies.add(result.data)
+                            }
 
-                                is Result.Error -> {
-                                    emit(Result.Error(result.error))
-                                    return@collect
-                                }
+                            is Result.Error -> {
+                                emit(Result.Error(result.error))
                             }
                         }
                     } else {
@@ -55,19 +54,23 @@ class SelectMovieRepositoryImpl @Inject constructor(
             emit(Result.Success(movies))
         }
 
-    private fun getMovieDetailsFromApiAndSaveToDb(movieId: Int): Flow<Result<MovieDetails, ErrorType>> =
-        flow {
+    private suspend fun getMovieDetailsFromApiAndSaveToDb(movieId: Int): Result<MovieDetails, ErrorType> {
+        return try {
             val response = httpNetworkClient.getResponse(GetMovieRequest.Movie(movieId))
             when (val body = response.body) {
                 is GetMovieResponse.Movie -> {
                     val movieDetails = body.value.toDomain(movieId)
                     saveMovieToDatabase(movieDetails)
-                    emit(Result.Success(movieDetails))
+                    Result.Success(movieDetails)
                 }
 
-                else -> emit(Result.Error(response.resultCode.mapToErrorType()))
+                else -> Result.Error(response.resultCode.mapToErrorType())
             }
+        } catch (e: IOException) {
+            Log.e(TAG, e.cause.toString())
+            Result.Error(ErrorType.UNKNOWN_ERROR)
         }
+    }
 
     private suspend fun saveMovieToDatabase(movieDetails: MovieDetails) {
         withContext(Dispatchers.IO) {
@@ -118,5 +121,6 @@ class SelectMovieRepositoryImpl @Inject constructor(
          * PAGINATION_SIZE в репозитории должен быть больше либо равен PAGINATION_SIZE в SelectMovieViewModel
          */
         const val PAGINATION_SIZE = 20
+        val TAG = SelectMovieRepositoryImpl::class.simpleName
     }
 }

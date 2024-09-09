@@ -73,14 +73,13 @@ private fun personsArrFormatter(strList: List<String?>?): List<String> {
     return if (strList.isNullOrEmpty()) {
         emptyList()
     } else {
-        val newList = mutableListOf<String>()
-
-        strList.forEach { str ->
-            if (str.isNullOrEmpty().not()) {
-                newList.add(str!!)
+        strList.mapNotNull {
+            if (it?.isEmpty() == true) {
+                null
+            } else {
+                it
             }
         }
-        newList
     }
 }
 
