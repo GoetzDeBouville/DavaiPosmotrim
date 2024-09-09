@@ -7,6 +7,7 @@ import com.davay.android.core.domain.models.ErrorScreenState
 import com.davay.android.core.domain.models.Genre
 import com.davay.android.core.domain.models.converter.toSessionShort
 import com.davay.android.feature.createsession.domain.model.GenreSelect
+import com.davay.android.feature.createsession.domain.model.SessionType
 import com.davay.android.feature.createsession.domain.usecase.CreateSessionUseCase
 import com.davay.android.feature.createsession.domain.usecase.GetGenresUseCase
 import com.davay.android.feature.createsession.presentation.createsession.CreateSessionViewModel
@@ -79,7 +80,7 @@ class GenreViewModel @Inject constructor(
                     GenreState.CreateSessionLoading
                 }
                 runSafelyUseCase(
-                    useCaseFlow = createSessionUseCase.execute(PARAMETER_NAME, genreList),
+                    useCaseFlow = createSessionUseCase.execute(SessionType.GENRES, genreList),
                     onSuccess = { session ->
                         if (BuildConfig.DEBUG) {
                             Log.v(TAG, "error -> $session")
@@ -116,7 +117,6 @@ class GenreViewModel @Inject constructor(
     }
 
     private companion object {
-        const val PARAMETER_NAME = "genres"
         val TAG = GenreViewModel::class.simpleName
     }
 }

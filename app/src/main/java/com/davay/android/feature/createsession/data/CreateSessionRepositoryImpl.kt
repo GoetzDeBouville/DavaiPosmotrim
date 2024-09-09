@@ -16,6 +16,7 @@ import com.davay.android.core.domain.models.Session
 import com.davay.android.feature.createsession.data.network.CreateSessionRequest
 import com.davay.android.feature.createsession.data.network.CreateSessionResponse
 import com.davay.android.feature.createsession.domain.api.CreateSessionRepository
+import com.davay.android.feature.createsession.domain.model.SessionType
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import javax.inject.Inject
@@ -52,15 +53,15 @@ class CreateSessionRepositoryImpl @Inject constructor(
     }
 
     override fun createSession(
-        parameter: String,
+        sessionType: SessionType,
         requestBody: List<String>
     ): Flow<Result<Session, ErrorType>> = flow {
         val userId = userDataRepository.getUserId()
         val response = httpNetworkClient.getResponse(
             CreateSessionRequest.Session(
-                parameter,
-                requestBody,
-                userId
+                sessionType.value,
+                requestBody = requestBody,
+                userId = userId
             )
         )
         when (val body = response.body) {
