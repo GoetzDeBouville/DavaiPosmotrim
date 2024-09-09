@@ -43,17 +43,25 @@
         app:layout_constraintEnd_toEndOf="@id/iv_theme_cover"
         app:layout_constraintStart_toStartOf="@id/iv_theme_cover" />
 
-    <TextView
-        android:id="@+id/tv_theme_title"
-        style="@style/Text.Base.Medium"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:id="@+id/ll_collection_title"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/margin_16"
+        android:layout_marginHorizontal="@dimen/margin_16"
         android:layout_marginBottom="@dimen/margin_16"
-        android:textColor="@color/background_white"
+        android:orientation="horizontal"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        tools:text="[Нестареющая классика]" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <TextView
+            android:id="@+id/tv_theme_title"
+            style="@style/Text.Base.Medium"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/background_white"
+            tools:text="[Нестареющая классика классика классика классика классика]" />
+    </LinearLayout>
 
     <ImageView
         android:id="@+id/iv_selector_icon"
@@ -63,8 +71,8 @@
         android:contentDescription="@null"
         android:src="@drawable/ic_selected"
         android:visibility="invisible"
-        app:layout_constraintBottom_toBottomOf="@id/tv_theme_title"
+        app:layout_constraintBottom_toBottomOf="@id/ll_collection_title"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@id/tv_theme_title" />
+        app:layout_constraintTop_toTopOf="@id/ll_collection_title" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
