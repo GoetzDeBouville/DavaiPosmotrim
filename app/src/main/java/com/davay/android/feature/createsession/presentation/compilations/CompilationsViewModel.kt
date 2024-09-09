@@ -1,20 +1,25 @@
 package com.davay.android.feature.createsession.presentation.compilations
 
 import android.util.Log
+import androidx.lifecycle.viewModelScope
 import com.davay.android.BuildConfig
-import com.davay.android.base.BaseViewModel
 import com.davay.android.core.domain.models.CompilationFilms
 import com.davay.android.core.domain.models.ErrorScreenState
 import com.davay.android.feature.createsession.domain.model.CompilationSelect
+import com.davay.android.feature.createsession.domain.usecase.CreateSessionUseCase
 import com.davay.android.feature.createsession.domain.usecase.GetCollectionsUseCase
+import com.davay.android.feature.createsession.presentation.createsession.CreateSessionViewModel
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class CompilationsViewModel @Inject constructor(
-    private val getCollectionsUseCase: GetCollectionsUseCase
-) : BaseViewModel() {
+    private val getCollectionsUseCase: GetCollectionsUseCase,
+    private val createSessionUseCase: CreateSessionUseCase
+) : CreateSessionViewModel() {
     private val _state = MutableStateFlow<CompilationsState>(CompilationsState.Loading)
     val state = _state.asStateFlow()
 
@@ -25,7 +30,6 @@ class CompilationsViewModel @Inject constructor(
     }
 
     fun getCollectionList() {
-        _state.update { CompilationsState.Loading }
         runSafelyUseCase(
             useCaseFlow = getCollectionsUseCase.execute(),
             onSuccess = { collections ->
@@ -50,22 +54,12 @@ class CompilationsViewModel @Inject constructor(
         }
     }
 
-    fun buttonContinueClicked() {
-        if (BuildConfig.DEBUG) {
-            Log.d("MyTag", selectedCompilations.toString())
-        }
-    }
-
     private fun CompilationFilms.toUiModel() = CompilationSelect(
         id = this.id,
         name = this.name,
         cover = this.imgUrl ?: "",
         isSelected = false
     )
-
-    fun hasSelectedCompilations(): Boolean {
-        return selectedCompilations.isNotEmpty()
-    }
 
     fun resetSelections() {
         selectedCompilations.clear()
@@ -76,5 +70,52 @@ class CompilationsViewModel @Inject constructor(
                 currentState
             }
         }
+    }
+
+    /**
+     * Метод проверяет на пустоту список выбранных коллекций, если список пустой, вызывает баннер.
+     * Для не пустого списка вызывает создание сессии.
+     * Навигация при этом вызывается только после успешного возврата.
+     * Данные сессии передаем через bundle в navigateToWaitSession.
+     */
+    fun createSessionAndNavigateToWaitSessionScreen(showBanner: () -> Unit) {
+        if (selectedCompilations.isEmpty()) {
+            showBanner.invoke()
+        } else {
+            viewModelScope.launch {
+                val collections = selectedCompilations.map {
+                    it.id
+                }
+                _state.update {
+                    CompilationsState.CreateSessionLoading
+                }
+                runSafelyUseCase(
+                    useCaseFlow = createSessionUseCase.execute(PARAMETER_NAME, collections),
+                    onSuccess = { session ->
+                        if (BuildConfig.DEBUG) {
+                            Log.v(TAG, "session = $session")
+                        }
+                        viewModelScope.launch(Dispatchers.Main) {
+                            navigateToWaitSession(session)
+                        }
+                    },
+                    onFailure = { error ->
+                        if (BuildConfig.DEBUG) {
+                            Log.v(TAG, "error -> $error")
+                        }
+                        var handledError = mapErrorToUiState(error)
+                        if (handledError == ErrorScreenState.SERVER_ERROR) {
+                            handledError = ErrorScreenState.ERROR_BUILD_SESSION_COLLECTIONS
+                        }
+                        _state.update { CompilationsState.Error(handledError) }
+                    }
+                )
+            }
+        }
+    }
+
+    private companion object {
+        const val PARAMETER_NAME = "collections"
+        val TAG = CompilationsViewModel::class.simpleName
     }
 }

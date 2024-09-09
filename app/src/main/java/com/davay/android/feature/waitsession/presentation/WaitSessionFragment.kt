@@ -5,6 +5,7 @@ import android.content.ClipboardManager
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.activity.OnBackPressedCallback
 import androidx.activity.result.ActivityResultLauncher
@@ -14,12 +15,15 @@ import com.davai.extensions.dpToPx
 import com.davai.uikit.BannerView
 import com.davai.uikit.ButtonView
 import com.davai.uikit.MainDialogFragment
+import com.davay.android.BuildConfig
 import com.davay.android.R
 import com.davay.android.base.BaseFragment
+import com.davay.android.core.domain.models.Session
 import com.davay.android.core.presentation.MainActivity
 import com.davay.android.databinding.FragmentWaitSessionBinding
 import com.davay.android.di.AppComponentHolder
 import com.davay.android.di.ScreenComponent
+import com.davay.android.feature.createsession.presentation.createsession.CreateSessionViewModel
 import com.davay.android.feature.onboarding.presentation.OnboardingFragment
 import com.davay.android.feature.waitsession.di.DaggerWaitSessionFragmentComponent
 import com.davay.android.feature.waitsession.presentation.adapter.CustomItemDecorator
@@ -29,6 +33,7 @@ import com.google.android.flexbox.FlexDirection
 import com.google.android.flexbox.FlexWrap
 import com.google.android.flexbox.FlexboxLayoutManager
 import com.google.android.flexbox.JustifyContent
+import kotlinx.serialization.json.Json
 
 class WaitSessionFragment : BaseFragment<FragmentWaitSessionBinding, WaitSessionViewModel>(
     FragmentWaitSessionBinding::inflate
@@ -38,6 +43,7 @@ class WaitSessionFragment : BaseFragment<FragmentWaitSessionBinding, WaitSession
     private var sendButton: ButtonView? = null
     private var dialog: MainDialogFragment? = null
     private var launcher: ActivityResultLauncher<Intent>? = null
+    private var session: Session? = null
 
     override fun diComponent(): ScreenComponent = DaggerWaitSessionFragmentComponent.builder()
         .appComponent(AppComponentHolder.getComponent())
@@ -45,6 +51,12 @@ class WaitSessionFragment : BaseFragment<FragmentWaitSessionBinding, WaitSession
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        arguments?.let {
+            if (BuildConfig.DEBUG) {
+                Log.i(TAG, "${it.getString(CreateSessionViewModel.SESSION_DATA)}")
+            }
+            session = Json.decodeFromString(it.getString(CreateSessionViewModel.SESSION_DATA) ?: "")
+        }
         requireActivity().onBackPressedDispatcher.addCallback(
             this,
             object : OnBackPressedCallback(true) {
@@ -92,7 +104,7 @@ class WaitSessionFragment : BaseFragment<FragmentWaitSessionBinding, WaitSession
             title = getString(R.string.leave_wait_session_title),
             message = getString(R.string.leave_wait_session_dialog_message),
             yesAction = {
-                viewModel.navigateBack()
+                viewModel.navigateToCreateSession()
             }
         )
     }
@@ -192,9 +204,10 @@ class WaitSessionFragment : BaseFragment<FragmentWaitSessionBinding, WaitSession
         activity?.showBanner()
     }
 
-    companion object {
-        private const val SPACING_BETWEEN_RV_ITEMS_8_DP = 8
-        private const val CUSTOM_DIALOG_TAG = "customDialog"
-        private const val MIN_USER_TO_START_2 = 2
+    private companion object {
+        const val SPACING_BETWEEN_RV_ITEMS_8_DP = 8
+        const val CUSTOM_DIALOG_TAG = "customDialog"
+        const val MIN_USER_TO_START_2 = 2
+        val TAG = WaitSessionFragment::class.simpleName
     }
 }

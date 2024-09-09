@@ -2,6 +2,7 @@ package com.davay.android.feature.createsession.di
 
 import android.content.Context
 import com.davay.android.core.data.network.HttpKtorNetworkClient
+import com.davay.android.core.domain.api.UserDataRepository
 import com.davay.android.feature.createsession.data.CreateSessionRepositoryImpl
 import com.davay.android.feature.createsession.data.network.CreateSessionRequest
 import com.davay.android.feature.createsession.data.network.CreateSessionResponse
@@ -12,7 +13,7 @@ import dagger.Provides
 import io.ktor.client.HttpClient
 
 @Module
-class CreateSessionRepositoryModule {
+class CreateSessionDataModule {
 
     @Provides
     fun provideCreateSessionHttpNetworkClient(
@@ -24,8 +25,9 @@ class CreateSessionRepositoryModule {
 
     @Provides
     fun provideCreateSessionRepository(
-        httpNetworkClient: HttpKtorNetworkClient<CreateSessionRequest, CreateSessionResponse>
+        httpNetworkClient: HttpKtorNetworkClient<CreateSessionRequest, CreateSessionResponse>,
+        userDataRepository: UserDataRepository
     ): CreateSessionRepository {
-        return CreateSessionRepositoryImpl(httpNetworkClient)
+        return CreateSessionRepositoryImpl(httpNetworkClient, userDataRepository)
     }
 }

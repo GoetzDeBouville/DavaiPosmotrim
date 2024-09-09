@@ -20,6 +20,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/margin_12"
+        android:textColor="@color/text_base"
         tools:text="@string/error_message_no_internet_title" />
 
     <TextView
@@ -28,6 +29,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/margin_12"
+        android:textColor="@color/text_base"
         tools:text="@string/error_message_no_internet_description" />
 
     <com.google.android.material.button.MaterialButton
