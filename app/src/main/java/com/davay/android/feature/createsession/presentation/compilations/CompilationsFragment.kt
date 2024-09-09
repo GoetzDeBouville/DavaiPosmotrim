@@ -55,8 +55,7 @@ class CompilationsFragment : BaseFragment<FragmentCompilationsBinding, Compilati
             is CompilationsState.Loading -> showProgressBar()
             is CompilationsState.Content -> handleContent(state)
             is CompilationsState.Error -> handleError(state)
-            is CompilationsState.CreateSessionLoading -> showForegroundProgressBar()
-            is CompilationsState.SessionCreated -> Unit // Выполняет работу на viewmodel
+            is CompilationsState.CreateSessionLoading -> showProgressBar()
         }
     }
 
@@ -88,16 +87,6 @@ class CompilationsFragment : BaseFragment<FragmentCompilationsBinding, Compilati
     }
 
     private fun showProgressBar() = with(binding) {
-        errorMessage.isVisible = false
-        progressBar.isVisible = true
-        rvCompilations.isVisible = false
-    }
-
-    /**
-     * Отображает прогресс бар поверх контента.
-     * Используется при обновлении статуса при создании сессии.
-     */
-    private fun showForegroundProgressBar() = with(binding) {
         errorMessage.isVisible = false
         progressBar.isVisible = true
         rvCompilations.isVisible = true

@@ -9,5 +9,4 @@ sealed class CompilationsState {
     class Error(val errorType: ErrorScreenState) : CompilationsState()
     class Content(val compilationList: List<CompilationSelect>) : CompilationsState()
     data object CreateSessionLoading : CompilationsState()
-    class SessionCreated(val session: Session) : CompilationsState()
 }
