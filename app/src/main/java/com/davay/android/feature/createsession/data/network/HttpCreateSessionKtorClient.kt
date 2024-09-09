@@ -47,7 +47,7 @@ class HttpCreateSessionKtorClient @Inject constructor(
                 httpClient.get {
                     url {
                         path(request.path)
-                        parameter("format", "json")
+                        parameter(FORMAT_PARAMETER, FORMAT_VALUE)
                     }
                 }
             }
@@ -56,7 +56,7 @@ class HttpCreateSessionKtorClient @Inject constructor(
                 httpClient.get {
                     url {
                         path(request.path)
-                        parameter("format", "json")
+                        parameter(FORMAT_PARAMETER, FORMAT_VALUE)
                     }
                 }
             }
@@ -84,5 +84,7 @@ class HttpCreateSessionKtorClient @Inject constructor(
 
     private companion object {
         val TAG = HttpCreateSessionKtorClient::class.simpleName
+        const val FORMAT_PARAMETER = "format"
+        const val FORMAT_VALUE = "json"
     }
 }
