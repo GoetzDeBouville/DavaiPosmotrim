@@ -5,6 +5,7 @@ import androidx.lifecycle.viewModelScope
 import com.davay.android.BuildConfig
 import com.davay.android.core.domain.models.CompilationFilms
 import com.davay.android.core.domain.models.ErrorScreenState
+import com.davay.android.core.domain.models.converter.toSessionShort
 import com.davay.android.feature.createsession.domain.model.CompilationSelect
 import com.davay.android.feature.createsession.domain.usecase.CreateSessionUseCase
 import com.davay.android.feature.createsession.domain.usecase.GetCollectionsUseCase
@@ -96,7 +97,7 @@ class CompilationsViewModel @Inject constructor(
                             Log.v(TAG, "session = $session")
                         }
                         viewModelScope.launch(Dispatchers.Main) {
-                            navigateToWaitSession(session)
+                            navigateToWaitSession(session.toSessionShort())
                         }
                     },
                     onFailure = { error ->
