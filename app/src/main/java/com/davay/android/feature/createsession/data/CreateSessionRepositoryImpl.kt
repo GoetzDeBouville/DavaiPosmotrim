@@ -79,7 +79,7 @@ class CreateSessionRepositoryImpl @Inject constructor(
     /**
      * Метод производит очистку таблицы с id с последующей записью в нее списка обновленных id
      */
-    override suspend fun saveMovieIdListToDb(idList: List<Int>) {
+    private suspend fun saveMovieIdListToDb(idList: List<Int>) {
         @Suppress("TooGenericExceptionCaught")
         try {
             if (movieIdDao.getMovieIdsCount() > 0) {

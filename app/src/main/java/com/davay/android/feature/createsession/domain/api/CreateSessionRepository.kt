@@ -12,5 +12,4 @@ interface CreateSessionRepository {
     fun getCollections(): Flow<Result<List<CompilationFilms>, ErrorType>>
     fun getGenres(): Flow<Result<List<Genre>, ErrorType>>
     fun createSession(sessionType: SessionType, requestBody: List<String>): Flow<Result<Session, ErrorType>>
-    suspend fun saveMovieIdListToDb(idList: List<Int>)
 }
