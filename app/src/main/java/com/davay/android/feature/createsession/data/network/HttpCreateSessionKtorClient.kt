@@ -42,7 +42,16 @@ class HttpCreateSessionKtorClient @Inject constructor(
                 }
             }
 
-            else -> {
+            is CreateSessionRequest.GenreList -> {
+                httpClient.get {
+                    url {
+                        path(request.path)
+                        parameter("format", "json")
+                    }
+                }
+            }
+
+            is CreateSessionRequest.CollectionList -> {
                 httpClient.get {
                     url {
                         path(request.path)
