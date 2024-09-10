@@ -2,6 +2,10 @@ package com.davay.android.core.data.network
 
 import android.util.Log
 import com.davay.android.BuildConfig
+import com.davay.android.core.data.network.model.NetworkParams.BASE_URL
+import com.davay.android.core.data.network.model.NetworkParams.DEVICE_ID_KEY
+import com.davay.android.core.data.network.model.NetworkParams.ORIGIN_KEY
+import com.davay.android.core.data.network.model.NetworkParams.ORIGIN_VALUE
 import io.ktor.client.HttpClient
 import io.ktor.client.plugins.logging.LogLevel
 import io.ktor.client.plugins.logging.Logger
@@ -62,9 +66,5 @@ abstract class WebsocketKtorNetworkClient<O> : WebsocketNetworkClient<O> {
 
     companion object {
         const val PING_INTERVAL = 20_000L
-        const val DEVICE_ID_KEY = "Device-ID"
-        const val ORIGIN_KEY = "Origin"
-        const val ORIGIN_VALUE = "http://80.87.108.90/"
-        const val BASE_URL = "80.87.108.90/ws/session"
     }
 }

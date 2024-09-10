@@ -10,64 +10,43 @@ import javax.inject.Inject
 class CommonWebsocketInteractor @Inject constructor(
     private val websocketRepository: WebsocketRepository,
 ) {
-    fun subscribeSessionStatus(deviceId: String, sessionId: String): Flow<SessionStatus?> {
-        return websocketRepository.subscribeSessionStatus(
-            deviceId,
-            "$sessionId$PATH_SESSION_STATUS"
-        )
+    fun subscribeSessionStatus(sessionId: String): Flow<SessionStatus?> {
+        return websocketRepository.subscribeSessionStatus(sessionId)
     }
 
     suspend fun unsubscribeSessionStatus() {
         websocketRepository.unsubscribeSessionStatus()
     }
 
-    fun subscribeUsers(deviceId: String, sessionId: String): Flow<List<User>?> {
-        return websocketRepository.subscribeUsers(deviceId, "$sessionId$PATH_USERS")
+    fun subscribeUsers(sessionId: String): Flow<List<User>?> {
+        return websocketRepository.subscribeUsers(sessionId)
     }
 
     suspend fun unsubscribeUsers() {
         websocketRepository.unsubscribeUsers()
     }
 
-    fun subscribeSessionResult(deviceId: String, sessionId: String): Flow<SessionWithMovies?> {
-        return websocketRepository.subscribeSessionResult(
-            deviceId,
-            "$sessionId$PATH_SESSION_RESULT"
-        )
+    fun subscribeSessionResult(sessionId: String): Flow<SessionWithMovies?> {
+        return websocketRepository.subscribeSessionResult(sessionId)
     }
 
     suspend fun unsubscribeSessionResult() {
         websocketRepository.unsubscribeSessionResult()
     }
 
-    fun subscribeRouletteId(deviceId: String, sessionId: String): Flow<Int?> {
-        return websocketRepository.subscribeRouletteId(
-            deviceId,
-            "$sessionId$PATH_ROULETTE"
-        )
+    fun subscribeRouletteId(sessionId: String): Flow<Int?> {
+        return websocketRepository.subscribeRouletteId(sessionId)
     }
 
     suspend fun unsubscribeRouletteId() {
         websocketRepository.unsubscribeRouletteId()
     }
 
-    fun subscribeMatchesId(deviceId: String, sessionId: String): Flow<Int?> {
-        return websocketRepository.subscribeMatchesId(
-            deviceId,
-            "$sessionId$PATH_MATCHES"
-        )
+    fun subscribeMatchesId(sessionId: String): Flow<Int?> {
+        return websocketRepository.subscribeMatchesId(sessionId)
     }
 
     suspend fun unsubscribeMatchesId() {
         websocketRepository.unsubscribeMatchesId()
-    }
-
-
-    companion object {
-        const val PATH_SESSION_STATUS = "/session_status/"
-        const val PATH_USERS = "/users/"
-        const val PATH_SESSION_RESULT = "/session_result/"
-        const val PATH_ROULETTE = "/roulette/"
-        const val PATH_MATCHES = "/matches/"
     }
 }

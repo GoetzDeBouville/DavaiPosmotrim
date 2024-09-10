@@ -13,7 +13,6 @@ class SessionListViewModel @Inject constructor(
     private val commonWebsocketInteractor: CommonWebsocketInteractor,
 ) : BaseViewModel() {
     private val sessionId = "7CQOtxiB"
-    private val deviceId = "d3e22dcc-1393-4171-8123-468b1c9b3c23"
 
     // временно
     @Suppress("UnusedPrivateMember")
@@ -21,7 +20,6 @@ class SessionListViewModel @Inject constructor(
         viewModelScope.launch(Dispatchers.IO) {
             runCatching {
                 commonWebsocketInteractor.subscribeUsers(
-                    deviceId = deviceId,
                     sessionId = sessionId
                 ).collect { list ->
                     Log.d("SessionListViewModel", list.toString())

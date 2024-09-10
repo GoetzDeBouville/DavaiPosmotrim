@@ -18,7 +18,6 @@ class WaitSessionViewModel @Inject constructor(
 
     // для теста
     private val sessionId = "nm7dnwS5"
-    private val deviceId = "d3e22dcc-1393-4171-8123-468b1c9b3c23"
 
     init {
         subscribeToWebsockets()
@@ -47,7 +46,6 @@ class WaitSessionViewModel @Inject constructor(
         viewModelScope.launch(Dispatchers.IO) {
             runCatching {
                 commonWebsocketInteractor.subscribeUsers(
-                    deviceId = deviceId,
                     sessionId = sessionId
                 ).collect { list ->
                     Log.d("WaitSessionViewModel", list.toString())
@@ -62,7 +60,6 @@ class WaitSessionViewModel @Inject constructor(
         viewModelScope.launch(Dispatchers.IO) {
             runCatching {
                 commonWebsocketInteractor.subscribeSessionStatus(
-                    deviceId = deviceId,
                     sessionId = sessionId
                 ).collect { sessionStatus ->
                     Log.d("WaitSessionViewModel", sessionStatus.toString())
@@ -77,7 +74,6 @@ class WaitSessionViewModel @Inject constructor(
         viewModelScope.launch(Dispatchers.IO) {
             runCatching {
                 commonWebsocketInteractor.subscribeSessionResult(
-                    deviceId = deviceId,
                     sessionId = sessionId
                 ).collect { sessionResult ->
                     Log.d("WaitSessionViewModel", sessionResult.toString())
@@ -92,7 +88,6 @@ class WaitSessionViewModel @Inject constructor(
         viewModelScope.launch(Dispatchers.IO) {
             runCatching {
                 commonWebsocketInteractor.subscribeRouletteId(
-                    deviceId = deviceId,
                     sessionId = sessionId
                 ).collect { id ->
                     Log.d("WaitSessionViewModel", id.toString())
@@ -107,7 +102,6 @@ class WaitSessionViewModel @Inject constructor(
         viewModelScope.launch(Dispatchers.IO) {
             runCatching {
                 commonWebsocketInteractor.subscribeMatchesId(
-                    deviceId = deviceId,
                     sessionId = sessionId
                 ).collect { id ->
                     Log.d("WaitSessionViewModel", id.toString())

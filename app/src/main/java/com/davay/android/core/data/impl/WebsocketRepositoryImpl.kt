@@ -6,6 +6,12 @@ import com.davay.android.core.data.dto.SessionResultDto
 import com.davay.android.core.data.dto.SessionStatusDto
 import com.davay.android.core.data.dto.UserDto
 import com.davay.android.core.data.network.WebsocketNetworkClient
+import com.davay.android.core.data.network.model.NetworkParams.PATH_MATCHES
+import com.davay.android.core.data.network.model.NetworkParams.PATH_ROULETTE
+import com.davay.android.core.data.network.model.NetworkParams.PATH_SESSION_RESULT
+import com.davay.android.core.data.network.model.NetworkParams.PATH_SESSION_STATUS
+import com.davay.android.core.data.network.model.NetworkParams.PATH_USERS
+import com.davay.android.core.domain.api.UserDataRepository
 import com.davay.android.core.domain.api.WebsocketRepository
 import com.davay.android.core.domain.models.SessionStatus
 import com.davay.android.core.domain.models.SessionWithMovies
@@ -22,10 +28,14 @@ class WebsocketRepositoryImpl @Inject constructor(
     private val websocketSessionStatusClient: WebsocketNetworkClient<SessionStatusDto?>,
     @RouletteIdClient private val websocketRouletteIdClient: WebsocketNetworkClient<Int?>,
     @MatchesIdClient private val websocketMatchesIdClient: WebsocketNetworkClient<Int?>,
+    private val userDataRepository: UserDataRepository,
 ) : WebsocketRepository {
 
-    override fun subscribeUsers(deviceId: String, path: String): Flow<List<User>?> {
-        return websocketUsersClient.subscribe(deviceId, path).map { it?.map { it.toDomain() } }
+    private val deviceId = userDataRepository.getUserId()
+
+    override fun subscribeUsers(sessionId: String): Flow<List<User>?> {
+        return websocketUsersClient.subscribe(deviceId, "$sessionId$PATH_USERS")
+            .map { it?.map { it.toDomain() } }
     }
 
     override suspend fun unsubscribeUsers() {
@@ -38,8 +48,9 @@ class WebsocketRepositoryImpl @Inject constructor(
         }
     }
 
-    override fun subscribeSessionResult(deviceId: String, path: String): Flow<SessionWithMovies?> {
-        return websocketSessionResultClient.subscribe(deviceId, path).map { it?.toDomain() }
+    override fun subscribeSessionResult(sessionId: String): Flow<SessionWithMovies?> {
+        return websocketSessionResultClient.subscribe(deviceId, "$sessionId$PATH_SESSION_RESULT")
+            .map { it?.toDomain() }
     }
 
     override suspend fun unsubscribeSessionResult() {
@@ -52,8 +63,9 @@ class WebsocketRepositoryImpl @Inject constructor(
         }
     }
 
-    override fun subscribeSessionStatus(deviceId: String, path: String): Flow<SessionStatus?> {
-        return websocketSessionStatusClient.subscribe(deviceId, path).map { it?.toDomain() }
+    override fun subscribeSessionStatus(sessionId: String): Flow<SessionStatus?> {
+        return websocketSessionStatusClient.subscribe(deviceId, "$sessionId$PATH_SESSION_STATUS")
+            .map { it?.toDomain() }
     }
 
     override suspend fun unsubscribeSessionStatus() {
@@ -66,8 +78,8 @@ class WebsocketRepositoryImpl @Inject constructor(
         }
     }
 
-    override fun subscribeRouletteId(deviceId: String, path: String): Flow<Int?> {
-        return websocketRouletteIdClient.subscribe(deviceId, path)
+    override fun subscribeRouletteId(sessionId: String): Flow<Int?> {
+        return websocketRouletteIdClient.subscribe(deviceId, "$sessionId$PATH_ROULETTE")
     }
 
     override suspend fun unsubscribeRouletteId() {
@@ -80,8 +92,8 @@ class WebsocketRepositoryImpl @Inject constructor(
         }
     }
 
-    override fun subscribeMatchesId(deviceId: String, path: String): Flow<Int?> {
-        return websocketMatchesIdClient.subscribe(deviceId, path)
+    override fun subscribeMatchesId(sessionId: String): Flow<Int?> {
+        return websocketMatchesIdClient.subscribe(deviceId, "$sessionId$PATH_MATCHES")
     }
 
     override suspend fun unsubscribeMatchesId() {

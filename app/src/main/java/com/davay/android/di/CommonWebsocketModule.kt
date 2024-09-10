@@ -1,16 +1,21 @@
 package com.davay.android.di
 
+import android.content.SharedPreferences
 import com.davay.android.core.data.dto.SessionResultDto
 import com.davay.android.core.data.dto.SessionStatusDto
 import com.davay.android.core.data.dto.UserDto
+import com.davay.android.core.data.impl.UserDataRepositoryImpl
 import com.davay.android.core.data.impl.WebsocketRepositoryImpl
 import com.davay.android.core.data.network.WebsocketMovieIdClient
 import com.davay.android.core.data.network.WebsocketNetworkClient
 import com.davay.android.core.data.network.WebsocketSessionResultClient
 import com.davay.android.core.data.network.WebsocketSessionStatusClient
 import com.davay.android.core.data.network.WebsocketUsersClient
+import com.davay.android.core.domain.api.UserDataRepository
 import com.davay.android.core.domain.api.WebsocketRepository
 import com.davay.android.core.domain.impl.CommonWebsocketInteractor
+import com.davay.android.di.prefs.marker.StorageMarker
+import com.davay.android.di.prefs.model.PreferencesStorage
 import dagger.Module
 import dagger.Provides
 import javax.inject.Qualifier
@@ -45,6 +50,7 @@ class CommonWebsocketModule {
         return WebsocketMovieIdClient()
     }
 
+    @Suppress("LongParameterList")
     @Provides
     fun provideWebsocketRepository(
         websocketUsersClient: WebsocketNetworkClient<List<UserDto>?>,
@@ -52,15 +58,23 @@ class CommonWebsocketModule {
         websocketSessionStatusClient: WebsocketNetworkClient<SessionStatusDto?>,
         @RouletteIdClient websocketRouletteIdClient: WebsocketNetworkClient<Int?>,
         @MatchesIdClient websocketMatchesIdClient: WebsocketNetworkClient<Int?>,
+        userDataRepository: UserDataRepository,
     ): WebsocketRepository {
         return WebsocketRepositoryImpl(
             websocketUsersClient,
             websocketSessionResultClient,
             websocketSessionStatusClient,
             websocketRouletteIdClient,
-            websocketMatchesIdClient
+            websocketMatchesIdClient,
+            userDataRepository,
         )
     }
+
+    @Provides
+    fun provideUserDataRepository(
+        @StorageMarker(PreferencesStorage.USER)
+        storage: SharedPreferences
+    ): UserDataRepository = UserDataRepositoryImpl(storage)
 
     @Provides
     fun provideCommonWebsocketInteractor(
