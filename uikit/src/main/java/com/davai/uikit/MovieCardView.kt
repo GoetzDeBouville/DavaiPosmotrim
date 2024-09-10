@@ -61,10 +61,11 @@ class MovieCardView @JvmOverloads constructor(
 
     fun setMovieCover(url: String) {
         if (url.isEmpty()) {
-            ivMovieCover.load(R.drawable.placeholder_error_80dp) {
+            ivMovieCover.load(R.drawable.placeholder_error_332dp) {
                 transformations(RoundedCornersTransformation())
                     .crossfade(true)
             }
+            tvMovieTitle.isGone = false
         } else {
             ivMovieCover.load(url) {
                 listener(
@@ -78,9 +79,9 @@ class MovieCardView @JvmOverloads constructor(
                         ivMovieCover.setImageDrawable(result.drawable)
                     },
                     onError = { _, _ ->
-                        tvMovieTitle.isGone = false
                         progressBar.isGone = true
-                        ivMovieCover.setImageResource(R.drawable.placeholder_error_80dp)
+                        tvMovieTitle.isGone = false
+                        ivMovieCover.setImageResource(R.drawable.placeholder_error_332dp)
                     }
                 ).scale(Scale.FIT)
                 transformations(

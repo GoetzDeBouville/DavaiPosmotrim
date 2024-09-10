@@ -92,10 +92,11 @@ fun SessionDto.toDomain(): Session {
     return Session(
         id = id,
         users = users.map { it.name },
-        numberOfMatchedMovies = numberOfMatchedMovies,
+        movieIdList = movieIdList,
+        matchedMovieIdList = matchedMovieIdList,
         date = timestamp,
         status = status.toDomain(),
-        imgUrl = imgUrl
+        imgUrl = imgUrl ?: ""
     )
 }
 
@@ -132,7 +133,8 @@ fun SessionEntity.toDomain(): Session {
     return Session(
         id = sessionId,
         users = users.toListData(),
-        numberOfMatchedMovies = numberOfMatchedMovies,
+        movieIdList = emptyList(),
+        matchedMovieIdList = emptyList(),
         date = date,
         status = SessionStatus.CLOSED,
         imgUrl = imgUrl
@@ -163,7 +165,7 @@ fun Session.toDbEntity(): SessionEntity {
     return SessionEntity(
         sessionId = id,
         users = users.map { it }.toStringData(),
-        numberOfMatchedMovies = numberOfMatchedMovies ?: 0,
+        numberOfMatchedMovies = matchedMovieIdList.size,
         date = date,
         imgUrl = imgUrl
     )

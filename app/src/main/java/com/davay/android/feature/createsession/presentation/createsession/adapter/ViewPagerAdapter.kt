@@ -1,4 +1,4 @@
-package com.davay.android.feature.createsession.presentation.createsession
+package com.davay.android.feature.createsession.presentation.createsession.adapter
 
 import androidx.fragment.app.Fragment
 import androidx.viewpager2.adapter.FragmentStateAdapter
