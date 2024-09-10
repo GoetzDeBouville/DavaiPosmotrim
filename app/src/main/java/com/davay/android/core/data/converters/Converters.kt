@@ -62,43 +62,15 @@ fun MovieDetailsDto.toDomain() = MovieDetails(
     actors,
 )
 
-/**
- * Конвертирует строку с датой в timeStamp.
- * Если при форматировании дата получается null, то возвращается дата minDate.
- * Если при форматировании дата больше текущей, то возвращается дата minDate.
- * Если при форматировании дата меньше minDate, то возвращается minDate.
- * minDate устанавливаем на 2024-01-01.
- */
-fun SessionDto.toDomain(): Session {
-    val dateFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
-    val minDate = dateFormat.parse("2024-01-01")
-    val currentDate = Date()
-
-    val parsedDate = try {
-        dateFormat.parse(date)
-    } catch (e: ParseException) {
-        null
-    }
-
-    val validDate = when {
-        parsedDate == null -> minDate
-        parsedDate.before(minDate) -> minDate
-        parsedDate.after(currentDate) -> minDate
-        else -> parsedDate
-    }
-
-    val timestamp = validDate.time
-
-    return Session(
-        id = id,
-        users = users.map { it.name },
-        movieIdList = movieIdList,
-        matchedMovieIdList = matchedMovieIdList,
-        date = timestamp,
-        status = status.toDomain(),
-        imgUrl = imgUrl ?: ""
-    )
-}
+fun SessionDto.toDomain() = Session(
+    id = id,
+    users = users.map { it.name },
+    movieIdList = movieIdList,
+    matchedMovieIdList = matchedMovieIdList,
+    date = convertDateStringToTimestamp(date),
+    status = status.toDomain(),
+    imgUrl = imgUrl ?: ""
+)
 
 fun SessionStatusDto.toDomain(): SessionStatus {
     return when (this) {
@@ -200,40 +172,44 @@ fun MovieDetailsSocketDto.toDomain() = MovieDetails(
     numOfMarksImdb,
     duration,
     genres.map { it.name },
-    directors?.filter { it != null }?.map { it!! },
-    actors?.filter { it != null }?.map { it!! },
+    directors?.mapNotNull { it },
+    actors?.mapNotNull { it },
 )
 
-fun SessionResultDto.toDomain(): SessionWithMovies {
+fun SessionResultDto.toDomain() = SessionWithMovies(
+    session = Session(
+        id = id,
+        users = users,
+        movieIdList = emptyList(),
+        matchedMovieIdList = matchedMovies.map { it.id },
+        date = convertDateStringToTimestamp(date),
+        status = SessionStatus.CLOSED,
+        imgUrl = imgUrl
+    ),
+    movies = matchedMovies.map { it.toDomain() }
+)
+
+/**
+ * Конвертирует строку с датой в timeStamp.
+ * Если при форматировании дата получается null, то возвращается дата minDate.
+ * Если при форматировании дата больше текущей, то возвращается дата minDate.
+ * Если при форматировании дата меньше minDate, то возвращается minDate.
+ * minDate устанавливаем на 2024-01-01.
+ */
+private fun convertDateStringToTimestamp(dateString: String): Long {
     val dateFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
     val minDate = dateFormat.parse("2024-01-01")
     val currentDate = Date()
-
     val parsedDate = try {
-        dateFormat.parse(date)
+        dateFormat.parse(dateString)
     } catch (e: ParseException) {
         null
     }
-
     val validDate = when {
         parsedDate == null -> minDate
         parsedDate.before(minDate) -> minDate
         parsedDate.after(currentDate) -> minDate
         else -> parsedDate
     }
-
-    val timestamp = validDate.time
-
-    return SessionWithMovies(
-        session = Session(
-            id = id,
-            users = users,
-            movieIdList = emptyList(),
-            matchedMovieIdList = matchedMovies.map { it.id },
-            date = timestamp,
-            status = SessionStatus.CLOSED,
-            imgUrl = imgUrl
-        ),
-        movies = matchedMovies.map { it.toDomain() }
-    )
+    return validDate.time
 }
