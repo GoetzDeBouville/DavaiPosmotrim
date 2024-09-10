@@ -57,9 +57,14 @@ class CreateSessionRepositoryImpl @Inject constructor(
         requestBody: List<String>
     ): Flow<Result<Session, ErrorType>> = flow {
         val userId = userDataRepository.getUserId()
+        val sessionParameter = if (sessionType == SessionType.GENRES) {
+            GENRES
+        } else {
+            COLLECTIONS
+        }
         val response = httpNetworkClient.getResponse(
             CreateSessionRequest.Session(
-                sessionType.value,
+                parameter = sessionParameter,
                 requestBody = requestBody,
                 userId = userId
             )
@@ -97,5 +102,7 @@ class CreateSessionRepositoryImpl @Inject constructor(
 
     private companion object {
         val TAG = CreateSessionRepositoryImpl::class.simpleName
+        const val COLLECTIONS = "collections"
+        const val GENRES = "genres"
     }
 }
