@@ -17,15 +17,15 @@ import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
 class WebsocketRepositoryImpl @Inject constructor(
-    private val websocketUsersClient: WebsocketNetworkClient<List<UserDto>>,
+    private val websocketUsersClient: WebsocketNetworkClient<List<UserDto>?>,
     private val websocketSessionResultClient: WebsocketNetworkClient<SessionResultDto?>,
-    private val websocketSessionStatusClient: WebsocketNetworkClient<SessionStatusDto>,
+    private val websocketSessionStatusClient: WebsocketNetworkClient<SessionStatusDto?>,
     @RouletteIdClient private val websocketRouletteIdClient: WebsocketNetworkClient<Int?>,
     @MatchesIdClient private val websocketMatchesIdClient: WebsocketNetworkClient<Int?>,
 ) : WebsocketRepository {
 
-    override fun subscribeUsers(deviceId: String, path: String): Flow<List<User>> {
-        return websocketUsersClient.subscribe(deviceId, path).map { it.map { it.toDomain() } }
+    override fun subscribeUsers(deviceId: String, path: String): Flow<List<User>?> {
+        return websocketUsersClient.subscribe(deviceId, path).map { it?.map { it.toDomain() } }
     }
 
     override suspend fun unsubscribeUsers() {
@@ -52,8 +52,8 @@ class WebsocketRepositoryImpl @Inject constructor(
         }
     }
 
-    override fun subscribeSessionStatus(deviceId: String, path: String): Flow<SessionStatus> {
-        return websocketSessionStatusClient.subscribe(deviceId, path).map { it.toDomain() }
+    override fun subscribeSessionStatus(deviceId: String, path: String): Flow<SessionStatus?> {
+        return websocketSessionStatusClient.subscribe(deviceId, path).map { it?.toDomain() }
     }
 
     override suspend fun unsubscribeSessionStatus() {

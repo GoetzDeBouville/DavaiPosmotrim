@@ -10,7 +10,7 @@ import javax.inject.Inject
 class CommonWebsocketInteractor @Inject constructor(
     private val websocketRepository: WebsocketRepository,
 ) {
-    fun subscribeSessionStatus(deviceId: String, sessionId: String): Flow<SessionStatus> {
+    fun subscribeSessionStatus(deviceId: String, sessionId: String): Flow<SessionStatus?> {
         return websocketRepository.subscribeSessionStatus(
             deviceId,
             "$sessionId$PATH_SESSION_STATUS"
@@ -21,7 +21,7 @@ class CommonWebsocketInteractor @Inject constructor(
         websocketRepository.unsubscribeSessionStatus()
     }
 
-    fun subscribeUsers(deviceId: String, sessionId: String): Flow<List<User>> {
+    fun subscribeUsers(deviceId: String, sessionId: String): Flow<List<User>?> {
         return websocketRepository.subscribeUsers(deviceId, "$sessionId$PATH_USERS")
     }
 

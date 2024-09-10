@@ -19,7 +19,7 @@ import javax.inject.Qualifier
 class CommonWebsocketModule {
 
     @Provides
-    fun provideWebsocketUsersClient(): WebsocketNetworkClient<List<UserDto>> {
+    fun provideWebsocketUsersClient(): WebsocketNetworkClient<List<UserDto>?> {
         return WebsocketUsersClient()
     }
 
@@ -29,7 +29,7 @@ class CommonWebsocketModule {
     }
 
     @Provides
-    fun provideWebsocketSessionStatusClient(): WebsocketNetworkClient<SessionStatusDto> {
+    fun provideWebsocketSessionStatusClient(): WebsocketNetworkClient<SessionStatusDto?> {
         return WebsocketSessionStatusClient()
     }
 
@@ -47,9 +47,9 @@ class CommonWebsocketModule {
 
     @Provides
     fun provideWebsocketRepository(
-        websocketUsersClient: WebsocketNetworkClient<List<UserDto>>,
+        websocketUsersClient: WebsocketNetworkClient<List<UserDto>?>,
         websocketSessionResultClient: WebsocketNetworkClient<SessionResultDto?>,
-        websocketSessionStatusClient: WebsocketNetworkClient<SessionStatusDto>,
+        websocketSessionStatusClient: WebsocketNetworkClient<SessionStatusDto?>,
         @RouletteIdClient websocketRouletteIdClient: WebsocketNetworkClient<Int?>,
         @MatchesIdClient websocketMatchesIdClient: WebsocketNetworkClient<Int?>,
     ): WebsocketRepository {
