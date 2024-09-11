@@ -2,10 +2,10 @@ package com.davay.android.feature.waitsession.presentation
 
 import android.util.Log
 import androidx.lifecycle.viewModelScope
-import com.davay.android.BuildConfig
 import com.davay.android.R
 import com.davay.android.base.BaseViewModel
 import com.davay.android.core.domain.impl.CommonWebsocketInteractor
+import com.davay.android.core.domain.models.Result
 import com.davay.android.feature.waitsession.domain.WaitSessionOnBoardingInteractor
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -17,7 +17,7 @@ class WaitSessionViewModel @Inject constructor(
 ) : BaseViewModel() {
 
     // для теста
-    private val sessionId = "nm7dnwS5"
+    private val sessionId = "HW0DzvbG"
 
     init {
         subscribeToWebsockets()
@@ -41,74 +41,89 @@ class WaitSessionViewModel @Inject constructor(
     }
 
     // для теста
-    @Suppress("LongMethod", "StringLiteralDuplication", "CognitiveComplexMethod")
+    @Suppress(
+        "LongMethod",
+        "StringLiteralDuplication",
+        "CognitiveComplexMethod",
+        "CyclomaticComplexMethod"
+    )
     private fun subscribeToWebsockets() {
         viewModelScope.launch(Dispatchers.IO) {
-            runCatching {
-                commonWebsocketInteractor.subscribeUsers(
-                    sessionId = sessionId
-                ).collect { list ->
-                    Log.d("WaitSessionViewModel", list.toString())
-                }
-            }.onFailure { error ->
-                if (BuildConfig.DEBUG) {
-                    error.printStackTrace()
+            commonWebsocketInteractor.subscribeUsers(
+                sessionId = sessionId
+            ).collect { result ->
+                when (result) {
+                    is Result.Success -> {
+                        Log.d("WaitSessionViewModel", result.data.toString())
+                    }
+
+                    is Result.Error -> {
+                        Log.d("WaitSessionViewModel", result.error.toString())
+                    }
                 }
             }
         }
 
         viewModelScope.launch(Dispatchers.IO) {
-            runCatching {
-                commonWebsocketInteractor.subscribeSessionStatus(
-                    sessionId = sessionId
-                ).collect { sessionStatus ->
-                    Log.d("WaitSessionViewModel", sessionStatus.toString())
-                }
-            }.onFailure { error ->
-                if (BuildConfig.DEBUG) {
-                    error.printStackTrace()
+            commonWebsocketInteractor.subscribeSessionStatus(
+                sessionId = sessionId
+            ).collect { result ->
+                when (result) {
+                    is Result.Success -> {
+                        Log.d("WaitSessionViewModel", result.data.toString())
+                    }
+
+                    is Result.Error -> {
+                        Log.d("WaitSessionViewModel", result.error.toString())
+                    }
                 }
             }
         }
 
         viewModelScope.launch(Dispatchers.IO) {
-            runCatching {
-                commonWebsocketInteractor.subscribeSessionResult(
-                    sessionId = sessionId
-                ).collect { sessionResult ->
-                    Log.d("WaitSessionViewModel", sessionResult.toString())
-                }
-            }.onFailure { error ->
-                if (BuildConfig.DEBUG) {
-                    error.printStackTrace()
+            commonWebsocketInteractor.subscribeSessionResult(
+                sessionId = sessionId
+            ).collect { result ->
+                when (result) {
+                    is Result.Success -> {
+                        Log.d("WaitSessionViewModel", result.data.toString())
+                    }
+
+                    is Result.Error -> {
+                        Log.d("WaitSessionViewModel", result.error.toString())
+                    }
                 }
             }
         }
 
         viewModelScope.launch(Dispatchers.IO) {
-            runCatching {
-                commonWebsocketInteractor.subscribeRouletteId(
-                    sessionId = sessionId
-                ).collect { id ->
-                    Log.d("WaitSessionViewModel", id.toString())
-                }
-            }.onFailure { error ->
-                if (BuildConfig.DEBUG) {
-                    error.printStackTrace()
+            commonWebsocketInteractor.subscribeRouletteId(
+                sessionId = sessionId
+            ).collect { result ->
+                when (result) {
+                    is Result.Success -> {
+                        Log.d("WaitSessionViewModel", result.data.toString())
+                    }
+
+                    is Result.Error -> {
+                        Log.d("WaitSessionViewModel", result.error.toString())
+                    }
                 }
             }
         }
 
         viewModelScope.launch(Dispatchers.IO) {
-            runCatching {
-                commonWebsocketInteractor.subscribeMatchesId(
-                    sessionId = sessionId
-                ).collect { id ->
-                    Log.d("WaitSessionViewModel", id.toString())
-                }
-            }.onFailure { error ->
-                if (BuildConfig.DEBUG) {
-                    error.printStackTrace()
+            commonWebsocketInteractor.subscribeMatchesId(
+                sessionId = sessionId
+            ).collect { result ->
+                when (result) {
+                    is Result.Success -> {
+                        Log.d("WaitSessionViewModel", result.data.toString())
+                    }
+
+                    is Result.Error -> {
+                        Log.d("WaitSessionViewModel", result.error.toString())
+                    }
                 }
             }
         }

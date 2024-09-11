@@ -1,6 +1,8 @@
 package com.davay.android.core.domain.impl
 
 import com.davay.android.core.domain.api.WebsocketRepository
+import com.davay.android.core.domain.models.ErrorType
+import com.davay.android.core.domain.models.Result
 import com.davay.android.core.domain.models.SessionStatus
 import com.davay.android.core.domain.models.SessionWithMovies
 import com.davay.android.core.domain.models.User
@@ -10,7 +12,7 @@ import javax.inject.Inject
 class CommonWebsocketInteractor @Inject constructor(
     private val websocketRepository: WebsocketRepository,
 ) {
-    fun subscribeSessionStatus(sessionId: String): Flow<SessionStatus?> {
+    fun subscribeSessionStatus(sessionId: String): Flow<Result<SessionStatus, ErrorType>> {
         return websocketRepository.subscribeSessionStatus(sessionId)
     }
 
@@ -18,7 +20,7 @@ class CommonWebsocketInteractor @Inject constructor(
         websocketRepository.unsubscribeSessionStatus()
     }
 
-    fun subscribeUsers(sessionId: String): Flow<List<User>?> {
+    fun subscribeUsers(sessionId: String): Flow<Result<List<User>, ErrorType>> {
         return websocketRepository.subscribeUsers(sessionId)
     }
 
@@ -26,7 +28,7 @@ class CommonWebsocketInteractor @Inject constructor(
         websocketRepository.unsubscribeUsers()
     }
 
-    fun subscribeSessionResult(sessionId: String): Flow<SessionWithMovies?> {
+    fun subscribeSessionResult(sessionId: String): Flow<Result<SessionWithMovies, ErrorType>> {
         return websocketRepository.subscribeSessionResult(sessionId)
     }
 
@@ -34,7 +36,7 @@ class CommonWebsocketInteractor @Inject constructor(
         websocketRepository.unsubscribeSessionResult()
     }
 
-    fun subscribeRouletteId(sessionId: String): Flow<Int?> {
+    fun subscribeRouletteId(sessionId: String): Flow<Result<Int, ErrorType>> {
         return websocketRepository.subscribeRouletteId(sessionId)
     }
 
@@ -42,7 +44,7 @@ class CommonWebsocketInteractor @Inject constructor(
         websocketRepository.unsubscribeRouletteId()
     }
 
-    fun subscribeMatchesId(sessionId: String): Flow<Int?> {
+    fun subscribeMatchesId(sessionId: String): Flow<Result<Int, ErrorType>> {
         return websocketRepository.subscribeMatchesId(sessionId)
     }
 

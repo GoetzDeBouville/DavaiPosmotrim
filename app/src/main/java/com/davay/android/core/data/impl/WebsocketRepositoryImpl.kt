@@ -13,13 +13,15 @@ import com.davay.android.core.data.network.model.NetworkParams.PATH_SESSION_STAT
 import com.davay.android.core.data.network.model.NetworkParams.PATH_USERS
 import com.davay.android.core.domain.api.UserDataRepository
 import com.davay.android.core.domain.api.WebsocketRepository
+import com.davay.android.core.domain.models.ErrorType
+import com.davay.android.core.domain.models.Result
 import com.davay.android.core.domain.models.SessionStatus
 import com.davay.android.core.domain.models.SessionWithMovies
 import com.davay.android.core.domain.models.User
 import com.davay.android.di.MatchesIdClient
 import com.davay.android.di.RouletteIdClient
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.flow
 import javax.inject.Inject
 
 class WebsocketRepositoryImpl @Inject constructor(
@@ -33,9 +35,22 @@ class WebsocketRepositoryImpl @Inject constructor(
 
     private val deviceId = userDataRepository.getUserId()
 
-    override fun subscribeUsers(sessionId: String): Flow<List<User>?> {
-        return websocketUsersClient.subscribe(deviceId, "$sessionId$PATH_USERS")
-            .map { it?.map { it.toDomain() } }
+    override fun subscribeUsers(sessionId: String): Flow<Result<List<User>, ErrorType>> = flow {
+        @Suppress("TooGenericExceptionCaught")
+        try {
+            websocketUsersClient.subscribe(deviceId, "$sessionId$PATH_USERS").collect { list ->
+                if (list != null) {
+                    emit(Result.Success(list.map { it.toDomain() }))
+                } else {
+                    emit(Result.Error(ErrorType.UNKNOWN_ERROR))
+                }
+            }
+        } catch (e: Exception) {
+            if (BuildConfig.DEBUG) {
+                e.printStackTrace()
+            }
+            emit(Result.Error(ErrorType.NO_CONNECTION))
+        }
     }
 
     override suspend fun unsubscribeUsers() {
@@ -48,10 +63,25 @@ class WebsocketRepositoryImpl @Inject constructor(
         }
     }
 
-    override fun subscribeSessionResult(sessionId: String): Flow<SessionWithMovies?> {
-        return websocketSessionResultClient.subscribe(deviceId, "$sessionId$PATH_SESSION_RESULT")
-            .map { it?.toDomain() }
-    }
+    override fun subscribeSessionResult(sessionId: String): Flow<Result<SessionWithMovies, ErrorType>> =
+        flow {
+            @Suppress("TooGenericExceptionCaught")
+            try {
+                websocketSessionResultClient.subscribe(deviceId, "$sessionId$PATH_SESSION_RESULT")
+                    .collect { sessionResult ->
+                        if (sessionResult != null) {
+                            emit(Result.Success(sessionResult.toDomain()))
+                        } else {
+                            emit(Result.Error(ErrorType.UNKNOWN_ERROR))
+                        }
+                    }
+            } catch (e: Exception) {
+                if (BuildConfig.DEBUG) {
+                    e.printStackTrace()
+                }
+                emit(Result.Error(ErrorType.NO_CONNECTION))
+            }
+        }
 
     override suspend fun unsubscribeSessionResult() {
         runCatching {
@@ -63,10 +93,25 @@ class WebsocketRepositoryImpl @Inject constructor(
         }
     }
 
-    override fun subscribeSessionStatus(sessionId: String): Flow<SessionStatus?> {
-        return websocketSessionStatusClient.subscribe(deviceId, "$sessionId$PATH_SESSION_STATUS")
-            .map { it?.toDomain() }
-    }
+    override fun subscribeSessionStatus(sessionId: String): Flow<Result<SessionStatus, ErrorType>> =
+        flow {
+            @Suppress("TooGenericExceptionCaught")
+            try {
+                websocketSessionStatusClient.subscribe(deviceId, "$sessionId$PATH_SESSION_STATUS")
+                    .collect { sessionStatus ->
+                        if (sessionStatus != null) {
+                            emit(Result.Success(sessionStatus.toDomain()))
+                        } else {
+                            emit(Result.Error(ErrorType.UNKNOWN_ERROR))
+                        }
+                    }
+            } catch (e: Exception) {
+                if (BuildConfig.DEBUG) {
+                    e.printStackTrace()
+                }
+                emit(Result.Error(ErrorType.NO_CONNECTION))
+            }
+        }
 
     override suspend fun unsubscribeSessionStatus() {
         runCatching {
@@ -78,8 +123,23 @@ class WebsocketRepositoryImpl @Inject constructor(
         }
     }
 
-    override fun subscribeRouletteId(sessionId: String): Flow<Int?> {
-        return websocketRouletteIdClient.subscribe(deviceId, "$sessionId$PATH_ROULETTE")
+    override fun subscribeRouletteId(sessionId: String): Flow<Result<Int, ErrorType>> = flow {
+        @Suppress("TooGenericExceptionCaught")
+        try {
+            websocketRouletteIdClient.subscribe(deviceId, "$sessionId$PATH_ROULETTE")
+                .collect { id ->
+                    if (id != null) {
+                        emit(Result.Success(id))
+                    } else {
+                        emit(Result.Error(ErrorType.UNKNOWN_ERROR))
+                    }
+                }
+        } catch (e: Exception) {
+            if (BuildConfig.DEBUG) {
+                e.printStackTrace()
+            }
+            emit(Result.Error(ErrorType.NO_CONNECTION))
+        }
     }
 
     override suspend fun unsubscribeRouletteId() {
@@ -92,8 +152,23 @@ class WebsocketRepositoryImpl @Inject constructor(
         }
     }
 
-    override fun subscribeMatchesId(sessionId: String): Flow<Int?> {
-        return websocketMatchesIdClient.subscribe(deviceId, "$sessionId$PATH_MATCHES")
+    override fun subscribeMatchesId(sessionId: String): Flow<Result<Int, ErrorType>> = flow {
+        @Suppress("TooGenericExceptionCaught")
+        try {
+            websocketMatchesIdClient.subscribe(deviceId, "$sessionId$PATH_MATCHES")
+                .collect { id ->
+                    if (id != null) {
+                        emit(Result.Success(id))
+                    } else {
+                        emit(Result.Error(ErrorType.UNKNOWN_ERROR))
+                    }
+                }
+        } catch (e: Exception) {
+            if (BuildConfig.DEBUG) {
+                e.printStackTrace()
+            }
+            emit(Result.Error(ErrorType.NO_CONNECTION))
+        }
     }
 
     override suspend fun unsubscribeMatchesId() {
