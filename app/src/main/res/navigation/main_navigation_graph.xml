@@ -281,7 +281,7 @@
         android:label="fragment_match_bottom_sheet"
         tools:layout="@layout/fragment_match_bottom_sheet">
         <argument
-            android:name="MatchBottomSheetArgs"
+            android:name="matchBottomSheetArgs"
             app:argType="com.davay.android.feature.match.presentation.MatchBottomSheetArgs" />
     </dialog>
 </navigation>

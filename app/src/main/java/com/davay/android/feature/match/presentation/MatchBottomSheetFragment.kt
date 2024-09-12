@@ -1,5 +1,3 @@
-@file:Suppress("DEPRECATION")
-
 package com.davay.android.feature.match.presentation
 
 import android.app.Dialog
@@ -30,10 +28,7 @@ class MatchBottomSheetFragment : BottomSheetDialogFragment() {
     private val animationMatchDialog: AnimationMatchDialog = AnimationMatchDialogImpl()
 
     private val args: MatchBottomSheetFragmentArgs by navArgs()
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-    }
+    private val matchBottomSheetArgs: MatchBottomSheetArgs by lazy { args.matchBottomSheetArgs }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -64,6 +59,7 @@ class MatchBottomSheetFragment : BottomSheetDialogFragment() {
 
             @Deprecated("Deprecated in Java")
             override fun onBackPressed() {
+                matchBottomSheetArgs.action?.invoke()
                 super.onBackPressed()
             }
         }
@@ -73,13 +69,17 @@ class MatchBottomSheetFragment : BottomSheetDialogFragment() {
         super.onViewCreated(view, savedInstanceState)
         initViews()
         subscribe()
-        fillData(args.MatchBottomSheetArgs.movieDetails)
+        matchBottomSheetArgs.movieDetails?.let { movieDetails ->
+            fillData(movieDetails)
+        }
     }
 
     private fun initViews() {
         buildBottomSheet()
         hideUnusedItems()
-        setButtonText(args.MatchBottomSheetArgs.buttonText)
+        matchBottomSheetArgs.buttonText?.let { buttonText ->
+            setButtonText(buttonText)
+        }
     }
 
     private fun subscribe() {
@@ -102,6 +102,7 @@ class MatchBottomSheetFragment : BottomSheetDialogFragment() {
                         if (newState == BottomSheetBehavior.STATE_EXPANDED) {
                             animationMatchDialog.animateBannerDrop(binding.tvBannerMatchWatch)
                         } else if (newState == BottomSheetBehavior.STATE_HIDDEN) {
+                            matchBottomSheetArgs.action?.invoke()
                             dismiss()
                         }
                     }
@@ -157,11 +158,12 @@ class MatchBottomSheetFragment : BottomSheetDialogFragment() {
         val bottomSheet =
             dialog?.findViewById<View>(com.google.android.material.R.id.design_bottom_sheet) as? FrameLayout
                 ?: return
-        if (args.MatchBottomSheetArgs.showDismisAnimation) {
+        if (matchBottomSheetArgs.showDismisAnimation) {
             animationMatchDialog.animateDialogDismiss(
                 bottomSheet
             ) {
                 dismiss()
+                matchBottomSheetArgs.action?.invoke()
             }
         } else {
             dismiss()
