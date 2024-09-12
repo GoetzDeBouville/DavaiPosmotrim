@@ -5,8 +5,9 @@ import com.davay.android.core.domain.models.MovieDetails
 import kotlinx.parcelize.Parcelize
 
 @Parcelize
-data class MatchBottomSheetArgs(
-    val movieDetails: MovieDetails,
-    val buttonText: String,
-    val showDismisAnimation: Boolean
+class MatchBottomSheetArgs(
+    val movieDetails: MovieDetails? = null,
+    val buttonText: String? = null,
+    val showDismisAnimation: Boolean = true,
+    val action: (() -> Unit)? = null
 ) : Parcelable
