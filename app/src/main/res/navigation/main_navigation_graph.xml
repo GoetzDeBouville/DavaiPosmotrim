@@ -158,6 +158,9 @@
         <action
             android:id="@+id/action_selectMovieFragment_to_matchedSessionListFragment"
             app:destination="@id/matchedSessionListFragment" />
+        <action
+            android:id="@+id/actionSelectMovieFragmentToMatchBottomSheetFragment"
+            app:destination="@id/matchBottomSheetFragment" />
     </fragment>
     <fragment
         android:id="@+id/createSessionFragment"
