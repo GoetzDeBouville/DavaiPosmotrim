@@ -206,6 +206,12 @@
             app:exitAnim="@android:anim/fade_out"
             app:popEnterAnim="@android:anim/fade_in"
             app:popExitAnim="@android:anim/fade_out" />
+        <action
+            android:id="@+id/action_waitSessionFragment_to_createSessionFragment"
+            app:destination="@id/createSessionFragment" />
+        <argument
+            android:name="session"
+            app:argType="com.davay.android.core.domain.models.Session" />
     </fragment>
     <fragment
         android:id="@+id/coincidencesFragment"

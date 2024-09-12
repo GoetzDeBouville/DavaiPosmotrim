@@ -38,7 +38,7 @@ abstract class BaseViewModel : ViewModel() {
      * Метод чистит backstack до MainFragment и делает сооветствующий переход
      */
 
-    private fun clearBackStackToMain(navDirections: NavDirections) {
+    fun clearBackStackToMain(navDirections: NavDirections) {
         val navOptions = NavOptions.Builder()
             .setPopUpTo(R.id.mainFragment, inclusive = false)
             .build()
