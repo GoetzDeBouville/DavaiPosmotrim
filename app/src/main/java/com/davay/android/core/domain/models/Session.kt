@@ -9,7 +9,8 @@ typealias userName = String
 data class Session(
     val id: String,
     val users: List<userName>,
-    val numberOfMatchedMovies: Int?,
+    val movieIdList: List<Int>,
+    val matchedMovieIdList: List<Int>,
     val date: timeStamp,
     val status: SessionStatus,
     val imgUrl: String
