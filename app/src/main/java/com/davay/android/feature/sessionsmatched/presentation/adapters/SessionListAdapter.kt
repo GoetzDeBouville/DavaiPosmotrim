@@ -3,7 +3,7 @@ package com.davay.android.feature.sessionsmatched.presentation.adapters
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.davai.util.debounceUnitFun
+import com.davai.util.setOnDebouncedClickListener
 import com.davay.android.core.domain.models.Session
 import com.davay.android.databinding.ItemSessionBinding
 import com.davay.android.extensions.formatDate
@@ -11,11 +11,10 @@ import kotlinx.coroutines.CoroutineScope
 
 class SessionListAdapter(
     private val onSessionClickListener: ((id: String) -> Unit)?,
-    private val coroutineScope: CoroutineScope,
+    private val coroutineScope: CoroutineScope
 ) : RecyclerView.Adapter<SessionListAdapter.SessionListViewHolder>() {
 
     private val sessionList = mutableListOf<Session>()
-    private val debouncedClickListener = debounceUnitFun<String>(coroutineScope)
 
     class SessionListViewHolder(private val binding: ItemSessionBinding) :
         RecyclerView.ViewHolder(binding.root) {
@@ -41,12 +40,10 @@ class SessionListAdapter(
             false
         )
         val viewHolder = SessionListViewHolder(binding)
-        viewHolder.itemView.setOnClickListener {
+        viewHolder.itemView.setOnDebouncedClickListener(coroutineScope) { _ ->
             val position = viewHolder.adapterPosition
             if (position != RecyclerView.NO_POSITION) {
-                debouncedClickListener(sessionList[position].id) { sessionId ->
-                    onSessionClickListener?.invoke(sessionId)
-                }
+                onSessionClickListener?.invoke(sessionList[position].id)
             }
         }
         return viewHolder
