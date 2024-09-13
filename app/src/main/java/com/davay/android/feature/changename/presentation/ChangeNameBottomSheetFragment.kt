@@ -100,7 +100,9 @@ class ChangeNameBottomSheetFragment :
 
             override fun onSlide(bottomSheet: View, slideOffset: Float) {
                 if (slideOffset < BOTTOM_SHEET_HIDE_PERCENT_60) {
-                    hideKeyboard(binding.etName)
+                    binding?. etName?.let {
+                        hideKeyboard(it)
+                    }
                     bottomSheetBehavior?.state = BottomSheetBehavior.STATE_HIDDEN
                 }
             }

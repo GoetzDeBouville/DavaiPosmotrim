@@ -85,7 +85,9 @@ class SessionConnectionBottomSheetFragment :
 
             override fun onSlide(bottomSheet: View, slideOffset: Float) {
                 if (slideOffset < BOTTOM_SHEET_HIDE_PERCENT_60) {
-                    hideKeyboard(binding.etCode)
+                    binding?. etCode?.let {
+                        hideKeyboard(it)
+                    }
                     bottomSheetBehavior?.state = BottomSheetBehavior.STATE_HIDDEN
                 }
             }
