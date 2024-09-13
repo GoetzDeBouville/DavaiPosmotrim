@@ -18,9 +18,9 @@ import com.davay.android.di.AppComponentHolder
 import com.davay.android.di.ScreenComponent
 import com.davay.android.extensions.formatDateWithoutCurrentYear
 import com.davay.android.extensions.timeStamp
-import com.davay.android.feature.coincidences.presentation.adapter.MoviesGridAdapter
 import com.davay.android.feature.matchedsession.di.DaggerMatchedSessionFragmentComponent
 import com.davay.android.feature.matchedsession.presentation.adapter.CustomItemDecorator
+import com.davay.android.feature.matchedsession.presentation.adapter.MoviesGridAdapter
 import com.davay.android.feature.matchedsession.presentation.adapter.UserAdapter
 import com.davay.android.feature.moviecard.presentation.MovieCardFragment
 import com.davay.android.utils.presentation.UiErrorHandler
