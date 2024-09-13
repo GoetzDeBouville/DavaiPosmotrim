@@ -1,9 +1,8 @@
 package com.davay.android.feature.coincidences.presentation.adapter
 
-import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.davai.util.debounceUnitFun
+import com.davai.util.setOnDebouncedClickListener
 import com.davay.android.core.domain.models.MovieDetails
 import kotlinx.coroutines.CoroutineScope
 
@@ -13,14 +12,13 @@ class MoviesGridAdapter(
 ) : RecyclerView.Adapter<MoviesGridViewHolder>() {
 
     private val movies = mutableListOf<MovieDetails>()
-    private val debounceClick = debounceUnitFun<View>(coroutineScope)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MoviesGridViewHolder =
         MoviesGridViewHolder.create(parent).apply {
-            itemView.setOnClickListener { view ->
-                debounceClick(view) {
-                    onItemClicked(movies[adapterPosition])
-                }
+            itemView.setOnDebouncedClickListener(
+                coroutineScope = coroutineScope
+            ) {
+                onItemClicked(movies[adapterPosition])
             }
         }
 

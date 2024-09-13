@@ -40,7 +40,9 @@ class SessionListAdapter(
             false
         )
         val viewHolder = SessionListViewHolder(binding)
-        viewHolder.itemView.setOnDebouncedClickListener(coroutineScope) { _ ->
+        viewHolder.itemView.setOnDebouncedClickListener(
+            coroutineScope = coroutineScope
+        ) { _ ->
             val position = viewHolder.adapterPosition
             if (position != RecyclerView.NO_POSITION) {
                 onSessionClickListener?.invoke(sessionList[position].id)
