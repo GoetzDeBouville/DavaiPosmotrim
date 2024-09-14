@@ -71,7 +71,8 @@ class SelectMovieFragment :
     private fun getSavedPositionAndUpdateStartPosition(savedInstanceState: Bundle?) {
         savedInstanceState?.let {
             currentPosition = it.getInt(CURRENT_POSITION_KEY, 0)
-            swipeCardLayoutManager.updateCurrentPosition(currentPosition++)
+            currentPosition++
+            swipeCardLayoutManager.updateCurrentPosition(currentPosition)
         }
     }
 
@@ -285,7 +286,7 @@ class SelectMovieFragment :
     private fun inflateMovieDetails(movie: MovieDetails) = with(binding) {
         tvDetailsDescription.text = movie.description
         fillInfo(movie)
-        if (movie.ratingImdb > 1f) {
+        if (movie.ratingImdb >= 1f) {
             mevDetailsImdbRate.isVisible = true
             additionalInfoInflater.setRate(
                 movie.ratingImdb,
@@ -295,7 +296,7 @@ class SelectMovieFragment :
         } else {
             mevDetailsImdbRate.isVisible = false
         }
-        if (movie.ratingKinopoisk > 1f) {
+        if (movie.ratingKinopoisk >= 1f) {
             mevDetailsKinopoiskRate.isVisible = true
             additionalInfoInflater.setRate(
                 movie.ratingKinopoisk,

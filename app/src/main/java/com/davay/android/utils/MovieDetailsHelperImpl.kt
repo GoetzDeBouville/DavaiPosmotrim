@@ -51,7 +51,7 @@ open class MovieDetailsHelperImpl : MovieDetailsHelper, AdditionalInfoInflater {
 
     override fun setRateText(tvRate: TextView, ratingKinopoisk: Float?) {
         ratingKinopoisk?.let {
-            if (ratingKinopoisk > 1) { // Убираем оценку если ее нет. Минимальная оценка на кинопоиск это 1
+            if (ratingKinopoisk >= 1) { // Убираем оценку если ее нет. Минимальная оценка на кинопоиск это 1
                 val textColor = if (ratingKinopoisk >= GOOD_RATE_7) {
                     tvRate.context.getColor(com.davai.uikit.R.color.done)
                 } else {
