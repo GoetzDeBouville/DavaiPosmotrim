@@ -29,6 +29,8 @@ coil = "2.3.0"
 flexbox = "3.0.0"
 circle_indicator = "2.1.6"
 
+work_manager = "2.9.1"
+
 physicslayout = "3.0.2"
 
 encrypted_sharedpreferences = "1.0.0"
@@ -72,6 +74,8 @@ ktor-client-logging = { module = "io.ktor:ktor-client-logging", version.ref = "k
 staticAnalysis-detektCli = { module = "io.gitlab.arturbosch.detekt:detekt-cli", version.ref = "detekt" }
 staticAnalysis-detektFormatting = { module = "io.gitlab.arturbosch.detekt:detekt-formatting", version.ref = "detekt" }
 staticAnalysis-detektLibraries = { module = "io.gitlab.arturbosch.detekt:detekt-rules-libraries", version.ref = "detekt" }
+
+work-manager = { module = "androidx.work:work-runtime-ktx", version.ref = "work_manager" }
 
 [bundles]
 staticAnalysis-detekt = [
