@@ -1,5 +1,6 @@
 package com.davay.android.feature.createsession.data
 
+import android.database.sqlite.SQLiteException
 import android.util.Log
 import com.davay.android.BuildConfig
 import com.davay.android.core.data.converters.toDomain
@@ -85,17 +86,48 @@ class CreateSessionRepositoryImpl @Inject constructor(
      * Метод производит очистку таблицы с id с последующей записью в нее списка обновленных id
      */
     private suspend fun saveMovieIdListToDb(idList: List<Int>) {
-        @Suppress("TooGenericExceptionCaught")
         try {
-            if (movieIdDao.getMovieIdsCount() > 0) {
-                movieIdDao.clearAndResetTable()
-            }
+            clearAndResetIdsTable()
+
             idList.forEach { id ->
-                movieIdDao.insertMovieId(MovieIdEntity(movieId = id))
+                try {
+                    movieIdDao.insertMovieId(MovieIdEntity(movieId = id))
+                } catch (e: SQLiteException) {
+                    if (BuildConfig.DEBUG) {
+                        Log.e(
+                            TAG,
+                            "Error inserting movie ID: $id, exception -> ${e.localizedMessage}"
+                        )
+                    }
+                }
             }
-        } catch (e: Exception) {
+        } catch (e: SQLiteException) {
             if (BuildConfig.DEBUG) {
-                Log.v(TAG, "exception -> $e")
+                Log.e(TAG, "Database operation failed: ${e.localizedMessage}", e)
+            }
+        }
+    }
+
+    private suspend fun clearAndResetIdsTable() {
+        val movieIdCount = try {
+            movieIdDao.getMovieIdsCount()
+        } catch (e: SQLiteException) {
+            if (BuildConfig.DEBUG) {
+                Log.e(TAG, "Error in getMovieIdsCount, exception -> ${e.localizedMessage}")
+            }
+            0
+        }
+
+        if (movieIdCount > 0) {
+            try {
+                movieIdDao.clearAndResetTable()
+            } catch (e: SQLiteException) {
+                if (BuildConfig.DEBUG) {
+                    Log.e(
+                        TAG,
+                        "Error in clear and reset table, exception -> ${e.localizedMessage}"
+                    )
+                }
             }
         }
     }
