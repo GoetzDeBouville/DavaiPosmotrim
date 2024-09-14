@@ -59,8 +59,8 @@ fun MovieDetailsDto.toDomain(id: Int) = MovieDetails(
         URLDecoder.decode(it.removePrefix("/"), StandardCharsets.UTF_8.toString())
     } ?: "",
     alternativeName,
-    round(ratingKinopoisk * RATING_MULTIPLIER) / ROUNDING_DIVIDER,
-    ratingImdb,
+    roundRating(ratingKinopoisk),
+    roundRating(ratingImdb),
     numOfMarksKinopoisk,
     numOfMarksImdb,
     duration,
@@ -69,18 +69,16 @@ fun MovieDetailsDto.toDomain(id: Int) = MovieDetails(
     personsArrFormatter(actors),
 )
 
+private fun roundRating(rating: Float) = round(rating * RATING_MULTIPLIER) / ROUNDING_DIVIDER
+
 private fun personsArrFormatter(strList: List<String?>?): List<String> {
-    return if (strList.isNullOrEmpty()) {
-        emptyList()
-    } else {
-        strList.mapNotNull {
-            if (it?.isEmpty() == true) {
-                null
-            } else {
-                it
-            }
+    return strList?.mapNotNull {
+        if (it.isNullOrEmpty()) {
+            null
+        } else {
+            it
         }
-    }
+    } ?: emptyList()
 }
 
 
