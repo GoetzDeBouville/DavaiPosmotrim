@@ -262,24 +262,25 @@ class SelectMovieFragment :
     private fun autoSwipeLeft() {
         swipe()
         swipeCardLayoutManager.moveNextWithSwipeAndLayout(SwipeDirection.LEFT)
-        viewModel.onMovieSwiped(++currentPosition, false)
+        viewModel.onMovieSwiped(currentPosition, false)
     }
 
     private fun autoSwipeRight() {
         swipe()
         swipeCardLayoutManager.moveNextWithSwipeAndLayout(SwipeDirection.RIGHT)
-        viewModel.onMovieSwiped(++currentPosition, true)
+        viewModel.onMovieSwiped(currentPosition, true)
+    }
+
+    private fun revertSwipe() {
+        swipe()
+        currentPosition-- // обновление позиции после свайпа для синхронизации позиции со значением в БД
+        swipeCardLayoutManager.shiftLeftWithRevertAndLayout()
+        viewModel.onMovieSwiped(currentPosition, false)
     }
 
     private fun swipe() {
         currentPosition = swipeCardLayoutManager.getCurrentPosition()
-        cardAdapter.notifyDataSetChanged()
-    }
-
-    private fun revertSwipe() {
-        swipeCardLayoutManager.shiftLeftWithRevertAndLayout()
-        currentPosition = swipeCardLayoutManager.getCurrentPosition()
-        viewModel.onMovieSwiped(currentPosition, false)
+        currentPosition++ // обновление позиции после свайпа для синхронизации позиции со значением в БД
         cardAdapter.notifyDataSetChanged()
     }
 
