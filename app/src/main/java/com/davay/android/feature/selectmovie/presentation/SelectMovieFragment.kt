@@ -263,18 +263,19 @@ class SelectMovieFragment :
     /**
      * методы autoSwipeLeft и autoSwipeLeft используются для автоматического свайпа для cardAdapter
      * и полностью дублируют swipeLeft и swipeRight за исключением обновления currentPosition,
-     * почему-то currentPosition при кликах на кнопки в адаптере не соответствует currentPosition
-     * при свайпе
+     * currentPosition при кликах на кнопки в адаптере отличается от currentPosition при свайпе на 1
      */
     private fun autoSwipeLeft() {
         swipe()
         swipeCardLayoutManager.moveNextWithSwipeAndLayout(SwipeDirection.LEFT)
+        currentPosition++ // обновление позиции после свайпа для синхронизации позиции со значением в БД
         viewModel.onMovieSwiped(currentPosition, false)
     }
 
     private fun autoSwipeRight() {
         swipe()
         swipeCardLayoutManager.moveNextWithSwipeAndLayout(SwipeDirection.RIGHT)
+        currentPosition++ // обновление позиции после свайпа для синхронизации позиции со значением в БД
         viewModel.onMovieSwiped(currentPosition, true)
     }
 
@@ -287,7 +288,6 @@ class SelectMovieFragment :
 
     private fun swipe() {
         currentPosition = swipeCardLayoutManager.getCurrentPosition()
-        currentPosition++ // обновление позиции после свайпа для синхронизации позиции со значением в БД
         cardAdapter.notifyDataSetChanged()
     }
 
