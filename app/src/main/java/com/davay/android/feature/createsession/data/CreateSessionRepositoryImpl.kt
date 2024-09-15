@@ -1,7 +1,12 @@
 package com.davay.android.feature.createsession.data
 
+import android.content.Context
 import android.database.sqlite.SQLiteException
 import android.util.Log
+import androidx.work.BackoffPolicy
+import androidx.work.Data
+import androidx.work.OneTimeWorkRequestBuilder
+import androidx.work.WorkManager
 import com.davay.android.BuildConfig
 import com.davay.android.core.data.converters.toDomain
 import com.davay.android.core.data.database.MovieIdDao
@@ -16,13 +21,16 @@ import com.davay.android.core.domain.models.Result
 import com.davay.android.core.domain.models.Session
 import com.davay.android.feature.createsession.data.network.CreateSessionRequest
 import com.davay.android.feature.createsession.data.network.CreateSessionResponse
+import com.davay.android.feature.createsession.data.worker.CreateSessionWorker
 import com.davay.android.feature.createsession.domain.api.CreateSessionRepository
 import com.davay.android.feature.createsession.domain.model.SessionType
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
+import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
 class CreateSessionRepositoryImpl @Inject constructor(
+    private val context: Context,
     private val httpNetworkClient: HttpNetworkClient<CreateSessionRequest, CreateSessionResponse>,
     private val userDataRepository: UserDataRepository,
     private val movieIdDao: MovieIdDao
@@ -78,6 +86,7 @@ class CreateSessionRepositoryImpl @Inject constructor(
 
             else -> {
                 emit(Result.Error(response.resultCode.mapToErrorType()))
+                scheduleRetry(sessionType, requestBody)
             }
         }
     }
@@ -132,9 +141,28 @@ class CreateSessionRepositoryImpl @Inject constructor(
         }
     }
 
+    private fun scheduleRetry(sessionType: SessionType, requestBody: List<String>) {
+        val workData = Data.Builder()
+            .putString("SESSION_TYPE", sessionType.name)
+            .putStringArray("REQUEST_BODY", requestBody.toTypedArray())
+            .build()
+
+        val workRequest = OneTimeWorkRequestBuilder<CreateSessionWorker>()
+            .setInputData(workData)
+            .setBackoffCriteria(
+                BackoffPolicy.EXPONENTIAL,
+                BACKOFF_DELAY_10_MS,
+                TimeUnit.SECONDS
+            )
+            .build()
+
+        WorkManager.getInstance(context).enqueue(workRequest)
+    }
+
     private companion object {
         val TAG = CreateSessionRepositoryImpl::class.simpleName
         const val COLLECTIONS = "collections"
         const val GENRES = "genres"
+        const val BACKOFF_DELAY_10_MS: Long = 10
     }
 }
