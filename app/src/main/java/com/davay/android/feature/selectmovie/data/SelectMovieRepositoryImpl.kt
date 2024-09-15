@@ -1,10 +1,13 @@
 package com.davay.android.feature.selectmovie.data
 
+import android.database.sqlite.SQLiteException
 import android.util.Log
+import com.davay.android.BuildConfig
 import com.davay.android.core.data.converters.toDbEntity
 import com.davay.android.core.data.converters.toDomain
 import com.davay.android.core.data.database.HistoryDao
 import com.davay.android.core.data.database.MovieIdDao
+import com.davay.android.core.data.database.entity.MovieIdEntity
 import com.davay.android.core.data.network.HttpNetworkClient
 import com.davay.android.core.data.network.model.mapToErrorType
 import com.davay.android.core.domain.models.ErrorType
@@ -20,7 +23,6 @@ import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
-import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 class SelectMovieRepositoryImpl @Inject constructor(
@@ -31,37 +33,51 @@ class SelectMovieRepositoryImpl @Inject constructor(
     /**
      * Метод принимает номер позиции и возвращает список MovieDetails
      */
-    @Suppress("LabeledExpression")
     override fun getMovieListByPositionId(positionNumber: Int): Flow<Result<List<MovieDetails>, ErrorType>> =
         flow {
             val movies = mutableListOf<MovieDetails>()
 
-            movieIdDao.getMovieIdsByPositionRange(positionNumber, PAGINATION_SIZE)
-                .map { movieId ->
-                    coroutineScope {
-                        async(Dispatchers.IO) {
-                            val movie = historyDao.getMovieDetailsById(movieId)?.toDomain()
-                            if (movie != null) {
-                                Result.Success(movie)
-                            } else {
-                                getMovieDetailsFromApiAndSaveToDb(movieId)
+            coroutineScope {
+                getMovieIdsByPositionRange(positionNumber)
+                    .map { movieId ->
+                        coroutineScope {
+                            async(Dispatchers.IO) {
+                                val movie = getMovieFromDb(movieId)
+                                if (movie != null) {
+                                    Result.Success(movie)
+                                } else {
+                                    getMovieDetailsFromApiAndSaveToDb(movieId)
+                                }
+                            }
+                        }
+                    }.awaitAll().forEach { result ->
+                        when (result) {
+                            is Result.Success -> {
+                                movies.add(result.data)
+                            }
+
+                            is Result.Error -> {
+                                emit(Result.Error(result.error))
                             }
                         }
                     }
-                }.awaitAll().forEach { result ->
-                    when (result) {
-                        is Result.Success -> {
-                            movies.add(result.data)
-                        }
-
-                        is Result.Error -> {
-                            emit(Result.Error(result.error))
-                        }
-                    }
-                }
-
-            emit(Result.Success(movies))
+                emit(Result.Success(movies))
+            }
         }
+
+    private suspend fun getMovieIdsByPositionRange(positionNumber: Int): List<Int> {
+        return try {
+            movieIdDao.getMovieIdsByPositionRange(positionNumber, PAGINATION_SIZE)
+        } catch (e: SQLiteException) {
+            if (BuildConfig.DEBUG) {
+                Log.e(
+                    TAG,
+                    "Error get movie ids from position: $positionNumber, exception -> ${e.localizedMessage}"
+                )
+            }
+            emptyList()
+        }
+    }
 
     private suspend fun getMovieDetailsFromApiAndSaveToDb(movieId: Int): Result<MovieDetails, ErrorType> {
         return try {
@@ -69,65 +85,165 @@ class SelectMovieRepositoryImpl @Inject constructor(
             when (val body = response.body) {
                 is GetMovieResponse.Movie -> {
                     val movieDetails = body.value.toDomain(movieId)
-                    saveMovieToDatabase(movieDetails)
-                    Result.Success(movieDetails)
+                    try {
+                        saveMovieToDatabase(movieDetails)
+                    } catch (e: SQLiteException) {
+                        if (BuildConfig.DEBUG) {
+                            Log.e(
+                                TAG,
+                                "Error save movie to DB, ID: $movieId, exception -> ${e.localizedMessage}"
+                            )
+                        }
+                    }
+
+                    val movieFromDb = getMovieFromDb(movieId)
+                    if (movieFromDb == null) {
+                        Result.Error(ErrorType.UNKNOWN_ERROR)
+                    } else {
+                        Result.Success(movieFromDb)
+                    }
                 }
 
                 else -> Result.Error(response.resultCode.mapToErrorType())
             }
         } catch (e: IOException) {
-            Log.e(TAG, e.cause.toString())
+            if (BuildConfig.DEBUG) {
+                Log.e(
+                    TAG,
+                    "Error get movie details and save to DB, ID : $movieId, exception -> ${e.localizedMessage}"
+                )
+            }
             Result.Error(ErrorType.UNKNOWN_ERROR)
         }
     }
 
+    private suspend fun getMovieFromDb(movieId: Int): MovieDetails? {
+        return try {
+            historyDao.getMovieDetailsById(movieId)?.toDomain()
+        } catch (e: SQLiteException) {
+            if (BuildConfig.DEBUG) {
+                Log.e(
+                    TAG,
+                    "Error get movie by movie ID: $movieId, exception -> ${e.localizedMessage}"
+                )
+            }
+            null
+        }
+    }
+
     private suspend fun saveMovieToDatabase(movieDetails: MovieDetails) {
-        withContext(Dispatchers.IO) {
+        try {
             historyDao.insertMovie(movieDetails.toDbEntity())
+        } catch (e: SQLiteException) {
+            if (BuildConfig.DEBUG) {
+                Log.e(
+                    TAG,
+                    "Error save movie to DB, ID: ${movieDetails.id}, exception -> ${e.localizedMessage}"
+                )
+            }
         }
     }
 
     override suspend fun getMovieIdListSize(): Int {
-        return movieIdDao.getMovieIdsCount()
+        return try {
+            movieIdDao.getMovieIdsCount()
+        } catch (e: SQLiteException) {
+            if (BuildConfig.DEBUG) {
+                Log.e(
+                    TAG,
+                    "Error get movie ID list size, exception -> ${e.localizedMessage}"
+                )
+            }
+            0
+        }
     }
 
     /**
-     * Метод учитывает условие когда запрашиваемая позиция выходит за пределы списка фильмов
+     * Метод обновляет значение лайка в позиции
+     * Обновление позиции происходит всегда для предсказуемого результат
      */
     override suspend fun updateIsLikedByPosition(position: Int, isLiked: Boolean) {
-        if (movieIdDao.getMovieIdByPosition(position) == null) {
-            val previousPosition = position - 1
-            movieIdDao.getMovieIdByPosition(previousPosition).let { movieIdEntity ->
-                if (movieIdEntity?.isLiked == isLiked.not()) {
-                    movieIdDao.updateIsLikedById(position, isLiked)
+        getMovieIdByPosition(position)?.let {
+            try {
+                movieIdDao.updateIsLikedById(position, isLiked)
+            } catch (e: SQLiteException) {
+                if (BuildConfig.DEBUG) {
+                    Log.e(
+                        TAG,
+                        "Error update Liked in movie position: $position, exception -> ${e.localizedMessage}"
+                    )
                 }
             }
-        } else {
-            movieIdDao.getMovieIdByPosition(position).let { movieIdEntity ->
-                if (movieIdEntity?.isLiked == isLiked.not()) {
-                    movieIdDao.updateIsLikedById(position, isLiked)
-                }
+        }
+    }
+
+    private suspend fun getMovieIdByPosition(position: Int): MovieIdEntity? {
+        return try {
+            movieIdDao.getMovieIdByPosition(position)
+        } catch (e: SQLiteException) {
+            if (BuildConfig.DEBUG) {
+                Log.e(
+                    TAG,
+                    "Error get movie ID by position: $position, exception -> ${e.localizedMessage}"
+                )
             }
+            null
         }
     }
 
     override suspend fun leaveOnlyDislikedMovieIds() {
-        val movieList = movieIdDao.getAllMovieIds()
+        val movieList = getAllMovieIds()
         val dislikedMovies = movieList.filter {
             it.isLiked.not()
         }
-        movieIdDao.clearAndResetTable()
+        clearAndResetTable()
         var movieId = 1
         dislikedMovies.forEach { movieIdEntity ->
-            movieIdDao.insertMovieId(movieIdEntity.copy(id = movieId))
-            movieId++
+            try {
+                movieIdDao.insertMovieId(movieIdEntity.copy(id = movieId))
+                movieId++
+            } catch (e: SQLiteException) {
+                if (BuildConfig.DEBUG) {
+                    Log.e(
+                        TAG,
+                        "Error insert movie ID to DB, ID: $movieId, exception -> ${e.localizedMessage}"
+                    )
+                }
+            }
+        }
+    }
+
+    private suspend fun getAllMovieIds() : List<MovieIdEntity>{
+       return try {
+            movieIdDao.getAllMovieIds()
+        } catch (e: SQLiteException) {
+            if (BuildConfig.DEBUG) {
+                Log.e(
+                    TAG,
+                    "Error get movie ID list, exception -> ${e.localizedMessage}"
+                )
+            }
+            emptyList()
+        }
+    }
+
+    private suspend fun clearAndResetTable() {
+        try {
+            movieIdDao.clearAndResetTable()
+        } catch (e: SQLiteException) {
+            if (BuildConfig.DEBUG) {
+                Log.e(
+                    TAG,
+                    "Error clear and reset movie ID table, exception -> ${e.localizedMessage}"
+                )
+            }
         }
     }
 
     private companion object {
         /**
          * Размер подгрузки фильмов, при изменении так же учитывать значение в SelectMovieViewModel.
-         * PAGINATION_SIZE в репозитории должен быть больше либо равен PAGINATION_SIZE в SelectMovieViewModel
+         * PAGINATION_SIZE в репозитории должен быть больше либо равен PRELOAD_SIZE в SelectMovieViewModel
          */
         const val PAGINATION_SIZE = 20
         val TAG = SelectMovieRepositoryImpl::class.simpleName
