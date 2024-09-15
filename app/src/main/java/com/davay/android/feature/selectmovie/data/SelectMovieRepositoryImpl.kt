@@ -17,6 +17,7 @@ import com.davay.android.feature.selectmovie.data.network.GetMovieRequest
 import com.davay.android.feature.selectmovie.data.network.GetMovieResponse
 import com.davay.android.feature.selectmovie.domain.api.SelectMovieRepository
 import io.ktor.utils.io.errors.IOException
+import kotlinx.coroutines.Deferred
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitAll
@@ -36,31 +37,30 @@ class SelectMovieRepositoryImpl @Inject constructor(
     override fun getMovieListByPositionId(positionNumber: Int): Flow<Result<List<MovieDetails>, ErrorType>> =
         flow {
             val movies = mutableListOf<MovieDetails>()
-
             coroutineScope {
-                getMovieIdsByPositionRange(positionNumber)
-                    .map { movieId ->
-                        coroutineScope {
-                            async(Dispatchers.IO) {
-                                val movie = getMovieFromDb(movieId)
-                                if (movie != null) {
-                                    Result.Success(movie)
-                                } else {
-                                    getMovieDetailsFromApiAndSaveToDb(movieId)
-                                }
-                            }
-                        }
-                    }.awaitAll().forEach { result ->
-                        when (result) {
-                            is Result.Success -> {
-                                movies.add(result.data)
-                            }
-
-                            is Result.Error -> {
-                                emit(Result.Error(result.error))
+                val movieIdList: List<Deferred<Result<MovieDetails, ErrorType>>> =
+                    getMovieIdsByPositionRange(positionNumber).map { movieId ->
+                        async(Dispatchers.IO) {
+                            val movie = getMovieFromDb(movieId)
+                            if (movie != null) {
+                                Result.Success(movie)
+                            } else {
+                                getMovieDetailsFromApiAndSaveToDb(movieId)
                             }
                         }
                     }
+
+                movieIdList.awaitAll().forEach { result ->
+                    when (result) {
+                        is Result.Success -> {
+                            movies.add(result.data)
+                        }
+
+                        is Result.Error -> {
+                            emit(Result.Error(result.error))
+                        }
+                    }
+                }
                 emit(Result.Success(movies))
             }
         }
@@ -85,16 +85,7 @@ class SelectMovieRepositoryImpl @Inject constructor(
             when (val body = response.body) {
                 is GetMovieResponse.Movie -> {
                     val movieDetails = body.value.toDomain(movieId)
-                    try {
-                        saveMovieToDatabase(movieDetails)
-                    } catch (e: SQLiteException) {
-                        if (BuildConfig.DEBUG) {
-                            Log.e(
-                                TAG,
-                                "Error save movie to DB, ID: $movieId, exception -> ${e.localizedMessage}"
-                            )
-                        }
-                    }
+                    saveMovieToDatabase(movieDetails)
 
                     val movieFromDb = getMovieFromDb(movieId)
                     if (movieFromDb == null) {
@@ -159,20 +150,18 @@ class SelectMovieRepositoryImpl @Inject constructor(
     }
 
     /**
-     * Метод обновляет значение лайка в позиции
+     * Метод обновляет значение лайка по позиции
      * Обновление позиции происходит всегда для предсказуемого результат
      */
     override suspend fun updateIsLikedByPosition(position: Int, isLiked: Boolean) {
-        getMovieIdByPosition(position)?.let {
-            try {
-                movieIdDao.updateIsLikedById(position, isLiked)
-            } catch (e: SQLiteException) {
-                if (BuildConfig.DEBUG) {
-                    Log.e(
-                        TAG,
-                        "Error update Liked in movie position: $position, exception -> ${e.localizedMessage}"
-                    )
-                }
+        try {
+            movieIdDao.updateIsLikedById(position, isLiked)
+        } catch (e: SQLiteException) {
+            if (BuildConfig.DEBUG) {
+                Log.e(
+                    TAG,
+                    "Error update Liked in movie position: $position, exception -> ${e.localizedMessage}"
+                )
             }
         }
     }
@@ -213,8 +202,8 @@ class SelectMovieRepositoryImpl @Inject constructor(
         }
     }
 
-    private suspend fun getAllMovieIds() : List<MovieIdEntity>{
-       return try {
+    private suspend fun getAllMovieIds(): List<MovieIdEntity> {
+        return try {
             movieIdDao.getAllMovieIds()
         } catch (e: SQLiteException) {
             if (BuildConfig.DEBUG) {

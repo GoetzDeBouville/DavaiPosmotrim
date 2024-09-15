@@ -99,20 +99,24 @@ class CreateSessionRepositoryImpl @Inject constructor(
             clearAndResetIdsTable()
 
             idList.forEach { id ->
-                try {
-                    movieIdDao.insertMovieId(MovieIdEntity(movieId = id))
-                } catch (e: SQLiteException) {
-                    if (BuildConfig.DEBUG) {
-                        Log.e(
-                            TAG,
-                            "Error inserting movie ID: $id, exception -> ${e.localizedMessage}"
-                        )
-                    }
-                }
+                insertMovieToDb(id)
             }
         } catch (e: SQLiteException) {
             if (BuildConfig.DEBUG) {
                 Log.e(TAG, "Database operation failed: ${e.localizedMessage}", e)
+            }
+        }
+    }
+
+    private suspend fun insertMovieToDb(movieId: Int) {
+        try {
+            movieIdDao.insertMovieId(MovieIdEntity(movieId = movieId))
+        } catch (e: SQLiteException) {
+            if (BuildConfig.DEBUG) {
+                Log.e(
+                    TAG,
+                    "Error inserting movie ID: $movieId, exception -> ${e.localizedMessage}"
+                )
             }
         }
     }
