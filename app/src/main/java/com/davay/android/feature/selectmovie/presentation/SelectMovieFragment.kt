@@ -7,7 +7,7 @@ import androidx.core.view.isVisible
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.ItemTouchHelper
 import com.davai.extensions.dpToPx
-import com.davai.uikit.MainDialogFragment
+import com.davai.uikit.dialog.MainDialogFragment
 import com.davay.android.R
 import com.davay.android.base.BaseFragment
 import com.davay.android.core.domain.models.MovieDetails
@@ -146,12 +146,19 @@ class SelectMovieFragment :
             message = getString(R.string.select_movies_movie_show_disliked_movies),
             showConfirmBlock = true,
             yesAction = {
-                cardAdapter.setData(emptySet())
-                swipeCardLayoutManager.updateCurrentPosition(0)
-                viewModel.filterDislikedMovieList()
+                confirmAction()
+            },
+            onCancelAction = {
+                confirmAction()
             }
         )
         dialog.show(parentFragmentManager, null)
+    }
+
+    private fun confirmAction() {
+        cardAdapter.setData(emptySet())
+        swipeCardLayoutManager.updateCurrentPosition(0)
+        viewModel.filterDislikedMovieList()
     }
 
     private fun backPressedDispatcher() {

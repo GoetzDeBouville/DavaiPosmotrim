@@ -13,7 +13,7 @@ import androidx.core.content.ContextCompat
 import com.davai.extensions.dpToPx
 import com.davai.uikit.BannerView
 import com.davai.uikit.ButtonView
-import com.davai.uikit.MainDialogFragment
+import com.davai.uikit.dialog.MainDialogFragment
 import com.davay.android.BuildConfig
 import com.davay.android.R
 import com.davay.android.base.BaseFragment
