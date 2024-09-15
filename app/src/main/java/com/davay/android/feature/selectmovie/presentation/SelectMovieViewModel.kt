@@ -1,6 +1,8 @@
 package com.davay.android.feature.selectmovie.presentation
 
+import android.util.Log
 import androidx.lifecycle.viewModelScope
+import com.davay.android.BuildConfig
 import com.davay.android.base.BaseViewModel
 import com.davay.android.core.domain.models.ErrorScreenState
 import com.davay.android.core.domain.models.MovieDetails
@@ -8,6 +10,7 @@ import com.davay.android.feature.selectmovie.domain.FilterDislikedMovieListUseCa
 import com.davay.android.feature.selectmovie.domain.GetMovieIdListSizeUseCase
 import com.davay.android.feature.selectmovie.domain.GetMovieListUseCase
 import com.davay.android.feature.selectmovie.domain.SwipeMovieUseCase
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
@@ -63,14 +66,25 @@ class SelectMovieViewModel @Inject constructor(
     /**
      * Метод вызывает подгрузку фильмов, если это необходимо и устанавливает значение для поля
      * isLike в таблице movieId, данные значения используются для фильтрации элементов и обнолвения
-     * списка id элементов, которые потребутются для загрузки данных о фильмах
+     * списка id элементов, которые потребутются для загрузки данных о фильмах.
+     * Вызовы подгрузки фильмов могут быть возможны только при соблюдении неравенства :
+     * PRELOAD_SIZE <= PAGINATION_SIZE в SelectMovieRepositoryImpl.
+     * Таким образом мы сокращаем количество запросов в сеть, но при этом всегда имеем
+     * закэшированные данные фильмов в размере PRELOAD_SIZE, то есть пользователь вообще не значет
+     * о процессе подгрузки данных.
      */
     fun onMovieSwiped(position: Int, isLiked: Boolean) {
         if (position + PRELOAD_SIZE >= loadedMovies.size && loadedMovies.size < totalMovieIds) {
             loadMovies(position)
         }
         viewModelScope.launch {
-            swipeMovieUseCase(position, isLiked)
+            runCatching {
+                swipeMovieUseCase(position, isLiked)
+            }.onFailure {
+                if (BuildConfig.DEBUG) {
+                    Log.e(TAG, "Error on swipe movie, position: $position | ${it.localizedMessage}")
+                }
+            }
         }
 
         if (position == totalMovieIds) {
@@ -86,12 +100,28 @@ class SelectMovieViewModel @Inject constructor(
     fun filterDislikedMovieList() {
         loadedMovies = mutableSetOf()
         _state.update {
-            SelectMovieState.Content(movieList = loadedMovies)
+            SelectMovieState.Loading
         }
 
-        viewModelScope.launch {
+        viewModelScope.launch(Dispatchers.IO) {
+            clearAndReset()
+        }
+    }
+
+    private suspend fun clearAndReset() {
+        runCatching {
             filterDislikedMovieListUseCase()
+        }.onFailure {
+            if (BuildConfig.DEBUG) {
+                Log.e(TAG, "Error on filter disliked movie list ${it.localizedMessage}")
+            }
+        }
+        runCatching {
             initializeMovieList()
+        }.onFailure {
+            if (BuildConfig.DEBUG) {
+                Log.e(TAG, "Error on initializing movie list ${it.localizedMessage}")
+            }
         }
     }
 
@@ -99,7 +129,9 @@ class SelectMovieViewModel @Inject constructor(
         /**
          * Размер подгрузки фильмов, при изменении так же учитывать значение в SelectMovieRepositoryImpl.
          * PRELOAD_SIZE должен быть меньше либо равен PAGINATION_SIZE в SelectMovieRepositoryImpl.
+         * PRELOAD_SIZE это колчичество фильмов до конца текущего списка
          */
-        const val PRELOAD_SIZE = 2
+        const val PRELOAD_SIZE = 5
+        val TAG: String = SelectMovieViewModel::class.java.simpleName
     }
 }
