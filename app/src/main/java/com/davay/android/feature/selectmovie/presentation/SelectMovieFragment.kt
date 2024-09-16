@@ -281,7 +281,6 @@ class SelectMovieFragment :
 
     private fun revertSwipe() {
         swipe()
-        currentPosition-- // обновление позиции после свайпа для синхронизации позиции со значением в БД
         swipeCardLayoutManager.shiftLeftWithRevertAndLayout()
         viewModel.onMovieSwiped(currentPosition, false)
     }
