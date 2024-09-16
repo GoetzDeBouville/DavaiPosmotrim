@@ -26,7 +26,6 @@ class CreateSessionDataModule {
 
     @Provides
     fun provideCreateSessionRepository(
-        context: Context,
         httpNetworkClient: HttpKtorNetworkClient<CreateSessionRequest, CreateSessionResponse>,
         userDataRepository: UserDataRepository,
         appDatabase: AppDatabase
