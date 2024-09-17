@@ -1,20 +1,25 @@
 package com.davay.android.feature.createsession.presentation.genre
 
 import android.util.Log
+import androidx.lifecycle.viewModelScope
 import com.davay.android.BuildConfig
-import com.davay.android.base.BaseViewModel
 import com.davay.android.core.domain.models.ErrorScreenState
 import com.davay.android.core.domain.models.Genre
 import com.davay.android.feature.createsession.domain.model.GenreSelect
+import com.davay.android.feature.createsession.domain.usecase.CreateSessionUseCase
 import com.davay.android.feature.createsession.domain.usecase.GetGenresUseCase
+import com.davay.android.feature.createsession.presentation.createsession.CreateSessionViewModel
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class GenreViewModel @Inject constructor(
-    private val getGenresUseCase: GetGenresUseCase
-) : BaseViewModel() {
+    private val getGenresUseCase: GetGenresUseCase,
+    private val createSessionUseCase: CreateSessionUseCase
+) : CreateSessionViewModel() {
     private val _state = MutableStateFlow<GenreState>(GenreState.Loading)
     val state = _state.asStateFlow()
 
@@ -50,20 +55,51 @@ class GenreViewModel @Inject constructor(
         }
     }
 
-    fun buttonContinueClicked() {
-        if (BuildConfig.DEBUG) {
-            Log.d("MyTagGenre", selectedGenre.toString())
-        }
-    }
-
     private fun Genre.toUiModel() = GenreSelect(
         name = this.name,
         isSelected = false
     )
 
-    // Метод для проверки, выбран ли хотя бы один жанр
-    fun hasSelectedGenres(): Boolean {
-        return selectedGenre.isNotEmpty()
+    /**
+     * Метод проверяет на пустоту список выбранных коллекций, если список пустой, вызывает баннер.
+     * Для не пустого списка вызывает создание сессии.
+     * Навигация при этом вызывается только после успешного возврата.
+     * Данные сессии передаем через bundle в navigateToWaitSession.
+     */
+    fun createSessionAndNavigateToWaitSessionScreen(showBanner: () -> Unit) {
+        if (selectedGenre.isEmpty()) {
+            showBanner.invoke()
+        } else {
+            viewModelScope.launch {
+                val genreList = selectedGenre.map {
+                    it.name
+                }
+                _state.update {
+                    GenreState.CreateSessionLoading
+                }
+                runSafelyUseCase(
+                    useCaseFlow = createSessionUseCase.execute(PARAMETER_NAME, genreList),
+                    onSuccess = { session ->
+                        if (BuildConfig.DEBUG) {
+                            Log.v(TAG, "error -> $session")
+                        }
+                        viewModelScope.launch(Dispatchers.Main) {
+                            navigateToWaitSession(session)
+                        }
+                    },
+                    onFailure = { error ->
+                        if (BuildConfig.DEBUG) {
+                            Log.v(TAG, "error -> $error")
+                        }
+                        var handledError = mapErrorToUiState(error)
+                        if (handledError == ErrorScreenState.SERVER_ERROR) {
+                            handledError = ErrorScreenState.ERROR_BUILD_SESSION_GENRES
+                        }
+                        _state.update { GenreState.Error(handledError) }
+                    }
+                )
+            }
+        }
     }
 
     fun resetSelections() {
@@ -76,5 +112,10 @@ class GenreViewModel @Inject constructor(
                 currentState
             }
         }
+    }
+
+    private companion object {
+        const val PARAMETER_NAME = "genres"
+        val TAG = GenreViewModel::class.simpleName
     }
 }

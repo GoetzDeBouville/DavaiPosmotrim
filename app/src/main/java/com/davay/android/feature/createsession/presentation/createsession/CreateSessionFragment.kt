@@ -1,19 +1,16 @@
 package com.davay.android.feature.createsession.presentation.createsession
 
-import android.os.Bundle
-import android.view.View
 import androidx.lifecycle.lifecycleScope
 import androidx.viewpager2.widget.ViewPager2.OnPageChangeCallback
-import com.davai.uikit.BannerView
 import com.davai.util.setOnDebouncedClickListener
 import com.davay.android.R
 import com.davay.android.base.BaseFragment
-import com.davay.android.core.presentation.MainActivity
 import com.davay.android.databinding.FragmentCreateSessionBinding
 import com.davay.android.di.AppComponentHolder
 import com.davay.android.di.ScreenComponent
 import com.davay.android.feature.createsession.di.DaggerCreateSessionFragmentComponent
 import com.davay.android.feature.createsession.presentation.compilations.CompilationsFragment
+import com.davay.android.feature.createsession.presentation.createsession.adapter.ViewPagerAdapter
 import com.davay.android.feature.createsession.presentation.genre.GenreFragment
 import com.google.android.material.tabs.TabLayoutMediator
 
@@ -27,34 +24,23 @@ class CreateSessionFragment : BaseFragment<FragmentCreateSessionBinding, CreateS
         .appComponent(AppComponentHolder.getComponent())
         .build()
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
+    override fun initViews() {
+        super.initViews()
         initTabs()
         setupToolbar()
+    }
+
+    override fun subscribe() {
+        super.subscribe()
         binding.btnContinue.setOnDebouncedClickListener(
             coroutineScope = lifecycleScope
         ) {
             val fragmentPosition = binding.viewPager.currentItem
-            var shouldNavigate = false
             when (val fragment = childFragmentManager.findFragmentByTag("f$fragmentPosition")) {
-                is CompilationsFragment -> {
-                    shouldNavigate = fragment.buttonContinueClicked()
-                }
-
-                is GenreFragment -> {
-                    shouldNavigate = fragment.buttonContinueClicked()
-                }
-            }
-            if (shouldNavigate) {
-                viewModel.navigate(R.id.action_createSessionFragment_to_waitSessionFragment)
-            } else {
-                showBanner()
+                is CompilationsFragment -> fragment.buttonContinueClicked()
+                is GenreFragment -> fragment.buttonContinueClicked()
             }
         }
-        updateBanner(
-            getString(R.string.create_session_choose_compilations_one),
-            BannerView.ATTENTION
-        )
     }
 
     private fun initTabs() {
@@ -68,56 +54,27 @@ class CreateSessionFragment : BaseFragment<FragmentCreateSessionBinding, CreateS
         tabMediator?.attach()
     }
 
-    private fun setupToolbar() {
-        binding.viewPager.registerOnPageChangeCallback(object : OnPageChangeCallback() {
+    private fun setupToolbar() = with(binding) {
+        viewPager.registerOnPageChangeCallback(object : OnPageChangeCallback() {
             override fun onPageSelected(position: Int) {
                 super.onPageSelected(position)
+                resetSelections()
                 when (position) {
-                    0 -> {
-                        binding.toolBar.setSubtitleText(getString(R.string.create_session_choose_compilations))
-                        updateBanner(
-                            getString(R.string.create_session_choose_compilations_one),
-                            BannerView.ATTENTION
-                        )
-                    }
-
-                    1 -> {
-                        binding.toolBar.setSubtitleText(getString(R.string.create_session_choose_genre))
-                        updateBanner(
-                            getString(R.string.create_session_choose_genre_one),
-                            BannerView.ATTENTION
-                        )
-                    }
+                    0 -> toolBar.setSubtitleText(getString(R.string.create_session_choose_compilations))
+                    1 -> toolBar.setSubtitleText(getString(R.string.create_session_choose_genre))
                 }
             }
         })
-        with(binding.toolBar) {
-            setStartIcon(com.davai.uikit.R.drawable.ic_arrow_back)
-            showStartIcon()
-            setStartIconClickListener {
-                viewModel.navigateBack()
-            }
+
+        toolBar.setStartIconClickListener {
+            viewModel.navigateBack()
         }
-    }
-
-    private fun updateBanner(text: String, type: Int) {
-        (requireActivity() as MainActivity).updateBanner(text, type)
-    }
-
-    private fun showBanner() {
-        val activity = requireActivity() as? MainActivity
-        activity?.showBanner()
     }
 
     override fun onDestroyView() {
         tabMediator?.detach()
         tabMediator = null
         super.onDestroyView()
-    }
-
-    override fun onResume() {
-        super.onResume()
-        resetSelections()
     }
 
     private fun resetSelections() {
