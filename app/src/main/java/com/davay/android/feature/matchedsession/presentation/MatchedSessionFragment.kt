@@ -42,16 +42,13 @@ class MatchedSessionFragment :
 
     override val viewModel: MatchedSessionViewModel by injectViewModel<MatchedSessionViewModel>()
 
-    private val moviesGridAdapter = MoviesGridAdapter(
-        onItemClicked = { movieDetails ->
-            val movie = Json.encodeToString(movieDetails)
-            val bundle = Bundle().apply {
-                putString(MovieCardFragment.MOVIE_DETAILS_KEY, movie)
-            }
-            viewModel.navigate(R.id.action_matchedSessionFragment_to_movieCardFragment, bundle)
-        },
-        coroutineScope = lifecycleScope
-    )
+    private val moviesGridAdapter = MoviesGridAdapter(lifecycleScope) { movieDetails ->
+        val movie = Json.encodeToString(movieDetails)
+        val bundle = Bundle().apply {
+            putString(MovieCardFragment.MOVIE_DETAILS_KEY, movie)
+        }
+        viewModel.navigate(R.id.action_matchedSessionFragment_to_movieCardFragment, bundle)
+    }
 
     private val userAdapter = UserAdapter()
     private var sessionId = ""

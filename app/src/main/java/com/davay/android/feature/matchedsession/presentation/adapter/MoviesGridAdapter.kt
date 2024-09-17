@@ -8,8 +8,8 @@ import com.davay.android.core.domain.models.MovieDetails
 import kotlinx.coroutines.CoroutineScope
 
 class MoviesGridAdapter(
-    private val onItemClicked: (Int) -> Unit,
-    private val coroutineScope: CoroutineScope
+    private val coroutineScope: CoroutineScope,
+    private val onItemClicked: (Int) -> Unit
 ) : RecyclerView.Adapter<MoviesGridViewHolder>() {
 
     private val movies = mutableListOf<MovieDetails>()

@@ -10,8 +10,8 @@ import com.davay.android.extensions.formatDate
 import kotlinx.coroutines.CoroutineScope
 
 class SessionListAdapter(
-    private val onSessionClickListener: ((id: String) -> Unit)?,
-    private val coroutineScope: CoroutineScope
+    private val coroutineScope: CoroutineScope,
+    private val onSessionClickListener: ((id: String) -> Unit)?
 ) : RecyclerView.Adapter<SessionListAdapter.SessionListViewHolder>() {
 
     private val sessionList = mutableListOf<Session>()
