@@ -7,8 +7,10 @@ import androidx.activity.OnBackPressedCallback
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.updateLayoutParams
+import androidx.lifecycle.lifecycleScope
 import com.davai.uikit.MainDialogFragment
 import com.davai.uikit.MainScreenButtonView
+import com.davai.util.setOnDebouncedClickListener
 import com.davay.android.R
 import com.davay.android.base.BaseFragment
 import com.davay.android.databinding.FragmentMainBinding
@@ -69,7 +71,9 @@ class MainFragment :
             msbCreateSession.setOnClickListener {
                 createSession()
             }
-            binding.ivEditUserName.setOnClickListener {
+            binding.ivEditUserName.setOnDebouncedClickListener(
+                coroutineScope = lifecycleScope
+            ) {
                 val currentName = binding.tvUserName.text.toString()
                 changeName(currentName)
             }

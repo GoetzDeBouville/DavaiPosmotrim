@@ -8,6 +8,7 @@ import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearSnapHelper
 import androidx.recyclerview.widget.RecyclerView
+import com.davai.util.setOnDebouncedClickListener
 import com.davay.android.R
 import com.davay.android.base.BaseFragment
 import com.davay.android.core.domain.models.MovieDetails
@@ -101,7 +102,9 @@ class RouletteFragment :
         binding.btnCancel.setOnClickListener {
             viewModel.navigateBack()
         }
-        binding.btnContinue.setOnClickListener {
+        binding.btnContinue.setOnDebouncedClickListener(
+            coroutineScope = lifecycleScope
+        ) {
             bottomSheetBehaviorIntro.isHideable = true
             bottomSheetBehaviorIntro.state = BottomSheetBehavior.STATE_HIDDEN
             viewModel.rouletteStart()

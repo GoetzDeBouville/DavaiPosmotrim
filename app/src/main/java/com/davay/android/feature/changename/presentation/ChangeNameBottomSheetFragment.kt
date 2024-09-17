@@ -12,6 +12,7 @@ import androidx.core.view.isVisible
 import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.setFragmentResult
 import androidx.lifecycle.lifecycleScope
+import com.davai.util.setOnDebouncedClickListener
 import com.davay.android.base.BaseBottomSheetFragment
 import com.davay.android.core.domain.models.UserNameState
 import com.davay.android.databinding.FragmentNameChangeBinding
@@ -99,7 +100,9 @@ class ChangeNameBottomSheetFragment :
 
             override fun onSlide(bottomSheet: View, slideOffset: Float) {
                 if (slideOffset < BOTTOM_SHEET_HIDE_PERCENT_60) {
-                    hideKeyboard(binding.etName)
+                    binding?. etName?.let {
+                        hideKeyboard(it)
+                    }
                     bottomSheetBehavior?.state = BottomSheetBehavior.STATE_HIDDEN
                 }
             }
@@ -132,7 +135,9 @@ class ChangeNameBottomSheetFragment :
     }
 
     private fun setButtonClickListeners() {
-        binding.btnEnter.setOnClickListener {
+        binding.btnEnter.setOnDebouncedClickListener(
+            coroutineScope = lifecycleScope
+        ) {
             viewModel.buttonClicked(binding.etName.text)
         }
         binding.etName.setOnEditorActionListener { _, actionId, _ ->
