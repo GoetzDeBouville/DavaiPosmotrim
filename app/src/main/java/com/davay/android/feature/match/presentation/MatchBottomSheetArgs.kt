@@ -6,7 +6,7 @@ import kotlinx.parcelize.Parcelize
 
 @Parcelize
 class MatchBottomSheetArgs(
-    val movieDetails: MovieDetails? = null,
+    val movieDetails: MovieDetails,
     val buttonText: String? = null,
     val showDismisAnimation: Boolean = true,
     val action: (() -> Unit)? = null
