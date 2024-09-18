@@ -27,17 +27,17 @@ class CommonWebsocketModule {
 
     @Provides
     fun provideWebsocketUsersClient(): WebsocketNetworkClient<List<UserDto>?> {
-        return WebsocketUsersClient().also { Log.d("MyTag", it.toString()) }
+        return WebsocketUsersClient()
     }
 
     @Provides
     fun provideWebsocketSessionResultClient(): WebsocketNetworkClient<SessionResultDto?> {
-        return WebsocketSessionResultClient().also { Log.d("MyTag", it.toString()) }
+        return WebsocketSessionResultClient()
     }
 
     @Provides
     fun provideWebsocketSessionStatusClient(): WebsocketNetworkClient<SessionStatusDto?> {
-        return WebsocketSessionStatusClient().also { Log.d("MyTag", it.toString()) }
+        return WebsocketSessionStatusClient()
     }
 
     @RouletteIdClient
@@ -49,7 +49,7 @@ class CommonWebsocketModule {
     @MatchesIdClient
     @Provides
     fun provideWebsocketMatchesIdClient(): WebsocketNetworkClient<Int?> {
-        return WebsocketMovieIdClient().also { Log.d("MyTag", it.toString()) }
+        return WebsocketMovieIdClient()
     }
 
     @Suppress("LongParameterList")
@@ -76,7 +76,7 @@ class CommonWebsocketModule {
     fun provideUserDataRepository(
         @StorageMarker(PreferencesStorage.USER)
         storage: SharedPreferences
-    ): UserDataRepository = UserDataRepositoryImpl(storage).also { Log.d("MyTag", it.toString()) }
+    ): UserDataRepository = UserDataRepositoryImpl(storage)
 
     @Provides
     @Singleton

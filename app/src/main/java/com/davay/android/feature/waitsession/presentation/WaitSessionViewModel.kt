@@ -17,7 +17,7 @@ class WaitSessionViewModel @Inject constructor(
 ) : BaseViewModel() {
 
     // для теста
-    private val sessionId = "HW0DzvbG"
+    private val sessionId = "Lj0mPl7q"
 
     init {
         subscribeToWebsockets()
@@ -60,6 +60,10 @@ class WaitSessionViewModel @Inject constructor(
                     is Result.Error -> {
                         Log.d("WaitSessionViewModel", result.error.toString())
                     }
+
+                    null -> {
+                        Log.d("WaitSessionViewModel", null.toString())
+                    }
                 }
             }
         }
@@ -75,6 +79,10 @@ class WaitSessionViewModel @Inject constructor(
 
                     is Result.Error -> {
                         Log.d("WaitSessionViewModel", result.error.toString())
+                    }
+
+                    null -> {
+                        Log.d("WaitSessionViewModel", null.toString())
                     }
                 }
             }
@@ -92,6 +100,10 @@ class WaitSessionViewModel @Inject constructor(
                     is Result.Error -> {
                         Log.d("WaitSessionViewModel", result.error.toString())
                     }
+
+                    null -> {
+                        Log.d("WaitSessionViewModel", null.toString())
+                    }
                 }
             }
         }
@@ -108,6 +120,10 @@ class WaitSessionViewModel @Inject constructor(
                     is Result.Error -> {
                         Log.d("WaitSessionViewModel", result.error.toString())
                     }
+
+                    null -> {
+                        Log.d("WaitSessionViewModel", null.toString())
+                    }
                 }
             }
         }
@@ -123,6 +139,10 @@ class WaitSessionViewModel @Inject constructor(
 
                     is Result.Error -> {
                         Log.d("WaitSessionViewModel", result.error.toString())
+                    }
+
+                    null -> {
+                        Log.d("WaitSessionViewModel", null.toString())
                     }
                 }
             }

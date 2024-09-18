@@ -4,7 +4,6 @@ import com.davay.android.di.AppComponent
 import com.davay.android.di.FragmentScope
 import com.davay.android.di.ScreenComponent
 import dagger.Component
-import javax.inject.Singleton
 
 @Component(
     dependencies = [AppComponent::class],

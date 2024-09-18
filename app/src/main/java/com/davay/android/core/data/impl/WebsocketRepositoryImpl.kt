@@ -20,8 +20,14 @@ import com.davay.android.core.domain.models.SessionWithMovies
 import com.davay.android.core.domain.models.User
 import com.davay.android.di.MatchesIdClient
 import com.davay.android.di.RouletteIdClient
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.stateIn
 import javax.inject.Inject
 
 class WebsocketRepositoryImpl @Inject constructor(
@@ -34,8 +40,16 @@ class WebsocketRepositoryImpl @Inject constructor(
 ) : WebsocketRepository {
 
     private val deviceId = userDataRepository.getUserId()
+    private val repositoryScope = CoroutineScope(SupervisorJob() + Dispatchers.IO)
 
-    override fun subscribeUsers(sessionId: String): Flow<Result<List<User>, ErrorType>> = flow {
+    override fun subscribeUsers(sessionId: String): StateFlow<Result<List<User>, ErrorType>?> =
+        subscribeUsersFlow(sessionId).stateIn(
+            scope = repositoryScope,
+            started = SharingStarted.WhileSubscribed(),
+            initialValue = null
+        )
+
+    private fun subscribeUsersFlow(sessionId: String): Flow<Result<List<User>, ErrorType>> = flow {
         @Suppress("TooGenericExceptionCaught")
         try {
             websocketUsersClient.subscribe(deviceId, "$sessionId$PATH_USERS").collect { list ->
@@ -63,7 +77,14 @@ class WebsocketRepositoryImpl @Inject constructor(
         }
     }
 
-    override fun subscribeSessionResult(sessionId: String): Flow<Result<SessionWithMovies, ErrorType>> =
+    override fun subscribeSessionResult(sessionId: String): StateFlow<Result<SessionWithMovies, ErrorType>?> =
+        subscribeSessionResultFlow(sessionId).stateIn(
+            scope = repositoryScope,
+            started = SharingStarted.WhileSubscribed(),
+            initialValue = null
+        )
+
+    private fun subscribeSessionResultFlow(sessionId: String): Flow<Result<SessionWithMovies, ErrorType>?> =
         flow {
             @Suppress("TooGenericExceptionCaught")
             try {
@@ -93,7 +114,14 @@ class WebsocketRepositoryImpl @Inject constructor(
         }
     }
 
-    override fun subscribeSessionStatus(sessionId: String): Flow<Result<SessionStatus, ErrorType>> =
+    override fun subscribeSessionStatus(sessionId: String): StateFlow<Result<SessionStatus, ErrorType>?> =
+        subscribeSessionStatusFlow(sessionId).stateIn(
+            scope = repositoryScope,
+            started = SharingStarted.WhileSubscribed(),
+            initialValue = null
+        )
+
+    private fun subscribeSessionStatusFlow(sessionId: String): Flow<Result<SessionStatus, ErrorType>?> =
         flow {
             @Suppress("TooGenericExceptionCaught")
             try {
@@ -123,24 +151,32 @@ class WebsocketRepositoryImpl @Inject constructor(
         }
     }
 
-    override fun subscribeRouletteId(sessionId: String): Flow<Result<Int, ErrorType>> = flow {
-        @Suppress("TooGenericExceptionCaught")
-        try {
-            websocketRouletteIdClient.subscribe(deviceId, "$sessionId$PATH_ROULETTE")
-                .collect { id ->
-                    if (id != null) {
-                        emit(Result.Success(id))
-                    } else {
-                        emit(Result.Error(ErrorType.UNKNOWN_ERROR))
+    override fun subscribeRouletteId(sessionId: String): StateFlow<Result<Int, ErrorType>?> =
+        subscribeRouletteIdFlow(sessionId).stateIn(
+            scope = repositoryScope,
+            started = SharingStarted.WhileSubscribed(),
+            initialValue = null
+        )
+
+    private fun subscribeRouletteIdFlow(sessionId: String): Flow<Result<Int, ErrorType>?> =
+        flow {
+            @Suppress("TooGenericExceptionCaught")
+            try {
+                websocketRouletteIdClient.subscribe(deviceId, "$sessionId$PATH_ROULETTE")
+                    .collect { id ->
+                        if (id != null) {
+                            emit(Result.Success(id))
+                        } else {
+                            emit(Result.Error(ErrorType.UNKNOWN_ERROR))
+                        }
                     }
+            } catch (e: Exception) {
+                if (BuildConfig.DEBUG) {
+                    e.printStackTrace()
                 }
-        } catch (e: Exception) {
-            if (BuildConfig.DEBUG) {
-                e.printStackTrace()
+                emit(Result.Error(ErrorType.NO_CONNECTION))
             }
-            emit(Result.Error(ErrorType.NO_CONNECTION))
         }
-    }
 
     override suspend fun unsubscribeRouletteId() {
         runCatching {
@@ -152,24 +188,32 @@ class WebsocketRepositoryImpl @Inject constructor(
         }
     }
 
-    override fun subscribeMatchesId(sessionId: String): Flow<Result<Int, ErrorType>> = flow {
-        @Suppress("TooGenericExceptionCaught")
-        try {
-            websocketMatchesIdClient.subscribe(deviceId, "$sessionId$PATH_MATCHES")
-                .collect { id ->
-                    if (id != null) {
-                        emit(Result.Success(id))
-                    } else {
-                        emit(Result.Error(ErrorType.UNKNOWN_ERROR))
+    override fun subscribeMatchesId(sessionId: String): StateFlow<Result<Int, ErrorType>?> =
+        subscribeMatchesIdFlow(sessionId).stateIn(
+            scope = repositoryScope,
+            started = SharingStarted.WhileSubscribed(),
+            initialValue = null
+        )
+
+    private fun subscribeMatchesIdFlow(sessionId: String): Flow<Result<Int, ErrorType>?> =
+        flow {
+            @Suppress("TooGenericExceptionCaught")
+            try {
+                websocketMatchesIdClient.subscribe(deviceId, "$sessionId$PATH_MATCHES")
+                    .collect { id ->
+                        if (id != null) {
+                            emit(Result.Success(id))
+                        } else {
+                            emit(Result.Error(ErrorType.UNKNOWN_ERROR))
+                        }
                     }
+            } catch (e: Exception) {
+                if (BuildConfig.DEBUG) {
+                    e.printStackTrace()
                 }
-        } catch (e: Exception) {
-            if (BuildConfig.DEBUG) {
-                e.printStackTrace()
+                emit(Result.Error(ErrorType.NO_CONNECTION))
             }
-            emit(Result.Error(ErrorType.NO_CONNECTION))
         }
-    }
 
     override suspend fun unsubscribeMatchesId() {
         runCatching {

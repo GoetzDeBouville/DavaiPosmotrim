@@ -1,12 +1,18 @@
 package com.davay.android.feature.selectmovie.presentation
 
+import androidx.lifecycle.viewModelScope
 import com.davay.android.base.BaseViewModel
+import com.davay.android.core.domain.impl.CommonWebsocketInteractor
 import com.davay.android.core.domain.models.MovieDetails
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-class SelectMovieViewModel @Inject constructor() : BaseViewModel() {
+class SelectMovieViewModel @Inject constructor(
+    private val commonWebsocketInteractor: CommonWebsocketInteractor,
+) : BaseViewModel() {
     private val _state = MutableStateFlow<List<MovieDetails>>(emptyList())
     val state = _state.asStateFlow()
 
@@ -107,5 +113,15 @@ class SelectMovieViewModel @Inject constructor() : BaseViewModel() {
             )
         )
         _state.value = movies
+    }
+
+    fun disconnect() {
+        viewModelScope.launch(Dispatchers.IO) {
+            commonWebsocketInteractor.unsubscribeUsers()
+            commonWebsocketInteractor.unsubscribeRouletteId()
+            commonWebsocketInteractor.unsubscribeMatchesId()
+            commonWebsocketInteractor.unsubscribeSessionResult()
+            commonWebsocketInteractor.unsubscribeSessionStatus()
+        }
     }
 }
