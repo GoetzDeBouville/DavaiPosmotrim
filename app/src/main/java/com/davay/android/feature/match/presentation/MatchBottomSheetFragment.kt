@@ -69,9 +69,7 @@ class MatchBottomSheetFragment : BottomSheetDialogFragment() {
         super.onViewCreated(view, savedInstanceState)
         initViews()
         subscribe()
-        matchBottomSheetArgs.movieDetails?.let { movieDetails ->
-            fillData(movieDetails)
-        }
+        fillData(matchBottomSheetArgs.movieDetails)
     }
 
     private fun initViews() {
