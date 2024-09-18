@@ -33,23 +33,11 @@ abstract class BaseViewModel : ViewModel() {
         }
     }
 
-//    fun navigate(@IdRes navDirections: Int, bundle: Bundle) {
-//        debounceNavigate(NavigationCommand.ToDirection(navDirections, bundle)) { command ->
-//            _navigation.value = Event(command)
-//        }
-//    }
-
     fun navigate(navDirections: NavDirections, navOptions: NavOptions) {
         debounceNavigate(NavigationCommand.ToDirection(navDirections, navOptions)) { command ->
             _navigation.value = Event(command)
         }
     }
-
-//    fun navigate(@IdRes navDirections: Int, bundle: Bundle, navOptions: NavOptions) {
-//        debounceNavigate(NavigationCommand.ToDirection(navDirections, bundle, navOptions)) { command ->
-//            _navigation.value = Event(command)
-//        }
-//    }
 
     fun navigateBack() {
         debounceNavigate(NavigationCommand.Back) { command ->
