@@ -12,6 +12,7 @@ import androidx.lifecycle.lifecycleScope
 import com.davai.uikit.databinding.LayoutCustomDialogBinding
 import com.davai.uikit.extensions.applyBlurEffect
 import com.davai.uikit.extensions.clearBlurEffect
+import com.davai.util.setOnDebouncedClickListener
 
 class MainDialogFragment : DialogFragment() {
 
@@ -65,19 +66,19 @@ class MainDialogFragment : DialogFragment() {
     }
 
     private fun subscribe() = with(binding) {
-        btnYes.setOnClickListener {
+        btnYes.setOnDebouncedClickListener(lifecycleScope, DEFAULT_DELAY_1000) {
             viewModel.yesAction?.invoke()
             dialog?.dismiss()
             activity?.window?.decorView?.clearBlurEffect()
         }
 
-        btnNo.setOnClickListener {
+        btnNo.setOnDebouncedClickListener(lifecycleScope, DEFAULT_DELAY_1000) {
             viewModel.noAction?.invoke()
             dialog?.dismiss()
             activity?.window?.decorView?.clearBlurEffect()
         }
 
-        progressButtonItem.root.setOnClickListener {
+        progressButtonItem.root.setOnDebouncedClickListener(lifecycleScope, DEFAULT_DELAY_1000) {
             viewModel.yesAction?.invoke()
             dialog?.dismiss()
             activity?.window?.decorView?.clearBlurEffect()
@@ -128,6 +129,7 @@ class MainDialogFragment : DialogFragment() {
 
     companion object {
         private const val SCREEN_WIDTH = 0.9
+        private const val DEFAULT_DELAY_1000 = 1000L
         private const val KEY_TITLE = "KEY_TITLE"
         private const val KEY_MESSAGE = "KEY_MESSAGE"
 

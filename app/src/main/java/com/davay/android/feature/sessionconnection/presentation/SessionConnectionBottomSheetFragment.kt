@@ -9,6 +9,7 @@ import android.view.inputmethod.InputMethodManager
 import androidx.core.content.ContextCompat
 import androidx.core.widget.doAfterTextChanged
 import androidx.lifecycle.lifecycleScope
+import com.davai.util.setOnDebouncedClickListener
 import com.davay.android.R
 import com.davay.android.base.BaseBottomSheetFragment
 import com.davay.android.databinding.FragmentSessionConnectionBinding
@@ -84,7 +85,9 @@ class SessionConnectionBottomSheetFragment :
 
             override fun onSlide(bottomSheet: View, slideOffset: Float) {
                 if (slideOffset < BOTTOM_SHEET_HIDE_PERCENT_60) {
-                    hideKeyboard(binding.etCode)
+                    binding?. etCode?.let {
+                        hideKeyboard(it)
+                    }
                     bottomSheetBehavior?.state = BottomSheetBehavior.STATE_HIDDEN
                 }
             }
@@ -131,7 +134,9 @@ class SessionConnectionBottomSheetFragment :
     }
 
     private fun setButtonClickListeners() {
-        binding.btnEnter.setOnClickListener {
+        binding.btnEnter.setOnDebouncedClickListener(
+            coroutineScope = lifecycleScope
+        ) {
             buttonClicked()
         }
     }

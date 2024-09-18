@@ -3,8 +3,10 @@ package com.davay.android.feature.onboarding.presentation
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.navArgs
 import androidx.viewpager2.widget.ViewPager2
+import com.davai.util.setOnDebouncedClickListener
 import com.davay.android.R
 import com.davay.android.base.BaseFragment
 import com.davay.android.databinding.FragmentOnboardingBinding
@@ -78,7 +80,7 @@ class OnboardingFragment : BaseFragment<FragmentOnboardingBinding, OnboardingVie
     }
 
     private fun setUpButtonClickListener() {
-        binding.mbtnFooterBtn.setOnClickListener {
+        binding.mbtnFooterBtn.setOnDebouncedClickListener(coroutineScope = lifecycleScope) {
             val currentFragment = binding.viewpager.currentItem
             val nextFragment = currentFragment + 1
             if (nextFragment < fragmentList.size) {

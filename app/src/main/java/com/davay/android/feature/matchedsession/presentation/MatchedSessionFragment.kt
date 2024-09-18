@@ -19,9 +19,9 @@ import com.davay.android.di.AppComponentHolder
 import com.davay.android.di.ScreenComponent
 import com.davay.android.extensions.formatDateWithoutCurrentYear
 import com.davay.android.extensions.timeStamp
-import com.davay.android.feature.coincidences.presentation.adapter.MoviesGridAdapter
 import com.davay.android.feature.matchedsession.di.DaggerMatchedSessionFragmentComponent
 import com.davay.android.feature.matchedsession.presentation.adapter.CustomItemDecorator
+import com.davay.android.feature.matchedsession.presentation.adapter.MoviesGridAdapter
 import com.davay.android.feature.matchedsession.presentation.adapter.UserAdapter
 import com.davay.android.utils.presentation.UiErrorHandler
 import com.davay.android.utils.presentation.UiErrorHandlerImpl
@@ -41,7 +41,7 @@ class MatchedSessionFragment :
     override val viewModel: MatchedSessionViewModel by injectViewModel<MatchedSessionViewModel>()
 
     private val args: MatchedSessionFragmentArgs by navArgs()
-    private val moviesGridAdapter = MoviesGridAdapter { movieDetails ->
+    private val moviesGridAdapter = MoviesGridAdapter(lifecycleScope) { movieDetails ->
         val action = MatchedSessionFragmentDirections
             .actionMatchedSessionFragmentToMovieCardFragment(movieDetails)
         viewModel.navigate(action)

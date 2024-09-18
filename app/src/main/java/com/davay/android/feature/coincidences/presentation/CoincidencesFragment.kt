@@ -32,7 +32,12 @@ class CoincidencesFragment : BaseFragment<FragmentCoincidencesBinding, Coinciden
 
     override val viewModel: CoincidencesViewModel by injectViewModel<CoincidencesViewModel>()
 
-    private val moviesGridAdapter = MoviesGridAdapter { movieDetails ->
+    //    private val moviesGridAdapter = MoviesGridAdapter { movieDetails ->
+//        val action = CoincidencesFragmentDirections
+//            .actionCoincidencesFragmentToMovieCardFragment(movieDetails)
+//        viewModel.navigate(action)
+//    }
+    private val moviesGridAdapter = MoviesGridAdapter(lifecycleScope) { movieDetails ->
         val action = CoincidencesFragmentDirections
             .actionCoincidencesFragmentToMovieCardFragment(movieDetails)
         viewModel.navigate(action)

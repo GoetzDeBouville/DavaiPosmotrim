@@ -24,9 +24,10 @@ class MatchedSessionListFragment :
             .appComponent(AppComponentHolder.getComponent())
             .build()
 
-    private val sessionsAdapter = SessionListAdapter { session ->
+    private val sessionsAdapter = SessionListAdapter(lifecycleScope) { session ->
         navigateToSessionMovies(session)
     }
+
 
     override fun subscribe() {
         super.subscribe()

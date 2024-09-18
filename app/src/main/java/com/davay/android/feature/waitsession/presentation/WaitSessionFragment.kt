@@ -10,11 +10,13 @@ import androidx.activity.OnBackPressedCallback
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.navArgs
 import com.davai.extensions.dpToPx
 import com.davai.uikit.BannerView
 import com.davai.uikit.ButtonView
 import com.davai.uikit.MainDialogFragment
+import com.davai.util.setOnDebouncedClickListener
 import com.davay.android.R
 import com.davay.android.base.BaseFragment
 import com.davay.android.core.presentation.MainActivity
@@ -79,14 +81,13 @@ class WaitSessionFragment : BaseFragment<FragmentWaitSessionBinding, WaitSession
             listOf("Артем", "Руслан", "Константин", "Виктория")
         )
 
-        binding.llButtonContainer.setOnClickListener {
+        binding.llButtonContainer.setOnDebouncedClickListener(coroutineScope = lifecycleScope) {
             val code = args.session.id
             copyTextToClipboard(code)
         }
 
-        sendButton?.setOnClickListener {
+        sendButton?.setOnDebouncedClickListener(coroutineScope = lifecycleScope) {
             val code = args.session.id
-
             if (it.isEnabled) {
                 sendCode(code)
                 sendButton?.setButtonEnabled(false)
@@ -159,10 +160,12 @@ class WaitSessionFragment : BaseFragment<FragmentWaitSessionBinding, WaitSession
     }
 
     private fun setButtonClickListeners() = with(binding) {
-        cancelButton.setOnClickListener {
+        cancelButton.setOnDebouncedClickListener(coroutineScope = lifecycleScope) {
             dialog?.show(parentFragmentManager, CUSTOM_DIALOG_TAG)
         }
-        startSessionButton.setOnClickListener {
+        startSessionButton.setOnDebouncedClickListener(
+            coroutineScope = lifecycleScope
+        ) {
             if (userAdapter.itemCount < MIN_USER_TO_START_2) {
                 showAttentionBanner()
             } else {

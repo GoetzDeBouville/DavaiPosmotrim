@@ -3,12 +3,15 @@ package com.davay.android.feature.selectmovie.presentation.adapters
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.davai.util.setOnDebouncedClickListener
 import com.davay.android.core.domain.models.MovieDetails
 import com.davay.android.databinding.ItemSwipeableMovieCardBinding
 import com.davay.android.utils.MovieDetailsHelper
 import com.davay.android.utils.MovieDetailsHelperImpl
+import kotlinx.coroutines.CoroutineScope
 
 class MovieCardAdapter(
+    private val coroutineScope: CoroutineScope,
     private val swipeLeft: () -> Unit,
     private val swipeRight: () -> Unit,
     private val revert: () -> Unit,
@@ -22,7 +25,7 @@ class MovieCardAdapter(
         private val inflateMovieDetails: (MovieDetails) -> Unit
     ) : RecyclerView.ViewHolder(binding.root) {
         init {
-            onItemsClicklisteners()
+            onItemsClickListeners()
         }
 
         private val movieDetailsHelper: MovieDetailsHelper = MovieDetailsHelperImpl()
@@ -45,16 +48,22 @@ class MovieCardAdapter(
             civSkip.updateDynamicAlphaNegative(dx)
         }
 
-        private fun onItemsClicklisteners() = with(binding) {
-            civLike.setOnClickListener {
+        private fun onItemsClickListeners() = with(binding) {
+            civLike.setOnDebouncedClickListener(
+                coroutineScope = coroutineScope
+            ) {
                 swipeRight.invoke()
                 notifyDataSetChanged()
             }
-            civSkip.setOnClickListener {
+            civSkip.setOnDebouncedClickListener(
+                coroutineScope = coroutineScope
+            ) {
                 swipeLeft.invoke()
                 notifyDataSetChanged()
             }
-            civRevert.setOnClickListener {
+            civRevert.setOnDebouncedClickListener(
+                coroutineScope = coroutineScope
+            ) {
                 revert.invoke()
                 notifyDataSetChanged()
             }
