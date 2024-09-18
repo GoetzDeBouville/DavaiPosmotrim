@@ -17,7 +17,6 @@ import com.davai.uikit.ButtonView
 import com.davai.uikit.MainDialogFragment
 import com.davay.android.R
 import com.davay.android.base.BaseFragment
-import com.davay.android.core.domain.models.Session
 import com.davay.android.core.presentation.MainActivity
 import com.davay.android.databinding.FragmentWaitSessionBinding
 import com.davay.android.di.AppComponentHolder
@@ -40,7 +39,6 @@ class WaitSessionFragment : BaseFragment<FragmentWaitSessionBinding, WaitSession
     private var sendButton: ButtonView? = null
     private var dialog: MainDialogFragment? = null
     private var launcher: ActivityResultLauncher<Intent>? = null
-    private var session: Session? = null
 
     private val args: WaitSessionFragmentArgs by navArgs()
 
@@ -50,7 +48,6 @@ class WaitSessionFragment : BaseFragment<FragmentWaitSessionBinding, WaitSession
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        session = args.session
         requireActivity().onBackPressedDispatcher.addCallback(
             this,
             object : OnBackPressedCallback(true) {
@@ -73,10 +70,7 @@ class WaitSessionFragment : BaseFragment<FragmentWaitSessionBinding, WaitSession
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        session = args.session
-        binding.tvCode.text = session?.id ?: ""
-
+        binding.tvCode.text = args.session.id
         sendButton = binding.sendButton
 
 
@@ -86,12 +80,12 @@ class WaitSessionFragment : BaseFragment<FragmentWaitSessionBinding, WaitSession
         )
 
         binding.llButtonContainer.setOnClickListener {
-            val code = session?.id ?: ""
+            val code = args.session.id
             copyTextToClipboard(code)
         }
 
         sendButton?.setOnClickListener {
-            val code = session?.id ?: ""
+            val code = args.session.id
 
             if (it.isEnabled) {
                 sendCode(code)
