@@ -8,7 +8,9 @@ import com.davay.android.core.domain.models.SessionWithMovies
 import com.davay.android.core.domain.models.User
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
+import javax.inject.Singleton
 
+@Singleton
 class CommonWebsocketInteractor @Inject constructor(
     private val websocketRepository: WebsocketRepository,
 ) {

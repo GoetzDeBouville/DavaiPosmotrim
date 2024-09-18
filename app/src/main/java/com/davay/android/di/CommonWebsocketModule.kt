@@ -1,6 +1,7 @@
 package com.davay.android.di
 
 import android.content.SharedPreferences
+import android.util.Log
 import com.davay.android.core.data.dto.SessionResultDto
 import com.davay.android.core.data.dto.SessionStatusDto
 import com.davay.android.core.data.dto.UserDto
@@ -19,23 +20,24 @@ import com.davay.android.di.prefs.model.PreferencesStorage
 import dagger.Module
 import dagger.Provides
 import javax.inject.Qualifier
+import javax.inject.Singleton
 
 @Module
 class CommonWebsocketModule {
 
     @Provides
     fun provideWebsocketUsersClient(): WebsocketNetworkClient<List<UserDto>?> {
-        return WebsocketUsersClient()
+        return WebsocketUsersClient().also { Log.d("MyTag", it.toString()) }
     }
 
     @Provides
     fun provideWebsocketSessionResultClient(): WebsocketNetworkClient<SessionResultDto?> {
-        return WebsocketSessionResultClient()
+        return WebsocketSessionResultClient().also { Log.d("MyTag", it.toString()) }
     }
 
     @Provides
     fun provideWebsocketSessionStatusClient(): WebsocketNetworkClient<SessionStatusDto?> {
-        return WebsocketSessionStatusClient()
+        return WebsocketSessionStatusClient().also { Log.d("MyTag", it.toString()) }
     }
 
     @RouletteIdClient
@@ -47,7 +49,7 @@ class CommonWebsocketModule {
     @MatchesIdClient
     @Provides
     fun provideWebsocketMatchesIdClient(): WebsocketNetworkClient<Int?> {
-        return WebsocketMovieIdClient()
+        return WebsocketMovieIdClient().also { Log.d("MyTag", it.toString()) }
     }
 
     @Suppress("LongParameterList")
@@ -67,22 +69,23 @@ class CommonWebsocketModule {
             websocketRouletteIdClient,
             websocketMatchesIdClient,
             userDataRepository,
-        )
+        ).also { Log.d("MyTag", it.toString()) }
     }
 
     @Provides
     fun provideUserDataRepository(
         @StorageMarker(PreferencesStorage.USER)
         storage: SharedPreferences
-    ): UserDataRepository = UserDataRepositoryImpl(storage)
+    ): UserDataRepository = UserDataRepositoryImpl(storage).also { Log.d("MyTag", it.toString()) }
 
     @Provides
+    @Singleton
     fun provideCommonWebsocketInteractor(
         websocketRepository: WebsocketRepository,
     ): CommonWebsocketInteractor {
         return CommonWebsocketInteractor(
             websocketRepository
-        )
+        ).also { Log.d("MyTag", it.toString()) }
     }
 }
 

@@ -13,6 +13,8 @@ import com.davay.android.di.prefs.model.PreferencesStorage
 import dagger.BindsInstance
 import dagger.Component
 import io.ktor.client.HttpClient
+import javax.inject.Scope
+import javax.inject.Singleton
 
 @Component(
     modules = [
@@ -24,6 +26,7 @@ import io.ktor.client.HttpClient
         CommonWebsocketModule::class,
     ]
 )
+@Singleton
 interface AppComponent : DIComponent {
     val httpClient: HttpClient
     val context: Context
@@ -58,3 +61,7 @@ object AppComponentHolder : DataBasedComponentHolder<AppComponent, Application>(
             .contextModule(ContextModule(data))
             .build()
 }
+
+@Scope
+@Retention(AnnotationRetention.RUNTIME)
+annotation class FragmentScope
