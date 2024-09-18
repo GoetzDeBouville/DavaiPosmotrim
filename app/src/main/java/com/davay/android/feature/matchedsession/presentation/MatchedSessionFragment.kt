@@ -60,7 +60,6 @@ class MatchedSessionFragment :
 
         initUsersRecycler()
         setupMoviesGrid()
-        subscribe()
     }
 
     private fun initUsersRecycler() {
