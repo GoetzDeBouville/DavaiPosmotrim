@@ -98,6 +98,10 @@ class WaitSessionFragment : BaseFragment<FragmentWaitSessionBinding, WaitSession
             title = getString(R.string.leave_wait_session_title),
             message = getString(R.string.leave_wait_session_dialog_message),
             yesAction = {
+                /**
+                 * Вместо popBackStack используется именно такая навигация для обхода ошибки при возврате назад на экран создания сессии после
+                 * смены конфигурации устройства
+                 */
                 viewModel.clearBackStackToMainAndNavigate(
                     WaitSessionFragmentDirections.actionWaitSessionFragmentToCreateSessionFragment()
                 )

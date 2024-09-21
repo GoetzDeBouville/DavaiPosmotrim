@@ -14,8 +14,4 @@ class WaitSessionViewModel @Inject constructor(
     fun markFirstTimeLaunch() {
         waitSessionOnBoardingInteractor.markFirstTimeLaunch()
     }
-    /**
-     * Метод необходим для обхода ошибки при возврате назад на экран создания сессии после
-     * смены конфигурации устройства
-     */
 }
