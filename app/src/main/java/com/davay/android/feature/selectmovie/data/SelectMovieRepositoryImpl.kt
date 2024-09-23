@@ -84,7 +84,7 @@ class SelectMovieRepositoryImpl @Inject constructor(
             val response = httpNetworkClient.getResponse(GetMovieRequest.Movie(movieId))
             when (val body = response.body) {
                 is GetMovieResponse.Movie -> {
-                    val movieDetails = body.value.toDomain(movieId)
+                    val movieDetails = body.value.toDomain()
                     saveMovieToDatabase(movieDetails)
 
                     val movieFromDb = getMovieFromDb(movieId)

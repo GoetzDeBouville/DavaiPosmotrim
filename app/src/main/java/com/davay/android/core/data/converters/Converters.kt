@@ -49,7 +49,7 @@ fun UserDto.toDomain() = User(
 private const val RATING_MULTIPLIER = 10
 private const val ROUNDING_DIVIDER = 10
 
-fun MovieDetailsDto.toDomain(id: Int) = MovieDetails(
+fun MovieDetailsDto.toDomain() = MovieDetails(
     id,
     name,
     description,
@@ -111,7 +111,7 @@ fun SessionDto.toDomain(): Session {
 
     return Session(
         id = id,
-        users = users.map { it.name },
+        users = users.map { it },
         movieIdList = movieIdList,
         matchedMovieIdList = matchedMovieIdList,
         date = timestamp,

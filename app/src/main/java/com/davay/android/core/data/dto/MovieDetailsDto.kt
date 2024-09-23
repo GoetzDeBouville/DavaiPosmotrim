@@ -5,6 +5,7 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class MovieDetailsDto(
+    @SerialName("id") val id: Int,
     @SerialName("name") val name: String,
     @SerialName("description") val description: String?,
     @SerialName("year") val year: String?,
