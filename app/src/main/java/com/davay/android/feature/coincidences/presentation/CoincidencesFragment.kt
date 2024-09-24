@@ -36,7 +36,7 @@ class CoincidencesFragment : BaseFragment<FragmentCoincidencesBinding, Coinciden
 
     override val viewModel: CoincidencesViewModel by injectViewModel<CoincidencesViewModel>()
 
-    private val moviesGridAdapter = MoviesGridAdapter { movieDetails ->
+    private val moviesGridAdapter = MoviesGridAdapter(lifecycleScope) { movieDetails ->
         val movie = Json.encodeToString(movieDetails)
         val bundle = Bundle().apply {
             putString(MovieCardFragment.MOVIE_DETAILS_KEY, movie)

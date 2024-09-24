@@ -5,6 +5,8 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.lifecycle.lifecycleScope
+import com.davai.util.setOnDebouncedClickListener
 import com.davay.android.R
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
@@ -30,8 +32,9 @@ class RouletteBottomSheetDialogFragment : BottomSheetDialogFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        view.findViewById<MaterialButton>(R.id.mbtn_roulette_dialog_footer_btn).setOnClickListener {
-            dismiss()
-        }
+        view.findViewById<MaterialButton>(R.id.mbtn_roulette_dialog_footer_btn)
+            .setOnDebouncedClickListener(coroutineScope = lifecycleScope) {
+                dismiss()
+            }
     }
 }

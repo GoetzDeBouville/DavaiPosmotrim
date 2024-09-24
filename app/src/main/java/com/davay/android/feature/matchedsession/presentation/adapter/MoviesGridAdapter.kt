@@ -3,17 +3,22 @@ package com.davay.android.feature.matchedsession.presentation.adapter
 import android.annotation.SuppressLint
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.davai.util.setOnDebouncedClickListener
 import com.davay.android.core.domain.models.MovieDetails
+import kotlinx.coroutines.CoroutineScope
 
 class MoviesGridAdapter(
-    private val onItemClicked: (Int) -> Unit,
+    private val coroutineScope: CoroutineScope,
+    private val onItemClicked: (Int) -> Unit
 ) : RecyclerView.Adapter<MoviesGridViewHolder>() {
 
     private val movies = mutableListOf<MovieDetails>()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MoviesGridViewHolder =
         MoviesGridViewHolder.create(parent).apply {
-            itemView.setOnClickListener {
+            itemView.setOnDebouncedClickListener(
+                coroutineScope = coroutineScope
+            ) {
                 onItemClicked(movies[adapterPosition].id)
             }
         }
