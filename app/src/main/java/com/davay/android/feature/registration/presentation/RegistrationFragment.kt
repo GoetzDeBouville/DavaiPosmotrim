@@ -8,6 +8,7 @@ import androidx.core.content.ContextCompat.getSystemService
 import androidx.core.view.isVisible
 import androidx.core.widget.doAfterTextChanged
 import androidx.lifecycle.lifecycleScope
+import com.davai.util.setOnDebouncedClickListener
 import com.davay.android.R
 import com.davay.android.base.BaseFragment
 import com.davay.android.core.domain.models.UserNameState
@@ -85,7 +86,9 @@ class RegistrationFragment :
     }
 
     private fun setButtonClickListeners() {
-        binding.btnEnter.setOnClickListener {
+        binding.btnEnter.setOnDebouncedClickListener(
+            coroutineScope = lifecycleScope
+        ) {
             viewModel.buttonClicked(binding.etName.text)
         }
         binding.etName.setOnEditorActionListener { _, actionId, _ ->

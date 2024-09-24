@@ -1,6 +1,8 @@
 package com.davay.android.feature.createsession.presentation.createsession
 
+import androidx.lifecycle.lifecycleScope
 import androidx.viewpager2.widget.ViewPager2.OnPageChangeCallback
+import com.davai.util.setOnDebouncedClickListener
 import com.davay.android.R
 import com.davay.android.base.BaseFragment
 import com.davay.android.databinding.FragmentCreateSessionBinding
@@ -30,7 +32,9 @@ class CreateSessionFragment : BaseFragment<FragmentCreateSessionBinding, CreateS
 
     override fun subscribe() {
         super.subscribe()
-        binding.btnContinue.setOnClickListener {
+        binding.btnContinue.setOnDebouncedClickListener(
+            coroutineScope = lifecycleScope
+        ) {
             val fragmentPosition = binding.viewPager.currentItem
             when (val fragment = childFragmentManager.findFragmentByTag("f$fragmentPosition")) {
                 is CompilationsFragment -> fragment.buttonContinueClicked()

@@ -23,3 +23,4 @@ rootProject.name = "DavayPosmotrim"
 include(":app")
 include(":uikit")
 include(":uikit_sample")
+include(":util")

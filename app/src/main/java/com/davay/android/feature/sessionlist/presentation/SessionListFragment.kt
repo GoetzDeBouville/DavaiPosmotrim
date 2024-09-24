@@ -3,8 +3,10 @@ package com.davay.android.feature.sessionlist.presentation
 import android.os.Bundle
 import android.view.View
 import androidx.activity.OnBackPressedCallback
+import androidx.lifecycle.lifecycleScope
 import com.davai.extensions.dpToPx
 import com.davai.uikit.MainDialogFragment
+import com.davai.util.setOnDebouncedClickListener
 import com.davay.android.R
 import com.davay.android.base.BaseFragment
 import com.davay.android.databinding.FragmentSessionListBinding
@@ -89,7 +91,7 @@ class SessionListFragment : BaseFragment<FragmentSessionListBinding, SessionList
     }
 
     private fun setButtonClickListeners() {
-        binding.btnExit.setOnClickListener {
+        binding.btnExit.setOnDebouncedClickListener(coroutineScope = lifecycleScope) {
             dialog?.show(parentFragmentManager, CUSTOM_DIALOG_TAG)
         }
     }
