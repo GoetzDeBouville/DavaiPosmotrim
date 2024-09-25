@@ -140,6 +140,5 @@ class CreateSessionRepositoryImpl @Inject constructor(
         val TAG = CreateSessionRepositoryImpl::class.simpleName
         const val COLLECTIONS = "collections"
         const val GENRES = "genres"
-        const val BACKOFF_DELAY_10_MS: Long = 10
     }
 }

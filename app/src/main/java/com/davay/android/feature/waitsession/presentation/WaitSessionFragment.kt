@@ -5,7 +5,6 @@ import android.content.ClipboardManager
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import androidx.activity.OnBackPressedCallback
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
@@ -13,9 +12,8 @@ import androidx.core.content.ContextCompat
 import androidx.lifecycle.lifecycleScope
 import com.davai.extensions.dpToPx
 import com.davai.uikit.BannerView
-import com.davai.uikit.ButtonView
 import com.davai.uikit.dialog.MainDialogFragment
-import com.davay.android.BuildConfig
+import com.davai.util.setOnDebouncedClickListener
 import com.davay.android.R
 import com.davay.android.base.BaseFragment
 import com.davay.android.core.domain.models.SessionShort
@@ -39,7 +37,6 @@ class WaitSessionFragment : BaseFragment<FragmentWaitSessionBinding, WaitSession
 ) {
     override val viewModel: WaitSessionViewModel by injectViewModel<WaitSessionViewModel>()
     private val userAdapter = UserAdapter()
-    private var sendButton: ButtonView? = null
     private var launcher: ActivityResultLauncher<Intent>? = null
     private var session: SessionShort? = null
     private val dialog: MainDialogFragment by lazy {
@@ -59,9 +56,6 @@ class WaitSessionFragment : BaseFragment<FragmentWaitSessionBinding, WaitSession
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
-            if (BuildConfig.DEBUG) {
-                Log.i(TAG, "${it.getString(CreateSessionViewModel.SESSION_DATA)}")
-            }
             session = Json.decodeFromString(it.getString(CreateSessionViewModel.SESSION_DATA) ?: "")
         }
     }
@@ -72,14 +66,12 @@ class WaitSessionFragment : BaseFragment<FragmentWaitSessionBinding, WaitSession
         launcher = registerForActivityResult(
             ActivityResultContracts.StartActivityForResult()
         ) { _ ->
-            sendButton?.setButtonEnabled(true)
+            binding.sendButton.setButtonEnabled(true)
         }
     }
 
     override fun initViews() {
         super.initViews()
-        sendButton = binding.sendButton
-
         userAdapter.setItems(
             listOf(
                 "Артем",
@@ -100,10 +92,10 @@ class WaitSessionFragment : BaseFragment<FragmentWaitSessionBinding, WaitSession
             copyTextToClipboard(sessionId)
         }
 
-        sendButton?.setOnDebouncedClickListener(coroutineScope = lifecycleScope) {
+        binding.sendButton.setOnDebouncedClickListener(coroutineScope = lifecycleScope) {
             if (it.isEnabled) {
                 sendCode(sessionId)
-                sendButton?.setButtonEnabled(false)
+                binding.sendButton.setButtonEnabled(false)
             }
         }
     }
@@ -147,7 +139,7 @@ class WaitSessionFragment : BaseFragment<FragmentWaitSessionBinding, WaitSession
         val intent = Intent().apply {
             action = Intent.ACTION_SEND
             putExtra(Intent.EXTRA_TEXT, combinedText)
-            type = "text/plain"
+            type = TEXT_TYPE
         }
         val shareIntent = Intent.createChooser(intent, null)
         launcher?.launch(shareIntent)
@@ -170,7 +162,7 @@ class WaitSessionFragment : BaseFragment<FragmentWaitSessionBinding, WaitSession
 
     private fun setButtonClickListeners() = with(binding) {
         cancelButton.setOnDebouncedClickListener(coroutineScope = lifecycleScope) {
-            dialog?.show(parentFragmentManager, CUSTOM_DIALOG_TAG)
+            dialog.show(parentFragmentManager, CUSTOM_DIALOG_TAG)
         }
         startSessionButton.setOnDebouncedClickListener(
             coroutineScope = lifecycleScope
@@ -196,6 +188,6 @@ class WaitSessionFragment : BaseFragment<FragmentWaitSessionBinding, WaitSession
         const val SPACING_BETWEEN_RV_ITEMS_8_DP = 8
         const val CUSTOM_DIALOG_TAG = "customDialog"
         const val MIN_USER_TO_START_2 = 2
-        val TAG = WaitSessionFragment::class.simpleName
+        const val TEXT_TYPE = "text/plain"
     }
 }
