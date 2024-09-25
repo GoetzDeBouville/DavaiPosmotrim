@@ -37,6 +37,7 @@ class SelectMovieFragment :
     override val viewModel: SelectMovieViewModel by injectViewModel<SelectMovieViewModel>()
     private var matchesCounter = 0
     private val cardAdapter = MovieCardAdapter(
+        coroutineScope = lifecycleScope,
         swipeLeft = { autoSwipeLeft() },
         swipeRight = { autoSwipeRight() },
         revert = { revertSwipe() },

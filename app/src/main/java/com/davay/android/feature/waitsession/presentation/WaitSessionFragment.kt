@@ -10,6 +10,7 @@ import androidx.activity.OnBackPressedCallback
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
+import androidx.lifecycle.lifecycleScope
 import com.davai.extensions.dpToPx
 import com.davai.uikit.BannerView
 import com.davai.uikit.ButtonView
@@ -85,7 +86,7 @@ class WaitSessionFragment : BaseFragment<FragmentWaitSessionBinding, WaitSession
                 "Руслан",
                 "Константин",
                 "Виктория"
-            ) // список юзеров нужно тяеуть из сокета
+            ) // список юзеров нужно тянуть из сокета
         )
         initRecycler()
     }
@@ -95,11 +96,11 @@ class WaitSessionFragment : BaseFragment<FragmentWaitSessionBinding, WaitSession
         setBackPressedCallback()
 
         val sessionId = session?.id ?: ""
-        binding.llButtonContainer.setOnClickListener {
+        binding.llButtonContainer.setOnDebouncedClickListener(coroutineScope = lifecycleScope) {
             copyTextToClipboard(sessionId)
         }
 
-        sendButton?.setOnClickListener {
+        sendButton?.setOnDebouncedClickListener(coroutineScope = lifecycleScope) {
             if (it.isEnabled) {
                 sendCode(sessionId)
                 sendButton?.setButtonEnabled(false)
@@ -168,10 +169,12 @@ class WaitSessionFragment : BaseFragment<FragmentWaitSessionBinding, WaitSession
     }
 
     private fun setButtonClickListeners() = with(binding) {
-        cancelButton.setOnClickListener {
-            dialog.show(parentFragmentManager, CUSTOM_DIALOG_TAG)
+        cancelButton.setOnDebouncedClickListener(coroutineScope = lifecycleScope) {
+            dialog?.show(parentFragmentManager, CUSTOM_DIALOG_TAG)
         }
-        startSessionButton.setOnClickListener {
+        startSessionButton.setOnDebouncedClickListener(
+            coroutineScope = lifecycleScope
+        ) {
             if (userAdapter.itemCount < MIN_USER_TO_START_2) {
                 updateAndShowBanner(
                     getString(R.string.wait_session_min_two_user),

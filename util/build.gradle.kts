@@ -4,7 +4,7 @@ plugins {
 }
 
 android {
-    namespace = "com.davai.uikit"
+    namespace = "com.davai.util"
     compileSdk = libs.versions.compileSdk.get().toInt()
 
     defaultConfig {
@@ -16,7 +16,7 @@ android {
 
     buildTypes {
         release {
-            isMinifyEnabled = false
+            isMinifyEnabled = true
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
@@ -24,25 +24,19 @@ android {
         }
     }
     compileOptions {
-        sourceCompatibility = JavaVersion.valueOf(libs.versions.java.get())
-        targetCompatibility = JavaVersion.valueOf(libs.versions.java.get())
+        sourceCompatibility = JavaVersion.VERSION_1_8
+        targetCompatibility = JavaVersion.VERSION_1_8
     }
     kotlinOptions {
-        jvmTarget = JavaVersion.valueOf(libs.versions.java.get()).toString()
-    }
-    buildFeatures {
-        viewBinding = true
+        jvmTarget = "1.8"
     }
 }
 
 dependencies {
+
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
-    implementation(libs.material)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
-    implementation(libs.coil)
-
-    implementation(project(":util"))
 }

@@ -68,4 +68,5 @@ dependencies {
     implementation(libs.bundles.ktor)
 
     implementation(project(":uikit"))
+    implementation(project(":util"))
 }
