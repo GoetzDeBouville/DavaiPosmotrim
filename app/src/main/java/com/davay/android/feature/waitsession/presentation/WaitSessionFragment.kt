@@ -81,6 +81,10 @@ class WaitSessionFragment : BaseFragment<FragmentWaitSessionBinding, WaitSession
             ) // список юзеров нужно тянуть из сокета
         )
         initRecycler()
+        session?.let { session ->
+            binding.tvCode.text = session.id
+            viewModel.subscribeWs(session.id)
+        }
     }
 
     override fun subscribe() {

@@ -17,10 +17,13 @@ class WaitSessionViewModel @Inject constructor(
 ) : BaseViewModel() {
 
     // для теста
-    private val sessionId = "Lj0mPl7q"
+    private var sessionId : String? = null
 
-    init {
-        subscribeToWebsockets()
+    fun subscribeWs(id: String) {
+        if (sessionId == null) {
+            sessionId = id
+            subscribeToWebsockets(id)
+        }
     }
 
     fun isFirstTimeLaunch(): Boolean {
@@ -51,7 +54,7 @@ class WaitSessionViewModel @Inject constructor(
         "CognitiveComplexMethod",
         "CyclomaticComplexMethod"
     )
-    private fun subscribeToWebsockets() {
+    private fun subscribeToWebsockets(sessionId: String) {
         viewModelScope.launch(Dispatchers.IO) {
             commonWebsocketInteractor.subscribeUsers(
                 sessionId = sessionId
