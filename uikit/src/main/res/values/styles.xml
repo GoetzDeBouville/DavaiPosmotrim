@@ -19,7 +19,6 @@
 
     <style name="Text.Headline.Title">
         <item name="android:textSize">24sp</item>
-        <item name="android:lineSpacingExtra">28sp</item>
     </style>
 
     <style name="Text.Headline.Banner">
@@ -29,7 +28,6 @@
     </style>
 
     <style name="Text.Headline.Title.NoLineSpacing">
-        <item name="android:lineSpacingExtra">0sp</item>
         <item name="android:textColor">@color/text_headings</item>
     </style>
 

@@ -5,7 +5,7 @@ import android.view.View
 import androidx.activity.OnBackPressedCallback
 import androidx.lifecycle.lifecycleScope
 import com.davai.extensions.dpToPx
-import com.davai.uikit.MainDialogFragment
+import com.davai.uikit.dialog.MainDialogFragment
 import com.davai.util.setOnDebouncedClickListener
 import com.davay.android.R
 import com.davay.android.base.BaseFragment

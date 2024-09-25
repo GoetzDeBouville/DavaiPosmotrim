@@ -36,14 +36,15 @@ class NetworkModule {
         }
 
         install(HttpTimeout) {
-            requestTimeoutMillis = CONNECTION_TIME_OUT_10_SEC
+            requestTimeoutMillis = MAX_REQUEST_DELAY_60_SEC
             connectTimeoutMillis = CONNECTION_TIME_OUT_10_SEC
+            socketTimeoutMillis = MAX_REQUEST_DELAY_60_SEC
         }
 
         install(HttpRequestRetry) {
             retryOnServerErrors(MAX_RETRIES_NUM_5)
             retryOnException(maxRetries = MAX_RETRIES_NUM_5)
-            exponentialDelay(maxDelayMs = MAX_REQUEST_DELAY_10_SEC)
+            exponentialDelay(maxDelayMs = CONNECTION_TIME_OUT_10_SEC)
             modifyRequest { request ->
                 request.headers.append("x-retry-count", 2.toString())
             }
@@ -75,7 +76,7 @@ class NetworkModule {
 
     private companion object {
         const val CONNECTION_TIME_OUT_10_SEC = 10_000L
-        const val MAX_REQUEST_DELAY_10_SEC = 10_000L
+        const val MAX_REQUEST_DELAY_60_SEC = 60_000L
         const val MAX_RETRIES_NUM_5 = 5
         const val BASE_URL = "http://80.87.108.90/"
     }

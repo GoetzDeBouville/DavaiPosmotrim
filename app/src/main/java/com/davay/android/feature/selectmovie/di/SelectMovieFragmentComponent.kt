@@ -8,7 +8,9 @@ import dagger.Component
 @Component(
     dependencies = [AppComponent::class],
     modules = [
-        SelectMovieFragmentModule::class,
+        SelectMovieDataModule::class,
+        SelectMovieUseCaseModule::class,
+        SelectMovieFragmentModule::class
     ]
 )
 @FragmentScope
