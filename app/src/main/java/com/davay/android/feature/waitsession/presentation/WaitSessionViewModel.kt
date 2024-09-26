@@ -17,7 +17,7 @@ class WaitSessionViewModel @Inject constructor(
 ) : BaseViewModel() {
 
     // для теста
-    private var sessionId : String? = null
+    private var sessionId: String? = null
 
     fun subscribeWs(id: String) {
         if (sessionId == null) {

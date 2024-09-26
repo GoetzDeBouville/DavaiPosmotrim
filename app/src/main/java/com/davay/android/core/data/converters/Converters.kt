@@ -7,7 +7,6 @@ import com.davay.android.core.data.database.entity.SessionWithMoviesDb
 import com.davay.android.core.data.dto.CollectionDto
 import com.davay.android.core.data.dto.GenreDto
 import com.davay.android.core.data.dto.MovieDetailsDto
-import com.davay.android.core.data.dto.MovieDetailsSocketDto
 import com.davay.android.core.data.dto.MovieDto
 import com.davay.android.core.data.dto.SessionDto
 import com.davay.android.core.data.dto.SessionResultDto
@@ -182,35 +181,14 @@ fun SessionWithMoviesDb.toDomain(): SessionWithMovies {
 
 fun MovieIdEntity.toDomain(): Int = this.movieId
 
-fun MovieDetailsSocketDto.toDomain() = MovieDetails(
-    id,
-    name,
-    description,
-    year.toString(),
-    countries,
-    imgUrl,
-    alternativeName,
-    ratingKinopoisk?.let { roundRating(it) } ?: 0f,
-    ratingImdb?.let { roundRating(it) } ?: 0f,
-    numOfMarksKinopoisk,
-    numOfMarksImdb,
-    duration,
-    genres.map { it.name },
-    directors?.mapNotNull { it },
-    actors?.mapNotNull { it },
-)
-
-fun SessionResultDto.toDomain() = SessionWithMovies(
-    session = Session(
-        id = id,
-        users = users,
-        movieIdList = emptyList(),
-        matchedMovieIdList = matchedMovies.map { it.id },
-        date = convertDateStringToTimestamp(date),
-        status = SessionStatus.CLOSED,
-        imgUrl = imgUrl
-    ),
-    movies = matchedMovies.map { it.toDomain() }
+fun SessionResultDto.toDomain() = Session(
+    id = id,
+    users = users.map { it.name },
+    movieIdList = emptyList(),
+    matchedMovieIdList = matchedMovies.map { it.id },
+    date = convertDateStringToTimestamp(date),
+    status = SessionStatus.CLOSED,
+    imgUrl = imgUrl
 )
 
 /**

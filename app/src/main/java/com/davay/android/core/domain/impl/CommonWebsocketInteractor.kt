@@ -3,8 +3,8 @@ package com.davay.android.core.domain.impl
 import com.davay.android.core.domain.api.WebsocketRepository
 import com.davay.android.core.domain.models.ErrorType
 import com.davay.android.core.domain.models.Result
+import com.davay.android.core.domain.models.Session
 import com.davay.android.core.domain.models.SessionStatus
-import com.davay.android.core.domain.models.SessionWithMovies
 import com.davay.android.core.domain.models.User
 import kotlinx.coroutines.flow.StateFlow
 import javax.inject.Inject
@@ -22,6 +22,9 @@ class CommonWebsocketInteractor @Inject constructor(
         websocketRepository.unsubscribeSessionStatus()
     }
 
+    fun getSessionStatus(): StateFlow<Result<SessionStatus, ErrorType>?> =
+        websocketRepository.sessionStatusStateFlow
+
     fun subscribeUsers(sessionId: String): StateFlow<Result<List<User>, ErrorType>?> {
         return websocketRepository.subscribeUsers(sessionId)
     }
@@ -30,13 +33,19 @@ class CommonWebsocketInteractor @Inject constructor(
         websocketRepository.unsubscribeUsers()
     }
 
-    fun subscribeSessionResult(sessionId: String): StateFlow<Result<SessionWithMovies, ErrorType>?> {
+    fun getUsers(): StateFlow<Result<List<User>, ErrorType>?> =
+        websocketRepository.usersStateFlow
+
+    fun subscribeSessionResult(sessionId: String): StateFlow<Result<Session, ErrorType>?> {
         return websocketRepository.subscribeSessionResult(sessionId)
     }
 
     suspend fun unsubscribeSessionResult() {
         websocketRepository.unsubscribeSessionResult()
     }
+
+    fun getSessionResult(): StateFlow<Result<Session, ErrorType>?> =
+        websocketRepository.sessionResultFlow
 
     fun subscribeRouletteId(sessionId: String): StateFlow<Result<Int, ErrorType>?> {
         return websocketRepository.subscribeRouletteId(sessionId)
@@ -46,6 +55,9 @@ class CommonWebsocketInteractor @Inject constructor(
         websocketRepository.unsubscribeRouletteId()
     }
 
+    fun getRouletteId(): StateFlow<Result<Int, ErrorType>?> =
+        websocketRepository.rouletteIdStateFlow
+
     fun subscribeMatchesId(sessionId: String): StateFlow<Result<Int, ErrorType>?> {
         return websocketRepository.subscribeMatchesId(sessionId)
     }
@@ -53,4 +65,7 @@ class CommonWebsocketInteractor @Inject constructor(
     suspend fun unsubscribeMatchesId() {
         websocketRepository.unsubscribeMatchesId()
     }
+
+    fun getMatchesId(): StateFlow<Result<Int, ErrorType>?> =
+        websocketRepository.matchesIdStateFlow
 }
