@@ -1,111 +1,137 @@
 package com.davay.android.feature.selectmovie.presentation
 
+import android.util.Log
+import androidx.lifecycle.viewModelScope
+import com.davay.android.BuildConfig
 import com.davay.android.base.BaseViewModel
+import com.davay.android.core.domain.models.ErrorScreenState
 import com.davay.android.core.domain.models.MovieDetails
+import com.davay.android.feature.selectmovie.domain.FilterDislikedMovieListUseCase
+import com.davay.android.feature.selectmovie.domain.GetMovieIdListSizeUseCase
+import com.davay.android.feature.selectmovie.domain.GetMovieListUseCase
+import com.davay.android.feature.selectmovie.domain.SwipeMovieUseCase
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-class SelectMovieViewModel @Inject constructor() : BaseViewModel() {
-    private val _state = MutableStateFlow<List<MovieDetails>>(emptyList())
+class SelectMovieViewModel @Inject constructor(
+    private val getMovieDetailsUseCase: GetMovieListUseCase,
+    private val getMovieIdListSizeUseCase: GetMovieIdListSizeUseCase,
+    private val filterDislikedMovieListUseCase: FilterDislikedMovieListUseCase,
+    private val swipeMovieUseCase: SwipeMovieUseCase
+) : BaseViewModel() {
+    private val _state = MutableStateFlow<SelectMovieState>(SelectMovieState.Loading)
     val state = _state.asStateFlow()
 
+    private var totalMovieIds = 0
+    private var loadedMovies = mutableSetOf<MovieDetails>()
+
     init {
-        getFilms()
+        initializeMovieList()
     }
 
-    @Suppress(
-        "Detekt.MaxLineLength",
-        "Detekt.StringLiteralDuplication",
-        "Detekt.ArgumentListWrapping",
-        "Detekt.Wrapping",
-        "Detekt.UnderscoresInNumericLiterals",
-        "Detekt.LongMethod"
-    )
-    private fun getFilms() {
-        val movies = listOf(
-            MovieDetails(
-                id = 12345,
-                name = "Интерстеллар",
-                description = "Когда засуха, пыльные бури и вымирание растений приводят человечество к продовольственному кризису, коллектив исследователей и учёных отправляется сквозь червоточину (которая предположительно соединяет области пространства-времени через большое расстояние) в путешествие, чтобы превзойти прежние ограничения для космических путешествий человека и найти планету с подходящими для человечества условиями.",
-                year = "2015",
-                countries = listOf(),
-                imgUrl = "https://avatars.mds.yandex.net/get-kinopoisk-image/1946459/7ae40b66-ebda-4570-8676-980344d81bc1/3840x",
-                alternativeName = "Interstellar",
-                ratingKinopoisk = 8.6f,
-                ratingImdb = 9.6f,
-                numOfMarksKinopoisk = 112321,
-                numOfMarksImdb = 4532142,
-                duration = 169,
-                genres = listOf("Фантастика", "Драма", "Приключения"),
-                directors = listOf("Мэттью Макконахи", "Энн Хэтэуэй", "Джессика Честейн"),
-                actors = listOf("Кристофер Нолан")
-            ), MovieDetails(
-                id = 8509,
-                name = "Dorothea Tanner",
-                description =
-                "Бэтмен поднимает ставки в войне с криминалом. С помощью лейтенанта Джима Гордона и прокурора Харви Дента он намерен очистить улицы Готэма от преступности. Сотрудничество оказывается эффективным, но скоро они обнаружат себя посреди хаоса, развязанного восходящим криминальным гением, известным напуганным горожанам под именем Джокер.",
-                year = "2008",
-                countries = listOf(),
-                imgUrl =
-                "https://kinopoisk-ru.clstorage.net/30H4PS317/fc80630l6W4j/PCNvS_zGy0YMHp7no0AsGkQRD5F3GbGxVVkAfX4LQFrQ2bnuw6YEelehkDaD0ct6S5LEFcsAhqMFiXQJwV2qBmgDGrrdc46T6NorlwYFCJ6RcXtAE5yF8IRsBZiM-ELZ8k6bjTEkBrxDxbTX9mR-Hk-SVJGrlALXUqrFWuOaftAMACwryuRb55hPn2RQI3881LF8VVVJModFOsL-vWiyOGEOGexB9RSdkHY10iYmjX5vsIUCeWGTlCLLc5lj-jxzbAJMCDrFKIYITY200TA9PAVjD5VnKUDnBPjBv-9rYBuQ7wpOAUZGnZM1ZxJEVB6cbhJXMvgSQ2VCeVBo4bmfke9wTQoqNKs1690sBkJT_TyWsT2GlgiQByfLYE8923HqQF47HUNl5JxD9UdgdAfvvC7hlCIbE2PGYynw21I47zHu4O85yuVJtQot_DVxMg6c5fF8xRYJ0ceUS8Le7zsSScAdW98xpAbeIvZ3MldUbO89wjbR2gIAdvILQylzWW7DXTNuWuhVGmV4jF-kI5K9jzbAL9ek6GF1tzqzzM-LABjzLdk9kMZVjPJGtLGk9bwd7TE00ClCcJbQWbB5ghkPs30APJh5t0pFeN8-lXHQTX2mAx_nxysQ1XW60gytqVLYge8KHjCWVD3zNBVxlfR_vGwhtRIbg2EkoEuyOWBJjZMe8bz6CES59apcf4XxIs1cx2MddoRakLfUqXI93mly66MNCV4xB3TMc4VU0beUHJ-t0cbyGHJD5XBpIalRSZ8jPCB8q2qU-oV7r2wGIfJNfQaAbLSW-IPElUqDzS374UlDLTlNkPc1v7PlZNAk5Cx97hBUggowwcZhCaH5wdsuAG0gLop7Fwl2SX1-JcOTHz704Tx09yhh15R7cA-fuXIIoX3rzjHndkyQxaSRtHdujF7jJMGrQMGHYkthuPO7DhON4C4ZmoTJ95rdbCTTUsyetqM8VoYIYqe1qMHMnDviGPPPW-yxxhet0GWEwfZ2f9z8UYSCKKPi9SEoEAuQuNziTaO-GniWegVp_0x3YZFdb8WCPifkWbPFVZsCfc_LIWsiz_sMQBUkrmKnlpKElL3vzGJWkltw8QSCaXMIkjptMD7CTTmbtboXqr_v5wAyDJ2m4-7F1vqDxTWawx6veTI7sg4ZXlKUJGyTJHVxVKeubu3SVkLL0ZJmovuSKFPJX6P9k-9KSmTopFpMfEYgYz8s1XGsZ1d5YpcUatJvPjlx27H8WywDpJbPwaeVcyYFzZ7-YkQwWcLwZDGKMBsTmA8x_QFtKfl0qbfJnGylokK9LcRBH0WXidA21Wiyr_47AvuAPlteAicWnrBX5DJ1dq_fHDHEwklwY5dAegAIQTkuwVxAPlmrJCqF2d1OdQKSvywV4MyGtuhwRoTqgT79-iFJIt747XMVRp0yVodDZ-SeLkxQdWCpADGlA_khukNYT6MNkE8YO0ZJpBoPL6YRos9thWLdR6bpk2V0icH_Djjzq0AcOx8SNgT-EaXnM-f0zmxuIiZyaqBDNqO6UGkDm01j7iAcWeqk65cI3p3n8KIdP-SB3KQnifOl1MjQz_6ZoEsQvvm9QCdmjFH1lDKGdq4-rOJEQOoC0QeSGZD7IIruMGwyDVrptSnmSFyOVuKS7c71gNzGBdmx9dUbos_t-iJLQ14JP0P1NPxgF5VStKStzv4zNyKLY0NEEepAGOPJPDOOMd6LqPSIRZt97WWwYf0_9IAftKeKgtcVWJJcrVsCa5APOb1gN-b9sBZ18CQlnn7MckQyiLNgZWIqEhsQiS3B_BFOKts1GYUp3e50ImFvXtXi3YWnqsPktnjiLN1oMGuhDQkPEUfXb4D0pbE2N3w-z5LWEGoywVeBq1D64wmMAQ3w38pJNthkap_cZEJDbb0kwWz0pusghQbJ4i9ciwG5Y27Kb3DF5v4DtJVQNkQMHAzyNFJIM5NHI9oASvM7D5HPAz7Y6JZbNmp-LqfjYoyeRrPuBUZJs2f2isL8L_qQWKKNq_wjpNT8wTfXQ2WEDIxOcwZS60CxN3JrEHmAaGxgTnI82-ikCVaojj53oFKdfyQwXFalyPDntHowj_854plSnkvcI9fmvtJFVsIEl8x-7wPm46uBYZQQO6Ga8Uk-UVxRv-n4lgommg3ct4JhTT5lYy53V6ihtKX6oAz_iNAr800oD3Fk9v4iFmfyZdaenpwSdRCocALVkinh2KNaTMO8cQ4JWKY7FXleDpUwkC88JDEMBIbLctQlGQDNLfsQOKDs6c0AhpWu8EW10-d1T55OgddQucABFhOL0Dtzea1hjdAc6mpGi7a77z7H48INXpYA_gd1mpLG5ngwfP4q8huynmlewhQXHoIlRfKFt71t3dDWoOqw0reC-iH7gistwi3xHvlptFtVeE_MlhPCXv6Xk-4H9akyd5RLMY8MGoC78O-YHkK0Vm6RlFfQRJY9n46CZBLIovOmsiozGuAIHwANcw0ritbqRpgfLmfiUj38NWGeh6UZ0-Wk2yG_b8tBWmPtCQ9zNsS-0qZFk_dHbF4MIEZAGiDSVJA4c3rAOh9iH8Bf-AhmKxf5Xy1Xk8I__uVjfGclq8Lltalj3e46MpjyrhmewKZGvyOnpeJUV86Pz9C0QKtgoKbwCAOJIShOE_5TXNhpdPvmaWxMpWABPf2GA6yGlMmBtIapoEy_ihD443xaP1EHF3wzFNVQJKTcrz6B1iL6YMPWg2vCGTIqXmM_sc97iabpdpjP_efyEB6cN5Pe59f68hWlWwB_vdoiW5DfeBxSp0ZNAnSU4ZZ0H14tw-SCq6NCtFFqQviRSV5xr8ENKphESYZpbI1mQmHvTEYhzObFyqGndVuCHRw6o6nCfDovYBS0HJGGV4PH9oyeLsDU4bvzg1UTSnIY47jf451R_upI1um3eFwuhhESPw-V0CxFRSsg1RebUr9uatOIww3pbYClVlzyZgWBdiWdji8zl2GachHWs",
-                alternativeName = "The Dark Knight",
-                ratingKinopoisk = 8.5f,
-                ratingImdb = 8.0f,
-                numOfMarksKinopoisk = 50312,
-                numOfMarksImdb = 231223,
-                duration = 152,
-                genres = listOf(
-                    "Экшн",
-                    "Криминал",
-                    "Драма",
-                    "Комиксы",
-                    "Детектив",
-                    "Мелодрама",
-                    "Байопик"
-                ),
-                directors = listOf("Кристофер Нолан"),
-                actors = listOf("Кристиан Бейл", "Хит Леджер", "Аарон Экхарт")
-            ), MovieDetails(
-                id = 34567,
-                name = "Властелин колец: Возвращение короля",
-                description = "Заключительная часть эпической трилогии.",
-                year = "2003",
-                countries = listOf("США", "Новая Зеландия", "Великобритания", "Австралия"),
-                imgUrl = null,
-                alternativeName = "The Lord of the Rings: The Return of the King",
-                ratingKinopoisk = 6.7f,
-                ratingImdb = 9.0f,
-                numOfMarksKinopoisk = 52434,
-                numOfMarksImdb = 231223,
-                duration = null,
-                genres = listOf("Фэнтези", "Приключения", "Драма"),
-                directors = listOf("Питер Джексон", "Кристофер Нолан"),
-                actors = listOf("Элайджа Вуд", "Вигго Мортенсен", "Иэн Маккеллен")
-            ), MovieDetails(
-                id = 3457,
-                name = "Доктор Стрейнджлав, или Как я научился не волноваться и полюбил атомную бомбу",
-                description = null,
-                year = null,
-                imgUrl =
-                "https://avatars.mds.yandex.net/get-kinopoisk-image/1777765/cb430f00-1734-4078-abd2-6688a94749a5/3840x",
-                countries = listOf("США", "Великобритания", "Австралия"),
-                alternativeName = "Dr. Strangelove or: How I Learned to Stop Worrying and Love the Bomb",
-                ratingKinopoisk = 6.7f,
-                ratingImdb = 5.9f,
-                numOfMarksKinopoisk = 433123,
-                numOfMarksImdb = 5412322,
-                duration = 201,
-                genres = listOf("комедия", "фантастика", "триллер"),
-                directors = listOf("Стэнли Кубрик", "Терри Саузерн", "Питер Джордж"),
-                actors = listOf(
-                    "Питер Селлерс",
-                    "Джордж К. Скотт",
-                    "Стерлинг Хейден",
-                    "Кинен Уинн",
-                )
-            )
+    private fun loadMovies(position: Int) {
+        runSafelyUseCase(
+            useCaseFlow = getMovieDetailsUseCase(position),
+            onSuccess = { movieList ->
+                if (movieList.isEmpty()) {
+                    _state.update {
+                        SelectMovieState.Error(ErrorScreenState.MOVIE_LIST_FINISHED)
+                    }
+                } else {
+                    loadedMovies =
+                        (state.value as? SelectMovieState.Content)?.movieList ?: mutableSetOf()
+                    loadedMovies.addAll(movieList)
+                    _state.update {
+                        SelectMovieState.Content(movieList = loadedMovies)
+                    }
+                }
+            },
+            onFailure = { error ->
+                _state.update { SelectMovieState.Error(mapErrorToUiState(error)) }
+            }
         )
-        _state.value = movies
+    }
+
+    private fun initializeMovieList() {
+        viewModelScope.launch {
+            totalMovieIds = getMovieIdListSizeUseCase()
+            loadMovies(0)
+        }
+    }
+
+    /**
+     * Метод вызывает подгрузку фильмов, если это необходимо и устанавливает значение для поля
+     * isLike в таблице movieId, данные значения используются для фильтрации элементов и обнолвения
+     * списка id элементов, которые потребутются для загрузки данных о фильмах.
+     * Вызовы подгрузки фильмов могут быть возможны только при соблюдении неравенства :
+     * PRELOAD_SIZE <= PAGINATION_SIZE в SelectMovieRepositoryImpl.
+     * Таким образом мы сокращаем количество запросов в сеть, но при этом всегда имеем
+     * закэшированные данные фильмов в размере PRELOAD_SIZE, то есть пользователь вообще не значет
+     * о процессе подгрузки данных.
+     */
+    fun onMovieSwiped(position: Int, isLiked: Boolean) {
+        if (position + PRELOAD_SIZE >= loadedMovies.size && loadedMovies.size < totalMovieIds) {
+            loadMovies(position)
+        }
+        viewModelScope.launch {
+            runCatching {
+                swipeMovieUseCase(position, isLiked)
+            }.onFailure {
+                if (BuildConfig.DEBUG) {
+                    Log.e(TAG, "Error on swipe movie, position: $position | ${it.localizedMessage}")
+                }
+            }
+        }
+
+        if (position == totalMovieIds) {
+            _state.update { SelectMovieState.ListIsFinished }
+        }
+    }
+
+    /**
+     * Метод фильтрует список id фильмов по признаку isLiked = false. Метод должен запускаться
+     * в случае когда юзер пролистал все фильмы и должен получить список фильмов которые были
+     * свайпнуты влево
+     */
+    fun filterDislikedMovieList() {
+        loadedMovies = mutableSetOf()
+        _state.update {
+            SelectMovieState.Loading
+        }
+
+        viewModelScope.launch(Dispatchers.IO) {
+            clearAndReset()
+        }
+    }
+
+    private suspend fun clearAndReset() {
+        runCatching {
+            filterDislikedMovieListUseCase()
+        }.onFailure {
+            if (BuildConfig.DEBUG) {
+                Log.e(TAG, "Error on filter disliked movie list ${it.localizedMessage}")
+            }
+        }
+        runCatching {
+            initializeMovieList()
+        }.onFailure {
+            if (BuildConfig.DEBUG) {
+                Log.e(TAG, "Error on initializing movie list ${it.localizedMessage}")
+            }
+        }
+    }
+
+    private companion object {
+        /**
+         * Размер подгрузки фильмов, при изменении так же учитывать значение в SelectMovieRepositoryImpl.
+         * PRELOAD_SIZE должен быть меньше либо равен PAGINATION_SIZE в SelectMovieRepositoryImpl.
+         * PRELOAD_SIZE это колчичество фильмов до конца текущего списка
+         */
+        const val PRELOAD_SIZE = 5
+        val TAG: String = SelectMovieViewModel::class.java.simpleName
     }
 }

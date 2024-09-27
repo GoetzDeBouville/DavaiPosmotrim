@@ -3,10 +3,11 @@ package com.davay.android.feature.selectmovie.presentation
 import android.os.Bundle
 import android.view.View
 import androidx.activity.OnBackPressedCallback
+import androidx.core.view.isVisible
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.ItemTouchHelper
 import com.davai.extensions.dpToPx
-import com.davai.uikit.MainDialogFragment
+import com.davai.uikit.dialog.MainDialogFragment
 import com.davay.android.R
 import com.davay.android.base.BaseFragment
 import com.davay.android.core.domain.models.MovieDetails
@@ -22,11 +23,14 @@ import com.davay.android.feature.selectmovie.presentation.adapters.SwipeableLayo
 import com.davay.android.feature.selectmovie.presentation.animation.IncrementAnimation
 import com.davay.android.feature.selectmovie.presentation.animation.IncrementAnimationImpl
 import com.davay.android.utils.MovieDetailsHelperImpl
+import com.davay.android.utils.presentation.UiErrorHandler
+import com.davay.android.utils.presentation.UiErrorHandlerImpl
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import kotlinx.coroutines.launch
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 
+@Suppress("LargeClass")
 class SelectMovieFragment :
     BaseFragment<FragmentSelectMovieBinding, SelectMovieViewModel>(FragmentSelectMovieBinding::inflate) {
 
@@ -42,7 +46,8 @@ class SelectMovieFragment :
     private val swipeCardLayoutManager = SwipeableLayoutManager()
     private val incrementAnimation: IncrementAnimation = IncrementAnimationImpl()
     private val additionalInfoInflater: AdditionalInfoInflater = MovieDetailsHelperImpl()
-    private var currentPosition = 0
+    private val errorHandler: UiErrorHandler = UiErrorHandlerImpl()
+    private var currentPosition = swipeCardLayoutManager.getCurrentPosition()
 
     override fun diComponent(): ScreenComponent =
         DaggerSelectMovieFragmentComponent.builder().appComponent(AppComponentHolder.getComponent())
@@ -67,8 +72,9 @@ class SelectMovieFragment :
     private fun getSavedPositionAndUpdateStartPosition(savedInstanceState: Bundle?) {
         savedInstanceState?.let {
             currentPosition = it.getInt(CURRENT_POSITION_KEY, 0)
+            currentPosition++
+            swipeCardLayoutManager.updateCurrentPosition(currentPosition)
         }
-        swipeCardLayoutManager.updateCurrentPosition(currentPosition)
     }
 
     override fun initViews() {
@@ -88,10 +94,72 @@ class SelectMovieFragment :
             }
         }
         viewLifecycleOwner.lifecycleScope.launch {
-            viewModel.state.collect { movies ->
-                cardAdapter.setData(movies)
+            viewModel.state.collect { state ->
+                renderState(state)
             }
         }
+    }
+
+    private fun renderState(state: SelectMovieState) {
+        when (state) {
+            is SelectMovieState.Loading -> showProgressBar()
+            is SelectMovieState.Content -> showContent(state)
+            is SelectMovieState.Error -> handleError(state)
+            is SelectMovieState.ListIsFinished -> showDialogAndRequestResetMovieList()
+        }
+    }
+
+    private fun handleError(state: SelectMovieState.Error) {
+        showErrorMessage()
+        errorHandler.handleError(
+            state.errorType,
+            binding.errorMessage
+        ) {
+            viewModel.onMovieSwiped(currentPosition, false)
+        }
+    }
+
+    private fun showErrorMessage() = with(binding) {
+        errorMessage.isVisible = true
+        progressBar.isVisible = false
+        rvFilmCard.isVisible = false
+        clDetailsBottomSheet.isVisible = false
+    }
+
+    private fun showContent(state: SelectMovieState.Content) = with(binding) {
+        cardAdapter.setData(state.movieList)
+        errorMessage.isVisible = false
+        progressBar.isVisible = false
+        rvFilmCard.isVisible = true
+        clDetailsBottomSheet.isVisible = true
+    }
+
+    private fun showProgressBar() = with(binding) {
+        errorMessage.isVisible = false
+        progressBar.isVisible = true
+        rvFilmCard.isVisible = false
+        clDetailsBottomSheet.isVisible = false
+    }
+
+    private fun showDialogAndRequestResetMovieList() {
+        val dialog = MainDialogFragment.newInstance(
+            title = getString(R.string.select_movies_movie_list_is_finished),
+            message = getString(R.string.select_movies_movie_show_disliked_movies),
+            showConfirmBlock = true,
+            yesAction = {
+                confirmAction()
+            },
+            onCancelAction = {
+                confirmAction()
+            }
+        )
+        dialog.show(parentFragmentManager, null)
+    }
+
+    private fun confirmAction() {
+        cardAdapter.setData(emptySet())
+        swipeCardLayoutManager.updateCurrentPosition(0)
+        viewModel.filterDislikedMovieList()
     }
 
     private fun backPressedDispatcher() {
@@ -137,7 +205,7 @@ class SelectMovieFragment :
         binding.rvFilmCard.apply {
             layoutManager = swipeCardLayoutManager
             adapter = cardAdapter
-            // помимо установки позици на layputmanger дополни тельно скролим до необходимой позиции
+            // помимо установки позици на layputmanger дополнительно скролим до необходимой позиции
             scrollToPosition(currentPosition)
         }
 
@@ -145,10 +213,10 @@ class SelectMovieFragment :
             SwipeCallback(
                 swipeCardLayoutManager,
                 onSwipedLeft = {
-                    // Add skip method
+                    swipeLeft()
                 },
                 onSwipedRight = {
-                    // Add like method
+                    swipeRight()
                 }
             )
         )
@@ -181,48 +249,102 @@ class SelectMovieFragment :
         }
     }
 
-    private fun autoSwipeLeft() {
+    private fun swipeLeft() {
+        swipe()
         swipeCardLayoutManager.moveNextWithSwipeAndLayout(SwipeDirection.LEFT)
-        cardAdapter.notifyDataSetChanged()
+        viewModel.onMovieSwiped(currentPosition, false)
+    }
+
+    private fun swipeRight() {
+        swipe()
+        swipeCardLayoutManager.moveNextWithSwipeAndLayout(SwipeDirection.RIGHT)
+        viewModel.onMovieSwiped(currentPosition, true)
+    }
+
+    /**
+     * методы autoSwipeLeft и autoSwipeLeft используются для автоматического свайпа для cardAdapter
+     * и полностью дублируют swipeLeft и swipeRight за исключением обновления currentPosition,
+     * currentPosition при кликах на кнопки в адаптере отличается от currentPosition при свайпе на 1
+     */
+    private fun autoSwipeLeft() {
+        swipe()
+        swipeCardLayoutManager.moveNextWithSwipeAndLayout(SwipeDirection.LEFT)
+        currentPosition++ // обновление позиции после свайпа для синхронизации позиции со значением в БД
+        viewModel.onMovieSwiped(currentPosition, false)
     }
 
     private fun autoSwipeRight() {
+        swipe()
         swipeCardLayoutManager.moveNextWithSwipeAndLayout(SwipeDirection.RIGHT)
-        cardAdapter.notifyDataSetChanged()
+        currentPosition++ // обновление позиции после свайпа для синхронизации позиции со значением в БД
+        viewModel.onMovieSwiped(currentPosition, true)
     }
 
     private fun revertSwipe() {
+        swipe()
         swipeCardLayoutManager.shiftLeftWithRevertAndLayout()
+        viewModel.onMovieSwiped(currentPosition, false)
+    }
+
+    private fun swipe() {
+        currentPosition = swipeCardLayoutManager.getCurrentPosition()
         cardAdapter.notifyDataSetChanged()
     }
 
     private fun inflateMovieDetails(movie: MovieDetails) = with(binding) {
         tvDetailsDescription.text = movie.description
         fillInfo(movie)
-        additionalInfoInflater.setRate(
-            movie.ratingImdb,
-            movie.numOfMarksImdb,
-            mevDetailsImdbRate
-        )
-        additionalInfoInflater.setRate(
-            movie.ratingKinopoisk,
-            movie.numOfMarksKinopoisk,
-            mevDetailsKinopoiskRate
-        )
+        if (movie.ratingImdb >= 1f) {
+            mevDetailsImdbRate.isVisible = true
+            additionalInfoInflater.setRate(
+                movie.ratingImdb,
+                movie.numOfMarksImdb,
+                mevDetailsImdbRate
+            )
+        } else {
+            mevDetailsImdbRate.isVisible = false
+        }
+        if (movie.ratingKinopoisk >= 1f) {
+            mevDetailsKinopoiskRate.isVisible = true
+            additionalInfoInflater.setRate(
+                movie.ratingKinopoisk,
+                movie.numOfMarksKinopoisk,
+                mevDetailsKinopoiskRate
+            )
+        } else {
+            mevDetailsKinopoiskRate.isVisible = false
+        }
     }
 
     private fun fillInfo(data: MovieDetails) = with(binding) {
         tvDetailsDescription.text = data.description
-        additionalInfoInflater.inflateCastList(
-            fblDetailsTopCastList,
-            data.actors ?: emptyList()
-        )
-        additionalInfoInflater.inflateCastList(
-            fblDetailsDirectorList,
-            data.directors ?: emptyList()
-        )
+        if (data.actors.isNullOrEmpty()) {
+            tvDetailsTopCast.isVisible = false
+            fblDetailsTopCastList.isVisible = false
+        } else {
+            tvDetailsTopCast.isVisible = true
+            fblDetailsTopCastList.isVisible = true
+            additionalInfoInflater.inflateCastList(
+                fblDetailsTopCastList,
+                data.actors
+            )
+        }
+        if (data.directors.isNullOrEmpty()) {
+            tvDetailsDirector.isVisible = false
+            fblDetailsDirectorList.isVisible = false
+        } else {
+            tvDetailsDirector.isVisible = true
+            fblDetailsDirectorList.isVisible = true
+            additionalInfoInflater.inflateCastList(
+                fblDetailsDirectorList,
+                data.directors
+            )
+        }
     }
 
+    /**
+     * Использовать метод в событиях мэтча в вэбсокете
+     */
     @Suppress("Detekt.UnusedPrivateMember")
     private fun showBottomSheetFragment(movie: MovieDetails) {
         val movieDetails = Json.encodeToString(movie)

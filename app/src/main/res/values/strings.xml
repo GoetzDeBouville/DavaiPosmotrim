@@ -55,6 +55,10 @@
     <string name="select_movies_minutes">%d мин</string>
     <string name="select_movies_increment_1">+1</string>
     <string name="select_movies_leave_session_dialog_message">Сеанс будет завершён у всех участников.\n\nВсе совпавшие фильмы вы найдёте в разделе «Понравившиеся фильмы».</string>
+    <string name="select_movies_movie_list_is_finished">Список фильмов закончился</string>
+    <string name="select_movies_movie_show_disliked_movies">Далее будет показан список фильмов "свайпнутых" влево</string>
+    <string name="select_movies_you_liked_whole_movie_list">Вы лайкинули весь список фильмов</string>"
+    <string name="select_movies_wait_for_end_of_session">Дождитесь окончания сессии или запуска рулетки</string>"
 
     <!--onboarding screen-->
     <string name="onboarding_continue_view">продолжить</string>
@@ -112,6 +116,7 @@
     <string name="wait_session_copy_button_toast_text">Код скопирован</string>
     <string name="wait_session_copy_button_text">Код сеанса успешно скопирован</string>
     <string name="wait_session_tag_owner">%s (вы)</string>
+    <string name="wait_session_banner_message">Попробуйте ещё раз</string>
     <string name="leave_wait_session_title">Отменить?</string>
     <string name="leave_wait_session_dialog_message">Вы действительно хотите отменить уже созданный сеанс?</string>
     <string name="wait_session_min_two_user">Должно быть хотя бы два участника</string>

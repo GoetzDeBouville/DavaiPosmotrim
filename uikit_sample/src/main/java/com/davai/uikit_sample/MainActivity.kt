@@ -5,7 +5,7 @@ import android.os.Bundle
 import android.view.View
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
-import com.davai.uikit.MainDialogFragment
+import com.davai.uikit.dialog.MainDialogFragment
 import com.davai.uikit.extensions.applyBlurEffect
 import com.davai.uikit_sample.databinding.ActivityMainBinding
 

@@ -6,8 +6,8 @@ import com.davay.android.core.domain.lounchcontrol.api.FirstTimeFlagRepository
 import com.davay.android.core.domain.lounchcontrol.api.FirstTimeFlagStorage
 import com.davay.android.feature.waitsession.data.WaitSessionOnBoardingRepositoryImpl
 import com.davay.android.feature.waitsession.data.WaitSessionStorageImpl
-import com.davay.android.feature.waitsession.domain.WaitSessionOnBoardingInteractor
 import com.davay.android.feature.waitsession.domain.WaitSessionOnBoardingInteractorImpl
+import com.davay.android.feature.waitsession.domain.api.WaitSessionOnBoardingInteractor
 import dagger.Module
 import dagger.Provides
 
@@ -29,8 +29,9 @@ class WaitSessionDataModule {
     ): FirstTimeFlagStorage = WaitSessionStorageImpl(sharedPreferences)
 
     @Provides
-    fun provideSharedPreferences(context: Context): SharedPreferences = context.getSharedPreferences(
-        FirstTimeFlagStorage.STORAGE_NAME,
-        Context.MODE_PRIVATE
-    )
+    fun provideSharedPreferences(context: Context): SharedPreferences =
+        context.getSharedPreferences(
+            FirstTimeFlagStorage.STORAGE_NAME,
+            Context.MODE_PRIVATE
+        )
 }
