@@ -6,6 +6,7 @@ import com.davay.android.BuildConfig
 import com.davay.android.R
 import com.davay.android.base.BaseViewModel
 import com.davay.android.core.domain.impl.CommonWebsocketInteractor
+import com.davay.android.core.domain.impl.LeaveSessionUseCase
 import com.davay.android.core.domain.models.ErrorScreenState
 import com.davay.android.core.domain.models.SessionStatus
 import com.davay.android.core.domain.models.converter.toSessionShort
@@ -23,6 +24,7 @@ import javax.inject.Inject
 class SessionListViewModel @Inject constructor(
     private val commonWebsocketInteractor: CommonWebsocketInteractor,
     private val connectToSessionUseCase: ConnectToSessionUseCase,
+    private val leaveSessionUseCase: LeaveSessionUseCase,
 ) : BaseViewModel() {
     private val _state = MutableStateFlow<ConnectToSessionState>(ConnectToSessionState.Loading)
     val state = _state.asStateFlow()
@@ -103,8 +105,7 @@ class SessionListViewModel @Inject constructor(
                                 }
 
                                 SessionStatus.CLOSED -> {
-                                    this@SessionListViewModel.sessionId = null
-                                    navigateBack()
+                                    leaveSessionAndNavigateBack(sessionId)
                                 }
 
                                 else -> {
@@ -153,7 +154,7 @@ class SessionListViewModel @Inject constructor(
         }
     }
 
-    fun unsubscribeWebsockets() {
+    private fun unsubscribeWebsockets() {
         viewModelScope.launch(Dispatchers.IO) {
             commonWebsocketInteractor.unsubscribeUsers()
             commonWebsocketInteractor.unsubscribeSessionStatus()
@@ -161,5 +162,21 @@ class SessionListViewModel @Inject constructor(
             commonWebsocketInteractor.unsubscribeMatchesId()
             commonWebsocketInteractor.unsubscribeRouletteId()
         }
+    }
+
+    fun leaveSessionAndNavigateBack(sessionId: String) {
+        _state.update { ConnectToSessionState.Loading }
+        unsubscribeWebsockets()
+        runSafelyUseCase(
+            useCaseFlow = leaveSessionUseCase.execute(sessionId),
+            onFailure = {
+                this.sessionId = null
+                navigateBack()
+            },
+            onSuccess = {
+                this.sessionId = null
+                navigateBack()
+            }
+        )
     }
 }

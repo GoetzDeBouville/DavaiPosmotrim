@@ -59,8 +59,7 @@ class SessionListFragment : BaseFragment<FragmentSessionListBinding, SessionList
             title = getString(R.string.leave_session_title),
             message = getString(R.string.leave_session_dialog_message),
             yesAction = {
-                viewModel.unsubscribeWebsockets()
-                viewModel.navigateBack()
+                etCode?.let { viewModel.leaveSessionAndNavigateBack(it) }
             }
         )
     }
