@@ -34,7 +34,7 @@ class SessionListViewModel @Inject constructor(
         connectToSession(sessionId)
     }
 
-    private fun connectToSession(sessionId: String) {
+    fun connectToSession(sessionId: String) {
         _state.update { ConnectToSessionState.Loading }
         runSafelyUseCase(
             useCaseFlow = connectToSessionUseCase.execute(sessionId),

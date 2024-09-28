@@ -3,6 +3,7 @@ package com.davay.android.feature.sessionlist.presentation
 import android.os.Bundle
 import android.view.View
 import androidx.activity.OnBackPressedCallback
+import androidx.core.view.isVisible
 import androidx.lifecycle.lifecycleScope
 import com.davai.extensions.dpToPx
 import com.davai.uikit.dialog.MainDialogFragment
@@ -15,11 +16,14 @@ import com.davay.android.di.ScreenComponent
 import com.davay.android.feature.sessionlist.di.DaggerSessionListFragmentComponent
 import com.davay.android.feature.sessionlist.presentation.adapter.CustomItemDecorator
 import com.davay.android.feature.sessionlist.presentation.adapter.UserAdapter
+import com.davay.android.utils.presentation.UiErrorHandler
+import com.davay.android.utils.presentation.UiErrorHandlerImpl
 import com.google.android.flexbox.AlignItems
 import com.google.android.flexbox.FlexDirection
 import com.google.android.flexbox.FlexWrap
 import com.google.android.flexbox.FlexboxLayoutManager
 import com.google.android.flexbox.JustifyContent
+import kotlinx.coroutines.launch
 
 class SessionListFragment : BaseFragment<FragmentSessionListBinding, SessionListViewModel>(
     FragmentSessionListBinding::inflate
@@ -28,6 +32,7 @@ class SessionListFragment : BaseFragment<FragmentSessionListBinding, SessionList
     private val userAdapter = UserAdapter()
     private var etCode: String? = null
     private var dialog: MainDialogFragment? = null
+    private val errorHandler: UiErrorHandler = UiErrorHandlerImpl()
 
     override fun diComponent(): ScreenComponent = DaggerSessionListFragmentComponent.builder()
         .appComponent(AppComponentHolder.getComponent())
@@ -54,6 +59,7 @@ class SessionListFragment : BaseFragment<FragmentSessionListBinding, SessionList
             title = getString(R.string.leave_session_title),
             message = getString(R.string.leave_session_dialog_message),
             yesAction = {
+                viewModel.unsubscribeWebsockets()
                 viewModel.navigateBack()
             }
         )
@@ -68,6 +74,11 @@ class SessionListFragment : BaseFragment<FragmentSessionListBinding, SessionList
 
     override fun subscribe() {
         setButtonClickListeners()
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewModel.state.collect { state ->
+                renderState(state)
+            }
+        }
     }
 
     private fun setupToolbar() {
@@ -94,6 +105,43 @@ class SessionListFragment : BaseFragment<FragmentSessionListBinding, SessionList
         binding.btnExit.setOnDebouncedClickListener(coroutineScope = lifecycleScope) {
             dialog?.show(parentFragmentManager, CUSTOM_DIALOG_TAG)
         }
+    }
+
+    private fun renderState(state: ConnectToSessionState) {
+        when (state) {
+            is ConnectToSessionState.Loading -> {
+                binding.progressBar.visibility = View.VISIBLE
+            }
+
+            is ConnectToSessionState.Content -> {
+                userAdapter.setItems(state.session.users)
+                with(binding) {
+                    progressBar.visibility = View.GONE
+                    errorMessage.visibility = View.GONE
+                    rvUser.visibility = View.VISIBLE
+                }
+            }
+
+            is ConnectToSessionState.Error -> {
+                handleError(state)
+            }
+        }
+    }
+
+    private fun handleError(state: ConnectToSessionState.Error) {
+        showErrorMessage()
+        errorHandler.handleError(
+            state.errorType,
+            binding.errorMessage
+        ) {
+            etCode?.let { viewModel.connectToSession(it) }
+        }
+    }
+
+    private fun showErrorMessage() = with(binding) {
+        errorMessage.isVisible = true
+        progressBar.isVisible = false
+        rvUser.isVisible = false
     }
 
     companion object {
