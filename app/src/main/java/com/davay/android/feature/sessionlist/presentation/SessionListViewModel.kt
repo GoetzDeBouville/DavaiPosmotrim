@@ -1,7 +1,6 @@
 package com.davay.android.feature.sessionlist.presentation
 
 import android.os.Bundle
-import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
 import com.davay.android.BuildConfig
 import com.davay.android.R
@@ -24,32 +23,35 @@ import javax.inject.Inject
 class SessionListViewModel @Inject constructor(
     private val commonWebsocketInteractor: CommonWebsocketInteractor,
     private val connectToSessionUseCase: ConnectToSessionUseCase,
-    savedStateHandle: SavedStateHandle,
 ) : BaseViewModel() {
     private val _state = MutableStateFlow<ConnectToSessionState>(ConnectToSessionState.Loading)
     val state = _state.asStateFlow()
-    private val sessionId: String = savedStateHandle.get<String>(ET_CODE_KEY).toString()
+    private var sessionId: String? = null
 
-    init {
-        connectToSession(sessionId)
+    fun connectToSessionAuto(sessionId: String) {
+        if (this.sessionId == null) {
+            connectToSession(sessionId)
+        }
     }
 
     fun connectToSession(sessionId: String) {
+        this.sessionId = sessionId
         _state.update { ConnectToSessionState.Loading }
         runSafelyUseCase(
             useCaseFlow = connectToSessionUseCase.execute(sessionId),
             onFailure = { error ->
                 _state.update { ConnectToSessionState.Error(mapErrorToUiState(error)) }
+                this.sessionId = null
             },
             onSuccess = { session ->
                 _state.update { ConnectToSessionState.Content(session) }
-                subscribeToWebsockets()
+                subscribeToWebsockets(sessionId)
             }
         )
     }
 
     @Suppress("LongMethod")
-    private fun subscribeToWebsockets() {
+    private fun subscribeToWebsockets(sessionId: String) {
         viewModelScope.launch(Dispatchers.IO) {
             runCatching {
                 commonWebsocketInteractor.subscribeUsers(sessionId)
@@ -87,23 +89,23 @@ class SessionListViewModel @Inject constructor(
                         onSuccess = { status ->
                             when (status) {
                                 SessionStatus.VOTING -> {
-                                    if (_state.value is ConnectToSessionState.Content) {
-                                        _state.update { ConnectToSessionState.Loading }
-                                        val session =
-                                            (_state.value as ConnectToSessionState.Content).session.toSessionShort()
-                                        val sessionJson = Json.encodeToString(session)
-                                        val bundle = Bundle().apply {
-                                            putString(SESSION_DATA, sessionJson)
-                                        }
-                                        navigate(
-                                            R.id.action_sessionListFragment_to_selectMovieFragment,
-                                            bundle
-                                        )
+                                    _state.update { ConnectToSessionState.Loading }
+                                    val session =
+                                        (_state.value as ConnectToSessionState.Content).session.toSessionShort()
+                                    val sessionJson = Json.encodeToString(session)
+                                    val bundle = Bundle().apply {
+                                        putString(SESSION_DATA, sessionJson)
                                     }
+                                    this@SessionListViewModel.sessionId = null
+                                    navigate(
+                                        R.id.action_sessionListFragment_to_selectMovieFragment,
+                                        bundle
+                                    )
                                 }
 
                                 SessionStatus.CLOSED -> {
                                     _state.update { ConnectToSessionState.Loading }
+                                    this@SessionListViewModel.sessionId = null
                                     navigateBack()
                                 }
 
@@ -161,9 +163,5 @@ class SessionListViewModel @Inject constructor(
             commonWebsocketInteractor.unsubscribeMatchesId()
             commonWebsocketInteractor.unsubscribeRouletteId()
         }
-    }
-
-    companion object {
-        private const val ET_CODE_KEY = "ET_CODE_KEY"
     }
 }

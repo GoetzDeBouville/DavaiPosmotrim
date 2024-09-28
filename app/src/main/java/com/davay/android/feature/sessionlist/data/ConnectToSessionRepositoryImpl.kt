@@ -16,6 +16,7 @@ import com.davay.android.feature.sessionlist.data.network.ConnectToSessionReques
 import com.davay.android.feature.sessionlist.data.network.ConnectToSessionResponse
 import com.davay.android.feature.sessionlist.domain.api.ConnectToSessionRepository
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.emitAll
 import kotlinx.coroutines.flow.flow
 import javax.inject.Inject
 
@@ -35,7 +36,7 @@ class ConnectToSessionRepositoryImpl @Inject constructor(
         )
         when (response.body) {
             is ConnectToSessionResponse.ConnectToSession -> {
-                getSession(sessionId, userId)
+                emitAll(getSession(sessionId, userId))
             }
 
             else -> {
@@ -54,7 +55,6 @@ class ConnectToSessionRepositoryImpl @Inject constructor(
             )
             when (val body = response.body) {
                 is ConnectToSessionResponse.Session -> {
-                    saveMovieIdListToDb(body.value.movieIdList)
                     emit(Result.Success(body.value.toDomain()))
                 }
 

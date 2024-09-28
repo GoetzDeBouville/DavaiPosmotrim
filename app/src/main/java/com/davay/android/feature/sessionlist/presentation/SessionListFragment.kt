@@ -68,8 +68,6 @@ class SessionListFragment : BaseFragment<FragmentSessionListBinding, SessionList
     override fun initViews() {
         setupToolbar()
         initRecycler()
-
-        userAdapter.setItems(listOf("Артем", "Руслан", "Константин", "Виктория"))
     }
 
     override fun subscribe() {
@@ -79,6 +77,7 @@ class SessionListFragment : BaseFragment<FragmentSessionListBinding, SessionList
                 renderState(state)
             }
         }
+        viewModel.connectToSessionAuto(etCode.toString())
     }
 
     private fun setupToolbar() {
@@ -110,15 +109,16 @@ class SessionListFragment : BaseFragment<FragmentSessionListBinding, SessionList
     private fun renderState(state: ConnectToSessionState) {
         when (state) {
             is ConnectToSessionState.Loading -> {
-                binding.progressBar.visibility = View.VISIBLE
+                binding.prBar.visibility = View.VISIBLE
             }
 
             is ConnectToSessionState.Content -> {
                 userAdapter.setItems(state.session.users)
                 with(binding) {
-                    progressBar.visibility = View.GONE
+                    prBar.visibility = View.GONE
                     errorMessage.visibility = View.GONE
                     rvUser.visibility = View.VISIBLE
+                    ivSessionListPlaceholder.visibility = View.VISIBLE
                 }
             }
 
@@ -140,8 +140,9 @@ class SessionListFragment : BaseFragment<FragmentSessionListBinding, SessionList
 
     private fun showErrorMessage() = with(binding) {
         errorMessage.isVisible = true
-        progressBar.isVisible = false
+        prBar.isVisible = false
         rvUser.isVisible = false
+        ivSessionListPlaceholder.isVisible = false
     }
 
     companion object {
