@@ -2,6 +2,7 @@ package com.davay.android.feature.selectmovie.presentation.adapters
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
 import com.davai.util.setOnDebouncedClickListener
 import com.davay.android.core.domain.models.MovieDetails
@@ -33,7 +34,11 @@ class MovieCardAdapter(
         fun bind(data: MovieDetails) = with(binding) {
             inflateMovieDetails.invoke(data)
             movieDetailsHelper.setImage(ivSelectMovieCover, progressBar, data.imgUrl)
-            movieDetailsHelper.addGenreList(fblGenreList, data.genres)
+            if (data.genres.isEmpty()) {
+                fblGenreList.isVisible = false
+            } else {
+                movieDetailsHelper.addGenreList(fblGenreList, data.genres)
+            }
             movieDetailsHelper.setRateText(tvMarkValue, data.ratingKinopoisk)
             tvFilmTitle.text = data.name
             tvOriginalTitle.text = data.alternativeName ?: ""
@@ -94,8 +99,7 @@ class MovieCardAdapter(
         holder.bind(datalist[position])
     }
 
-
-    fun setData(list: List<MovieDetails>) {
+    fun setData(list: Set<MovieDetails>) {
         datalist.clear()
         datalist.addAll(list)
         notifyItemChanged(0)

@@ -1,12 +1,12 @@
 package com.davay.android.core.data.converters
 
 import com.davay.android.core.data.database.entity.MovieDetailsEntity
+import com.davay.android.core.data.database.entity.MovieIdEntity
 import com.davay.android.core.data.database.entity.SessionEntity
 import com.davay.android.core.data.database.entity.SessionWithMoviesDb
 import com.davay.android.core.data.dto.CollectionDto
 import com.davay.android.core.data.dto.GenreDto
 import com.davay.android.core.data.dto.MovieDetailsDto
-import com.davay.android.core.data.dto.MovieDetailsSocketDto
 import com.davay.android.core.data.dto.MovieDto
 import com.davay.android.core.data.dto.SessionDto
 import com.davay.android.core.data.dto.SessionResultDto
@@ -20,10 +20,13 @@ import com.davay.android.core.domain.models.Session
 import com.davay.android.core.domain.models.SessionStatus
 import com.davay.android.core.domain.models.SessionWithMovies
 import com.davay.android.core.domain.models.User
+import java.net.URLDecoder
+import java.nio.charset.StandardCharsets
 import java.text.ParseException
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
+import kotlin.math.round
 
 fun CollectionDto.toDomain() = CompilationFilms(
     id,
@@ -44,27 +47,45 @@ fun UserDto.toDomain() = User(
     name = name
 )
 
+private const val RATING_MULTIPLIER = 10
+private const val ROUNDING_DIVIDER = 10
+
 fun MovieDetailsDto.toDomain() = MovieDetails(
     id,
     name,
     description,
     year,
     countries,
-    imgUrl,
+    imgUrl?.let {
+        URLDecoder.decode(it.removePrefix("/"), StandardCharsets.UTF_8.toString())
+    } ?: "",
     alternativeName,
-    ratingKinopoisk,
-    ratingImdb,
+    roundRating(ratingKinopoisk),
+    roundRating(ratingImdb),
     numOfMarksKinopoisk,
     numOfMarksImdb,
     duration,
     genres.map { it.name },
-    directors,
-    actors,
+    personsArrFormatter(directors),
+    personsArrFormatter(actors),
 )
+
+private fun roundRating(rating: Float) = round(rating * RATING_MULTIPLIER) / ROUNDING_DIVIDER
+
+private fun personsArrFormatter(strList: List<String?>?): List<String> {
+    return strList?.mapNotNull {
+        if (it.isNullOrEmpty()) {
+            null
+        } else {
+            it
+        }
+    } ?: emptyList()
+}
+
 
 fun SessionDto.toDomain() = Session(
     id = id,
-    users = users.map { it.name },
+    users = users.map { it },
     movieIdList = movieIdList,
     matchedMovieIdList = matchedMovieIdList,
     date = convertDateStringToTimestamp(date),
@@ -96,8 +117,8 @@ fun MovieDetailsEntity.toDomain(): MovieDetails {
         numOfMarksImdb = numOfMarksImdb,
         duration = duration,
         genres = genres.toListData(),
+        directors = directors?.toListData(),
         actors = actors?.toListData(),
-        directors = directors?.toListData()
     )
 }
 
@@ -158,35 +179,16 @@ fun SessionWithMoviesDb.toDomain(): SessionWithMovies {
     )
 }
 
-fun MovieDetailsSocketDto.toDomain() = MovieDetails(
-    id,
-    name,
-    description,
-    year.toString(),
-    countries,
-    imgUrl,
-    alternativeName,
-    ratingKinopoisk,
-    ratingImdb,
-    numOfMarksKinopoisk,
-    numOfMarksImdb,
-    duration,
-    genres.map { it.name },
-    directors?.mapNotNull { it },
-    actors?.mapNotNull { it },
-)
+fun MovieIdEntity.toDomain(): Int = this.movieId
 
-fun SessionResultDto.toDomain() = SessionWithMovies(
-    session = Session(
-        id = id,
-        users = users,
-        movieIdList = emptyList(),
-        matchedMovieIdList = matchedMovies.map { it.id },
-        date = convertDateStringToTimestamp(date),
-        status = SessionStatus.CLOSED,
-        imgUrl = imgUrl
-    ),
-    movies = matchedMovies.map { it.toDomain() }
+fun SessionResultDto.toDomain() = Session(
+    id = id,
+    users = users.map { it.name },
+    movieIdList = emptyList(),
+    matchedMovieIdList = matchedMovies.map { it.id },
+    date = convertDateStringToTimestamp(date),
+    status = SessionStatus.CLOSED,
+    imgUrl = imgUrl
 )
 
 /**

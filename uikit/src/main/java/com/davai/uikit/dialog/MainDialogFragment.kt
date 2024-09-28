@@ -1,4 +1,4 @@
-package com.davai.uikit
+package com.davai.uikit.dialog
 
 import android.content.DialogInterface
 import android.os.Bundle
@@ -9,6 +9,7 @@ import androidx.core.view.isVisible
 import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
+import com.davai.uikit.R
 import com.davai.uikit.databinding.LayoutCustomDialogBinding
 import com.davai.uikit.extensions.applyBlurEffect
 import com.davai.uikit.extensions.clearBlurEffect
@@ -20,6 +21,8 @@ class MainDialogFragment : DialogFragment() {
     private var message: String? = null
     private var yesAction: (() -> Unit)? = null
     private var noAction: (() -> Unit)? = null
+    private var onCancelAction: (() -> Unit)? = null
+
     private var showConfirmBlock: Boolean? = null
 
     private var _binding: LayoutCustomDialogBinding? = null
@@ -40,6 +43,7 @@ class MainDialogFragment : DialogFragment() {
         viewModel.message = message
         viewModel.yesAction = yesAction ?: viewModel.yesAction
         viewModel.noAction = noAction ?: viewModel.noAction
+        viewModel.onCancelAction = onCancelAction ?: viewModel.onCancelAction
         showConfirmBlock?.let { viewModel.showConfirmBlock = it }
 
         initViews()
@@ -103,7 +107,7 @@ class MainDialogFragment : DialogFragment() {
     override fun onCancel(dialog: DialogInterface) {
         super.onCancel(dialog)
         activity?.window?.decorView?.clearBlurEffect()
-        viewModel.noAction?.invoke()
+        viewModel.onCancelAction?.invoke()
     }
 
     override fun onDismiss(dialog: DialogInterface) {
@@ -133,12 +137,14 @@ class MainDialogFragment : DialogFragment() {
         private const val KEY_TITLE = "KEY_TITLE"
         private const val KEY_MESSAGE = "KEY_MESSAGE"
 
+        @Suppress("LongParameterList")
         fun newInstance(
             title: String,
             message: String,
             showConfirmBlock: Boolean = false,
             yesAction: (() -> Unit)? = null,
-            noAction: (() -> Unit)? = null
+            noAction: (() -> Unit)? = null,
+            onCancelAction: (() -> Unit)? = null
         ): MainDialogFragment {
             val dialog = MainDialogFragment()
             dialog.title = title
@@ -146,6 +152,7 @@ class MainDialogFragment : DialogFragment() {
             dialog.showConfirmBlock = showConfirmBlock
             dialog.yesAction = yesAction
             dialog.noAction = noAction
+            dialog.onCancelAction = onCancelAction ?: noAction
             return dialog
         }
     }

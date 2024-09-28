@@ -6,7 +6,7 @@ import com.davay.android.R
 import com.davay.android.base.BaseViewModel
 import com.davay.android.core.domain.impl.CommonWebsocketInteractor
 import com.davay.android.core.domain.models.Result
-import com.davay.android.feature.waitsession.domain.WaitSessionOnBoardingInteractor
+import com.davay.android.feature.waitsession.domain.api.WaitSessionOnBoardingInteractor
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -17,10 +17,13 @@ class WaitSessionViewModel @Inject constructor(
 ) : BaseViewModel() {
 
     // для теста
-    private val sessionId = "HW0DzvbG"
+    private var sessionId: String? = null
 
-    init {
-        subscribeToWebsockets()
+    fun subscribeWs(id: String) {
+        if (sessionId == null) {
+            sessionId = id
+            subscribeToWebsockets(id)
+        }
     }
 
     fun isFirstTimeLaunch(): Boolean {
@@ -40,6 +43,10 @@ class WaitSessionViewModel @Inject constructor(
         navigate(R.id.action_mainFragment_to_createSessionFragment)
     }
 
+    fun navigateToNextScreen() {
+        navigate(R.id.action_waitSessionFragment_to_selectMovieFragment)
+    }
+
     // для теста
     @Suppress(
         "LongMethod",
@@ -47,7 +54,7 @@ class WaitSessionViewModel @Inject constructor(
         "CognitiveComplexMethod",
         "CyclomaticComplexMethod"
     )
-    private fun subscribeToWebsockets() {
+    private fun subscribeToWebsockets(sessionId: String) {
         viewModelScope.launch(Dispatchers.IO) {
             commonWebsocketInteractor.subscribeUsers(
                 sessionId = sessionId
@@ -59,6 +66,10 @@ class WaitSessionViewModel @Inject constructor(
 
                     is Result.Error -> {
                         Log.d("WaitSessionViewModel", result.error.toString())
+                    }
+
+                    null -> {
+                        Log.d("WaitSessionViewModel", null.toString())
                     }
                 }
             }
@@ -76,6 +87,10 @@ class WaitSessionViewModel @Inject constructor(
                     is Result.Error -> {
                         Log.d("WaitSessionViewModel", result.error.toString())
                     }
+
+                    null -> {
+                        Log.d("WaitSessionViewModel", null.toString())
+                    }
                 }
             }
         }
@@ -91,6 +106,10 @@ class WaitSessionViewModel @Inject constructor(
 
                     is Result.Error -> {
                         Log.d("WaitSessionViewModel", result.error.toString())
+                    }
+
+                    null -> {
+                        Log.d("WaitSessionViewModel", null.toString())
                     }
                 }
             }
@@ -108,6 +127,10 @@ class WaitSessionViewModel @Inject constructor(
                     is Result.Error -> {
                         Log.d("WaitSessionViewModel", result.error.toString())
                     }
+
+                    null -> {
+                        Log.d("WaitSessionViewModel", null.toString())
+                    }
                 }
             }
         }
@@ -123,6 +146,10 @@ class WaitSessionViewModel @Inject constructor(
 
                     is Result.Error -> {
                         Log.d("WaitSessionViewModel", result.error.toString())
+                    }
+
+                    null -> {
+                        Log.d("WaitSessionViewModel", null.toString())
                     }
                 }
             }
