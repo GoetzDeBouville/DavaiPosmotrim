@@ -89,7 +89,6 @@ class SessionListViewModel @Inject constructor(
                         onSuccess = { status ->
                             when (status) {
                                 SessionStatus.VOTING -> {
-                                    _state.update { ConnectToSessionState.Loading }
                                     val session =
                                         (_state.value as ConnectToSessionState.Content).session.toSessionShort()
                                     val sessionJson = Json.encodeToString(session)
@@ -104,7 +103,6 @@ class SessionListViewModel @Inject constructor(
                                 }
 
                                 SessionStatus.CLOSED -> {
-                                    _state.update { ConnectToSessionState.Loading }
                                     this@SessionListViewModel.sessionId = null
                                     navigateBack()
                                 }
