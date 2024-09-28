@@ -4,8 +4,10 @@ import android.util.Log
 import androidx.lifecycle.viewModelScope
 import com.davay.android.BuildConfig
 import com.davay.android.base.BaseViewModel
+import com.davay.android.core.domain.impl.CommonWebsocketInteractor
 import com.davay.android.core.domain.models.ErrorScreenState
 import com.davay.android.core.domain.models.MovieDetails
+import com.davay.android.core.domain.models.Result
 import com.davay.android.feature.selectmovie.domain.FilterDislikedMovieListUseCase
 import com.davay.android.feature.selectmovie.domain.GetMovieIdListSizeUseCase
 import com.davay.android.feature.selectmovie.domain.GetMovieListUseCase
@@ -21,7 +23,8 @@ class SelectMovieViewModel @Inject constructor(
     private val getMovieDetailsUseCase: GetMovieListUseCase,
     private val getMovieIdListSizeUseCase: GetMovieIdListSizeUseCase,
     private val filterDislikedMovieListUseCase: FilterDislikedMovieListUseCase,
-    private val swipeMovieUseCase: SwipeMovieUseCase
+    private val swipeMovieUseCase: SwipeMovieUseCase,
+    private val commonWebsocketInteractor: CommonWebsocketInteractor,
 ) : BaseViewModel() {
     private val _state = MutableStateFlow<SelectMovieState>(SelectMovieState.Loading)
     val state = _state.asStateFlow()
@@ -31,6 +34,43 @@ class SelectMovieViewModel @Inject constructor(
 
     init {
         initializeMovieList()
+
+        // для теста
+        @Suppress("StringLiteralDuplication")
+        viewModelScope.launch(Dispatchers.IO) {
+            commonWebsocketInteractor.getSessionStatus().collect { result ->
+                when (result) {
+                    is Result.Success -> {
+                        Log.d("SelectMovieViewModel", result.data.toString())
+                    }
+
+                    is Result.Error -> {
+                        Log.d("SelectMovieViewModel", result.error.toString())
+                    }
+
+                    null -> {
+                        Log.d("SelectMovieViewModel", null.toString())
+                    }
+                }
+            }
+        }
+        viewModelScope.launch(Dispatchers.IO) {
+            commonWebsocketInteractor.getSessionResult().collect { result ->
+                when (result) {
+                    is Result.Success -> {
+                        Log.d("SelectMovieViewModel", result.data.toString())
+                    }
+
+                    is Result.Error -> {
+                        Log.d("SelectMovieViewModel", result.error.toString())
+                    }
+
+                    null -> {
+                        Log.d("SelectMovieViewModel", null.toString())
+                    }
+                }
+            }
+        }
     }
 
     private fun loadMovies(position: Int) {
@@ -133,5 +173,15 @@ class SelectMovieViewModel @Inject constructor(
          */
         const val PRELOAD_SIZE = 5
         val TAG: String = SelectMovieViewModel::class.java.simpleName
+    }
+
+    fun disconnect() {
+        viewModelScope.launch(Dispatchers.IO) {
+            commonWebsocketInteractor.unsubscribeUsers()
+            commonWebsocketInteractor.unsubscribeRouletteId()
+            commonWebsocketInteractor.unsubscribeMatchesId()
+            commonWebsocketInteractor.unsubscribeSessionResult()
+            commonWebsocketInteractor.unsubscribeSessionStatus()
+        }
     }
 }

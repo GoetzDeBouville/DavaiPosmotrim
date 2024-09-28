@@ -1,6 +1,7 @@
 package com.davay.android.feature.selectmovie.di
 
 import com.davay.android.di.AppComponent
+import com.davay.android.di.FragmentScope
 import com.davay.android.di.ScreenComponent
 import dagger.Component
 
@@ -12,6 +13,7 @@ import dagger.Component
         SelectMovieFragmentModule::class
     ]
 )
+@FragmentScope
 interface SelectMovieFragmentComponent : ScreenComponent {
 
     @Component.Builder

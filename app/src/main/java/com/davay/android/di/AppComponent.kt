@@ -7,11 +7,14 @@ import com.davay.android.core.data.database.AppDatabase
 import com.davay.android.core.data.database.di.DatabaseModule
 import com.davay.android.core.data.di.NetworkModule
 import com.davay.android.core.domain.api.SessionsHistoryRepository
+import com.davay.android.core.domain.impl.CommonWebsocketInteractor
 import com.davay.android.di.prefs.marker.StorageMarker
 import com.davay.android.di.prefs.model.PreferencesStorage
 import dagger.BindsInstance
 import dagger.Component
 import io.ktor.client.HttpClient
+import javax.inject.Scope
+import javax.inject.Singleton
 
 @Component(
     modules = [
@@ -19,14 +22,17 @@ import io.ktor.client.HttpClient
         ContextModule::class,
         DatabaseModule::class,
         EncryptedSharedPreferencesModule::class,
-        SessionsHistoryModule::class
+        SessionsHistoryModule::class,
+        CommonWebsocketModule::class,
     ]
 )
+@Singleton
 interface AppComponent : DIComponent {
     val httpClient: HttpClient
     val context: Context
     val dataBase: AppDatabase
     val sessionsHistoryRepository: SessionsHistoryRepository
+    val commonWebsocketInteractor: CommonWebsocketInteractor
 
     @StorageMarker(PreferencesStorage.USER)
     fun encryptedSharedPreferences(): SharedPreferences
@@ -55,3 +61,7 @@ object AppComponentHolder : DataBasedComponentHolder<AppComponent, Application>(
             .contextModule(ContextModule(data))
             .build()
 }
+
+@Scope
+@Retention(AnnotationRetention.RUNTIME)
+annotation class FragmentScope

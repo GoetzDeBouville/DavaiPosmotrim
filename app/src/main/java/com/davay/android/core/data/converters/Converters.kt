@@ -9,6 +9,7 @@ import com.davay.android.core.data.dto.GenreDto
 import com.davay.android.core.data.dto.MovieDetailsDto
 import com.davay.android.core.data.dto.MovieDto
 import com.davay.android.core.data.dto.SessionDto
+import com.davay.android.core.data.dto.SessionResultDto
 import com.davay.android.core.data.dto.SessionStatusDto
 import com.davay.android.core.data.dto.UserDto
 import com.davay.android.core.domain.models.CompilationFilms
@@ -82,43 +83,15 @@ private fun personsArrFormatter(strList: List<String?>?): List<String> {
 }
 
 
-/**
- * Конвертирует строку с датой в timeStamp.
- * Если при форматировании дата получается null, то возвращается дата minDate.
- * Если при форматировании дата больше текущей, то возвращается дата minDate.
- * Если при форматировании дата меньше minDate, то возвращается minDate.
- * minDate устанавливаем на 2024-01-01.
- */
-fun SessionDto.toDomain(): Session {
-    val dateFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
-    val minDate = dateFormat.parse("2024-01-01")
-    val currentDate = Date()
-
-    val parsedDate = try {
-        dateFormat.parse(date)
-    } catch (e: ParseException) {
-        null
-    }
-
-    val validDate = when {
-        parsedDate == null -> minDate
-        parsedDate.before(minDate) -> minDate
-        parsedDate.after(currentDate) -> minDate
-        else -> parsedDate
-    }
-
-    val timestamp = validDate.time
-
-    return Session(
-        id = id,
-        users = users.map { it },
-        movieIdList = movieIdList,
-        matchedMovieIdList = matchedMovieIdList,
-        date = timestamp,
-        status = status.toDomain(),
-        imgUrl = imgUrl ?: ""
-    )
-}
+fun SessionDto.toDomain() = Session(
+    id = id,
+    users = users.map { it },
+    movieIdList = movieIdList,
+    matchedMovieIdList = matchedMovieIdList,
+    date = convertDateStringToTimestamp(date),
+    status = status.toDomain(),
+    imgUrl = imgUrl ?: ""
+)
 
 fun SessionStatusDto.toDomain(): SessionStatus {
     return when (this) {
@@ -207,3 +180,38 @@ fun SessionWithMoviesDb.toDomain(): SessionWithMovies {
 }
 
 fun MovieIdEntity.toDomain(): Int = this.movieId
+
+fun SessionResultDto.toDomain() = Session(
+    id = id,
+    users = users.map { it.name },
+    movieIdList = emptyList(),
+    matchedMovieIdList = matchedMovies.map { it.id },
+    date = convertDateStringToTimestamp(date),
+    status = SessionStatus.CLOSED,
+    imgUrl = imgUrl
+)
+
+/**
+ * Конвертирует строку с датой в timeStamp.
+ * Если при форматировании дата получается null, то возвращается дата minDate.
+ * Если при форматировании дата больше текущей, то возвращается дата minDate.
+ * Если при форматировании дата меньше minDate, то возвращается minDate.
+ * minDate устанавливаем на 2024-01-01.
+ */
+private fun convertDateStringToTimestamp(dateString: String): Long {
+    val dateFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
+    val minDate = dateFormat.parse("2024-01-01")
+    val currentDate = Date()
+    val parsedDate = try {
+        dateFormat.parse(dateString)
+    } catch (e: ParseException) {
+        null
+    }
+    val validDate = when {
+        parsedDate == null -> minDate
+        parsedDate.before(minDate) -> minDate
+        parsedDate.after(currentDate) -> minDate
+        else -> parsedDate
+    }
+    return validDate.time
+}
