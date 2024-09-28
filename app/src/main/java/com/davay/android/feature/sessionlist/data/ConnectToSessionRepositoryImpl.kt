@@ -55,6 +55,7 @@ class ConnectToSessionRepositoryImpl @Inject constructor(
             )
             when (val body = response.body) {
                 is ConnectToSessionResponse.Session -> {
+                    saveMovieIdListToDb(body.value.movieIdList)
                     emit(Result.Success(body.value.toDomain()))
                 }
 
