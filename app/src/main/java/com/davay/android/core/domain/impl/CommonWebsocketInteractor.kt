@@ -14,11 +14,16 @@ import javax.inject.Singleton
 class CommonWebsocketInteractor @Inject constructor(
     private val websocketRepository: WebsocketRepository,
 ) {
+    var sessionId: String? = null
+        private set
+
     fun subscribeSessionStatus(sessionId: String): StateFlow<Result<SessionStatus, ErrorType>?> {
+        this.sessionId = sessionId
         return websocketRepository.subscribeSessionStatus(sessionId)
     }
 
     suspend fun unsubscribeSessionStatus() {
+        this.sessionId = null
         websocketRepository.unsubscribeSessionStatus()
     }
 
