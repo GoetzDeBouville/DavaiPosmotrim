@@ -50,7 +50,7 @@ class SessionListViewModel @Inject constructor(
         )
     }
 
-    @Suppress("LongMethod")
+    @Suppress("CyclomaticComplexMethod", "LongMethod", "CognitiveComplexMethod")
     private fun subscribeToWebsockets(sessionId: String) {
         viewModelScope.launch(Dispatchers.IO) {
             runCatching {
