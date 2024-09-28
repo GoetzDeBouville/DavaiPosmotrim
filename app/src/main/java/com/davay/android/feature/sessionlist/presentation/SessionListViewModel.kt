@@ -5,12 +5,14 @@ import androidx.lifecycle.viewModelScope
 import com.davay.android.BuildConfig
 import com.davay.android.base.BaseViewModel
 import com.davay.android.core.domain.impl.CommonWebsocketInteractor
+import com.davay.android.feature.sessionlist.domain.usecase.ConnectToSessionUseCase
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class SessionListViewModel @Inject constructor(
     private val commonWebsocketInteractor: CommonWebsocketInteractor,
+    private val connectToSessionUseCase: ConnectToSessionUseCase,
 ) : BaseViewModel() {
     private val sessionId = "7CQOtxiB"
 
