@@ -128,7 +128,16 @@ class SessionListViewModel @Inject constructor(
         viewModelScope.launch(Dispatchers.IO) {
             runCatching {
                 commonWebsocketInteractor.subscribeSessionResult(sessionId = sessionId)
+                    .collect { result ->
+                        result?.fold(
+                            onError = { error ->
+                                _state.update { ConnectToSessionState.Error(mapErrorToUiState(error)) }
+                            },
+                            onSuccess = {}
+                        )
+                    }
             }.onFailure { error ->
+                _state.update { ConnectToSessionState.Error(ErrorScreenState.SERVER_ERROR) }
                 if (BuildConfig.DEBUG) {
                     error.printStackTrace()
                 }
@@ -137,7 +146,16 @@ class SessionListViewModel @Inject constructor(
         viewModelScope.launch(Dispatchers.IO) {
             runCatching {
                 commonWebsocketInteractor.subscribeMatchesId(sessionId = sessionId)
+                    .collect { result ->
+                        result?.fold(
+                            onError = { error ->
+                                _state.update { ConnectToSessionState.Error(mapErrorToUiState(error)) }
+                            },
+                            onSuccess = {}
+                        )
+                    }
             }.onFailure { error ->
+                _state.update { ConnectToSessionState.Error(ErrorScreenState.SERVER_ERROR) }
                 if (BuildConfig.DEBUG) {
                     error.printStackTrace()
                 }
@@ -146,7 +164,16 @@ class SessionListViewModel @Inject constructor(
         viewModelScope.launch(Dispatchers.IO) {
             runCatching {
                 commonWebsocketInteractor.subscribeRouletteId(sessionId = sessionId)
+                    .collect { result ->
+                        result?.fold(
+                            onError = { error ->
+                                _state.update { ConnectToSessionState.Error(mapErrorToUiState(error)) }
+                            },
+                            onSuccess = {}
+                        )
+                    }
             }.onFailure { error ->
+                _state.update { ConnectToSessionState.Error(ErrorScreenState.SERVER_ERROR) }
                 if (BuildConfig.DEBUG) {
                     error.printStackTrace()
                 }

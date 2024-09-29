@@ -89,7 +89,7 @@ class WebsocketRepositoryImpl @Inject constructor(
             if (BuildConfig.DEBUG) {
                 e.printStackTrace()
             }
-            emit(Result.Error(ErrorType.NO_CONNECTION))
+            emit(Result.Error(ErrorType.UNKNOWN_ERROR))
         }
     }
 
@@ -132,7 +132,7 @@ class WebsocketRepositoryImpl @Inject constructor(
                 if (BuildConfig.DEBUG) {
                     e.printStackTrace()
                 }
-                emit(Result.Error(ErrorType.NO_CONNECTION))
+                emit(Result.Error(ErrorType.UNKNOWN_ERROR))
             }
         }
 
@@ -175,7 +175,7 @@ class WebsocketRepositoryImpl @Inject constructor(
                 if (BuildConfig.DEBUG) {
                     e.printStackTrace()
                 }
-                emit(Result.Error(ErrorType.NO_CONNECTION))
+                emit(Result.Error(ErrorType.UNKNOWN_ERROR))
             }
         }
 
@@ -218,7 +218,7 @@ class WebsocketRepositoryImpl @Inject constructor(
                 if (BuildConfig.DEBUG) {
                     e.printStackTrace()
                 }
-                emit(Result.Error(ErrorType.NO_CONNECTION))
+                emit(Result.Error(ErrorType.UNKNOWN_ERROR))
             }
         }
 
@@ -261,7 +261,7 @@ class WebsocketRepositoryImpl @Inject constructor(
                 if (BuildConfig.DEBUG) {
                     e.printStackTrace()
                 }
-                emit(Result.Error(ErrorType.NO_CONNECTION))
+                emit(Result.Error(ErrorType.UNKNOWN_ERROR))
             }
         }
 
