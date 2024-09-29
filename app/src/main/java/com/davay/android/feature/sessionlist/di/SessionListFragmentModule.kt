@@ -34,11 +34,5 @@ interface SessionListFragmentModule {
             @StorageMarker(PreferencesStorage.USER)
             storage: SharedPreferences
         ): UserDataRepository = UserDataRepositoryImpl(storage)
-
-        @Provides
-        fun provideCreateSessionKtorClient(
-            context: Context,
-            httpClient: HttpClient
-        ) = HttpCreateSessionKtorClient(context, httpClient)
     }
 }
