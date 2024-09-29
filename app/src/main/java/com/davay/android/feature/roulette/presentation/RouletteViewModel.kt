@@ -2,7 +2,9 @@ package com.davay.android.feature.roulette.presentation
 
 import androidx.lifecycle.viewModelScope
 import com.davay.android.base.BaseViewModel
+import com.davay.android.core.domain.impl.CommonWebsocketInteractor
 import com.davay.android.core.domain.models.MovieDetails
+import com.davay.android.feature.roulette.domain.impl.StartRouletteUseCase
 import com.davay.android.feature.roulette.presentation.model.UserRouletteModel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
@@ -13,7 +15,10 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 import kotlin.random.Random
 
-class RouletteViewModel @Inject constructor() : BaseViewModel() {
+class RouletteViewModel @Inject constructor(
+    private val commonWebsocketInteractor: CommonWebsocketInteractor,
+    private val startRouletteUseCase: StartRouletteUseCase,
+) : BaseViewModel() {
 
     private val _state: MutableStateFlow<RouletteState>
     val state: StateFlow<RouletteState>
