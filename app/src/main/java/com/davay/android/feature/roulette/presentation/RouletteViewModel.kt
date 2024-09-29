@@ -2,136 +2,118 @@ package com.davay.android.feature.roulette.presentation
 
 import androidx.core.os.bundleOf
 import androidx.lifecycle.viewModelScope
+import com.davay.android.BuildConfig
 import com.davay.android.R
 import com.davay.android.base.BaseViewModel
 import com.davay.android.core.domain.impl.CommonWebsocketInteractor
 import com.davay.android.core.domain.models.MovieDetails
+import com.davay.android.feature.roulette.domain.impl.RouletteMoviesUseCase
 import com.davay.android.feature.roulette.domain.impl.StartRouletteUseCase
 import com.davay.android.feature.roulette.presentation.model.UserRouletteModel
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
-import kotlin.random.Random
 
 class RouletteViewModel @Inject constructor(
     private val commonWebsocketInteractor: CommonWebsocketInteractor,
     private val startRouletteUseCase: StartRouletteUseCase,
+    private val rouletteMoviesUseCase: RouletteMoviesUseCase,
 ) : BaseViewModel() {
 
-    private val _state: MutableStateFlow<RouletteState>
+    private val _state: MutableStateFlow<RouletteState> = MutableStateFlow(
+        RouletteState.Init(emptyList(), emptyList())
+    )
     val state: StateFlow<RouletteState>
         get() = _state
 
-    private var users: List<UserRouletteModel>
-    private val films: List<MovieDetails>
-    private val watchFilmId: Int
+    private var users: List<UserRouletteModel> = emptyList()
+    private var films: List<MovieDetails> = emptyList()
+    private var watchFilmId: Int = 0
+    private val sessionId: String = commonWebsocketInteractor.sessionId.toString()
 
     init {
-        users = listOf(
-            UserRouletteModel(1, "Masha"),
-            UserRouletteModel(2, "Sasha"),
-            UserRouletteModel(TEMP_NUMBER_3, "Sasha Sasha Sasha Sasha Sasha")
-        )
+        subscribeToWs()
+//        _state = MutableStateFlow(RouletteState.Init(users, films))
+//        if (films.any { it.id == watchFilmId }) {
+//            checkUsers()
+//        } else {
+//            _state.value = RouletteState.Error
+//        }
+    }
 
-        films = listOf(
-            MovieDetails(
-                id = 1,
-                name = "Название 1",
-                description = null,
-                year = "2008",
-                countries = listOf(),
-                imgUrl = "https://clck.ru/3BACfT",
-                alternativeName = "Rodger Dawson",
-                ratingKinopoisk = 2.0f,
-                ratingImdb = 0.0f,
-                numOfMarksKinopoisk = null,
-                numOfMarksImdb = null,
-                duration = 90,
-                genres = listOf(),
-                directors = listOf(),
-                actors = listOf()
-            ),
-            MovieDetails(
-                id = 1,
-                name = "Название 2",
-                description = null,
-                year = "2001",
-                countries = listOf(),
-                imgUrl = "https://ir.ozone.ru/s3/multimedia-j/c1000/6379140283.jpg",
-                alternativeName = "Alt name",
-                ratingKinopoisk = 7.1f,
-                ratingImdb = 0.0f,
-                numOfMarksKinopoisk = null,
-                numOfMarksImdb = null,
-                duration = 101,
-                genres = listOf(),
-                directors = listOf(),
-                actors = listOf()
-            ),
-
-            MovieDetails(
-                id = 3,
-                name = "Название 3",
-                description = null,
-                year = "1989",
-                countries = listOf(),
-                imgUrl = "https://static.insales-cdn.com/images/products/1/2985/388467625/%D0%BF0362.png",
-                alternativeName = "Justin Madden",
-                ratingKinopoisk = 9.4f,
-                ratingImdb = 0.0f,
-                numOfMarksKinopoisk = null,
-                numOfMarksImdb = null,
-                duration = 122,
-                genres = listOf(),
-                directors = listOf(),
-                actors = listOf()
-            ),
-            MovieDetails(
-                id = 4,
-                name = "Название 4",
-                description = null,
-                year = null,
-                countries = listOf(),
-                imgUrl = "https://clck.ru/3BACbb",
-                alternativeName = "Juanita Cabrera",
-                ratingKinopoisk = 5f,
-                ratingImdb = 0.0f,
-                numOfMarksKinopoisk = null,
-                numOfMarksImdb = null,
-                duration = null,
-                genres = listOf(),
-                directors = listOf(),
-                actors = listOf()
-            ),
-            MovieDetails(
-                id = 5,
-                name = "Название 5",
-                description = null,
-                year = "2010",
-                countries = listOf(),
-                imgUrl = "https://clck.ru/3BACae",
-                alternativeName = "Lowell Whitney",
-                ratingKinopoisk = 7.6f,
-                ratingImdb = 0.0f,
-                numOfMarksKinopoisk = null,
-                numOfMarksImdb = null,
-                duration = 176,
-                genres = listOf(),
-                directors = listOf(),
-                actors = listOf()
-            ),
-        )
-
-        _state = MutableStateFlow(RouletteState.Init(users, films))
-        watchFilmId = Random.nextInt(1, TEMP_NUMBER_6)
-        if (films.any { it.id == watchFilmId }) {
-            checkUsers()
-        } else {
-            _state.value = RouletteState.Error
+    private fun subscribeToWs() {
+        viewModelScope.launch(Dispatchers.IO) {
+            runCatching {
+                commonWebsocketInteractor.getSessionResult()
+                    .collect { result ->
+                        result?.fold(
+                            onSuccess = { session ->
+                                launch {
+                                    rouletteMoviesUseCase.getMoviesByIdList(idList = session.matchedMovieIdList)
+                                        .collect { moviesListResult ->
+                                            moviesListResult.fold(
+                                                onSuccess = { movies ->
+                                                    val userList =
+                                                        session.users.mapIndexed { index, user ->
+                                                            UserRouletteModel(
+                                                                id = index,
+                                                                name = user,
+                                                                isConnected = false
+                                                            )
+                                                        }
+                                                    users = userList
+                                                    films = movies
+                                                    _state.update {
+                                                        RouletteState.Waiting(
+                                                            users = userList,
+                                                            films = movies
+                                                        )
+                                                    }
+                                                },
+                                                onError = {
+                                                    _state.update { RouletteState.Error }
+                                                }
+                                            )
+                                        }
+                                }
+                            },
+                            onError = {
+                                _state.update { RouletteState.Error }
+                            }
+                        )
+                    }
+            }.onFailure { error ->
+                _state.update { RouletteState.Error }
+                if (BuildConfig.DEBUG) {
+                    error.printStackTrace()
+                }
+            }
+        }
+        viewModelScope.launch(Dispatchers.IO) {
+            runCatching {
+                commonWebsocketInteractor.getRouletteId()
+                    .collect { result ->
+                        result?.fold(
+                            onSuccess = { filmId ->
+                                watchFilmId = filmId
+                            },
+                            onError = {
+                                _state.update { RouletteState.Error }
+                            }
+                        )
+                    }
+            }.onFailure { error ->
+                _state.update { RouletteState.Error }
+                if (BuildConfig.DEBUG) {
+                    error.printStackTrace()
+                }
+            }
         }
     }
 
@@ -178,7 +160,11 @@ class RouletteViewModel @Inject constructor(
     }
 
     fun rouletteStart() {
-        // отправляем запрос на добавление других пользователей в рулетку
+        runSafelyUseCase(
+            useCaseFlow = startRouletteUseCase.startRoulette(sessionId),
+            onSuccess = {},
+            onFailure = { _state.update { RouletteState.Error } }
+        )
     }
 
     fun navigateToMainFragment() {
@@ -188,7 +174,7 @@ class RouletteViewModel @Inject constructor(
     fun navigateToSessionHistory() {
         navigate(
             navDirections = R.id.action_rouletteFragment_to_matchedSessionFragment2,
-            bundle = bundleOf(SESSION_ID to "sessionId")
+            bundle = bundleOf(SESSION_ID to sessionId)
         )
     }
 
