@@ -166,7 +166,18 @@
         android:id="@+id/rouletteFragment"
         android:name="com.davay.android.feature.roulette.presentation.RouletteFragment"
         android:label="RouletteFragment"
-        tools:layout="@layout/fragment_roulette" />
+        tools:layout="@layout/fragment_roulette" >
+        <action
+            android:id="@+id/action_rouletteFragment_to_mainFragment"
+            app:destination="@id/mainFragment"
+            app:popUpTo="@+id/mainFragment"
+            app:popUpToInclusive="false"/>
+        <action
+            android:id="@+id/action_rouletteFragment_to_matchedSessionFragment2"
+            app:destination="@id/matchedSessionFragment"
+            app:popUpTo="@+id/mainFragment"
+            app:popUpToInclusive="false"/>
+    </fragment>
     <fragment
         android:id="@+id/waitSessionFragment"
         android:name="com.davay.android.feature.waitsession.presentation.WaitSessionFragment"
