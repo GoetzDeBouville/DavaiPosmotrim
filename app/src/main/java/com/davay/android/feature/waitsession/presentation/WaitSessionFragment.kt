@@ -5,6 +5,7 @@ import android.content.ClipboardManager
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.OnBackPressedCallback
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
@@ -14,6 +15,7 @@ import com.davai.extensions.dpToPx
 import com.davai.uikit.BannerView
 import com.davai.uikit.dialog.MainDialogFragment
 import com.davai.util.setOnDebouncedClickListener
+import com.davay.android.BuildConfig
 import com.davay.android.R
 import com.davay.android.base.BaseFragment
 import com.davay.android.core.domain.models.SessionShort
@@ -23,6 +25,7 @@ import com.davay.android.di.AppComponentHolder
 import com.davay.android.di.ScreenComponent
 import com.davay.android.feature.createsession.presentation.createsession.CreateSessionViewModel
 import com.davay.android.feature.waitsession.di.DaggerWaitSessionFragmentComponent
+import com.davay.android.feature.waitsession.domain.models.WaitSessionState
 import com.davay.android.feature.waitsession.presentation.adapter.CustomItemDecorator
 import com.davay.android.feature.waitsession.presentation.adapter.UserAdapter
 import com.google.android.flexbox.AlignItems
@@ -30,11 +33,13 @@ import com.google.android.flexbox.FlexDirection
 import com.google.android.flexbox.FlexWrap
 import com.google.android.flexbox.FlexboxLayoutManager
 import com.google.android.flexbox.JustifyContent
+import kotlinx.coroutines.launch
 import kotlinx.serialization.json.Json
 
 class WaitSessionFragment : BaseFragment<FragmentWaitSessionBinding, WaitSessionViewModel>(
     FragmentWaitSessionBinding::inflate
 ) {
+
     override val viewModel: WaitSessionViewModel by injectViewModel<WaitSessionViewModel>()
     private val userAdapter = UserAdapter()
     private var launcher: ActivityResultLauncher<Intent>? = null
@@ -44,7 +49,7 @@ class WaitSessionFragment : BaseFragment<FragmentWaitSessionBinding, WaitSession
             title = getString(R.string.leave_wait_session_title),
             message = getString(R.string.leave_wait_session_dialog_message),
             yesAction = {
-                viewModel.navigateToCreateSession()
+                viewModel.navigateToCreateSessionAndUnsubscribeWebSockets()
             }
         )
     }
@@ -72,18 +77,9 @@ class WaitSessionFragment : BaseFragment<FragmentWaitSessionBinding, WaitSession
 
     override fun initViews() {
         super.initViews()
-        userAdapter.setItems(
-            listOf(
-                "Артем",
-                "Руслан",
-                "Константин",
-                "Виктория"
-            ) // список юзеров нужно тянуть из сокета
-        )
         initRecycler()
         session?.let { session ->
             binding.tvCode.text = session.id
-            viewModel.subscribeWs(session.id)
         }
     }
 
@@ -100,6 +96,30 @@ class WaitSessionFragment : BaseFragment<FragmentWaitSessionBinding, WaitSession
             if (it.isEnabled) {
                 sendCode(sessionId)
                 binding.sendButton.setButtonEnabled(false)
+            }
+        }
+
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewModel.state.collect { state ->
+                if (BuildConfig.DEBUG) {
+                    Log.i(TAG, "state: $state")
+                }
+                renderState(state)
+            }
+        }
+    }
+
+    private fun renderState(state: WaitSessionState) {
+        when (state) {
+            is WaitSessionState.Content -> {
+                userAdapter.setItems(state.users)
+                if (BuildConfig.DEBUG) {
+                    Log.i(TAG, "state.session: ${state.users}")
+                }
+            }
+
+            is WaitSessionState.Error -> {
+
             }
         }
     }
@@ -193,5 +213,7 @@ class WaitSessionFragment : BaseFragment<FragmentWaitSessionBinding, WaitSession
         const val CUSTOM_DIALOG_TAG = "customDialog"
         const val MIN_USER_TO_START_2 = 2
         const val TEXT_TYPE = "text/plain"
+
+        val TAG = WaitSessionFragment::class.simpleName
     }
 }
