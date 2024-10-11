@@ -1,11 +1,8 @@
 package com.davay.android.feature.sessionlist.data
 
-import android.database.sqlite.SQLiteException
-import android.util.Log
-import com.davay.android.BuildConfig
+import com.davay.android.core.data.MovieIdListToDbSaver
 import com.davay.android.core.data.converters.toDomain
 import com.davay.android.core.data.database.MovieIdDao
-import com.davay.android.core.data.database.entity.MovieIdEntity
 import com.davay.android.core.data.network.HttpNetworkClient
 import com.davay.android.core.data.network.model.mapToErrorType
 import com.davay.android.core.domain.api.UserDataRepository
@@ -24,6 +21,7 @@ class ConnectToSessionRepositoryImpl @Inject constructor(
     private val movieIdDao: MovieIdDao,
     private val userDataRepository: UserDataRepository,
     private val httpNetworkClient: HttpNetworkClient<ConnectToSessionRequest, ConnectToSessionResponse>,
+    private val movieIdListToDbSaver: MovieIdListToDbSaver,
 ) : ConnectToSessionRepository {
 
     override fun connectToSession(sessionId: String): Flow<Result<Session, ErrorType>> = flow {
@@ -55,7 +53,7 @@ class ConnectToSessionRepositoryImpl @Inject constructor(
             )
             when (val body = response.body) {
                 is ConnectToSessionResponse.Session -> {
-                    saveMovieIdListToDb(body.value.movieIdList)
+                    movieIdListToDbSaver.saveMovieIdListToDb(body.value.movieIdList, movieIdDao)
                     emit(Result.Success(body.value.toDomain()))
                 }
 
@@ -64,60 +62,4 @@ class ConnectToSessionRepositoryImpl @Inject constructor(
                 }
             }
         }
-
-    // из CreateSessionRepositoryImpl
-    private suspend fun saveMovieIdListToDb(idList: List<Int>) {
-        try {
-            clearAndResetIdsTable()
-
-            idList.forEach { id ->
-                insertMovieToDb(id)
-            }
-        } catch (e: SQLiteException) {
-            if (BuildConfig.DEBUG) {
-                Log.e(TAG, "Database operation failed: ${e.localizedMessage}", e)
-            }
-        }
-    }
-
-    private suspend fun insertMovieToDb(movieId: Int) {
-        try {
-            movieIdDao.insertMovieId(MovieIdEntity(movieId = movieId))
-        } catch (e: SQLiteException) {
-            if (BuildConfig.DEBUG) {
-                Log.e(
-                    TAG,
-                    "Error inserting movie ID: $movieId, exception -> ${e.localizedMessage}"
-                )
-            }
-        }
-    }
-
-    private suspend fun clearAndResetIdsTable() {
-        val movieIdCount = try {
-            movieIdDao.getMovieIdsCount()
-        } catch (e: SQLiteException) {
-            if (BuildConfig.DEBUG) {
-                Log.e(TAG, "Error in getMovieIdsCount, exception -> ${e.localizedMessage}")
-            }
-            0
-        }
-
-        if (movieIdCount > 0) {
-            try {
-                movieIdDao.clearAndResetTable()
-            } catch (e: SQLiteException) {
-                if (BuildConfig.DEBUG) {
-                    Log.e(
-                        TAG,
-                        "Error in clear and reset table, exception -> ${e.localizedMessage}"
-                    )
-                }
-            }
-        }
-    }
-
-    private companion object {
-        val TAG = ConnectToSessionRepositoryImpl::class.simpleName
-    }
 }

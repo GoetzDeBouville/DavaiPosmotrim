@@ -1,6 +1,8 @@
 package com.davay.android.feature.sessionlist.di
 
 import android.content.Context
+import com.davay.android.core.data.MovieIdListToDbSaver
+import com.davay.android.core.data.MovieIdListToDbSaverImpl
 import com.davay.android.core.data.database.AppDatabase
 import com.davay.android.core.data.network.HttpKtorNetworkClient
 import com.davay.android.core.domain.api.UserDataRepository
@@ -27,12 +29,19 @@ class SessionListDataModule {
     fun provideConnectToSessionRepository(
         httpNetworkClient: HttpKtorNetworkClient<ConnectToSessionRequest, ConnectToSessionResponse>,
         userDataRepository: UserDataRepository,
-        appDatabase: AppDatabase
+        appDatabase: AppDatabase,
+        movieIdListToDbSaver: MovieIdListToDbSaver
     ): ConnectToSessionRepository {
         return ConnectToSessionRepositoryImpl(
             appDatabase.movieIdDao(),
             userDataRepository,
             httpNetworkClient,
+            movieIdListToDbSaver,
         )
+    }
+
+    @Provides
+    fun provideMovieIdListToDbSaver(): MovieIdListToDbSaver {
+        return MovieIdListToDbSaverImpl()
     }
 }
