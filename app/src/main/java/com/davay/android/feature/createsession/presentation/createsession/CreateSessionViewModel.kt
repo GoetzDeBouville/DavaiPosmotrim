@@ -45,7 +45,7 @@ open class CreateSessionViewModel @Inject constructor(
             useCaseFlow = commonWebsocketInteractor.subscribeSessionStatus(),
             onSuccess = { status ->
                 if (BuildConfig.DEBUG) {
-                Log.i(TAG, "status-> $status")
+                    Log.i(TAG, "status-> $status")
                 }
             },
             onFailure = { error ->

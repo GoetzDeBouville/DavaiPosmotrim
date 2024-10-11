@@ -10,10 +10,12 @@ import com.davay.android.core.domain.impl.LeaveSessionUseCase
 import com.davay.android.core.domain.models.Result
 import com.davay.android.core.domain.models.UserDataFields
 import com.davay.android.core.domain.usecases.GetUserDataUseCase
+import com.davay.android.feature.waitsession.domain.SetSessionStatusVotingUseCase
 import com.davay.android.feature.waitsession.domain.api.WaitSessionOnBoardingInteractor
 import com.davay.android.feature.waitsession.domain.models.WaitSessionState
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -25,7 +27,8 @@ class WaitSessionViewModel @Inject constructor(
     private val waitSessionOnBoardingInteractor: WaitSessionOnBoardingInteractor,
     private val commonWebsocketInteractor: CommonWebsocketInteractor,
     private val getUserDataUseCase: GetUserDataUseCase,
-    private val leaveSessionUseCase: LeaveSessionUseCase
+    private val leaveSessionUseCase: LeaveSessionUseCase,
+    private val setSessionStatusVotingUseCase: SetSessionStatusVotingUseCase
 ) : BaseViewModel() {
     private val _state = MutableStateFlow<WaitSessionState>(WaitSessionState.Content(emptyList()))
     val state
@@ -64,7 +67,17 @@ class WaitSessionViewModel @Inject constructor(
     }
 
     fun navigateToNextScreen() {
-        navigate(R.id.action_waitSessionFragment_to_selectMovieFragment)
+        runSafelyUseCase(
+            useCaseFlow = setSessionStatusVotingUseCase(),
+            onSuccess = {
+                navigate(R.id.action_waitSessionFragment_to_selectMovieFragment)
+            },
+            onFailure = { error ->
+                _state.update {
+                    WaitSessionState.Error(mapErrorToUiState(error))
+                }
+            }
+        )
     }
 
     private fun subscribeToUsersState() {
