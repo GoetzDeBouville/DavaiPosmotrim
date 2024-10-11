@@ -10,6 +10,7 @@ import androidx.activity.OnBackPressedCallback
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
+import androidx.core.view.isVisible
 import androidx.lifecycle.lifecycleScope
 import com.davai.extensions.dpToPx
 import com.davai.uikit.BannerView
@@ -28,6 +29,8 @@ import com.davay.android.feature.waitsession.di.DaggerWaitSessionFragmentCompone
 import com.davay.android.feature.waitsession.domain.models.WaitSessionState
 import com.davay.android.feature.waitsession.presentation.adapter.CustomItemDecorator
 import com.davay.android.feature.waitsession.presentation.adapter.UserAdapter
+import com.davay.android.utils.presentation.UiErrorHandler
+import com.davay.android.utils.presentation.UiErrorHandlerImpl
 import com.google.android.flexbox.AlignItems
 import com.google.android.flexbox.FlexDirection
 import com.google.android.flexbox.FlexWrap
@@ -39,7 +42,6 @@ import kotlinx.serialization.json.Json
 class WaitSessionFragment : BaseFragment<FragmentWaitSessionBinding, WaitSessionViewModel>(
     FragmentWaitSessionBinding::inflate
 ) {
-
     override val viewModel: WaitSessionViewModel by injectViewModel<WaitSessionViewModel>()
     private val userAdapter = UserAdapter()
     private var launcher: ActivityResultLauncher<Intent>? = null
@@ -53,6 +55,7 @@ class WaitSessionFragment : BaseFragment<FragmentWaitSessionBinding, WaitSession
             }
         )
     }
+    private val errorHandler: UiErrorHandler = UiErrorHandlerImpl()
 
     override fun diComponent(): ScreenComponent = DaggerWaitSessionFragmentComponent.builder()
         .appComponent(AppComponentHolder.getComponent())
@@ -118,9 +121,17 @@ class WaitSessionFragment : BaseFragment<FragmentWaitSessionBinding, WaitSession
                 }
             }
 
-            is WaitSessionState.Error -> {
+            is WaitSessionState.Error -> handleError(state)
+        }
+    }
 
-            }
+    private fun handleError(state: WaitSessionState.Error) {
+        binding.errorScreen.isVisible = true
+        errorHandler.handleError(
+            state.errorType,
+            binding.errorScreen
+        ) {
+            viewModel.navigateToNextScreen()
         }
     }
 
