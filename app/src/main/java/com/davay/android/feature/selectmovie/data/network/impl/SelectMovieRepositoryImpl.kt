@@ -1,4 +1,4 @@
-package com.davay.android.feature.selectmovie.data
+package com.davay.android.feature.selectmovie.data.network.impl
 
 import android.database.sqlite.SQLiteException
 import android.util.Log
@@ -13,8 +13,8 @@ import com.davay.android.core.data.network.model.mapToErrorType
 import com.davay.android.core.domain.models.ErrorType
 import com.davay.android.core.domain.models.MovieDetails
 import com.davay.android.core.domain.models.Result
-import com.davay.android.feature.selectmovie.data.network.GetMovieRequest
-import com.davay.android.feature.selectmovie.data.network.GetMovieResponse
+import com.davay.android.feature.selectmovie.data.network.models.GetMovieRequest
+import com.davay.android.feature.selectmovie.data.network.models.GetMovieResponse
 import com.davay.android.feature.selectmovie.domain.api.SelectMovieRepository
 import io.ktor.utils.io.errors.IOException
 import kotlinx.coroutines.Deferred
