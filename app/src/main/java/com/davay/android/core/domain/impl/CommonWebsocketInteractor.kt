@@ -1,5 +1,6 @@
 package com.davay.android.core.domain.impl
 
+import android.util.Log
 import com.davay.android.core.domain.api.WebsocketRepository
 import com.davay.android.core.domain.models.ErrorType
 import com.davay.android.core.domain.models.Result
@@ -19,6 +20,7 @@ class CommonWebsocketInteractor @Inject constructor(
 
     fun updateSessionId(id: String) {
         sessionId = id
+        Log.i(TAG, "updateSessionId: $id")
     }
 
     fun getSessionId(): String = sessionId
@@ -29,6 +31,14 @@ class CommonWebsocketInteractor @Inject constructor(
 
     fun subscribeSessionStatus(): StateFlow<Result<SessionStatus, ErrorType>?> {
         return websocketRepository.subscribeSessionStatus(sessionId)
+    }
+
+    suspend fun unsubscribeAllWebSockets() {
+        websocketRepository.unsubscribeSessionStatus()
+        websocketRepository.unsubscribeMatchesId()
+        websocketRepository.unsubscribeRouletteId()
+        websocketRepository.unsubscribeSessionResult()
+        websocketRepository.unsubscribeUsers()
     }
 
     suspend fun unsubscribeSessionStatus() {
@@ -43,6 +53,8 @@ class CommonWebsocketInteractor @Inject constructor(
     }
 
     fun subscribeUsers(): StateFlow<Result<List<User>, ErrorType>?> {
+        Log.i(TAG, "subscribeUsers sessionId -> $sessionId")
+
         return websocketRepository.subscribeUsers(sessionId)
     }
 
@@ -58,6 +70,7 @@ class CommonWebsocketInteractor @Inject constructor(
     }
 
     fun subscribeSessionResult(): StateFlow<Result<Session, ErrorType>?> {
+        Log.i(TAG, "subscribeSessionResult sessionId -> $sessionId")
         return websocketRepository.subscribeSessionResult(sessionId)
     }
 
@@ -73,6 +86,7 @@ class CommonWebsocketInteractor @Inject constructor(
     }
 
     fun subscribeRouletteId(): StateFlow<Result<Int, ErrorType>?> {
+        Log.i(TAG, "subscribeRouletteId sessionId -> $sessionId")
         return websocketRepository.subscribeRouletteId(sessionId)
     }
 
@@ -88,6 +102,7 @@ class CommonWebsocketInteractor @Inject constructor(
     }
 
     fun subscribeMatchesId(): StateFlow<Result<Int, ErrorType>?> {
+        Log.i(TAG, "subscribeMatchesId sessionId -> $sessionId")
         return websocketRepository.subscribeMatchesId(sessionId)
     }
 
@@ -97,4 +112,8 @@ class CommonWebsocketInteractor @Inject constructor(
 
     fun getMatchesId(): StateFlow<Result<Int, ErrorType>?> =
         websocketRepository.matchesIdStateFlow
+
+    private companion object {
+        val TAG = CommonWebsocketInteractor::class.simpleName
+    }
 }
