@@ -45,34 +45,23 @@ class WebsocketRepositoryImpl @Inject constructor(
 
     private val _usersStateFlow = MutableStateFlow<Result<List<User>, ErrorType>?>(null)
     override val usersStateFlow: StateFlow<Result<List<User>, ErrorType>?> get() = _usersStateFlow
-    private val isUsersSubscribedFlow: StateFlow<Boolean> = websocketUsersClient.connectionState
 
     private val _sessionResultFlow = MutableStateFlow<Result<Session, ErrorType>?>(null)
     override val sessionResultFlow: StateFlow<Result<Session, ErrorType>?> get() = _sessionResultFlow
-    private val isSessionResultSubscribedFlow: StateFlow<Boolean> =
-        websocketSessionResultClient.connectionState
 
     private val _sessionStatusStateFlow = MutableStateFlow<Result<SessionStatus, ErrorType>?>(null)
     override val sessionStatusStateFlow: StateFlow<Result<SessionStatus, ErrorType>?> get() = _sessionStatusStateFlow
-    private val isSessionStatusSubscribedFlow: StateFlow<Boolean> =
-        websocketSessionStatusClient.connectionState
 
     private val _rouletteIdStateFlow = MutableStateFlow<Result<Int, ErrorType>?>(null)
     override val rouletteIdStateFlow: StateFlow<Result<Int, ErrorType>?> get() = _rouletteIdStateFlow
-    private val isRouletteIdSubscribedFlow: StateFlow<Boolean> =
-        websocketRouletteIdClient.connectionState
 
     private val _matchesIdStateFlow = MutableStateFlow<Result<Int, ErrorType>?>(null)
     override val matchesIdStateFlow: StateFlow<Result<Int, ErrorType>?> get() = _matchesIdStateFlow
-    private val isMatchesIdSubscribedFlow: StateFlow<Boolean> =
-        websocketMatchesIdClient.connectionState
 
     override suspend fun subscribeUsers(sessionId: String) {
-        if (!isUsersSubscribedFlow.value) {
-            repositoryScope.launch {
-                subscribeUsersFlow(sessionId).collect { result ->
-                    _usersStateFlow.value = result
-                }
+        repositoryScope.launch {
+            subscribeUsersFlow(sessionId).collect { result ->
+                _usersStateFlow.value = result
             }
         }
     }
@@ -107,11 +96,9 @@ class WebsocketRepositoryImpl @Inject constructor(
     }
 
     override suspend fun subscribeSessionResult(sessionId: String) {
-        if (!isSessionResultSubscribedFlow.value) {
-            repositoryScope.launch {
-                subscribeSessionResultFlow(sessionId).collect { result ->
-                    _sessionResultFlow.value = result
-                }
+        repositoryScope.launch {
+            subscribeSessionResultFlow(sessionId).collect { result ->
+                _sessionResultFlow.value = result
             }
         }
     }
@@ -148,11 +135,9 @@ class WebsocketRepositoryImpl @Inject constructor(
     }
 
     override suspend fun subscribeSessionStatus(sessionId: String) {
-        if (!isSessionStatusSubscribedFlow.value) {
-            repositoryScope.launch {
-                subscribeSessionStatusFlow(sessionId).collect { result ->
-                    _sessionStatusStateFlow.value = result
-                }
+        repositoryScope.launch {
+            subscribeSessionStatusFlow(sessionId).collect { result ->
+                _sessionStatusStateFlow.value = result
             }
         }
     }
@@ -189,11 +174,9 @@ class WebsocketRepositoryImpl @Inject constructor(
     }
 
     override suspend fun subscribeRouletteId(sessionId: String) {
-        if (!isRouletteIdSubscribedFlow.value) {
-            repositoryScope.launch {
-                subscribeRouletteIdFlow(sessionId).collect { result ->
-                    _rouletteIdStateFlow.value = result
-                }
+        repositoryScope.launch {
+            subscribeRouletteIdFlow(sessionId).collect { result ->
+                _rouletteIdStateFlow.value = result
             }
         }
     }
@@ -230,11 +213,9 @@ class WebsocketRepositoryImpl @Inject constructor(
     }
 
     override suspend fun subscribeMatchesId(sessionId: String) {
-        if (!isMatchesIdSubscribedFlow.value) {
-            repositoryScope.launch {
-                subscribeMatchesIdFlow(sessionId).collect { result ->
-                    _matchesIdStateFlow.value = result
-                }
+        repositoryScope.launch {
+            subscribeMatchesIdFlow(sessionId).collect { result ->
+                _matchesIdStateFlow.value = result
             }
         }
     }
