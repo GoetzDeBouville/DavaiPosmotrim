@@ -95,7 +95,6 @@ class RouletteFragment :
             initBottomSheetIntro()
         } else {
             bottomSheetBehaviorIntro.state = BottomSheetBehavior.STATE_HIDDEN
-            startAutoScrolling()
         }
     }
 
@@ -111,7 +110,6 @@ class RouletteFragment :
             bottomSheetBehaviorIntro.isHideable = true
             bottomSheetBehaviorIntro.state = BottomSheetBehavior.STATE_HIDDEN
             viewModel.rouletteStart()
-            startAutoScrolling()
         }
     }
 
@@ -130,6 +128,7 @@ class RouletteFragment :
     }
 
     private fun startAutoScrolling() {
+        viewModel.autoScrollingStarted()
         with(binding.recyclerViewRoulette) {
             (layoutManager as CarouselLayoutManager).setSlowSpeedTransition()
             post {
@@ -189,6 +188,7 @@ class RouletteFragment :
             is RouletteState.Roulette -> handleRouletteState(state)
             is RouletteState.Waiting -> handleWaitingState(state)
             is RouletteState.Init -> handleInitState(state)
+            is RouletteState.Loading -> {}
         }
     }
 
@@ -247,8 +247,11 @@ class RouletteFragment :
     }
 
     private fun handleInitState(state: RouletteState.Init) {
-        initBottomSheetWaiting(state.users)
-        initRecyclerRoulette(state.films)
+        if (state.users.isNotEmpty() && state.films.isNotEmpty() && state.watchFilmId != -1) {
+            initBottomSheetWaiting(state.users)
+            initRecyclerRoulette(state.films)
+            startAutoScrolling()
+        }
     }
 
     companion object {
