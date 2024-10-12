@@ -1,13 +1,10 @@
 package com.davay.android.feature.waitsession.data.impl
 
-import com.davay.android.core.data.converters.toDomain
-import com.davay.android.core.data.dto.MessageSessionResultDto
 import com.davay.android.core.data.network.HttpNetworkClient
 import com.davay.android.core.data.network.model.mapToErrorType
 import com.davay.android.core.domain.api.UserDataRepository
 import com.davay.android.core.domain.models.ErrorType
 import com.davay.android.core.domain.models.Result
-import com.davay.android.core.domain.models.SessionShort
 import com.davay.android.feature.waitsession.data.network.model.StartVotingSessionRequest
 import com.davay.android.feature.waitsession.data.network.model.StartVotingSessionResponse
 import com.davay.android.feature.waitsession.domain.api.StartVotingSessionStatusRepository
