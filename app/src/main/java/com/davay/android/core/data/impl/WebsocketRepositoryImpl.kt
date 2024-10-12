@@ -98,6 +98,7 @@ class WebsocketRepositoryImpl @Inject constructor(
     override suspend fun unsubscribeUsers() {
         runCatching {
             websocketUsersClient.close()
+            _usersStateFlow.value = null
         }.onFailure { error ->
             if (BuildConfig.DEBUG) {
                 error.printStackTrace()
@@ -138,6 +139,7 @@ class WebsocketRepositoryImpl @Inject constructor(
     override suspend fun unsubscribeSessionResult() {
         runCatching {
             websocketSessionResultClient.close()
+            _sessionResultFlow.value = null
         }.onFailure { error ->
             if (BuildConfig.DEBUG) {
                 error.printStackTrace()
@@ -177,6 +179,7 @@ class WebsocketRepositoryImpl @Inject constructor(
 
     override suspend fun unsubscribeSessionStatus() {
         runCatching {
+            _sessionStatusStateFlow.value = null
             websocketSessionStatusClient.close()
         }.onFailure { error ->
             if (BuildConfig.DEBUG) {
@@ -217,6 +220,7 @@ class WebsocketRepositoryImpl @Inject constructor(
 
     override suspend fun unsubscribeRouletteId() {
         runCatching {
+            _rouletteIdStateFlow.value = null
             websocketRouletteIdClient.close()
         }.onFailure { error ->
             if (BuildConfig.DEBUG) {
@@ -257,6 +261,7 @@ class WebsocketRepositoryImpl @Inject constructor(
 
     override suspend fun unsubscribeMatchesId() {
         runCatching {
+            _matchesIdStateFlow.value = null
             websocketMatchesIdClient.close()
         }.onFailure { error ->
             if (BuildConfig.DEBUG) {
