@@ -12,6 +12,11 @@ interface SessionsHistoryRepository {
         movies: List<MovieDetails>
     ): Result<Unit, ErrorType>
 
+    suspend fun saveSessionsHistoryByIdList(
+        session: Session,
+        matchedMovieIdList: List<Int>
+    ): Result<Unit, ErrorType>
+
     suspend fun getSessionsHistory(): List<Session>?
     suspend fun getSessionWithMovies(sessionId: String): SessionWithMovies?
 }
