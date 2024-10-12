@@ -11,6 +11,7 @@ import com.davay.android.core.domain.models.Result
 import com.davay.android.feature.selectmovie.domain.FilterDislikedMovieListUseCase
 import com.davay.android.feature.selectmovie.domain.GetMovieIdListSizeUseCase
 import com.davay.android.feature.selectmovie.domain.GetMovieListUseCase
+import com.davay.android.feature.selectmovie.domain.LikeMovieInteractor
 import com.davay.android.feature.selectmovie.domain.SwipeMovieUseCase
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -25,6 +26,7 @@ class SelectMovieViewModel @Inject constructor(
     private val filterDislikedMovieListUseCase: FilterDislikedMovieListUseCase,
     private val swipeMovieUseCase: SwipeMovieUseCase,
     private val commonWebsocketInteractor: CommonWebsocketInteractor,
+    private val likeMovieInteractor: LikeMovieInteractor
 ) : BaseViewModel() {
     private val _state = MutableStateFlow<SelectMovieState>(SelectMovieState.Loading)
     val state = _state.asStateFlow()
@@ -34,11 +36,18 @@ class SelectMovieViewModel @Inject constructor(
 
     init {
         initializeMovieList()
+        subscribeStates()
+    }
 
-        // для теста
-        @Suppress("StringLiteralDuplication")
+    private fun subscribeStates() {
+        subscribeSessionResult()
+        subscribeSessionStatus()
+        subscribeMatches()
+    }
+
+    private fun subscribeMatches() {
         viewModelScope.launch(Dispatchers.IO) {
-            commonWebsocketInteractor.getSessionStatus().collect { result ->
+            commonWebsocketInteractor.getMatchesId().collect { result ->
                 when (result) {
                     is Result.Success -> {
                         Log.d("SelectMovieViewModel", result.data.toString())
@@ -54,8 +63,31 @@ class SelectMovieViewModel @Inject constructor(
                 }
             }
         }
+    }
+
+    private fun subscribeSessionResult() {
         viewModelScope.launch(Dispatchers.IO) {
             commonWebsocketInteractor.getSessionResult().collect { result ->
+                when (result) {
+                    is Result.Success -> {
+                        Log.d("SelectMovieViewModel", result.data.toString())
+                    }
+
+                    is Result.Error -> {
+                        Log.d("SelectMovieViewModel", result.error.toString())
+                    }
+
+                    null -> {
+                        Log.d("SelectMovieViewModel", null.toString())
+                    }
+                }
+            }
+        }
+    }
+
+    private fun subscribeSessionStatus() {
+        viewModelScope.launch(Dispatchers.IO) {
+            commonWebsocketInteractor.getSessionStatus().collect { result ->
                 when (result) {
                     is Result.Success -> {
                         Log.d("SelectMovieViewModel", result.data.toString())
@@ -113,23 +145,56 @@ class SelectMovieViewModel @Inject constructor(
      * закэшированные данные фильмов в размере PRELOAD_SIZE, то есть пользователь вообще не значет
      * о процессе подгрузки данных.
      */
-    fun onMovieSwiped(position: Int, isLiked: Boolean) {
+    fun onMovieSwiped(position: Int, isLiked: Boolean, onFailureSwipe: () -> Unit = {}) {
         if (position + PRELOAD_SIZE >= loadedMovies.size && loadedMovies.size < totalMovieIds) {
             loadMovies(position)
         }
         viewModelScope.launch {
             runCatching {
                 swipeMovieUseCase(position, isLiked)
+            }.onSuccess {
+                likeMovie(position, isLiked, onFailureSwipe)
             }.onFailure {
                 if (BuildConfig.DEBUG) {
                     Log.e(TAG, "Error on swipe movie, position: $position | ${it.localizedMessage}")
                 }
+                onFailureSwipe.invoke()
             }
         }
 
         if (position == totalMovieIds) {
             _state.update { SelectMovieState.ListIsFinished }
         }
+    }
+
+    private fun likeMovie(position: Int, isLiked: Boolean, onFailureSwipe: () -> Unit) {
+        runSafelyUseCase(
+            useCaseFlow = if (isLiked) {
+                likeMovieInteractor.likeMovie(position)
+            } else {
+                likeMovieInteractor.dislikeMovie(position)
+            },
+            onSuccess = {},
+            onFailure = { error ->
+                if (BuildConfig.DEBUG) {
+                    Log.e(TAG, "Error on like movie, position: $position | error -> $error")
+                }
+                onFailureSwipe.invoke()
+            }
+        )
+    }
+
+
+    private fun disLikeMovie(position: Int, onFailureSwipe: () -> Unit) {
+        runSafelyUseCase(
+            useCaseFlow = likeMovieInteractor.dislikeMovie(position),
+            onSuccess = {},
+            onFailure = { error ->
+                if (BuildConfig.DEBUG) {
+                    Log.e(TAG, "Error on dislike movie, position: $position | error -> $error")
+                }
+            }
+        )
     }
 
     /**
@@ -165,6 +230,12 @@ class SelectMovieViewModel @Inject constructor(
         }
     }
 
+    fun disconnect() {
+        viewModelScope.launch(Dispatchers.IO) {
+            commonWebsocketInteractor.unsubscribeAllWebSockets()
+        }
+    }
+
     private companion object {
         /**
          * Размер подгрузки фильмов, при изменении так же учитывать значение в SelectMovieRepositoryImpl.
@@ -175,13 +246,4 @@ class SelectMovieViewModel @Inject constructor(
         val TAG: String = SelectMovieViewModel::class.java.simpleName
     }
 
-    fun disconnect() {
-        viewModelScope.launch(Dispatchers.IO) {
-            commonWebsocketInteractor.unsubscribeUsers()
-            commonWebsocketInteractor.unsubscribeRouletteId()
-            commonWebsocketInteractor.unsubscribeMatchesId()
-            commonWebsocketInteractor.unsubscribeSessionResult()
-            commonWebsocketInteractor.unsubscribeSessionStatus()
-        }
-    }
 }

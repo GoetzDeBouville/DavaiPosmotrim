@@ -115,7 +115,7 @@ class SelectMovieFragment :
             state.errorType,
             binding.errorMessage
         ) {
-            viewModel.onMovieSwiped(currentPosition, false)
+            viewModel.onMovieSwiped(currentPosition, false, ::revertSwipe)
         }
     }
 
@@ -253,13 +253,13 @@ class SelectMovieFragment :
     private fun swipeLeft() {
         swipe()
         swipeCardLayoutManager.moveNextWithSwipeAndLayout(SwipeDirection.LEFT)
-        viewModel.onMovieSwiped(currentPosition, false)
+        viewModel.onMovieSwiped(currentPosition, false, onFailureSwipe = ::revertSwipe)
     }
 
     private fun swipeRight() {
         swipe()
         swipeCardLayoutManager.moveNextWithSwipeAndLayout(SwipeDirection.RIGHT)
-        viewModel.onMovieSwiped(currentPosition, true)
+        viewModel.onMovieSwiped(currentPosition, true, onFailureSwipe = ::revertSwipe)
     }
 
     /**
@@ -271,14 +271,14 @@ class SelectMovieFragment :
         swipe()
         swipeCardLayoutManager.moveNextWithSwipeAndLayout(SwipeDirection.LEFT)
         currentPosition++ // обновление позиции после свайпа для синхронизации позиции со значением в БД
-        viewModel.onMovieSwiped(currentPosition, false)
+        viewModel.onMovieSwiped(currentPosition, false, ::revertSwipe)
     }
 
     private fun autoSwipeRight() {
         swipe()
         swipeCardLayoutManager.moveNextWithSwipeAndLayout(SwipeDirection.RIGHT)
         currentPosition++ // обновление позиции после свайпа для синхронизации позиции со значением в БД
-        viewModel.onMovieSwiped(currentPosition, true)
+        viewModel.onMovieSwiped(currentPosition, true, ::revertSwipe)
     }
 
     private fun revertSwipe() {
