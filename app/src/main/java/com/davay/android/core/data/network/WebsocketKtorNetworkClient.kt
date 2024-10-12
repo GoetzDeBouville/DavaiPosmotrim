@@ -10,6 +10,7 @@ import io.ktor.client.HttpClient
 import io.ktor.client.plugins.logging.LogLevel
 import io.ktor.client.plugins.logging.Logger
 import io.ktor.client.plugins.logging.Logging
+import io.ktor.client.plugins.websocket.DefaultClientWebSocketSession
 import io.ktor.client.plugins.websocket.WebSockets
 import io.ktor.client.plugins.websocket.webSocketSession
 import io.ktor.client.request.headers
@@ -79,12 +80,12 @@ abstract class WebsocketKtorNetworkClient<O> : WebsocketNetworkClient<O> {
                 }
                 numberReconnections = 0
 
-                session?.let {
-                    val incomingMessageFlow = it.incoming.consumeAsFlow()
+                val incomingMessageFlow =
+                    (session as DefaultClientWebSocketSession).incoming.consumeAsFlow()
                         .filterIsInstance<Frame.Text>()
                         .map { frame -> mapIncomingMessage(frame, Json) }
-                    emitAll(incomingMessageFlow)
-                }
+                emitAll(incomingMessageFlow)
+
             } catch (e: Exception) {
                 if (BuildConfig.DEBUG) {
                     Log.e(TAG, "Ошибка подключения: ${e.message}")
@@ -103,7 +104,7 @@ abstract class WebsocketKtorNetworkClient<O> : WebsocketNetworkClient<O> {
 
     companion object {
         const val PING_INTERVAL_MS = 20_000L
-        const val RECONNECT_DELAY_MS = 10_000L
+        const val RECONNECT_DELAY_MS = 5_000L
         const val MAX_NUMBER_RECONNECTIONS = 3
         const val ERROR_MESSAGE = "Failed to connect after %s attempts"
         val TAG = WebsocketKtorNetworkClient::class.simpleName
