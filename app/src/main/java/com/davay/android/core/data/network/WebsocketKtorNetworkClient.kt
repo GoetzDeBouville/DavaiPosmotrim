@@ -46,8 +46,10 @@ abstract class WebsocketKtorNetworkClient<O> : WebsocketNetworkClient<O> {
 
     private val reconnectDelay = RECONNECT_DELAY_MS
     private var numberReconnections = 0
+    private var shouldReconnect = true
 
     override suspend fun close() {
+        shouldReconnect = false
         session?.close()
         session = null
         numberReconnections = 0
@@ -58,7 +60,8 @@ abstract class WebsocketKtorNetworkClient<O> : WebsocketNetworkClient<O> {
 
     @Suppress("TooGenericExceptionCaught", "TooGenericExceptionThrown", "CognitiveComplexMethod")
     override fun subscribe(deviceId: String, path: String): Flow<O> = flow {
-        while (true) {
+        shouldReconnect = true
+        while (shouldReconnect) {
             try {
                 session = httpClient.webSocketSession(host = BASE_URL, path = path) {
                     headers {
