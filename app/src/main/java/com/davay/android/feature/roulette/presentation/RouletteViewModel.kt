@@ -99,13 +99,11 @@ class RouletteViewModel @Inject constructor(
             for (i in users.indices) {
                 delay(DELAY_TIME_MS_1000)
                 users[i].isConnected = true
-                _state.update {
-                    RouletteState.Waiting(
-                        users = users,
-                        films = films,
-                        watchFilmId = watchFilmId
-                    )
-                }
+                _state.value = RouletteState.Waiting(
+                    users = users,
+                    films = films,
+                    watchFilmId = watchFilmId
+                )
             }
             delay(DELAY_TIME_MS_1000)
             val index = films.indexOfFirst { it.id == watchFilmId }
@@ -154,7 +152,7 @@ class RouletteViewModel @Inject constructor(
     }
 
     companion object {
-        private const val DELAY_TIME_MS_1000 = 1000L
+        private const val DELAY_TIME_MS_1000 = 4000L
         const val SESSION_ID = "session_id"
     }
 }
