@@ -56,7 +56,14 @@ class SessionListViewModel @Inject constructor(
     private fun subscribeToWebsockets(sessionId: String) {
         viewModelScope.launch(Dispatchers.IO) {
             runCatching {
-                commonWebsocketInteractor.subscribeUsers(sessionId)
+                commonWebsocketInteractor.subscribeWebsockets(sessionId)
+            }.onFailure {
+                _state.update { ConnectToSessionState.Error(ErrorScreenState.SERVER_ERROR) }
+            }
+        }
+        viewModelScope.launch(Dispatchers.IO) {
+            runCatching {
+                commonWebsocketInteractor.getUsers()
                     .collect { result ->
                         result?.fold(
                             onSuccess = { list ->
@@ -84,92 +91,37 @@ class SessionListViewModel @Inject constructor(
         }
         viewModelScope.launch(Dispatchers.IO) {
             runCatching {
-                commonWebsocketInteractor.subscribeSessionStatus(
-                    sessionId = sessionId
-                ).collect { result ->
-                    result?.fold(
-                        onSuccess = { status ->
-                            when (status) {
-                                SessionStatus.VOTING -> {
-                                    val session =
-                                        (_state.value as ConnectToSessionState.Content).session.toSessionShort()
-                                    val sessionJson = Json.encodeToString(session)
-                                    val bundle = Bundle().apply {
-                                        putString(SESSION_DATA, sessionJson)
+                commonWebsocketInteractor.getSessionStatus()
+                    .collect { result ->
+                        result?.fold(
+                            onSuccess = { status ->
+                                when (status) {
+                                    SessionStatus.VOTING -> {
+                                        val session =
+                                            (_state.value as ConnectToSessionState.Content).session.toSessionShort()
+                                        val sessionJson = Json.encodeToString(session)
+                                        val bundle = Bundle().apply {
+                                            putString(SESSION_DATA, sessionJson)
+                                        }
+                                        this@SessionListViewModel.sessionId = null
+                                        navigate(
+                                            R.id.action_sessionListFragment_to_selectMovieFragment,
+                                            bundle
+                                        )
                                     }
-                                    this@SessionListViewModel.sessionId = null
-                                    navigate(
-                                        R.id.action_sessionListFragment_to_selectMovieFragment,
-                                        bundle
-                                    )
-                                }
 
-                                SessionStatus.CLOSED -> {
-                                    leaveSessionAndNavigateBack(sessionId)
-                                }
+                                    SessionStatus.CLOSED -> {
+                                        leaveSessionAndNavigateBack(sessionId)
+                                    }
 
-                                else -> {
-                                    // do nothing
+                                    else -> {
+                                        // do nothing
+                                    }
                                 }
+                            },
+                            onError = { error ->
+                                _state.update { ConnectToSessionState.Error(mapErrorToUiState(error)) }
                             }
-                        },
-                        onError = { error ->
-                            _state.update { ConnectToSessionState.Error(mapErrorToUiState(error)) }
-                        }
-                    )
-                }
-            }.onFailure { error ->
-                _state.update { ConnectToSessionState.Error(ErrorScreenState.SERVER_ERROR) }
-                if (BuildConfig.DEBUG) {
-                    error.printStackTrace()
-                }
-            }
-        }
-        viewModelScope.launch(Dispatchers.IO) {
-            runCatching {
-                commonWebsocketInteractor.subscribeSessionResult(sessionId = sessionId)
-                    .collect { result ->
-                        result?.fold(
-                            onError = { error ->
-                                _state.update { ConnectToSessionState.Error(mapErrorToUiState(error)) }
-                            },
-                            onSuccess = {}
-                        )
-                    }
-            }.onFailure { error ->
-                _state.update { ConnectToSessionState.Error(ErrorScreenState.SERVER_ERROR) }
-                if (BuildConfig.DEBUG) {
-                    error.printStackTrace()
-                }
-            }
-        }
-        viewModelScope.launch(Dispatchers.IO) {
-            runCatching {
-                commonWebsocketInteractor.subscribeMatchesId(sessionId = sessionId)
-                    .collect { result ->
-                        result?.fold(
-                            onError = { error ->
-                                _state.update { ConnectToSessionState.Error(mapErrorToUiState(error)) }
-                            },
-                            onSuccess = {}
-                        )
-                    }
-            }.onFailure { error ->
-                _state.update { ConnectToSessionState.Error(ErrorScreenState.SERVER_ERROR) }
-                if (BuildConfig.DEBUG) {
-                    error.printStackTrace()
-                }
-            }
-        }
-        viewModelScope.launch(Dispatchers.IO) {
-            runCatching {
-                commonWebsocketInteractor.subscribeRouletteId(sessionId = sessionId)
-                    .collect { result ->
-                        result?.fold(
-                            onError = { error ->
-                                _state.update { ConnectToSessionState.Error(mapErrorToUiState(error)) }
-                            },
-                            onSuccess = {}
                         )
                     }
             }.onFailure { error ->
@@ -183,11 +135,7 @@ class SessionListViewModel @Inject constructor(
 
     private fun unsubscribeWebsockets() {
         viewModelScope.launch(Dispatchers.IO) {
-            commonWebsocketInteractor.unsubscribeUsers()
-            commonWebsocketInteractor.unsubscribeSessionStatus()
-            commonWebsocketInteractor.unsubscribeSessionResult()
-            commonWebsocketInteractor.unsubscribeMatchesId()
-            commonWebsocketInteractor.unsubscribeRouletteId()
+            commonWebsocketInteractor.unsubscribeWebsockets()
         }
     }
 

@@ -45,34 +45,36 @@ class WebsocketRepositoryImpl @Inject constructor(
 
     private val _usersStateFlow = MutableStateFlow<Result<List<User>, ErrorType>?>(null)
     override val usersStateFlow: StateFlow<Result<List<User>, ErrorType>?> get() = _usersStateFlow
-    private var isUsersSubscribed = false
+    private val isUsersSubscribedFlow: StateFlow<Boolean> = websocketUsersClient.connectionState
 
     private val _sessionResultFlow = MutableStateFlow<Result<Session, ErrorType>?>(null)
     override val sessionResultFlow: StateFlow<Result<Session, ErrorType>?> get() = _sessionResultFlow
-    private var isSessionResultSubscribed = false
+    private val isSessionResultSubscribedFlow: StateFlow<Boolean> =
+        websocketSessionResultClient.connectionState
 
     private val _sessionStatusStateFlow = MutableStateFlow<Result<SessionStatus, ErrorType>?>(null)
     override val sessionStatusStateFlow: StateFlow<Result<SessionStatus, ErrorType>?> get() = _sessionStatusStateFlow
-    private var isSessionStatusSubscribed = false
+    private val isSessionStatusSubscribedFlow: StateFlow<Boolean> =
+        websocketSessionStatusClient.connectionState
 
     private val _rouletteIdStateFlow = MutableStateFlow<Result<Int, ErrorType>?>(null)
     override val rouletteIdStateFlow: StateFlow<Result<Int, ErrorType>?> get() = _rouletteIdStateFlow
-    private var isRouletteIdSubscribed = false
+    private val isRouletteIdSubscribedFlow: StateFlow<Boolean> =
+        websocketRouletteIdClient.connectionState
 
     private val _matchesIdStateFlow = MutableStateFlow<Result<Int, ErrorType>?>(null)
     override val matchesIdStateFlow: StateFlow<Result<Int, ErrorType>?> get() = _matchesIdStateFlow
-    private var isMatchesIdSubscribed = false
+    private val isMatchesIdSubscribedFlow: StateFlow<Boolean> =
+        websocketMatchesIdClient.connectionState
 
-    override fun subscribeUsers(sessionId: String): StateFlow<Result<List<User>, ErrorType>?> {
-        if (!isUsersSubscribed) {
-            isUsersSubscribed = true
+    override suspend fun subscribeUsers(sessionId: String) {
+        if (!isUsersSubscribedFlow.value) {
             repositoryScope.launch {
                 subscribeUsersFlow(sessionId).collect { result ->
                     _usersStateFlow.value = result
                 }
             }
         }
-        return usersStateFlow
     }
 
     private fun subscribeUsersFlow(sessionId: String): Flow<Result<List<User>, ErrorType>> = flow {
@@ -95,7 +97,6 @@ class WebsocketRepositoryImpl @Inject constructor(
 
     override suspend fun unsubscribeUsers() {
         runCatching {
-            isUsersSubscribed = false
             websocketUsersClient.close()
         }.onFailure { error ->
             if (BuildConfig.DEBUG) {
@@ -104,16 +105,14 @@ class WebsocketRepositoryImpl @Inject constructor(
         }
     }
 
-    override fun subscribeSessionResult(sessionId: String): StateFlow<Result<Session, ErrorType>?> {
-        if (!isSessionResultSubscribed) {
-            isSessionResultSubscribed = true
+    override suspend fun subscribeSessionResult(sessionId: String) {
+        if (!isSessionResultSubscribedFlow.value) {
             repositoryScope.launch {
                 subscribeSessionResultFlow(sessionId).collect { result ->
                     _sessionResultFlow.value = result
                 }
             }
         }
-        return sessionResultFlow
     }
 
     private fun subscribeSessionResultFlow(sessionId: String): Flow<Result<Session, ErrorType>?> =
@@ -138,7 +137,6 @@ class WebsocketRepositoryImpl @Inject constructor(
 
     override suspend fun unsubscribeSessionResult() {
         runCatching {
-            isSessionResultSubscribed = false
             websocketSessionResultClient.close()
         }.onFailure { error ->
             if (BuildConfig.DEBUG) {
@@ -147,16 +145,14 @@ class WebsocketRepositoryImpl @Inject constructor(
         }
     }
 
-    override fun subscribeSessionStatus(sessionId: String): StateFlow<Result<SessionStatus, ErrorType>?> {
-        if (!isSessionStatusSubscribed) {
-            isSessionStatusSubscribed = true
+    override suspend fun subscribeSessionStatus(sessionId: String) {
+        if (!isSessionStatusSubscribedFlow.value) {
             repositoryScope.launch {
                 subscribeSessionStatusFlow(sessionId).collect { result ->
                     _sessionStatusStateFlow.value = result
                 }
             }
         }
-        return sessionStatusStateFlow
     }
 
     private fun subscribeSessionStatusFlow(sessionId: String): Flow<Result<SessionStatus, ErrorType>?> =
@@ -181,7 +177,6 @@ class WebsocketRepositoryImpl @Inject constructor(
 
     override suspend fun unsubscribeSessionStatus() {
         runCatching {
-            isSessionStatusSubscribed = false
             websocketSessionStatusClient.close()
         }.onFailure { error ->
             if (BuildConfig.DEBUG) {
@@ -190,16 +185,14 @@ class WebsocketRepositoryImpl @Inject constructor(
         }
     }
 
-    override fun subscribeRouletteId(sessionId: String): StateFlow<Result<Int, ErrorType>?> {
-        if (!isRouletteIdSubscribed) {
-            isRouletteIdSubscribed = true
+    override suspend fun subscribeRouletteId(sessionId: String) {
+        if (!isRouletteIdSubscribedFlow.value) {
             repositoryScope.launch {
                 subscribeRouletteIdFlow(sessionId).collect { result ->
                     _rouletteIdStateFlow.value = result
                 }
             }
         }
-        return rouletteIdStateFlow
     }
 
     private fun subscribeRouletteIdFlow(sessionId: String): Flow<Result<Int, ErrorType>?> =
@@ -224,7 +217,6 @@ class WebsocketRepositoryImpl @Inject constructor(
 
     override suspend fun unsubscribeRouletteId() {
         runCatching {
-            isRouletteIdSubscribed = false
             websocketRouletteIdClient.close()
         }.onFailure { error ->
             if (BuildConfig.DEBUG) {
@@ -233,16 +225,14 @@ class WebsocketRepositoryImpl @Inject constructor(
         }
     }
 
-    override fun subscribeMatchesId(sessionId: String): StateFlow<Result<Int, ErrorType>?> {
-        if (!isMatchesIdSubscribed) {
-            isMatchesIdSubscribed = true
+    override suspend fun subscribeMatchesId(sessionId: String) {
+        if (!isMatchesIdSubscribedFlow.value) {
             repositoryScope.launch {
                 subscribeMatchesIdFlow(sessionId).collect { result ->
                     _matchesIdStateFlow.value = result
                 }
             }
         }
-        return matchesIdStateFlow
     }
 
     private fun subscribeMatchesIdFlow(sessionId: String): Flow<Result<Int, ErrorType>?> =
@@ -267,7 +257,6 @@ class WebsocketRepositoryImpl @Inject constructor(
 
     override suspend fun unsubscribeMatchesId() {
         runCatching {
-            isMatchesIdSubscribed = false
             websocketMatchesIdClient.close()
         }.onFailure { error ->
             if (BuildConfig.DEBUG) {

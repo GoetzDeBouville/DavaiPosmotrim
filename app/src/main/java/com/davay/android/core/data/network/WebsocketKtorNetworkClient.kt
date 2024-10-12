@@ -16,7 +16,10 @@ import io.ktor.client.request.headers
 import io.ktor.websocket.Frame
 import io.ktor.websocket.WebSocketSession
 import io.ktor.websocket.close
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.consumeAsFlow
 import kotlinx.coroutines.flow.emitAll
 import kotlinx.coroutines.flow.filterIsInstance
@@ -27,7 +30,7 @@ import kotlinx.serialization.json.Json
 abstract class WebsocketKtorNetworkClient<O> : WebsocketNetworkClient<O> {
     private val httpClient = HttpClient {
         install(WebSockets) {
-            pingInterval = PING_INTERVAL
+            pingInterval = PING_INTERVAL_MS
         }
         install(Logging) {
             if (BuildConfig.DEBUG) {
@@ -42,29 +45,67 @@ abstract class WebsocketKtorNetworkClient<O> : WebsocketNetworkClient<O> {
     }
     private var session: WebSocketSession? = null
 
+    private val _connectionState = MutableStateFlow(false)
+    override val connectionState: StateFlow<Boolean> = _connectionState
+    private var shouldReconnect = true
+    private val reconnectDelay = RECONNECT_DELAY_MS
+    private var numberReconnections = 0
+
     override suspend fun close() {
+        shouldReconnect = false
         session?.close()
         session = null
+        _connectionState.value = false
+        numberReconnections = 0
+        if (BuildConfig.DEBUG) {
+            Log.d(TAG, "${this.javaClass.simpleName} закрыт")
+        }
     }
 
+    @Suppress("TooGenericExceptionCaught", "TooGenericExceptionThrown", "CognitiveComplexMethod")
     override fun subscribe(deviceId: String, path: String): Flow<O> = flow {
-        session = httpClient.webSocketSession(host = BASE_URL, path = path) {
-            headers {
-                append(DEVICE_ID_KEY, deviceId)
-                append(ORIGIN_KEY, ORIGIN_VALUE)
+        while (shouldReconnect) {
+            try {
+                session = httpClient.webSocketSession(host = BASE_URL, path = path) {
+                    headers {
+                        append(DEVICE_ID_KEY, deviceId)
+                        append(ORIGIN_KEY, ORIGIN_VALUE)
+                    }
+                }
+
+                _connectionState.value = true
+                if (BuildConfig.DEBUG) {
+                    Log.d(TAG, "Соединение установлено")
+                }
+                numberReconnections = 0
+
+                session?.let {
+                    val incomingMessageFlow = it.incoming.consumeAsFlow()
+                        .filterIsInstance<Frame.Text>()
+                        .map { frame -> mapIncomingMessage(frame, Json) }
+                    emitAll(incomingMessageFlow)
+                }
+            } catch (e: Exception) {
+                if (BuildConfig.DEBUG) {
+                    Log.e(TAG, "Ошибка подключения: ${e.message}")
+                }
+                _connectionState.value = false
+                numberReconnections++
+                if (numberReconnections >= MAX_NUMBER_RECONNECTIONS) {
+                    throw Exception(String.format(ERROR_MESSAGE, numberReconnections))
+                }
+                delay(reconnectDelay)
             }
-        }
-        session?.let {
-            val incomingMessageFlow = it.incoming.consumeAsFlow()
-                .filterIsInstance<Frame.Text>()
-                .map { frame -> mapIncomingMessage(frame, Json) }
-            emitAll(incomingMessageFlow)
         }
     }
 
     abstract fun mapIncomingMessage(message: Frame.Text, converter: Json): O
 
     companion object {
-        const val PING_INTERVAL = 20_000L
+        const val PING_INTERVAL_MS = 20_000L
+        const val RECONNECT_DELAY_MS = 10_000L
+        const val MAX_NUMBER_RECONNECTIONS = 3
+        const val ERROR_MESSAGE = "Failed to connect after %s attempts"
+        val TAG = WebsocketKtorNetworkClient::class.simpleName
     }
 }
