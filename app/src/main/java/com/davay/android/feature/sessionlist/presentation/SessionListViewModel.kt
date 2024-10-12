@@ -95,10 +95,6 @@ class SessionListViewModel @Inject constructor(
                         )
                     }
 
-                    SessionStatus.CLOSED -> {
-                        leaveSessionAndNavigateBack(sessionId)
-                    }
-
                     else -> {
                         // do nothing
                     }
