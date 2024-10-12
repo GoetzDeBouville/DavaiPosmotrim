@@ -148,6 +148,22 @@
             app:exitAnim="@android:anim/fade_out"
             app:popEnterAnim="@android:anim/fade_in"
             app:popExitAnim="@android:anim/fade_out" />
+        <action
+            android:id="@+id/action_selectMovieFragment_to_rouletteFragment"
+            app:destination="@id/rouletteFragment"
+            app:enterAnim="@android:anim/fade_in"
+            app:exitAnim="@android:anim/fade_out"
+            app:popEnterAnim="@android:anim/fade_in"
+            app:popExitAnim="@android:anim/fade_out" />
+        <action
+            android:id="@+id/action_selectMovieFragment_to_matchedSessionFragment"
+            app:destination="@id/matchedSessionFragment"
+            app:enterAnim="@android:anim/fade_in"
+            app:exitAnim="@android:anim/fade_out"
+            app:popEnterAnim="@android:anim/fade_in"
+            app:popExitAnim="@android:anim/fade_out"
+            app:popUpTo="@+id/mainFragment"
+            app:popUpToInclusive="false"/>
     </fragment>
     <fragment
         android:id="@+id/createSessionFragment"
@@ -166,17 +182,25 @@
         android:id="@+id/rouletteFragment"
         android:name="com.davay.android.feature.roulette.presentation.RouletteFragment"
         android:label="RouletteFragment"
-        tools:layout="@layout/fragment_roulette" >
+        tools:layout="@layout/fragment_roulette">
         <action
             android:id="@+id/action_rouletteFragment_to_mainFragment"
             app:destination="@id/mainFragment"
+            app:enterAnim="@android:anim/fade_in"
+            app:exitAnim="@android:anim/fade_out"
+            app:popEnterAnim="@android:anim/fade_in"
+            app:popExitAnim="@android:anim/fade_out"
             app:popUpTo="@+id/mainFragment"
-            app:popUpToInclusive="false"/>
+            app:popUpToInclusive="false" />
         <action
             android:id="@+id/action_rouletteFragment_to_matchedSessionFragment2"
             app:destination="@id/matchedSessionFragment"
+            app:enterAnim="@android:anim/fade_in"
+            app:exitAnim="@android:anim/fade_out"
+            app:popEnterAnim="@android:anim/fade_in"
+            app:popExitAnim="@android:anim/fade_out"
             app:popUpTo="@+id/mainFragment"
-            app:popUpToInclusive="false"/>
+            app:popUpToInclusive="false" />
     </fragment>
     <fragment
         android:id="@+id/waitSessionFragment"
@@ -217,6 +241,15 @@
             app:exitAnim="@android:anim/fade_out"
             app:popEnterAnim="@android:anim/fade_in"
             app:popExitAnim="@android:anim/fade_out" />
+        <action
+            android:id="@+id/action_coincidencesFragment_to_matchedSessionFragment"
+            app:destination="@id/matchedSessionFragment"
+            app:enterAnim="@android:anim/fade_in"
+            app:exitAnim="@android:anim/fade_out"
+            app:popEnterAnim="@android:anim/fade_in"
+            app:popExitAnim="@android:anim/fade_out"
+            app:popUpTo="@+id/mainFragment"
+            app:popUpToInclusive="false"/>
     </fragment>
     <fragment
         android:id="@+id/matchedSessionListFragment"
@@ -248,5 +281,22 @@
         android:id="@+id/movieCardFragment"
         android:name="com.davay.android.feature.moviecard.presentation.MovieCardFragment"
         android:label="MovieCardFragment"
-        tools:layout="@layout/fragment_select_movie" />
+        tools:layout="@layout/fragment_select_movie">
+        <action
+            android:id="@+id/action_movieCardFragment_to_rouletteFragment"
+            app:destination="@id/rouletteFragment"
+            app:enterAnim="@android:anim/fade_in"
+            app:exitAnim="@android:anim/fade_out"
+            app:popEnterAnim="@android:anim/fade_in"
+            app:popExitAnim="@android:anim/fade_out" />
+        <action
+            android:id="@+id/action_movieCardFragment_to_matchedSessionFragment"
+            app:destination="@id/matchedSessionFragment"
+            app:enterAnim="@android:anim/fade_in"
+            app:exitAnim="@android:anim/fade_out"
+            app:popEnterAnim="@android:anim/fade_in"
+            app:popExitAnim="@android:anim/fade_out"
+            app:popUpTo="@+id/mainFragment"
+            app:popUpToInclusive="false"/>
+    </fragment>
 </navigation>

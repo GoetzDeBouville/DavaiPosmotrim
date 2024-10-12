@@ -1,13 +1,16 @@
 package com.davay.android.feature.selectmovie.presentation
 
 import android.util.Log
+import androidx.core.os.bundleOf
 import androidx.lifecycle.viewModelScope
 import com.davay.android.BuildConfig
+import com.davay.android.R
 import com.davay.android.base.BaseViewModel
 import com.davay.android.core.domain.impl.CommonWebsocketInteractor
 import com.davay.android.core.domain.models.ErrorScreenState
 import com.davay.android.core.domain.models.MovieDetails
-import com.davay.android.core.domain.models.Result
+import com.davay.android.core.domain.models.SessionStatus
+import com.davay.android.feature.matchedsession.presentation.MatchedSessionFragment.Companion.SESSION_ID
 import com.davay.android.feature.selectmovie.domain.FilterDislikedMovieListUseCase
 import com.davay.android.feature.selectmovie.domain.GetMovieIdListSizeUseCase
 import com.davay.android.feature.selectmovie.domain.GetMovieListUseCase
@@ -35,42 +38,20 @@ class SelectMovieViewModel @Inject constructor(
     init {
         initializeMovieList()
 
-        // для теста
-        @Suppress("StringLiteralDuplication")
-        viewModelScope.launch(Dispatchers.IO) {
-            commonWebsocketInteractor.getSessionStatus().collect { result ->
-                when (result) {
-                    is Result.Success -> {
-                        Log.d("SelectMovieViewModel", result.data.toString())
-                    }
-
-                    is Result.Error -> {
-                        Log.d("SelectMovieViewModel", result.error.toString())
-                    }
-
-                    null -> {
-                        Log.d("SelectMovieViewModel", null.toString())
-                    }
+        runSafelyUseCaseWithNullResponse(
+            useCaseFlow = commonWebsocketInteractor.getSessionStatus(),
+            onSuccess = { sessionStatus ->
+                if (sessionStatus == SessionStatus.ROULETTE) {
+                    navigate(R.id.action_selectMovieFragment_to_rouletteFragment)
+                } else if (sessionStatus == SessionStatus.CLOSED) {
+                    navigate(
+                        R.id.action_selectMovieFragment_to_matchedSessionFragment,
+                        bundleOf(SESSION_ID to commonWebsocketInteractor.sessionId)
+                    )
                 }
-            }
-        }
-        viewModelScope.launch(Dispatchers.IO) {
-            commonWebsocketInteractor.getSessionResult().collect { result ->
-                when (result) {
-                    is Result.Success -> {
-                        Log.d("SelectMovieViewModel", result.data.toString())
-                    }
-
-                    is Result.Error -> {
-                        Log.d("SelectMovieViewModel", result.error.toString())
-                    }
-
-                    null -> {
-                        Log.d("SelectMovieViewModel", null.toString())
-                    }
-                }
-            }
-        }
+            },
+            onFailure = { }
+        )
     }
 
     private fun loadMovies(position: Int) {
