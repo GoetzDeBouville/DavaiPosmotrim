@@ -188,7 +188,9 @@ fun SessionResultDto.toDomain() = Session(
     matchedMovieIdList = matchedMovies.map { it.id },
     date = convertDateStringToTimestamp(date),
     status = SessionStatus.CLOSED,
-    imgUrl = imgUrl
+    imgUrl = imgUrl?.let {
+        URLDecoder.decode(it.removePrefix("/"), StandardCharsets.UTF_8.toString())
+    } ?: ""
 )
 
 /**
