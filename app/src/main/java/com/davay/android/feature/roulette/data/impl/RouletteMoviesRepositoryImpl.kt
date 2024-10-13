@@ -13,6 +13,7 @@ import javax.inject.Inject
 class RouletteMoviesRepositoryImpl @Inject constructor(
     private val historyDao: HistoryDao
 ) : RouletteMoviesRepository {
+    @Suppress("LabeledExpression")
     override fun getMoviesByIdList(idList: List<Int>): Flow<Result<List<MovieDetails>, ErrorType>> =
         flow {
             val movies = mutableListOf<MovieDetails>()

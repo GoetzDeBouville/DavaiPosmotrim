@@ -38,6 +38,11 @@ class RouletteViewModel @Inject constructor(
     }
 
     private fun subscribeToWs() {
+        subscribeSessionResult()
+        subscribeRouletteId()
+    }
+
+    private fun subscribeSessionResult() {
         runSafelyUseCaseWithNullResponse(
             useCaseFlow = commonWebsocketInteractor.getSessionResult(),
             onSuccess = { session ->
@@ -74,6 +79,9 @@ class RouletteViewModel @Inject constructor(
                 _state.update { RouletteState.Error }
             }
         )
+    }
+
+    private fun subscribeRouletteId() {
         runSafelyUseCaseWithNullResponse(
             useCaseFlow = commonWebsocketInteractor.getRouletteId(),
             onSuccess = { filmId ->
@@ -96,14 +104,17 @@ class RouletteViewModel @Inject constructor(
 
     fun autoScrollingStarted() {
         viewModelScope.launch {
+            closeSockets()
             for (i in users.indices) {
                 delay(DELAY_TIME_MS_1000)
                 users[i].isConnected = true
-                _state.value = RouletteState.Waiting(
-                    users = users,
-                    films = films,
-                    watchFilmId = watchFilmId
-                )
+                _state.update {
+                    RouletteState.Waiting(
+                        users = users,
+                        films = films,
+                        watchFilmId = watchFilmId
+                    )
+                }
             }
             delay(DELAY_TIME_MS_1000)
             val index = films.indexOfFirst { it.id == watchFilmId }
@@ -114,10 +125,9 @@ class RouletteViewModel @Inject constructor(
                 films = films,
             )
         }
-        closeSockets()
     }
 
-    private fun closeSockets() {
+    private suspend fun closeSockets() {
         viewModelScope.launch {
             commonWebsocketInteractor.unsubscribeWebsockets()
         }
@@ -152,7 +162,7 @@ class RouletteViewModel @Inject constructor(
     }
 
     companion object {
-        private const val DELAY_TIME_MS_1000 = 4000L
+        private const val DELAY_TIME_MS_1000 = 1000L
         const val SESSION_ID = "session_id"
     }
 }

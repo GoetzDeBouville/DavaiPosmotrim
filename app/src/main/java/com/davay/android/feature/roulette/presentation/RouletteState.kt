@@ -6,13 +6,13 @@ import com.davay.android.feature.roulette.presentation.model.UserRouletteModel
 sealed interface RouletteState {
     object Loading : RouletteState
 
-    data class Init(
+    class Init(
         val users: List<UserRouletteModel>,
         val films: List<MovieDetails>,
         val watchFilmId: Int,
     ) : RouletteState
 
-    data class Waiting(
+    class Waiting(
         val users: List<UserRouletteModel>,
         val films: List<MovieDetails>,
         val watchFilmId: Int,

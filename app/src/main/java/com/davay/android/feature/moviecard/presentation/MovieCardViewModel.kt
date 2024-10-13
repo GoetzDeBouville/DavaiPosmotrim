@@ -6,7 +6,6 @@ import com.davay.android.base.BaseViewModel
 import com.davay.android.core.domain.impl.CommonWebsocketInteractor
 import com.davay.android.core.domain.models.SessionStatus
 import com.davay.android.feature.matchedsession.presentation.MatchedSessionFragment.Companion.SESSION_ID
-import kotlinx.coroutines.delay
 import javax.inject.Inject
 
 class MovieCardViewModel @Inject constructor(
