@@ -7,7 +7,6 @@ import com.davay.android.core.data.database.HistoryDao
 import com.davay.android.core.data.database.entity.MovieDetailsEntity
 import com.davay.android.core.domain.api.SessionsHistoryRepository
 import com.davay.android.core.domain.models.ErrorType
-import com.davay.android.core.domain.models.MovieDetails
 import com.davay.android.core.domain.models.Result
 import com.davay.android.core.domain.models.Session
 import com.davay.android.core.domain.models.SessionWithMovies
@@ -17,32 +16,11 @@ class SessionsHistoryRepositoryImpl @Inject constructor(
     private val historyDao: HistoryDao
 ) : SessionsHistoryRepository {
 
-    override suspend fun saveSessionsHistory(
-        session: Session,
-        movies: List<MovieDetails>
-    ): Result<Unit, ErrorType> =
-        @Suppress("TooGenericExceptionCaught", "PrintStackTrace")
-        try {
-            historyDao.saveSessionWithFilms(
-                session.toDbEntity(),
-                movies.map { it.toDbEntity() }
-            )
-            Result.Success(Unit)
-        } catch (e: Exception) {
-            if (BuildConfig.DEBUG) {
-                e.printStackTrace()
-            }
-            Result.Error(ErrorType.UNKNOWN_ERROR)
-        }
-
-    override suspend fun saveSessionsHistoryByIdList(
-        session: Session,
-        matchedMovieIdList: List<Int>
-    ): Result<Unit, ErrorType> =
+    override suspend fun saveSessionsHistory(session: Session): Result<Unit, ErrorType> =
         @Suppress("TooGenericExceptionCaught", "PrintStackTrace")
         try {
             val movies: List<MovieDetailsEntity> =
-                matchedMovieIdList.mapNotNull { historyDao.getMovieDetailsById(it) }
+                session.matchedMovieIdList.mapNotNull { historyDao.getMovieDetailsById(it) }
             historyDao.saveSessionWithFilms(
                 session.toDbEntity(),
                 movies
@@ -54,7 +32,6 @@ class SessionsHistoryRepositoryImpl @Inject constructor(
             }
             Result.Error(ErrorType.UNKNOWN_ERROR)
         }
-
 
     override suspend fun getSessionWithMovies(sessionId: String): SessionWithMovies? =
         @Suppress("TooGenericExceptionCaught", "PrintStackTrace")

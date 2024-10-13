@@ -113,10 +113,7 @@ class WebsocketRepositoryImpl @Inject constructor(
                     .collect { sessionResult ->
                         if (sessionResult != null) {
                             val session = sessionResult.toDomain()
-                            sessionsHistoryRepository.saveSessionsHistoryByIdList(
-                                session,
-                                session.matchedMovieIdList,
-                            )
+                            sessionsHistoryRepository.saveSessionsHistory(session)
                             emit(Result.Success(session))
                         } else {
                             emit(Result.Error(ErrorType.UNKNOWN_ERROR))
