@@ -51,8 +51,13 @@ class SessionListViewModel @Inject constructor(
         )
     }
 
-    @Suppress("CyclomaticComplexMethod", "LongMethod", "CognitiveComplexMethod")
     private fun subscribeToWebsockets(sessionId: String) {
+        subscribeToAllWs(sessionId)
+        getUsersWs()
+        getSessionStatusWs()
+    }
+
+    private fun subscribeToAllWs(sessionId: String) {
         viewModelScope.launch(Dispatchers.IO) {
             runCatching {
                 commonWebsocketInteractor.subscribeWebsockets(sessionId)
@@ -60,6 +65,9 @@ class SessionListViewModel @Inject constructor(
                 _state.update { ConnectToSessionState.Error(ErrorScreenState.SERVER_ERROR) }
             }
         }
+    }
+
+    private fun getUsersWs() {
         runSafelyUseCaseWithNullResponse(
             useCaseFlow = commonWebsocketInteractor.getUsers(),
             onSuccess = { list ->
@@ -77,6 +85,9 @@ class SessionListViewModel @Inject constructor(
                 _state.update { ConnectToSessionState.Error(mapErrorToUiState(error)) }
             }
         )
+    }
+
+    private fun getSessionStatusWs() {
         runSafelyUseCaseWithNullResponse(
             useCaseFlow = commonWebsocketInteractor.getSessionStatus(),
             onSuccess = { status ->
