@@ -2,6 +2,7 @@ package com.davay.android.feature.selectmovie.di
 
 import com.davay.android.core.domain.impl.CommonWebsocketInteractor
 import com.davay.android.feature.selectmovie.domain.FilterDislikedMovieListUseCase
+import com.davay.android.feature.selectmovie.domain.GetMovieDetailsByIdUseCase
 import com.davay.android.feature.selectmovie.domain.GetMovieIdListSizeUseCase
 import com.davay.android.feature.selectmovie.domain.GetMovieListUseCase
 import com.davay.android.feature.selectmovie.domain.LikeMovieInteractor
@@ -34,4 +35,9 @@ class SelectMovieDomainModule {
         commonWebsocketInteractor: CommonWebsocketInteractor,
         repository: LikeMovieRepository
     ) = LikeMovieInteractor(commonWebsocketInteractor, repository)
+
+    @Provides
+    fun provideGetMovieDetailsByIdUseCase(
+        repository: SelectMovieRepository
+    ) = GetMovieDetailsByIdUseCase(repository)
 }
