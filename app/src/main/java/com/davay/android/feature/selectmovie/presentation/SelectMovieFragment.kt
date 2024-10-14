@@ -22,6 +22,8 @@ import com.davay.android.feature.selectmovie.presentation.adapters.SwipeCallback
 import com.davay.android.feature.selectmovie.presentation.adapters.SwipeableLayoutManager
 import com.davay.android.feature.selectmovie.presentation.animation.IncrementAnimation
 import com.davay.android.feature.selectmovie.presentation.animation.IncrementAnimationImpl
+import com.davay.android.feature.selectmovie.presentation.models.MovieMatchState
+import com.davay.android.feature.selectmovie.presentation.models.SelectMovieState
 import com.davay.android.utils.MovieDetailsHelperImpl
 import com.davay.android.utils.presentation.UiErrorHandler
 import com.davay.android.utils.presentation.UiErrorHandlerImpl
@@ -98,6 +100,12 @@ class SelectMovieFragment :
                 renderState(state)
             }
         }
+
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewModel.matchState.collect { state ->
+                handleMovieMatchState(state)
+            }
+        }
     }
 
     private fun renderState(state: SelectMovieState) {
@@ -106,6 +114,13 @@ class SelectMovieFragment :
             is SelectMovieState.Content -> showContent(state)
             is SelectMovieState.Error -> handleError(state)
             is SelectMovieState.ListIsFinished -> showDialogAndRequestResetMovieList()
+        }
+    }
+
+    private fun handleMovieMatchState(state: MovieMatchState) {
+        when (state) {
+            is MovieMatchState.Empty -> {}
+            is MovieMatchState.Content -> showBottomSheetFragment(state.movieDetails)
         }
     }
 
@@ -345,6 +360,7 @@ class SelectMovieFragment :
 
     /**
      * Использовать метод в событиях мэтча в вэбсокете
+     * В action передаем изменение стэйта MovieMatchState в Empty
      */
     @Suppress("Detekt.UnusedPrivateMember")
     private fun showBottomSheetFragment(movie: MovieDetails) {
@@ -352,6 +368,7 @@ class SelectMovieFragment :
         val bottomSheetFragment = MatchBottomSheetFragment.newInstance(
             movieDetails,
             action = {
+                viewModel.emptyMovieMatchState()
                 incrementAnimation.animate(binding.tvMotionedIncrement) {
                     binding.toolbarviewHeader.incrementMatchesDisplay()
                 }

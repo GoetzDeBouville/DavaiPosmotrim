@@ -9,10 +9,13 @@ import com.davay.android.core.domain.models.ErrorScreenState
 import com.davay.android.core.domain.models.MovieDetails
 import com.davay.android.core.domain.models.Result
 import com.davay.android.feature.selectmovie.domain.FilterDislikedMovieListUseCase
+import com.davay.android.feature.selectmovie.domain.GetMovieDetailsByIdUseCase
 import com.davay.android.feature.selectmovie.domain.GetMovieIdListSizeUseCase
 import com.davay.android.feature.selectmovie.domain.GetMovieListUseCase
 import com.davay.android.feature.selectmovie.domain.LikeMovieInteractor
 import com.davay.android.feature.selectmovie.domain.SwipeMovieUseCase
+import com.davay.android.feature.selectmovie.presentation.models.MovieMatchState
+import com.davay.android.feature.selectmovie.presentation.models.SelectMovieState
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -20,16 +23,22 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
+@Suppress("TooManyFunctions", "LongParameterList")
 class SelectMovieViewModel @Inject constructor(
-    private val getMovieDetailsUseCase: GetMovieListUseCase,
+    private val getMovieListUseCase: GetMovieListUseCase,
     private val getMovieIdListSizeUseCase: GetMovieIdListSizeUseCase,
     private val filterDislikedMovieListUseCase: FilterDislikedMovieListUseCase,
     private val swipeMovieUseCase: SwipeMovieUseCase,
     private val commonWebsocketInteractor: CommonWebsocketInteractor,
-    private val likeMovieInteractor: LikeMovieInteractor
+    private val likeMovieInteractor: LikeMovieInteractor,
+    private val getMovieDetailsById: GetMovieDetailsByIdUseCase
 ) : BaseViewModel() {
     private val _state = MutableStateFlow<SelectMovieState>(SelectMovieState.Loading)
     val state = _state.asStateFlow()
+
+    private val _matchState = MutableStateFlow<MovieMatchState>(MovieMatchState.Empty)
+    val matchState
+        get() = _matchState.asStateFlow()
 
     private var totalMovieIds = 0
     private var loadedMovies = mutableSetOf<MovieDetails>()
@@ -50,18 +59,45 @@ class SelectMovieViewModel @Inject constructor(
             commonWebsocketInteractor.getMatchesId().collect { result ->
                 when (result) {
                     is Result.Success -> {
-                        Log.d("SelectMovieViewModel", result.data.toString())
+                        if (BuildConfig.DEBUG) {
+                            Log.i(TAG, "match id content = ${result.data}")
+                        }
+                        val movieDetails = getMovieDetailsById(result.data)
+
+                        _matchState.update {
+                            if (movieDetails == null) {
+                                MovieMatchState.Empty
+                            } else {
+                                MovieMatchState.Content(movieDetails)
+                            }
+                        }
                     }
 
                     is Result.Error -> {
-                        Log.d("SelectMovieViewModel", result.error.toString())
+                        if (BuildConfig.DEBUG) {
+                            Log.i(TAG, "match id error = ${result.error}")
+                        }
+                        _matchState.update {
+                            MovieMatchState.Empty
+                        }
                     }
 
                     null -> {
-                        Log.d("SelectMovieViewModel", null.toString())
+                        if (BuildConfig.DEBUG) {
+                            Log.i(TAG, "match id is null")
+                        }
+                        _matchState.update {
+                            MovieMatchState.Empty
+                        }
                     }
                 }
             }
+        }
+    }
+
+    fun emptyMovieMatchState() {
+        _matchState.update {
+            MovieMatchState.Empty
         }
     }
 
@@ -70,15 +106,21 @@ class SelectMovieViewModel @Inject constructor(
             commonWebsocketInteractor.getSessionResult().collect { result ->
                 when (result) {
                     is Result.Success -> {
-                        Log.d("SelectMovieViewModel", result.data.toString())
+                        if (BuildConfig.DEBUG) {
+                            Log.i(TAG, "SessionResult content = ${result.data}")
+                        }
                     }
 
                     is Result.Error -> {
-                        Log.d("SelectMovieViewModel", result.error.toString())
+                        if (BuildConfig.DEBUG) {
+                            Log.i(TAG, "SessionResult error = ${result.error}")
+                        }
                     }
 
                     null -> {
-                        Log.d("SelectMovieViewModel", null.toString())
+                        if (BuildConfig.DEBUG) {
+                            Log.i(TAG, "SessionResult is null")
+                        }
                     }
                 }
             }
@@ -90,15 +132,21 @@ class SelectMovieViewModel @Inject constructor(
             commonWebsocketInteractor.getSessionStatus().collect { result ->
                 when (result) {
                     is Result.Success -> {
-                        Log.d("SelectMovieViewModel", result.data.toString())
+                        if (BuildConfig.DEBUG) {
+                            Log.i(TAG, "SessionStatus content = ${result.data}")
+                        }
                     }
 
                     is Result.Error -> {
-                        Log.d("SelectMovieViewModel", result.error.toString())
+                        if (BuildConfig.DEBUG) {
+                            Log.i(TAG, "SessionStatus error = ${result.error}")
+                        }
                     }
 
                     null -> {
-                        Log.d("SelectMovieViewModel", null.toString())
+                        if (BuildConfig.DEBUG) {
+                            Log.i(TAG, "SessionStatus is null")
+                        }
                     }
                 }
             }
@@ -107,7 +155,7 @@ class SelectMovieViewModel @Inject constructor(
 
     private fun loadMovies(position: Int) {
         runSafelyUseCase(
-            useCaseFlow = getMovieDetailsUseCase(position),
+            useCaseFlow = getMovieListUseCase(position),
             onSuccess = { movieList ->
                 if (movieList.isEmpty()) {
                     _state.update {
@@ -180,19 +228,6 @@ class SelectMovieViewModel @Inject constructor(
                     Log.e(TAG, "Error on like movie, position: $position | error -> $error")
                 }
                 onFailureSwipe.invoke()
-            }
-        )
-    }
-
-
-    private fun disLikeMovie(position: Int, onFailureSwipe: () -> Unit) {
-        runSafelyUseCase(
-            useCaseFlow = likeMovieInteractor.dislikeMovie(position),
-            onSuccess = {},
-            onFailure = { error ->
-                if (BuildConfig.DEBUG) {
-                    Log.e(TAG, "Error on dislike movie, position: $position | error -> $error")
-                }
             }
         )
     }
