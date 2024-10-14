@@ -36,8 +36,12 @@ class SessionListViewModel @Inject constructor(
         }
     }
 
+    /**
+     * Подключает к сессии и обновляет значение sessionId в commonWebsocketInteractor
+     */
     fun connectToSession(sessionId: String) {
         this.sessionId = sessionId
+        commonWebsocketInteractor.updateSessionId(sessionId)
         _state.update { ConnectToSessionState.Loading }
         runSafelyUseCase(
             useCaseFlow = connectToSessionUseCase.execute(sessionId),
