@@ -166,6 +166,20 @@ class SelectMovieRepositoryImpl @Inject constructor(
         }
     }
 
+    override suspend fun getMovieDetailsById(movieId: Int): MovieDetails? {
+        return try {
+            historyDao.getMovieDetailsById(movieId)?.toDomain()
+        } catch (e: SQLiteException) {
+            if (BuildConfig.DEBUG) {
+                Log.e(
+                    TAG,
+                    "Error get movie details by id: $movieId, exception -> ${e.localizedMessage}"
+                )
+            }
+            null
+        }
+    }
+
     private suspend fun getMovieIdByPosition(position: Int): MovieIdEntity? {
         return try {
             movieIdDao.getMovieIdByPosition(position)
