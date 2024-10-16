@@ -165,7 +165,7 @@ class CoincidencesFragment : BaseFragment<FragmentCoincidencesBinding, Coinciden
             viewModel.sessionStatusState.collect { state ->
                 when(state) {
                     SessionStatus.CLOSED -> showConfirmDialogAtSessionClosedStatus()
-                    SessionStatus.ROULETTE -> {}
+                    SessionStatus.ROULETTE -> showConfirmDialogAndNavigateToRoulette()
                     else -> {}
                 }
             }
@@ -182,6 +182,21 @@ class CoincidencesFragment : BaseFragment<FragmentCoincidencesBinding, Coinciden
             },
             onCancelAction = {
                 viewModel.leaveSessionAndNavigateToHistory()
+            }
+        )
+        dialog.show(parentFragmentManager, null)
+    }
+
+    private fun showConfirmDialogAndNavigateToRoulette() {
+        val dialog = MainDialogFragment.newInstance(
+            title = getString(R.string.select_movies_roulette_is_running_title),
+            message = getString(R.string.select_movies_roulette_is_running_message),
+            showConfirmBlock = true,
+            yesAction = {
+                viewModel.navigate(R.id.action_coincidencesFragment_to_rouletteFragment)
+            },
+            onCancelAction = {
+                viewModel.navigate(R.id.action_coincidencesFragment_to_rouletteFragment)
             }
         )
         dialog.show(parentFragmentManager, null)
