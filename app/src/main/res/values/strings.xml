@@ -59,6 +59,8 @@
     <string name="select_movies_movie_show_disliked_movies">Далее будет показан список фильмов "свайпнутых" влево</string>
     <string name="select_movies_you_liked_whole_movie_list">Вы лайкинули весь список фильмов</string>"
     <string name="select_movies_wait_for_end_of_session">Дождитесь окончания сессии или запуска рулетки</string>"
+    <string name="select_movies_user_left_session">Один из участников покинул сессию</string>
+    <string name="select_movies_session_is_closed">Сеанс завершён</string>
 
     <!--onboarding screen-->
     <string name="onboarding_continue_view">продолжить</string>

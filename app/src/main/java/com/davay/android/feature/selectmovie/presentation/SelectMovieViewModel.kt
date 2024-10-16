@@ -3,11 +3,14 @@ package com.davay.android.feature.selectmovie.presentation
 import android.util.Log
 import androidx.lifecycle.viewModelScope
 import com.davay.android.BuildConfig
+import com.davay.android.R
 import com.davay.android.base.BaseViewModel
 import com.davay.android.core.domain.impl.CommonWebsocketInteractor
+import com.davay.android.core.domain.impl.LeaveSessionUseCase
 import com.davay.android.core.domain.models.ErrorScreenState
 import com.davay.android.core.domain.models.MovieDetails
 import com.davay.android.core.domain.models.Result
+import com.davay.android.core.domain.models.SessionStatus
 import com.davay.android.feature.selectmovie.domain.FilterDislikedMovieListUseCase
 import com.davay.android.feature.selectmovie.domain.GetMovieDetailsByIdUseCase
 import com.davay.android.feature.selectmovie.domain.GetMovieIdListSizeUseCase
@@ -31,7 +34,8 @@ class SelectMovieViewModel @Inject constructor(
     private val swipeMovieUseCase: SwipeMovieUseCase,
     private val commonWebsocketInteractor: CommonWebsocketInteractor,
     private val likeMovieInteractor: LikeMovieInteractor,
-    private val getMovieDetailsById: GetMovieDetailsByIdUseCase
+    private val getMovieDetailsById: GetMovieDetailsByIdUseCase,
+    private val leaveSessionUseCase: LeaveSessionUseCase
 ) : BaseViewModel() {
     private val _state = MutableStateFlow<SelectMovieState>(SelectMovieState.Loading)
     val state = _state.asStateFlow()
@@ -39,6 +43,10 @@ class SelectMovieViewModel @Inject constructor(
     private val _matchState = MutableStateFlow<MovieMatchState>(MovieMatchState.Empty)
     val matchState
         get() = _matchState.asStateFlow()
+
+    private val _sessionStatusState = MutableStateFlow<SessionStatus>(SessionStatus.VOTING)
+    val sessionStatusState
+        get() = _sessionStatusState.asStateFlow()
 
     private var totalMovieIds = 0
     private var loadedMovies = mutableSetOf<MovieDetails>()
@@ -132,18 +140,28 @@ class SelectMovieViewModel @Inject constructor(
             commonWebsocketInteractor.getSessionStatus().collect { result ->
                 when (result) {
                     is Result.Success -> {
+                        _sessionStatusState.update {
+                            result.data
+                        }
+
                         if (BuildConfig.DEBUG) {
                             Log.i(TAG, "SessionStatus content = ${result.data}")
                         }
                     }
 
                     is Result.Error -> {
+                        _sessionStatusState.update {
+                            SessionStatus.VOTING
+                        }
                         if (BuildConfig.DEBUG) {
                             Log.i(TAG, "SessionStatus error = ${result.error}")
                         }
                     }
 
                     null -> {
+                        _sessionStatusState.update {
+                            SessionStatus.VOTING
+                        }
                         if (BuildConfig.DEBUG) {
                             Log.i(TAG, "SessionStatus is null")
                         }
@@ -263,8 +281,23 @@ class SelectMovieViewModel @Inject constructor(
         }
     }
 
-    fun disconnect() {
+    fun leaveSessionAndNavigateToHistory() {
+        disconnect()
+        clearBackStackToMainAndNavigate(R.id.action_mainFragment_to_matchedSessionListFragment)
+    }
+
+    private fun disconnect() {
         viewModelScope.launch(Dispatchers.IO) {
+            val sessionId = commonWebsocketInteractor.getSessionId()
+            runSafelyUseCase(
+                useCaseFlow = leaveSessionUseCase.execute(sessionId),
+                onSuccess = {},
+                onFailure = { error ->
+                    if (BuildConfig.DEBUG) {
+                        Log.e(TAG, "Error on leave session ${sessionId}, error -> $error")
+                    }
+                }
+            )
             commonWebsocketInteractor.unsubscribeAllWebSockets()
         }
     }

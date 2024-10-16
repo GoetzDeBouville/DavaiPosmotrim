@@ -1,4 +1,4 @@
-package com.davay.android.feature.selectmovie.data.network.impl
+package com.davay.android.feature.selectmovie.data.impl
 
 import android.database.sqlite.SQLiteException
 import android.util.Log
