@@ -28,13 +28,17 @@ class LikeMovieRepositoryImpl @Inject constructor(
         moviePosition: Int,
         sessionId: String
     ): Flow<Result<LikeMovieResponse, ErrorType>> = flow {
+        val position = moviePosition - 1 // поправка позиции
+        if (BuildConfig.DEBUG) {
+            Log.i(TAG, "position = $position")
+        }
         val movieId = try {
-            movieIdDao.getMovieIdByPosition(moviePosition)?.movieId ?: 0
+            movieIdDao.getMovieIdByPosition(position)?.movieId ?: 0
         } catch (e: SQLiteException) {
             if (BuildConfig.DEBUG) {
                 Log.e(
                     TAG,
-                    "Error get movie id by position: $moviePosition, exception -> ${e.localizedMessage}"
+                    "Error get movie id by position: $position, exception -> ${e.localizedMessage}"
                 )
             }
             0
@@ -47,6 +51,9 @@ class LikeMovieRepositoryImpl @Inject constructor(
                 userId = deviceId
             )
         )
+        if (BuildConfig.DEBUG) {
+            Log.i(TAG, "response = ${response.body}")
+        }
 
         when (val body = response.body) {
             is LikeMovieResponse -> {

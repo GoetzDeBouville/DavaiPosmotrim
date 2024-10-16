@@ -10,7 +10,7 @@ class LikeMovieInteractor @Inject constructor(
 ) {
     private val sessionId = commonWebsocketInteractor.getSessionId()
 
-    fun likeMovie(moviePosition: Int) = repository.likeMovie(moviePosition, sessionId)
+    fun likeMovie(position: Int) = repository.likeMovie(position, sessionId)
 
-    fun dislikeMovie(moviePosition: Int) = repository.dislikeMovie(moviePosition, sessionId)
+    fun dislikeMovie(position: Int) = repository.dislikeMovie(position, sessionId)
 }

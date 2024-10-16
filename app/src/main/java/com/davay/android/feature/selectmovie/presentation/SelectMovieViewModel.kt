@@ -193,7 +193,7 @@ class SelectMovieViewModel @Inject constructor(
      * закэшированные данные фильмов в размере PRELOAD_SIZE, то есть пользователь вообще не значет
      * о процессе подгрузки данных.
      */
-    fun onMovieSwiped(position: Int, isLiked: Boolean, onFailureSwipe: () -> Unit = {}) {
+    fun onMovieSwiped(position: Int, isLiked: Boolean) {
         if (position + PRELOAD_SIZE >= loadedMovies.size && loadedMovies.size < totalMovieIds) {
             loadMovies(position)
         }
@@ -201,12 +201,11 @@ class SelectMovieViewModel @Inject constructor(
             runCatching {
                 swipeMovieUseCase(position, isLiked)
             }.onSuccess {
-                likeMovie(position, isLiked, onFailureSwipe)
+                likeMovie(position, isLiked)
             }.onFailure {
                 if (BuildConfig.DEBUG) {
                     Log.e(TAG, "Error on swipe movie, position: $position | ${it.localizedMessage}")
                 }
-                onFailureSwipe.invoke()
             }
         }
 
@@ -215,7 +214,7 @@ class SelectMovieViewModel @Inject constructor(
         }
     }
 
-    private fun likeMovie(position: Int, isLiked: Boolean, onFailureSwipe: () -> Unit) {
+    private fun likeMovie(position: Int, isLiked: Boolean) {
         runSafelyUseCase(
             useCaseFlow = if (isLiked) {
                 likeMovieInteractor.likeMovie(position)
@@ -227,7 +226,6 @@ class SelectMovieViewModel @Inject constructor(
                 if (BuildConfig.DEBUG) {
                     Log.e(TAG, "Error on like movie, position: $position | error -> $error")
                 }
-                onFailureSwipe.invoke()
             }
         )
     }

@@ -155,7 +155,10 @@ class SelectMovieRepositoryImpl @Inject constructor(
      */
     override suspend fun updateIsLikedByPosition(position: Int, isLiked: Boolean) {
         try {
-            movieIdDao.updateIsLikedById(position, isLiked)
+            movieIdDao.updateIsLikedById(position - 1, isLiked)
+            if (BuildConfig.DEBUG) {
+                Log.i(TAG, "updateIsLikedByPosition position = $position")
+            }
         } catch (e: SQLiteException) {
             if (BuildConfig.DEBUG) {
                 Log.e(

@@ -130,7 +130,7 @@ class SelectMovieFragment :
             state.errorType,
             binding.errorMessage
         ) {
-            viewModel.onMovieSwiped(currentPosition, false, ::revertSwipe)
+            viewModel.onMovieSwiped(currentPosition, false)
         }
     }
 
@@ -268,13 +268,13 @@ class SelectMovieFragment :
     private fun swipeLeft() {
         swipe()
         swipeCardLayoutManager.moveNextWithSwipeAndLayout(SwipeDirection.LEFT)
-        viewModel.onMovieSwiped(currentPosition, false, onFailureSwipe = ::revertSwipe)
+        viewModel.onMovieSwiped(currentPosition, false)
     }
 
     private fun swipeRight() {
         swipe()
         swipeCardLayoutManager.moveNextWithSwipeAndLayout(SwipeDirection.RIGHT)
-        viewModel.onMovieSwiped(currentPosition, true, onFailureSwipe = ::revertSwipe)
+        viewModel.onMovieSwiped(currentPosition, true)
     }
 
     /**
@@ -286,14 +286,14 @@ class SelectMovieFragment :
         swipe()
         swipeCardLayoutManager.moveNextWithSwipeAndLayout(SwipeDirection.LEFT)
         currentPosition++ // обновление позиции после свайпа для синхронизации позиции со значением в БД
-        viewModel.onMovieSwiped(currentPosition, false, ::revertSwipe)
+        viewModel.onMovieSwiped(currentPosition, false)
     }
 
     private fun autoSwipeRight() {
         swipe()
         swipeCardLayoutManager.moveNextWithSwipeAndLayout(SwipeDirection.RIGHT)
         currentPosition++ // обновление позиции после свайпа для синхронизации позиции со значением в БД
-        viewModel.onMovieSwiped(currentPosition, true, ::revertSwipe)
+        viewModel.onMovieSwiped(currentPosition, true)
     }
 
     private fun revertSwipe() {
@@ -364,11 +364,11 @@ class SelectMovieFragment :
      */
     @Suppress("Detekt.UnusedPrivateMember")
     private fun showBottomSheetFragment(movie: MovieDetails) {
+        viewModel.emptyMovieMatchState()
         val movieDetails = Json.encodeToString(movie)
         val bottomSheetFragment = MatchBottomSheetFragment.newInstance(
             movieDetails,
             action = {
-                viewModel.emptyMovieMatchState()
                 incrementAnimation.animate(binding.tvMotionedIncrement) {
                     binding.toolbarviewHeader.incrementMatchesDisplay()
                 }
