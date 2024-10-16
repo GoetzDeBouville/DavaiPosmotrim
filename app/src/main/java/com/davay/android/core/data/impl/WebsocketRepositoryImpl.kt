@@ -27,6 +27,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -97,6 +98,7 @@ class WebsocketRepositoryImpl @Inject constructor(
         runCatching {
             isUsersSubscribed = false
             websocketUsersClient.close()
+            _usersStateFlow.update { null }
         }.onFailure { error ->
             if (BuildConfig.DEBUG) {
                 error.printStackTrace()
@@ -140,6 +142,7 @@ class WebsocketRepositoryImpl @Inject constructor(
         runCatching {
             isSessionResultSubscribed = false
             websocketSessionResultClient.close()
+            _sessionResultFlow.update { null }
         }.onFailure { error ->
             if (BuildConfig.DEBUG) {
                 error.printStackTrace()
@@ -183,6 +186,7 @@ class WebsocketRepositoryImpl @Inject constructor(
         runCatching {
             isSessionStatusSubscribed = false
             websocketSessionStatusClient.close()
+            _sessionStatusStateFlow.update { null }
         }.onFailure { error ->
             if (BuildConfig.DEBUG) {
                 error.printStackTrace()
@@ -226,6 +230,7 @@ class WebsocketRepositoryImpl @Inject constructor(
         runCatching {
             isRouletteIdSubscribed = false
             websocketRouletteIdClient.close()
+            _rouletteIdStateFlow.update { null }
         }.onFailure { error ->
             if (BuildConfig.DEBUG) {
                 error.printStackTrace()
@@ -269,6 +274,7 @@ class WebsocketRepositoryImpl @Inject constructor(
         runCatching {
             isMatchesIdSubscribed = false
             websocketMatchesIdClient.close()
+            _matchesIdStateFlow.update { null }
         }.onFailure { error ->
             if (BuildConfig.DEBUG) {
                 error.printStackTrace()
