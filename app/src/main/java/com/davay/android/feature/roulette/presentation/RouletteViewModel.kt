@@ -151,7 +151,7 @@ class RouletteViewModel @Inject constructor(
     }
 
     fun navigateToMainFragment() {
-        navigate(R.id.action_rouletteFragment_to_mainFragment)
+        clearBackStackToMain()
     }
 
     fun navigateToSessionHistory() {

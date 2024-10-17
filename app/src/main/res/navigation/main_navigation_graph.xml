@@ -184,15 +184,6 @@
         android:label="RouletteFragment"
         tools:layout="@layout/fragment_roulette">
         <action
-            android:id="@+id/action_rouletteFragment_to_mainFragment"
-            app:destination="@id/mainFragment"
-            app:enterAnim="@android:anim/fade_in"
-            app:exitAnim="@android:anim/fade_out"
-            app:popEnterAnim="@android:anim/fade_in"
-            app:popExitAnim="@android:anim/fade_out"
-            app:popUpTo="@+id/mainFragment"
-            app:popUpToInclusive="false" />
-        <action
             android:id="@+id/action_rouletteFragment_to_matchedSessionFragment2"
             app:destination="@id/matchedSessionFragment"
             app:enterAnim="@android:anim/fade_in"
