@@ -127,7 +127,7 @@ fun SessionEntity.toDomain(): Session {
         id = sessionId,
         users = users.toListData(),
         movieIdList = emptyList(),
-        matchedMovieIdList = emptyList(),
+        matchedMovieIdList = List(numberOfMatchedMovies) { it },
         date = date,
         status = SessionStatus.CLOSED,
         imgUrl = imgUrl
