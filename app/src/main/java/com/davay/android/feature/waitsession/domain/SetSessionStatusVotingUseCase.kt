@@ -12,7 +12,7 @@ class SetSessionStatusVotingUseCase(
 ) {
 
     operator fun invoke(): Flow<Result<String, ErrorType>> {
-        val sessionId = commonWebsocketInteractor.getSessionId()
+        val sessionId = commonWebsocketInteractor.sessionId
 
         return startVotingRepository.startVotingSession(sessionId)
     }

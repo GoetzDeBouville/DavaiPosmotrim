@@ -88,7 +88,9 @@ class GenreViewModel @Inject constructor(
                             Log.v(TAG, "error -> $session")
                         }
 
-                        subscribeToWebsocketsAndUpdateSessionId(sessionId = session.id)
+                        subscribeToWebsocketsAndUpdateSessionId(sessionId = session.id) {
+                            _state.update { GenreState.Error(ErrorScreenState.SERVER_ERROR) }
+                        }
 
                         viewModelScope.launch(Dispatchers.Main) {
                             navigateToWaitSession(session.toSessionShort())

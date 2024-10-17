@@ -100,7 +100,9 @@ class CompilationsViewModel @Inject constructor(
                             Log.v(TAG, "session = $session")
                         }
 
-                        subscribeToWebsocketsAndUpdateSessionId(sessionId = session.id)
+                        subscribeToWebsocketsAndUpdateSessionId(sessionId = session.id) {
+                            _state.update { CompilationsState.Error(ErrorScreenState.SERVER_ERROR) }
+                        }
 
                         viewModelScope.launch(Dispatchers.Main) {
                             navigateToWaitSession(session.toSessionShort())

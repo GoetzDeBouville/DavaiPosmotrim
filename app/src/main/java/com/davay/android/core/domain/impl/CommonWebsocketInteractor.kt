@@ -1,6 +1,5 @@
 package com.davay.android.core.domain.impl
 
-import android.util.Log
 import com.davay.android.core.domain.api.WebsocketRepository
 import com.davay.android.core.domain.models.ErrorType
 import com.davay.android.core.domain.models.Result
@@ -15,15 +14,8 @@ import javax.inject.Singleton
 class CommonWebsocketInteractor @Inject constructor(
     private val websocketRepository: WebsocketRepository,
 ) {
-    var sessionId: String? = null
+    var sessionId: String = ""
         private set
-
-    fun updateSessionId(id: String) {
-        sessionId = id
-        Log.i(TAG, "updateSessionId: $id")
-    }
-
-    fun getSessionId(): String = sessionId
 
     private suspend fun subscribeSessionStatus(sessionId: String) {
         websocketRepository.subscribeSessionStatus(sessionId)
@@ -32,13 +24,7 @@ class CommonWebsocketInteractor @Inject constructor(
     private suspend fun unsubscribeSessionStatus() {
         websocketRepository.unsubscribeSessionStatus()
     }
-    suspend fun unsubscribeAllWebSockets() {
-        websocketRepository.unsubscribeSessionStatus()
-        websocketRepository.unsubscribeMatchesId()
-        websocketRepository.unsubscribeRouletteId()
-        websocketRepository.unsubscribeSessionResult()
-        websocketRepository.unsubscribeUsers()
-    }
+
     fun getSessionStatus(): StateFlow<Result<SessionStatus, ErrorType>?> =
         websocketRepository.sessionStatusStateFlow
 
@@ -96,7 +82,7 @@ class CommonWebsocketInteractor @Inject constructor(
     }
 
     suspend fun unsubscribeWebsockets() {
-        this.sessionId = null
+        this.sessionId = ""
         unsubscribeSessionStatus()
         unsubscribeUsers()
         unsubscribeSessionResult()

@@ -8,7 +8,7 @@ class LikeMovieInteractor @Inject constructor(
     commonWebsocketInteractor: CommonWebsocketInteractor,
     private val repository: LikeMovieRepository
 ) {
-    private val sessionId = commonWebsocketInteractor.getSessionId()
+    private val sessionId = commonWebsocketInteractor.sessionId
 
     fun likeMovie(position: Int) = repository.likeMovie(position, sessionId)
 

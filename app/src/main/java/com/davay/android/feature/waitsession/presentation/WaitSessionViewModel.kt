@@ -51,13 +51,13 @@ class WaitSessionViewModel @Inject constructor(
      * смены конфигурации устройства
      */
     fun navigateToCreateSessionAndUnsubscribeWebSockets() {
-        val sessionId = commonWebsocketInteractor.getSessionId()
+        val sessionId = commonWebsocketInteractor.sessionId
         viewModelScope.launch {
             runCatching {
-                commonWebsocketInteractor.unsubscribeAllWebSockets()
+                commonWebsocketInteractor.unsubscribeWebsockets()
             }.onFailure {
                 if (BuildConfig.DEBUG) {
-                    Log.i(TAG, "unsubscribeAllWebSockets: error -> $it")
+                    Log.i(TAG, "unsubscribeWebsockets: error -> $it")
                 }
             }
             leaveSessionUseCase.execute(sessionId)

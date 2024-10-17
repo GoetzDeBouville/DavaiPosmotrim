@@ -76,7 +76,7 @@ class CoincidencesViewModel @Inject constructor(
 
     private fun disconnect() {
         viewModelScope.launch(Dispatchers.IO) {
-            val sessionId = commonWebsocketInteractor.getSessionId()
+            val sessionId = commonWebsocketInteractor.sessionId
             runSafelyUseCase(
                 useCaseFlow = leaveSessionUseCase.execute(sessionId),
                 onSuccess = {},
@@ -86,7 +86,7 @@ class CoincidencesViewModel @Inject constructor(
                     }
                 }
             )
-            commonWebsocketInteractor.unsubscribeAllWebSockets()
+            commonWebsocketInteractor.unsubscribeWebsockets()
         }
     }
 
