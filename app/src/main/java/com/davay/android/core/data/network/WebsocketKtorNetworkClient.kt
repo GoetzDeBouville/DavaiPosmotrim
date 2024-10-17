@@ -29,7 +29,7 @@ import kotlinx.serialization.json.Json
 abstract class WebsocketKtorNetworkClient<O> : WebsocketNetworkClient<O> {
     private val httpClient = HttpClient {
         install(WebSockets) {
-            pingInterval = PING_INTERVAL_MS
+            pingInterval = PING_INTERVAL_MS_10_000L
         }
         install(Logging) {
             if (BuildConfig.DEBUG) {
@@ -44,7 +44,7 @@ abstract class WebsocketKtorNetworkClient<O> : WebsocketNetworkClient<O> {
     }
     private var session: WebSocketSession? = null
 
-    private val reconnectDelay = RECONNECT_DELAY_MS
+    private val reconnectDelay = RECONNECT_DELAY_MS_5_000L
     private var numberReconnections = 0
     private var shouldReconnect = true
 
@@ -97,8 +97,8 @@ abstract class WebsocketKtorNetworkClient<O> : WebsocketNetworkClient<O> {
     abstract fun mapIncomingMessage(message: Frame.Text, converter: Json): O
 
     companion object {
-        const val PING_INTERVAL_MS = 10_000L
-        const val RECONNECT_DELAY_MS = 5_000L
+        const val PING_INTERVAL_MS_10_000L = 10_000L
+        const val RECONNECT_DELAY_MS_5_000L = 5_000L
         const val MAX_NUMBER_RECONNECTIONS = 3
         const val ERROR_MESSAGE = "Failed to connect after %s attempts"
         val TAG = WebsocketKtorNetworkClient::class.simpleName

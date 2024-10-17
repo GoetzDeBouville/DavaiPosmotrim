@@ -1,20 +1,24 @@
 package com.davay.android.feature.selectmovie.presentation
 
 import android.util.Log
-import androidx.core.os.bundleOf
 import androidx.lifecycle.viewModelScope
 import com.davay.android.BuildConfig
 import com.davay.android.R
 import com.davay.android.base.BaseViewModel
 import com.davay.android.core.domain.impl.CommonWebsocketInteractor
+import com.davay.android.core.domain.impl.LeaveSessionUseCase
 import com.davay.android.core.domain.models.ErrorScreenState
 import com.davay.android.core.domain.models.MovieDetails
+import com.davay.android.core.domain.models.Result
 import com.davay.android.core.domain.models.SessionStatus
-import com.davay.android.feature.matchedsession.presentation.MatchedSessionFragment.Companion.SESSION_ID
 import com.davay.android.feature.selectmovie.domain.FilterDislikedMovieListUseCase
+import com.davay.android.feature.selectmovie.domain.GetMovieDetailsByIdUseCase
 import com.davay.android.feature.selectmovie.domain.GetMovieIdListSizeUseCase
 import com.davay.android.feature.selectmovie.domain.GetMovieListUseCase
+import com.davay.android.feature.selectmovie.domain.LikeMovieInteractor
 import com.davay.android.feature.selectmovie.domain.SwipeMovieUseCase
+import com.davay.android.feature.selectmovie.presentation.models.MovieMatchState
+import com.davay.android.feature.selectmovie.presentation.models.SelectMovieState
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -22,41 +26,109 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
+@Suppress("TooManyFunctions", "LongParameterList")
 class SelectMovieViewModel @Inject constructor(
-    private val getMovieDetailsUseCase: GetMovieListUseCase,
+    private val getMovieListUseCase: GetMovieListUseCase,
     private val getMovieIdListSizeUseCase: GetMovieIdListSizeUseCase,
     private val filterDislikedMovieListUseCase: FilterDislikedMovieListUseCase,
     private val swipeMovieUseCase: SwipeMovieUseCase,
     private val commonWebsocketInteractor: CommonWebsocketInteractor,
+    private val likeMovieInteractor: LikeMovieInteractor,
+    private val getMovieDetailsById: GetMovieDetailsByIdUseCase,
+    private val leaveSessionUseCase: LeaveSessionUseCase
 ) : BaseViewModel() {
     private val _state = MutableStateFlow<SelectMovieState>(SelectMovieState.Loading)
-    val state = _state.asStateFlow()
+    val state
+        get() = _state.asStateFlow()
+
+    private val _matchState = MutableStateFlow<MovieMatchState>(MovieMatchState.Empty)
+    val matchState
+        get() = _matchState.asStateFlow()
+
+    private val _sessionStatusState = MutableStateFlow(SessionStatus.VOTING)
+    val sessionStatusState
+        get() = _sessionStatusState.asStateFlow()
 
     private var totalMovieIds = 0
     private var loadedMovies = mutableSetOf<MovieDetails>()
 
     init {
         initializeMovieList()
+        subscribeStates()
+    }
 
-        runSafelyUseCaseWithNullResponse(
-            useCaseFlow = commonWebsocketInteractor.getSessionStatus(),
-            onSuccess = { sessionStatus ->
-                if (sessionStatus == SessionStatus.ROULETTE) {
-                    navigate(R.id.action_selectMovieFragment_to_rouletteFragment)
-                } else if (sessionStatus == SessionStatus.CLOSED) {
-                    navigate(
-                        R.id.action_selectMovieFragment_to_matchedSessionFragment,
-                        bundleOf(SESSION_ID to commonWebsocketInteractor.sessionId)
-                    )
+    private fun subscribeStates() {
+        subscribeSessionStatus()
+        subscribeMatches()
+    }
+
+    private fun subscribeMatches() {
+        viewModelScope.launch(Dispatchers.IO) {
+            commonWebsocketInteractor.getMatchesId().collect { result ->
+                when (result) {
+                    is Result.Success -> {
+                        val movieDetails = getMovieDetailsById(result.data)
+
+                        _matchState.update {
+                            if (movieDetails == null) {
+                                MovieMatchState.Empty
+                            } else {
+                                MovieMatchState.Content(movieDetails)
+                            }
+                        }
+                    }
+
+                    is Result.Error -> {
+                        _matchState.update {
+                            MovieMatchState.Empty
+                        }
+                    }
+
+                    null -> {
+                        _matchState.update {
+                            MovieMatchState.Empty
+                        }
+                    }
                 }
-            },
-            onFailure = { }
-        )
+            }
+        }
+    }
+
+    fun emptyMovieMatchState() {
+        _matchState.update {
+            MovieMatchState.Empty
+        }
+    }
+
+    private fun subscribeSessionStatus() {
+        viewModelScope.launch(Dispatchers.IO) {
+            commonWebsocketInteractor.getSessionStatus().collect { result ->
+                when (result) {
+                    is Result.Success -> {
+                        _sessionStatusState.update {
+                            result.data
+                        }
+                    }
+
+                    is Result.Error -> {
+                        _sessionStatusState.update {
+                            SessionStatus.VOTING
+                        }
+                    }
+
+                    null -> {
+                        _sessionStatusState.update {
+                            SessionStatus.VOTING
+                        }
+                    }
+                }
+            }
+        }
     }
 
     private fun loadMovies(position: Int) {
         runSafelyUseCase(
-            useCaseFlow = getMovieDetailsUseCase(position),
+            useCaseFlow = getMovieListUseCase(position),
             onSuccess = { movieList ->
                 if (movieList.isEmpty()) {
                     _state.update {
@@ -98,6 +170,7 @@ class SelectMovieViewModel @Inject constructor(
         if (position + PRELOAD_SIZE >= loadedMovies.size && loadedMovies.size < totalMovieIds) {
             loadMovies(position)
         }
+        likeMovie(position, isLiked)
         viewModelScope.launch {
             runCatching {
                 swipeMovieUseCase(position, isLiked)
@@ -111,6 +184,22 @@ class SelectMovieViewModel @Inject constructor(
         if (position == totalMovieIds) {
             _state.update { SelectMovieState.ListIsFinished }
         }
+    }
+
+    private fun likeMovie(position: Int, isLiked: Boolean) {
+        runSafelyUseCase(
+            useCaseFlow = if (isLiked) {
+                likeMovieInteractor.likeMovie(position)
+            } else {
+                likeMovieInteractor.dislikeMovie(position)
+            },
+            onSuccess = {},
+            onFailure = { error ->
+                if (BuildConfig.DEBUG) {
+                    Log.e(TAG, "Error on like movie, position: $position | error -> $error")
+                }
+            }
+        )
     }
 
     /**
@@ -146,6 +235,27 @@ class SelectMovieViewModel @Inject constructor(
         }
     }
 
+    fun leaveSessionAndNavigateToHistory() {
+        disconnect()
+        clearBackStackToMainAndNavigate(R.id.action_mainFragment_to_matchedSessionListFragment)
+    }
+
+    private fun disconnect() {
+        viewModelScope.launch(Dispatchers.IO) {
+            val sessionId = commonWebsocketInteractor.sessionId
+            runSafelyUseCase(
+                useCaseFlow = leaveSessionUseCase.execute(sessionId),
+                onSuccess = {},
+                onFailure = { error ->
+                    if (BuildConfig.DEBUG) {
+                        Log.e(TAG, "Error on leave session $sessionId, error -> $error")
+                    }
+                }
+            )
+            commonWebsocketInteractor.unsubscribeWebsockets()
+        }
+    }
+
     private companion object {
         /**
          * Размер подгрузки фильмов, при изменении так же учитывать значение в SelectMovieRepositoryImpl.
@@ -156,9 +266,4 @@ class SelectMovieViewModel @Inject constructor(
         val TAG: String = SelectMovieViewModel::class.java.simpleName
     }
 
-    fun disconnect() {
-        viewModelScope.launch(Dispatchers.IO) {
-            commonWebsocketInteractor.unsubscribeWebsockets()
-        }
-    }
 }
