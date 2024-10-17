@@ -2,7 +2,6 @@ package com.davay.android.feature.sessionlist.presentation
 
 import android.os.Bundle
 import androidx.lifecycle.viewModelScope
-import com.davay.android.BuildConfig
 import com.davay.android.R
 import com.davay.android.base.BaseViewModel
 import com.davay.android.core.domain.impl.CommonWebsocketInteractor
@@ -56,142 +55,75 @@ class SessionListViewModel @Inject constructor(
         )
     }
 
-    @Suppress("CyclomaticComplexMethod", "LongMethod", "CognitiveComplexMethod")
     private fun subscribeToWebsockets(sessionId: String) {
-        viewModelScope.launch(Dispatchers.IO) {
-            runCatching {
-                commonWebsocketInteractor.subscribeUsers(sessionId)
-                    .collect { result ->
-                        result?.fold(
-                            onSuccess = { list ->
-                                if (_state.value is ConnectToSessionState.Content) {
-                                    _state.update {
-                                        ConnectToSessionState.Content(
-                                            (_state.value as ConnectToSessionState.Content)
-                                                .session
-                                                .copy(users = list.map { it.name })
-                                        )
-                                    }
-                                }
-                            },
-                            onError = { error ->
-                                _state.update { ConnectToSessionState.Error(mapErrorToUiState(error)) }
-                            }
-                        )
-                    }
-            }.onFailure { error ->
-                _state.update { ConnectToSessionState.Error(ErrorScreenState.SERVER_ERROR) }
-                if (BuildConfig.DEBUG) {
-                    error.printStackTrace()
-                }
-            }
-        }
-        viewModelScope.launch(Dispatchers.IO) {
-            runCatching {
-                commonWebsocketInteractor.subscribeSessionStatus(
-                    sessionId = sessionId
-                ).collect { result ->
-                    result?.fold(
-                        onSuccess = { status ->
-                            when (status) {
-                                SessionStatus.VOTING -> {
-                                    val session =
-                                        (_state.value as ConnectToSessionState.Content).session.toSessionShort()
-                                    val sessionJson = Json.encodeToString(session)
-                                    val bundle = Bundle().apply {
-                                        putString(SESSION_DATA, sessionJson)
-                                    }
-                                    this@SessionListViewModel.sessionId = null
-                                    navigate(
-                                        R.id.action_sessionListFragment_to_selectMovieFragment,
-                                        bundle
-                                    )
-                                }
+        subscribeToAllWs(sessionId)
+        getUsersWs()
+        getSessionStatusWs()
+    }
 
-                                SessionStatus.CLOSED -> {
-                                    leaveSessionAndNavigateBack(sessionId)
-                                }
-
-                                else -> {
-                                    // do nothing
-                                }
-                            }
-                        },
-                        onError = { error ->
-                            _state.update { ConnectToSessionState.Error(mapErrorToUiState(error)) }
-                        }
-                    )
-                }
-            }.onFailure { error ->
-                _state.update { ConnectToSessionState.Error(ErrorScreenState.SERVER_ERROR) }
-                if (BuildConfig.DEBUG) {
-                    error.printStackTrace()
-                }
-            }
-        }
+    private fun subscribeToAllWs(sessionId: String) {
         viewModelScope.launch(Dispatchers.IO) {
             runCatching {
-                commonWebsocketInteractor.subscribeSessionResult(sessionId = sessionId)
-                    .collect { result ->
-                        result?.fold(
-                            onError = { error ->
-                                _state.update { ConnectToSessionState.Error(mapErrorToUiState(error)) }
-                            },
-                            onSuccess = {}
-                        )
-                    }
-            }.onFailure { error ->
+                commonWebsocketInteractor.subscribeWebsockets(sessionId)
+            }.onFailure {
                 _state.update { ConnectToSessionState.Error(ErrorScreenState.SERVER_ERROR) }
-                if (BuildConfig.DEBUG) {
-                    error.printStackTrace()
-                }
-            }
-        }
-        viewModelScope.launch(Dispatchers.IO) {
-            runCatching {
-                commonWebsocketInteractor.subscribeMatchesId(sessionId = sessionId)
-                    .collect { result ->
-                        result?.fold(
-                            onError = { error ->
-                                _state.update { ConnectToSessionState.Error(mapErrorToUiState(error)) }
-                            },
-                            onSuccess = {}
-                        )
-                    }
-            }.onFailure { error ->
-                _state.update { ConnectToSessionState.Error(ErrorScreenState.SERVER_ERROR) }
-                if (BuildConfig.DEBUG) {
-                    error.printStackTrace()
-                }
-            }
-        }
-        viewModelScope.launch(Dispatchers.IO) {
-            runCatching {
-                commonWebsocketInteractor.subscribeRouletteId(sessionId = sessionId)
-                    .collect { result ->
-                        result?.fold(
-                            onError = { error ->
-                                _state.update { ConnectToSessionState.Error(mapErrorToUiState(error)) }
-                            },
-                            onSuccess = {}
-                        )
-                    }
-            }.onFailure { error ->
-                _state.update { ConnectToSessionState.Error(ErrorScreenState.SERVER_ERROR) }
-                if (BuildConfig.DEBUG) {
-                    error.printStackTrace()
-                }
             }
         }
     }
 
+    private fun getUsersWs() {
+        runSafelyUseCaseWithNullResponse(
+            useCaseFlow = commonWebsocketInteractor.getUsers(),
+            onSuccess = { list ->
+                if (_state.value is ConnectToSessionState.Content && list != null) {
+                    _state.update {
+                        ConnectToSessionState.Content(
+                            (_state.value as ConnectToSessionState.Content)
+                                .session
+                                .copy(users = list.map { it.name })
+                        )
+                    }
+                }
+            },
+            onFailure = { error ->
+                _state.update { ConnectToSessionState.Error(mapErrorToUiState(error)) }
+            }
+        )
+    }
+
+    private fun getSessionStatusWs() {
+        runSafelyUseCaseWithNullResponse(
+            useCaseFlow = commonWebsocketInteractor.getSessionStatus(),
+            onSuccess = { status ->
+                when (status) {
+                    SessionStatus.VOTING -> {
+                        val session =
+                            (_state.value as ConnectToSessionState.Content).session.toSessionShort()
+                        val sessionJson = Json.encodeToString(session)
+                        val bundle = Bundle().apply {
+                            putString(SESSION_DATA, sessionJson)
+                        }
+                        this@SessionListViewModel.sessionId = null
+                        navigate(
+                            R.id.action_sessionListFragment_to_selectMovieFragment,
+                            bundle
+                        )
+                    }
+
+                    else -> {
+                        // do nothing
+                    }
+                }
+            },
+            onFailure = { error ->
+                _state.update { ConnectToSessionState.Error(mapErrorToUiState(error)) }
+            }
+        )
+    }
+
     private fun unsubscribeWebsockets() {
         viewModelScope.launch(Dispatchers.IO) {
-            commonWebsocketInteractor.unsubscribeUsers()
-            commonWebsocketInteractor.unsubscribeSessionStatus()
-            commonWebsocketInteractor.unsubscribeSessionResult()
-            commonWebsocketInteractor.unsubscribeMatchesId()
-            commonWebsocketInteractor.unsubscribeRouletteId()
+            commonWebsocketInteractor.unsubscribeWebsockets()
         }
     }
 

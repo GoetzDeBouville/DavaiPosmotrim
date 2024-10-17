@@ -5,5 +5,6 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class ConnectMessageDto(
-    @SerialName("message") val message: String
+    @SerialName("message") val message: String,
+    @SerialName("users") val users: List<UserDto>
 )
