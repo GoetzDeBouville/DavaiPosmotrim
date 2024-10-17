@@ -110,7 +110,7 @@ class SelectMovieFragment :
 
         viewLifecycleOwner.lifecycleScope.launch {
             viewModel.sessionStatusState.collect { state ->
-                when(state) {
+                when (state) {
                     SessionStatus.CLOSED -> showConfirmDialogAtSessionClosedStatus()
                     SessionStatus.ROULETTE -> showConfirmDialogAndNavigateToRoulette()
                     else -> {}

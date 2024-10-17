@@ -26,7 +26,8 @@ class CoincidencesViewModel @Inject constructor(
     private val leaveSessionUseCase: LeaveSessionUseCase
 ) : BaseViewModel() {
 
-    private val _state: MutableStateFlow<CoincidencesState> = MutableStateFlow(CoincidencesState.Loading)
+    private val _state: MutableStateFlow<CoincidencesState> =
+        MutableStateFlow(CoincidencesState.Loading)
     val state
         get() = _state.asStateFlow()
 
@@ -81,7 +82,7 @@ class CoincidencesViewModel @Inject constructor(
                 onSuccess = {},
                 onFailure = { error ->
                     if (BuildConfig.DEBUG) {
-                        Log.e(TAG, "Error on leave session ${sessionId}, error -> $error")
+                        Log.e(TAG, "Error on leave session $sessionId, error -> $error")
                     }
                 }
             )
@@ -97,27 +98,17 @@ class CoincidencesViewModel @Inject constructor(
                         _sessionStatusState.update {
                             result.data
                         }
-
-                        if (BuildConfig.DEBUG) {
-                            Log.i(TAG, "SessionStatus content = ${result.data}")
-                        }
                     }
 
                     is Result.Error -> {
                         _sessionStatusState.update {
                             SessionStatus.VOTING
                         }
-                        if (BuildConfig.DEBUG) {
-                            Log.i(TAG, "SessionStatus error = ${result.error}")
-                        }
                     }
 
                     null -> {
                         _sessionStatusState.update {
                             SessionStatus.VOTING
-                        }
-                        if (BuildConfig.DEBUG) {
-                            Log.i(TAG, "SessionStatus is null")
                         }
                     }
                 }

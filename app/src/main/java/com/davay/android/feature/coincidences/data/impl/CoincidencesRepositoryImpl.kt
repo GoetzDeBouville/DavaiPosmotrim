@@ -44,9 +44,7 @@ class CoincidencesRepositoryImpl @Inject constructor(
         )
         when (val body = response.body) {
             is GetSessionResponse.Session -> {
-
                 val matchedMovieIdList = body.value.matchedMovieIdList
-
                 val matchedMovies = matchedMovieIdList.mapNotNull { movieId ->
                     getMovieDetails(movieId)
                 }

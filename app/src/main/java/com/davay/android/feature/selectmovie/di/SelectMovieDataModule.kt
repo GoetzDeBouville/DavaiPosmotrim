@@ -8,12 +8,12 @@ import com.davay.android.core.data.network.HttpKtorNetworkClient
 import com.davay.android.core.domain.api.UserDataRepository
 import com.davay.android.di.prefs.marker.StorageMarker
 import com.davay.android.di.prefs.model.PreferencesStorage
+import com.davay.android.feature.selectmovie.data.impl.LikeMovieRepositoryImpl
 import com.davay.android.feature.selectmovie.data.impl.SelectMovieRepositoryImpl
-import com.davay.android.feature.selectmovie.data.network.models.GetMovieRequest
-import com.davay.android.feature.selectmovie.data.network.models.GetMovieResponse
 import com.davay.android.feature.selectmovie.data.network.HttpGetMovieDetailsKtorClient
 import com.davay.android.feature.selectmovie.data.network.HttpSetLikeMovieKtorClient
-import com.davay.android.feature.selectmovie.data.impl.LikeMovieRepositoryImpl
+import com.davay.android.feature.selectmovie.data.network.models.GetMovieRequest
+import com.davay.android.feature.selectmovie.data.network.models.GetMovieResponse
 import com.davay.android.feature.selectmovie.data.network.models.LikeMovieRequest
 import com.davay.android.feature.selectmovie.data.network.models.LikeMovieResponse
 import com.davay.android.feature.selectmovie.domain.api.LikeMovieRepository
@@ -63,7 +63,7 @@ class SelectMovieDataModule {
         userDataRepository: UserDataRepository,
         httpNetworkClient: HttpKtorNetworkClient<LikeMovieRequest, LikeMovieResponse>,
         appDatabase: AppDatabase
-    ) : LikeMovieRepository {
+    ): LikeMovieRepository {
         return LikeMovieRepositoryImpl(
             userDataRepository,
             httpNetworkClient,

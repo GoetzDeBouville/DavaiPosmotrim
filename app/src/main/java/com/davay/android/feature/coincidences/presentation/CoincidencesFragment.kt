@@ -39,7 +39,7 @@ class CoincidencesFragment : BaseFragment<FragmentCoincidencesBinding, Coinciden
 
     override val viewModel: CoincidencesViewModel by injectViewModel<CoincidencesViewModel>()
 
-    private val errorHandler : UiErrorHandler = UiErrorHandlerImpl()
+    private val errorHandler: UiErrorHandler = UiErrorHandlerImpl()
 
     private val moviesGridAdapter = MoviesGridAdapter(lifecycleScope) { movieDetails ->
         val movie = Json.encodeToString(movieDetails)
@@ -163,7 +163,7 @@ class CoincidencesFragment : BaseFragment<FragmentCoincidencesBinding, Coinciden
 
         viewLifecycleOwner.lifecycleScope.launch {
             viewModel.sessionStatusState.collect { state ->
-                when(state) {
+                when (state) {
                     SessionStatus.CLOSED -> showConfirmDialogAtSessionClosedStatus()
                     SessionStatus.ROULETTE -> showConfirmDialogAndNavigateToRoulette()
                     else -> {}

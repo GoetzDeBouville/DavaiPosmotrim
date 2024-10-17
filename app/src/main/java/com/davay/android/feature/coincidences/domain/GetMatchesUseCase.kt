@@ -12,7 +12,7 @@ class GetMatchesUseCase @Inject constructor(
     private val repository: CoincidencesRepository,
     private val commonWebsocketInteractor: CommonWebsocketInteractor
 ) {
-    operator fun invoke() : Flow<Result<List<MovieDetails>, ErrorType>> {
+    operator fun invoke(): Flow<Result<List<MovieDetails>, ErrorType>> {
         val sessionId = commonWebsocketInteractor.getSessionId()
         return repository.getMatches(sessionId)
     }

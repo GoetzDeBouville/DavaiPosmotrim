@@ -6,5 +6,5 @@ import com.davay.android.core.domain.models.Result
 import kotlinx.coroutines.flow.Flow
 
 interface CoincidencesRepository {
-    fun getMatches(sessionId: String) : Flow<Result<List<MovieDetails>, ErrorType>>
+    fun getMatches(sessionId: String): Flow<Result<List<MovieDetails>, ErrorType>>
 }

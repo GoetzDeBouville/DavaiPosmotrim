@@ -38,13 +38,14 @@ class SelectMovieViewModel @Inject constructor(
     private val leaveSessionUseCase: LeaveSessionUseCase
 ) : BaseViewModel() {
     private val _state = MutableStateFlow<SelectMovieState>(SelectMovieState.Loading)
-    val state = _state.asStateFlow()
+    val state
+        get() = _state.asStateFlow()
 
     private val _matchState = MutableStateFlow<MovieMatchState>(MovieMatchState.Empty)
     val matchState
         get() = _matchState.asStateFlow()
 
-    private val _sessionStatusState = MutableStateFlow<SessionStatus>(SessionStatus.VOTING)
+    private val _sessionStatusState = MutableStateFlow(SessionStatus.VOTING)
     val sessionStatusState
         get() = _sessionStatusState.asStateFlow()
 
@@ -57,7 +58,6 @@ class SelectMovieViewModel @Inject constructor(
     }
 
     private fun subscribeStates() {
-        subscribeSessionResult()
         subscribeSessionStatus()
         subscribeMatches()
     }
@@ -67,9 +67,6 @@ class SelectMovieViewModel @Inject constructor(
             commonWebsocketInteractor.getMatchesId().collect { result ->
                 when (result) {
                     is Result.Success -> {
-                        if (BuildConfig.DEBUG) {
-                            Log.i(TAG, "match id content = ${result.data}")
-                        }
                         val movieDetails = getMovieDetailsById(result.data)
 
                         _matchState.update {
@@ -82,18 +79,12 @@ class SelectMovieViewModel @Inject constructor(
                     }
 
                     is Result.Error -> {
-                        if (BuildConfig.DEBUG) {
-                            Log.i(TAG, "match id error = ${result.error}")
-                        }
                         _matchState.update {
                             MovieMatchState.Empty
                         }
                     }
 
                     null -> {
-                        if (BuildConfig.DEBUG) {
-                            Log.i(TAG, "match id is null")
-                        }
                         _matchState.update {
                             MovieMatchState.Empty
                         }
@@ -109,32 +100,6 @@ class SelectMovieViewModel @Inject constructor(
         }
     }
 
-    private fun subscribeSessionResult() {
-        viewModelScope.launch(Dispatchers.IO) {
-            commonWebsocketInteractor.getSessionResult().collect { result ->
-                when (result) {
-                    is Result.Success -> {
-                        if (BuildConfig.DEBUG) {
-                            Log.i(TAG, "SessionResult content = ${result.data}")
-                        }
-                    }
-
-                    is Result.Error -> {
-                        if (BuildConfig.DEBUG) {
-                            Log.i(TAG, "SessionResult error = ${result.error}")
-                        }
-                    }
-
-                    null -> {
-                        if (BuildConfig.DEBUG) {
-                            Log.i(TAG, "SessionResult is null")
-                        }
-                    }
-                }
-            }
-        }
-    }
-
     private fun subscribeSessionStatus() {
         viewModelScope.launch(Dispatchers.IO) {
             commonWebsocketInteractor.getSessionStatus().collect { result ->
@@ -143,27 +108,17 @@ class SelectMovieViewModel @Inject constructor(
                         _sessionStatusState.update {
                             result.data
                         }
-
-                        if (BuildConfig.DEBUG) {
-                            Log.i(TAG, "SessionStatus content = ${result.data}")
-                        }
                     }
 
                     is Result.Error -> {
                         _sessionStatusState.update {
                             SessionStatus.VOTING
                         }
-                        if (BuildConfig.DEBUG) {
-                            Log.i(TAG, "SessionStatus error = ${result.error}")
-                        }
                     }
 
                     null -> {
                         _sessionStatusState.update {
                             SessionStatus.VOTING
-                        }
-                        if (BuildConfig.DEBUG) {
-                            Log.i(TAG, "SessionStatus is null")
                         }
                     }
                 }
@@ -215,11 +170,10 @@ class SelectMovieViewModel @Inject constructor(
         if (position + PRELOAD_SIZE >= loadedMovies.size && loadedMovies.size < totalMovieIds) {
             loadMovies(position)
         }
+        likeMovie(position, isLiked)
         viewModelScope.launch {
             runCatching {
                 swipeMovieUseCase(position, isLiked)
-            }.onSuccess {
-                likeMovie(position, isLiked)
             }.onFailure {
                 if (BuildConfig.DEBUG) {
                     Log.e(TAG, "Error on swipe movie, position: $position | ${it.localizedMessage}")
@@ -294,7 +248,7 @@ class SelectMovieViewModel @Inject constructor(
                 onSuccess = {},
                 onFailure = { error ->
                     if (BuildConfig.DEBUG) {
-                        Log.e(TAG, "Error on leave session ${sessionId}, error -> $error")
+                        Log.e(TAG, "Error on leave session $sessionId, error -> $error")
                     }
                 }
             )
