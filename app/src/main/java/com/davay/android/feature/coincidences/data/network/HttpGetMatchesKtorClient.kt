@@ -13,7 +13,7 @@ import io.ktor.client.statement.HttpResponse
 import io.ktor.http.path
 import javax.inject.Inject
 
-class HttpGetSessionKtorClient @Inject constructor(
+class HttpGetMatchesKtorClient @Inject constructor(
     context: Context,
     private val httpClient: HttpClient
 ) : HttpKtorNetworkClient<GetSessionRequest, GetSessionResponse>(context) {

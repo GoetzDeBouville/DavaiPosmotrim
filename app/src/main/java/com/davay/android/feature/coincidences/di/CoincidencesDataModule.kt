@@ -12,7 +12,7 @@ import com.davay.android.di.prefs.marker.StorageMarker
 import com.davay.android.di.prefs.model.PreferencesStorage
 import com.davay.android.feature.coincidences.data.CoincidencesStorageImpl
 import com.davay.android.feature.coincidences.data.impl.CoincidencesRepositoryImpl
-import com.davay.android.feature.coincidences.data.network.HttpGetSessionKtorClient
+import com.davay.android.feature.coincidences.data.network.HttpGetMatchesKtorClient
 import com.davay.android.feature.coincidences.data.network.models.GetSessionRequest
 import com.davay.android.feature.coincidences.data.network.models.GetSessionResponse
 import com.davay.android.feature.coincidences.domain.api.CoincidencesRepository
@@ -45,7 +45,7 @@ class CoincidencesDataModule {
         context: Context,
         httpClient: HttpClient
     ): HttpKtorNetworkClient<GetSessionRequest, GetSessionResponse> {
-        return HttpGetSessionKtorClient(context, httpClient)
+        return HttpGetMatchesKtorClient(context, httpClient)
     }
 
     @Provides
