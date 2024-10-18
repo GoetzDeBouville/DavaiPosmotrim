@@ -6,6 +6,7 @@ import com.davay.android.BuildConfig
 import com.davay.android.R
 import com.davay.android.base.BaseViewModel
 import com.davay.android.core.domain.impl.CommonWebsocketInteractor
+import com.davay.android.core.domain.impl.GetMatchesUseCase
 import com.davay.android.core.domain.impl.LeaveSessionUseCase
 import com.davay.android.core.domain.models.ErrorScreenState
 import com.davay.android.core.domain.models.MovieDetails
@@ -26,7 +27,7 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-@Suppress("TooManyFunctions", "LongParameterList")
+@Suppress("TooManyFunctions", "LongParameterList", "LargeClass")
 class SelectMovieViewModel @Inject constructor(
     private val getMovieListUseCase: GetMovieListUseCase,
     private val getMovieIdListSizeUseCase: GetMovieIdListSizeUseCase,
@@ -35,7 +36,8 @@ class SelectMovieViewModel @Inject constructor(
     private val commonWebsocketInteractor: CommonWebsocketInteractor,
     private val likeMovieInteractor: LikeMovieInteractor,
     private val getMovieDetailsById: GetMovieDetailsByIdUseCase,
-    private val leaveSessionUseCase: LeaveSessionUseCase
+    private val leaveSessionUseCase: LeaveSessionUseCase,
+    private val getMatchesUseCase: GetMatchesUseCase
 ) : BaseViewModel() {
     private val _state = MutableStateFlow<SelectMovieState>(SelectMovieState.Loading)
     val state
@@ -44,6 +46,10 @@ class SelectMovieViewModel @Inject constructor(
     private val _matchState = MutableStateFlow<MovieMatchState>(MovieMatchState.Empty)
     val matchState
         get() = _matchState.asStateFlow()
+
+    private val _stateMatchesCounter = MutableStateFlow(0)
+    val stateMatchesCounter
+        get() = _stateMatchesCounter.asStateFlow()
 
     private val _sessionStatusState = MutableStateFlow(SessionStatus.VOTING)
     val sessionStatusState
@@ -55,6 +61,7 @@ class SelectMovieViewModel @Inject constructor(
     init {
         initializeMovieList()
         subscribeStates()
+        getMatchesCount()
     }
 
     private fun subscribeStates() {
@@ -73,6 +80,7 @@ class SelectMovieViewModel @Inject constructor(
                             if (movieDetails == null) {
                                 MovieMatchState.Empty
                             } else {
+                                getMatchesCount()
                                 MovieMatchState.Content(movieDetails)
                             }
                         }
@@ -98,6 +106,22 @@ class SelectMovieViewModel @Inject constructor(
         _matchState.update {
             MovieMatchState.Empty
         }
+    }
+
+    fun getMatchesCount() {
+        runSafelyUseCase(
+            useCaseFlow = getMatchesUseCase(),
+            onSuccess = { result ->
+                _stateMatchesCounter.update {
+                    result.size
+                }
+            },
+            onFailure = { error ->
+                if (BuildConfig.DEBUG) {
+                    Log.e(TAG, "Error on get matches count $error")
+                }
+            }
+        )
     }
 
     private fun subscribeSessionStatus() {

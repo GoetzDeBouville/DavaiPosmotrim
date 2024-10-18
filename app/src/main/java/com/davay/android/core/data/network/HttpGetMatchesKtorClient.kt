@@ -1,10 +1,9 @@
-package com.davay.android.feature.coincidences.data.network
+package com.davay.android.core.data.network
 
 import android.content.Context
-import com.davay.android.core.data.network.HttpKtorNetworkClient
 import com.davay.android.core.data.network.model.NetworkParams
-import com.davay.android.feature.coincidences.data.network.models.GetSessionRequest
-import com.davay.android.feature.coincidences.data.network.models.GetSessionResponse
+import com.davay.android.core.data.network.model.getmatches.GetSessionRequest
+import com.davay.android.core.data.network.model.getmatches.GetSessionResponse
 import io.ktor.client.HttpClient
 import io.ktor.client.call.body
 import io.ktor.client.request.get
@@ -13,7 +12,7 @@ import io.ktor.client.statement.HttpResponse
 import io.ktor.http.path
 import javax.inject.Inject
 
-class HttpGetSessionKtorClient @Inject constructor(
+class HttpGetMatchesKtorClient @Inject constructor(
     context: Context,
     private val httpClient: HttpClient
 ) : HttpKtorNetworkClient<GetSessionRequest, GetSessionResponse>(context) {
