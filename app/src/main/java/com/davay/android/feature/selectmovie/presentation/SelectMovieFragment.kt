@@ -38,7 +38,6 @@ class SelectMovieFragment :
     BaseFragment<FragmentSelectMovieBinding, SelectMovieViewModel>(FragmentSelectMovieBinding::inflate) {
 
     override val viewModel: SelectMovieViewModel by injectViewModel<SelectMovieViewModel>()
-    private var matchesCounter = 0
     private val cardAdapter = MovieCardAdapter(
         coroutineScope = lifecycleScope,
         swipeLeft = { autoSwipeLeft() },
@@ -82,7 +81,6 @@ class SelectMovieFragment :
 
     override fun initViews() {
         buildRecyclerView()
-        setToolbar()
         setBottomSheet()
     }
 
@@ -115,6 +113,12 @@ class SelectMovieFragment :
                     SessionStatus.ROULETTE -> showConfirmDialogAndNavigateToRoulette()
                     else -> {}
                 }
+            }
+        }
+
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewModel.stateMatchesCounter.collect { counter ->
+                binding.toolbarviewHeader.updateMatchesDisplay(counter)
             }
         }
     }
@@ -299,12 +303,6 @@ class SelectMovieFragment :
         }
     }
 
-    private fun setToolbar() {
-        binding.toolbarviewHeader.apply {
-            updateMatchesDisplay(matchesCounter)
-        }
-    }
-
     private fun swipeLeft() {
         swipe()
         swipeCardLayoutManager.moveNextWithSwipeAndLayout(SwipeDirection.LEFT)
@@ -410,7 +408,7 @@ class SelectMovieFragment :
             movieDetails,
             action = {
                 incrementAnimation.animate(binding.tvMotionedIncrement) {
-                    binding.toolbarviewHeader.incrementMatchesDisplay()
+                    viewModel.getMatchesCount()
                 }
             }
         )

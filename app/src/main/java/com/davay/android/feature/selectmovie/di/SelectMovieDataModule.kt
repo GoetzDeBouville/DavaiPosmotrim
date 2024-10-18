@@ -3,8 +3,13 @@ package com.davay.android.feature.selectmovie.di
 import android.content.Context
 import android.content.SharedPreferences
 import com.davay.android.core.data.database.AppDatabase
+import com.davay.android.core.data.impl.GetMatchesRepositoryIml
 import com.davay.android.core.data.impl.UserDataRepositoryImpl
+import com.davay.android.core.data.network.HttpGetMatchesKtorClient
 import com.davay.android.core.data.network.HttpKtorNetworkClient
+import com.davay.android.core.data.network.model.getmatches.GetSessionRequest
+import com.davay.android.core.data.network.model.getmatches.GetSessionResponse
+import com.davay.android.core.domain.api.GetMatchesRepository
 import com.davay.android.core.domain.api.UserDataRepository
 import com.davay.android.di.prefs.marker.StorageMarker
 import com.davay.android.di.prefs.model.PreferencesStorage
@@ -68,6 +73,27 @@ class SelectMovieDataModule {
             userDataRepository,
             httpNetworkClient,
             appDatabase.movieIdDao()
+        )
+    }
+
+    @Provides
+    fun provideGetSessionHttpNetworkClient(
+        context: Context,
+        httpClient: HttpClient
+    ): HttpKtorNetworkClient<GetSessionRequest, GetSessionResponse> {
+        return HttpGetMatchesKtorClient(context, httpClient)
+    }
+
+    @Provides
+    fun provideGetMatchesRepository(
+        userDataRepository: UserDataRepository,
+        httpNetworkClient: HttpKtorNetworkClient<GetSessionRequest, GetSessionResponse>,
+        appDatabase: AppDatabase
+    ): GetMatchesRepository {
+        return GetMatchesRepositoryIml(
+            userDataRepository,
+            httpNetworkClient,
+            appDatabase.historyDao()
         )
     }
 }

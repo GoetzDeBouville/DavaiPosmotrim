@@ -17,7 +17,6 @@ class CoincidencesDomainModule {
         repository: FirstTimeFlagRepository
     ): CoincidencesInteractor = CoincidencesInteractorImpl(repository)
 
-
     @Provides
     fun provideGetMatchesUseCase(
         repository: GetMatchesRepository,

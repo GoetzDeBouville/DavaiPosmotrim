@@ -1,6 +1,8 @@
 package com.davay.android.feature.selectmovie.di
 
+import com.davay.android.core.domain.api.GetMatchesRepository
 import com.davay.android.core.domain.impl.CommonWebsocketInteractor
+import com.davay.android.core.domain.impl.GetMatchesUseCase
 import com.davay.android.feature.selectmovie.domain.FilterDislikedMovieListUseCase
 import com.davay.android.feature.selectmovie.domain.GetMovieDetailsByIdUseCase
 import com.davay.android.feature.selectmovie.domain.GetMovieIdListSizeUseCase
@@ -40,4 +42,10 @@ class SelectMovieDomainModule {
     fun provideGetMovieDetailsByIdUseCase(
         repository: SelectMovieRepository
     ) = GetMovieDetailsByIdUseCase(repository)
+
+    @Provides
+    fun provideGetMatchesUseCase(
+        repository: GetMatchesRepository,
+        commonWebsocketInteractor: CommonWebsocketInteractor
+    ) = GetMatchesUseCase(repository, commonWebsocketInteractor)
 }
