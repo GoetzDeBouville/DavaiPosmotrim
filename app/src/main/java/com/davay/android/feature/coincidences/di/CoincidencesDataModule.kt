@@ -3,8 +3,13 @@ package com.davay.android.feature.coincidences.di
 import android.content.Context
 import android.content.SharedPreferences
 import com.davay.android.core.data.database.AppDatabase
+import com.davay.android.core.data.impl.GetMatchesRepositoryIml
 import com.davay.android.core.data.impl.UserDataRepositoryImpl
+import com.davay.android.core.data.network.HttpGetMatchesKtorClient
 import com.davay.android.core.data.network.HttpKtorNetworkClient
+import com.davay.android.core.data.network.model.getmatches.GetSessionRequest
+import com.davay.android.core.data.network.model.getmatches.GetSessionResponse
+import com.davay.android.core.domain.api.GetMatchesRepository
 import com.davay.android.core.domain.api.UserDataRepository
 import com.davay.android.core.domain.lounchcontrol.api.FirstTimeFlagRepository
 import com.davay.android.core.domain.lounchcontrol.api.FirstTimeFlagStorage
@@ -12,10 +17,6 @@ import com.davay.android.di.prefs.marker.StorageMarker
 import com.davay.android.di.prefs.model.PreferencesStorage
 import com.davay.android.feature.coincidences.data.CoincidencesStorageImpl
 import com.davay.android.feature.coincidences.data.impl.CoincidencesRepositoryImpl
-import com.davay.android.feature.coincidences.data.network.HttpGetMatchesKtorClient
-import com.davay.android.feature.coincidences.data.network.models.GetSessionRequest
-import com.davay.android.feature.coincidences.data.network.models.GetSessionResponse
-import com.davay.android.feature.coincidences.domain.api.CoincidencesRepository
 import dagger.Module
 import dagger.Provides
 import io.ktor.client.HttpClient
@@ -49,29 +50,19 @@ class CoincidencesDataModule {
     }
 
     @Provides
-    fun provideCoincidencesRepository(
-        userDataRepository: UserDataRepository,
-        httpNetworkClient: HttpKtorNetworkClient<GetSessionRequest, GetSessionResponse>,
-        appDatabase: AppDatabase,
-        firstTimeFlagStorage: FirstTimeFlagStorage
-    ): CoincidencesRepository = CoincidencesRepositoryImpl(
-        userDataRepository,
-        httpNetworkClient,
-        appDatabase.historyDao(),
-        firstTimeFlagStorage
-    )
-
+    fun provideFirstTimeFlagRepository(firstTimeFlagStorage: FirstTimeFlagStorage): FirstTimeFlagRepository =
+        CoincidencesRepositoryImpl(firstTimeFlagStorage)
 
     @Provides
-    fun provideFirstTimeFlagRepository(
+    fun provideGetMatchesRepository(
         userDataRepository: UserDataRepository,
         httpNetworkClient: HttpKtorNetworkClient<GetSessionRequest, GetSessionResponse>,
-        appDatabase: AppDatabase,
-        firstTimeFlagStorage: FirstTimeFlagStorage
-    ): FirstTimeFlagRepository = CoincidencesRepositoryImpl(
-        userDataRepository,
-        httpNetworkClient,
-        appDatabase.historyDao(),
-        firstTimeFlagStorage
-    )
+        appDatabase: AppDatabase
+    ): GetMatchesRepository {
+        return GetMatchesRepositoryIml(
+            userDataRepository,
+            httpNetworkClient,
+            appDatabase.historyDao()
+        )
+    }
 }

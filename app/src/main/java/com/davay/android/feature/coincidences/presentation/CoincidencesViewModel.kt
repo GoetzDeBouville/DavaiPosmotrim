@@ -6,11 +6,11 @@ import com.davay.android.BuildConfig
 import com.davay.android.R
 import com.davay.android.base.BaseViewModel
 import com.davay.android.core.domain.impl.CommonWebsocketInteractor
+import com.davay.android.core.domain.impl.GetMatchesUseCase
 import com.davay.android.core.domain.impl.LeaveSessionUseCase
 import com.davay.android.core.domain.models.ErrorScreenState
 import com.davay.android.core.domain.models.Result
 import com.davay.android.core.domain.models.SessionStatus
-import com.davay.android.feature.coincidences.domain.GetMatchesUseCase
 import com.davay.android.feature.coincidences.domain.api.CoincidencesInteractor
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow

@@ -1,4 +1,4 @@
-package com.davay.android.feature.coincidences.data.network.models
+package com.davay.android.core.data.network.model.getmatches
 
 import com.davay.android.core.data.dto.MovieDto
 

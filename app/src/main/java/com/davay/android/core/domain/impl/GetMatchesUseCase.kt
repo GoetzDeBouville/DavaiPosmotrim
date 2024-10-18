@@ -1,15 +1,14 @@
-package com.davay.android.feature.coincidences.domain
+package com.davay.android.core.domain.impl
 
-import com.davay.android.core.domain.impl.CommonWebsocketInteractor
+import com.davay.android.core.domain.api.GetMatchesRepository
 import com.davay.android.core.domain.models.ErrorType
 import com.davay.android.core.domain.models.MovieDetails
 import com.davay.android.core.domain.models.Result
-import com.davay.android.feature.coincidences.domain.api.CoincidencesRepository
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
 class GetMatchesUseCase @Inject constructor(
-    private val repository: CoincidencesRepository,
+    private val repository: GetMatchesRepository,
     private val commonWebsocketInteractor: CommonWebsocketInteractor
 ) {
     operator fun invoke(): Flow<Result<List<MovieDetails>, ErrorType>> {
