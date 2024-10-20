@@ -99,7 +99,7 @@ abstract class WebsocketKtorNetworkClient<O> : WebsocketNetworkClient<O> {
     companion object {
         const val PING_INTERVAL_MS_10_000L = 10_000L
         const val RECONNECT_DELAY_MS_5_000L = 5_000L
-        const val MAX_NUMBER_RECONNECTIONS = 3
+        const val MAX_NUMBER_RECONNECTIONS = Int.MAX_VALUE
         const val ERROR_MESSAGE = "Failed to connect after %s attempts"
         val TAG = WebsocketKtorNetworkClient::class.simpleName
     }
