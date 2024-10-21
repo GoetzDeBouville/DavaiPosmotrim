@@ -5,6 +5,7 @@ import android.view.View
 import androidx.activity.OnBackPressedCallback
 import androidx.core.view.isVisible
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.navArgs
 import com.davai.extensions.dpToPx
 import com.davai.uikit.dialog.MainDialogFragment
 import com.davai.util.setOnDebouncedClickListener
@@ -30,9 +31,9 @@ class SessionListFragment : BaseFragment<FragmentSessionListBinding, SessionList
 ) {
     override val viewModel: SessionListViewModel by injectViewModel<SessionListViewModel>()
     private val userAdapter = UserAdapter()
-    private var etCode: String? = null
     private var dialog: MainDialogFragment? = null
     private val errorHandler: UiErrorHandler = UiErrorHandlerImpl()
+    private val args by navArgs<SessionListFragmentArgs>()
 
     override fun diComponent(): ScreenComponent = DaggerSessionListFragmentComponent.builder()
         .appComponent(AppComponentHolder.getComponent())
@@ -40,9 +41,7 @@ class SessionListFragment : BaseFragment<FragmentSessionListBinding, SessionList
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        arguments?.let {
-            etCode = it.getString(ET_CODE_KEY)
-        }
+
         requireActivity().onBackPressedDispatcher.addCallback(
             this,
             object : OnBackPressedCallback(true) {
@@ -59,7 +58,7 @@ class SessionListFragment : BaseFragment<FragmentSessionListBinding, SessionList
             title = getString(R.string.leave_session_title),
             message = getString(R.string.leave_session_dialog_message),
             yesAction = {
-                etCode?.let { viewModel.leaveSessionAndNavigateBack(it) }
+                viewModel.leaveSessionAndNavigateBack(args.etCode)
             }
         )
     }
@@ -76,10 +75,12 @@ class SessionListFragment : BaseFragment<FragmentSessionListBinding, SessionList
                 renderState(state)
             }
         }
-        viewModel.connectToSessionAuto(etCode.toString())
+        viewModel.connectToSessionAuto(args.etCode)
     }
 
     private fun setupToolbar() {
+        val args: SessionListFragmentArgs by navArgs()
+        val etCode = args.etCode
         binding.toolbar.setTitleText(getString(R.string.session_list_name) + " " + etCode)
     }
 
@@ -133,7 +134,7 @@ class SessionListFragment : BaseFragment<FragmentSessionListBinding, SessionList
             state.errorType,
             binding.errorMessage
         ) {
-            etCode?.let { viewModel.connectToSession(it) }
+            viewModel.connectToSession(args.etCode)
         }
     }
 
@@ -147,6 +148,5 @@ class SessionListFragment : BaseFragment<FragmentSessionListBinding, SessionList
     companion object {
         private const val SPACING_BETWEEN_RV_ITEMS_8_DP = 8
         private const val CUSTOM_DIALOG_TAG = "customDialog"
-        private const val ET_CODE_KEY = "ET_CODE_KEY"
     }
 }

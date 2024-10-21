@@ -1,23 +1,17 @@
 package com.davay.android.feature.sessionlist.presentation
 
-import android.os.Bundle
 import androidx.lifecycle.viewModelScope
-import com.davay.android.R
 import com.davay.android.base.BaseViewModel
 import com.davay.android.core.domain.impl.CommonWebsocketInteractor
 import com.davay.android.core.domain.impl.LeaveSessionUseCase
 import com.davay.android.core.domain.models.ErrorScreenState
 import com.davay.android.core.domain.models.SessionStatus
-import com.davay.android.core.domain.models.converter.toSessionShort
-import com.davay.android.feature.createsession.presentation.createsession.CreateSessionViewModel.Companion.SESSION_DATA
 import com.davay.android.feature.sessionlist.domain.usecase.ConnectToSessionUseCase
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-import kotlinx.serialization.encodeToString
-import kotlinx.serialization.json.Json
 import javax.inject.Inject
 
 class SessionListViewModel @Inject constructor(
@@ -93,17 +87,9 @@ class SessionListViewModel @Inject constructor(
             onSuccess = { status ->
                 when (status) {
                     SessionStatus.VOTING -> {
-                        val session =
-                            (_state.value as ConnectToSessionState.Content).session.toSessionShort()
-                        val sessionJson = Json.encodeToString(session)
-                        val bundle = Bundle().apply {
-                            putString(SESSION_DATA, sessionJson)
-                        }
                         this@SessionListViewModel.sessionId = null
-                        navigate(
-                            R.id.action_sessionListFragment_to_selectMovieFragment,
-                            bundle
-                        )
+                        val action = SessionListFragmentDirections.actionSessionListFragmentToSelectMovieFragment()
+                        navigate(action)
                     }
 
                     else -> {
