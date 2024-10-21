@@ -2,7 +2,6 @@ package com.davay.android.feature.waitsession.presentation
 
 import android.util.Log
 import androidx.lifecycle.viewModelScope
-import com.davay.android.R
 import com.davay.android.base.BaseViewModel
 import com.davay.android.core.domain.impl.CommonWebsocketInteractor
 import com.davay.android.core.domain.models.Result
@@ -34,17 +33,9 @@ class WaitSessionViewModel @Inject constructor(
         waitSessionOnBoardingInteractor.markFirstTimeLaunch()
     }
 
-    /**
-     * Метод необходим для обхода ошибки при возврате назад на экран создания сессии после
-     * смены конфигурации устройства
-     */
-    fun navigateToCreateSession() {
-        clearBackStackToMain()
-        navigate(R.id.action_mainFragment_to_createSessionFragment)
-    }
-
     fun navigateToNextScreen() {
-        navigate(R.id.action_waitSessionFragment_to_selectMovieFragment)
+        val action = WaitSessionFragmentDirections.actionWaitSessionFragmentToSelectMovieFragment()
+        navigate(action)
     }
 
     // для теста

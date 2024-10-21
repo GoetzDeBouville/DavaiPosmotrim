@@ -15,7 +15,7 @@ import com.davay.android.databinding.FragmentSelectMovieBinding
 import com.davay.android.di.AppComponentHolder
 import com.davay.android.di.ScreenComponent
 import com.davay.android.extensions.SwipeDirection
-import com.davay.android.feature.match.presentation.MatchBottomSheetFragment
+import com.davay.android.feature.match.presentation.MatchBottomSheetArgs
 import com.davay.android.feature.selectmovie.di.DaggerSelectMovieFragmentComponent
 import com.davay.android.feature.selectmovie.presentation.adapters.MovieCardAdapter
 import com.davay.android.feature.selectmovie.presentation.adapters.SwipeCallback
@@ -27,8 +27,6 @@ import com.davay.android.utils.presentation.UiErrorHandler
 import com.davay.android.utils.presentation.UiErrorHandlerImpl
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import kotlinx.coroutines.launch
-import kotlinx.serialization.encodeToString
-import kotlinx.serialization.json.Json
 
 @Suppress("LargeClass")
 class SelectMovieFragment :
@@ -87,7 +85,7 @@ class SelectMovieFragment :
         backPressedDispatcher()
         binding.toolbarviewHeader.apply {
             setEndIconClickListener {
-                viewModel.navigate(R.id.action_selectMovieFragment_to_coincidencesFragment)
+                viewModel.navigate(SelectMovieFragmentDirections.actionSelectMovieFragmentToCoincidencesFragment())
             }
             setStartIconClickListener {
                 showDialogAndNavigateToHistorySessions()
@@ -179,7 +177,9 @@ class SelectMovieFragment :
             message = getString(R.string.select_movies_leave_session_dialog_message),
             yesAction = {
                 viewModel.disconnect()
-                viewModel.clearBackStackToMainAndNavigate(R.id.action_mainFragment_to_matchedSessionListFragment)
+                viewModel.clearBackStackToMainAndNavigate(
+                    SelectMovieFragmentDirections.actionSelectMovieFragmentToMatchedSessionListFragment()
+                )
             }
         )
         dialog.show(parentFragmentManager, null)
@@ -196,7 +196,9 @@ class SelectMovieFragment :
             message = getString(R.string.leave_session_dialog_message_session_complited),
             showConfirmBlock = true,
             yesAction = {
-                viewModel.clearBackStackToMainAndNavigate(R.id.action_mainFragment_to_matchedSessionListFragment)
+                viewModel.clearBackStackToMainAndNavigate(
+                    SelectMovieFragmentDirections.actionSelectMovieFragmentToMatchedSessionListFragment()
+                )
             }
         )
         dialog.show(parentFragmentManager, null)
@@ -348,16 +350,19 @@ class SelectMovieFragment :
      */
     @Suppress("Detekt.UnusedPrivateMember")
     private fun showBottomSheetFragment(movie: MovieDetails) {
-        val movieDetails = Json.encodeToString(movie)
-        val bottomSheetFragment = MatchBottomSheetFragment.newInstance(
-            movieDetails,
+        val matchBottomSheetArgs = MatchBottomSheetArgs(
+            movieDetails = movie,
             action = {
                 incrementAnimation.animate(binding.tvMotionedIncrement) {
                     binding.toolbarviewHeader.incrementMatchesDisplay()
                 }
             }
         )
-        bottomSheetFragment.show(parentFragmentManager, bottomSheetFragment.tag)
+        viewModel.navigate(
+            SelectMovieFragmentDirections.actionSelectMovieFragmentToMatchBottomSheetFragment(
+                matchBottomSheetArgs
+            )
+        )
     }
 
     private companion object {
