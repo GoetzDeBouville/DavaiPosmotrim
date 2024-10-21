@@ -1,5 +1,7 @@
 package com.davay.android.core.domain.models
 
+import com.davay.android.R
+
 enum class ErrorScreenState(
     val errorTitleResource: Int,
     val errorDescriptionResource: Int,
@@ -41,5 +43,11 @@ enum class ErrorScreenState(
         com.davai.uikit.R.string.error_message_old_version_description,
         com.davai.uikit.R.drawable.ic_error_old_version_200,
         com.davai.uikit.R.string.error_message_no_internet_button_text
+    ),
+    MOVIE_LIST_FINISHED(
+        R.string.select_movies_you_liked_whole_movie_list,
+        R.string.select_movies_wait_for_end_of_session,
+        com.davai.uikit.R.drawable.placeholder_empty,
+        null
     )
 }

@@ -10,5 +10,5 @@ sealed class CreateSessionRequest(val path: String) {
         val parameter: String,
         val requestBody: List<String>,
         val userId: String
-    ) : CreateSessionRequest(path = "api/sessions/")
+    ) : CreateSessionRequest(path = "api/sessions/create")
 }

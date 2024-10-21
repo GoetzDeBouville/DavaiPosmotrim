@@ -8,8 +8,8 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.updateLayoutParams
 import androidx.lifecycle.lifecycleScope
-import com.davai.uikit.MainDialogFragment
 import com.davai.uikit.MainScreenButtonView
+import com.davai.uikit.dialog.MainDialogFragment
 import com.davai.util.setOnDebouncedClickListener
 import com.davay.android.R
 import com.davay.android.base.BaseFragment
@@ -64,7 +64,6 @@ class MainFragment :
         with(binding) {
             msbFavorite.setOnClickListener {
                 viewModel.navigate(MainFragmentDirections.actionMainFragmentToMatchedSessionListFragment())
-
             }
             msbJoinSession.setOnClickListener {
                 joinSession()
@@ -72,7 +71,7 @@ class MainFragment :
             msbCreateSession.setOnClickListener {
                 createSession()
             }
-            binding.ivEditUserName.setOnDebouncedClickListener(
+            ivEditUserName.setOnDebouncedClickListener(
                 coroutineScope = lifecycleScope
             ) {
                 changeName()

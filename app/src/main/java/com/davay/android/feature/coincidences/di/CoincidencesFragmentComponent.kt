@@ -1,6 +1,7 @@
 package com.davay.android.feature.coincidences.di
 
 import com.davay.android.di.AppComponent
+import com.davay.android.di.FragmentScope
 import com.davay.android.di.ScreenComponent
 import dagger.Component
 
@@ -11,6 +12,7 @@ import dagger.Component
         CoincidencesDataModule::class
     ]
 )
+@FragmentScope
 interface CoincidencesFragmentComponent : ScreenComponent {
 
     @Component.Builder

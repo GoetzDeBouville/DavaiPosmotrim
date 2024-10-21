@@ -211,7 +211,7 @@
             app:destination="@id/createSessionFragment" />
         <argument
             android:name="session"
-            app:argType="com.davay.android.core.domain.models.Session" />
+            app:argType="com.davay.android.core.domain.models.SessionShort" />
     </fragment>
     <fragment
         android:id="@+id/coincidencesFragment"

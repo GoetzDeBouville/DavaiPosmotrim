@@ -5,7 +5,9 @@ import androidx.lifecycle.viewModelScope
 import com.davay.android.BuildConfig
 import com.davay.android.core.domain.models.CompilationFilms
 import com.davay.android.core.domain.models.ErrorScreenState
+import com.davay.android.core.domain.models.converter.toSessionShort
 import com.davay.android.feature.createsession.domain.model.CompilationSelect
+import com.davay.android.feature.createsession.domain.model.SessionType
 import com.davay.android.feature.createsession.domain.usecase.CreateSessionUseCase
 import com.davay.android.feature.createsession.domain.usecase.GetCollectionsUseCase
 import com.davay.android.feature.createsession.presentation.createsession.CreateSessionViewModel
@@ -90,13 +92,13 @@ class CompilationsViewModel @Inject constructor(
                     CompilationsState.CreateSessionLoading
                 }
                 runSafelyUseCase(
-                    useCaseFlow = createSessionUseCase.execute(PARAMETER_NAME, collections),
+                    useCaseFlow = createSessionUseCase.execute(SessionType.COLLECTIONS, collections),
                     onSuccess = { session ->
                         if (BuildConfig.DEBUG) {
                             Log.v(TAG, "session = $session")
                         }
                         viewModelScope.launch(Dispatchers.Main) {
-                            navigateToWaitSession(session)
+                            navigateToWaitSession(session.toSessionShort())
                         }
                     },
                     onFailure = { error ->
@@ -115,7 +117,6 @@ class CompilationsViewModel @Inject constructor(
     }
 
     private companion object {
-        const val PARAMETER_NAME = "collections"
         val TAG = CompilationsViewModel::class.simpleName
     }
 }

@@ -1,6 +1,7 @@
 package com.davay.android.feature.splash.di
 
 import com.davay.android.di.AppComponent
+import com.davay.android.di.FragmentScope
 import com.davay.android.di.ScreenComponent
 import dagger.Component
 
@@ -8,6 +9,7 @@ import dagger.Component
     dependencies = [AppComponent::class],
     modules = [SplashFragmentModule::class, SplashDataModule::class, SplashUseCaseModule::class]
 )
+@FragmentScope
 interface SplashFragmentComponent : ScreenComponent {
 
     @Component.Builder

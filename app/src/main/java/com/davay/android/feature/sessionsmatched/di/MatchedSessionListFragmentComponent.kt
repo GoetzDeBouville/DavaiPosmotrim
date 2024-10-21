@@ -1,6 +1,7 @@
 package com.davay.android.feature.sessionsmatched.di
 
 import com.davay.android.di.AppComponent
+import com.davay.android.di.FragmentScope
 import com.davay.android.di.ScreenComponent
 import dagger.Component
 
@@ -11,6 +12,7 @@ import dagger.Component
         MatchedSessionListUseCaseModule::class,
     ]
 )
+@FragmentScope
 interface MatchedSessionListFragmentComponent : ScreenComponent {
     interface Builder {
         fun appComponent(appComponent: AppComponent): Builder

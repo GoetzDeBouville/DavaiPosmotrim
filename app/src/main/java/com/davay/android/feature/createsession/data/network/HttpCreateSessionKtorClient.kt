@@ -9,7 +9,6 @@ import io.ktor.client.HttpClient
 import io.ktor.client.call.body
 import io.ktor.client.request.get
 import io.ktor.client.request.headers
-import io.ktor.client.request.parameter
 import io.ktor.client.request.post
 import io.ktor.client.request.setBody
 import io.ktor.client.statement.HttpResponse
@@ -32,7 +31,6 @@ class HttpCreateSessionKtorClient @Inject constructor(
                 httpClient.post {
                     url {
                         path(request.path)
-                        parameter("format", "json")
                     }
 
                     headers {
@@ -47,7 +45,6 @@ class HttpCreateSessionKtorClient @Inject constructor(
                 httpClient.get {
                     url {
                         path(request.path)
-                        parameter(FORMAT_PARAMETER, FORMAT_VALUE)
                     }
                 }
             }
@@ -56,7 +53,6 @@ class HttpCreateSessionKtorClient @Inject constructor(
                 httpClient.get {
                     url {
                         path(request.path)
-                        parameter(FORMAT_PARAMETER, FORMAT_VALUE)
                     }
                 }
             }
@@ -84,7 +80,5 @@ class HttpCreateSessionKtorClient @Inject constructor(
 
     private companion object {
         val TAG = HttpCreateSessionKtorClient::class.simpleName
-        const val FORMAT_PARAMETER = "format"
-        const val FORMAT_VALUE = "json"
     }
 }
