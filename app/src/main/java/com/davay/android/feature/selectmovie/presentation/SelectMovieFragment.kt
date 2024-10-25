@@ -16,7 +16,8 @@ import com.davay.android.databinding.FragmentSelectMovieBinding
 import com.davay.android.di.AppComponentHolder
 import com.davay.android.di.ScreenComponent
 import com.davay.android.extensions.SwipeDirection
-import com.davay.android.feature.match.presentation.MatchBottomSheetFragment
+import com.davay.android.feature.coincidences.presentation.CoincidencesFragmentDirections
+import com.davay.android.feature.match.presentation.MatchBottomSheetArgs
 import com.davay.android.feature.selectmovie.di.DaggerSelectMovieFragmentComponent
 import com.davay.android.feature.selectmovie.presentation.adapters.MovieCardAdapter
 import com.davay.android.feature.selectmovie.presentation.adapters.SwipeCallback
@@ -30,8 +31,6 @@ import com.davay.android.utils.presentation.UiErrorHandler
 import com.davay.android.utils.presentation.UiErrorHandlerImpl
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import kotlinx.coroutines.launch
-import kotlinx.serialization.encodeToString
-import kotlinx.serialization.json.Json
 
 @Suppress("LargeClass")
 class SelectMovieFragment :
@@ -88,7 +87,7 @@ class SelectMovieFragment :
         backPressedDispatcher()
         binding.toolbarviewHeader.apply {
             setEndIconClickListener {
-                viewModel.navigate(R.id.action_selectMovieFragment_to_coincidencesFragment)
+                viewModel.navigate(SelectMovieFragmentDirections.actionSelectMovieFragmentToCoincidencesFragment())
             }
             setStartIconClickListener {
                 showDialogAndNavigateToHistorySessions()
@@ -247,15 +246,17 @@ class SelectMovieFragment :
     }
 
     private fun showConfirmDialogAndNavigateToRoulette() {
+        val action =
+            CoincidencesFragmentDirections.actionCoincidencesFragmentToRouletteFragment(true)
         val dialog = MainDialogFragment.newInstance(
             title = getString(R.string.select_movies_roulette_is_running_title),
             message = getString(R.string.select_movies_roulette_is_running_message),
             showConfirmBlock = true,
             yesAction = {
-                viewModel.navigate(R.id.action_selectMovieFragment_to_rouletteFragment)
+                viewModel.navigate(action)
             },
             onCancelAction = {
-                viewModel.navigate(R.id.action_selectMovieFragment_to_rouletteFragment)
+                viewModel.navigate(action)
             }
         )
         dialog.show(parentFragmentManager, null)
@@ -400,19 +401,21 @@ class SelectMovieFragment :
      * Использовать метод в событиях мэтча в вэбсокете
      * В action передаем изменение стэйта MovieMatchState в Empty
      */
-    @Suppress("Detekt.UnusedPrivateMember")
     private fun showBottomSheetFragment(movie: MovieDetails) {
         viewModel.emptyMovieMatchState()
-        val movieDetails = Json.encodeToString(movie)
-        val bottomSheetFragment = MatchBottomSheetFragment.newInstance(
-            movieDetails,
+        val matchBottomSheetArgs = MatchBottomSheetArgs(
+            movieDetails = movie,
             action = {
                 incrementAnimation.animate(binding.tvMotionedIncrement) {
                     viewModel.getMatchesCount()
                 }
             }
         )
-        bottomSheetFragment.show(parentFragmentManager, bottomSheetFragment.tag)
+        viewModel.navigate(
+            SelectMovieFragmentDirections.actionSelectMovieFragmentToMatchBottomSheetFragment(
+                matchBottomSheetArgs
+            )
+        )
     }
 
     private companion object {

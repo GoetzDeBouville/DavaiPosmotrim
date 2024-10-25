@@ -3,7 +3,6 @@ package com.davay.android.feature.coincidences.presentation
 import android.util.Log
 import androidx.lifecycle.viewModelScope
 import com.davay.android.BuildConfig
-import com.davay.android.R
 import com.davay.android.base.BaseViewModel
 import com.davay.android.core.domain.impl.CommonWebsocketInteractor
 import com.davay.android.core.domain.impl.GetMatchesUseCase
@@ -70,8 +69,9 @@ class CoincidencesViewModel @Inject constructor(
 
 
     fun leaveSessionAndNavigateToHistory() {
+        val action = CoincidencesFragmentDirections.actionCoincidencesFragmentToMatchedSessionListFragment()
         disconnect()
-        clearBackStackToMainAndNavigate(R.id.action_mainFragment_to_matchedSessionListFragment)
+        navigate(action)
     }
 
     private fun disconnect() {

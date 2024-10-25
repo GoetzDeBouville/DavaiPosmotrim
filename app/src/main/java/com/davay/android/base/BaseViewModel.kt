@@ -1,16 +1,14 @@
 package com.davay.android.base
 
-import android.os.Bundle
 import android.util.Log
-import androidx.annotation.IdRes
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import androidx.navigation.NavDirections
 import androidx.navigation.NavOptions
 import com.davai.util.debounceUnitFun
 import com.davay.android.BuildConfig
-import com.davay.android.R
 import com.davay.android.core.domain.models.ErrorScreenState
 import com.davay.android.core.domain.models.ErrorType
 import com.davay.android.core.domain.models.Result
@@ -28,31 +26,14 @@ abstract class BaseViewModel : ViewModel() {
         coroutineScope = viewModelScope
     )
 
-    fun navigate(@IdRes navDirections: Int) {
+    fun navigate(navDirections: NavDirections) {
         debounceNavigate(NavigationCommand.ToDirection(navDirections)) { command ->
             _navigation.value = Event(command)
         }
     }
 
-    fun navigate(@IdRes navDirections: Int, bundle: Bundle) {
-        debounceNavigate(NavigationCommand.ToDirection(navDirections, bundle)) { command ->
-            _navigation.value = Event(command)
-        }
-    }
-
-    fun navigate(@IdRes navDirections: Int, navOptions: NavOptions) {
-        debounceNavigate(NavigationCommand.ToDirection(navDirections, null, navOptions)) { command ->
-            _navigation.value = Event(command)
-        }
-    }
-
-    private fun navigateWithoutDebounce(@IdRes navDirections: Int, navOptions: NavOptions) {
-        val command = NavigationCommand.ToDirection(navDirections, null, navOptions)
-        _navigation.value = Event(command)
-    }
-
-    fun navigate(@IdRes navDirections: Int, bundle: Bundle, navOptions: NavOptions) {
-        debounceNavigate(NavigationCommand.ToDirection(navDirections, bundle, navOptions)) { command ->
+    fun navigate(navDirections: NavDirections, navOptions: NavOptions) {
+        debounceNavigate(NavigationCommand.ToDirection(navDirections, navOptions)) { command ->
             _navigation.value = Event(command)
         }
     }
@@ -61,30 +42,6 @@ abstract class BaseViewModel : ViewModel() {
         debounceNavigate(NavigationCommand.Back) { command ->
             _navigation.value = Event(command)
         }
-    }
-
-    /**
-     * Метод чистит backstack до MainFragment и делает сооветствующий переход
-     */
-    fun clearBackStackToMain() {
-        val navOptions = NavOptions.Builder()
-            .setPopUpTo(R.id.main_navigation_graph, inclusive = true)
-            .build()
-
-        navigate(R.id.mainFragment, navOptions)
-    }
-
-    private fun clearBackStackToMainWithoutDebounce() {
-        val navOptions = NavOptions.Builder()
-            .setPopUpTo(R.id.main_navigation_graph, inclusive = true)
-            .build()
-
-        navigateWithoutDebounce(R.id.mainFragment, navOptions)
-    }
-
-    fun clearBackStackToMainAndNavigate(@IdRes navDirections: Int) {
-        clearBackStackToMainWithoutDebounce()
-        navigate(navDirections)
     }
 
     protected fun mapErrorToUiState(errorType: ErrorType): ErrorScreenState {
@@ -143,7 +100,6 @@ abstract class BaseViewModel : ViewModel() {
                         is Result.Error -> {
                             onFailure?.invoke(result.error)
                         }
-
                         null -> onSuccess(null)
                     }
                 }

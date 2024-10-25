@@ -24,14 +24,10 @@ import com.davay.android.di.ScreenComponent
 import com.davay.android.feature.coincidences.bottomsheetdialog.RouletteBottomSheetDialogFragment
 import com.davay.android.feature.coincidences.di.DaggerCoincidencesFragmentComponent
 import com.davay.android.feature.coincidences.presentation.adapter.MoviesGridAdapter
-import com.davay.android.feature.moviecard.presentation.MovieCardFragment
-import com.davay.android.feature.roulette.presentation.RouletteFragment.Companion.ROULETTE_INITIATOR
 import com.davay.android.utils.presentation.UiErrorHandler
 import com.davay.android.utils.presentation.UiErrorHandlerImpl
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
-import kotlinx.serialization.encodeToString
-import kotlinx.serialization.json.Json
 
 class CoincidencesFragment : BaseFragment<FragmentCoincidencesBinding, CoincidencesViewModel>(
     FragmentCoincidencesBinding::inflate
@@ -42,11 +38,9 @@ class CoincidencesFragment : BaseFragment<FragmentCoincidencesBinding, Coinciden
     private val errorHandler: UiErrorHandler = UiErrorHandlerImpl()
 
     private val moviesGridAdapter = MoviesGridAdapter(lifecycleScope) { movieDetails ->
-        val movie = Json.encodeToString(movieDetails)
-        val bundle = Bundle().apply {
-            putString(MovieCardFragment.MOVIE_DETAILS_KEY, movie)
-        }
-        viewModel.navigate(R.id.action_coincidencesFragment_to_movieCardFragment, bundle)
+        val action = CoincidencesFragmentDirections
+            .actionCoincidencesFragmentToMovieCardFragment(movieDetails)
+        viewModel.navigate(action)
     }
 
     private val bottomSheetFragmentLifecycleCallbacks =
@@ -133,10 +127,9 @@ class CoincidencesFragment : BaseFragment<FragmentCoincidencesBinding, Coinciden
             setEndIconClickListener {
                 val coincidences = moviesGridAdapter.itemCount
                 if (coincidences >= MIN_COINCIDENCES_FOR_NAVIGATION_3) {
-                    val bundle = Bundle().apply {
-                        putBoolean(ROULETTE_INITIATOR, true)
-                    }
-                    viewModel.navigate(R.id.action_coincidencesFragment_to_rouletteFragment, bundle)
+                    val action = CoincidencesFragmentDirections
+                        .actionCoincidencesFragmentToRouletteFragment(true)
+                    viewModel.navigate(action)
                 } else {
                     val activity = requireActivity() as MainActivity
                     activity.updateBanner(
@@ -188,15 +181,17 @@ class CoincidencesFragment : BaseFragment<FragmentCoincidencesBinding, Coinciden
     }
 
     private fun showConfirmDialogAndNavigateToRoulette() {
+        val action =
+            CoincidencesFragmentDirections.actionCoincidencesFragmentToRouletteFragment(true)
         val dialog = MainDialogFragment.newInstance(
             title = getString(R.string.select_movies_roulette_is_running_title),
             message = getString(R.string.select_movies_roulette_is_running_message),
             showConfirmBlock = true,
             yesAction = {
-                viewModel.navigate(R.id.action_coincidencesFragment_to_rouletteFragment)
+                viewModel.navigate(action)
             },
             onCancelAction = {
-                viewModel.navigate(R.id.action_coincidencesFragment_to_rouletteFragment)
+                viewModel.navigate(action)
             }
         )
         dialog.show(parentFragmentManager, null)

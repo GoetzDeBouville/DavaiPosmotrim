@@ -3,7 +3,6 @@ package com.davay.android.feature.waitsession.presentation
 import android.util.Log
 import androidx.lifecycle.viewModelScope
 import com.davay.android.BuildConfig
-import com.davay.android.R
 import com.davay.android.base.BaseViewModel
 import com.davay.android.core.domain.impl.CommonWebsocketInteractor
 import com.davay.android.core.domain.impl.LeaveSessionUseCase
@@ -62,14 +61,18 @@ class WaitSessionViewModel @Inject constructor(
             }
             leaveSessionUseCase.execute(sessionId)
         }
-        clearBackStackToMainAndNavigate(R.id.action_mainFragment_to_createSessionFragment)
+        val action =
+            WaitSessionFragmentDirections.actionWaitSessionFragmentToCreateSessionFragment()
+        navigate(action)
     }
 
     fun navigateToNextScreen() {
         runSafelyUseCase(
             useCaseFlow = setSessionStatusVotingUseCase(),
             onSuccess = {
-                navigate(R.id.action_waitSessionFragment_to_selectMovieFragment)
+                val action =
+                    WaitSessionFragmentDirections.actionWaitSessionFragmentToSelectMovieFragment()
+                navigate(action)
             },
             onFailure = { error ->
                 _state.update {

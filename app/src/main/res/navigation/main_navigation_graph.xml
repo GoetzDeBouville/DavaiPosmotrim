@@ -37,7 +37,9 @@
             app:enterAnim="@android:anim/fade_in"
             app:exitAnim="@android:anim/fade_out"
             app:popEnterAnim="@android:anim/fade_in"
-            app:popExitAnim="@android:anim/fade_out" />
+            app:popExitAnim="@android:anim/fade_out"
+            app:popUpTo="@id/mainFragment"
+            app:popUpToInclusive="false" />
     </fragment>
     <fragment
         android:id="@+id/registrationFragment"
@@ -51,19 +53,15 @@
             app:exitAnim="@android:anim/fade_out"
             app:popEnterAnim="@android:anim/fade_in"
             app:popExitAnim="@android:anim/fade_out" />
-        <action
-            android:id="@+id/action_registrationFragment_to_selectMovieFragment"
-            app:destination="@id/selectMovieFragment"
-            app:enterAnim="@android:anim/fade_in"
-            app:exitAnim="@android:anim/fade_out"
-            app:popEnterAnim="@android:anim/fade_in"
-            app:popExitAnim="@android:anim/fade_out" />
     </fragment>
     <fragment
         android:id="@+id/sessionListFragment"
         android:name="com.davay.android.feature.sessionlist.presentation.SessionListFragment"
         android:label="fragment_session_list"
         tools:layout="@layout/fragment_session_list">
+        <argument
+            android:name="etCode"
+            app:argType="string" />
         <action
             android:id="@+id/action_sessionListFragment_to_onboardingFragment"
             app:destination="@id/onboardingFragment"
@@ -77,7 +75,11 @@
             app:enterAnim="@android:anim/fade_in"
             app:exitAnim="@android:anim/fade_out"
             app:popEnterAnim="@android:anim/fade_in"
-            app:popExitAnim="@android:anim/fade_out" />
+            app:popExitAnim="@android:anim/fade_out">
+            <argument
+                android:name="session"
+                app:argType="com.davay.android.core.domain.models.SessionShort" />
+        </action>
     </fragment>
     <dialog
         android:id="@+id/sessionConnectionFragment"
@@ -98,6 +100,10 @@
         android:name="com.davay.android.feature.onboarding.presentation.OnboardingFragment"
         android:label="fragment_onboarding"
         tools:layout="@layout/fragment_onboarding">
+        <argument
+            android:name="setNumber"
+            android:defaultValue="1"
+            app:argType="integer" />
         <action
             android:id="@+id/action_onboardingFragment_to_registrationFragment"
             app:destination="@id/registrationFragment"
@@ -156,14 +162,17 @@
             app:popEnterAnim="@android:anim/fade_in"
             app:popExitAnim="@android:anim/fade_out" />
         <action
-            android:id="@+id/action_selectMovieFragment_to_matchedSessionFragment"
-            app:destination="@id/matchedSessionFragment"
+            android:id="@+id/actionSelectMovieFragmentToMatchBottomSheetFragment"
+            app:destination="@id/matchBottomSheetFragment" />
+        <action
+            android:id="@+id/action_selectMovieFragment_to_matchedSessionListFragment"
+            app:destination="@id/matchedSessionListFragment"
             app:enterAnim="@android:anim/fade_in"
             app:exitAnim="@android:anim/fade_out"
             app:popEnterAnim="@android:anim/fade_in"
             app:popExitAnim="@android:anim/fade_out"
-            app:popUpTo="@+id/mainFragment"
-            app:popUpToInclusive="false"/>
+            app:popUpTo="@id/mainFragment"
+            app:popUpToInclusive="false" />
     </fragment>
     <fragment
         android:id="@+id/createSessionFragment"
@@ -183,6 +192,12 @@
         android:name="com.davay.android.feature.roulette.presentation.RouletteFragment"
         android:label="RouletteFragment"
         tools:layout="@layout/fragment_roulette">
+        <argument
+            android:name="rouletteInitiator"
+            app:argType="boolean" />
+        <action
+            android:id="@+id/actionRouletteFragmentToMatchBottomSheetFragment"
+            app:destination="@id/matchBottomSheetFragment" />
         <action
             android:id="@+id/action_rouletteFragment_to_matchedSessionFragment2"
             app:destination="@id/matchedSessionFragment"
@@ -212,6 +227,18 @@
             app:exitAnim="@android:anim/fade_out"
             app:popEnterAnim="@android:anim/fade_in"
             app:popExitAnim="@android:anim/fade_out" />
+        <action
+            android:id="@+id/action_waitSessionFragment_to_createSessionFragment"
+            app:destination="@id/createSessionFragment"
+            app:enterAnim="@android:anim/fade_in"
+            app:exitAnim="@android:anim/fade_out"
+            app:popEnterAnim="@android:anim/fade_in"
+            app:popExitAnim="@android:anim/fade_out"
+            app:popUpTo="@id/mainFragment"
+            app:popUpToInclusive="false" />
+        <argument
+            android:name="session"
+            app:argType="com.davay.android.core.domain.models.SessionShort" />
     </fragment>
     <fragment
         android:id="@+id/coincidencesFragment"
@@ -233,14 +260,14 @@
             app:popEnterAnim="@android:anim/fade_in"
             app:popExitAnim="@android:anim/fade_out" />
         <action
-            android:id="@+id/action_coincidencesFragment_to_matchedSessionFragment"
-            app:destination="@id/matchedSessionFragment"
+            android:id="@+id/action_coincidencesFragment_to_matchedSessionListFragment"
+            app:destination="@id/matchedSessionListFragment"
             app:enterAnim="@android:anim/fade_in"
             app:exitAnim="@android:anim/fade_out"
             app:popEnterAnim="@android:anim/fade_in"
             app:popExitAnim="@android:anim/fade_out"
-            app:popUpTo="@+id/mainFragment"
-            app:popUpToInclusive="false"/>
+            app:popUpTo="@id/mainFragment"
+            app:popUpToInclusive="false" />
     </fragment>
     <fragment
         android:id="@+id/matchedSessionListFragment"
@@ -253,7 +280,11 @@
             app:enterAnim="@android:anim/fade_in"
             app:exitAnim="@android:anim/fade_out"
             app:popEnterAnim="@android:anim/fade_in"
-            app:popExitAnim="@android:anim/fade_out" />
+            app:popExitAnim="@android:anim/fade_out">
+            <argument
+                android:name="session"
+                app:argType="com.davay.android.core.domain.models.Session" />
+        </action>
     </fragment>
     <fragment
         android:id="@+id/matchedSessionFragment"
@@ -267,6 +298,9 @@
             app:exitAnim="@android:anim/fade_out"
             app:popEnterAnim="@android:anim/fade_in"
             app:popExitAnim="@android:anim/fade_out" />
+        <argument
+            android:name="session"
+            app:argType="com.davay.android.core.domain.models.Session" />
     </fragment>
     <fragment
         android:id="@+id/movieCardFragment"
@@ -289,5 +323,26 @@
             app:popExitAnim="@android:anim/fade_out"
             app:popUpTo="@+id/mainFragment"
             app:popUpToInclusive="false"/>
+        <argument
+            android:name="movieDetails"
+            app:argType="com.davay.android.core.domain.models.MovieDetails" />
     </fragment>
+    <fragment
+        android:id="@+id/onboardingFirstFragment"
+        android:name="com.davay.android.feature.onboarding.presentation.OnboardingFirstFragment"
+        android:label="fragment_onboarding_first"
+        tools:layout="@layout/fragment_onboarding_first">
+        <argument
+            android:name="onboardingItem"
+            app:argType="com.davay.android.feature.onboarding.presentation.OnboardingItem" />
+    </fragment>
+    <dialog
+        android:id="@+id/matchBottomSheetFragment"
+        android:name="com.davay.android.feature.match.presentation.MatchBottomSheetFragment"
+        android:label="fragment_match_bottom_sheet"
+        tools:layout="@layout/fragment_match_bottom_sheet">
+        <argument
+            android:name="matchBottomSheetArgs"
+            app:argType="com.davay.android.feature.match.presentation.MatchBottomSheetArgs" />
+    </dialog>
 </navigation>
