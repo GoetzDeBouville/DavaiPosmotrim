@@ -3,7 +3,6 @@ package com.davay.android.feature.moviecard.presentation
 import android.util.Log
 import androidx.lifecycle.viewModelScope
 import com.davay.android.BuildConfig
-import com.davay.android.R
 import com.davay.android.base.BaseViewModel
 import com.davay.android.core.domain.impl.CommonWebsocketInteractor
 import com.davay.android.core.domain.impl.LeaveSessionUseCase
@@ -58,8 +57,10 @@ class MovieCardViewModel @Inject constructor(
     }
 
     fun leaveSessionAndNavigateToHistory() {
+        val action =
+            MovieCardFragmentDirections.actionMovieCardFragmentToMatchedSessionListFragment()
         disconnect()
-        clearBackStackToMainAndNavigate(R.id.action_mainFragment_to_matchedSessionListFragment)
+        navigate(action)
     }
 
     private fun disconnect() {

@@ -1,8 +1,6 @@
 package com.davay.android.feature.roulette.presentation
 
-import androidx.core.os.bundleOf
 import androidx.lifecycle.viewModelScope
-import com.davay.android.R
 import com.davay.android.base.BaseViewModel
 import com.davay.android.core.domain.impl.CommonWebsocketInteractor
 import com.davay.android.core.domain.models.MovieDetails
@@ -151,18 +149,14 @@ class RouletteViewModel @Inject constructor(
     }
 
     fun navigateToMainFragment() {
-        clearBackStackToMain()
+        navigate(RouletteFragmentDirections.actionRouletteFragmentToMainFragment())
     }
 
     fun navigateToSessionHistory() {
-        navigate(
-            navDirections = R.id.action_rouletteFragment_to_matchedSessionFragment2,
-            bundle = bundleOf(SESSION_ID to sessionId)
-        )
+        navigate(RouletteFragmentDirections.actionRouletteFragmentToMatchedSessionListFragment())
     }
 
     companion object {
         private const val DELAY_TIME_MS_1000 = 1000L
-        const val SESSION_ID = "session_id"
     }
 }

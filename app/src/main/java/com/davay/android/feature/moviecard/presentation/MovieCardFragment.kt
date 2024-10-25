@@ -1,8 +1,8 @@
 package com.davay.android.feature.moviecard.presentation
 
 import androidx.core.view.isVisible
-import androidx.navigation.fragment.navArgs
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.navArgs
 import com.davai.extensions.dpToPx
 import com.davai.uikit.dialog.MainDialogFragment
 import com.davay.android.R
@@ -76,10 +76,18 @@ class MovieCardFragment :
             message = getString(R.string.select_movies_roulette_is_running_message),
             showConfirmBlock = true,
             yesAction = {
-                viewModel.navigate(R.id.action_movieCardFragment_to_rouletteFragment)
+                viewModel.navigate(
+                    MovieCardFragmentDirections.actionMovieCardFragmentToRouletteFragment(
+                        rouletteInitiator = false
+                    )
+                )
             },
             onCancelAction = {
-                viewModel.navigate(R.id.action_movieCardFragment_to_rouletteFragment)
+                viewModel.navigate(
+                    MovieCardFragmentDirections.actionMovieCardFragmentToRouletteFragment(
+                        rouletteInitiator = false
+                    )
+                )
             }
         )
         dialog.show(parentFragmentManager, null)

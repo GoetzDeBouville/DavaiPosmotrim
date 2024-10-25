@@ -199,13 +199,22 @@
             android:id="@+id/actionRouletteFragmentToMatchBottomSheetFragment"
             app:destination="@id/matchBottomSheetFragment" />
         <action
-            android:id="@+id/action_rouletteFragment_to_matchedSessionFragment2"
-            app:destination="@id/matchedSessionFragment"
+            android:id="@+id/action_rouletteFragment_to_matchedSessionListFragment"
+            app:destination="@id/matchedSessionListFragment"
             app:enterAnim="@android:anim/fade_in"
             app:exitAnim="@android:anim/fade_out"
             app:popEnterAnim="@android:anim/fade_in"
             app:popExitAnim="@android:anim/fade_out"
-            app:popUpTo="@+id/mainFragment"
+            app:popUpTo="@id/mainFragment"
+            app:popUpToInclusive="false" />
+        <action
+            android:id="@+id/action_rouletteFragment_to_mainFragment"
+            app:destination="@id/mainFragment"
+            app:enterAnim="@android:anim/fade_in"
+            app:exitAnim="@android:anim/fade_out"
+            app:popEnterAnim="@android:anim/fade_in"
+            app:popExitAnim="@android:anim/fade_out"
+            app:popUpTo="@id/mainFragment"
             app:popUpToInclusive="false" />
     </fragment>
     <fragment
@@ -314,18 +323,18 @@
             app:exitAnim="@android:anim/fade_out"
             app:popEnterAnim="@android:anim/fade_in"
             app:popExitAnim="@android:anim/fade_out" />
+        <argument
+            android:name="movieDetails"
+            app:argType="com.davay.android.core.domain.models.MovieDetails" />
         <action
-            android:id="@+id/action_movieCardFragment_to_matchedSessionFragment"
-            app:destination="@id/matchedSessionFragment"
+            android:id="@+id/action_movieCardFragment_to_matchedSessionListFragment"
+            app:destination="@id/matchedSessionListFragment"
             app:enterAnim="@android:anim/fade_in"
             app:exitAnim="@android:anim/fade_out"
             app:popEnterAnim="@android:anim/fade_in"
             app:popExitAnim="@android:anim/fade_out"
-            app:popUpTo="@+id/mainFragment"
-            app:popUpToInclusive="false"/>
-        <argument
-            android:name="movieDetails"
-            app:argType="com.davay.android.core.domain.models.MovieDetails" />
+            app:popUpTo="@id/mainFragment"
+            app:popUpToInclusive="false" />
     </fragment>
     <fragment
         android:id="@+id/onboardingFirstFragment"
