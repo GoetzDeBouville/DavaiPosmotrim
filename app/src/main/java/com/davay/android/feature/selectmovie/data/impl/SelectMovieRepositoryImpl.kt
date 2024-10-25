@@ -67,6 +67,9 @@ class SelectMovieRepositoryImpl @Inject constructor(
 
     private suspend fun getMovieIdsByPositionRange(positionNumber: Int): List<Int> {
         return try {
+            if (BuildConfig.DEBUG) {
+                Log.i(TAG, "getMovieIdsByPositionRange positionNumber = $positionNumber")
+            }
             movieIdDao.getMovieIdsByPositionRange(positionNumber, PAGINATION_SIZE)
         } catch (e: SQLiteException) {
             if (BuildConfig.DEBUG) {
@@ -149,26 +152,6 @@ class SelectMovieRepositoryImpl @Inject constructor(
         }
     }
 
-    /**
-     * Метод обновляет значение лайка по позиции
-     * Обновление позиции происходит всегда для предсказуемого результат
-     */
-    override suspend fun updateIsLikedByPosition(position: Int, isLiked: Boolean) {
-        try {
-            movieIdDao.updateIsLikedById(position - 1, isLiked)
-            if (BuildConfig.DEBUG) {
-                Log.i(TAG, "updateIsLikedByPosition position = $position")
-            }
-        } catch (e: SQLiteException) {
-            if (BuildConfig.DEBUG) {
-                Log.e(
-                    TAG,
-                    "Error update Liked in movie position: $position, exception -> ${e.localizedMessage}"
-                )
-            }
-        }
-    }
-
     override suspend fun getMovieDetailsById(movieId: Int): MovieDetails? {
         return try {
             historyDao.getMovieDetailsById(movieId)?.toDomain()
@@ -177,20 +160,6 @@ class SelectMovieRepositoryImpl @Inject constructor(
                 Log.e(
                     TAG,
                     "Error get movie details by id: $movieId, exception -> ${e.localizedMessage}"
-                )
-            }
-            null
-        }
-    }
-
-    private suspend fun getMovieIdByPosition(position: Int): MovieIdEntity? {
-        return try {
-            movieIdDao.getMovieIdByPosition(position)
-        } catch (e: SQLiteException) {
-            if (BuildConfig.DEBUG) {
-                Log.e(
-                    TAG,
-                    "Error get movie ID by position: $position, exception -> ${e.localizedMessage}"
                 )
             }
             null

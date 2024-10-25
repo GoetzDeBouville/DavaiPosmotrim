@@ -28,7 +28,7 @@ class LikeMovieRepositoryImpl @Inject constructor(
         moviePosition: Int,
         sessionId: String
     ): Flow<Result<LikeMovieResponse, ErrorType>> = flow {
-        val position = moviePosition - 1 // поправка позиции
+        val position = moviePosition - 1
         if (BuildConfig.DEBUG) {
             Log.i(TAG, "position = $position")
         }
@@ -43,16 +43,14 @@ class LikeMovieRepositoryImpl @Inject constructor(
             }
             0
         }
-
         val response = httpNetworkClient.getResponse(
             LikeMovieRequest.Like(
                 movieId = movieId,
                 sessionId = sessionId,
                 userId = deviceId
             )
-        )
-        if (BuildConfig.DEBUG) {
-            Log.i(TAG, "response = ${response.body}")
+        ).also {
+            updateIsLikedByPosition(moviePosition, true)
         }
 
         when (val body = response.body) {
@@ -70,13 +68,14 @@ class LikeMovieRepositoryImpl @Inject constructor(
         moviePosition: Int,
         sessionId: String
     ): Flow<Result<LikeMovieResponse, ErrorType>> = flow {
+        val position = moviePosition - 1 // поправка позиции
         val movieId = try {
-            movieIdDao.getMovieIdByPosition(moviePosition)?.movieId ?: 0
+            movieIdDao.getMovieIdByPosition(position)?.movieId ?: 0
         } catch (e: SQLiteException) {
             if (BuildConfig.DEBUG) {
                 Log.e(
                     TAG,
-                    "Error get movie id by position: $moviePosition, exception -> ${e.localizedMessage}"
+                    "Error get movie id by position: $position, exception -> ${e.localizedMessage}"
                 )
             }
             0
@@ -88,7 +87,9 @@ class LikeMovieRepositoryImpl @Inject constructor(
                 sessionId = sessionId,
                 userId = deviceId
             )
-        )
+        ).also {
+            updateIsLikedByPosition(moviePosition, false)
+        }
 
         when (val body = response.body) {
             is LikeMovieResponse -> {
@@ -97,6 +98,26 @@ class LikeMovieRepositoryImpl @Inject constructor(
 
             else -> {
                 emit(Result.Error(response.resultCode.mapToErrorType()))
+            }
+        }
+    }
+
+    /**
+     * Метод обновляет значение лайка по позиции
+     * Обновление позиции происходит всегда для предсказуемого результат
+     */
+    private suspend fun updateIsLikedByPosition(position: Int, isLiked: Boolean) {
+        try {
+            if (BuildConfig.DEBUG) {
+                Log.i(TAG, "updateIsLikedByPosition position = $position")
+            }
+            movieIdDao.updateIsLikedById(position, isLiked)
+        } catch (e: SQLiteException) {
+            if (BuildConfig.DEBUG) {
+                Log.e(
+                    TAG,
+                    "Error update Liked in movie position: $position, exception -> ${e.localizedMessage}"
+                )
             }
         }
     }

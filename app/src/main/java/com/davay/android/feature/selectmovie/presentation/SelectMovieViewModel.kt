@@ -16,7 +16,6 @@ import com.davay.android.feature.selectmovie.domain.GetMovieDetailsByIdUseCase
 import com.davay.android.feature.selectmovie.domain.GetMovieIdListSizeUseCase
 import com.davay.android.feature.selectmovie.domain.GetMovieListUseCase
 import com.davay.android.feature.selectmovie.domain.LikeMovieInteractor
-import com.davay.android.feature.selectmovie.domain.SwipeMovieUseCase
 import com.davay.android.feature.selectmovie.presentation.models.MovieMatchState
 import com.davay.android.feature.selectmovie.presentation.models.SelectMovieState
 import kotlinx.coroutines.Dispatchers
@@ -31,7 +30,7 @@ class SelectMovieViewModel @Inject constructor(
     private val getMovieListUseCase: GetMovieListUseCase,
     private val getMovieIdListSizeUseCase: GetMovieIdListSizeUseCase,
     private val filterDislikedMovieListUseCase: FilterDislikedMovieListUseCase,
-    private val swipeMovieUseCase: SwipeMovieUseCase,
+//    private val swipeMovieUseCase: SwipeMovieUseCase,
     private val commonWebsocketInteractor: CommonWebsocketInteractor,
     private val likeMovieInteractor: LikeMovieInteractor,
     private val getMovieDetailsById: GetMovieDetailsByIdUseCase,
@@ -74,6 +73,10 @@ class SelectMovieViewModel @Inject constructor(
                 when (result) {
                     is Result.Success -> {
                         val movieDetails = getMovieDetailsById(result.data)
+
+                        if (BuildConfig.DEBUG) {
+                            Log.i(TAG, "subscribeMatches movieDetails = $movieDetails")
+                        }
 
                         _matchState.update {
                             if (movieDetails == null) {
@@ -196,15 +199,6 @@ class SelectMovieViewModel @Inject constructor(
             loadMovies(position)
         }
         likeMovie(position, isLiked)
-        viewModelScope.launch {
-            runCatching {
-                swipeMovieUseCase(position, isLiked)
-            }.onFailure {
-                if (BuildConfig.DEBUG) {
-                    Log.e(TAG, "Error on swipe movie, position: $position | ${it.localizedMessage}")
-                }
-            }
-        }
 
         if (position == totalMovieIds) {
             _state.update { SelectMovieState.ListIsFinished }
@@ -261,7 +255,8 @@ class SelectMovieViewModel @Inject constructor(
     }
 
     fun leaveSessionAndNavigateToHistory() {
-        val action = SelectMovieFragmentDirections.actionSelectMovieFragmentToMatchedSessionListFragment()
+        val action =
+            SelectMovieFragmentDirections.actionSelectMovieFragmentToMatchedSessionListFragment()
         disconnect()
         navigate(action)
     }

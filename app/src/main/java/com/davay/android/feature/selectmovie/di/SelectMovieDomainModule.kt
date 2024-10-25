@@ -8,7 +8,6 @@ import com.davay.android.feature.selectmovie.domain.GetMovieDetailsByIdUseCase
 import com.davay.android.feature.selectmovie.domain.GetMovieIdListSizeUseCase
 import com.davay.android.feature.selectmovie.domain.GetMovieListUseCase
 import com.davay.android.feature.selectmovie.domain.LikeMovieInteractor
-import com.davay.android.feature.selectmovie.domain.SwipeMovieUseCase
 import com.davay.android.feature.selectmovie.domain.api.LikeMovieRepository
 import com.davay.android.feature.selectmovie.domain.api.SelectMovieRepository
 import dagger.Module
@@ -16,10 +15,6 @@ import dagger.Provides
 
 @Module
 class SelectMovieDomainModule {
-    @Provides
-    fun provideSwipeMovieUseCase(repository: SelectMovieRepository) =
-        SwipeMovieUseCase(repository)
-
     @Provides
     fun provideFilterDislikedMovieListUseCase(repository: SelectMovieRepository) =
         FilterDislikedMovieListUseCase(repository)
