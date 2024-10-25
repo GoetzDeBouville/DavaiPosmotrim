@@ -1,12 +1,13 @@
 package com.davay.android.core.domain.models
 
+import android.os.Parcelable
 import com.davay.android.extensions.timeStamp
-import kotlinx.serialization.Serializable
+import kotlinx.parcelize.Parcelize
 
-@Serializable
+@Parcelize
 data class SessionShort(
     val id: String,
     val users: List<userName>,
     val date: timeStamp,
     val imgUrl: String
-)
+) : Parcelable

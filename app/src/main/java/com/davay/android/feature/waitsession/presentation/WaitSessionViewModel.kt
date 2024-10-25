@@ -70,7 +70,9 @@ class WaitSessionViewModel @Inject constructor(
         runSafelyUseCase(
             useCaseFlow = setSessionStatusVotingUseCase(),
             onSuccess = {
-                navigate(R.id.action_waitSessionFragment_to_selectMovieFragment)
+                val action =
+                    WaitSessionFragmentDirections.actionWaitSessionFragmentToSelectMovieFragment()
+                navigate(action)
             },
             onFailure = { error ->
                 _state.update {

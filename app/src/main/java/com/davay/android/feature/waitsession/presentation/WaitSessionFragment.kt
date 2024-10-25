@@ -4,7 +4,6 @@ import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.Context
 import android.content.Intent
-import android.os.Bundle
 import android.util.Log
 import androidx.activity.OnBackPressedCallback
 import androidx.activity.result.ActivityResultLauncher
@@ -12,6 +11,7 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.navArgs
 import com.davai.extensions.dpToPx
 import com.davai.uikit.BannerView
 import com.davai.uikit.dialog.MainDialogFragment
@@ -19,12 +19,10 @@ import com.davai.util.setOnDebouncedClickListener
 import com.davay.android.BuildConfig
 import com.davay.android.R
 import com.davay.android.base.BaseFragment
-import com.davay.android.core.domain.models.SessionShort
 import com.davay.android.core.presentation.MainActivity
 import com.davay.android.databinding.FragmentWaitSessionBinding
 import com.davay.android.di.AppComponentHolder
 import com.davay.android.di.ScreenComponent
-import com.davay.android.feature.createsession.presentation.createsession.CreateSessionViewModel
 import com.davay.android.feature.waitsession.di.DaggerWaitSessionFragmentComponent
 import com.davay.android.feature.waitsession.domain.models.WaitSessionState
 import com.davay.android.feature.waitsession.presentation.adapter.CustomItemDecorator
@@ -37,7 +35,6 @@ import com.google.android.flexbox.FlexWrap
 import com.google.android.flexbox.FlexboxLayoutManager
 import com.google.android.flexbox.JustifyContent
 import kotlinx.coroutines.launch
-import kotlinx.serialization.json.Json
 
 class WaitSessionFragment : BaseFragment<FragmentWaitSessionBinding, WaitSessionViewModel>(
     FragmentWaitSessionBinding::inflate
@@ -45,13 +42,20 @@ class WaitSessionFragment : BaseFragment<FragmentWaitSessionBinding, WaitSession
     override val viewModel: WaitSessionViewModel by injectViewModel<WaitSessionViewModel>()
     private val userAdapter = UserAdapter()
     private var launcher: ActivityResultLauncher<Intent>? = null
-    private var session: SessionShort? = null
+    private val args: WaitSessionFragmentArgs by navArgs()
     private val dialog: MainDialogFragment by lazy {
         MainDialogFragment.newInstance(
             title = getString(R.string.leave_wait_session_title),
             message = getString(R.string.leave_wait_session_dialog_message),
             yesAction = {
                 viewModel.navigateToCreateSessionAndUnsubscribeWebSockets()
+                /**
+                 * Вместо popBackStack используется именно такая навигация для обхода ошибки при возврате назад на экран создания сессии после
+                 * смены конфигурации устройства
+                 */
+                viewModel.clearBackStackToMainAndNavigate(
+                    WaitSessionFragmentDirections.actionWaitSessionFragmentToCreateSessionFragment()
+                )
             }
         )
     }
@@ -60,13 +64,6 @@ class WaitSessionFragment : BaseFragment<FragmentWaitSessionBinding, WaitSession
     override fun diComponent(): ScreenComponent = DaggerWaitSessionFragmentComponent.builder()
         .appComponent(AppComponentHolder.getComponent())
         .build()
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        arguments?.let {
-            session = Json.decodeFromString(it.getString(CreateSessionViewModel.SESSION_DATA) ?: "")
-        }
-    }
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -81,23 +78,21 @@ class WaitSessionFragment : BaseFragment<FragmentWaitSessionBinding, WaitSession
     override fun initViews() {
         super.initViews()
         initRecycler()
-        session?.let { session ->
-            binding.tvCode.text = session.id
-        }
+        binding.tvCode.text = args.session.id
+        viewModel.subscribeWs(args.session.id)
     }
 
     override fun subscribe() {
         setButtonClickListeners()
         setBackPressedCallback()
 
-        val sessionId = session?.id ?: ""
         binding.llButtonContainer.setOnDebouncedClickListener(coroutineScope = lifecycleScope) {
-            copyTextToClipboard(sessionId)
+            copyTextToClipboard(args.session.id)
         }
 
         binding.sendButton.setOnDebouncedClickListener(coroutineScope = lifecycleScope) {
             if (it.isEnabled) {
-                sendCode(sessionId)
+                sendCode(args.session.id)
                 binding.sendButton.setButtonEnabled(false)
             }
         }
