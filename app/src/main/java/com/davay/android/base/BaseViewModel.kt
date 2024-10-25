@@ -9,7 +9,6 @@ import androidx.navigation.NavDirections
 import androidx.navigation.NavOptions
 import com.davai.util.debounceUnitFun
 import com.davay.android.BuildConfig
-import com.davay.android.R
 import com.davay.android.core.domain.models.ErrorScreenState
 import com.davay.android.core.domain.models.ErrorType
 import com.davay.android.core.domain.models.Result
@@ -43,27 +42,6 @@ abstract class BaseViewModel : ViewModel() {
         debounceNavigate(NavigationCommand.Back) { command ->
             _navigation.value = Event(command)
         }
-    }
-
-    /**
-     * Метод чистит backstack до MainFragment и делает сооветствующий переход
-     */
-
-    fun clearBackStackToMain(navDirections: NavDirections) {
-        val navOptions = NavOptions.Builder()
-            .setPopUpTo(R.id.mainFragment, inclusive = false)
-            .build()
-
-        _navigation.value = Event(
-            NavigationCommand.ToDirection(
-                navDirections,
-                navOptions
-            )
-        )
-    }
-
-    fun clearBackStackToMainAndNavigate(navDirections: NavDirections) {
-        clearBackStackToMain(navDirections)
     }
 
     protected fun mapErrorToUiState(errorType: ErrorType): ErrorScreenState {

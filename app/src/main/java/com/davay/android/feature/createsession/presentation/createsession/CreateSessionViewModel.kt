@@ -1,7 +1,10 @@
 package com.davay.android.feature.createsession.presentation.createsession
 
+import androidx.lifecycle.viewModelScope
 import com.davay.android.base.BaseViewModel
+import com.davay.android.core.domain.impl.CommonWebsocketInteractor
 import com.davay.android.core.domain.models.SessionShort
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 open class CreateSessionViewModel @Inject constructor(

@@ -16,6 +16,7 @@ import com.davay.android.databinding.FragmentSelectMovieBinding
 import com.davay.android.di.AppComponentHolder
 import com.davay.android.di.ScreenComponent
 import com.davay.android.extensions.SwipeDirection
+import com.davay.android.feature.coincidences.presentation.CoincidencesFragmentDirections
 import com.davay.android.feature.match.presentation.MatchBottomSheetArgs
 import com.davay.android.feature.selectmovie.di.DaggerSelectMovieFragmentComponent
 import com.davay.android.feature.selectmovie.presentation.adapters.MovieCardAdapter
@@ -36,7 +37,6 @@ class SelectMovieFragment :
     BaseFragment<FragmentSelectMovieBinding, SelectMovieViewModel>(FragmentSelectMovieBinding::inflate) {
 
     override val viewModel: SelectMovieViewModel by injectViewModel<SelectMovieViewModel>()
-    private var matchesCounter = 0
     private val cardAdapter = MovieCardAdapter(
         coroutineScope = lifecycleScope,
         swipeLeft = { autoSwipeLeft() },
@@ -207,10 +207,6 @@ class SelectMovieFragment :
             title = getString(R.string.leave_session_title),
             message = getString(R.string.select_movies_leave_session_dialog_message),
             yesAction = {
-                viewModel.disconnect()
-                viewModel.clearBackStackToMainAndNavigate(
-                    SelectMovieFragmentDirections.actionSelectMovieFragmentToMatchedSessionListFragment()
-                )
                 viewModel.leaveSessionAndNavigateToHistory()
             }
         )
@@ -228,10 +224,7 @@ class SelectMovieFragment :
             message = getString(R.string.leave_session_dialog_message_session_complited),
             showConfirmBlock = true,
             yesAction = {
-                // viewModel.leaveSessionAndNavigateToHistory()
-                viewModel.clearBackStackToMainAndNavigate(
-                    SelectMovieFragmentDirections.actionSelectMovieFragmentToMatchedSessionListFragment()
-                )
+                viewModel.leaveSessionAndNavigateToHistory()
             }
         )
         dialog.show(parentFragmentManager, null)
@@ -253,15 +246,17 @@ class SelectMovieFragment :
     }
 
     private fun showConfirmDialogAndNavigateToRoulette() {
+        val action =
+            CoincidencesFragmentDirections.actionCoincidencesFragmentToRouletteFragment(true)
         val dialog = MainDialogFragment.newInstance(
             title = getString(R.string.select_movies_roulette_is_running_title),
             message = getString(R.string.select_movies_roulette_is_running_message),
             showConfirmBlock = true,
             yesAction = {
-                viewModel.navigate(R.id.action_coincidencesFragment_to_rouletteFragment)
+                viewModel.navigate(action)
             },
             onCancelAction = {
-                viewModel.navigate(R.id.action_coincidencesFragment_to_rouletteFragment)
+                viewModel.navigate(action)
             }
         )
         dialog.show(parentFragmentManager, null)

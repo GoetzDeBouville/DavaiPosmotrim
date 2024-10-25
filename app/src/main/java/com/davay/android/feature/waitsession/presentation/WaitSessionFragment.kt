@@ -48,14 +48,11 @@ class WaitSessionFragment : BaseFragment<FragmentWaitSessionBinding, WaitSession
             title = getString(R.string.leave_wait_session_title),
             message = getString(R.string.leave_wait_session_dialog_message),
             yesAction = {
-                viewModel.navigateToCreateSessionAndUnsubscribeWebSockets()
                 /**
-                 * Вместо popBackStack используется именно такая навигация для обхода ошибки при возврате назад на экран создания сессии после
-                 * смены конфигурации устройства
+                 * Вместо popBackStack используется именно такая навигация для обхода ошибки при
+                 * возврате назад на экран создания сессии после смены конфигурации устройства
                  */
-                viewModel.clearBackStackToMainAndNavigate(
-                    WaitSessionFragmentDirections.actionWaitSessionFragmentToCreateSessionFragment()
-                )
+                viewModel.navigateToCreateSessionAndUnsubscribeWebSockets()
             }
         )
     }
@@ -79,7 +76,6 @@ class WaitSessionFragment : BaseFragment<FragmentWaitSessionBinding, WaitSession
         super.initViews()
         initRecycler()
         binding.tvCode.text = args.session.id
-        viewModel.subscribeWs(args.session.id)
     }
 
     override fun subscribe() {
