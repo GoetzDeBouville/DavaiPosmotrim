@@ -18,7 +18,6 @@ import com.davay.android.core.presentation.MainActivity
 import com.davay.android.databinding.FragmentRouletteBinding
 import com.davay.android.di.AppComponentHolder
 import com.davay.android.di.ScreenComponent
-import com.davay.android.feature.match.presentation.MatchBottomSheetArgs
 import com.davay.android.feature.match.presentation.MatchBottomSheetFragment
 import com.davay.android.feature.roulette.di.DaggerRouletteFragmentComponent
 import com.davay.android.feature.roulette.presentation.carouselrecycler.CarouselAdapter
@@ -204,16 +203,12 @@ class RouletteFragment :
 
 
     private fun handleMatchState(state: RouletteState.Match) {
-        val matchArgs = MatchBottomSheetArgs(
+        val bottomSheetFragment = MatchBottomSheetFragment.newInstance(
             movieDetails = state.film,
             buttonText = getString(R.string.roulette_to_film_list),
-            showDismisAnimation = false
+            showDismisAnimation = false,
         )
-        viewModel.navigate(
-            RouletteFragmentDirections.actionRouletteFragmentToMatchBottomSheetFragment(
-                matchArgs
-            )
-        )
+        bottomSheetFragment.show(parentFragmentManager, bottomSheetFragment.tag)
     }
 
 

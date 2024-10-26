@@ -1,6 +1,5 @@
 package com.davay.android.feature.match.presentation
 
-import android.annotation.SuppressLint
 import android.app.Dialog
 import android.content.res.Resources
 import android.os.Build

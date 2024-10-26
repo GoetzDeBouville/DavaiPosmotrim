@@ -193,9 +193,6 @@
             android:name="rouletteInitiator"
             app:argType="boolean" />
         <action
-            android:id="@+id/actionRouletteFragmentToMatchBottomSheetFragment"
-            app:destination="@id/matchBottomSheetFragment" />
-        <action
             android:id="@+id/action_rouletteFragment_to_matchedSessionListFragment"
             app:destination="@id/matchedSessionListFragment"
             app:enterAnim="@android:anim/fade_in"
@@ -347,8 +344,5 @@
         android:name="com.davay.android.feature.match.presentation.MatchBottomSheetFragment"
         android:label="fragment_match_bottom_sheet"
         tools:layout="@layout/fragment_match_bottom_sheet">
-        <argument
-            android:name="matchBottomSheetArgs"
-            app:argType="com.davay.android.feature.match.presentation.MatchBottomSheetArgs" />
     </dialog>
 </navigation>

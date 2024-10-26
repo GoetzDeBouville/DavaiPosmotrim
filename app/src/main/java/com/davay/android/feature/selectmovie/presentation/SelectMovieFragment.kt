@@ -250,7 +250,7 @@ class SelectMovieFragment :
 
     private fun showConfirmDialogAndNavigateToRoulette() {
         val action =
-            CoincidencesFragmentDirections.actionCoincidencesFragmentToRouletteFragment(true)
+            SelectMovieFragmentDirections.actionSelectMovieFragmentToRouletteFragment(false)
         val dialog = MainDialogFragment.newInstance(
             title = getString(R.string.select_movies_roulette_is_running_title),
             message = getString(R.string.select_movies_roulette_is_running_message),
