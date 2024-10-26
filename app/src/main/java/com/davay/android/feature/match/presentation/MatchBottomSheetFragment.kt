@@ -3,6 +3,7 @@ package com.davay.android.feature.match.presentation
 import android.annotation.SuppressLint
 import android.app.Dialog
 import android.content.res.Resources
+import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -32,11 +33,15 @@ class MatchBottomSheetFragment(private val action: (() -> Unit)? = null) :
     private var buttonText: String? = null
     private var showDismisAnimation = true
 
-    @SuppressLint("NewApi")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        @Suppress("DEPRECATION", "NewApi")
         arguments?.let {
-            movieDetails = it.getParcelable(ARG_MOVIE_DETAILS, MovieDetails::class.java)
+            movieDetails = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                it.getParcelable(ARG_MOVIE_DETAILS, MovieDetails::class.java)
+            } else {
+                it.getParcelable(ARG_MOVIE_DETAILS)
+            }
             buttonText = it.getString(ARG_BUTTON_TEXT)
         }
     }
