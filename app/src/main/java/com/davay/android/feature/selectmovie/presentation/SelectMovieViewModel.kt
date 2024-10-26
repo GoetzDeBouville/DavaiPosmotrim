@@ -30,7 +30,6 @@ class SelectMovieViewModel @Inject constructor(
     private val getMovieListUseCase: GetMovieListUseCase,
     private val getMovieIdListSizeUseCase: GetMovieIdListSizeUseCase,
     private val filterDislikedMovieListUseCase: FilterDislikedMovieListUseCase,
-//    private val swipeMovieUseCase: SwipeMovieUseCase,
     private val commonWebsocketInteractor: CommonWebsocketInteractor,
     private val likeMovieInteractor: LikeMovieInteractor,
     private val getMovieDetailsById: GetMovieDetailsByIdUseCase,

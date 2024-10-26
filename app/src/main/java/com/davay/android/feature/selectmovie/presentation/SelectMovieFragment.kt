@@ -134,7 +134,10 @@ class SelectMovieFragment :
     private fun handleMovieMatchState(state: MovieMatchState) {
         when (state) {
             is MovieMatchState.Empty -> {}
-            is MovieMatchState.Content -> showBottomSheetFragment(state.movieDetails)
+            is MovieMatchState.Content -> {
+                showBottomSheetFragment(state.movieDetails)
+                viewModel.emptyMovieMatchState()
+            }
         }
     }
 
