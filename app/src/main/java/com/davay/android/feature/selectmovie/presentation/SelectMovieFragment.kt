@@ -17,7 +17,7 @@ import com.davay.android.di.AppComponentHolder
 import com.davay.android.di.ScreenComponent
 import com.davay.android.extensions.SwipeDirection
 import com.davay.android.feature.coincidences.presentation.CoincidencesFragmentDirections
-import com.davay.android.feature.match.presentation.MatchBottomSheetArgs
+import com.davay.android.feature.match.presentation.MatchBottomSheetFragment
 import com.davay.android.feature.selectmovie.di.DaggerSelectMovieFragmentComponent
 import com.davay.android.feature.selectmovie.presentation.adapters.MovieCardAdapter
 import com.davay.android.feature.selectmovie.presentation.adapters.SwipeCallback
@@ -402,8 +402,7 @@ class SelectMovieFragment :
      * В action передаем изменение стэйта MovieMatchState в Empty
      */
     private fun showBottomSheetFragment(movie: MovieDetails) {
-        viewModel.emptyMovieMatchState()
-        val matchBottomSheetArgs = MatchBottomSheetArgs(
+        val bottomSheetFragment = MatchBottomSheetFragment.newInstance(
             movieDetails = movie,
             action = {
                 incrementAnimation.animate(binding.tvMotionedIncrement) {
@@ -411,11 +410,8 @@ class SelectMovieFragment :
                 }
             }
         )
-        viewModel.navigate(
-            SelectMovieFragmentDirections.actionSelectMovieFragmentToMatchBottomSheetFragment(
-                matchBottomSheetArgs
-            )
-        )
+
+        bottomSheetFragment.show(parentFragmentManager, bottomSheetFragment.tag)
     }
 
     private companion object {
