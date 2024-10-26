@@ -21,6 +21,7 @@ import com.davay.android.core.domain.models.SessionStatus
 import com.davay.android.core.domain.models.User
 import com.davay.android.di.MatchesIdClient
 import com.davay.android.di.RouletteIdClient
+import com.davay.android.utils.SorterList
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
@@ -41,6 +42,7 @@ class WebsocketRepositoryImpl @Inject constructor(
     @MatchesIdClient private val websocketMatchesIdClient: WebsocketNetworkClient<Int?>,
     private val userDataRepository: UserDataRepository,
     private val sessionsHistoryRepository: SessionsHistoryRepository,
+    private val sorterList: SorterList,
 ) : WebsocketRepository {
 
     private val deviceId = userDataRepository.getUserId()
@@ -74,7 +76,9 @@ class WebsocketRepositoryImpl @Inject constructor(
         try {
             websocketUsersClient.subscribe(deviceId, "$sessionId$PATH_USERS").collect { list ->
                 if (list != null) {
-                    emit(Result.Success(list.map { it.toDomain() }))
+                    val userName = userDataRepository.getUserName()
+                    val domainList = sorterList.sortUserList(list.map { it.toDomain() }, userName)
+                    emit(Result.Success(domainList))
                 } else {
                     emit(Result.Error(ErrorType.UNKNOWN_ERROR))
                 }
@@ -113,7 +117,14 @@ class WebsocketRepositoryImpl @Inject constructor(
                 websocketSessionResultClient.subscribe(deviceId, "$sessionId$PATH_SESSION_RESULT")
                     .collect { sessionResult ->
                         if (sessionResult != null) {
-                            val session = sessionResult.toDomain()
+                            val userName = userDataRepository.getUserName()
+                            val sessionDomain = sessionResult.toDomain()
+                            val session = sessionDomain.copy(
+                                users = sorterList.sortStringUserList(
+                                    sessionDomain.users,
+                                    userName
+                                )
+                            )
                             sessionsHistoryRepository.saveSessionsHistory(session)
                             emit(Result.Success(session))
                         } else {

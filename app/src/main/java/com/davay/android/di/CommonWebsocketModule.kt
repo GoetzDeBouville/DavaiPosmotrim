@@ -17,6 +17,7 @@ import com.davay.android.core.domain.api.WebsocketRepository
 import com.davay.android.core.domain.impl.CommonWebsocketInteractor
 import com.davay.android.di.prefs.marker.StorageMarker
 import com.davay.android.di.prefs.model.PreferencesStorage
+import com.davay.android.utils.SorterList
 import dagger.Module
 import dagger.Provides
 import javax.inject.Qualifier
@@ -62,6 +63,7 @@ class CommonWebsocketModule {
         @MatchesIdClient websocketMatchesIdClient: WebsocketNetworkClient<Int?>,
         userDataRepository: UserDataRepository,
         sessionsHistoryRepository: SessionsHistoryRepository,
+        sorterList: SorterList,
     ): WebsocketRepository {
         return WebsocketRepositoryImpl(
             websocketUsersClient,
@@ -71,6 +73,7 @@ class CommonWebsocketModule {
             websocketMatchesIdClient,
             userDataRepository,
             sessionsHistoryRepository,
+            sorterList,
         )
     }
 
