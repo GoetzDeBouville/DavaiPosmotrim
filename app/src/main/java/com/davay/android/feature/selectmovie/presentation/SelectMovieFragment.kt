@@ -16,7 +16,6 @@ import com.davay.android.databinding.FragmentSelectMovieBinding
 import com.davay.android.di.AppComponentHolder
 import com.davay.android.di.ScreenComponent
 import com.davay.android.extensions.SwipeDirection
-import com.davay.android.feature.coincidences.presentation.CoincidencesFragmentDirections
 import com.davay.android.feature.match.presentation.MatchBottomSheetFragment
 import com.davay.android.feature.selectmovie.di.DaggerSelectMovieFragmentComponent
 import com.davay.android.feature.selectmovie.presentation.adapters.MovieCardAdapter
@@ -108,7 +107,12 @@ class SelectMovieFragment :
         viewLifecycleOwner.lifecycleScope.launch {
             viewModel.sessionStatusState.collect { state ->
                 when (state) {
-                    SessionStatus.CLOSED -> showConfirmDialogAtSessionClosedStatus()
+                    SessionStatus.CLOSED -> {
+                        if (!viewModel.isLeaveSessionPressed) {
+                            showConfirmDialogAtSessionClosedStatus()
+                        }
+                    }
+
                     SessionStatus.ROULETTE -> showConfirmDialogAndNavigateToRoulette()
                     else -> {}
                 }
@@ -210,23 +214,7 @@ class SelectMovieFragment :
             title = getString(R.string.leave_session_title),
             message = getString(R.string.select_movies_leave_session_dialog_message),
             yesAction = {
-                viewModel.leaveSessionAndNavigateToHistory()
-            }
-        )
-        dialog.show(parentFragmentManager, null)
-    }
-
-    /**
-     * Метод вызывается у юзеров, у которых из сессии вышел участник
-     * !добавить сохранение сессии в БД тут и в showDialogAndNavigateToHistorySessions()
-     */
-    @Suppress("Detekt.UnusedPrivateMember")
-    private fun showConfirmDialogAndNavigateToHistorySessions() {
-        val dialog = MainDialogFragment.newInstance(
-            title = getString(R.string.leave_session_title),
-            message = getString(R.string.leave_session_dialog_message_session_complited),
-            showConfirmBlock = true,
-            yesAction = {
+                viewModel.leaveSessionPressed()
                 viewModel.leaveSessionAndNavigateToHistory()
             }
         )
