@@ -3,6 +3,7 @@ package com.davay.android.feature.roulette.presentation.useradapter
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.davay.android.R
 import com.davay.android.databinding.ItemParticipantsBinding
 import com.davay.android.feature.roulette.presentation.model.UserRouletteModel
 
@@ -18,7 +19,13 @@ class UserAdapter : RecyclerView.Adapter<UserViewHolder>() {
     }
 
     override fun onBindViewHolder(holder: UserViewHolder, position: Int) {
-        holder.bind(itemList[position])
+        val context = holder.itemView.context
+        val youSuffix = context.getString(R.string.session_list_you)
+        if (position == 0) {
+            holder.bind(itemList[position].copy(name = "${itemList[position].name} $youSuffix"))
+        } else {
+            holder.bind(itemList[position])
+        }
     }
 
     override fun getItemCount(): Int = itemList.count()
@@ -30,10 +37,8 @@ class UserAdapter : RecyclerView.Adapter<UserViewHolder>() {
     }
 
     fun updateItem(index: Int, item: UserRouletteModel) {
-        if (item.id == itemList[index].id && item.isConnected != itemList[index].isConnected) {
-            itemList[index].isConnected = item.isConnected
-            notifyItemChanged(index, item)
-        }
+        itemList[index].isConnected = item.isConnected
+        notifyItemChanged(index, item)
     }
 
     override fun onBindViewHolder(

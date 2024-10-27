@@ -6,7 +6,11 @@ import com.davay.android.core.domain.impl.CommonWebsocketInteractor
 import com.davay.android.core.domain.impl.LeaveSessionUseCase
 import com.davay.android.core.domain.models.ErrorScreenState
 import com.davay.android.core.domain.models.SessionStatus
+import com.davay.android.core.domain.models.UserDataFields
+import com.davay.android.core.domain.models.converter.toSessionShort
+import com.davay.android.core.domain.usecases.GetUserDataUseCase
 import com.davay.android.feature.sessionlist.domain.usecase.ConnectToSessionUseCase
+import com.davay.android.utils.SorterList
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -18,17 +22,22 @@ class SessionListViewModel @Inject constructor(
     private val commonWebsocketInteractor: CommonWebsocketInteractor,
     private val connectToSessionUseCase: ConnectToSessionUseCase,
     private val leaveSessionUseCase: LeaveSessionUseCase,
+    private val getUserDataUseCase: GetUserDataUseCase,
+    private val sorterList: SorterList,
 ) : BaseViewModel() {
     private val _state = MutableStateFlow<ConnectToSessionState>(ConnectToSessionState.Loading)
     val state = _state.asStateFlow()
-    private var sessionId: String? = null
+    private var sessionId: String = ""
 
     fun connectToSessionAuto(sessionId: String) {
-        if (this.sessionId == null) {
+        if (this.sessionId.isEmpty()) {
             connectToSession(sessionId)
         }
     }
 
+    /**
+     * Подключает к сессии и обновляет значение sessionId в commonWebsocketInteractor
+     */
     fun connectToSession(sessionId: String) {
         this.sessionId = sessionId
         _state.update { ConnectToSessionState.Loading }
@@ -36,10 +45,20 @@ class SessionListViewModel @Inject constructor(
             useCaseFlow = connectToSessionUseCase.execute(sessionId),
             onFailure = { error ->
                 _state.update { ConnectToSessionState.Error(mapErrorToUiState(error)) }
-                this.sessionId = null
+                this.sessionId = ""
             },
             onSuccess = { session ->
-                _state.update { ConnectToSessionState.Content(session) }
+                val userName = getUserDataUseCase.getUserData(UserDataFields.UserName())
+                _state.update {
+                    ConnectToSessionState.Content(
+                        session.copy(
+                            users = sorterList.sortStringUserList(
+                                session.users,
+                                userName
+                            )
+                        )
+                    )
+                }
                 subscribeToWebsockets(sessionId)
             }
         )
@@ -87,8 +106,13 @@ class SessionListViewModel @Inject constructor(
             onSuccess = { status ->
                 when (status) {
                     SessionStatus.VOTING -> {
-                        this@SessionListViewModel.sessionId = null
-                        val action = SessionListFragmentDirections.actionSessionListFragmentToSelectMovieFragment()
+                        val session =
+                            (_state.value as ConnectToSessionState.Content).session.toSessionShort()
+                        this@SessionListViewModel.sessionId = ""
+                        val action =
+                            SessionListFragmentDirections.actionSessionListFragmentToSelectMovieFragment(
+                                session
+                            )
                         navigate(action)
                     }
 
@@ -115,11 +139,11 @@ class SessionListViewModel @Inject constructor(
         runSafelyUseCase(
             useCaseFlow = leaveSessionUseCase.execute(sessionId),
             onFailure = {
-                this.sessionId = null
+                this.sessionId = ""
                 navigateBack()
             },
             onSuccess = {
-                this.sessionId = null
+                this.sessionId = ""
                 navigateBack()
             }
         )

@@ -4,16 +4,19 @@ import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.Context
 import android.content.Intent
+import android.util.Log
 import androidx.activity.OnBackPressedCallback
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
+import androidx.core.view.isVisible
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.navArgs
 import com.davai.extensions.dpToPx
 import com.davai.uikit.BannerView
 import com.davai.uikit.dialog.MainDialogFragment
 import com.davai.util.setOnDebouncedClickListener
+import com.davay.android.BuildConfig
 import com.davay.android.R
 import com.davay.android.base.BaseFragment
 import com.davay.android.core.presentation.MainActivity
@@ -21,13 +24,17 @@ import com.davay.android.databinding.FragmentWaitSessionBinding
 import com.davay.android.di.AppComponentHolder
 import com.davay.android.di.ScreenComponent
 import com.davay.android.feature.waitsession.di.DaggerWaitSessionFragmentComponent
+import com.davay.android.feature.waitsession.domain.models.WaitSessionState
 import com.davay.android.feature.waitsession.presentation.adapter.CustomItemDecorator
 import com.davay.android.feature.waitsession.presentation.adapter.UserAdapter
+import com.davay.android.utils.presentation.UiErrorHandler
+import com.davay.android.utils.presentation.UiErrorHandlerImpl
 import com.google.android.flexbox.AlignItems
 import com.google.android.flexbox.FlexDirection
 import com.google.android.flexbox.FlexWrap
 import com.google.android.flexbox.FlexboxLayoutManager
 import com.google.android.flexbox.JustifyContent
+import kotlinx.coroutines.launch
 
 class WaitSessionFragment : BaseFragment<FragmentWaitSessionBinding, WaitSessionViewModel>(
     FragmentWaitSessionBinding::inflate
@@ -42,15 +49,14 @@ class WaitSessionFragment : BaseFragment<FragmentWaitSessionBinding, WaitSession
             message = getString(R.string.leave_wait_session_dialog_message),
             yesAction = {
                 /**
-                 * Вместо popBackStack используется именно такая навигация для обхода ошибки при возврате назад на экран создания сессии после
-                 * смены конфигурации устройства
+                 * Вместо popBackStack используется именно такая навигация для обхода ошибки при
+                 * возврате назад на экран создания сессии после смены конфигурации устройства
                  */
-                viewModel.clearBackStackToMainAndNavigate(
-                    WaitSessionFragmentDirections.actionWaitSessionFragmentToCreateSessionFragment()
-                )
+                viewModel.navigateToCreateSessionAndUnsubscribeWebSockets()
             }
         )
     }
+    private val errorHandler: UiErrorHandler = UiErrorHandlerImpl()
 
     override fun diComponent(): ScreenComponent = DaggerWaitSessionFragmentComponent.builder()
         .appComponent(AppComponentHolder.getComponent())
@@ -68,17 +74,8 @@ class WaitSessionFragment : BaseFragment<FragmentWaitSessionBinding, WaitSession
 
     override fun initViews() {
         super.initViews()
-        userAdapter.setItems(
-            listOf(
-                "Артем",
-                "Руслан",
-                "Константин",
-                "Виктория"
-            ) // список юзеров нужно тянуть из сокета
-        )
         initRecycler()
         binding.tvCode.text = args.session.id
-        viewModel.subscribeWs(args.session.id)
     }
 
     override fun subscribe() {
@@ -94,6 +91,38 @@ class WaitSessionFragment : BaseFragment<FragmentWaitSessionBinding, WaitSession
                 sendCode(args.session.id)
                 binding.sendButton.setButtonEnabled(false)
             }
+        }
+
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewModel.state.collect { state ->
+                if (BuildConfig.DEBUG) {
+                    Log.i(TAG, "state: $state")
+                }
+                renderState(state)
+            }
+        }
+    }
+
+    private fun renderState(state: WaitSessionState) {
+        when (state) {
+            is WaitSessionState.Content -> {
+                userAdapter.setItems(state.users)
+                if (BuildConfig.DEBUG) {
+                    Log.i(TAG, "state.session: ${state.users}")
+                }
+            }
+
+            is WaitSessionState.Error -> handleError(state)
+        }
+    }
+
+    private fun handleError(state: WaitSessionState.Error) {
+        binding.errorScreen.isVisible = true
+        errorHandler.handleError(
+            state.errorType,
+            binding.errorScreen
+        ) {
+            viewModel.navigateToNextScreen()
         }
     }
 
@@ -186,5 +215,7 @@ class WaitSessionFragment : BaseFragment<FragmentWaitSessionBinding, WaitSession
         const val CUSTOM_DIALOG_TAG = "customDialog"
         const val MIN_USER_TO_START_2 = 2
         const val TEXT_TYPE = "text/plain"
+
+        val TAG = WaitSessionFragment::class.simpleName
     }
 }
