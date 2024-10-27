@@ -58,6 +58,7 @@ class SelectMovieViewModel @Inject constructor(
         private set
 
     init {
+        Log.e(TAG, "SelectMovieViewModel init")
         initializeMovieList()
         subscribeStates()
         getMatchesCount()
