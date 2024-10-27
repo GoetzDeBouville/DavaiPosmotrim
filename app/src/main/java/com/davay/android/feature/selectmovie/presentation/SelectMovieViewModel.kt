@@ -54,8 +54,11 @@ class SelectMovieViewModel @Inject constructor(
 
     private var totalMovieIds = 0
     private var loadedMovies = mutableSetOf<MovieDetails>()
+    var isLeaveSessionPressed = false
+        private set
 
     init {
+        Log.e(TAG, "SelectMovieViewModel init")
         initializeMovieList()
         subscribeStates()
         getMatchesCount()
@@ -254,26 +257,35 @@ class SelectMovieViewModel @Inject constructor(
     }
 
     fun leaveSessionAndNavigateToHistory() {
+        viewModelScope.launch(Dispatchers.IO) {
+            val sessionId = commonWebsocketInteractor.sessionId
+            runCatching {
+                leaveSessionUseCase.execute(sessionId).collect { result ->
+                    when (result) {
+                        is Result.Success -> unsubscribeAndNavigate()
+                        is Result.Error -> unsubscribeAndNavigate()
+                    }
+                }
+            }.onFailure {
+                if (BuildConfig.DEBUG) {
+                    Log.e(TAG, "Error on leave session ${it.localizedMessage}")
+                }
+                val action =
+                    SelectMovieFragmentDirections.actionSelectMovieFragmentToMatchedSessionListFragment()
+                navigate(action)
+            }
+        }
+    }
+
+    private suspend fun unsubscribeAndNavigate() {
         val action =
             SelectMovieFragmentDirections.actionSelectMovieFragmentToMatchedSessionListFragment()
-        disconnect()
+        commonWebsocketInteractor.unsubscribeWebsockets()
         navigate(action)
     }
 
-    private fun disconnect() {
-        viewModelScope.launch(Dispatchers.IO) {
-            val sessionId = commonWebsocketInteractor.sessionId
-            runSafelyUseCase(
-                useCaseFlow = leaveSessionUseCase.execute(sessionId),
-                onSuccess = {},
-                onFailure = { error ->
-                    if (BuildConfig.DEBUG) {
-                        Log.e(TAG, "Error on leave session $sessionId, error -> $error")
-                    }
-                }
-            )
-            commonWebsocketInteractor.unsubscribeWebsockets()
-        }
+    fun leaveSessionPressed() {
+        isLeaveSessionPressed = true
     }
 
     private companion object {
