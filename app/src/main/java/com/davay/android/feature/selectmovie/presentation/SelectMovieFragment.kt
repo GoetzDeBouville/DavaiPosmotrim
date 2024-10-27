@@ -214,6 +214,7 @@ class SelectMovieFragment :
             title = getString(R.string.leave_session_title),
             message = getString(R.string.select_movies_leave_session_dialog_message),
             yesAction = {
+                binding.progressBar.isVisible = true
                 viewModel.leaveSessionPressed()
                 viewModel.leaveSessionAndNavigateToHistory()
             }
