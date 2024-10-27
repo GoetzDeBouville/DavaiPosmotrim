@@ -6,8 +6,11 @@ import com.davay.android.core.domain.impl.CommonWebsocketInteractor
 import com.davay.android.core.domain.impl.LeaveSessionUseCase
 import com.davay.android.core.domain.models.ErrorScreenState
 import com.davay.android.core.domain.models.SessionStatus
+import com.davay.android.core.domain.models.UserDataFields
 import com.davay.android.core.domain.models.converter.toSessionShort
+import com.davay.android.core.domain.usecases.GetUserDataUseCase
 import com.davay.android.feature.sessionlist.domain.usecase.ConnectToSessionUseCase
+import com.davay.android.utils.SorterList
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -19,6 +22,8 @@ class SessionListViewModel @Inject constructor(
     private val commonWebsocketInteractor: CommonWebsocketInteractor,
     private val connectToSessionUseCase: ConnectToSessionUseCase,
     private val leaveSessionUseCase: LeaveSessionUseCase,
+    private val getUserDataUseCase: GetUserDataUseCase,
+    private val sorterList: SorterList,
 ) : BaseViewModel() {
     private val _state = MutableStateFlow<ConnectToSessionState>(ConnectToSessionState.Loading)
     val state = _state.asStateFlow()
@@ -43,7 +48,17 @@ class SessionListViewModel @Inject constructor(
                 this.sessionId = ""
             },
             onSuccess = { session ->
-                _state.update { ConnectToSessionState.Content(session) }
+                val userName = getUserDataUseCase.getUserData(UserDataFields.UserName())
+                _state.update {
+                    ConnectToSessionState.Content(
+                        session.copy(
+                            users = sorterList.sortStringUserList(
+                                session.users,
+                                userName
+                            )
+                        )
+                    )
+                }
                 subscribeToWebsockets(sessionId)
             }
         )

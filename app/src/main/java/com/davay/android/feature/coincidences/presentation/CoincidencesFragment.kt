@@ -182,7 +182,7 @@ class CoincidencesFragment : BaseFragment<FragmentCoincidencesBinding, Coinciden
 
     private fun showConfirmDialogAndNavigateToRoulette() {
         val action =
-            CoincidencesFragmentDirections.actionCoincidencesFragmentToRouletteFragment(true)
+            CoincidencesFragmentDirections.actionCoincidencesFragmentToRouletteFragment(false)
         val dialog = MainDialogFragment.newInstance(
             title = getString(R.string.select_movies_roulette_is_running_title),
             message = getString(R.string.select_movies_roulette_is_running_message),

@@ -1,4 +1,4 @@
-package com.davay.android.feature.sessionsmatched.presentation.animation
+package com.davay.android.feature.match.presentation.animation
 
 import android.animation.Animator
 import android.animation.AnimatorListenerAdapter

@@ -1,6 +1,5 @@
 package com.davay.android.feature.match.presentation
 
-import android.annotation.SuppressLint
 import android.app.Dialog
 import android.content.res.Resources
 import android.os.Build
@@ -12,8 +11,8 @@ import android.widget.FrameLayout
 import androidx.lifecycle.lifecycleScope
 import com.davay.android.core.domain.models.MovieDetails
 import com.davay.android.databinding.FragmentMatchBottomSheetBinding
-import com.davay.android.feature.sessionsmatched.presentation.animation.AnimationMatchDialog
-import com.davay.android.feature.sessionsmatched.presentation.animation.AnimationMatchDialogImpl
+import com.davay.android.feature.match.presentation.animation.AnimationMatchDialog
+import com.davay.android.feature.match.presentation.animation.AnimationMatchDialogImpl
 import com.davay.android.utils.MovieDetailsHelper
 import com.davay.android.utils.MovieDetailsHelperImpl
 import com.google.android.material.bottomsheet.BottomSheetBehavior

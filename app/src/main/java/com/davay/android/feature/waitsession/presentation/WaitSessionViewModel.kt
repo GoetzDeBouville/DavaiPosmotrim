@@ -12,6 +12,7 @@ import com.davay.android.core.domain.usecases.GetUserDataUseCase
 import com.davay.android.feature.waitsession.domain.SetSessionStatusVotingUseCase
 import com.davay.android.feature.waitsession.domain.api.WaitSessionOnBoardingInteractor
 import com.davay.android.feature.waitsession.domain.models.WaitSessionState
+import com.davay.android.utils.SorterList
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
@@ -27,7 +28,8 @@ class WaitSessionViewModel @Inject constructor(
     private val commonWebsocketInteractor: CommonWebsocketInteractor,
     private val getUserDataUseCase: GetUserDataUseCase,
     private val leaveSessionUseCase: LeaveSessionUseCase,
-    private val setSessionStatusVotingUseCase: SetSessionStatusVotingUseCase
+    private val setSessionStatusVotingUseCase: SetSessionStatusVotingUseCase,
+    private val sorterList: SorterList,
 ) : BaseViewModel() {
     private val _state = MutableStateFlow<WaitSessionState>(WaitSessionState.Content(emptyList()))
     val state
@@ -89,7 +91,7 @@ class WaitSessionViewModel @Inject constructor(
                 when (result) {
                     is Result.Success -> {
                         val users = result.data.map { it.name }
-                        _state.value = WaitSessionState.Content(sortUserList(users, userName))
+                        _state.value = WaitSessionState.Content(sorterList.sortStringUserList(users, userName))
                     }
 
                     is Result.Error -> {
@@ -100,25 +102,6 @@ class WaitSessionViewModel @Inject constructor(
                 }
             }
         }
-    }
-
-    /**
-     * В списке юзеров перемещаем пользователя на первое место, т.к. в адаптере производится
-     * конкатенация к первому элементу
-     */
-    private fun sortUserList(users: List<String>, userName: String): List<String> {
-        val userList = users.toMutableList()
-        val iterator = userList.iterator()
-
-        while (iterator.hasNext()) {
-            val user = iterator.next()
-            if (user == userName) {
-                iterator.remove()
-                userList.add(0, user)
-                break
-            }
-        }
-        return userList
     }
 
     private companion object {
