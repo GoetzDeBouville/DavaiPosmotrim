@@ -19,6 +19,7 @@ import com.davay.android.feature.selectmovie.domain.LikeMovieInteractor
 import com.davay.android.feature.selectmovie.presentation.models.MovieMatchState
 import com.davay.android.feature.selectmovie.presentation.models.SelectMovieState
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
@@ -280,6 +281,7 @@ class SelectMovieViewModel @Inject constructor(
     private suspend fun unsubscribeAndNavigate() {
         val action =
             SelectMovieFragmentDirections.actionSelectMovieFragmentToMatchedSessionListFragment()
+        delay(DELAY_300MS)
         commonWebsocketInteractor.unsubscribeWebsockets()
         navigate(action)
     }
@@ -296,6 +298,7 @@ class SelectMovieViewModel @Inject constructor(
          */
         const val PRELOAD_SIZE = 5
         val TAG: String = SelectMovieViewModel::class.java.simpleName
+        private const val DELAY_300MS = 300L
     }
 
 }
