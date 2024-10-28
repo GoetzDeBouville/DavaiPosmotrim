@@ -9,6 +9,7 @@ import com.davay.android.core.domain.impl.LeaveSessionUseCase
 import com.davay.android.core.domain.models.Result
 import com.davay.android.core.domain.models.UserDataFields
 import com.davay.android.core.domain.usecases.GetUserDataUseCase
+import com.davay.android.feature.onboarding.presentation.OnboardingFragment
 import com.davay.android.feature.waitsession.domain.SetSessionStatusVotingUseCase
 import com.davay.android.feature.waitsession.domain.api.WaitSessionOnBoardingInteractor
 import com.davay.android.feature.waitsession.domain.models.WaitSessionState
@@ -29,7 +30,7 @@ class WaitSessionViewModel @Inject constructor(
     private val getUserDataUseCase: GetUserDataUseCase,
     private val leaveSessionUseCase: LeaveSessionUseCase,
     private val setSessionStatusVotingUseCase: SetSessionStatusVotingUseCase,
-    private val sorterList: SorterList,
+    private val sorterList: SorterList
 ) : BaseViewModel() {
     private val _state = MutableStateFlow<WaitSessionState>(WaitSessionState.Content(emptyList()))
     val state
@@ -39,11 +40,11 @@ class WaitSessionViewModel @Inject constructor(
         subscribeToUsersState()
     }
 
-    fun isFirstTimeLaunch(): Boolean {
+    private fun isFirstTimeLaunch(): Boolean {
         return waitSessionOnBoardingInteractor.isFirstTimeLaunch()
     }
 
-    fun markFirstTimeLaunch() {
+    private fun markFirstTimeLaunch() {
         waitSessionOnBoardingInteractor.markFirstTimeLaunch()
     }
 
@@ -72,8 +73,14 @@ class WaitSessionViewModel @Inject constructor(
         runSafelyUseCase(
             useCaseFlow = setSessionStatusVotingUseCase(),
             onSuccess = {
-                val action =
+                val action = if (isFirstTimeLaunch()) {
+                    markFirstTimeLaunch()
+                    WaitSessionFragmentDirections.actionWaitSessionFragmentToOnboardingFragment(
+                        OnboardingFragment.ONBOARDING_INSTRUCTION_SET
+                    )
+                } else {
                     WaitSessionFragmentDirections.actionWaitSessionFragmentToSelectMovieFragment()
+                }
                 navigate(action)
             },
             onFailure = { error ->
@@ -91,7 +98,8 @@ class WaitSessionViewModel @Inject constructor(
                 when (result) {
                     is Result.Success -> {
                         val users = result.data.map { it.name }
-                        _state.value = WaitSessionState.Content(sorterList.sortStringUserList(users, userName))
+                        _state.value =
+                            WaitSessionState.Content(sorterList.sortStringUserList(users, userName))
                     }
 
                     is Result.Error -> {
