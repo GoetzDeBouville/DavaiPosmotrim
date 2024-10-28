@@ -9,7 +9,6 @@ import androidx.navigation.NavDirections
 import androidx.navigation.NavOptions
 import com.davai.util.debounceUnitFun
 import com.davay.android.BuildConfig
-import com.davay.android.R
 import com.davay.android.core.domain.models.ErrorScreenState
 import com.davay.android.core.domain.models.ErrorType
 import com.davay.android.core.domain.models.Result
@@ -45,27 +44,6 @@ abstract class BaseViewModel : ViewModel() {
         }
     }
 
-    /**
-     * Метод чистит backstack до MainFragment и делает сооветствующий переход
-     */
-
-    fun clearBackStackToMain(navDirections: NavDirections) {
-        val navOptions = NavOptions.Builder()
-            .setPopUpTo(R.id.mainFragment, inclusive = false)
-            .build()
-
-        _navigation.value = Event(
-            NavigationCommand.ToDirection(
-                navDirections,
-                navOptions
-            )
-        )
-    }
-
-    fun clearBackStackToMainAndNavigate(navDirections: NavDirections) {
-        clearBackStackToMain(navDirections)
-    }
-
     protected fun mapErrorToUiState(errorType: ErrorType): ErrorScreenState {
         return when (errorType) {
             ErrorType.NO_CONNECTION -> ErrorScreenState.NO_INTERNET
@@ -97,6 +75,32 @@ abstract class BaseViewModel : ViewModel() {
                         is Result.Error -> {
                             onFailure?.invoke(result.error)
                         }
+                    }
+                }
+            }.onFailure { error ->
+                if (BuildConfig.DEBUG) {
+                    Log.v(BASE_VM_TAG, "error -> ${error.localizedMessage}")
+                    error.printStackTrace()
+                }
+                onFailure?.invoke(ErrorType.UNKNOWN_ERROR)
+            }
+        }
+    }
+
+    protected inline fun <reified D> runSafelyUseCaseWithNullResponse(
+        useCaseFlow: Flow<Result<D, ErrorType>?>,
+        noinline onFailure: ((ErrorType) -> Unit)? = null,
+        crossinline onSuccess: (D?) -> Unit,
+    ) {
+        viewModelScope.launch(Dispatchers.IO) {
+            runCatching {
+                useCaseFlow.collect { result ->
+                    when (result) {
+                        is Result.Success -> onSuccess(result.data)
+                        is Result.Error -> {
+                            onFailure?.invoke(result.error)
+                        }
+                        null -> onSuccess(null)
                     }
                 }
             }.onFailure { error ->

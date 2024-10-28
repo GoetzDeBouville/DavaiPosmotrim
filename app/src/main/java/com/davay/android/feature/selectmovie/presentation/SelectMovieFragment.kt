@@ -11,17 +11,20 @@ import com.davai.uikit.dialog.MainDialogFragment
 import com.davay.android.R
 import com.davay.android.base.BaseFragment
 import com.davay.android.core.domain.models.MovieDetails
+import com.davay.android.core.domain.models.SessionStatus
 import com.davay.android.databinding.FragmentSelectMovieBinding
 import com.davay.android.di.AppComponentHolder
 import com.davay.android.di.ScreenComponent
 import com.davay.android.extensions.SwipeDirection
-import com.davay.android.feature.match.presentation.MatchBottomSheetArgs
+import com.davay.android.feature.match.presentation.MatchBottomSheetFragment
 import com.davay.android.feature.selectmovie.di.DaggerSelectMovieFragmentComponent
 import com.davay.android.feature.selectmovie.presentation.adapters.MovieCardAdapter
 import com.davay.android.feature.selectmovie.presentation.adapters.SwipeCallback
 import com.davay.android.feature.selectmovie.presentation.adapters.SwipeableLayoutManager
 import com.davay.android.feature.selectmovie.presentation.animation.IncrementAnimation
 import com.davay.android.feature.selectmovie.presentation.animation.IncrementAnimationImpl
+import com.davay.android.feature.selectmovie.presentation.models.MovieMatchState
+import com.davay.android.feature.selectmovie.presentation.models.SelectMovieState
 import com.davay.android.utils.MovieDetailsHelperImpl
 import com.davay.android.utils.presentation.UiErrorHandler
 import com.davay.android.utils.presentation.UiErrorHandlerImpl
@@ -33,7 +36,6 @@ class SelectMovieFragment :
     BaseFragment<FragmentSelectMovieBinding, SelectMovieViewModel>(FragmentSelectMovieBinding::inflate) {
 
     override val viewModel: SelectMovieViewModel by injectViewModel<SelectMovieViewModel>()
-    private var matchesCounter = 0
     private val cardAdapter = MovieCardAdapter(
         coroutineScope = lifecycleScope,
         swipeLeft = { autoSwipeLeft() },
@@ -77,7 +79,6 @@ class SelectMovieFragment :
 
     override fun initViews() {
         buildRecyclerView()
-        setToolbar()
         setBottomSheet()
     }
 
@@ -96,6 +97,33 @@ class SelectMovieFragment :
                 renderState(state)
             }
         }
+
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewModel.matchState.collect { state ->
+                handleMovieMatchState(state)
+            }
+        }
+
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewModel.sessionStatusState.collect { state ->
+                when (state) {
+                    SessionStatus.CLOSED -> {
+                        if (!viewModel.isLeaveSessionPressed) {
+                            showConfirmDialogAtSessionClosedStatus()
+                        }
+                    }
+
+                    SessionStatus.ROULETTE -> showConfirmDialogAndNavigateToRoulette()
+                    else -> {}
+                }
+            }
+        }
+
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewModel.stateMatchesCounter.collect { counter ->
+                binding.toolbarviewHeader.updateMatchesDisplay(counter)
+            }
+        }
     }
 
     private fun renderState(state: SelectMovieState) {
@@ -104,6 +132,16 @@ class SelectMovieFragment :
             is SelectMovieState.Content -> showContent(state)
             is SelectMovieState.Error -> handleError(state)
             is SelectMovieState.ListIsFinished -> showDialogAndRequestResetMovieList()
+        }
+    }
+
+    private fun handleMovieMatchState(state: MovieMatchState) {
+        when (state) {
+            is MovieMatchState.Empty -> {}
+            is MovieMatchState.Content -> {
+                showBottomSheetFragment(state.movieDetails)
+                viewModel.emptyMovieMatchState()
+            }
         }
     }
 
@@ -176,29 +214,41 @@ class SelectMovieFragment :
             title = getString(R.string.leave_session_title),
             message = getString(R.string.select_movies_leave_session_dialog_message),
             yesAction = {
-                viewModel.disconnect()
-                viewModel.clearBackStackToMainAndNavigate(
-                    SelectMovieFragmentDirections.actionSelectMovieFragmentToMatchedSessionListFragment()
-                )
+                binding.progressBar.isVisible = true
+                viewModel.leaveSessionPressed()
+                viewModel.leaveSessionAndNavigateToHistory()
             }
         )
         dialog.show(parentFragmentManager, null)
     }
 
-    /**
-     * Метод вызывается у юзеров, у которых из сессии вышел участник
-     * !добавить сохранение сессии в БД тут и в showDialogAndNavigateToHistorySessions()
-     */
-    @Suppress("Detekt.UnusedPrivateMember")
-    private fun showConfirmDialogAndNavigateToHistorySessions() {
+    private fun showConfirmDialogAtSessionClosedStatus() {
         val dialog = MainDialogFragment.newInstance(
-            title = getString(R.string.leave_session_title),
-            message = getString(R.string.leave_session_dialog_message_session_complited),
+            title = getString(R.string.select_movies_session_is_closed),
+            message = getString(R.string.select_movies_user_left_session),
             showConfirmBlock = true,
             yesAction = {
-                viewModel.clearBackStackToMainAndNavigate(
-                    SelectMovieFragmentDirections.actionSelectMovieFragmentToMatchedSessionListFragment()
-                )
+                viewModel.leaveSessionAndNavigateToHistory()
+            },
+            onCancelAction = {
+                viewModel.leaveSessionAndNavigateToHistory()
+            }
+        )
+        dialog.show(parentFragmentManager, null)
+    }
+
+    private fun showConfirmDialogAndNavigateToRoulette() {
+        val action =
+            SelectMovieFragmentDirections.actionSelectMovieFragmentToRouletteFragment(false)
+        val dialog = MainDialogFragment.newInstance(
+            title = getString(R.string.select_movies_roulette_is_running_title),
+            message = getString(R.string.select_movies_roulette_is_running_message),
+            showConfirmBlock = true,
+            yesAction = {
+                viewModel.navigate(action)
+            },
+            onCancelAction = {
+                viewModel.navigate(action)
             }
         )
         dialog.show(parentFragmentManager, null)
@@ -243,12 +293,6 @@ class SelectMovieFragment :
                 clDetailsBottomSheet.layoutParams.height = maxHeight
                 clDetailsBottomSheet.requestLayout()
             }
-        }
-    }
-
-    private fun setToolbar() {
-        binding.toolbarviewHeader.apply {
-            updateMatchesDisplay(matchesCounter)
         }
     }
 
@@ -347,22 +391,19 @@ class SelectMovieFragment :
 
     /**
      * Использовать метод в событиях мэтча в вэбсокете
+     * В action передаем изменение стэйта MovieMatchState в Empty
      */
-    @Suppress("Detekt.UnusedPrivateMember")
     private fun showBottomSheetFragment(movie: MovieDetails) {
-        val matchBottomSheetArgs = MatchBottomSheetArgs(
+        val bottomSheetFragment = MatchBottomSheetFragment.newInstance(
             movieDetails = movie,
             action = {
                 incrementAnimation.animate(binding.tvMotionedIncrement) {
-                    binding.toolbarviewHeader.incrementMatchesDisplay()
+                    viewModel.getMatchesCount()
                 }
             }
         )
-        viewModel.navigate(
-            SelectMovieFragmentDirections.actionSelectMovieFragmentToMatchBottomSheetFragment(
-                matchBottomSheetArgs
-            )
-        )
+
+        bottomSheetFragment.show(parentFragmentManager, bottomSheetFragment.tag)
     }
 
     private companion object {

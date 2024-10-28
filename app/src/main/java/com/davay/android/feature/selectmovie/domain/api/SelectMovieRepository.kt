@@ -15,5 +15,7 @@ interface SelectMovieRepository {
 
     suspend fun leaveOnlyDislikedMovieIds()
 
-    suspend fun updateIsLikedByPosition(position: Int, isLiked: Boolean)
+//    suspend fun updateIsLikedByPosition(position: Int, isLiked: Boolean)
+
+    suspend fun getMovieDetailsById(movieId: Int): MovieDetails?
 }

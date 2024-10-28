@@ -2,27 +2,41 @@ package com.davay.android.feature.waitsession.presentation
 
 import android.util.Log
 import androidx.lifecycle.viewModelScope
+import com.davay.android.BuildConfig
 import com.davay.android.base.BaseViewModel
 import com.davay.android.core.domain.impl.CommonWebsocketInteractor
+import com.davay.android.core.domain.impl.LeaveSessionUseCase
 import com.davay.android.core.domain.models.Result
+import com.davay.android.core.domain.models.UserDataFields
+import com.davay.android.core.domain.usecases.GetUserDataUseCase
+import com.davay.android.feature.waitsession.domain.SetSessionStatusVotingUseCase
 import com.davay.android.feature.waitsession.domain.api.WaitSessionOnBoardingInteractor
-import kotlinx.coroutines.Dispatchers
+import com.davay.android.feature.waitsession.domain.models.WaitSessionState
+import com.davay.android.utils.SorterList
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
+/**
+ * Тут нас интересует только вебсокет с подпиской на список юзеров, так как статус сессии меняет
+ * только организатор, остальные сообщения нужны на других экранах
+ */
 class WaitSessionViewModel @Inject constructor(
     private val waitSessionOnBoardingInteractor: WaitSessionOnBoardingInteractor,
     private val commonWebsocketInteractor: CommonWebsocketInteractor,
+    private val getUserDataUseCase: GetUserDataUseCase,
+    private val leaveSessionUseCase: LeaveSessionUseCase,
+    private val setSessionStatusVotingUseCase: SetSessionStatusVotingUseCase,
+    private val sorterList: SorterList,
 ) : BaseViewModel() {
+    private val _state = MutableStateFlow<WaitSessionState>(WaitSessionState.Content(emptyList()))
+    val state
+        get() = _state.asStateFlow()
 
-    // для теста
-    private var sessionId: String? = null
-
-    fun subscribeWs(id: String) {
-        if (sessionId == null) {
-            sessionId = id
-            subscribeToWebsockets(id)
-        }
+    init {
+        subscribeToUsersState()
     }
 
     fun isFirstTimeLaunch(): Boolean {
@@ -33,118 +47,64 @@ class WaitSessionViewModel @Inject constructor(
         waitSessionOnBoardingInteractor.markFirstTimeLaunch()
     }
 
-    fun navigateToNextScreen() {
-        val action = WaitSessionFragmentDirections.actionWaitSessionFragmentToSelectMovieFragment()
+    /**
+     * Метод необходим для обхода ошибки при возврате назад на экран создания сессии после
+     * смены конфигурации устройства
+     */
+    fun navigateToCreateSessionAndUnsubscribeWebSockets() {
+        val sessionId = commonWebsocketInteractor.sessionId
+        viewModelScope.launch {
+            runCatching {
+                commonWebsocketInteractor.unsubscribeWebsockets()
+            }.onFailure {
+                if (BuildConfig.DEBUG) {
+                    Log.i(TAG, "unsubscribeWebsockets: error -> $it")
+                }
+            }
+            leaveSessionUseCase.execute(sessionId)
+        }
+        val action =
+            WaitSessionFragmentDirections.actionWaitSessionFragmentToCreateSessionFragment()
         navigate(action)
     }
 
-    // для теста
-    @Suppress(
-        "LongMethod",
-        "StringLiteralDuplication",
-        "CognitiveComplexMethod",
-        "CyclomaticComplexMethod"
-    )
-    private fun subscribeToWebsockets(sessionId: String) {
-        viewModelScope.launch(Dispatchers.IO) {
-            commonWebsocketInteractor.subscribeUsers(
-                sessionId = sessionId
-            ).collect { result ->
+    fun navigateToNextScreen() {
+        runSafelyUseCase(
+            useCaseFlow = setSessionStatusVotingUseCase(),
+            onSuccess = {
+                val action =
+                    WaitSessionFragmentDirections.actionWaitSessionFragmentToSelectMovieFragment()
+                navigate(action)
+            },
+            onFailure = { error ->
+                _state.update {
+                    WaitSessionState.Error(mapErrorToUiState(error))
+                }
+            }
+        )
+    }
+
+    private fun subscribeToUsersState() {
+        val userName = getUserDataUseCase.getUserData(UserDataFields.UserName())
+        viewModelScope.launch {
+            commonWebsocketInteractor.getUsers().collect { result ->
                 when (result) {
                     is Result.Success -> {
-                        Log.d("WaitSessionViewModel", result.data.toString())
+                        val users = result.data.map { it.name }
+                        _state.value = WaitSessionState.Content(sorterList.sortStringUserList(users, userName))
                     }
 
                     is Result.Error -> {
-                        Log.d("WaitSessionViewModel", result.error.toString())
+                        _state.value = WaitSessionState.Error(mapErrorToUiState(result.error))
                     }
 
-                    null -> {
-                        Log.d("WaitSessionViewModel", null.toString())
-                    }
+                    null -> _state.value = WaitSessionState.Content(listOf(userName))
                 }
             }
         }
+    }
 
-        viewModelScope.launch(Dispatchers.IO) {
-            commonWebsocketInteractor.subscribeSessionStatus(
-                sessionId = sessionId
-            ).collect { result ->
-                when (result) {
-                    is Result.Success -> {
-                        Log.d("WaitSessionViewModel", result.data.toString())
-                    }
-
-                    is Result.Error -> {
-                        Log.d("WaitSessionViewModel", result.error.toString())
-                    }
-
-                    null -> {
-                        Log.d("WaitSessionViewModel", null.toString())
-                    }
-                }
-            }
-        }
-
-        viewModelScope.launch(Dispatchers.IO) {
-            commonWebsocketInteractor.subscribeSessionResult(
-                sessionId = sessionId
-            ).collect { result ->
-                when (result) {
-                    is Result.Success -> {
-                        Log.d("WaitSessionViewModel", result.data.toString())
-                    }
-
-                    is Result.Error -> {
-                        Log.d("WaitSessionViewModel", result.error.toString())
-                    }
-
-                    null -> {
-                        Log.d("WaitSessionViewModel", null.toString())
-                    }
-                }
-            }
-        }
-
-        viewModelScope.launch(Dispatchers.IO) {
-            commonWebsocketInteractor.subscribeRouletteId(
-                sessionId = sessionId
-            ).collect { result ->
-                when (result) {
-                    is Result.Success -> {
-                        Log.d("WaitSessionViewModel", result.data.toString())
-                    }
-
-                    is Result.Error -> {
-                        Log.d("WaitSessionViewModel", result.error.toString())
-                    }
-
-                    null -> {
-                        Log.d("WaitSessionViewModel", null.toString())
-                    }
-                }
-            }
-        }
-
-        viewModelScope.launch(Dispatchers.IO) {
-            commonWebsocketInteractor.subscribeMatchesId(
-                sessionId = sessionId
-            ).collect { result ->
-                when (result) {
-                    is Result.Success -> {
-                        Log.d("WaitSessionViewModel", result.data.toString())
-                    }
-
-                    is Result.Error -> {
-                        Log.d("WaitSessionViewModel", result.error.toString())
-                    }
-
-                    null -> {
-                        Log.d("WaitSessionViewModel", null.toString())
-                    }
-                }
-            }
-        }
-
+    private companion object {
+        val TAG = WaitSessionViewModel::class.simpleName
     }
 }

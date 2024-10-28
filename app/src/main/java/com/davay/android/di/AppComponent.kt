@@ -8,8 +8,10 @@ import com.davay.android.core.data.database.di.DatabaseModule
 import com.davay.android.core.data.di.NetworkModule
 import com.davay.android.core.domain.api.SessionsHistoryRepository
 import com.davay.android.core.domain.impl.CommonWebsocketInteractor
+import com.davay.android.core.domain.impl.LeaveSessionUseCase
 import com.davay.android.di.prefs.marker.StorageMarker
 import com.davay.android.di.prefs.model.PreferencesStorage
+import com.davay.android.utils.SorterList
 import dagger.BindsInstance
 import dagger.Component
 import io.ktor.client.HttpClient
@@ -24,6 +26,8 @@ import javax.inject.Singleton
         EncryptedSharedPreferencesModule::class,
         SessionsHistoryModule::class,
         CommonWebsocketModule::class,
+        LeaveSessionModule::class,
+        SorterListModule::class,
     ]
 )
 @Singleton
@@ -33,6 +37,8 @@ interface AppComponent : DIComponent {
     val dataBase: AppDatabase
     val sessionsHistoryRepository: SessionsHistoryRepository
     val commonWebsocketInteractor: CommonWebsocketInteractor
+    val leaveSessionUseCase: LeaveSessionUseCase
+    val sorterList: SorterList
 
     @StorageMarker(PreferencesStorage.USER)
     fun encryptedSharedPreferences(): SharedPreferences

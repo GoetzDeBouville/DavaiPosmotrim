@@ -2,21 +2,22 @@ package com.davay.android.feature.roulette.presentation
 
 import android.os.Bundle
 import android.view.View
-import android.widget.Toast
+import androidx.activity.addCallback
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearSnapHelper
 import androidx.recyclerview.widget.RecyclerView
+import com.davai.uikit.BannerView
 import com.davai.util.setOnDebouncedClickListener
 import com.davay.android.R
 import com.davay.android.base.BaseFragment
 import com.davay.android.core.domain.models.MovieDetails
+import com.davay.android.core.presentation.MainActivity
 import com.davay.android.databinding.FragmentRouletteBinding
 import com.davay.android.di.AppComponentHolder
 import com.davay.android.di.ScreenComponent
-import com.davay.android.feature.match.presentation.MatchBottomSheetArgs
 import com.davay.android.feature.match.presentation.MatchBottomSheetFragment
 import com.davay.android.feature.roulette.di.DaggerRouletteFragmentComponent
 import com.davay.android.feature.roulette.presentation.carouselrecycler.CarouselAdapter
@@ -44,7 +45,7 @@ class RouletteFragment :
         override fun onFragmentDetached(fm: FragmentManager, f: Fragment) {
             super.onFragmentDetached(fm, f)
             if (f is MatchBottomSheetFragment) {
-                viewModel.navigateBack()
+                viewModel.navigateToSessionHistory()
             }
         }
     }
@@ -66,6 +67,7 @@ class RouletteFragment :
         } else {
             bottomSheetBehaviorIntro.state = BottomSheetBehavior.STATE_HIDDEN
         }
+        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner) {}
     }
 
     override fun onResume() {
@@ -93,7 +95,6 @@ class RouletteFragment :
             initBottomSheetIntro()
         } else {
             bottomSheetBehaviorIntro.state = BottomSheetBehavior.STATE_HIDDEN
-            startAutoScrolling()
         }
     }
 
@@ -109,7 +110,6 @@ class RouletteFragment :
             bottomSheetBehaviorIntro.isHideable = true
             bottomSheetBehaviorIntro.state = BottomSheetBehavior.STATE_HIDDEN
             viewModel.rouletteStart()
-            startAutoScrolling()
         }
     }
 
@@ -128,6 +128,7 @@ class RouletteFragment :
     }
 
     private fun startAutoScrolling() {
+        viewModel.autoScrollingStarted()
         with(binding.recyclerViewRoulette) {
             (layoutManager as CarouselLayoutManager).setSlowSpeedTransition()
             post {
@@ -187,25 +188,27 @@ class RouletteFragment :
             is RouletteState.Roulette -> handleRouletteState(state)
             is RouletteState.Waiting -> handleWaitingState(state)
             is RouletteState.Init -> handleInitState(state)
+            is RouletteState.Loading -> {}
         }
     }
 
     private fun handleErrorState() {
-        Toast.makeText(requireContext(), "Ошибка", Toast.LENGTH_SHORT).show()
+        (requireActivity() as MainActivity).updateBanner(
+            text = getString(R.string.roulette_error),
+            type = BannerView.ATTENTION
+        )
+        (requireActivity() as MainActivity).showBanner()
+        viewModel.navigateToMainFragment()
     }
 
 
     private fun handleMatchState(state: RouletteState.Match) {
-        val matchArgs = MatchBottomSheetArgs(
+        val bottomSheetFragment = MatchBottomSheetFragment.newInstance(
             movieDetails = state.film,
             buttonText = getString(R.string.roulette_to_film_list),
-            showDismisAnimation = false
+            showDismisAnimation = false,
         )
-        viewModel.navigate(
-            RouletteFragmentDirections.actionRouletteFragmentToMatchBottomSheetFragment(
-                matchArgs
-            )
-        )
+        bottomSheetFragment.show(parentFragmentManager, bottomSheetFragment.tag)
     }
 
 
@@ -245,8 +248,11 @@ class RouletteFragment :
     }
 
     private fun handleInitState(state: RouletteState.Init) {
-        initBottomSheetWaiting(state.users)
-        initRecyclerRoulette(state.films)
+        if (state.users.isNotEmpty() && state.films.isNotEmpty() && state.watchFilmId != -1) {
+            initBottomSheetWaiting(state.users)
+            initRecyclerRoulette(state.films)
+            startAutoScrolling()
+        }
     }
 
     companion object {

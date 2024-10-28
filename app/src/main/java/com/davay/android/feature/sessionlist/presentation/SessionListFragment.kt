@@ -3,6 +3,7 @@ package com.davay.android.feature.sessionlist.presentation
 import android.os.Bundle
 import android.view.View
 import androidx.activity.OnBackPressedCallback
+import androidx.core.view.isVisible
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.navArgs
 import com.davai.extensions.dpToPx
@@ -16,11 +17,14 @@ import com.davay.android.di.ScreenComponent
 import com.davay.android.feature.sessionlist.di.DaggerSessionListFragmentComponent
 import com.davay.android.feature.sessionlist.presentation.adapter.CustomItemDecorator
 import com.davay.android.feature.sessionlist.presentation.adapter.UserAdapter
+import com.davay.android.utils.presentation.UiErrorHandler
+import com.davay.android.utils.presentation.UiErrorHandlerImpl
 import com.google.android.flexbox.AlignItems
 import com.google.android.flexbox.FlexDirection
 import com.google.android.flexbox.FlexWrap
 import com.google.android.flexbox.FlexboxLayoutManager
 import com.google.android.flexbox.JustifyContent
+import kotlinx.coroutines.launch
 
 class SessionListFragment : BaseFragment<FragmentSessionListBinding, SessionListViewModel>(
     FragmentSessionListBinding::inflate
@@ -28,6 +32,8 @@ class SessionListFragment : BaseFragment<FragmentSessionListBinding, SessionList
     override val viewModel: SessionListViewModel by injectViewModel<SessionListViewModel>()
     private val userAdapter = UserAdapter()
     private var dialog: MainDialogFragment? = null
+    private val errorHandler: UiErrorHandler = UiErrorHandlerImpl()
+    private val args by navArgs<SessionListFragmentArgs>()
 
     override fun diComponent(): ScreenComponent = DaggerSessionListFragmentComponent.builder()
         .appComponent(AppComponentHolder.getComponent())
@@ -52,7 +58,7 @@ class SessionListFragment : BaseFragment<FragmentSessionListBinding, SessionList
             title = getString(R.string.leave_session_title),
             message = getString(R.string.leave_session_dialog_message),
             yesAction = {
-                viewModel.navigateBack()
+                viewModel.leaveSessionAndNavigateBack(args.etCode)
             }
         )
     }
@@ -60,12 +66,16 @@ class SessionListFragment : BaseFragment<FragmentSessionListBinding, SessionList
     override fun initViews() {
         setupToolbar()
         initRecycler()
-
-        userAdapter.setItems(listOf("Артем", "Руслан", "Константин", "Виктория"))
     }
 
     override fun subscribe() {
         setButtonClickListeners()
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewModel.state.collect { state ->
+                renderState(state)
+            }
+        }
+        viewModel.connectToSessionAuto(args.etCode)
     }
 
     private fun setupToolbar() {
@@ -94,6 +104,45 @@ class SessionListFragment : BaseFragment<FragmentSessionListBinding, SessionList
         binding.btnExit.setOnDebouncedClickListener(coroutineScope = lifecycleScope) {
             dialog?.show(parentFragmentManager, CUSTOM_DIALOG_TAG)
         }
+    }
+
+    private fun renderState(state: ConnectToSessionState) {
+        when (state) {
+            is ConnectToSessionState.Loading -> {
+                binding.prBar.visibility = View.VISIBLE
+            }
+
+            is ConnectToSessionState.Content -> {
+                userAdapter.setItems(state.session.users)
+                with(binding) {
+                    prBar.visibility = View.GONE
+                    errorMessage.visibility = View.GONE
+                    rvUser.visibility = View.VISIBLE
+                    ivSessionListPlaceholder.visibility = View.VISIBLE
+                }
+            }
+
+            is ConnectToSessionState.Error -> {
+                handleError(state)
+            }
+        }
+    }
+
+    private fun handleError(state: ConnectToSessionState.Error) {
+        showErrorMessage()
+        errorHandler.handleError(
+            state.errorType,
+            binding.errorMessage
+        ) {
+            viewModel.connectToSession(args.etCode)
+        }
+    }
+
+    private fun showErrorMessage() = with(binding) {
+        errorMessage.isVisible = true
+        prBar.isVisible = false
+        rvUser.isVisible = false
+        ivSessionListPlaceholder.isVisible = false
     }
 
     companion object {
