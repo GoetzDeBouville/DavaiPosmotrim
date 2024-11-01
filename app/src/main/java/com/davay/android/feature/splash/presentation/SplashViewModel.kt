@@ -19,6 +19,6 @@ class SplashViewModel @Inject constructor(
     }
 
     fun isNotRegistered(): Boolean {
-        return getUserData.getUserData(UserDataFields.UserName()).isNullOrEmpty()
+        return getUserData.getUserData(UserDataFields.UserName()).isEmpty()
     }
 }

@@ -14,7 +14,7 @@ import com.davay.android.di.AppComponentHolder
 import com.davay.android.di.ScreenComponent
 import com.davay.android.feature.onboarding.adapter.OnboardingViewPagerAdapter
 import com.davay.android.feature.onboarding.di.DaggerOnBoardingFragmentComponent
-import com.davay.android.feature.onboarding.viewmodel.OnboardingViewModel
+import com.davay.android.feature.onboarding.presentation.viewmodel.OnboardingViewModel
 
 /**
  * Фрагмент переписан, распаковывает bundle и на основании параметра инфлэйтит viewpager,

@@ -9,7 +9,9 @@ import com.davay.android.core.domain.models.SessionStatus
 import com.davay.android.core.domain.models.UserDataFields
 import com.davay.android.core.domain.models.converter.toSessionShort
 import com.davay.android.core.domain.usecases.GetUserDataUseCase
+import com.davay.android.feature.onboarding.presentation.OnboardingFragment
 import com.davay.android.feature.sessionlist.domain.usecase.ConnectToSessionUseCase
+import com.davay.android.feature.waitsession.domain.api.WaitSessionOnBoardingInteractor
 import com.davay.android.utils.SorterList
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -19,6 +21,7 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class SessionListViewModel @Inject constructor(
+    private val waitSessionOnBoardingInteractor: WaitSessionOnBoardingInteractor,
     private val commonWebsocketInteractor: CommonWebsocketInteractor,
     private val connectToSessionUseCase: ConnectToSessionUseCase,
     private val leaveSessionUseCase: LeaveSessionUseCase,
@@ -109,10 +112,17 @@ class SessionListViewModel @Inject constructor(
                         val session =
                             (_state.value as ConnectToSessionState.Content).session.toSessionShort()
                         this@SessionListViewModel.sessionId = ""
-                        val action =
+
+                        val action = if (isFirstTimeLaunch()) {
+                            markFirstTimeLaunch()
+                            SessionListFragmentDirections.actionSessionListFragmentToOnboardingFragment(
+                                OnboardingFragment.ONBOARDING_INSTRUCTION_SET
+                            )
+                        } else {
                             SessionListFragmentDirections.actionSessionListFragmentToSelectMovieFragment(
                                 session
                             )
+                        }
                         navigate(action)
                     }
 
@@ -127,6 +137,13 @@ class SessionListViewModel @Inject constructor(
         )
     }
 
+    private fun isFirstTimeLaunch(): Boolean {
+        return waitSessionOnBoardingInteractor.isFirstTimeLaunch()
+    }
+
+    private fun markFirstTimeLaunch() {
+        waitSessionOnBoardingInteractor.markFirstTimeLaunch()
+    }
     private fun unsubscribeWebsockets() {
         viewModelScope.launch(Dispatchers.IO) {
             commonWebsocketInteractor.unsubscribeWebsockets()
