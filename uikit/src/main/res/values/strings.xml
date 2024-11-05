@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="theme_image">Изображение темы</string>
+    <string name="session_coincidences">Совпадений: %s</string>
+
+    <string name="navigation_icon">Иконка навигации</string>
+    <string name="icon_with_number_of_matches">Иконка с количеством совпадений</string>
+    <string name="movie_cover">Обложка фильма</string>
+    <string name="create_session">Создать сеанс</string>
+    <string name="favorite">Понравившиеся фильмы</string>
+    <string name="join_session">Присоединиться к сеансу</string>
+    <string name="banner_attention">Выберите хотя бы один жанр</string>
+    <string name="banner_success">Код сеанса успешно скопирован</string>
+
+    <string name="dialog_title">Заголовок диалога</string>
+    <string name="dialog_message">Текст диалога</string>
+    <string name="dialog_yes">ДА</string>
+    <string name="dialog_no">НЕТ</string>
+    <string name="dialog_confirm_text_ok">Хорошо</string>
+
+    <string name="match_bottom_sheet_dialog_continue_session">Продолжить сеанс</string>
+
+    <string name="error_message_no_internet_title">Нет соединения с интернетом</string>
+    <string name="error_message_no_internet_description">Интернет не бом-бом,\nпроверьте соединение</string>
+    <string name="error_message_no_internet_button_text">Повторное подключение</string>
+    <string name="error_message_empty_title">Пока ничего нет</string>
+    <string name="error_message_no_access_service_title">Сервис временно недоступен</string>
+    <string name="error_message_no_access_service_description">Дождитесь, пока мы сделаем магию.\nВжух!</string>
+    <string name="error_message_no_build_service_error">Ошибка при создании сессии</string>
+    <string name="error_message_no_build_service_error_description_collections">Сделайте другой выбор коллекций</string>
+    <string name="error_message_no_build_service_error_button_text_collections">Показать список коллекций</string>
+    <string name="error_message_no_build_service_error_description_genres">Сделайте другой выбор жанров</string>
+    <string name="error_message_no_build_service_error_button_text_genres">Показать список жанров</string>
+    <string name="error_message_old_version_title">Версия приложения устарела</string>
+    <string name="error_message_old_version_description">Сначала сломали, потом починили.\nСкачайте обновлённую версию.</string>
+    <string name="error_message_old_version_button_text">Перейти в магазин</string>
+    <string name="error_message_no_internet_image_description">Изображение нет соединения с интернетом</string>
+    <string name="empty_text"></string>
+
+</resources>

@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <uses-permission android:name="android.permission.INTERNET" />
+
+    <application
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/Theme.DavayPosmotrim">
+        <activity
+            android:name=".ProgressBarViewExample"
+            android:exported="false" />
+        <activity
+            android:name=".BlurActivity"
+            android:exported="false" />
+        <activity
+            android:name=".BannerViewExample"
+            android:exported="false" />
+        <activity
+            android:name=".MainScreenButtonViewExample"
+            android:exported="false" />
+        <activity
+            android:name=".MoovieCardViewExampleActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ToolbarExampleActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ButtonViewExampleActivity"
+            android:exported="false" />
+        <activity
+            android:name=".SessionExample"
+            android:exported="false" />
+        <activity
+            android:name=".MovieSelectionExampleActivity"
+            android:exported="false" />
+        <activity
+            android:name=".MovieEvaluationExample"
+            android:exported="false" />
+        <activity android:name=".TagViewExample"
+            android:exported="false" />
+        <activity
+            android:name=".MainActivity"
+            android:exported="true"
+            android:windowSoftInputMode="adjustResize">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+    </application>
+
+</manifest>

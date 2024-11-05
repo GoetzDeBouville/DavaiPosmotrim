@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/background_base"
+    android:orientation="vertical"
+    tools:context=".feature.matchedsession.presentation.MatchedSessionFragment">
+
+    <com.davai.uikit.ToolbarView
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        app:add_status_bar_spacer="true"
+        app:start_icon="@drawable/ic_arrow_back"
+        app:start_icon_is_visible="true" />
+
+    <androidx.core.widget.NestedScrollView
+        android:id="@+id/scrollView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <View
+                android:id="@+id/v_container"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/zero"
+                android:background="@drawable/round_bottom_background"
+                app:layout_constraintBottom_toBottomOf="@id/rv_user"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/users_title"
+                style="@style/Text.Base.Big.Bold"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/margin_20"
+                android:layout_marginTop="@dimen/margin_24"
+                android:text="@string/wait_session_header"
+                android:textColor="@color/text_headings"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rv_user"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingHorizontal="@dimen/padding_16"
+                tools:itemCount="2"
+                android:paddingVertical="@dimen/padding_16"
+                app:layout_constraintBottom_toTopOf="@id/coincidences_container"
+                app:layout_constraintTop_toBottomOf="@+id/users_title"
+                app:layout_constraintVertical_bias="0"
+                tools:listitem="@layout/tag_view" />
+
+            <View
+                android:id="@+id/coincidences_container"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="@dimen/margin_16"
+                android:background="@drawable/main_screen_menu_background"
+                android:paddingHorizontal="@dimen/padding_16"
+                app:layout_constrainedHeight="true"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/v_container" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/coincidences_list"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_16"
+                android:background="@drawable/main_screen_menu_background"
+                app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+                app:layout_constraintTop_toTopOf="@id/coincidences_container"
+                app:spanCount="2"
+                tools:itemCount="2"
+                tools:listitem="@layout/movie_card_view" />
+
+            <com.davai.uikit.ErrorScreenView
+                android:id="@+id/error_message"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:visibility="visible" />
+
+            <com.davai.uikit.ProgressBarView
+                android:id="@+id/progress_bar"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dimen_80"
+                android:visibility="visible"
+                app:layout_constraintBottom_toBottomOf="@id/coincidences_container"
+                app:layout_constraintTop_toTopOf="@id/coincidences_container" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.core.widget.NestedScrollView>
+
+</LinearLayout>

@@ -1,0 +1,213 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/background_base"
+    tools:context=".feature.selectmovie.presentation.SelectMovieFragment">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <com.davai.uikit.ProgressBarView
+            android:id="@+id/progress_bar"
+            android:layout_width="@dimen/dimen_80"
+            android:layout_height="@dimen/dimen_80"
+            android:layout_gravity="center"
+            android:elevation="@dimen/elevation_4"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <com.davai.uikit.ErrorScreenView
+            android:id="@+id/error_message"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="gone" />
+
+        <com.davai.uikit.ToolbarView
+            android:id="@+id/toolbarview_header"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:add_status_bar_spacer="true"
+            app:end_icon="@drawable/ic_heart"
+            app:end_icon_is_visible="true"
+            app:layout_constraintTop_toTopOf="parent"
+            app:start_icon="@drawable/ic_cross"
+            app:start_icon_is_visible="true"
+            app:title="@string/select_movies_select_film" />
+
+        <TextView
+            android:id="@+id/tv_motioned_increment"
+            style="@style/Text.Headline.SubTitle.NoLineSpacing"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="invisible"
+            android:elevation="@dimen/elevation_4"
+            android:layout_marginEnd="@dimen/margin_8"
+            android:textColor="@color/primary_hover"
+            android:text="@string/select_movies_increment_1"
+            app:layout_constraintBottom_toBottomOf="@id/toolbarview_header"
+            app:layout_constraintEnd_toEndOf="parent"
+            tools:visibility="visible" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_film_card"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginBottom="@dimen/margin_112"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/toolbarview_header"
+            tools:itemCount="1"
+            tools:layout_height="match_parent"
+            tools:listitem="@layout/item_swipeable_movie_card" />
+
+        <include
+            android:id="@+id/movie_card"
+            layout="@layout/item_swipeable_movie_card"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginBottom="@dimen/margin_112"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/toolbarview_header" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/cl_details_bottom_sheet"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/bottom_sheet_background"
+        android:backgroundTint="@color/background_white"
+        android:paddingHorizontal="@dimen/padding_16"
+        app:behavior_hideable="false"
+        app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior"
+        tools:context=".feature.moviedetails.presentation.MovieDetailsBottomSheetFragment">
+
+        <com.google.android.material.bottomsheet.BottomSheetDragHandleView
+            android:id="@+id/bs_details_handle"
+            android:layout_width="@dimen/drag_handle_width_48"
+            android:layout_height="@dimen/drag_handle_height_8"
+            android:layout_marginTop="@dimen/margin_12"
+            android:background="@drawable/drag_handle_background"
+            android:elevation="@dimen/elevation_2"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.core.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/bs_details_handle">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/tv_details_title"
+                    style="@style/Text.Headline.SubTitle.NoLineSpacing"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/margin_12"
+                    android:elevation="4dp"
+                    android:text="@string/select_movies_details_title" />
+
+                <TextView
+                    android:id="@+id/tv_details_description"
+                    style="@style/Text.Base.Medium.NoLineSpacing"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/margin_12"
+                    android:elevation="0dp"
+                    tools:text="[Captured French Resistance fighter Lieutenant Fontaine awaits a certain death sentence for espionage in a stark German prison in Lyon, France. Facing malnutrition and paralyzing fear, he must plot an extraordinary escape, complicated by the questions of whom to trust, and what lies beyond the small portion of the prison they are housed in.—Sam Spector]" />
+
+                <TextView
+                    android:id="@+id/tv_details_top_cast"
+                    style="@style/Text.Headline.SubTitle.NoLineSpacing"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/margin_24"
+                    android:text="@string/select_movies_top_cast" />
+
+                <com.google.android.flexbox.FlexboxLayout
+                    android:id="@+id/fbl_details_top_cast_list"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/margin_12"
+                    app:flexWrap="wrap"
+                    app:justifyContent="flex_start" />
+
+                <TextView
+                    android:id="@+id/tv_details_director"
+                    style="@style/Text.Headline.SubTitle.NoLineSpacing"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/margin_16"
+                    android:text="@string/select_movies_director" />
+
+                <com.google.android.flexbox.FlexboxLayout
+                    android:id="@+id/fbl_details_director_list"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/margin_12"
+                    app:flexWrap="wrap"
+                    app:justifyContent="flex_start" />
+
+                <TextView
+                    android:id="@+id/tv_details_rates"
+                    style="@style/Text.Headline.SubTitle.NoLineSpacing"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/margin_16"
+                    android:text="@string/select_movies_rates" />
+
+                <HorizontalScrollView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/margin_12"
+                    android:orientation="horizontal">
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <com.davai.uikit.MovieEvaluationView
+                            android:id="@+id/mev_details_imdb_rate"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            app:rate_service="@string/select_movies_imdb_rate" />
+
+                        <com.davai.uikit.MovieEvaluationView
+                            android:id="@+id/mev_details_kinopoisk_rate"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="@dimen/margin_8"
+                            app:rate_service="@string/select_movies_kinopoisk_rate" />
+                    </LinearLayout>
+                </HorizontalScrollView>
+            <Space
+                android:layout_width="0dp"
+                android:layout_height="@dimen/margin_16"/>
+            </LinearLayout>
+        </androidx.core.widget.NestedScrollView>
+
+        <!--        TODO Добавить обработчик появления view_details_foreground_gradient-->
+        <View
+            android:id="@+id/view_details_foreground_gradient"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/top_gradient_height_80"
+            android:background="@drawable/background_gradient_transparent_to_white"
+            android:rotation="@dimen/gradient_rotation_angle_180"
+            android:visibility="invisible"
+            app:layout_constraintTop_toTopOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

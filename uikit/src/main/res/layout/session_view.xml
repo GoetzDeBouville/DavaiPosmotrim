@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/ll_session_body"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/session_card_height"
+    android:background="@drawable/session_card_background"
+    android:orientation="vertical"
+    android:paddingTop="@dimen/padding_12"
+    android:paddingBottom="@dimen/padding_8">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:paddingStart="@dimen/padding_16"
+        android:paddingEnd="@dimen/padding_12">
+
+        <TextView
+            android:id="@+id/tv_session_date"
+            style="@style/Text.Headline.SubTitle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:textColor="@color/text_headings"
+            tools:text="[23 сентября]" />
+
+        <TextView
+            android:id="@+id/tv_session_coincidences"
+            style="@style/Text.Base.Medium.Regular"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/session_highlighted_text_background"
+            android:textColor="@color/background_white"
+            tools:text="[Совпадений: 3]" />
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/tv_session_names_list"
+        style="@style/Text.Base.Medium.Regular"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginVertical="@dimen/padding_12"
+        android:ellipsize="end"
+        android:paddingStart="@dimen/padding_16"
+        android:paddingEnd="@dimen/padding_12"
+        android:singleLine="true"
+        android:textColor="@color/text_headings"
+        tools:text="[Артём (вы), Анна, Константин, Руслан, Никита, Игорь]" />
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:paddingHorizontal="@dimen/padding_8">
+
+        <com.google.android.material.imageview.ShapeableImageView
+            android:id="@+id/iv_session_cover"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/icon_light"
+            app:shapeAppearanceOverlay="@style/RoundedImageView.SessionView"
+            tools:src="@drawable/placeholder_error_80dp" />
+
+        <com.davai.uikit.ProgressBarView
+            android:id="@+id/progress_bar"
+            android:layout_width="@dimen/progressbar_48"
+            android:layout_height="@dimen/progressbar_48"
+            android:layout_gravity="center"
+            android:visibility="gone" />
+    </FrameLayout>
+</LinearLayout>
+

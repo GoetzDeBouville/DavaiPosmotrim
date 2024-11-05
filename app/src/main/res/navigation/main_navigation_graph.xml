@@ -1,0 +1,348 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main_navigation_graph"
+    app:startDestination="@id/splashFragment">
+
+    <fragment
+        android:id="@+id/mainFragment"
+        android:name="com.davay.android.feature.main.presentation.MainFragment"
+        android:label="fragment_main"
+        tools:layout="@layout/fragment_main">
+        <action
+            android:id="@+id/action_mainFragment_to_sessionConnectionFragment"
+            app:destination="@id/sessionConnectionFragment"
+            app:enterAnim="@android:anim/fade_in"
+            app:exitAnim="@android:anim/fade_out"
+            app:popEnterAnim="@android:anim/fade_in"
+            app:popExitAnim="@android:anim/fade_out" />
+        <action
+            android:id="@+id/action_mainFragment_to_changeNameFragment"
+            app:destination="@id/changeNameFragment"
+            app:enterAnim="@android:anim/fade_in"
+            app:exitAnim="@android:anim/fade_out"
+            app:popEnterAnim="@android:anim/fade_in"
+            app:popExitAnim="@android:anim/fade_out" />
+        <action
+            android:id="@+id/action_mainFragment_to_createSessionFragment"
+            app:destination="@id/createSessionFragment"
+            app:enterAnim="@android:anim/fade_in"
+            app:exitAnim="@android:anim/fade_out"
+            app:popEnterAnim="@android:anim/fade_in"
+            app:popExitAnim="@android:anim/fade_out" />
+        <action
+            android:id="@+id/action_mainFragment_to_matchedSessionListFragment"
+            app:destination="@id/matchedSessionListFragment"
+            app:enterAnim="@android:anim/fade_in"
+            app:exitAnim="@android:anim/fade_out"
+            app:popEnterAnim="@android:anim/fade_in"
+            app:popExitAnim="@android:anim/fade_out"
+            app:popUpTo="@id/mainFragment"
+            app:popUpToInclusive="false" />
+    </fragment>
+    <fragment
+        android:id="@+id/registrationFragment"
+        android:name="com.davay.android.feature.registration.presentation.RegistrationFragment"
+        android:label="fragment_registration"
+        tools:layout="@layout/fragment_registration">
+        <action
+            android:id="@+id/action_registrationFragment_to_mainFragment"
+            app:destination="@id/mainFragment"
+            app:enterAnim="@android:anim/fade_in"
+            app:exitAnim="@android:anim/fade_out"
+            app:popEnterAnim="@android:anim/fade_in"
+            app:popExitAnim="@android:anim/fade_out" />
+    </fragment>
+    <fragment
+        android:id="@+id/sessionListFragment"
+        android:name="com.davay.android.feature.sessionlist.presentation.SessionListFragment"
+        android:label="fragment_session_list"
+        tools:layout="@layout/fragment_session_list">
+        <argument
+            android:name="etCode"
+            app:argType="string" />
+        <action
+            android:id="@+id/action_sessionListFragment_to_onboardingFragment"
+            app:destination="@id/onboardingFragment"
+            app:enterAnim="@android:anim/fade_in"
+            app:exitAnim="@android:anim/fade_out"
+            app:popEnterAnim="@android:anim/fade_in"
+            app:popExitAnim="@android:anim/fade_out" />
+        <action
+            android:id="@+id/action_sessionListFragment_to_selectMovieFragment"
+            app:destination="@id/selectMovieFragment"
+            app:enterAnim="@android:anim/fade_in"
+            app:exitAnim="@android:anim/fade_out"
+            app:popEnterAnim="@android:anim/fade_in"
+            app:popExitAnim="@android:anim/fade_out">
+            <argument
+                android:name="session"
+                app:argType="com.davay.android.core.domain.models.SessionShort" />
+        </action>
+    </fragment>
+    <dialog
+        android:id="@+id/sessionConnectionFragment"
+        android:name="com.davay.android.feature.sessionconnection.presentation.SessionConnectionBottomSheetFragment"
+        android:label="SessionConnectionFragment"
+        tools:layout="@layout/fragment_session_connection">
+        <action
+            android:id="@+id/action_sessionConnectionFragment_to_sessionListFragment"
+            app:destination="@id/sessionListFragment" />
+    </dialog>
+    <dialog
+        android:id="@+id/changeNameFragment"
+        android:name="com.davay.android.feature.changename.presentation.ChangeNameBottomSheetFragment"
+        android:label="ChangeNameFragment"
+        tools:layout="@layout/fragment_name_change" />
+    <fragment
+        android:id="@+id/onboardingFragment"
+        android:name="com.davay.android.feature.onboarding.presentation.OnboardingFragment"
+        android:label="fragment_onboarding"
+        tools:layout="@layout/fragment_onboarding">
+        <argument
+            android:name="setNumber"
+            android:defaultValue="1"
+            app:argType="integer" />
+        <action
+            android:id="@+id/action_onboardingFragment_to_registrationFragment"
+            app:destination="@id/registrationFragment"
+            app:enterAnim="@android:anim/fade_in"
+            app:exitAnim="@android:anim/fade_out"
+            app:popEnterAnim="@android:anim/fade_in"
+            app:popExitAnim="@android:anim/fade_out" />
+        <action
+            android:id="@+id/action_onboardingFragment_to_selectMovieFragment"
+            app:destination="@id/selectMovieFragment"
+            app:enterAnim="@android:anim/fade_in"
+            app:exitAnim="@android:anim/fade_out"
+            app:popEnterAnim="@android:anim/fade_in"
+            app:popExitAnim="@android:anim/fade_out" />
+    </fragment>
+    <fragment
+        android:id="@+id/splashFragment"
+        android:name="com.davay.android.feature.splash.presentation.SplashFragment"
+        android:label="fragment_splash"
+        tools:layout="@layout/fragment_splash">
+        <action
+            android:id="@+id/action_splashFragment_to_onboardingFragment"
+            app:destination="@id/onboardingFragment"
+            app:enterAnim="@android:anim/fade_in"
+            app:exitAnim="@android:anim/fade_out"
+            app:popEnterAnim="@android:anim/fade_in"
+            app:popExitAnim="@android:anim/fade_out" />
+        <action
+            android:id="@+id/action_splashFragment_to_mainFragment"
+            app:destination="@id/mainFragment"
+            app:enterAnim="@android:anim/fade_in"
+            app:exitAnim="@android:anim/fade_out"
+            app:popEnterAnim="@android:anim/fade_in"
+            app:popExitAnim="@android:anim/fade_out" />
+        <action
+            android:id="@+id/action_splashFragment_to_registrationFragment"
+            app:destination="@id/registrationFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/selectMovieFragment"
+        android:name="com.davay.android.feature.selectmovie.presentation.SelectMovieFragment"
+        android:label="fragment_select_movie"
+        tools:layout="@layout/fragment_select_movie">
+        <action
+            android:id="@+id/action_selectMovieFragment_to_coincidencesFragment"
+            app:destination="@id/coincidencesFragment"
+            app:enterAnim="@android:anim/fade_in"
+            app:exitAnim="@android:anim/fade_out"
+            app:popEnterAnim="@android:anim/fade_in"
+            app:popExitAnim="@android:anim/fade_out" />
+        <action
+            android:id="@+id/action_selectMovieFragment_to_rouletteFragment"
+            app:destination="@id/rouletteFragment"
+            app:enterAnim="@android:anim/fade_in"
+            app:exitAnim="@android:anim/fade_out"
+            app:popEnterAnim="@android:anim/fade_in"
+            app:popExitAnim="@android:anim/fade_out" />
+        <action
+            android:id="@+id/action_selectMovieFragment_to_matchedSessionListFragment"
+            app:destination="@id/matchedSessionListFragment"
+            app:enterAnim="@android:anim/fade_in"
+            app:exitAnim="@android:anim/fade_out"
+            app:popEnterAnim="@android:anim/fade_in"
+            app:popExitAnim="@android:anim/fade_out"
+            app:popUpTo="@id/mainFragment"
+            app:popUpToInclusive="false" />
+    </fragment>
+    <fragment
+        android:id="@+id/createSessionFragment"
+        android:name="com.davay.android.feature.createsession.presentation.createsession.CreateSessionFragment"
+        android:label="fragment_create_session"
+        tools:layout="@layout/fragment_create_session">
+        <action
+            android:id="@+id/action_createSessionFragment_to_waitSessionFragment"
+            app:destination="@id/waitSessionFragment"
+            app:enterAnim="@android:anim/fade_in"
+            app:exitAnim="@android:anim/fade_out"
+            app:popEnterAnim="@android:anim/fade_in"
+            app:popExitAnim="@android:anim/fade_out" />
+    </fragment>
+    <fragment
+        android:id="@+id/rouletteFragment"
+        android:name="com.davay.android.feature.roulette.presentation.RouletteFragment"
+        android:label="RouletteFragment"
+        tools:layout="@layout/fragment_roulette">
+        <argument
+            android:name="rouletteInitiator"
+            app:argType="boolean" />
+        <action
+            android:id="@+id/action_rouletteFragment_to_matchedSessionListFragment"
+            app:destination="@id/matchedSessionListFragment"
+            app:enterAnim="@android:anim/fade_in"
+            app:exitAnim="@android:anim/fade_out"
+            app:popEnterAnim="@android:anim/fade_in"
+            app:popExitAnim="@android:anim/fade_out"
+            app:popUpTo="@id/mainFragment"
+            app:popUpToInclusive="false" />
+        <action
+            android:id="@+id/action_rouletteFragment_to_mainFragment"
+            app:destination="@id/mainFragment"
+            app:enterAnim="@android:anim/fade_in"
+            app:exitAnim="@android:anim/fade_out"
+            app:popEnterAnim="@android:anim/fade_in"
+            app:popExitAnim="@android:anim/fade_out"
+            app:popUpTo="@id/mainFragment"
+            app:popUpToInclusive="false" />
+    </fragment>
+    <fragment
+        android:id="@+id/waitSessionFragment"
+        android:name="com.davay.android.feature.waitsession.presentation.WaitSessionFragment"
+        android:label="fragment_wait_session"
+        tools:layout="@layout/fragment_wait_session">
+        <action
+            android:id="@+id/action_waitSessionFragment_to_onboardingFragment"
+            app:destination="@id/onboardingFragment"
+            app:enterAnim="@android:anim/fade_in"
+            app:exitAnim="@android:anim/fade_out"
+            app:popEnterAnim="@android:anim/fade_in"
+            app:popExitAnim="@android:anim/fade_out" />
+        <action
+            android:id="@+id/action_waitSessionFragment_to_selectMovieFragment"
+            app:destination="@id/selectMovieFragment"
+            app:enterAnim="@android:anim/fade_in"
+            app:exitAnim="@android:anim/fade_out"
+            app:popEnterAnim="@android:anim/fade_in"
+            app:popExitAnim="@android:anim/fade_out" />
+        <action
+            android:id="@+id/action_waitSessionFragment_to_createSessionFragment"
+            app:destination="@id/createSessionFragment"
+            app:enterAnim="@android:anim/fade_in"
+            app:exitAnim="@android:anim/fade_out"
+            app:popEnterAnim="@android:anim/fade_in"
+            app:popExitAnim="@android:anim/fade_out"
+            app:popUpTo="@id/mainFragment"
+            app:popUpToInclusive="false" />
+        <argument
+            android:name="session"
+            app:argType="com.davay.android.core.domain.models.SessionShort" />
+    </fragment>
+    <fragment
+        android:id="@+id/coincidencesFragment"
+        android:name="com.davay.android.feature.coincidences.presentation.CoincidencesFragment"
+        android:label="fragment_coincidences"
+        tools:layout="@layout/fragment_coincidences">
+        <action
+            android:id="@+id/action_coincidencesFragment_to_rouletteFragment"
+            app:destination="@id/rouletteFragment"
+            app:enterAnim="@android:anim/fade_in"
+            app:exitAnim="@android:anim/fade_out"
+            app:popEnterAnim="@android:anim/fade_in"
+            app:popExitAnim="@android:anim/fade_out" />
+        <action
+            android:id="@+id/action_coincidencesFragment_to_movieCardFragment"
+            app:destination="@id/movieCardFragment"
+            app:enterAnim="@android:anim/fade_in"
+            app:exitAnim="@android:anim/fade_out"
+            app:popEnterAnim="@android:anim/fade_in"
+            app:popExitAnim="@android:anim/fade_out" />
+        <action
+            android:id="@+id/action_coincidencesFragment_to_matchedSessionListFragment"
+            app:destination="@id/matchedSessionListFragment"
+            app:enterAnim="@android:anim/fade_in"
+            app:exitAnim="@android:anim/fade_out"
+            app:popEnterAnim="@android:anim/fade_in"
+            app:popExitAnim="@android:anim/fade_out"
+            app:popUpTo="@id/mainFragment"
+            app:popUpToInclusive="false" />
+    </fragment>
+    <fragment
+        android:id="@+id/matchedSessionListFragment"
+        android:name="com.davay.android.feature.sessionsmatched.presentation.MatchedSessionListFragment"
+        android:label="fragment_matched_session_list"
+        tools:layout="@layout/fragment_matched_session_list">
+        <action
+            android:id="@+id/action_matchedSessionListFragment_to_matchedSessionFragment"
+            app:destination="@id/matchedSessionFragment"
+            app:enterAnim="@android:anim/fade_in"
+            app:exitAnim="@android:anim/fade_out"
+            app:popEnterAnim="@android:anim/fade_in"
+            app:popExitAnim="@android:anim/fade_out">
+            <argument
+                android:name="session"
+                app:argType="com.davay.android.core.domain.models.Session" />
+        </action>
+    </fragment>
+    <fragment
+        android:id="@+id/matchedSessionFragment"
+        android:name="com.davay.android.feature.matchedsession.presentation.MatchedSessionFragment"
+        android:label="MatchedSessionFragment"
+        tools:layout="@layout/fragment_matched_session">
+        <action
+            android:id="@+id/action_matchedSessionFragment_to_movieCardFragment"
+            app:destination="@id/movieCardFragment"
+            app:enterAnim="@android:anim/fade_in"
+            app:exitAnim="@android:anim/fade_out"
+            app:popEnterAnim="@android:anim/fade_in"
+            app:popExitAnim="@android:anim/fade_out" />
+        <argument
+            android:name="session"
+            app:argType="com.davay.android.core.domain.models.Session" />
+    </fragment>
+    <fragment
+        android:id="@+id/movieCardFragment"
+        android:name="com.davay.android.feature.moviecard.presentation.MovieCardFragment"
+        android:label="MovieCardFragment"
+        tools:layout="@layout/fragment_select_movie">
+        <action
+            android:id="@+id/action_movieCardFragment_to_rouletteFragment"
+            app:destination="@id/rouletteFragment"
+            app:enterAnim="@android:anim/fade_in"
+            app:exitAnim="@android:anim/fade_out"
+            app:popEnterAnim="@android:anim/fade_in"
+            app:popExitAnim="@android:anim/fade_out" />
+        <argument
+            android:name="movieDetails"
+            app:argType="com.davay.android.core.domain.models.MovieDetails" />
+        <action
+            android:id="@+id/action_movieCardFragment_to_matchedSessionListFragment"
+            app:destination="@id/matchedSessionListFragment"
+            app:enterAnim="@android:anim/fade_in"
+            app:exitAnim="@android:anim/fade_out"
+            app:popEnterAnim="@android:anim/fade_in"
+            app:popExitAnim="@android:anim/fade_out"
+            app:popUpTo="@id/mainFragment"
+            app:popUpToInclusive="false" />
+    </fragment>
+    <fragment
+        android:id="@+id/onboardingFirstFragment"
+        android:name="com.davay.android.feature.onboarding.presentation.OnboardingFirstFragment"
+        android:label="fragment_onboarding_first"
+        tools:layout="@layout/fragment_onboarding_first">
+        <argument
+            android:name="onboardingItem"
+            app:argType="com.davay.android.feature.onboarding.presentation.OnboardingItem" />
+    </fragment>
+    <dialog
+        android:id="@+id/matchBottomSheetFragment"
+        android:name="com.davay.android.feature.match.presentation.MatchBottomSheetFragment"
+        android:label="fragment_match_bottom_sheet"
+        tools:layout="@layout/fragment_match_bottom_sheet">
+    </dialog>
+</navigation>

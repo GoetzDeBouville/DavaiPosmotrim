@@ -1,14 +1,37 @@
 [versions]
+
+minSdk = "26"
+targetSdk = "34"
+compileSdk = "34"
+java = "VERSION_17"
+versionCode = "1"
+versionName = "1.0"
+
 agp = "8.2.0"
-kotlin = "1.9.0"
-coreKtx = "1.12.0"
+kotlin = "1.9.22"
+coreKtx = "1.13.0"
 junit = "4.13.2"
 junitVersion = "1.1.5"
 espressoCore = "3.5.1"
 appcompat = "1.6.1"
 material = "1.11.0"
-activity = "1.8.0"
+activity = "1.9.0"
 constraintlayout = "2.1.4"
+ksp = "1.9.22-1.0.17"
+dagger = "2.50"
+nav_version = "2.7.7"
+ktor = "2.3.12"
+room_version = "2.6.1"
+
+detekt = "1.23.3"
+
+coil = "2.3.0"
+flexbox = "3.0.0"
+circle_indicator = "2.1.6"
+
+physicslayout = "3.0.2"
+
+encrypted_sharedpreferences = "1.0.0"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -20,7 +43,64 @@ material = { group = "com.google.android.material", name = "material", version.r
 androidx-activity = { group = "androidx.activity", name = "activity", version.ref = "activity" }
 androidx-constraintlayout = { group = "androidx.constraintlayout", name = "constraintlayout", version.ref = "constraintlayout" }
 
+dagger-compiler = { group = "com.google.dagger", name = "dagger-compiler", version.ref = "dagger" }
+dagger-impl = { group = "com.google.dagger", name = "dagger", version.ref = "dagger" }
+navigation-fragment = { group = "androidx.navigation", name = "navigation-fragment-ktx", version.ref = "nav_version" }
+navigation-ui = { group = "androidx.navigation", name = "navigation-ui-ktx", version.ref = "nav_version" }
+coil = { group = "io.coil-kt", name = "coil", version.ref = "coil" }
+flexbox = { group = "com.google.android.flexbox", name = "flexbox", version.ref = "flexbox" }
+circle-indicator = { group = "me.relex", name = "circleindicator", version.ref = "circle_indicator" }
+
+# DB
+room-compiler = { group = "androidx.room", name = "room-compiler", version.ref = "room_version" }
+room-runtime = { group = "androidx.room", name = "room-runtime", version.ref = "room_version" }
+room-ktx = { group = "androidx.room", name = "room-ktx", version.ref = "room_version" }
+
+physicslayout = { module = "com.jawnnypoo:physicslayout", version.ref = "physicslayout" }
+
+encrypted-sharedpreferences = { group = "androidx.security", name = "security-crypto", version.ref = "encrypted_sharedpreferences" }
+
+# Network
+ktor-client-core = { module = "io.ktor:ktor-client-core", version.ref = "ktor" }
+ktor-client-okhttp = { module = "io.ktor:ktor-client-okhttp", version.ref = "ktor" }
+ktor-client-websockets = { module = "io.ktor:ktor-client-websockets", version.ref = "ktor" }
+ktor-serialization-kotlinx-json = { module = "io.ktor:ktor-serialization-kotlinx-json", version.ref = "ktor" }
+ktor-client-content-negotiation = { module = "io.ktor:ktor-client-content-negotiation", version.ref = "ktor" }
+ktor-client-logging = { module = "io.ktor:ktor-client-logging", version.ref = "ktor" }
+
+# Detekt
+staticAnalysis-detektCli = { module = "io.gitlab.arturbosch.detekt:detekt-cli", version.ref = "detekt" }
+staticAnalysis-detektFormatting = { module = "io.gitlab.arturbosch.detekt:detekt-formatting", version.ref = "detekt" }
+staticAnalysis-detektLibraries = { module = "io.gitlab.arturbosch.detekt:detekt-rules-libraries", version.ref = "detekt" }
+
+[bundles]
+staticAnalysis-detekt = [
+    "staticAnalysis-detektCli",
+    "staticAnalysis-detektFormatting",
+    "staticAnalysis-detektLibraries"
+]
+
+ktor = [
+    "ktor-client-core",
+    "ktor-client-okhttp",
+    "ktor-client-websockets",
+    "ktor-serialization-kotlinx-json",
+    "ktor-client-content-negotiation",
+    "ktor-client-logging"
+]
+
+room = [
+    "room-runtime",
+    "room-ktx"
+]
+
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }
 jetbrainsKotlinAndroid = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
-
+serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
+ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
+androidLibrary = { id = "com.android.library", version.ref = "agp" }
+detekt = { id = "io.gitlab.arturbosch.detekt", version.ref = "detekt" }
+# SafeArgs
+navigationSafeArgs = { id = "androidx.navigation.safeargs.kotlin", version.ref = "nav_version" }
+kotlinParcelize = { id = "org.jetbrains.kotlin.plugin.parcelize", version.ref = "kotlin" }

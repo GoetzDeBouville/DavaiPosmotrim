@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/cl_evaluation_body"
+    android:layout_width="match_parent"
+    android:layout_height="160dp"
+    android:background="@drawable/selection_background"
+    android:gravity="center_vertical"
+    android:orientation="horizontal">
+
+    <com.google.android.material.imageview.ShapeableImageView
+        android:id="@+id/iv_theme_cover"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_margin="@dimen/margin_8"
+        android:background="@drawable/selection_background"
+        android:contentDescription="@string/theme_image"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:shapeAppearanceOverlay="@style/RoundedImageView"
+        tools:src="@tools:sample/backgrounds/scenic[1]" />
+
+    <com.davai.uikit.ProgressBarView
+        android:id="@+id/progress_bar"
+        android:layout_width="@dimen/progressbar_48"
+        android:layout_height="@dimen/progressbar_48"
+        android:layout_gravity="center"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="@id/iv_theme_cover"
+        app:layout_constraintEnd_toEndOf="@id/iv_theme_cover"
+        app:layout_constraintStart_toStartOf="@id/iv_theme_cover"
+        app:layout_constraintTop_toTopOf="@id/iv_theme_cover" />
+
+    <View
+        android:id="@+id/view_gradient"
+        android:layout_width="0dp"
+        android:layout_height="80dp"
+        android:background="@drawable/background_gradient_transparent_to_black"
+        app:layout_constraintBottom_toBottomOf="@id/iv_theme_cover"
+        app:layout_constraintEnd_toEndOf="@id/iv_theme_cover"
+        app:layout_constraintStart_toStartOf="@id/iv_theme_cover" />
+
+    <TextView
+        android:id="@+id/tv_theme_title"
+        style="@style/Text.Base.Medium"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:paddingHorizontal="@dimen/margin_16"
+        android:layout_marginBottom="@dimen/margin_16"
+        android:textColor="@color/background_white"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:text="[Нестареющая классика  классика классика классика классика]" />
+
+    <ImageView
+        android:id="@+id/iv_selector_icon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/margin_16"
+        android:contentDescription="@null"
+        android:src="@drawable/ic_selected"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="@id/tv_theme_title"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/tv_theme_title" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,3 +1,166 @@
 <resources>
     <string name="app_name">DavayPosmotrim</string>
+    <string name="main_fragment_text">Забудьте о бесконечных спорах и компромиссах\n
+        <font color="#FF8B55FF">Наслаждайтесь моментами</font>, выбрав вместе\n
+        идеальный фильм</string>
+    <string name="empty_string"></string>
+    <string name="registration_enter_your_name">Введите ваше имя</string>
+    <string name="registration_enter">Войти</string>
+    <string name="registration_enter_name">Введите имя</string>
+    <string name="registration_two_letters_minimum">Минимум две буквы</string>
+    <string name="registration_just_letters">Только буквы</string>
+    <string name="registration_not_more_letters">Не более 16 символов</string>
+    <string name="registration_error_no_connection">Проверьте ваше подключение к Интернету</string>
+    <string name="registration_error_server_error">Что-то пошло не так, попробуйте позже</string>
+    <string name="registration_error_update_app">Пожалуйста, обновите приложение</string>
+
+    <!--change name screen-->
+    <string name="change_name_enter">Сохранить</string>
+    <string name="change_name_enter_your_name">Введите ваше имя</string>
+
+    <!--session connection screen-->
+    <string name="sessionconnection_enter_session_code">Код сеанса</string>
+    <string name="sessionconnection_invalid">Код cеанса должен состоять 4 букв и 3 цифр</string>
+    <string name="sessionconnection_no_session">Сеанс не найден</string>
+    <string name="sessionconnection_join">Присоединиться</string>
+
+    <!--session list screen-->
+    <string name="session_list_name">Сеанс</string>
+    <string name="session_list_exit">Выйти</string>
+    <string name="waiting_all_participants">Ожидаем подключения всех участников</string>
+    <string name="waiting_all_participants_hint">Сеанс начнётся, когда подключатся\n все самые нужные люди.</string>
+    <string name="leave_session_title">Покинуть сеанс?</string>
+    <string name="leave_session_title_session_complited">Сеанс завершён</string>
+    <string name="leave_session_dialog_message_session_complited">Участник покинул сеанс.\n\nВсе совпавшие фильмы вы найдёте в разделе «Понравившиеся фильмы».</string>
+    <string name="leave_session_dialog_message">До того, как начнётся этот сеанс, вы\nсможете подключиться повторно.</string>
+    <string name="leave_session_dialog_positive">ДА</string>
+    <string name="leave_session_dialog_negative">НЕТ</string>
+    <string name="session_list_you">(вы)</string>
+    <string name="session_list_you_user">%s (Вы)</string>
+
+    <!--    select_movies screen -->
+    <string name="select_movies_select_film">Выберите фильм</string>
+    <string name="select_movies_cover_image_description">Изображение обложки фильма</string>
+    <string name="select_movies_skip_icon_description">Сбросить фильм</string>
+    <string name="select_movies_like_icon_description">Выбрать фильм</string>
+    <string name="select_movies_revert_icon_description">Вернуть предыдущий фильм</string>
+    <string name="select_movies_details_title">Подробнее о фильме</string>
+    <string name="select_movies_top_cast">В главных ролях</string>
+    <string name="select_movies_director">Режиссёр</string>
+    <string name="select_movies_rates">Оценки</string>
+    <string name="select_movies_imdb_rate">Рейтинг IMDb</string>
+    <string name="select_movies_kinopoisk_rate">Рейтинг Кинопоиск</string>
+    <string name="select_movies_hours_and_minutes">%d ч %d мин</string>
+    <string name="select_movies_hours">%d ч</string>
+    <string name="select_movies_minutes">%d мин</string>
+    <string name="select_movies_increment_1">+1</string>
+    <string name="select_movies_leave_session_dialog_message">Сеанс будет завершён у всех участников.\n\nВсе совпавшие фильмы вы найдёте в разделе «Понравившиеся фильмы».</string>
+    <string name="select_movies_movie_list_is_finished">Список фильмов закончился</string>
+    <string name="select_movies_movie_show_disliked_movies">Далее будет показан список фильмов "свайпнутых" влево</string>
+    <string name="select_movies_you_liked_whole_movie_list">Вы лайкинули весь список фильмов</string>
+    <string name="select_movies_wait_for_end_of_session">Дождитесь окончания сессии или запуска рулетки</string>
+    <string name="select_movies_user_left_session">Один из участников покинул сессию</string>
+    <string name="select_movies_session_is_closed">Сеанс завершён</string>
+    <string name="select_movies_roulette_is_running_title">Рулетка запущена</string>
+    <string name="select_movies_roulette_is_running_message">Вы будете перенаправлены на экран «Рулетка»</string>
+
+    <!--onboarding screen-->
+    <string name="onboarding_continue_view">продолжить</string>
+    <string name="onboarding_begin">начать</string>
+    <string name="onboarding_choose_full_text">Выбирайте\nфильмы\n<font color="#8B55FF">без стресса</font></string>
+    <string name="onboarding_with_no_more_dicussions">Никаких лишних разговоров\nи долгих поисков.</string>
+    <string name="onboarding_for_large_company"><font color="#8B55FF">Вдвоём</font> или\nв большой\nкомпании</string>
+    <string name="onboarding_choose_movies_with_any">Выбирать фильмы можно с любым\nколичеством людей.</string>
+    <string name="onboarding_movie_library">Библиотека\nфильмов <font color="#8B55FF">на\nлюбой вкус</font></string>
+    <string name="onboarding_only_favorite_genres">Только самые любимые жанры\nили готовые подборки.</string>
+
+    <string name="onboarding_instructions_as_you_got_used">Всё как вы <font color="#8B55FF">\nпривыкли</font></string>
+    <string name="onboarding_instructions_swipes_description">Свайп вправо - нравится.\nСвайп влево - не нравится.\nДа, да, сделали очень оригинально.</string>
+    <string name="onboarding_instructions_choose_from_common_matches">Выбирайте\nиз <font color="#8B55FF">\nобщих\nсовпадений</font></string>
+    <string name="onboarding_instructions_saving_matches_history">Храним историю всех совпадений\nво время и после сеансов.</string>
+    <string name="onboarding_instructions_one_moment">Ещё<font color="#8B55FF">\nсекундочку</font></string>
+    <string name="onboarding_instructions_session_finishing">Сеанс закончится, когда один из \nучастников его покинет.</string>
+
+    <!--  splash screen  -->
+    <string name="splash_watch">Посмотрим?</string>
+    <string name="splash_comedy">Комедия</string>
+    <string name="splash_fantasy">Фэнтези</string>
+    <string name="splash_fantastic">Фантастика</string>
+    <string name="splash_biopic">Биография</string>
+    <string name="splash_action">Боевик</string>
+    <string name="splash_detective">Детектив</string>
+    <string name="splash_musical">Мюзикл</string>
+    <string name="splash_adventure">Приключение</string>
+    <string name="splash_melodrama">Мелодрама</string>
+    <string name="splash_thriller">Триллер</string>
+    <string name="splash_documental">Документальный</string>
+    <string name="splash_let">Давай</string>
+
+    <!--  create session screen  -->
+    <string name="create_session_compilations">Подборки</string>
+    <string name="create_session_genre">Жанр</string>
+    <string name="create_session_continue">Продолжить</string>
+    <string name="create_session_create">Создать сеанс</string>
+    <string name="create_session_choose_compilations">Выберите понравившиеся подборки</string>
+    <string name="create_session_choose_compilations_one">Выберите хотя бы одну подборку</string>
+    <string name="create_session_choose_genre">Выберите понравившиеся жанры</string>
+    <string name="create_session_choose_genre_one">Выберите хотя бы один жанр</string>
+
+    <!--  match dialog  -->
+    <string name="match_continue_session">Продолжить сеанс</string>
+    <string name="match_watch">Смотрим!</string>
+
+    <!--  wait session screen  -->
+    <string name="wait_session_header">Участники</string>
+    <string name="wait_session_placeholder">Если вы пригласили друзей – дождитесь, когда они подключатся, прежде чем начать сеанс.</string>
+    <string name="wait_session_start_button">Начать сеанс</string>
+    <string name="wait_session_cancel_button">Отменить сеанс</string>
+    <string name="wait_session_invite_button">Пригласить</string>
+    <string name="wait_session_copy_button_label">Пригласить</string>
+    <string name="wait_session_copy_button_toast_text">Код скопирован</string>
+    <string name="wait_session_copy_button_text">Код сеанса успешно скопирован</string>
+    <string name="wait_session_tag_owner">%s (вы)</string>
+    <string name="wait_session_banner_message">Попробуйте ещё раз</string>
+    <string name="leave_wait_session_title">Отменить?</string>
+    <string name="leave_wait_session_dialog_message">Вы действительно хотите отменить уже созданный сеанс?</string>
+    <string name="wait_session_min_two_user">Должно быть хотя бы два участника</string>
+    <string name="additional_message_part1">Выбор фильма зависит от вас!</string>
+    <string name="additional_message_part2">Код для подключения к сеансу:</string>
+
+    <!-- coincidences screen -->
+    <string name="coincidences_screen_coincidences">Совпадения</string>
+    <string name="coincidences_screen_empty_coincidences">Пока ничего нет</string>
+    <string name="coincidences_screen_start_roulette">Рулетка может быть запущена\n для трёх и более совпадений</string>
+
+    <!--  matched session list  -->
+    <string name="matched_sessions_empty_list_error">Здесь будут фильмы,\nкоторые вам понравились</string>
+    <string name="matched_sessions_you"> (Вы)</string>
+
+    <!--  matched session  -->
+    <string name="matched_session_session">Сеанс %s</string>
+
+    <!--  movie card fragment  -->
+    <string name="movie_card_toolbar_title">Понравившийся фильм</string>
+
+    <!--  roulette  -->
+    <string name="roulette_magic">Начнём магию, когда подключатся все участники</string>
+    <string name="roulette_wait">Ждём участников...</string>
+    <string name="roulette_to_film_list">Перейти к списку фильмов</string>
+    <string name="roulette_look">Смотрим!</string>
+    <string name="roulette_random_selection">Случайный выбор</string>
+    <string name="roulette_description_1"><b>Из всех совпадений выберем один фильм.</b>\nПосле выбора, сеанс завершится.</string>
+    <string name="roulette_description_2">Остальные участники подключатся автоматически.</string>
+    <string name="roulette_cancel">Отменить</string>
+    <string name="roulette_error">Упс... Ошибка</string>
+
+    <string name="roulette_bottomsheet_dialog_trust_occasion">Доверьтесь\nслучаю</string>
+    <string name="roulette_bottomsheet_dialog_if_you_like_movies">Если понравилось много фильмов и тяжело определиться, что же посмотреть.</string>
+    <string name="roulette_bottomsheet_dialog_randomly_choose_film">Рандомно выберем фильм из всех понравившихся в этом сеансе.</string>
+    <string name="roulette_bottomsheet_dialog_got_it">Понял, принял</string>
+    <string name="roulette_bottomsheet_dialog_roulete_lounch_condition">Для запуска рулетки требуется <b>не менее трёх</b> совпадений.</string>
+
+    <!--  main exit dialog  -->
+    <string name="main_exit_title">Выход из приложения</string>
+    <string name="main_exit_message">Вы действительно хотите выйти из приложения?</string>
+
 </resources>

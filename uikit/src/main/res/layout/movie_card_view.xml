@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_marginHorizontal="@dimen/margin_8"
+    android:layout_marginBottom="@dimen/margin_16"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/movie_card_height_240">
+
+    <com.google.android.material.imageview.ShapeableImageView
+        android:id="@+id/iv_movie_cover"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/icon_light"
+        android:contentDescription="@string/movie_cover"
+        app:shapeAppearanceOverlay="@style/RoundedImageView"
+        tools:src="@tools:sample/backgrounds/scenic" />
+
+    <com.davai.uikit.ProgressBarView
+        android:id="@+id/progress_bar"
+        android:layout_width="@dimen/progressbar_48"
+        android:layout_height="@dimen/progressbar_48"
+        android:layout_gravity="center"
+        android:visibility="gone" />
+
+    <TextView
+        android:id="@+id/tv_movie_title"
+        style="@style/Text.Base.Medium.NoLineSpacing"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|start"
+        android:paddingHorizontal="@dimen/margin_20"
+        android:paddingBottom="@dimen/margin_16"
+        android:background="@drawable/background_gradient_transparent_to_black"
+        android:maxLines="3"
+        android:ellipsize="end"
+        android:textColor="@color/background_white"
+        tools:text="[Text Example Text Example Text Example Text Example Text Example Text Example Text Example Text Example]" />
+</FrameLayout>
+
