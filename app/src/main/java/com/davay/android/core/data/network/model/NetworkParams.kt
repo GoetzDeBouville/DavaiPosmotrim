@@ -17,8 +17,15 @@ object NetworkParams {
     // WebSocket params
     const val DEVICE_ID_KEY = "Device-ID"
     const val ORIGIN_KEY = "Origin"
-    const val ORIGIN_VALUE = "http://80.87.108.90/"
-    const val BASE_URL = "80.87.108.90:8000/ws/session"
+
+//    const val ORIGIN_VALUE = "http://10.0.2.2:8000/"
+//    const val ORIGIN_VALUE = "http://80.87.108.90/"
+    const val ORIGIN_VALUE = "http://158.160.136.34:8000/"
+
+//    const val BASE_URL = "10.0.2.2:8000/ws/session"
+//    const val BASE_URL = "80.87.108.90:8000/ws/session"
+    const val BASE_URL = "158.160.136.34:8000/ws/session"
+
     const val PATH_SESSION_STATUS = "/session_status/"
     const val PATH_USERS = "/users/"
     const val PATH_SESSION_RESULT = "/session_result/"
