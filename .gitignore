@@ -21,6 +21,7 @@ captures/
 .externalNativeBuild/
 .cxx/
 output.json
+app/release
 
 # Built application files
 *.apk

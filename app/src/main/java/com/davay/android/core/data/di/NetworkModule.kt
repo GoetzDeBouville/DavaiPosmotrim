@@ -78,6 +78,7 @@ class NetworkModule {
         const val CONNECTION_TIME_OUT_10_SEC = 10_000L
         const val MAX_REQUEST_DELAY_60_SEC = 60_000L
         const val MAX_RETRIES_NUM_5 = 5
+
 //        const val BASE_URL = "http://10.0.2.2:8000/"
 //        const val BASE_URL = "http://80.87.108.90/"
         const val BASE_URL = "http://158.160.136.34:8000/"
