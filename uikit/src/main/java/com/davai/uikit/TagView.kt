@@ -43,10 +43,9 @@ class TagView @JvmOverloads constructor(
         ).apply {
             try {
                 tvTagText?.text = getString(R.styleable.TagView_tag_text)?.replaceFirstChar {
-                    if (it.isLowerCase())  {
+                    if (it.isLowerCase()) {
                         it.titlecase(Locale.getDefault())
-                    }
-                    else {
+                    } else {
                         it.toString()
                     }
                 }
@@ -60,10 +59,9 @@ class TagView @JvmOverloads constructor(
 
     fun setText(text: String) {
         tvTagText?.text = text.replaceFirstChar {
-            if (it.isLowerCase())  {
+            if (it.isLowerCase()) {
                 it.titlecase(Locale.getDefault())
-            }
-            else {
+            } else {
                 it.toString()
             }
         }
