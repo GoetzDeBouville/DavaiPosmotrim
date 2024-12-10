@@ -283,12 +283,8 @@ class SelectMovieFragment :
             peekHeight = BOTTOMSHEET_PEEK_HEIGHT_112_DP.dpToPx()
 
             clDetailsBottomSheet.post {
-                val cardLocation = IntArray(2)
-                rvFilmCard.getLocationOnScreen(cardLocation)
-                val cardTop = cardLocation[1]
-
                 val screenHeight = activity?.resources?.displayMetrics?.heightPixels ?: 0
-                val maxHeight = screenHeight - cardTop + MARGIN_TOP_16_DP.dpToPx()
+                val maxHeight = screenHeight - BOTTOMSHEET_MARGIN_TOP_DP.dpToPx()
 
                 clDetailsBottomSheet.layoutParams.height = maxHeight
                 clDetailsBottomSheet.requestLayout()
@@ -408,7 +404,7 @@ class SelectMovieFragment :
 
     private companion object {
         const val BOTTOMSHEET_PEEK_HEIGHT_112_DP = 112
-        const val MARGIN_TOP_16_DP = 16
+        const val BOTTOMSHEET_MARGIN_TOP_DP = 54
         const val CURRENT_POSITION_KEY = "currentPosition"
     }
 }

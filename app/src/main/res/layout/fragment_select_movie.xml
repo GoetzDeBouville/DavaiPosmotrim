@@ -84,7 +84,6 @@
         android:layout_height="match_parent"
         android:background="@drawable/bottom_sheet_background"
         android:backgroundTint="@color/background_white"
-        android:paddingHorizontal="@dimen/padding_16"
         app:behavior_hideable="false"
         app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior"
         tools:context=".feature.moviedetails.presentation.MovieDetailsBottomSheetFragment">
@@ -117,6 +116,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/margin_12"
+                    android:paddingHorizontal="@dimen/padding_16"
                     android:elevation="4dp"
                     android:text="@string/select_movies_details_title" />
 
@@ -126,6 +126,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/margin_12"
+                    android:paddingHorizontal="@dimen/padding_16"
                     android:elevation="0dp"
                     tools:text="[Captured French Resistance fighter Lieutenant Fontaine awaits a certain death sentence for espionage in a stark German prison in Lyon, France. Facing malnutrition and paralyzing fear, he must plot an extraordinary escape, complicated by the questions of whom to trust, and what lies beyond the small portion of the prison they are housed in.—Sam Spector]" />
 
@@ -134,6 +135,7 @@
                     style="@style/Text.Headline.SubTitle.NoLineSpacing"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:paddingHorizontal="@dimen/padding_16"
                     android:layout_marginTop="@dimen/margin_24"
                     android:text="@string/select_movies_top_cast" />
 
@@ -142,6 +144,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/margin_12"
+                    android:paddingHorizontal="@dimen/padding_16"
                     app:flexWrap="wrap"
                     app:justifyContent="flex_start" />
 
@@ -151,6 +154,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/margin_16"
+                    android:paddingHorizontal="@dimen/padding_16"
                     android:text="@string/select_movies_director" />
 
                 <com.google.android.flexbox.FlexboxLayout
@@ -158,6 +162,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/margin_12"
+                    android:paddingHorizontal="@dimen/padding_16"
                     app:flexWrap="wrap"
                     app:justifyContent="flex_start" />
 
@@ -167,6 +172,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/margin_16"
+                    android:paddingHorizontal="@dimen/padding_16"
                     android:text="@string/select_movies_rates" />
 
                 <HorizontalScrollView
@@ -184,6 +190,7 @@
                             android:id="@+id/mev_details_imdb_rate"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:layout_marginStart="@dimen/margin_16"
                             app:rate_service="@string/select_movies_imdb_rate" />
 
                         <com.davai.uikit.MovieEvaluationView
@@ -191,12 +198,13 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="@dimen/margin_8"
+                            android:layout_marginEnd="@dimen/margin_16"
                             app:rate_service="@string/select_movies_kinopoisk_rate" />
                     </LinearLayout>
                 </HorizontalScrollView>
-            <Space
-                android:layout_width="0dp"
-                android:layout_height="@dimen/margin_16"/>
+                <Space
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/margin_16"/>
             </LinearLayout>
         </androidx.core.widget.NestedScrollView>
 
