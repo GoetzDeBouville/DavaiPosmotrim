@@ -7,6 +7,7 @@ import android.widget.FrameLayout
 import android.widget.TextView
 import androidx.annotation.AttrRes
 import androidx.annotation.StyleRes
+import java.util.Locale
 
 class TagView @JvmOverloads constructor(
     context: Context,
@@ -41,7 +42,13 @@ class TagView @JvmOverloads constructor(
             defStyleRes
         ).apply {
             try {
-                tvTagText?.text = getString(R.styleable.TagView_tag_text)
+                tvTagText?.text = getString(R.styleable.TagView_tag_text)?.replaceFirstChar {
+                    if (it.isLowerCase()) {
+                        it.titlecase(Locale.getDefault())
+                    } else {
+                        it.toString()
+                    }
+                }
                 tagType = getInt(R.styleable.TagView_tag_type, 1)
                 setStyle(tagType)
             } finally {
@@ -51,7 +58,13 @@ class TagView @JvmOverloads constructor(
     }
 
     fun setText(text: String) {
-        tvTagText?.text = text
+        tvTagText?.text = text.replaceFirstChar {
+            if (it.isLowerCase()) {
+                it.titlecase(Locale.getDefault())
+            } else {
+                it.toString()
+            }
+        }
     }
 
 
