@@ -80,7 +80,7 @@ class NetworkModule {
         const val MAX_RETRIES_NUM_5 = 5
 
 //        const val BASE_URL = "http://10.0.2.2:8000/"
-//        const val BASE_URL = "http://80.87.108.90/"
-        const val BASE_URL = "http://158.160.136.34:8000/"
+        const val BASE_URL = "http://80.87.108.90/"
+//        const val BASE_URL = "http://158.160.136.34:8000/"
     }
 }
