@@ -27,6 +27,13 @@ Application Davai Posmotrim is a handy service for choosing to watch movies for 
 ## Screencast 
 https://youtu.be/v-kCIx7jesY
 
+<img src="./media/screencast_1.gif" width="640" height="504"> 
+<img src="./media/screencast_2.gif" width="640" height="504"> 
+<img src="./media/screencast_3.gif" width="640" height="504"> 
+<img src="./media/screencast_4.gif" width="640" height="504"> 
+<img src="./media/screencast_5.gif" width="640" height="504"> 
+<img src="./media/screencast_6.gif" width="640" height="504"> 
+
 
 ## Contributors 📢
 

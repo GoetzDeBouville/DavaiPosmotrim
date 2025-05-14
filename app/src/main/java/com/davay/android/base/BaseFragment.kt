@@ -36,6 +36,15 @@ abstract class BaseFragment<VB : ViewBinding, VM : BaseViewModel>(
         }
     }
 
+    private val screensWithoutEdgeSupport = setOf(
+        CreateSessionFragment::class,
+        RouletteFragment::class,
+        SessionListFragment::class,
+        WaitSessionFragment::class,
+        RegistrationFragment::class,
+        OnboardingFragment::class,
+    )
+
     protected abstract fun diComponent(): ScreenComponent
 
     inline fun <reified VM : BaseViewModel> injectViewModel() = viewModels<VM>(
@@ -107,12 +116,3 @@ abstract class BaseFragment<VB : ViewBinding, VM : BaseViewModel>(
         }
     }
 }
-
-private val screensWithoutEdgeSupport = setOf(
-    CreateSessionFragment::class,
-    RouletteFragment::class,
-    SessionListFragment::class,
-    WaitSessionFragment::class,
-    RegistrationFragment::class,
-    OnboardingFragment::class,
-)
