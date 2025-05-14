@@ -30,13 +30,6 @@ https://youtu.be/v-kCIx7jesY
 
 ## Contributors 📢
 
-<a href="https://github.com/GoetzDeBouville/RuskoRadio/graphs/contributors">
-    <img src="https://contrib.rocks/image?repo=GoetzDeBouville/RuskoRadio"/>
-</a>
-
-
-## Contributors 📢
-
 <a href="https://github.com/GoetzDeBouville/DavaiPosmotrim/graphs/contributors">
     <img src="https://contrib.rocks/image?repo=GoetzDeBouville/DavaiPosmotrim"/>
 </a>
