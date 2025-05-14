@@ -8,7 +8,7 @@
 [![Rustore](https://img.shields.io/badge/Rustore-blue.svg?style=plastic&logo=Rustore)](https://apps.rustore.ru/app/com.davay.android)
 
 <br>
-Application Davai Posmotrim is a handy service for choosing to watch movies for the evening from pre-prepared selections.
+This project is a handy service for choosing to watch movies for the evening from pre-prepared selections.
 <br>
 
 
