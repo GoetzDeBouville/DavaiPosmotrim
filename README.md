@@ -5,7 +5,7 @@
 [![Dagger2](https://img.shields.io/badge/Dagger2-2.50-red.svg?style=plastic&logo=Dagger2)](https://dagger.dev/)
 [![KSP](https://img.shields.io/badge/KSP-blueviolet?style=plastic)](https://kotlinlang.org/docs/ksp-overview.html)
 
-[![Rustore](https://img.shields.io/badge/Rustore-blue.svg?style=plastic&logo=Rustore)]([https://apps.rustore.ru/app/com.prosto.ruskoradio](https://www.rustore.ru/catalog/app/com.davay.android?_rsc=45uml))
+[![Rustore](https://img.shields.io/badge/Rustore-blue.svg?style=plastic&logo=Rustore)](https://apps.rustore.ru/app/com.davay.android)
 
 <br>
 Application Davai Posmotrim is a handy service for choosing to watch movies for the evening from pre-prepared selections.
